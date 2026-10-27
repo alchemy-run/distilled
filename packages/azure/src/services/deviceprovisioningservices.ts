@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Devices" },
+  prefix: "Deviceprovisioningservices",
+  service: "Deviceprovisioningservices",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1038,6 +1058,8 @@ export const CheckIotDpsResourceProvisioningServiceNameAvailability: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckIotDpsResourceProvisioningServiceNameAvailability",
 }));
 
 export type DeleteDpsCertificateError = AzureOpError;
@@ -1053,6 +1075,8 @@ export const DeleteDpsCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDpsCertificate",
 }));
 
 export type DeleteIotDpsResourceError = AzureOpError;
@@ -1068,6 +1092,8 @@ export const DeleteIotDpsResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIotDpsResource",
 }));
 
 export type DeleteIotDpsResourcePrivateEndpointConnectionError = AzureOpError;
@@ -1091,6 +1117,8 @@ export const DeleteIotDpsResourcePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIotDpsResourcePrivateEndpointConnection",
 }));
 
 export type DpsCertificateCreateOrUpdateError = AzureOpError;
@@ -1106,6 +1134,8 @@ export const DpsCertificateCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DpsCertificateCreateOrUpdate",
 }));
 
 export type GenerateDpsCertificateVerificationCodeError = AzureOpError;
@@ -1121,6 +1151,8 @@ export const GenerateDpsCertificateVerificationCode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateDpsCertificateVerificationCode",
 }));
 
 export type GetDpsCertificateError = AzureOpError;
@@ -1136,6 +1168,8 @@ export const GetDpsCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDpsCertificate",
 }));
 
 export type GetIotDpsResourceError = AzureOpError;
@@ -1151,6 +1185,8 @@ export const GetIotDpsResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotDpsResource",
 }));
 
 export type GetIotDpsResourceOperationResultError = AzureOpError;
@@ -1166,6 +1202,8 @@ export const GetIotDpsResourceOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotDpsResourceOperationResult",
 }));
 
 export type GetIotDpsResourcePrivateEndpointConnectionError = AzureOpError;
@@ -1181,6 +1219,8 @@ export const GetIotDpsResourcePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotDpsResourcePrivateEndpointConnection",
 }));
 
 export type GetIotDpsResourcePrivateLinkResourcesError = AzureOpError;
@@ -1196,6 +1236,8 @@ export const GetIotDpsResourcePrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotDpsResourcePrivateLinkResources",
 }));
 
 export type IotDpsResourceCreateOrUpdateError = AzureOpError;
@@ -1211,6 +1253,8 @@ export const IotDpsResourceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IotDpsResourceCreateOrUpdate",
 }));
 
 export type IotDpsResourceCreateOrUpdatePrivateEndpointConnectionError = AzureOpError;
@@ -1234,6 +1278,8 @@ export const IotDpsResourceCreateOrUpdatePrivateEndpointConnection: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IotDpsResourceCreateOrUpdatePrivateEndpointConnection",
 }));
 
 export type ListDpsCertificateError = AzureOpError;
@@ -1249,6 +1295,8 @@ export const ListDpsCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDpsCertificate",
 }));
 
 export type ListIotDpsResourceByResourceGroupError = AzureOpError;
@@ -1264,6 +1312,8 @@ export const ListIotDpsResourceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotDpsResourceByResourceGroup",
 }));
 
 export type ListIotDpsResourceBySubscriptionError = AzureOpError;
@@ -1279,6 +1329,8 @@ export const ListIotDpsResourceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotDpsResourceBySubscription",
 }));
 
 export type ListIotDpsResourceKeysError = AzureOpError;
@@ -1294,6 +1346,8 @@ export const ListIotDpsResourceKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotDpsResourceKeys",
 }));
 
 export type ListIotDpsResourceKeysForKeyNameError = AzureOpError;
@@ -1313,6 +1367,8 @@ export const ListIotDpsResourceKeysForKeyName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotDpsResourceKeysForKeyName",
 }));
 
 export type ListIotDpsResourcePrivateEndpointConnectionsError = AzureOpError;
@@ -1332,6 +1388,8 @@ export const ListIotDpsResourcePrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotDpsResourcePrivateEndpointConnections",
 }));
 
 export type ListIotDpsResourcePrivateLinkResourcesError = AzureOpError;
@@ -1347,6 +1405,8 @@ export const ListIotDpsResourcePrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotDpsResourcePrivateLinkResources",
 }));
 
 export type ListIotDpsResourceValidSkusError = AzureOpError;
@@ -1362,6 +1422,8 @@ export const ListIotDpsResourceValidSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotDpsResourceValidSkus",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1377,6 +1439,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateIotDpsResourceError = AzureOpError;
@@ -1392,6 +1456,8 @@ export const UpdateIotDpsResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIotDpsResource",
 }));
 
 export type VerifyDpsCertificateCertificateError = AzureOpError;
@@ -1407,6 +1473,8 @@ export const VerifyDpsCertificateCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyDpsCertificateCertificate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

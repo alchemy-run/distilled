@@ -119,6 +119,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   workersAiBillingMode: "workers_ai_billing_mode",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "AiGateway",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AiGatewaySpendingLimitDeprecated
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AiGatewaySpendingLimitDeprecated>()(
@@ -3816,6 +3830,8 @@ export const createAiGateway: API.OperationMethod<
   errors: [GatewayAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiGateway",
 }));
 
 export type CreateBillingSpendingLimitError =
@@ -3834,6 +3850,8 @@ export const createBillingSpendingLimit: API.OperationMethod<
   errors: [NoManualTopup, AiGatewaySpendingLimitDeprecated, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingSpendingLimit",
 }));
 
 export type CreateBillingTopupError = CloudflareOpError;
@@ -3849,6 +3867,8 @@ export const createBillingTopup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingTopup",
 }));
 
 export type CreateBillingTopupConfigError = CloudflareOpError;
@@ -3864,6 +3884,8 @@ export const createBillingTopupConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingTopupConfig",
 }));
 
 export type CreateCustomProviderError = CloudflareOpError;
@@ -3879,6 +3901,8 @@ export const createCustomProvider: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomProvider",
 }));
 
 export type CreateDatasetError = GatewayNotFound | DatasetNameAlreadyExists | CloudflareOpError;
@@ -3894,6 +3918,8 @@ export const createDataset: API.OperationMethod<
   errors: [GatewayNotFound, DatasetNameAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDeploymentDynamicRoutingError = RouteNotFound | CloudflareOpError;
@@ -3909,6 +3935,8 @@ export const createDeploymentDynamicRouting: API.OperationMethod<
   errors: [RouteNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentDynamicRouting",
 }));
 
 export type CreateDynamicRoutingError = RouteAlreadyExists | GatewayNotFound | CloudflareOpError;
@@ -3924,6 +3952,8 @@ export const createDynamicRouting: API.OperationMethod<
   errors: [RouteAlreadyExists, GatewayNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynamicRouting",
 }));
 
 export type CreateEvaluationError =
@@ -3942,6 +3972,8 @@ export const createEvaluation: API.OperationMethod<
   errors: [GatewayNotFound, EvaluationNameAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvaluation",
 }));
 
 export type CreateProviderConfigError =
@@ -3967,6 +3999,8 @@ export const createProviderConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProviderConfig",
 }));
 
 export type CreateVersionDynamicRoutingError = RouteNotFound | CloudflareOpError;
@@ -3982,6 +4016,8 @@ export const createVersionDynamicRouting: API.OperationMethod<
   errors: [RouteNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVersionDynamicRouting",
 }));
 
 export type CreditBalanceBillingError = CloudflareOpError;
@@ -3997,6 +4033,8 @@ export const creditBalanceBilling: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreditBalanceBilling",
 }));
 
 export type DeleteAiGatewayError = GatewayNotFound | CloudflareOpError;
@@ -4012,6 +4050,8 @@ export const deleteAiGateway: API.OperationMethod<
   errors: [GatewayNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAiGateway",
 }));
 
 export type DeleteBillingSpendingLimitError = CloudflareOpError;
@@ -4027,6 +4067,8 @@ export const deleteBillingSpendingLimit: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingSpendingLimit",
 }));
 
 export type DeleteBillingTopupConfigError = CloudflareOpError;
@@ -4042,6 +4084,8 @@ export const deleteBillingTopupConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingTopupConfig",
 }));
 
 export type DeleteCustomProviderError = CloudflareOpError;
@@ -4057,6 +4101,8 @@ export const deleteCustomProvider: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomProvider",
 }));
 
 export type DeleteDatasetError = DatasetNotFound | CloudflareOpError;
@@ -4072,6 +4118,8 @@ export const deleteDataset: API.OperationMethod<
   errors: [DatasetNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteDynamicRoutingError = RouteNotFound | GatewayNotFound | CloudflareOpError;
@@ -4087,6 +4135,8 @@ export const deleteDynamicRouting: API.OperationMethod<
   errors: [RouteNotFound, GatewayNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynamicRouting",
 }));
 
 export type DeleteEvaluationError = EvaluationNotFound | CloudflareOpError;
@@ -4102,6 +4152,8 @@ export const deleteEvaluation: API.OperationMethod<
   errors: [EvaluationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEvaluation",
 }));
 
 export type DeleteLogError = CloudflareOpError;
@@ -4117,6 +4169,8 @@ export const deleteLog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLog",
 }));
 
 export type DeleteProviderConfigError = ProviderConfigNotFound | CloudflareOpError;
@@ -4131,6 +4185,8 @@ export const deleteProviderConfig: API.OperationMethod<
   errors: [ProviderConfigNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProviderConfig",
 }));
 
 export type GetAiGatewayError = GatewayNotFound | CloudflareOpError;
@@ -4146,6 +4202,8 @@ export const getAiGateway: API.OperationMethod<
   errors: [GatewayNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiGateway",
 }));
 
 export type GetBillingSpendingLimitError = CloudflareOpError;
@@ -4161,6 +4219,8 @@ export const getBillingSpendingLimit: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSpendingLimit",
 }));
 
 export type GetBillingTopupConfigError = CloudflareOpError;
@@ -4176,6 +4236,8 @@ export const getBillingTopupConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingTopupConfig",
 }));
 
 export type GetCustomProviderError = CloudflareOpError;
@@ -4191,6 +4253,8 @@ export const getCustomProvider: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomProvider",
 }));
 
 export type GetDatasetError = DatasetNotFound | CloudflareOpError;
@@ -4206,6 +4270,8 @@ export const getDataset: API.OperationMethod<
   errors: [DatasetNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetDynamicRoutingError = RouteNotFound | GatewayNotFound | CloudflareOpError;
@@ -4221,6 +4287,8 @@ export const getDynamicRouting: API.OperationMethod<
   errors: [RouteNotFound, GatewayNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynamicRouting",
 }));
 
 export type GetEvaluationError = EvaluationNotFound | CloudflareOpError;
@@ -4236,6 +4304,8 @@ export const getEvaluation: API.OperationMethod<
   errors: [EvaluationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvaluation",
 }));
 
 export type GetLogError = CloudflareOpError;
@@ -4251,6 +4321,8 @@ export const getLog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLog",
 }));
 
 export type GetUrlError = CloudflareOpError;
@@ -4266,6 +4338,8 @@ export const getUrl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUrl",
 }));
 
 export type GetVersionDynamicRoutingError = CloudflareOpError;
@@ -4281,6 +4355,8 @@ export const getVersionDynamicRouting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersionDynamicRouting",
 }));
 
 export type InvoiceHistoryBillingError = CloudflareOpError;
@@ -4296,6 +4372,8 @@ export const invoiceHistoryBilling: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoiceHistoryBilling",
 }));
 
 export type InvoicePreviewBillingError = CloudflareOpError;
@@ -4311,6 +4389,8 @@ export const invoicePreviewBilling: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoicePreviewBilling",
 }));
 
 export type ListAiGatewaysError = CloudflareOpError;
@@ -4328,6 +4408,8 @@ export const listAiGateways: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAiGateways",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -4354,6 +4436,8 @@ export const listCustomProviders: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomProviders",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -4380,6 +4464,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     errors: [GatewayNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDatasets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -4404,6 +4490,8 @@ export const listDeploymentsDynamicRouting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentsDynamicRouting",
 }));
 
 export type ListDynamicRoutingsError = GatewayNotFound | CloudflareOpError;
@@ -4419,6 +4507,8 @@ export const listDynamicRoutings: API.OperationMethod<
   errors: [GatewayNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDynamicRoutings",
 }));
 
 export type ListEvaluationsError = CloudflareOpError;
@@ -4436,6 +4526,8 @@ export const listEvaluations: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEvaluations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -4462,6 +4554,8 @@ export const listEvaluationTypes: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEvaluationTypes",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -4488,6 +4582,8 @@ export const listLogs: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogs",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -4514,6 +4610,8 @@ export const listProviderConfigs: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProviderConfigs",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -4538,6 +4636,8 @@ export const listVersionsDynamicRouting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVersionsDynamicRouting",
 }));
 
 export type PatchDynamicRoutingError = RouteNotFound | RouteAlreadyExists | CloudflareOpError;
@@ -4553,6 +4653,8 @@ export const patchDynamicRouting: API.OperationMethod<
   errors: [RouteNotFound, RouteAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDynamicRouting",
 }));
 
 export type PatchLogError = CloudflareOpError;
@@ -4568,6 +4670,8 @@ export const patchLog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLog",
 }));
 
 export type RequestLogError = CloudflareOpError;
@@ -4583,6 +4687,8 @@ export const requestLog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestLog",
 }));
 
 export type ResponseLogError = CloudflareOpError;
@@ -4598,6 +4704,8 @@ export const responseLog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResponseLog",
 }));
 
 export type StatusBillingTopupError = CloudflareOpError;
@@ -4613,6 +4721,8 @@ export const statusBillingTopup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StatusBillingTopup",
 }));
 
 export type UpdateAiGatewayError = GatewayNotFound | CloudflareOpError;
@@ -4628,6 +4738,8 @@ export const updateAiGateway: API.OperationMethod<
   errors: [GatewayNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiGateway",
 }));
 
 export type UpdateDatasetError = DatasetNotFound | CloudflareOpError;
@@ -4643,6 +4755,8 @@ export const updateDataset: API.OperationMethod<
   errors: [DatasetNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UsageHistoryBillingError = CloudflareOpError;
@@ -4658,6 +4772,8 @@ export const usageHistoryBilling: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsageHistoryBilling",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

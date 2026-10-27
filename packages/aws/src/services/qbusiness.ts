@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -81,6 +82,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "QBusiness",
+  service: "QBusiness",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2354,6 +2369,8 @@ export const associatePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePermission",
+  telemetry: TELEMETRY,
+  span: "AssociatePermission",
 }));
 
 export type BatchDeleteDocumentError =
@@ -2388,6 +2405,8 @@ export const batchDeleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDocument",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDocument",
 }));
 
 export type BatchPutDocumentError =
@@ -2432,6 +2451,8 @@ export const batchPutDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutDocument",
+  telemetry: TELEMETRY,
+  span: "BatchPutDocument",
 }));
 
 export type CancelSubscriptionError =
@@ -2462,6 +2483,8 @@ export const cancelSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
+  telemetry: TELEMETRY,
+  span: "CancelSubscription",
 }));
 
 export type ChatError =
@@ -2498,6 +2521,8 @@ export const chat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Chat",
+  telemetry: TELEMETRY,
+  span: "Chat",
 }));
 
 export type ChatSyncError =
@@ -2534,6 +2559,8 @@ export const chatSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChatSync",
+  telemetry: TELEMETRY,
+  span: "ChatSync",
 }));
 
 export type CheckDocumentAccessError =
@@ -2564,6 +2591,8 @@ export const checkDocumentAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDocumentAccess",
+  telemetry: TELEMETRY,
+  span: "CheckDocumentAccess",
 }));
 
 export type CreateAnonymousWebExperienceUrlError =
@@ -2596,6 +2625,8 @@ export const createAnonymousWebExperienceUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnonymousWebExperienceUrl",
+  telemetry: TELEMETRY,
+  span: "CreateAnonymousWebExperienceUrl",
 }));
 
 export type CreateApplicationError =
@@ -2636,6 +2667,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateChatResponseConfigurationError =
@@ -2670,6 +2703,8 @@ export const createChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChatResponseConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateChatResponseConfiguration",
 }));
 
 export type CreateDataAccessorError =
@@ -2704,6 +2739,8 @@ export const createDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAccessor",
+  telemetry: TELEMETRY,
+  span: "CreateDataAccessor",
 }));
 
 export type CreateDataSourceError =
@@ -2740,6 +2777,8 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  telemetry: TELEMETRY,
+  span: "CreateDataSource",
 }));
 
 export type CreateIndexError =
@@ -2778,6 +2817,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreatePluginError =
@@ -2812,6 +2853,8 @@ export const createPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlugin",
+  telemetry: TELEMETRY,
+  span: "CreatePlugin",
 }));
 
 export type CreateRetrieverError =
@@ -2846,6 +2889,8 @@ export const createRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRetriever",
+  telemetry: TELEMETRY,
+  span: "CreateRetriever",
 }));
 
 export type CreateSubscriptionError =
@@ -2882,6 +2927,8 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateUserError =
@@ -2916,6 +2963,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateWebExperienceError =
@@ -2950,6 +2999,8 @@ export const createWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebExperience",
+  telemetry: TELEMETRY,
+  span: "CreateWebExperience",
 }));
 
 export type DeleteApplicationError =
@@ -2982,6 +3033,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteAttachmentError =
@@ -3014,6 +3067,8 @@ export const deleteAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteAttachment",
 }));
 
 export type DeleteChatControlsConfigurationError =
@@ -3044,6 +3099,8 @@ export const deleteChatControlsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChatControlsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteChatControlsConfiguration",
 }));
 
 export type DeleteChatResponseConfigurationError =
@@ -3076,6 +3133,8 @@ export const deleteChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChatResponseConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteChatResponseConfiguration",
 }));
 
 export type DeleteConversationError =
@@ -3110,6 +3169,8 @@ export const deleteConversation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConversation",
+  telemetry: TELEMETRY,
+  span: "DeleteConversation",
 }));
 
 export type DeleteDataAccessorError =
@@ -3142,6 +3203,8 @@ export const deleteDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAccessor",
+  telemetry: TELEMETRY,
+  span: "DeleteDataAccessor",
 }));
 
 export type DeleteDataSourceError =
@@ -3174,6 +3237,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteGroupError =
@@ -3208,6 +3273,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteIndexError =
@@ -3240,6 +3307,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeletePluginError =
@@ -3272,6 +3341,8 @@ export const deletePlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlugin",
+  telemetry: TELEMETRY,
+  span: "DeletePlugin",
 }));
 
 export type DeleteRetrieverError =
@@ -3304,6 +3375,8 @@ export const deleteRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetriever",
+  telemetry: TELEMETRY,
+  span: "DeleteRetriever",
 }));
 
 export type DeleteUserError =
@@ -3336,6 +3409,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteWebExperienceError =
@@ -3368,6 +3443,8 @@ export const deleteWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebExperience",
+  telemetry: TELEMETRY,
+  span: "DeleteWebExperience",
 }));
 
 export type DisassociatePermissionError =
@@ -3400,6 +3477,8 @@ export const disassociatePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePermission",
+  telemetry: TELEMETRY,
+  span: "DisassociatePermission",
 }));
 
 export type GetApplicationError =
@@ -3430,6 +3509,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetChatControlsConfigurationError =
@@ -3467,6 +3548,8 @@ export const getChatControlsConfiguration: API.PaginatedOperationMethod<
     items: "topicConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetChatControlsConfiguration",
 })) as any;
 
 export type GetChatResponseConfigurationError =
@@ -3497,6 +3580,8 @@ export const getChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChatResponseConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetChatResponseConfiguration",
 }));
 
 export type GetDataAccessorError =
@@ -3527,6 +3612,8 @@ export const getDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAccessor",
+  telemetry: TELEMETRY,
+  span: "GetDataAccessor",
 }));
 
 export type GetDataSourceError =
@@ -3557,6 +3644,8 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetDocumentContentError =
@@ -3587,6 +3676,8 @@ export const getDocumentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentContent",
+  telemetry: TELEMETRY,
+  span: "GetDocumentContent",
 }));
 
 export type GetGroupError =
@@ -3619,6 +3710,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetIndexError =
@@ -3649,6 +3742,8 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetMediaError =
@@ -3685,6 +3780,8 @@ export const getMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedia",
+  telemetry: TELEMETRY,
+  span: "GetMedia",
 }));
 
 export type GetPluginError =
@@ -3715,6 +3812,8 @@ export const getPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlugin",
+  telemetry: TELEMETRY,
+  span: "GetPlugin",
 }));
 
 export type GetPolicyError =
@@ -3745,6 +3844,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetRetrieverError =
@@ -3775,6 +3876,8 @@ export const getRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetriever",
+  telemetry: TELEMETRY,
+  span: "GetRetriever",
 }));
 
 export type GetUserError =
@@ -3807,6 +3910,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetWebExperienceError =
@@ -3837,6 +3942,8 @@ export const getWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebExperience",
+  telemetry: TELEMETRY,
+  span: "GetWebExperience",
 }));
 
 export type ListApplicationsError =
@@ -3874,6 +3981,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListAttachmentsError =
@@ -3913,6 +4022,8 @@ export const listAttachments: API.PaginatedOperationMethod<
     items: "attachments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachments",
 })) as any;
 
 export type ListChatResponseConfigurationsError =
@@ -3950,6 +4061,8 @@ export const listChatResponseConfigurations: API.PaginatedOperationMethod<
     items: "chatResponseConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChatResponseConfigurations",
 })) as any;
 
 export type ListConversationsError =
@@ -3989,6 +4102,8 @@ export const listConversations: API.PaginatedOperationMethod<
     items: "conversations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConversations",
 })) as any;
 
 export type ListDataAccessorsError =
@@ -4026,6 +4141,8 @@ export const listDataAccessors: API.PaginatedOperationMethod<
     items: "dataAccessors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAccessors",
 })) as any;
 
 export type ListDataSourcesError =
@@ -4063,6 +4180,8 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "dataSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 })) as any;
 
 export type ListDataSourceSyncJobsError =
@@ -4102,6 +4221,8 @@ export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
     items: "history",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSourceSyncJobs",
 })) as any;
 
 export type ListDocumentsError =
@@ -4139,6 +4260,8 @@ export const listDocuments: API.PaginatedOperationMethod<
     items: "documentDetailList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocuments",
 })) as any;
 
 export type ListGroupsError =
@@ -4178,6 +4301,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListIndicesError =
@@ -4215,6 +4340,8 @@ export const listIndices: API.PaginatedOperationMethod<
     items: "indices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndices",
 })) as any;
 
 export type ListMessagesError =
@@ -4254,6 +4381,8 @@ export const listMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMessages",
 })) as any;
 
 export type ListPluginActionsError =
@@ -4291,6 +4420,8 @@ export const listPluginActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPluginActions",
 })) as any;
 
 export type ListPluginsError =
@@ -4328,6 +4459,8 @@ export const listPlugins: API.PaginatedOperationMethod<
     items: "plugins",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlugins",
 })) as any;
 
 export type ListPluginTypeActionsError =
@@ -4363,6 +4496,8 @@ export const listPluginTypeActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPluginTypeActions",
 })) as any;
 
 export type ListPluginTypeMetadataError =
@@ -4398,6 +4533,8 @@ export const listPluginTypeMetadata: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPluginTypeMetadata",
 })) as any;
 
 export type ListRetrieversError =
@@ -4435,6 +4572,8 @@ export const listRetrievers: API.PaginatedOperationMethod<
     items: "retrievers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetrievers",
 })) as any;
 
 export type ListSubscriptionsError =
@@ -4474,6 +4613,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4504,6 +4645,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWebExperiencesError =
@@ -4541,6 +4684,8 @@ export const listWebExperiences: API.PaginatedOperationMethod<
     items: "webExperiences",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebExperiences",
 })) as any;
 
 export type PutFeedbackError =
@@ -4571,6 +4716,8 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
+  telemetry: TELEMETRY,
+  span: "PutFeedback",
 }));
 
 export type PutGroupError =
@@ -4609,6 +4756,8 @@ export const putGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroup",
+  telemetry: TELEMETRY,
+  span: "PutGroup",
 }));
 
 export type SearchRelevantContentError =
@@ -4648,6 +4797,8 @@ export const searchRelevantContent: API.PaginatedOperationMethod<
     items: "relevantContent",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchRelevantContent",
 })) as any;
 
 export type StartDataSourceSyncJobError =
@@ -4682,6 +4833,8 @@ export const startDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceSyncJob",
+  telemetry: TELEMETRY,
+  span: "StartDataSourceSyncJob",
 }));
 
 export type StopDataSourceSyncJobError =
@@ -4714,6 +4867,8 @@ export const stopDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataSourceSyncJob",
+  telemetry: TELEMETRY,
+  span: "StopDataSourceSyncJob",
 }));
 
 export type TagResourceError =
@@ -4746,6 +4901,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4776,6 +4933,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -4812,6 +4971,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateChatControlsConfigurationError =
@@ -4846,6 +5007,8 @@ export const updateChatControlsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChatControlsConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateChatControlsConfiguration",
 }));
 
 export type UpdateChatResponseConfigurationError =
@@ -4878,6 +5041,8 @@ export const updateChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChatResponseConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateChatResponseConfiguration",
 }));
 
 export type UpdateDataAccessorError =
@@ -4910,6 +5075,8 @@ export const updateDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAccessor",
+  telemetry: TELEMETRY,
+  span: "UpdateDataAccessor",
 }));
 
 export type UpdateDataSourceError =
@@ -4942,6 +5109,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateIndexError =
@@ -4976,6 +5145,8 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
+  telemetry: TELEMETRY,
+  span: "UpdateIndex",
 }));
 
 export type UpdatePluginError =
@@ -5010,6 +5181,8 @@ export const updatePlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlugin",
+  telemetry: TELEMETRY,
+  span: "UpdatePlugin",
 }));
 
 export type UpdateRetrieverError =
@@ -5044,6 +5217,8 @@ export const updateRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRetriever",
+  telemetry: TELEMETRY,
+  span: "UpdateRetriever",
 }));
 
 export type UpdateSubscriptionError =
@@ -5076,6 +5251,8 @@ export const updateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 export type UpdateUserError =
@@ -5110,6 +5287,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateWebExperienceError =
@@ -5142,6 +5321,8 @@ export const updateWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebExperience",
+  telemetry: TELEMETRY,
+  span: "UpdateWebExperience",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

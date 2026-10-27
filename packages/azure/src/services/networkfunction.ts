@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.NetworkFunction" },
+  prefix: "Networkfunction",
+  service: "Networkfunction",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource reference properties. */
 export interface ResourceReferenceInput {
   /** Resource ID. */
@@ -471,6 +491,8 @@ export const AzureTrafficCollectorsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AzureTrafficCollectorsCreateOrUpdate",
 }));
 
 export type CollectorPoliciesCreateOrUpdateError = AzureOpError;
@@ -486,6 +508,8 @@ export const CollectorPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CollectorPoliciesCreateOrUpdate",
 }));
 
 export type DeleteAzureTrafficCollectorError = AzureOpError;
@@ -501,6 +525,8 @@ export const DeleteAzureTrafficCollector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureTrafficCollector",
 }));
 
 export type DeleteCollectorPolicyError = AzureOpError;
@@ -516,6 +542,8 @@ export const DeleteCollectorPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCollectorPolicy",
 }));
 
 export type GetAzureTrafficCollectorError = AzureOpError;
@@ -531,6 +559,8 @@ export const GetAzureTrafficCollector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureTrafficCollector",
 }));
 
 export type GetCollectorPolicyError = AzureOpError;
@@ -546,6 +576,8 @@ export const GetCollectorPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectorPolicy",
 }));
 
 export type ListAzureTrafficCollectorsByResourceGroupError = AzureOpError;
@@ -561,6 +593,8 @@ export const ListAzureTrafficCollectorsByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureTrafficCollectorsByResourceGroup",
 }));
 
 export type ListAzureTrafficCollectorsBySubscriptionError = AzureOpError;
@@ -576,6 +610,8 @@ export const ListAzureTrafficCollectorsBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureTrafficCollectorsBySubscription",
 }));
 
 export type ListCollectorPoliciesError = AzureOpError;
@@ -591,6 +627,8 @@ export const ListCollectorPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectorPolicies",
 }));
 
 export type ListNetworkFunctionOperationsError = AzureOpError;
@@ -606,6 +644,8 @@ export const ListNetworkFunctionOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkFunctionOperations",
 }));
 
 export type UpdateAzureTrafficCollectorTagsError = AzureOpError;
@@ -621,6 +661,8 @@ export const UpdateAzureTrafficCollectorTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureTrafficCollectorTags",
 }));
 
 export type UpdateCollectorPolicyTagsError = AzureOpError;
@@ -636,6 +678,8 @@ export const UpdateCollectorPolicyTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCollectorPolicyTags",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

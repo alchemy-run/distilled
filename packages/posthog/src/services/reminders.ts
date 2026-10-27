@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Reminders",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
 export type RecurrenceIntervalEnum = "daily" | "weekly" | "monthly" | "yearly";
 export type BlankEnum = "";
@@ -192,6 +205,8 @@ export const createReminder: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReminder",
 }));
 
 export type GetReminderError = PosthogOpError;
@@ -206,6 +221,8 @@ export const getReminder: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReminder",
 }));
 
 export type ListRemindersError = PosthogOpError;
@@ -220,6 +237,8 @@ export const listReminders: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReminders",
 }));
 
 export type RemindersDestroyError = PosthogOpError;
@@ -234,6 +253,8 @@ export const remindersDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemindersDestroy",
 }));
 
 export type UpdateReminderError = PosthogOpError;
@@ -248,6 +269,8 @@ export const updateReminder: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReminder",
 }));
 
 export type UpdateRemindersPartialError = PosthogOpError;
@@ -262,6 +285,8 @@ export const updateRemindersPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRemindersPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

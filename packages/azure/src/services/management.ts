@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Management" },
+  prefix: "Management",
+  service: "Management",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** fully qualified resource type which includes provider namespace */
 export type CheckNameAvailabilityRequestType = "Microsoft.Management/managementGroups";
 export interface CheckNameAvailabilityRequest {
@@ -738,6 +758,8 @@ export const CheckNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNameAvailability",
 }));
 
 export type CreateManagementGroupSubscriptionError = AzureOpError;
@@ -753,6 +775,8 @@ export const CreateManagementGroupSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManagementGroupSubscription",
 }));
 
 export type CreateOrUpdateServiceGroupError = AzureOpError;
@@ -768,6 +792,8 @@ export const CreateOrUpdateServiceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateServiceGroup",
 }));
 
 export type DeleteHierarchySettingsError = AzureOpError;
@@ -783,6 +809,8 @@ export const DeleteHierarchySettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHierarchySettings",
 }));
 
 export type DeleteManagementGroupError = AzureOpError;
@@ -798,6 +826,8 @@ export const DeleteManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagementGroup",
 }));
 
 export type DeleteManagementGroupSubscriptionError = AzureOpError;
@@ -813,6 +843,8 @@ export const DeleteManagementGroupSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagementGroupSubscription",
 }));
 
 export type DeleteServiceGroupError = AzureOpError;
@@ -828,6 +860,8 @@ export const DeleteServiceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceGroup",
 }));
 
 export type GetHierarchySettingsError = AzureOpError;
@@ -843,6 +877,8 @@ export const GetHierarchySettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHierarchySettings",
 }));
 
 export type GetManagementGroupError = AzureOpError;
@@ -858,6 +894,8 @@ export const GetManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagementGroup",
 }));
 
 export type GetManagementGroupDescendantsError = AzureOpError;
@@ -873,6 +911,8 @@ export const GetManagementGroupDescendants: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagementGroupDescendants",
 }));
 
 export type GetManagementGroupSubscriptionSubscriptionError = AzureOpError;
@@ -888,6 +928,8 @@ export const GetManagementGroupSubscriptionSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagementGroupSubscriptionSubscription",
 }));
 
 export type GetManagementGroupSubscriptionSubscriptionsUnderManagementGroupError = AzureOpError;
@@ -907,6 +949,8 @@ export const GetManagementGroupSubscriptionSubscriptionsUnderManagementGroup: AP
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagementGroupSubscriptionSubscriptionsUnderManagementGroup",
 }));
 
 export type GetServiceGroupError = AzureOpError;
@@ -922,6 +966,8 @@ export const GetServiceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceGroup",
 }));
 
 export type HierarchySettingsCreateOrUpdateError = AzureOpError;
@@ -937,6 +983,8 @@ export const HierarchySettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HierarchySettingsCreateOrUpdate",
 }));
 
 export type ListEntitiesError = AzureOpError;
@@ -952,6 +1000,8 @@ export const ListEntities: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEntities",
 }));
 
 export type ListHierarchySettingsError = AzureOpError;
@@ -967,6 +1017,8 @@ export const ListHierarchySettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHierarchySettings",
 }));
 
 export type ListManagementGroupsError = AzureOpError;
@@ -982,6 +1034,8 @@ export const ListManagementGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagementGroups",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -997,6 +1051,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ManagementGroupsCreateOrUpdateError = AzureOpError;
@@ -1012,6 +1068,8 @@ export const ManagementGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManagementGroupsCreateOrUpdate",
 }));
 
 export type StartTenantBackfillError = AzureOpError;
@@ -1027,6 +1085,8 @@ export const StartTenantBackfill: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartTenantBackfill",
 }));
 
 export type TenantBackfillStatusError = AzureOpError;
@@ -1042,6 +1102,8 @@ export const TenantBackfillStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TenantBackfillStatus",
 }));
 
 export type UpdateHierarchySettingsError = AzureOpError;
@@ -1057,6 +1119,8 @@ export const UpdateHierarchySettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHierarchySettings",
 }));
 
 export type UpdateManagementGroupError = AzureOpError;
@@ -1072,6 +1136,8 @@ export const UpdateManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManagementGroup",
 }));
 
 export type UpdateServiceGroupError = AzureOpError;
@@ -1087,6 +1153,8 @@ export const UpdateServiceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

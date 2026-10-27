@@ -36,6 +36,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneSettings: "zone_settings",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Memberships",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteMembershipRequest {
   /** Membership identifier tag. */
   membershipId: string;
@@ -372,6 +386,8 @@ export const deleteMembership: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMembership",
 }));
 
 export type GetMembershipError = CloudflareOpError;
@@ -387,6 +403,8 @@ export const getMembership: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembership",
 }));
 
 export type ListMembershipsError = CloudflareOpError;
@@ -404,6 +422,8 @@ export const listMemberships: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMemberships",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -428,6 +448,8 @@ export const putMembership: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMembership",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Authorization",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -194,6 +207,8 @@ export const addMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddMembers",
 }));
 
 export type AddRoleError = BadRequest | Forbidden | StackitOpError;
@@ -209,6 +224,8 @@ export const addRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRole",
 }));
 
 export type DeleteRoleError = BadRequest | Forbidden | StackitOpError;
@@ -224,6 +241,8 @@ export const deleteRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRole",
 }));
 
 export type GetRoleError = BadRequest | Forbidden | StackitOpError;
@@ -239,6 +258,8 @@ export const getRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRole",
 }));
 
 export type ListMembersError = BadRequest | Forbidden | StackitOpError;
@@ -254,6 +275,8 @@ export const listMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 }));
 
 export type ListPermissionsError = BadRequest | Forbidden | StackitOpError;
@@ -269,6 +292,8 @@ export const listPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
 }));
 
 export type ListRolesError = BadRequest | Forbidden | StackitOpError;
@@ -284,6 +309,8 @@ export const listRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoles",
 }));
 
 export type ListUserMembershipsError = BadRequest | Forbidden | StackitOpError;
@@ -299,6 +326,8 @@ export const listUserMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserMemberships",
 }));
 
 export type ListUserPermissionsError = BadRequest | Forbidden | StackitOpError;
@@ -314,6 +343,8 @@ export const listUserPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserPermissions",
 }));
 
 export type RemoveMembersError = BadRequest | Forbidden | StackitOpError;
@@ -329,6 +360,8 @@ export const removeMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveMembers",
 }));
 
 export type UpdateRoleError = BadRequest | Forbidden | StackitOpError;
@@ -344,6 +377,8 @@ export const updateRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRole",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

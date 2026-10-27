@@ -26,6 +26,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   superCategoryId: "super_category_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "UrlScanner",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type ScansBulkCreateRequestBodyItemCustomHeadersMap = { [key: string]: string | undefined };
 export type ScansBulkCreateRequestBodyItemScreenshotsResolutionsItem =
   | "desktop"
@@ -1542,6 +1556,8 @@ export const bulkCreateScans: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkCreateScans",
 }));
 
 export type CreateScanError = CloudflareOpError;
@@ -1557,6 +1573,8 @@ export const createScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScan",
 }));
 
 export type DomScanError = CloudflareOpError;
@@ -1572,6 +1590,8 @@ export const domScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomScan",
 }));
 
 export type GetResponsError = CloudflareOpError;
@@ -1587,6 +1607,8 @@ export const getRespons: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRespons",
 }));
 
 export type GetScanError = CloudflareOpError;
@@ -1602,6 +1624,8 @@ export const getScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScan",
 }));
 
 export type HarScanError = CloudflareOpError;
@@ -1617,6 +1641,8 @@ export const harScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HarScan",
 }));
 
 export type ListScansError = CloudflareOpError;
@@ -1632,6 +1658,8 @@ export const listScans: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScans",
 }));
 
 export type ScreenshotScanError = CloudflareOpError;
@@ -1647,6 +1675,8 @@ export const screenshotScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScreenshotScan",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

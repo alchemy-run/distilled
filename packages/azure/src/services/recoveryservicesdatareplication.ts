@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DataReplication" },
+  prefix: "Recoveryservicesdatareplication",
+  service: "Recoveryservicesdatareplication",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Gets or sets the custom email address for sending emails. */
 export type EmailConfigurationModelPropertiesInputCustomEmailAddressesList = Array<string>;
 /** Email configuration model properties. */
@@ -2030,6 +2050,8 @@ export const CreateEmailConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailConfiguration",
 }));
 
 export type CreateFabricError = AzureOpError;
@@ -2045,6 +2067,8 @@ export const CreateFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFabric",
 }));
 
 export type CreateFabricAgentError = AzureOpError;
@@ -2060,6 +2084,8 @@ export const CreateFabricAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFabricAgent",
 }));
 
 export type CreatePolicyError = AzureOpError;
@@ -2075,6 +2101,8 @@ export const CreatePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type CreateProtectedItemError = AzureOpError;
@@ -2090,6 +2118,8 @@ export const CreateProtectedItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProtectedItem",
 }));
 
 export type CreateReplicationExtensionError = AzureOpError;
@@ -2105,6 +2135,8 @@ export const CreateReplicationExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReplicationExtension",
 }));
 
 export type CreateVaultError = AzureOpError;
@@ -2120,6 +2152,8 @@ export const CreateVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVault",
 }));
 
 export type DeleteFabricError = AzureOpError;
@@ -2135,6 +2169,8 @@ export const DeleteFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFabric",
 }));
 
 export type DeleteFabricAgentError = AzureOpError;
@@ -2150,6 +2186,8 @@ export const DeleteFabricAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFabricAgent",
 }));
 
 export type DeletePolicyError = AzureOpError;
@@ -2165,6 +2203,8 @@ export const DeletePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -2180,6 +2220,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteProtectedItemError = AzureOpError;
@@ -2195,6 +2237,8 @@ export const DeleteProtectedItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProtectedItem",
 }));
 
 export type DeleteReplicationExtensionError = AzureOpError;
@@ -2210,6 +2254,8 @@ export const DeleteReplicationExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationExtension",
 }));
 
 export type DeleteVaultError = AzureOpError;
@@ -2225,6 +2271,8 @@ export const DeleteVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVault",
 }));
 
 export type GetEmailConfigurationError = AzureOpError;
@@ -2240,6 +2288,8 @@ export const GetEmailConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailConfiguration",
 }));
 
 export type GetEventError = AzureOpError;
@@ -2255,6 +2305,8 @@ export const GetEvent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvent",
 }));
 
 export type GetFabricError = AzureOpError;
@@ -2270,6 +2322,8 @@ export const GetFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFabric",
 }));
 
 export type GetFabricAgentError = AzureOpError;
@@ -2285,6 +2339,8 @@ export const GetFabricAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFabricAgent",
 }));
 
 export type GetJobError = AzureOpError;
@@ -2300,6 +2356,8 @@ export const GetJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetLocationBasedOperationResultError = AzureOpError;
@@ -2315,6 +2373,8 @@ export const GetLocationBasedOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocationBasedOperationResult",
 }));
 
 export type GetOperationResultError = AzureOpError;
@@ -2330,6 +2390,8 @@ export const GetOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationResult",
 }));
 
 export type GetPolicyError = AzureOpError;
@@ -2345,6 +2407,8 @@ export const GetPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -2360,6 +2424,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -2375,6 +2441,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetProtectedItemError = AzureOpError;
@@ -2390,6 +2458,8 @@ export const GetProtectedItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProtectedItem",
 }));
 
 export type GetRecoveryPointError = AzureOpError;
@@ -2405,6 +2475,8 @@ export const GetRecoveryPoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPoint",
 }));
 
 export type GetReplicationExtensionError = AzureOpError;
@@ -2420,6 +2492,8 @@ export const GetReplicationExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReplicationExtension",
 }));
 
 export type GetVaultError = AzureOpError;
@@ -2435,6 +2509,8 @@ export const GetVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVault",
 }));
 
 export type ListEmailConfigurationError = AzureOpError;
@@ -2450,6 +2526,8 @@ export const ListEmailConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailConfiguration",
 }));
 
 export type ListEventError = AzureOpError;
@@ -2465,6 +2543,8 @@ export const ListEvent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvent",
 }));
 
 export type ListFabricError = AzureOpError;
@@ -2480,6 +2560,8 @@ export const ListFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFabric",
 }));
 
 export type ListFabricAgentError = AzureOpError;
@@ -2495,6 +2577,8 @@ export const ListFabricAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFabricAgent",
 }));
 
 export type ListFabricBySubscriptionError = AzureOpError;
@@ -2510,6 +2594,8 @@ export const ListFabricBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFabricBySubscription",
 }));
 
 export type ListJobError = AzureOpError;
@@ -2525,6 +2611,8 @@ export const ListJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJob",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2540,6 +2628,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPolicyError = AzureOpError;
@@ -2555,6 +2645,8 @@ export const ListPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicy",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -2570,6 +2662,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -2585,6 +2679,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type ListProtectedItemError = AzureOpError;
@@ -2600,6 +2696,8 @@ export const ListProtectedItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProtectedItem",
 }));
 
 export type ListRecoveryPointError = AzureOpError;
@@ -2615,6 +2713,8 @@ export const ListRecoveryPoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPoint",
 }));
 
 export type ListReplicationExtensionError = AzureOpError;
@@ -2630,6 +2730,8 @@ export const ListReplicationExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReplicationExtension",
 }));
 
 export type ListVaultError = AzureOpError;
@@ -2645,6 +2747,8 @@ export const ListVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVault",
 }));
 
 export type ListVaultBySubscriptionError = AzureOpError;
@@ -2660,6 +2764,8 @@ export const ListVaultBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVaultBySubscription",
 }));
 
 export type PostCheckNameAvailabilityError = AzureOpError;
@@ -2675,6 +2781,8 @@ export const PostCheckNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCheckNameAvailability",
 }));
 
 export type PostDeploymentPreflightError = AzureOpError;
@@ -2690,6 +2798,8 @@ export const PostDeploymentPreflight: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDeploymentPreflight",
 }));
 
 export type ProtectedItemPlannedFailoverError = AzureOpError;
@@ -2705,6 +2815,8 @@ export const ProtectedItemPlannedFailover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProtectedItemPlannedFailover",
 }));
 
 export type UpdateFabricError = AzureOpError;
@@ -2720,6 +2832,8 @@ export const UpdateFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFabric",
 }));
 
 export type UpdatePrivateEndpointConnectionError = AzureOpError;
@@ -2735,6 +2849,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnection",
 }));
 
 export type UpdateProtectedItemError = AzureOpError;
@@ -2750,6 +2866,8 @@ export const UpdateProtectedItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProtectedItem",
 }));
 
 export type UpdateVaultError = AzureOpError;
@@ -2765,6 +2883,8 @@ export const UpdateVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVault",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

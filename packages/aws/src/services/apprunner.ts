@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://apprunner.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppRunner",
+  service: "AppRunner",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
@@ -809,6 +825,8 @@ export const associateCustomDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCustomDomain",
+  telemetry: TELEMETRY,
+  span: "AssociateCustomDomain",
 }));
 
 export type CreateAutoScalingConfigurationError =
@@ -842,6 +860,8 @@ export const createAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoScalingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateAutoScalingConfiguration",
 }));
 
 export type CreateConnectionError =
@@ -869,6 +889,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateObservabilityConfigurationError =
@@ -901,6 +923,8 @@ export const createObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateObservabilityConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateObservabilityConfiguration",
 }));
 
 export type CreateServiceError =
@@ -925,6 +949,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateVpcConnectorError =
@@ -948,6 +974,8 @@ export const createVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcConnector",
+  telemetry: TELEMETRY,
+  span: "CreateVpcConnector",
 }));
 
 export type CreateVpcIngressConnectionError =
@@ -976,6 +1004,8 @@ export const createVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcIngressConnection",
+  telemetry: TELEMETRY,
+  span: "CreateVpcIngressConnection",
 }));
 
 export type DeleteAutoScalingConfigurationError =
@@ -1000,6 +1030,8 @@ export const deleteAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoScalingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteAutoScalingConfiguration",
 }));
 
 export type DeleteConnectionError =
@@ -1023,6 +1055,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteObservabilityConfigurationError =
@@ -1046,6 +1080,8 @@ export const deleteObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObservabilityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteObservabilityConfiguration",
 }));
 
 export type DeleteServiceError =
@@ -1079,6 +1115,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteVpcConnectorError =
@@ -1102,6 +1140,8 @@ export const deleteVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcConnector",
 }));
 
 export type DeleteVpcIngressConnectionError =
@@ -1138,6 +1178,8 @@ export const deleteVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcIngressConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcIngressConnection",
 }));
 
 export type DescribeAutoScalingConfigurationError =
@@ -1160,6 +1202,8 @@ export const describeAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoScalingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeAutoScalingConfiguration",
 }));
 
 export type DescribeCustomDomainsError =
@@ -1188,6 +1232,8 @@ export const describeCustomDomains: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCustomDomains",
 })) as any;
 
 export type DescribeObservabilityConfigurationError =
@@ -1210,6 +1256,8 @@ export const describeObservabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObservabilityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeObservabilityConfiguration",
 }));
 
 export type DescribeServiceError =
@@ -1232,6 +1280,8 @@ export const describeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeService",
+  telemetry: TELEMETRY,
+  span: "DescribeService",
 }));
 
 export type DescribeVpcConnectorError =
@@ -1254,6 +1304,8 @@ export const describeVpcConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcConnector",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcConnector",
 }));
 
 export type DescribeVpcIngressConnectionError =
@@ -1276,6 +1328,8 @@ export const describeVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcIngressConnection",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcIngressConnection",
 }));
 
 export type DisassociateCustomDomainError =
@@ -1308,6 +1362,8 @@ export const disassociateCustomDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCustomDomain",
+  telemetry: TELEMETRY,
+  span: "DisassociateCustomDomain",
 }));
 
 export type ListAutoScalingConfigurationsError =
@@ -1340,6 +1396,8 @@ export const listAutoScalingConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutoScalingConfigurations",
 })) as any;
 
 export type ListConnectionsError =
@@ -1367,6 +1425,8 @@ export const listConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 })) as any;
 
 export type ListObservabilityConfigurationsError =
@@ -1399,6 +1459,8 @@ export const listObservabilityConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObservabilityConfigurations",
 })) as any;
 
 export type ListOperationsError =
@@ -1430,6 +1492,8 @@ export const listOperations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 })) as any;
 
 export type ListServicesError =
@@ -1457,6 +1521,8 @@ export const listServices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListServicesForAutoScalingConfigurationError =
@@ -1485,6 +1551,8 @@ export const listServicesForAutoScalingConfiguration: API.PaginatedOperationMeth
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicesForAutoScalingConfiguration",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1513,6 +1581,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVpcConnectorsError =
@@ -1540,6 +1610,8 @@ export const listVpcConnectors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcConnectors",
 })) as any;
 
 export type ListVpcIngressConnectionsError =
@@ -1567,6 +1639,8 @@ export const listVpcIngressConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcIngressConnections",
 })) as any;
 
 export type PauseServiceError =
@@ -1599,6 +1673,8 @@ export const pauseService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseService",
+  telemetry: TELEMETRY,
+  span: "PauseService",
 }));
 
 export type ResumeServiceError =
@@ -1630,6 +1706,8 @@ export const resumeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeService",
+  telemetry: TELEMETRY,
+  span: "ResumeService",
 }));
 
 export type StartDeploymentError =
@@ -1659,6 +1737,8 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  telemetry: TELEMETRY,
+  span: "StartDeployment",
 }));
 
 export type TagResourceError =
@@ -1687,6 +1767,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1715,6 +1797,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDefaultAutoScalingConfigurationError =
@@ -1738,6 +1822,8 @@ export const updateDefaultAutoScalingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultAutoScalingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateDefaultAutoScalingConfiguration",
 }));
 
 export type UpdateServiceError =
@@ -1773,6 +1859,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateVpcIngressConnectionError =
@@ -1807,6 +1895,8 @@ export const updateVpcIngressConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcIngressConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcIngressConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

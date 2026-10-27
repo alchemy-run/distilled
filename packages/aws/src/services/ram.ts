@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -74,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ram.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RAM",
+  service: "RAM",
+  propagate: TxXray.propagate,
+} as const;
 
 export class IdempotentParameterMismatchException
   extends /*@__PURE__*/ S.TaggedError<IdempotentParameterMismatchException>()(
@@ -957,6 +972,8 @@ export const acceptResourceShareInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptResourceShareInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptResourceShareInvitation",
 }));
 
 export type AssociateResourceShareError =
@@ -1001,6 +1018,8 @@ export const associateResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceShare",
+  telemetry: TELEMETRY,
+  span: "AssociateResourceShare",
 }));
 
 export type AssociateResourceSharePermissionError =
@@ -1038,6 +1057,8 @@ export const associateResourceSharePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceSharePermission",
+  telemetry: TELEMETRY,
+  span: "AssociateResourceSharePermission",
 }));
 
 export type CreatePermissionError =
@@ -1079,6 +1100,8 @@ export const createPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermission",
+  telemetry: TELEMETRY,
+  span: "CreatePermission",
 }));
 
 export type CreatePermissionVersionError =
@@ -1125,6 +1148,8 @@ export const createPermissionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermissionVersion",
+  telemetry: TELEMETRY,
+  span: "CreatePermissionVersion",
 }));
 
 export type CreateResourceShareError =
@@ -1177,6 +1202,8 @@ export const createResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceShare",
+  telemetry: TELEMETRY,
+  span: "CreateResourceShare",
 }));
 
 export type DeletePermissionError =
@@ -1213,6 +1240,8 @@ export const deletePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermission",
+  telemetry: TELEMETRY,
+  span: "DeletePermission",
 }));
 
 export type DeletePermissionVersionError =
@@ -1253,6 +1282,8 @@ export const deletePermissionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionVersion",
+  telemetry: TELEMETRY,
+  span: "DeletePermissionVersion",
 }));
 
 export type DeleteResourceShareError =
@@ -1296,6 +1327,8 @@ export const deleteResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceShare",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceShare",
 }));
 
 export type DisassociateResourceShareError =
@@ -1339,6 +1372,8 @@ export const disassociateResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceShare",
+  telemetry: TELEMETRY,
+  span: "DisassociateResourceShare",
 }));
 
 export type DisassociateResourceSharePermissionError =
@@ -1377,6 +1412,8 @@ export const disassociateResourceSharePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceSharePermission",
+  telemetry: TELEMETRY,
+  span: "DisassociateResourceSharePermission",
 }));
 
 export type EnableSharingWithAwsOrganizationError =
@@ -1409,6 +1446,8 @@ export const enableSharingWithAwsOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSharingWithAwsOrganization",
+  telemetry: TELEMETRY,
+  span: "EnableSharingWithAwsOrganization",
 }));
 
 export type GetPermissionError =
@@ -1441,6 +1480,8 @@ export const getPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermission",
+  telemetry: TELEMETRY,
+  span: "GetPermission",
 }));
 
 export type GetResourcePoliciesError =
@@ -1486,6 +1527,8 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicies",
 })) as any;
 
 export type GetResourceShareAssociationsError =
@@ -1533,6 +1576,8 @@ export const getResourceShareAssociations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceShareAssociations",
 })) as any;
 
 export type GetResourceShareInvitationsError =
@@ -1581,6 +1626,8 @@ export const getResourceShareInvitations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceShareInvitations",
 })) as any;
 
 export type GetResourceSharesError =
@@ -1625,6 +1672,8 @@ export const getResourceShares: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceShares",
 })) as any;
 
 export type ListPendingInvitationResourcesError =
@@ -1677,6 +1726,8 @@ export const listPendingInvitationResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPendingInvitationResources",
 })) as any;
 
 export type ListPermissionAssociationsError =
@@ -1721,6 +1772,8 @@ export const listPermissionAssociations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissionAssociations",
 })) as any;
 
 export type ListPermissionsError =
@@ -1764,6 +1817,8 @@ export const listPermissions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
 })) as any;
 
 export type ListPermissionVersionsError =
@@ -1810,6 +1865,8 @@ export const listPermissionVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissionVersions",
 })) as any;
 
 export type ListPrincipalsError =
@@ -1855,6 +1912,8 @@ export const listPrincipals: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrincipals",
 })) as any;
 
 export type ListReplacePermissionAssociationsWorkError =
@@ -1896,6 +1955,8 @@ export const listReplacePermissionAssociationsWork: API.PaginatedOperationMethod
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReplacePermissionAssociationsWork",
 })) as any;
 
 export type ListResourcesError =
@@ -1943,6 +2004,8 @@ export const listResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 })) as any;
 
 export type ListResourceSharePermissionsError =
@@ -1989,6 +2052,8 @@ export const listResourceSharePermissions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceSharePermissions",
 })) as any;
 
 export type ListResourceTypesError =
@@ -2023,6 +2088,8 @@ export const listResourceTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceTypes",
 })) as any;
 
 export type ListSourceAssociationsError =
@@ -2064,6 +2131,8 @@ export const listSourceAssociations: API.PaginatedOperationMethod<
     items: "sourceAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceAssociations",
 })) as any;
 
 export type PromotePermissionCreatedFromPolicyError =
@@ -2126,6 +2195,8 @@ export const promotePermissionCreatedFromPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PromotePermissionCreatedFromPolicy",
+  telemetry: TELEMETRY,
+  span: "PromotePermissionCreatedFromPolicy",
 }));
 
 export type PromoteResourceShareCreatedFromPolicyError =
@@ -2179,6 +2250,8 @@ export const promoteResourceShareCreatedFromPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PromoteResourceShareCreatedFromPolicy",
+  telemetry: TELEMETRY,
+  span: "PromoteResourceShareCreatedFromPolicy",
 }));
 
 export type RejectResourceShareInvitationError =
@@ -2219,6 +2292,8 @@ export const rejectResourceShareInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectResourceShareInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectResourceShareInvitation",
 }));
 
 export type ReplacePermissionAssociationsError =
@@ -2270,6 +2345,8 @@ export const replacePermissionAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplacePermissionAssociations",
+  telemetry: TELEMETRY,
+  span: "ReplacePermissionAssociations",
 }));
 
 export type SetDefaultPermissionVersionError =
@@ -2306,6 +2383,8 @@ export const setDefaultPermissionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultPermissionVersion",
+  telemetry: TELEMETRY,
+  span: "SetDefaultPermissionVersion",
 }));
 
 export type TagResourceError =
@@ -2345,6 +2424,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2375,6 +2456,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateResourceShareError =
@@ -2413,6 +2496,8 @@ export const updateResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceShare",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceShare",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

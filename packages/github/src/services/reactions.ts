@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Reactions",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Gone
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Gone>()("Gone", {
@@ -366,6 +384,8 @@ export const createForCommitComment: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForCommitComment",
 }));
 
 export type CreateForIssueError = UnprocessableEntity | GithubOpError;
@@ -381,6 +401,8 @@ export const createForIssue: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForIssue",
 }));
 
 export type CreateForIssueCommentError = UnprocessableEntity | GithubOpError;
@@ -396,6 +418,8 @@ export const createForIssueComment: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForIssueComment",
 }));
 
 export type CreateForPullRequestReviewCommentError = UnprocessableEntity | GithubOpError;
@@ -411,6 +435,8 @@ export const createForPullRequestReviewComment: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForPullRequestReviewComment",
 }));
 
 export type CreateForReleaseError = UnprocessableEntity | GithubOpError;
@@ -426,6 +452,8 @@ export const createForRelease: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForRelease",
 }));
 
 export type DeleteForCommitCommentError = GithubOpError;
@@ -441,6 +469,8 @@ export const deleteForCommitComment: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForCommitComment",
 }));
 
 export type DeleteForIssueError = GithubOpError;
@@ -456,6 +486,8 @@ export const deleteForIssue: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForIssue",
 }));
 
 export type DeleteForIssueCommentError = GithubOpError;
@@ -471,6 +503,8 @@ export const deleteForIssueComment: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForIssueComment",
 }));
 
 export type DeleteForPullRequestCommentError = GithubOpError;
@@ -486,6 +520,8 @@ export const deleteForPullRequestComment: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForPullRequestComment",
 }));
 
 export type DeleteForReleaseError = GithubOpError;
@@ -501,6 +537,8 @@ export const deleteForRelease: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForRelease",
 }));
 
 export type ListForCommitCommentError = NotFound | GithubOpError;
@@ -516,6 +554,8 @@ export const listForCommitComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForCommitComment",
 }));
 
 export type ListForIssueError = NotFound | Gone | GithubOpError;
@@ -531,6 +571,8 @@ export const listForIssue: API.OperationMethod<
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForIssue",
 }));
 
 export type ListForIssueCommentError = NotFound | GithubOpError;
@@ -546,6 +588,8 @@ export const listForIssueComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForIssueComment",
 }));
 
 export type ListForPullRequestReviewCommentError = NotFound | GithubOpError;
@@ -561,6 +605,8 @@ export const listForPullRequestReviewComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForPullRequestReviewComment",
 }));
 
 export type ListForReleaseError = NotFound | GithubOpError;
@@ -576,6 +622,8 @@ export const listForRelease: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForRelease",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

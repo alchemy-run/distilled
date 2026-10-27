@@ -18,6 +18,19 @@ const __s: any[] = [];
 
 export type { DigitalOceanOpError, DigitalOceanOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "digitalocean-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "DigitalOcean",
+  service: "DigitalOcean",
+  labels: "digitalocean",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -21405,6 +21418,8 @@ export const addDatabase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDatabase",
 }));
 
 export type AddDatabaseConnectionPoolError = NotFound | DigitalOceanOpError;
@@ -21420,6 +21435,8 @@ export const addDatabaseConnectionPool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDatabaseConnectionPool",
 }));
 
 export type AddDatabaseUserError = NotFound | DigitalOceanOpError;
@@ -21435,6 +21452,8 @@ export const addDatabaseUser: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDatabaseUser",
 }));
 
 export type AddFirewallRulesError = BadRequest | NotFound | DigitalOceanOpError;
@@ -21450,6 +21469,8 @@ export const addFirewallRules: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFirewallRules",
 }));
 
 export type AddFirewallTagsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -21465,6 +21486,8 @@ export const addFirewallTags: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFirewallTags",
 }));
 
 export type AddKubernetesNodePoolError = NotFound | DigitalOceanOpError;
@@ -21480,6 +21503,8 @@ export const addKubernetesNodePool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddKubernetesNodePool",
 }));
 
 export type AddKubernetesRegistriesError = DigitalOceanOpError;
@@ -21495,6 +21520,8 @@ export const addKubernetesRegistries: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddKubernetesRegistries",
 }));
 
 export type AddKubernetesRegistryError = DigitalOceanOpError;
@@ -21510,6 +21537,8 @@ export const addKubernetesRegistry: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddKubernetesRegistry",
 }));
 
 export type AddLoadBalancerDropletsError = NotFound | DigitalOceanOpError;
@@ -21525,6 +21554,8 @@ export const addLoadBalancerDroplets: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddLoadBalancerDroplets",
 }));
 
 export type AddLoadBalancerForwardingRulesError = NotFound | DigitalOceanOpError;
@@ -21540,6 +21571,8 @@ export const addLoadBalancerForwardingRules: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddLoadBalancerForwardingRules",
 }));
 
 export type AddToolbeltToolsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -21555,6 +21588,8 @@ export const addToolbeltTools: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddToolbeltTools",
 }));
 
 export type AppsGetExecError = NotFound | DigitalOceanOpError;
@@ -21570,6 +21605,8 @@ export const appsGetExec: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppsGetExec",
 }));
 
 export type AppsGetExecActiveDeploymentError = NotFound | DigitalOceanOpError;
@@ -21585,6 +21622,8 @@ export const appsGetExecActiveDeployment: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppsGetExecActiveDeployment",
 }));
 
 export type AppsRevertRollbackError = NotFound | DigitalOceanOpError;
@@ -21600,6 +21639,8 @@ export const appsRevertRollback: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppsRevertRollback",
 }));
 
 export type AssignAppAlertDestinationsError = NotFound | DigitalOceanOpError;
@@ -21615,6 +21656,8 @@ export const assignAppAlertDestinations: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAppAlertDestinations",
 }));
 
 export type AssignFirewallDropletsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -21630,6 +21673,8 @@ export const assignFirewallDroplets: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignFirewallDroplets",
 }));
 
 export type AssignProjectResourcesError = NotFound | DigitalOceanOpError;
@@ -21645,6 +21690,8 @@ export const assignProjectResources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignProjectResources",
 }));
 
 export type AssignProjectResourcesDefaultError = NotFound | DigitalOceanOpError;
@@ -21660,6 +21707,8 @@ export const assignProjectResourcesDefault: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignProjectResourcesDefault",
 }));
 
 export type AssignTagResourcesError = NotFound | DigitalOceanOpError;
@@ -21675,6 +21724,8 @@ export const assignTagResources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignTagResources",
 }));
 
 export type AttachGenaiAgentError = NotFound | DigitalOceanOpError;
@@ -21690,6 +21741,8 @@ export const attachGenaiAgent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachGenaiAgent",
 }));
 
 export type AttachGenaiAgentFunctionError = NotFound | DigitalOceanOpError;
@@ -21705,6 +21758,8 @@ export const attachGenaiAgentFunction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachGenaiAgentFunction",
 }));
 
 export type AttachGenaiAgentGuardrailsError = NotFound | DigitalOceanOpError;
@@ -21720,6 +21775,8 @@ export const attachGenaiAgentGuardrails: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachGenaiAgentGuardrails",
 }));
 
 export type AttachGenaiKnowledgeBaseError = NotFound | DigitalOceanOpError;
@@ -21735,6 +21792,8 @@ export const attachGenaiKnowledgeBase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachGenaiKnowledgeBase",
 }));
 
 export type AttachGenaiKnowledgeBasesError = NotFound | DigitalOceanOpError;
@@ -21750,6 +21809,8 @@ export const attachGenaiKnowledgeBases: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachGenaiKnowledgeBases",
 }));
 
 export type CancelAppDeploymentError = NotFound | DigitalOceanOpError;
@@ -21765,6 +21826,8 @@ export const cancelAppDeployment: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAppDeployment",
 }));
 
 export type CancelAppEventError = NotFound | DigitalOceanOpError;
@@ -21780,6 +21843,8 @@ export const cancelAppEvent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAppEvent",
 }));
 
 export type CancelAppJobInvocationError = NotFound | DigitalOceanOpError;
@@ -21795,6 +21860,8 @@ export const cancelAppJobInvocation: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAppJobInvocation",
 }));
 
 export type CancelGenaiIndexingJobError = NotFound | DigitalOceanOpError;
@@ -21810,6 +21877,8 @@ export const cancelGenaiIndexingJob: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelGenaiIndexingJob",
 }));
 
 export type CancelGenaiModelEvaluationRunError = NotFound | DigitalOceanOpError;
@@ -21825,6 +21894,8 @@ export const cancelGenaiModelEvaluationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelGenaiModelEvaluationRun",
 }));
 
 export type CancelInferenceBatchError = Forbidden | NotFound | Conflict | DigitalOceanOpError;
@@ -21840,6 +21911,8 @@ export const cancelInferenceBatch: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelInferenceBatch",
 }));
 
 export type CommitAppRollbackError = NotFound | DigitalOceanOpError;
@@ -21855,6 +21928,8 @@ export const commitAppRollback: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitAppRollback",
 }));
 
 export type CreateAddonError = DigitalOceanOpError;
@@ -21870,6 +21945,8 @@ export const createAddon: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAddon",
 }));
 
 export type CreateAgentInferenceChatCompletionError = DigitalOceanOpError;
@@ -21885,6 +21962,8 @@ export const createAgentInferenceChatCompletion: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentInferenceChatCompletion",
 }));
 
 export type CreateAppError = DigitalOceanOpError;
@@ -21900,6 +21979,8 @@ export const createApp: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateAppDeploymentError = NotFound | DigitalOceanOpError;
@@ -21915,6 +21996,8 @@ export const createAppDeployment: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppDeployment",
 }));
 
 export type CreateAppRollbackError = NotFound | DigitalOceanOpError;
@@ -21930,6 +22013,8 @@ export const createAppRollback: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppRollback",
 }));
 
 export type CreateAutoscalepoolError = DigitalOceanOpError;
@@ -21945,6 +22030,8 @@ export const createAutoscalepool: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoscalepool",
 }));
 
 export type CreateByoipPrefixError = UnprocessableEntity | DigitalOceanOpError;
@@ -21960,6 +22047,8 @@ export const createByoipPrefix: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateByoipPrefix",
 }));
 
 export type CreateCdnEndpointError = DigitalOceanOpError;
@@ -21975,6 +22064,8 @@ export const createCdnEndpoint: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCdnEndpoint",
 }));
 
 export type CreateCertificateError = DigitalOceanOpError;
@@ -21990,6 +22081,8 @@ export const createCertificate: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificate",
 }));
 
 export type CreateConnectionError = BadRequest | Conflict | DigitalOceanOpError;
@@ -22005,6 +22098,8 @@ export const createConnection: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateDatabaseClusterError = NotFound | DigitalOceanOpError;
@@ -22020,6 +22115,8 @@ export const createDatabaseCluster: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseCluster",
 }));
 
 export type CreateDatabaseKafkaSchemaError = NotFound | DigitalOceanOpError;
@@ -22035,6 +22132,8 @@ export const createDatabaseKafkaSchema: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseKafkaSchema",
 }));
 
 export type CreateDatabaseKafkaTopicError = NotFound | DigitalOceanOpError;
@@ -22050,6 +22149,8 @@ export const createDatabaseKafkaTopic: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseKafkaTopic",
 }));
 
 export type CreateDatabaseLogsinkError = NotFound | DigitalOceanOpError;
@@ -22065,6 +22166,8 @@ export const createDatabaseLogsink: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseLogsink",
 }));
 
 export type CreateDatabaseReplicaError = NotFound | DigitalOceanOpError;
@@ -22080,6 +22183,8 @@ export const createDatabaseReplica: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseReplica",
 }));
 
 export type CreateDedicatedInferenceError = DigitalOceanOpError;
@@ -22095,6 +22200,8 @@ export const createDedicatedInference: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedInference",
 }));
 
 export type CreateDedicatedInferenceTokensError = NotFound | DigitalOceanOpError;
@@ -22110,6 +22217,8 @@ export const createDedicatedInferenceTokens: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedInferenceTokens",
 }));
 
 export type CreateDomainError = DigitalOceanOpError;
@@ -22125,6 +22234,8 @@ export const createDomain: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateDomainRecordError = NotFound | DigitalOceanOpError;
@@ -22140,6 +22251,8 @@ export const createDomainRecord: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainRecord",
 }));
 
 export type CreateDropletError = DigitalOceanOpError;
@@ -22155,6 +22268,8 @@ export const createDroplet: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDroplet",
 }));
 
 export type CreateFirewallError =
@@ -22174,6 +22289,8 @@ export const createFirewall: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, FirewallTagNotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFirewall",
 }));
 
 export type CreateFloatingIPError = DigitalOceanOpError;
@@ -22189,6 +22306,8 @@ export const createFloatingIP: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFloatingIP",
 }));
 
 export type CreateFunctionNamespaceError = NotFound | UnprocessableEntity | DigitalOceanOpError;
@@ -22204,6 +22323,8 @@ export const createFunctionNamespace: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFunctionNamespace",
 }));
 
 export type CreateFunctionsAccessKeyError = BadRequest | NotFound | Conflict | DigitalOceanOpError;
@@ -22219,6 +22340,8 @@ export const createFunctionsAccessKey: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFunctionsAccessKey",
 }));
 
 export type CreateGenaiAgentError = NotFound | DigitalOceanOpError;
@@ -22234,6 +22357,8 @@ export const createGenaiAgent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiAgent",
 }));
 
 export type CreateGenaiAgentApiKeyError = NotFound | DigitalOceanOpError;
@@ -22249,6 +22374,8 @@ export const createGenaiAgentApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiAgentApiKey",
 }));
 
 export type CreateGenaiAnthropicApiKeyError = NotFound | DigitalOceanOpError;
@@ -22264,6 +22391,8 @@ export const createGenaiAnthropicApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiAnthropicApiKey",
 }));
 
 export type CreateGenaiCustomEvaluationMetricError = NotFound | DigitalOceanOpError;
@@ -22279,6 +22408,8 @@ export const createGenaiCustomEvaluationMetric: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiCustomEvaluationMetric",
 }));
 
 export type CreateGenaiEvaluationDatasetError = NotFound | DigitalOceanOpError;
@@ -22294,6 +22425,8 @@ export const createGenaiEvaluationDataset: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiEvaluationDataset",
 }));
 
 export type CreateGenaiEvaluationTestCaseError = NotFound | DigitalOceanOpError;
@@ -22309,6 +22442,8 @@ export const createGenaiEvaluationTestCase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiEvaluationTestCase",
 }));
 
 export type CreateGenaiGeneratedScenarioSetError = NotFound | DigitalOceanOpError;
@@ -22324,6 +22459,8 @@ export const createGenaiGeneratedScenarioSet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiGeneratedScenarioSet",
 }));
 
 export type CreateGenaiIndexingJobError = NotFound | DigitalOceanOpError;
@@ -22339,6 +22476,8 @@ export const createGenaiIndexingJob: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiIndexingJob",
 }));
 
 export type CreateGenaiKnowledgeBaseError = NotFound | DigitalOceanOpError;
@@ -22354,6 +22493,8 @@ export const createGenaiKnowledgeBase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiKnowledgeBase",
 }));
 
 export type CreateGenaiKnowledgeBaseDataSourceError = NotFound | DigitalOceanOpError;
@@ -22369,6 +22510,8 @@ export const createGenaiKnowledgeBaseDataSource: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiKnowledgeBaseDataSource",
 }));
 
 export type CreateGenaiModelEvaluationRunError = NotFound | DigitalOceanOpError;
@@ -22384,6 +22527,8 @@ export const createGenaiModelEvaluationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiModelEvaluationRun",
 }));
 
 export type CreateGenaiModelRouterError = NotFound | DigitalOceanOpError;
@@ -22399,6 +22544,8 @@ export const createGenaiModelRouter: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiModelRouter",
 }));
 
 export type CreateGenaiOauth2DropboxTokensError = NotFound | DigitalOceanOpError;
@@ -22414,6 +22561,8 @@ export const createGenaiOauth2DropboxTokens: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiOauth2DropboxTokens",
 }));
 
 export type CreateGenaiOpenaiApiKeyError = NotFound | DigitalOceanOpError;
@@ -22429,6 +22578,8 @@ export const createGenaiOpenaiApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiOpenaiApiKey",
 }));
 
 export type CreateGenaiScenarioSetError = NotFound | DigitalOceanOpError;
@@ -22444,6 +22595,8 @@ export const createGenaiScenarioSet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiScenarioSet",
 }));
 
 export type CreateGenaiScenarioSetFromLibraryError = NotFound | DigitalOceanOpError;
@@ -22459,6 +22612,8 @@ export const createGenaiScenarioSetFromLibrary: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiScenarioSetFromLibrary",
 }));
 
 export type CreateGenaiScheduledIndexingError = NotFound | DigitalOceanOpError;
@@ -22474,6 +22629,8 @@ export const createGenaiScheduledIndexing: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiScheduledIndexing",
 }));
 
 export type CreateGenaiSimulationRunError = NotFound | DigitalOceanOpError;
@@ -22489,6 +22646,8 @@ export const createGenaiSimulationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiSimulationRun",
 }));
 
 export type CreateGenaiWorkspaceError = NotFound | DigitalOceanOpError;
@@ -22504,6 +22663,8 @@ export const createGenaiWorkspace: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGenaiWorkspace",
 }));
 
 export type CreateImageCustomError = DigitalOceanOpError;
@@ -22519,6 +22680,8 @@ export const createImageCustom: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateImageCustom",
 }));
 
 export type CreateInferenceBatchError =
@@ -22547,6 +22710,8 @@ export const createInferenceBatch: API.OperationMethod<
   ],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInferenceBatch",
 }));
 
 export type CreateInferenceBatchFileError =
@@ -22566,6 +22731,8 @@ export const createInferenceBatchFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInferenceBatchFile",
 }));
 
 export type CreateInferenceChatCompletionError = DigitalOceanOpError;
@@ -22581,6 +22748,8 @@ export const createInferenceChatCompletion: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInferenceChatCompletion",
 }));
 
 export type CreateInferenceEmbeddingError = DigitalOceanOpError;
@@ -22596,6 +22765,8 @@ export const createInferenceEmbedding: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInferenceEmbedding",
 }));
 
 export type CreateInferenceImageError = DigitalOceanOpError;
@@ -22611,6 +22782,8 @@ export const createInferenceImage: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInferenceImage",
 }));
 
 export type CreateInferenceMessagesError = BadRequest | DigitalOceanOpError;
@@ -22626,6 +22799,8 @@ export const createInferenceMessages: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInferenceMessages",
 }));
 
 export type CreateInferenceResponseError = DigitalOceanOpError;
@@ -22641,6 +22816,8 @@ export const createInferenceResponse: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInferenceResponse",
 }));
 
 export type CreateInferenceSystemoneError =
@@ -22660,6 +22837,8 @@ export const createInferenceSystemone: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInferenceSystemone",
 }));
 
 export type CreateInsightAlertRuleError = BadRequest | UnprocessableEntity | DigitalOceanOpError;
@@ -22675,6 +22854,8 @@ export const createInsightAlertRule: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightAlertRule",
 }));
 
 export type CreateInsightNotificationChannelError = BadRequest | DigitalOceanOpError;
@@ -22690,6 +22871,8 @@ export const createInsightNotificationChannel: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightNotificationChannel",
 }));
 
 export type CreateKubernetesClusterError = DigitalOceanOpError;
@@ -22705,6 +22888,8 @@ export const createKubernetesCluster: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKubernetesCluster",
 }));
 
 export type CreateLoadBalancerError = DigitalOceanOpError;
@@ -22720,6 +22905,8 @@ export const createLoadBalancer: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancer",
 }));
 
 export type CreateMcpServerError = BadRequest | Conflict | DigitalOceanOpError;
@@ -22735,6 +22922,8 @@ export const createMcpServer: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpServer",
 }));
 
 export type CreateMonitoringAlertPolicyError = DigitalOceanOpError;
@@ -22750,6 +22939,8 @@ export const createMonitoringAlertPolicy: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitoringAlertPolicy",
 }));
 
 export type CreateMonitoringDestinationError = NotFound | DigitalOceanOpError;
@@ -22765,6 +22956,8 @@ export const createMonitoringDestination: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitoringDestination",
 }));
 
 export type CreateMonitoringSinkError = NotFound | DigitalOceanOpError;
@@ -22780,6 +22973,8 @@ export const createMonitoringSink: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitoringSink",
 }));
 
 export type CreateNfsError = BadRequest | DigitalOceanOpError;
@@ -22795,6 +22990,8 @@ export const createNfs: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNfs",
 }));
 
 export type CreateNfsAccessPointError = BadRequest | NotFound | Conflict | DigitalOceanOpError;
@@ -22810,6 +23007,8 @@ export const createNfsAccessPoint: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNfsAccessPoint",
 }));
 
 export type CreateNfsActionError = NotFound | DigitalOceanOpError;
@@ -22825,6 +23024,8 @@ export const createNfsAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNfsAction",
 }));
 
 export type CreateOrganizationTeamError = BadRequest | Forbidden | DigitalOceanOpError;
@@ -22840,6 +23041,8 @@ export const createOrganizationTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationTeam",
 }));
 
 export type CreateOutputViewError = BadRequest | NotFound | Conflict | DigitalOceanOpError;
@@ -22855,6 +23058,8 @@ export const createOutputView: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOutputView",
 }));
 
 export type CreatePartnerAttachmentError = NotFound | UnprocessableEntity | DigitalOceanOpError;
@@ -22870,6 +23075,8 @@ export const createPartnerAttachment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnerAttachment",
 }));
 
 export type CreatePartnerAttachmentServiceKeyError = NotFound | DigitalOceanOpError;
@@ -22885,6 +23092,8 @@ export const createPartnerAttachmentServiceKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnerAttachmentServiceKey",
 }));
 
 export type CreateProjectError = DigitalOceanOpError;
@@ -22900,6 +23109,8 @@ export const createProject: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRegistryError = NotFound | DigitalOceanOpError;
@@ -22915,6 +23126,8 @@ export const createRegistry: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegistry",
 }));
 
 export type CreateReservedIPError = DigitalOceanOpError;
@@ -22930,6 +23143,8 @@ export const createReservedIP: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReservedIP",
 }));
 
 export type CreateReservedIPv6Error = DigitalOceanOpError;
@@ -22945,6 +23160,8 @@ export const createReservedIPv6: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReservedIPv6",
 }));
 
 export type CreateSecurityScanError = BadRequest | NotFound | DigitalOceanOpError;
@@ -22960,6 +23177,8 @@ export const createSecurityScan: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityScan",
 }));
 
 export type CreateSecurityScanRuleError = BadRequest | NotFound | DigitalOceanOpError;
@@ -22975,6 +23194,8 @@ export const createSecurityScanRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityScanRule",
 }));
 
 export type CreateSecuritySuppressionError = BadRequest | NotFound | DigitalOceanOpError;
@@ -22990,6 +23211,8 @@ export const createSecuritySuppression: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecuritySuppression",
 }));
 
 export type CreateSessionError = BadRequest | DigitalOceanOpError;
@@ -23005,6 +23228,8 @@ export const createSession: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type CreateSpacesKeyError = BadRequest | DigitalOceanOpError;
@@ -23020,6 +23245,8 @@ export const createSpacesKey: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpacesKey",
 }));
 
 export type CreateSshKeyError = UnprocessableEntity | SshKeyAlreadyRegistered | DigitalOceanOpError;
@@ -23035,6 +23262,8 @@ export const createSshKey: API.OperationMethod<
   errors: [UnprocessableEntity, SshKeyAlreadyRegistered, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSshKey",
 }));
 
 export type CreateTagError = BadRequest | DigitalOceanOpError;
@@ -23050,6 +23279,8 @@ export const createTag: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTag",
 }));
 
 export type CreateToolbeltError = BadRequest | Conflict | DigitalOceanOpError;
@@ -23065,6 +23296,8 @@ export const createToolbelt: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToolbelt",
 }));
 
 export type CreateUptimeAlertError = NotFound | DigitalOceanOpError;
@@ -23080,6 +23313,8 @@ export const createUptimeAlert: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUptimeAlert",
 }));
 
 export type CreateUptimeCheckError = DigitalOceanOpError;
@@ -23095,6 +23330,8 @@ export const createUptimeCheck: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUptimeCheck",
 }));
 
 export type CreateVectorDatabaseError = NotFound | DigitalOceanOpError;
@@ -23110,6 +23347,8 @@ export const createVectorDatabase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVectorDatabase",
 }));
 
 export type CreateVolumeError = BadRequest | NotFound | DigitalOceanOpError;
@@ -23125,6 +23364,8 @@ export const createVolume: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type CreateVolumeSnapshotError = BadRequest | NotFound | DigitalOceanOpError;
@@ -23140,6 +23381,8 @@ export const createVolumeSnapshot: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolumeSnapshot",
 }));
 
 export type CreateVpcError = DigitalOceanOpError;
@@ -23155,6 +23398,8 @@ export const createVpc: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpc",
 }));
 
 export type CreateVpcnatgatewayError = DigitalOceanOpError;
@@ -23170,6 +23415,8 @@ export const createVpcnatgateway: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpcnatgateway",
 }));
 
 export type CreateVpcPeeringError = DigitalOceanOpError;
@@ -23185,6 +23432,8 @@ export const createVpcPeering: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpcPeering",
 }));
 
 export type CreateVpcPeeringsError = NotFound | DigitalOceanOpError;
@@ -23200,6 +23449,8 @@ export const createVpcPeerings: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpcPeerings",
 }));
 
 export type CreateVpcSubnetError = NotFound | DigitalOceanOpError;
@@ -23215,6 +23466,8 @@ export const createVpcSubnet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpcSubnet",
 }));
 
 export type CreateVpcSubnetRouteError =
@@ -23234,6 +23487,8 @@ export const createVpcSubnetRoute: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpcSubnetRoute",
 }));
 
 export type DatabasesDeleteOpensearchIndexError = NotFound | DigitalOceanOpError;
@@ -23249,6 +23504,8 @@ export const databasesDeleteOpensearchIndex: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabasesDeleteOpensearchIndex",
 }));
 
 export type DatabasesDestroyClusterError = NotFound | DigitalOceanOpError;
@@ -23264,6 +23521,8 @@ export const databasesDestroyCluster: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabasesDestroyCluster",
 }));
 
 export type DatabasesDestroyReplicaError = NotFound | DigitalOceanOpError;
@@ -23279,6 +23538,8 @@ export const databasesDestroyReplica: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabasesDestroyReplica",
 }));
 
 export type DatabasesInstallUpdateError = NotFound | DigitalOceanOpError;
@@ -23294,6 +23555,8 @@ export const databasesInstallUpdate: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabasesInstallUpdate",
 }));
 
 export type DeleteActorLimitError = BadRequest | NotFound | DigitalOceanOpError;
@@ -23309,6 +23572,8 @@ export const deleteActorLimit: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActorLimit",
 }));
 
 export type DeleteAddonError = NotFound | DigitalOceanOpError;
@@ -23324,6 +23589,8 @@ export const deleteAddon: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddon",
 }));
 
 export type DeleteAppError = NotFound | DigitalOceanOpError;
@@ -23339,6 +23606,8 @@ export const deleteApp: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteAutoscalepoolError = NotFound | DigitalOceanOpError;
@@ -23354,6 +23623,8 @@ export const deleteAutoscalepool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoscalepool",
 }));
 
 export type DeleteAutoscalepoolDangerousError = NotFound | DigitalOceanOpError;
@@ -23369,6 +23640,8 @@ export const deleteAutoscalepoolDangerous: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoscalepoolDangerous",
 }));
 
 export type DeleteByoipPrefixError = NotFound | UnprocessableEntity | DigitalOceanOpError;
@@ -23384,6 +23657,8 @@ export const deleteByoipPrefix: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteByoipPrefix",
 }));
 
 export type DeleteCdnEndpointError = NotFound | DigitalOceanOpError;
@@ -23399,6 +23674,8 @@ export const deleteCdnEndpoint: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCdnEndpoint",
 }));
 
 export type DeleteCertificateError = NotFound | DigitalOceanOpError;
@@ -23414,6 +23691,8 @@ export const deleteCertificate: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type DeleteConnectionError = NotFound | DigitalOceanOpError;
@@ -23429,6 +23708,8 @@ export const deleteConnection: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteDatabaseError = NotFound | DigitalOceanOpError;
@@ -23444,6 +23725,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteDatabaseConnectionPoolError = NotFound | DigitalOceanOpError;
@@ -23459,6 +23742,8 @@ export const deleteDatabaseConnectionPool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseConnectionPool",
 }));
 
 export type DeleteDatabaseKafkaSchemaError = NotFound | DigitalOceanOpError;
@@ -23474,6 +23759,8 @@ export const deleteDatabaseKafkaSchema: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseKafkaSchema",
 }));
 
 export type DeleteDatabaseKafkaTopicError = NotFound | DigitalOceanOpError;
@@ -23489,6 +23776,8 @@ export const deleteDatabaseKafkaTopic: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseKafkaTopic",
 }));
 
 export type DeleteDatabaseLogsinkError = NotFound | DigitalOceanOpError;
@@ -23504,6 +23793,8 @@ export const deleteDatabaseLogsink: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseLogsink",
 }));
 
 export type DeleteDatabaseOnlineMigrationError = NotFound | DigitalOceanOpError;
@@ -23519,6 +23810,8 @@ export const deleteDatabaseOnlineMigration: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseOnlineMigration",
 }));
 
 export type DeleteDatabaseUserError = NotFound | DigitalOceanOpError;
@@ -23534,6 +23827,8 @@ export const deleteDatabaseUser: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseUser",
 }));
 
 export type DeleteDedicatedInferenceError = NotFound | DigitalOceanOpError;
@@ -23549,6 +23844,8 @@ export const deleteDedicatedInference: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedInference",
 }));
 
 export type DeleteDedicatedInferenceTokensError = NotFound | DigitalOceanOpError;
@@ -23564,6 +23861,8 @@ export const deleteDedicatedInferenceTokens: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedInferenceTokens",
 }));
 
 export type DeleteDomainError = NotFound | DigitalOceanOpError;
@@ -23579,6 +23878,8 @@ export const deleteDomain: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteDomainRecordError = NotFound | DigitalOceanOpError;
@@ -23594,6 +23895,8 @@ export const deleteDomainRecord: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainRecord",
 }));
 
 export type DeleteFirewallError = NotFound | DigitalOceanOpError;
@@ -23609,6 +23912,8 @@ export const deleteFirewall: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewall",
 }));
 
 export type DeleteFirewallDropletsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -23624,6 +23929,8 @@ export const deleteFirewallDroplets: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallDroplets",
 }));
 
 export type DeleteFirewallRulesError = BadRequest | NotFound | DigitalOceanOpError;
@@ -23639,6 +23946,8 @@ export const deleteFirewallRules: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRules",
 }));
 
 export type DeleteFirewallTagsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -23654,6 +23963,8 @@ export const deleteFirewallTags: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallTags",
 }));
 
 export type DeleteFloatingIPError = NotFound | DigitalOceanOpError;
@@ -23669,6 +23980,8 @@ export const deleteFloatingIP: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFloatingIP",
 }));
 
 export type DeleteFunctionNamespaceError = NotFound | DigitalOceanOpError;
@@ -23684,6 +23997,8 @@ export const deleteFunctionNamespace: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFunctionNamespace",
 }));
 
 export type DeleteFunctionsAccessKeyError = NotFound | DigitalOceanOpError;
@@ -23699,6 +24014,8 @@ export const deleteFunctionsAccessKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFunctionsAccessKey",
 }));
 
 export type DeleteGenaiAgentError = NotFound | DigitalOceanOpError;
@@ -23714,6 +24031,8 @@ export const deleteGenaiAgent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiAgent",
 }));
 
 export type DeleteGenaiAgentApiKeyError = NotFound | DigitalOceanOpError;
@@ -23729,6 +24048,8 @@ export const deleteGenaiAgentApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiAgentApiKey",
 }));
 
 export type DeleteGenaiAnthropicApiKeyError = NotFound | DigitalOceanOpError;
@@ -23744,6 +24065,8 @@ export const deleteGenaiAnthropicApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiAnthropicApiKey",
 }));
 
 export type DeleteGenaiCustomEvaluationMetricError = NotFound | DigitalOceanOpError;
@@ -23759,6 +24082,8 @@ export const deleteGenaiCustomEvaluationMetric: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiCustomEvaluationMetric",
 }));
 
 export type DeleteGenaiCustomModelError = NotFound | DigitalOceanOpError;
@@ -23774,6 +24099,8 @@ export const deleteGenaiCustomModel: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiCustomModel",
 }));
 
 export type DeleteGenaiEvaluationDatasetError = NotFound | DigitalOceanOpError;
@@ -23789,6 +24116,8 @@ export const deleteGenaiEvaluationDataset: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiEvaluationDataset",
 }));
 
 export type DeleteGenaiKnowledgeBaseError = NotFound | DigitalOceanOpError;
@@ -23804,6 +24133,8 @@ export const deleteGenaiKnowledgeBase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiKnowledgeBase",
 }));
 
 export type DeleteGenaiKnowledgeBaseDataSourceError = NotFound | DigitalOceanOpError;
@@ -23819,6 +24150,8 @@ export const deleteGenaiKnowledgeBaseDataSource: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiKnowledgeBaseDataSource",
 }));
 
 export type DeleteGenaiModelApiKeyError = NotFound | DigitalOceanOpError;
@@ -23834,6 +24167,8 @@ export const deleteGenaiModelApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiModelApiKey",
 }));
 
 export type DeleteGenaiModelEvaluationPresetError = NotFound | DigitalOceanOpError;
@@ -23849,6 +24184,8 @@ export const deleteGenaiModelEvaluationPreset: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiModelEvaluationPreset",
 }));
 
 export type DeleteGenaiModelEvaluationRunError = NotFound | DigitalOceanOpError;
@@ -23864,6 +24201,8 @@ export const deleteGenaiModelEvaluationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiModelEvaluationRun",
 }));
 
 export type DeleteGenaiModelRouterError = NotFound | DigitalOceanOpError;
@@ -23879,6 +24218,8 @@ export const deleteGenaiModelRouter: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiModelRouter",
 }));
 
 export type DeleteGenaiOpenaiApiKeyError = NotFound | DigitalOceanOpError;
@@ -23894,6 +24235,8 @@ export const deleteGenaiOpenaiApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiOpenaiApiKey",
 }));
 
 export type DeleteGenaiScenarioSetError = NotFound | DigitalOceanOpError;
@@ -23909,6 +24252,8 @@ export const deleteGenaiScenarioSet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiScenarioSet",
 }));
 
 export type DeleteGenaiScheduledIndexingError = NotFound | DigitalOceanOpError;
@@ -23924,6 +24269,8 @@ export const deleteGenaiScheduledIndexing: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiScheduledIndexing",
 }));
 
 export type DeleteGenaiSimulationRunError = NotFound | DigitalOceanOpError;
@@ -23939,6 +24286,8 @@ export const deleteGenaiSimulationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiSimulationRun",
 }));
 
 export type DeleteGenaiWorkspaceError = NotFound | DigitalOceanOpError;
@@ -23954,6 +24303,8 @@ export const deleteGenaiWorkspace: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGenaiWorkspace",
 }));
 
 export type DeleteImageError = NotFound | DigitalOceanOpError;
@@ -23969,6 +24320,8 @@ export const deleteImage: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteInsightAlertRuleError = NotFound | DigitalOceanOpError;
@@ -23984,6 +24337,8 @@ export const deleteInsightAlertRule: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInsightAlertRule",
 }));
 
 export type DeleteInsightNotificationChannelError = NotFound | Conflict | DigitalOceanOpError;
@@ -23999,6 +24354,8 @@ export const deleteInsightNotificationChannel: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInsightNotificationChannel",
 }));
 
 export type DeleteKubernetesClusterError = NotFound | DigitalOceanOpError;
@@ -24014,6 +24371,8 @@ export const deleteKubernetesCluster: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKubernetesCluster",
 }));
 
 export type DeleteKubernetesNodeError = NotFound | DigitalOceanOpError;
@@ -24029,6 +24388,8 @@ export const deleteKubernetesNode: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKubernetesNode",
 }));
 
 export type DeleteKubernetesNodePoolError = NotFound | DigitalOceanOpError;
@@ -24044,6 +24405,8 @@ export const deleteKubernetesNodePool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKubernetesNodePool",
 }));
 
 export type DeleteLoadBalancerError = NotFound | DigitalOceanOpError;
@@ -24059,6 +24422,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancer",
 }));
 
 export type DeleteLoadBalancerCacheError = NotFound | DigitalOceanOpError;
@@ -24074,6 +24439,8 @@ export const deleteLoadBalancerCache: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancerCache",
 }));
 
 export type DeleteMcpServerError = NotFound | DigitalOceanOpError;
@@ -24089,6 +24456,8 @@ export const deleteMcpServer: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMcpServer",
 }));
 
 export type DeleteMonitoringAlertPolicyError = NotFound | DigitalOceanOpError;
@@ -24104,6 +24473,8 @@ export const deleteMonitoringAlertPolicy: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitoringAlertPolicy",
 }));
 
 export type DeleteMonitoringDestinationError = NotFound | DigitalOceanOpError;
@@ -24119,6 +24490,8 @@ export const deleteMonitoringDestination: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitoringDestination",
 }));
 
 export type DeleteMonitoringSinkError = NotFound | DigitalOceanOpError;
@@ -24134,6 +24507,8 @@ export const deleteMonitoringSink: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitoringSink",
 }));
 
 export type DeleteNfsError = NotFound | DigitalOceanOpError;
@@ -24149,6 +24524,8 @@ export const deleteNfs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNfs",
 }));
 
 export type DeleteNfsAccessPointError = BadRequest | NotFound | DigitalOceanOpError;
@@ -24164,6 +24541,8 @@ export const deleteNfsAccessPoint: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNfsAccessPoint",
 }));
 
 export type DeleteNfsSnapshotError = NotFound | DigitalOceanOpError;
@@ -24179,6 +24558,8 @@ export const deleteNfsSnapshot: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNfsSnapshot",
 }));
 
 export type DeleteOutputViewError = NotFound | DigitalOceanOpError;
@@ -24194,6 +24575,8 @@ export const deleteOutputView: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOutputView",
 }));
 
 export type DeletePartnerAttachmentError = NotFound | DigitalOceanOpError;
@@ -24209,6 +24592,8 @@ export const deletePartnerAttachment: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePartnerAttachment",
 }));
 
 export type DeleteProjectError = NotFound | DigitalOceanOpError;
@@ -24224,6 +24609,8 @@ export const deleteProject: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteRegistryError = NotFound | DigitalOceanOpError;
@@ -24239,6 +24626,8 @@ export const deleteRegistry: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistry",
 }));
 
 export type DeleteRegistryRepositoryError = NotFound | DigitalOceanOpError;
@@ -24254,6 +24643,8 @@ export const deleteRegistryRepository: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistryRepository",
 }));
 
 export type DeleteRegistryRepositoryManifestError = NotFound | DigitalOceanOpError;
@@ -24269,6 +24660,8 @@ export const deleteRegistryRepositoryManifest: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistryRepositoryManifest",
 }));
 
 export type DeleteRegistryRepositoryTagError = NotFound | DigitalOceanOpError;
@@ -24284,6 +24677,8 @@ export const deleteRegistryRepositoryTag: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistryRepositoryTag",
 }));
 
 export type DeleteReservedIPError = NotFound | DigitalOceanOpError;
@@ -24299,6 +24694,8 @@ export const deleteReservedIP: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReservedIP",
 }));
 
 export type DeleteReservedIPv6Error = NotFound | UnprocessableEntity | DigitalOceanOpError;
@@ -24314,6 +24711,8 @@ export const deleteReservedIPv6: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReservedIPv6",
 }));
 
 export type DeleteSecuritySuppressionError = NotFound | DigitalOceanOpError;
@@ -24329,6 +24728,8 @@ export const deleteSecuritySuppression: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecuritySuppression",
 }));
 
 export type DeleteSessionError = BadRequest | NotFound | DigitalOceanOpError;
@@ -24344,6 +24745,8 @@ export const deleteSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type DeleteSnapshotError = BadRequest | NotFound | DigitalOceanOpError;
@@ -24359,6 +24762,8 @@ export const deleteSnapshot: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteSpacesKeyError = NotFound | DigitalOceanOpError;
@@ -24374,6 +24779,8 @@ export const deleteSpacesKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpacesKey",
 }));
 
 export type DeleteSshKeyError = NotFound | DigitalOceanOpError;
@@ -24389,6 +24796,8 @@ export const deleteSshKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSshKey",
 }));
 
 export type DeleteTagError = NotFound | DigitalOceanOpError;
@@ -24404,6 +24813,8 @@ export const deleteTag: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag",
 }));
 
 export type DeleteToolbeltError = NotFound | DigitalOceanOpError;
@@ -24419,6 +24830,8 @@ export const deleteToolbelt: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToolbelt",
 }));
 
 export type DeleteToolbeltToolsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -24434,6 +24847,8 @@ export const deleteToolbeltTools: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToolbeltTools",
 }));
 
 export type DeleteUptimeAlertError = NotFound | DigitalOceanOpError;
@@ -24449,6 +24864,8 @@ export const deleteUptimeAlert: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUptimeAlert",
 }));
 
 export type DeleteUptimeCheckError = NotFound | DigitalOceanOpError;
@@ -24464,6 +24881,8 @@ export const deleteUptimeCheck: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUptimeCheck",
 }));
 
 export type DeleteVectorDatabaseError = NotFound | DigitalOceanOpError;
@@ -24479,6 +24898,8 @@ export const deleteVectorDatabase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVectorDatabase",
 }));
 
 export type DeleteVolumeError = NotFound | DigitalOceanOpError;
@@ -24494,6 +24915,8 @@ export const deleteVolume: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DeleteVolumeByNameError = NotFound | DigitalOceanOpError;
@@ -24509,6 +24932,8 @@ export const deleteVolumeByName: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeByName",
 }));
 
 export type DeleteVolumeSnapshotByIdError = NotFound | DigitalOceanOpError;
@@ -24524,6 +24949,8 @@ export const deleteVolumeSnapshotById: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeSnapshotById",
 }));
 
 export type DeleteVpcError = NotFound | DigitalOceanOpError;
@@ -24539,6 +24966,8 @@ export const deleteVpc: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpc",
 }));
 
 export type DeleteVpcnatgatewayError = NotFound | DigitalOceanOpError;
@@ -24554,6 +24983,8 @@ export const deleteVpcnatgateway: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpcnatgateway",
 }));
 
 export type DeleteVpcPeeringError = NotFound | DigitalOceanOpError;
@@ -24569,6 +25000,8 @@ export const deleteVpcPeering: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpcPeering",
 }));
 
 export type DeleteVpcSubnetError = NotFound | DigitalOceanOpError;
@@ -24584,6 +25017,8 @@ export const deleteVpcSubnet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpcSubnet",
 }));
 
 export type DeleteVpcSubnetRouteError = NotFound | DigitalOceanOpError;
@@ -24599,6 +25034,8 @@ export const deleteVpcSubnetRoute: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVpcSubnetRoute",
 }));
 
 export type DetachGenaiAgentError = NotFound | DigitalOceanOpError;
@@ -24614,6 +25051,8 @@ export const detachGenaiAgent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachGenaiAgent",
 }));
 
 export type DetachGenaiAgentFunctionError = NotFound | DigitalOceanOpError;
@@ -24629,6 +25068,8 @@ export const detachGenaiAgentFunction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachGenaiAgentFunction",
 }));
 
 export type DetachGenaiAgentGuardrailError = NotFound | DigitalOceanOpError;
@@ -24644,6 +25085,8 @@ export const detachGenaiAgentGuardrail: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachGenaiAgentGuardrail",
 }));
 
 export type DetachGenaiKnowledgeBaseError = NotFound | DigitalOceanOpError;
@@ -24659,6 +25102,8 @@ export const detachGenaiKnowledgeBase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachGenaiKnowledgeBase",
 }));
 
 export type DropletsDestroyError = NotFound | DigitalOceanOpError;
@@ -24674,6 +25119,8 @@ export const dropletsDestroy: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DropletsDestroy",
 }));
 
 export type DropletsDestroyByTagError = NotFound | DigitalOceanOpError;
@@ -24689,6 +25136,8 @@ export const dropletsDestroyByTag: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DropletsDestroyByTag",
 }));
 
 export type DropletsDestroyWithAssociatedResourcesDangerousError = NotFound | DigitalOceanOpError;
@@ -24712,6 +25161,8 @@ export const dropletsDestroyWithAssociatedResourcesDangerous: API.OperationMetho
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DropletsDestroyWithAssociatedResourcesDangerous",
 }));
 
 export type DropletsDestroyWithAssociatedResourcesSelectiveError = NotFound | DigitalOceanOpError;
@@ -24735,6 +25186,8 @@ export const dropletsDestroyWithAssociatedResourcesSelective: API.OperationMetho
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DropletsDestroyWithAssociatedResourcesSelective",
 }));
 
 export type FunctionsCreateTriggerError =
@@ -24754,6 +25207,8 @@ export const functionsCreateTrigger: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionsCreateTrigger",
 }));
 
 export type FunctionsDeleteTriggerError = NotFound | DigitalOceanOpError;
@@ -24769,6 +25224,8 @@ export const functionsDeleteTrigger: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionsDeleteTrigger",
 }));
 
 export type FunctionsGetTriggerError = NotFound | DigitalOceanOpError;
@@ -24784,6 +25241,8 @@ export const functionsGetTrigger: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionsGetTrigger",
 }));
 
 export type FunctionsUpdateTriggerError = BadRequest | NotFound | DigitalOceanOpError;
@@ -24799,6 +25258,8 @@ export const functionsUpdateTrigger: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionsUpdateTrigger",
 }));
 
 export type GenaiCreateDataSourceFileUploadPresignedUrlsError = NotFound | DigitalOceanOpError;
@@ -24818,6 +25279,8 @@ export const genaiCreateDataSourceFileUploadPresignedUrls: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiCreateDataSourceFileUploadPresignedUrls",
 }));
 
 export type GenaiCreateDuplicateScenarioSetError = NotFound | DigitalOceanOpError;
@@ -24833,6 +25296,8 @@ export const genaiCreateDuplicateScenarioSet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiCreateDuplicateScenarioSet",
 }));
 
 export type GenaiCreateEvaluationDatasetFileUploadPresignedUrlsError =
@@ -24854,6 +25319,8 @@ export const genaiCreateEvaluationDatasetFileUploadPresignedUrls: API.OperationM
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiCreateEvaluationDatasetFileUploadPresignedUrls",
 }));
 
 export type GenaiCreateModelEvalDatasetUploadPresignedUrlsError = NotFound | DigitalOceanOpError;
@@ -24873,6 +25340,8 @@ export const genaiCreateModelEvalDatasetUploadPresignedUrls: API.OperationMethod
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiCreateModelEvalDatasetUploadPresignedUrls",
 }));
 
 export type GenaiCreateScenarioSetUploadPresignedUrlsError = NotFound | DigitalOceanOpError;
@@ -24888,6 +25357,8 @@ export const genaiCreateScenarioSetUploadPresignedUrls: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiCreateScenarioSetUploadPresignedUrls",
 }));
 
 export type GenaiGetEvaluationDatasetDownloadUrlError = NotFound | DigitalOceanOpError;
@@ -24903,6 +25374,8 @@ export const genaiGetEvaluationDatasetDownloadUrl: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiGetEvaluationDatasetDownloadUrl",
 }));
 
 export type GenaiGetModelEvaluationRunResultsDownloadUrlError = NotFound | DigitalOceanOpError;
@@ -24922,6 +25395,8 @@ export const genaiGetModelEvaluationRunResultsDownloadUrl: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiGetModelEvaluationRunResultsDownloadUrl",
 }));
 
 export type GenaiGetScenarioSetDownloadUrlError = NotFound | DigitalOceanOpError;
@@ -24937,6 +25412,8 @@ export const genaiGetScenarioSetDownloadUrl: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiGetScenarioSetDownloadUrl",
 }));
 
 export type GenaiPatchCancelSimulationRunError = NotFound | DigitalOceanOpError;
@@ -24952,6 +25429,8 @@ export const genaiPatchCancelSimulationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiPatchCancelSimulationRun",
 }));
 
 export type GenaiRollbackToAgentVersionError = NotFound | DigitalOceanOpError;
@@ -24967,6 +25446,8 @@ export const genaiRollbackToAgentVersion: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenaiRollbackToAgentVersion",
 }));
 
 export type GetAccountError = DigitalOceanOpError;
@@ -24982,6 +25463,8 @@ export const getAccount: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetActionError = NotFound | DigitalOceanOpError;
@@ -24997,6 +25480,8 @@ export const getAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAction",
 }));
 
 export type GetActorLimitError = BadRequest | NotFound | DigitalOceanOpError;
@@ -25012,6 +25497,8 @@ export const getActorLimit: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActorLimit",
 }));
 
 export type GetAddonError = NotFound | DigitalOceanOpError;
@@ -25027,6 +25514,8 @@ export const getAddon: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddon",
 }));
 
 export type GetAddonAppError = DigitalOceanOpError;
@@ -25042,6 +25531,8 @@ export const getAddonApp: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddonApp",
 }));
 
 export type GetAddonAppMetadataError = NotFound | DigitalOceanOpError;
@@ -25057,6 +25548,8 @@ export const getAddonAppMetadata: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddonAppMetadata",
 }));
 
 export type GetAppError = NotFound | DigitalOceanOpError;
@@ -25072,6 +25565,8 @@ export const getApp: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetAppDeploymentError = NotFound | DigitalOceanOpError;
@@ -25087,6 +25582,8 @@ export const getAppDeployment: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppDeployment",
 }));
 
 export type GetAppEventError = NotFound | DigitalOceanOpError;
@@ -25102,6 +25599,8 @@ export const getAppEvent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppEvent",
 }));
 
 export type GetAppEventLogsError = NotFound | DigitalOceanOpError;
@@ -25117,6 +25616,8 @@ export const getAppEventLogs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppEventLogs",
 }));
 
 export type GetAppHealthError = NotFound | DigitalOceanOpError;
@@ -25132,6 +25633,8 @@ export const getAppHealth: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppHealth",
 }));
 
 export type GetAppInstancesError = NotFound | DigitalOceanOpError;
@@ -25147,6 +25650,8 @@ export const getAppInstances: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppInstances",
 }));
 
 export type GetAppInstanceSizeError = NotFound | DigitalOceanOpError;
@@ -25162,6 +25667,8 @@ export const getAppInstanceSize: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppInstanceSize",
 }));
 
 export type GetAppJobInvocationError = NotFound | DigitalOceanOpError;
@@ -25177,6 +25684,8 @@ export const getAppJobInvocation: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppJobInvocation",
 }));
 
 export type GetAppJobInvocationLogsError = NotFound | DigitalOceanOpError;
@@ -25192,6 +25701,8 @@ export const getAppJobInvocationLogs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppJobInvocationLogs",
 }));
 
 export type GetAppLogsError = NotFound | DigitalOceanOpError;
@@ -25207,6 +25718,8 @@ export const getAppLogs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppLogs",
 }));
 
 export type GetAppLogsActiveDeploymentError = NotFound | DigitalOceanOpError;
@@ -25222,6 +25735,8 @@ export const getAppLogsActiveDeployment: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppLogsActiveDeployment",
 }));
 
 export type GetAppLogsActiveDeploymentAggregateError = NotFound | DigitalOceanOpError;
@@ -25237,6 +25752,8 @@ export const getAppLogsActiveDeploymentAggregate: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppLogsActiveDeploymentAggregate",
 }));
 
 export type GetAppLogsAggregateError = NotFound | DigitalOceanOpError;
@@ -25252,6 +25769,8 @@ export const getAppLogsAggregate: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppLogsAggregate",
 }));
 
 export type GetAppMetricsBandwidthDailyError = NotFound | DigitalOceanOpError;
@@ -25267,6 +25786,8 @@ export const getAppMetricsBandwidthDaily: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppMetricsBandwidthDaily",
 }));
 
 export type GetAutoscalepoolError = NotFound | DigitalOceanOpError;
@@ -25282,6 +25803,8 @@ export const getAutoscalepool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoscalepool",
 }));
 
 export type GetBalanceError = NotFound | DigitalOceanOpError;
@@ -25297,6 +25820,8 @@ export const getBalance: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalance",
 }));
 
 export type GetByoipPrefixError = NotFound | UnprocessableEntity | DigitalOceanOpError;
@@ -25312,6 +25837,8 @@ export const getByoipPrefix: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetByoipPrefix",
 }));
 
 export type GetCdnEndpointError = NotFound | DigitalOceanOpError;
@@ -25327,6 +25854,8 @@ export const getCdnEndpoint: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCdnEndpoint",
 }));
 
 export type GetCertificateError = NotFound | DigitalOceanOpError;
@@ -25342,6 +25871,8 @@ export const getCertificate: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type GetConnectionError = NotFound | DigitalOceanOpError;
@@ -25357,6 +25888,8 @@ export const getConnection: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetDatabaseError = NotFound | DigitalOceanOpError;
@@ -25372,6 +25905,8 @@ export const getDatabase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabaseAutoscaleError = NotFound | DigitalOceanOpError;
@@ -25387,6 +25922,8 @@ export const getDatabaseAutoscale: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseAutoscale",
 }));
 
 export type GetDatabaseCaError = NotFound | DigitalOceanOpError;
@@ -25402,6 +25939,8 @@ export const getDatabaseCa: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseCa",
 }));
 
 export type GetDatabaseClusterError = NotFound | DigitalOceanOpError;
@@ -25417,6 +25956,8 @@ export const getDatabaseCluster: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseCluster",
 }));
 
 export type GetDatabaseClusterMetricsCredentialsError = NotFound | DigitalOceanOpError;
@@ -25432,6 +25973,8 @@ export const getDatabaseClusterMetricsCredentials: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseClusterMetricsCredentials",
 }));
 
 export type GetDatabaseConfigError = NotFound | DigitalOceanOpError;
@@ -25447,6 +25990,8 @@ export const getDatabaseConfig: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseConfig",
 }));
 
 export type GetDatabaseConnectionPoolError = NotFound | DigitalOceanOpError;
@@ -25462,6 +26007,8 @@ export const getDatabaseConnectionPool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseConnectionPool",
 }));
 
 export type GetDatabaseDoSettingsError = NotFound | DigitalOceanOpError;
@@ -25477,6 +26024,8 @@ export const getDatabaseDoSettings: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseDoSettings",
 }));
 
 export type GetDatabaseEvictionPolicyError = NotFound | DigitalOceanOpError;
@@ -25492,6 +26041,8 @@ export const getDatabaseEvictionPolicy: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseEvictionPolicy",
 }));
 
 export type GetDatabaseKafkaSchemaError = NotFound | DigitalOceanOpError;
@@ -25507,6 +26058,8 @@ export const getDatabaseKafkaSchema: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseKafkaSchema",
 }));
 
 export type GetDatabaseKafkaSchemaConfigError = NotFound | DigitalOceanOpError;
@@ -25522,6 +26075,8 @@ export const getDatabaseKafkaSchemaConfig: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseKafkaSchemaConfig",
 }));
 
 export type GetDatabaseKafkaSchemaSubjectConfigError = NotFound | DigitalOceanOpError;
@@ -25537,6 +26092,8 @@ export const getDatabaseKafkaSchemaSubjectConfig: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseKafkaSchemaSubjectConfig",
 }));
 
 export type GetDatabaseKafkaSchemaVersionError = NotFound | DigitalOceanOpError;
@@ -25552,6 +26109,8 @@ export const getDatabaseKafkaSchemaVersion: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseKafkaSchemaVersion",
 }));
 
 export type GetDatabaseKafkaTopicError = NotFound | DigitalOceanOpError;
@@ -25567,6 +26126,8 @@ export const getDatabaseKafkaTopic: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseKafkaTopic",
 }));
 
 export type GetDatabaseLogsinkError = NotFound | DigitalOceanOpError;
@@ -25582,6 +26143,8 @@ export const getDatabaseLogsink: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseLogsink",
 }));
 
 export type GetDatabaseMigrationStatusError = NotFound | DigitalOceanOpError;
@@ -25597,6 +26160,8 @@ export const getDatabaseMigrationStatus: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMigrationStatus",
 }));
 
 export type GetDatabaseReplicaError = NotFound | DigitalOceanOpError;
@@ -25612,6 +26177,8 @@ export const getDatabaseReplica: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseReplica",
 }));
 
 export type GetDatabaseSqlModeError = NotFound | DigitalOceanOpError;
@@ -25627,6 +26194,8 @@ export const getDatabaseSqlMode: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSqlMode",
 }));
 
 export type GetDatabaseUserError = NotFound | DigitalOceanOpError;
@@ -25642,6 +26211,8 @@ export const getDatabaseUser: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseUser",
 }));
 
 export type GetDedicatedInferenceError = NotFound | DigitalOceanOpError;
@@ -25657,6 +26228,8 @@ export const getDedicatedInference: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedInference",
 }));
 
 export type GetDedicatedInferenceAcceleratorError = NotFound | DigitalOceanOpError;
@@ -25672,6 +26245,8 @@ export const getDedicatedInferenceAccelerator: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedInferenceAccelerator",
 }));
 
 export type GetDedicatedInferenceCaError = NotFound | DigitalOceanOpError;
@@ -25687,6 +26262,8 @@ export const getDedicatedInferenceCa: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedInferenceCa",
 }));
 
 export type GetDedicatedInferenceGpuModelConfigError = DigitalOceanOpError;
@@ -25702,6 +26279,8 @@ export const getDedicatedInferenceGpuModelConfig: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedInferenceGpuModelConfig",
 }));
 
 export type GetDomainError = NotFound | DigitalOceanOpError;
@@ -25717,6 +26296,8 @@ export const getDomain: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainRecordError = NotFound | DigitalOceanOpError;
@@ -25732,6 +26313,8 @@ export const getDomainRecord: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainRecord",
 }));
 
 export type GetDropletError = NotFound | DigitalOceanOpError;
@@ -25747,6 +26330,8 @@ export const getDroplet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDroplet",
 }));
 
 export type GetDropletActionError = NotFound | DigitalOceanOpError;
@@ -25762,6 +26347,8 @@ export const getDropletAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDropletAction",
 }));
 
 export type GetDropletBackupPolicyError = NotFound | DigitalOceanOpError;
@@ -25777,6 +26364,8 @@ export const getDropletBackupPolicy: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDropletBackupPolicy",
 }));
 
 export type GetDropletDestroyAssociatedResourcesStatusError = NotFound | DigitalOceanOpError;
@@ -25796,6 +26385,8 @@ export const getDropletDestroyAssociatedResourcesStatus: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDropletDestroyAssociatedResourcesStatus",
 }));
 
 export type GetFirewallError = NotFound | DigitalOceanOpError;
@@ -25811,6 +26402,8 @@ export const getFirewall: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewall",
 }));
 
 export type GetFloatingIPError = NotFound | DigitalOceanOpError;
@@ -25826,6 +26419,8 @@ export const getFloatingIP: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloatingIP",
 }));
 
 export type GetFloatingIPsActionError = NotFound | DigitalOceanOpError;
@@ -25841,6 +26436,8 @@ export const getFloatingIPsAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloatingIPsAction",
 }));
 
 export type GetFunctionNamespaceError = Forbidden | NotFound | DigitalOceanOpError;
@@ -25856,6 +26453,8 @@ export const getFunctionNamespace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunctionNamespace",
 }));
 
 export type GetGenaiAgentError = NotFound | DigitalOceanOpError;
@@ -25871,6 +26470,8 @@ export const getGenaiAgent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiAgent",
 }));
 
 export type GetGenaiAgentChildrenError = NotFound | DigitalOceanOpError;
@@ -25886,6 +26487,8 @@ export const getGenaiAgentChildren: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiAgentChildren",
 }));
 
 export type GetGenaiAgentUsageError = NotFound | DigitalOceanOpError;
@@ -25901,6 +26504,8 @@ export const getGenaiAgentUsage: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiAgentUsage",
 }));
 
 export type GetGenaiAnthropicApiKeyError = NotFound | DigitalOceanOpError;
@@ -25916,6 +26521,8 @@ export const getGenaiAnthropicApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiAnthropicApiKey",
 }));
 
 export type GetGenaiCustomModelError = NotFound | DigitalOceanOpError;
@@ -25931,6 +26538,8 @@ export const getGenaiCustomModel: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiCustomModel",
 }));
 
 export type GetGenaiEvaluationRunError = NotFound | DigitalOceanOpError;
@@ -25946,6 +26555,8 @@ export const getGenaiEvaluationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiEvaluationRun",
 }));
 
 export type GetGenaiEvaluationRunPromptResultsError = NotFound | DigitalOceanOpError;
@@ -25961,6 +26572,8 @@ export const getGenaiEvaluationRunPromptResults: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiEvaluationRunPromptResults",
 }));
 
 export type GetGenaiEvaluationRunResultsError = NotFound | DigitalOceanOpError;
@@ -25976,6 +26589,8 @@ export const getGenaiEvaluationRunResults: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiEvaluationRunResults",
 }));
 
 export type GetGenaiEvaluationTestCaseError = NotFound | DigitalOceanOpError;
@@ -25991,6 +26606,8 @@ export const getGenaiEvaluationTestCase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiEvaluationTestCase",
 }));
 
 export type GetGenaiIndexingJobError = NotFound | DigitalOceanOpError;
@@ -26006,6 +26623,8 @@ export const getGenaiIndexingJob: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiIndexingJob",
 }));
 
 export type GetGenaiIndexingJobDetailsSignedUrlError = NotFound | DigitalOceanOpError;
@@ -26021,6 +26640,8 @@ export const getGenaiIndexingJobDetailsSignedUrl: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiIndexingJobDetailsSignedUrl",
 }));
 
 export type GetGenaiKnowledgeBaseError = NotFound | DigitalOceanOpError;
@@ -26036,6 +26657,8 @@ export const getGenaiKnowledgeBase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiKnowledgeBase",
 }));
 
 export type GetGenaiModelCatalogCardError = NotFound | DigitalOceanOpError;
@@ -26051,6 +26674,8 @@ export const getGenaiModelCatalogCard: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiModelCatalogCard",
 }));
 
 export type GetGenaiModelEvaluationPresetError = NotFound | DigitalOceanOpError;
@@ -26066,6 +26691,8 @@ export const getGenaiModelEvaluationPreset: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiModelEvaluationPreset",
 }));
 
 export type GetGenaiModelEvaluationRunError = NotFound | DigitalOceanOpError;
@@ -26081,6 +26708,8 @@ export const getGenaiModelEvaluationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiModelEvaluationRun",
 }));
 
 export type GetGenaiModelRouterError = NotFound | DigitalOceanOpError;
@@ -26096,6 +26725,8 @@ export const getGenaiModelRouter: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiModelRouter",
 }));
 
 export type GetGenaiOauth2UrlError = NotFound | DigitalOceanOpError;
@@ -26111,6 +26742,8 @@ export const getGenaiOauth2Url: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiOauth2Url",
 }));
 
 export type GetGenaiOpenaiApiKeyError = NotFound | DigitalOceanOpError;
@@ -26126,6 +26759,8 @@ export const getGenaiOpenaiApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiOpenaiApiKey",
 }));
 
 export type GetGenaiScenarioSetError = NotFound | DigitalOceanOpError;
@@ -26141,6 +26776,8 @@ export const getGenaiScenarioSet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiScenarioSet",
 }));
 
 export type GetGenaiScheduledIndexingError = NotFound | DigitalOceanOpError;
@@ -26156,6 +26793,8 @@ export const getGenaiScheduledIndexing: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiScheduledIndexing",
 }));
 
 export type GetGenaiSimulationJourneyError = NotFound | DigitalOceanOpError;
@@ -26171,6 +26810,8 @@ export const getGenaiSimulationJourney: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiSimulationJourney",
 }));
 
 export type GetGenaiSimulationJourneyTrajectoryError = NotFound | DigitalOceanOpError;
@@ -26186,6 +26827,8 @@ export const getGenaiSimulationJourneyTrajectory: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiSimulationJourneyTrajectory",
 }));
 
 export type GetGenaiSimulationJourneyTrajectoryUrlError = NotFound | DigitalOceanOpError;
@@ -26201,6 +26844,8 @@ export const getGenaiSimulationJourneyTrajectoryUrl: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiSimulationJourneyTrajectoryUrl",
 }));
 
 export type GetGenaiSimulationRunError = NotFound | DigitalOceanOpError;
@@ -26216,6 +26861,8 @@ export const getGenaiSimulationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiSimulationRun",
 }));
 
 export type GetGenaiWorkspaceError = NotFound | DigitalOceanOpError;
@@ -26231,6 +26878,8 @@ export const getGenaiWorkspace: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenaiWorkspace",
 }));
 
 export type GetImageError = NotFound | DigitalOceanOpError;
@@ -26246,6 +26895,8 @@ export const getImage: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetImageActionError = NotFound | DigitalOceanOpError;
@@ -26261,6 +26912,8 @@ export const getImageAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImageAction",
 }));
 
 export type GetInferenceBatchError = Forbidden | NotFound | DigitalOceanOpError;
@@ -26276,6 +26929,8 @@ export const getInferenceBatch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInferenceBatch",
 }));
 
 export type GetInferenceBatchResultsError = Forbidden | NotFound | DigitalOceanOpError;
@@ -26291,6 +26946,8 @@ export const getInferenceBatchResults: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInferenceBatchResults",
 }));
 
 export type GetInsightAlertInstanceError = NotFound | DigitalOceanOpError;
@@ -26306,6 +26963,8 @@ export const getInsightAlertInstance: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightAlertInstance",
 }));
 
 export type GetInsightAlertRuleError = NotFound | DigitalOceanOpError;
@@ -26321,6 +26980,8 @@ export const getInsightAlertRule: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightAlertRule",
 }));
 
 export type GetInsightNotificationChannelError = NotFound | DigitalOceanOpError;
@@ -26336,6 +26997,8 @@ export const getInsightNotificationChannel: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightNotificationChannel",
 }));
 
 export type GetInsightPromLabelsError =
@@ -26356,6 +27019,8 @@ export const getInsightPromLabels: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightPromLabels",
 }));
 
 export type GetInsightPromLabelValuesError =
@@ -26376,6 +27041,8 @@ export const getInsightPromLabelValues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightPromLabelValues",
 }));
 
 export type GetInsightPromQueryError =
@@ -26396,6 +27063,8 @@ export const getInsightPromQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightPromQuery",
 }));
 
 export type GetInsightPromQueryRangeError =
@@ -26416,6 +27085,8 @@ export const getInsightPromQueryRange: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightPromQueryRange",
 }));
 
 export type GetInsightPromSeriesError =
@@ -26436,6 +27107,8 @@ export const getInsightPromSeries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightPromSeries",
 }));
 
 export type GetInvoiceByUUIDError = NotFound | DigitalOceanOpError;
@@ -26451,6 +27124,8 @@ export const getInvoiceByUUID: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceByUUID",
 }));
 
 export type GetInvoiceCsvByUUIDError = NotFound | DigitalOceanOpError;
@@ -26466,6 +27141,8 @@ export const getInvoiceCsvByUUID: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceCsvByUUID",
 }));
 
 export type GetInvoicePdfByUUIDError = NotFound | DigitalOceanOpError;
@@ -26481,6 +27158,8 @@ export const getInvoicePdfByUUID: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoicePdfByUUID",
 }));
 
 export type GetInvoiceSummaryByUUIDError = NotFound | DigitalOceanOpError;
@@ -26496,6 +27175,8 @@ export const getInvoiceSummaryByUUID: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceSummaryByUUID",
 }));
 
 export type GetKubernetesAvailableUpgradesError = NotFound | DigitalOceanOpError;
@@ -26511,6 +27192,8 @@ export const getKubernetesAvailableUpgrades: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesAvailableUpgrades",
 }));
 
 export type GetKubernetesClusterError = NotFound | DigitalOceanOpError;
@@ -26526,6 +27209,8 @@ export const getKubernetesCluster: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesCluster",
 }));
 
 export type GetKubernetesClusterLintResultsError = NotFound | DigitalOceanOpError;
@@ -26541,6 +27226,8 @@ export const getKubernetesClusterLintResults: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesClusterLintResults",
 }));
 
 export type GetKubernetesClusterUserError = NotFound | DigitalOceanOpError;
@@ -26556,6 +27243,8 @@ export const getKubernetesClusterUser: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesClusterUser",
 }));
 
 export type GetKubernetesCredentialsError = NotFound | DigitalOceanOpError;
@@ -26571,6 +27260,8 @@ export const getKubernetesCredentials: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesCredentials",
 }));
 
 export type GetKubernetesKubeconfigError = NotFound | DigitalOceanOpError;
@@ -26586,6 +27277,8 @@ export const getKubernetesKubeconfig: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesKubeconfig",
 }));
 
 export type GetKubernetesNodePoolError = NotFound | DigitalOceanOpError;
@@ -26601,6 +27294,8 @@ export const getKubernetesNodePool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesNodePool",
 }));
 
 export type GetKubernetesStatusMessagesError = NotFound | DigitalOceanOpError;
@@ -26616,6 +27311,8 @@ export const getKubernetesStatusMessages: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesStatusMessages",
 }));
 
 export type GetLoadBalancerError = NotFound | DigitalOceanOpError;
@@ -26631,6 +27328,8 @@ export const getLoadBalancer: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancer",
 }));
 
 export type GetMcpServerError = NotFound | DigitalOceanOpError;
@@ -26646,6 +27345,8 @@ export const getMcpServer: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpServer",
 }));
 
 export type GetMonitoringAlertPolicyError = NotFound | DigitalOceanOpError;
@@ -26661,6 +27362,8 @@ export const getMonitoringAlertPolicy: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringAlertPolicy",
 }));
 
 export type GetMonitoringAppCPUPercentageMetricsError = DigitalOceanOpError;
@@ -26676,6 +27379,8 @@ export const getMonitoringAppCPUPercentageMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringAppCPUPercentageMetrics",
 }));
 
 export type GetMonitoringAppMemoryPercentageMetricsError = DigitalOceanOpError;
@@ -26691,6 +27396,8 @@ export const getMonitoringAppMemoryPercentageMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringAppMemoryPercentageMetrics",
 }));
 
 export type GetMonitoringDatabaseMysqlCpuUsageError = NotFound | DigitalOceanOpError;
@@ -26706,6 +27413,8 @@ export const getMonitoringDatabaseMysqlCpuUsage: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlCpuUsage",
 }));
 
 export type GetMonitoringDatabaseMysqlDiskUsageError = NotFound | DigitalOceanOpError;
@@ -26721,6 +27430,8 @@ export const getMonitoringDatabaseMysqlDiskUsage: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlDiskUsage",
 }));
 
 export type GetMonitoringDatabaseMysqlLoadError = NotFound | DigitalOceanOpError;
@@ -26736,6 +27447,8 @@ export const getMonitoringDatabaseMysqlLoad: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlLoad",
 }));
 
 export type GetMonitoringDatabaseMysqlMemoryUsageError = NotFound | DigitalOceanOpError;
@@ -26751,6 +27464,8 @@ export const getMonitoringDatabaseMysqlMemoryUsage: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlMemoryUsage",
 }));
 
 export type GetMonitoringDatabaseMysqlOpRatesError = NotFound | DigitalOceanOpError;
@@ -26766,6 +27481,8 @@ export const getMonitoringDatabaseMysqlOpRates: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlOpRates",
 }));
 
 export type GetMonitoringDatabaseMysqlSchemaLatencyError = NotFound | DigitalOceanOpError;
@@ -26781,6 +27498,8 @@ export const getMonitoringDatabaseMysqlSchemaLatency: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlSchemaLatency",
 }));
 
 export type GetMonitoringDatabaseMysqlSchemaThroughputError = NotFound | DigitalOceanOpError;
@@ -26800,6 +27519,8 @@ export const getMonitoringDatabaseMysqlSchemaThroughput: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlSchemaThroughput",
 }));
 
 export type GetMonitoringDatabaseMysqlThreadsActiveError = NotFound | DigitalOceanOpError;
@@ -26815,6 +27536,8 @@ export const getMonitoringDatabaseMysqlThreadsActive: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlThreadsActive",
 }));
 
 export type GetMonitoringDatabaseMysqlThreadsConnectedError = NotFound | DigitalOceanOpError;
@@ -26834,6 +27557,8 @@ export const getMonitoringDatabaseMysqlThreadsConnected: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlThreadsConnected",
 }));
 
 export type GetMonitoringDatabaseMysqlThreadsCreatedRateError = NotFound | DigitalOceanOpError;
@@ -26853,6 +27578,8 @@ export const getMonitoringDatabaseMysqlThreadsCreatedRate: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDatabaseMysqlThreadsCreatedRate",
 }));
 
 export type GetMonitoringDestinationError = NotFound | DigitalOceanOpError;
@@ -26868,6 +27595,8 @@ export const getMonitoringDestination: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDestination",
 }));
 
 export type GetMonitoringDropletAutoscaleCurrentCpuUtilizationYmlError = DigitalOceanOpError;
@@ -26887,6 +27616,8 @@ export const getMonitoringDropletAutoscaleCurrentCpuUtilizationYml: API.Operatio
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletAutoscaleCurrentCpuUtilizationYml",
 }));
 
 export type GetMonitoringDropletAutoscaleCurrentInstancesError = DigitalOceanOpError;
@@ -26906,6 +27637,8 @@ export const getMonitoringDropletAutoscaleCurrentInstances: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletAutoscaleCurrentInstances",
 }));
 
 export type GetMonitoringDropletAutoscaleCurrentMemoryUtilizationError = DigitalOceanOpError;
@@ -26925,6 +27658,8 @@ export const getMonitoringDropletAutoscaleCurrentMemoryUtilization: API.Operatio
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletAutoscaleCurrentMemoryUtilization",
 }));
 
 export type GetMonitoringDropletAutoscaleTargetCpuUtilizationError = DigitalOceanOpError;
@@ -26944,6 +27679,8 @@ export const getMonitoringDropletAutoscaleTargetCpuUtilization: API.OperationMet
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletAutoscaleTargetCpuUtilization",
 }));
 
 export type GetMonitoringDropletAutoscaleTargetInstancesError = DigitalOceanOpError;
@@ -26963,6 +27700,8 @@ export const getMonitoringDropletAutoscaleTargetInstances: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletAutoscaleTargetInstances",
 }));
 
 export type GetMonitoringDropletAutoscaleTargetMemoryUtilizationError = DigitalOceanOpError;
@@ -26982,6 +27721,8 @@ export const getMonitoringDropletAutoscaleTargetMemoryUtilization: API.Operation
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletAutoscaleTargetMemoryUtilization",
 }));
 
 export type GetMonitoringDropletBandwidthMetricsError = DigitalOceanOpError;
@@ -26997,6 +27738,8 @@ export const getMonitoringDropletBandwidthMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletBandwidthMetrics",
 }));
 
 export type GetMonitoringDropletCpuMetricsError = DigitalOceanOpError;
@@ -27012,6 +27755,8 @@ export const getMonitoringDropletCpuMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletCpuMetrics",
 }));
 
 export type GetMonitoringDropletFilesystemFreeMetricsError = DigitalOceanOpError;
@@ -27027,6 +27772,8 @@ export const getMonitoringDropletFilesystemFreeMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletFilesystemFreeMetrics",
 }));
 
 export type GetMonitoringDropletFilesystemSizeMetricsError = DigitalOceanOpError;
@@ -27042,6 +27789,8 @@ export const getMonitoringDropletFilesystemSizeMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletFilesystemSizeMetrics",
 }));
 
 export type GetMonitoringDropletLoad15MetricsError = DigitalOceanOpError;
@@ -27057,6 +27806,8 @@ export const getMonitoringDropletLoad15Metrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletLoad15Metrics",
 }));
 
 export type GetMonitoringDropletLoad1MetricsError = DigitalOceanOpError;
@@ -27072,6 +27823,8 @@ export const getMonitoringDropletLoad1Metrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletLoad1Metrics",
 }));
 
 export type GetMonitoringDropletLoad5MetricsError = DigitalOceanOpError;
@@ -27087,6 +27840,8 @@ export const getMonitoringDropletLoad5Metrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletLoad5Metrics",
 }));
 
 export type GetMonitoringDropletMemoryAvailableMetricsError = DigitalOceanOpError;
@@ -27106,6 +27861,8 @@ export const getMonitoringDropletMemoryAvailableMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletMemoryAvailableMetrics",
 }));
 
 export type GetMonitoringDropletMemoryCachedMetricsError = DigitalOceanOpError;
@@ -27121,6 +27878,8 @@ export const getMonitoringDropletMemoryCachedMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletMemoryCachedMetrics",
 }));
 
 export type GetMonitoringDropletMemoryFreeMetricsError = DigitalOceanOpError;
@@ -27136,6 +27895,8 @@ export const getMonitoringDropletMemoryFreeMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletMemoryFreeMetrics",
 }));
 
 export type GetMonitoringDropletMemoryTotalMetricsError = DigitalOceanOpError;
@@ -27151,6 +27912,8 @@ export const getMonitoringDropletMemoryTotalMetrics: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringDropletMemoryTotalMetrics",
 }));
 
 export type GetMonitoringLbDropletsConnectionsError = DigitalOceanOpError;
@@ -27166,6 +27929,8 @@ export const getMonitoringLbDropletsConnections: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsConnections",
 }));
 
 export type GetMonitoringLbDropletsDowntimeError = DigitalOceanOpError;
@@ -27181,6 +27946,8 @@ export const getMonitoringLbDropletsDowntime: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsDowntime",
 }));
 
 export type GetMonitoringLbDropletsHealthChecksError = DigitalOceanOpError;
@@ -27196,6 +27963,8 @@ export const getMonitoringLbDropletsHealthChecks: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHealthChecks",
 }));
 
 export type GetMonitoringLbDropletsHttpResponsesError = DigitalOceanOpError;
@@ -27211,6 +27980,8 @@ export const getMonitoringLbDropletsHttpResponses: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHttpResponses",
 }));
 
 export type GetMonitoringLbDropletsHttpResponseTime50pError = DigitalOceanOpError;
@@ -27230,6 +28001,8 @@ export const getMonitoringLbDropletsHttpResponseTime50p: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHttpResponseTime50p",
 }));
 
 export type GetMonitoringLbDropletsHttpResponseTime95pError = DigitalOceanOpError;
@@ -27249,6 +28022,8 @@ export const getMonitoringLbDropletsHttpResponseTime95p: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHttpResponseTime95p",
 }));
 
 export type GetMonitoringLbDropletsHttpResponseTime99pError = DigitalOceanOpError;
@@ -27268,6 +28043,8 @@ export const getMonitoringLbDropletsHttpResponseTime99p: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHttpResponseTime99p",
 }));
 
 export type GetMonitoringLbDropletsHttpResponseTimeAvgError = DigitalOceanOpError;
@@ -27287,6 +28064,8 @@ export const getMonitoringLbDropletsHttpResponseTimeAvg: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHttpResponseTimeAvg",
 }));
 
 export type GetMonitoringLbDropletsHttpSessionDuration50pError = DigitalOceanOpError;
@@ -27306,6 +28085,8 @@ export const getMonitoringLbDropletsHttpSessionDuration50p: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHttpSessionDuration50p",
 }));
 
 export type GetMonitoringLbDropletsHttpSessionDuration95pError = DigitalOceanOpError;
@@ -27325,6 +28106,8 @@ export const getMonitoringLbDropletsHttpSessionDuration95p: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHttpSessionDuration95p",
 }));
 
 export type GetMonitoringLbDropletsHttpSessionDurationAvgError = DigitalOceanOpError;
@@ -27344,6 +28127,8 @@ export const getMonitoringLbDropletsHttpSessionDurationAvg: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsHttpSessionDurationAvg",
 }));
 
 export type GetMonitoringLbDropletsQueueSizeError = DigitalOceanOpError;
@@ -27359,6 +28144,8 @@ export const getMonitoringLbDropletsQueueSize: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbDropletsQueueSize",
 }));
 
 export type GetMonitoringLbFrontendConnectionsCurrentError = DigitalOceanOpError;
@@ -27374,6 +28161,8 @@ export const getMonitoringLbFrontendConnectionsCurrent: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendConnectionsCurrent",
 }));
 
 export type GetMonitoringLbFrontendConnectionsLimitError = DigitalOceanOpError;
@@ -27389,6 +28178,8 @@ export const getMonitoringLbFrontendConnectionsLimit: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendConnectionsLimit",
 }));
 
 export type GetMonitoringLbFrontendCpuUtilizationError = DigitalOceanOpError;
@@ -27404,6 +28195,8 @@ export const getMonitoringLbFrontendCpuUtilization: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendCpuUtilization",
 }));
 
 export type GetMonitoringLbFrontendFirewallDroppedBytesError = DigitalOceanOpError;
@@ -27423,6 +28216,8 @@ export const getMonitoringLbFrontendFirewallDroppedBytes: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendFirewallDroppedBytes",
 }));
 
 export type GetMonitoringLbFrontendFirewallDroppedPacketsError = DigitalOceanOpError;
@@ -27442,6 +28237,8 @@ export const getMonitoringLbFrontendFirewallDroppedPackets: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendFirewallDroppedPackets",
 }));
 
 export type GetMonitoringLbFrontendHttpRequestsPerSecondError = DigitalOceanOpError;
@@ -27461,6 +28258,8 @@ export const getMonitoringLbFrontendHttpRequestsPerSecond: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendHttpRequestsPerSecond",
 }));
 
 export type GetMonitoringLbFrontendHttpResponsesError = DigitalOceanOpError;
@@ -27476,6 +28275,8 @@ export const getMonitoringLbFrontendHttpResponses: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendHttpResponses",
 }));
 
 export type GetMonitoringLbFrontendNetworkThroughputHttpError = DigitalOceanOpError;
@@ -27495,6 +28296,8 @@ export const getMonitoringLbFrontendNetworkThroughputHttp: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendNetworkThroughputHttp",
 }));
 
 export type GetMonitoringLbFrontendNetworkThroughputTcpError = DigitalOceanOpError;
@@ -27514,6 +28317,8 @@ export const getMonitoringLbFrontendNetworkThroughputTcp: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendNetworkThroughputTcp",
 }));
 
 export type GetMonitoringLbFrontendNetworkThroughputUdpError = DigitalOceanOpError;
@@ -27533,6 +28338,8 @@ export const getMonitoringLbFrontendNetworkThroughputUdp: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendNetworkThroughputUdp",
 }));
 
 export type GetMonitoringLbFrontendNlbTcpNetworkThroughputError = DigitalOceanOpError;
@@ -27552,6 +28359,8 @@ export const getMonitoringLbFrontendNlbTcpNetworkThroughput: API.OperationMethod
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendNlbTcpNetworkThroughput",
 }));
 
 export type GetMonitoringLbFrontendNlbUdpNetworkThroughputError = DigitalOceanOpError;
@@ -27571,6 +28380,8 @@ export const getMonitoringLbFrontendNlbUdpNetworkThroughput: API.OperationMethod
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendNlbUdpNetworkThroughput",
 }));
 
 export type GetMonitoringLbFrontendTlsConnectionsCurrentError = DigitalOceanOpError;
@@ -27590,6 +28401,8 @@ export const getMonitoringLbFrontendTlsConnectionsCurrent: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendTlsConnectionsCurrent",
 }));
 
 export type GetMonitoringLbFrontendTlsConnectionsExceedingRateLimitError = DigitalOceanOpError;
@@ -27609,6 +28422,8 @@ export const getMonitoringLbFrontendTlsConnectionsExceedingRateLimit: API.Operat
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendTlsConnectionsExceedingRateLimit",
 }));
 
 export type GetMonitoringLbFrontendTlsConnectionsLimitError = DigitalOceanOpError;
@@ -27628,6 +28443,8 @@ export const getMonitoringLbFrontendTlsConnectionsLimit: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringLbFrontendTlsConnectionsLimit",
 }));
 
 export type GetMonitoringSinkError = NotFound | DigitalOceanOpError;
@@ -27643,6 +28460,8 @@ export const getMonitoringSink: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringSink",
 }));
 
 export type GetNfsError = NotFound | DigitalOceanOpError;
@@ -27658,6 +28477,8 @@ export const getNfs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNfs",
 }));
 
 export type GetNfsAccessPointError = NotFound | DigitalOceanOpError;
@@ -27673,6 +28494,8 @@ export const getNfsAccessPoint: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNfsAccessPoint",
 }));
 
 export type GetNfsSnapshotError = NotFound | DigitalOceanOpError;
@@ -27688,6 +28511,8 @@ export const getNfsSnapshot: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNfsSnapshot",
 }));
 
 export type GetOutputViewError = NotFound | DigitalOceanOpError;
@@ -27703,6 +28528,8 @@ export const getOutputView: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOutputView",
 }));
 
 export type GetPartnerAttachmentError = NotFound | DigitalOceanOpError;
@@ -27718,6 +28545,8 @@ export const getPartnerAttachment: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerAttachment",
 }));
 
 export type GetPartnerAttachmentBgpAuthKeyError = NotFound | DigitalOceanOpError;
@@ -27733,6 +28562,8 @@ export const getPartnerAttachmentBgpAuthKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerAttachmentBgpAuthKey",
 }));
 
 export type GetPartnerAttachmentServiceKeyError = NotFound | DigitalOceanOpError;
@@ -27748,6 +28579,8 @@ export const getPartnerAttachmentServiceKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerAttachmentServiceKey",
 }));
 
 export type GetPrepaymentConfigError = NotFound | DigitalOceanOpError;
@@ -27763,6 +28596,8 @@ export const getPrepaymentConfig: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrepaymentConfig",
 }));
 
 export type GetPrepaymentStatusError = NotFound | DigitalOceanOpError;
@@ -27778,6 +28613,8 @@ export const getPrepaymentStatus: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrepaymentStatus",
 }));
 
 export type GetProjectError = NotFound | DigitalOceanOpError;
@@ -27793,6 +28630,8 @@ export const getProject: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectDefaultError = NotFound | DigitalOceanOpError;
@@ -27808,6 +28647,8 @@ export const getProjectDefault: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectDefault",
 }));
 
 export type GetRegistryError = NotFound | DigitalOceanOpError;
@@ -27823,6 +28664,8 @@ export const getRegistry: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistry",
 }));
 
 export type GetRegistryDockerCredentialsError = NotFound | DigitalOceanOpError;
@@ -27838,6 +28681,8 @@ export const getRegistryDockerCredentials: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistryDockerCredentials",
 }));
 
 export type GetRegistryGarbageCollectionError = NotFound | DigitalOceanOpError;
@@ -27853,6 +28698,8 @@ export const getRegistryGarbageCollection: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistryGarbageCollection",
 }));
 
 export type GetRegistryOptionsError = DigitalOceanOpError;
@@ -27868,6 +28715,8 @@ export const getRegistryOptions: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistryOptions",
 }));
 
 export type GetRegistrySubscriptionError = DigitalOceanOpError;
@@ -27883,6 +28732,8 @@ export const getRegistrySubscription: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistrySubscription",
 }));
 
 export type GetReservedIPError = NotFound | DigitalOceanOpError;
@@ -27898,6 +28749,8 @@ export const getReservedIP: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReservedIP",
 }));
 
 export type GetReservedIPsActionError = NotFound | DigitalOceanOpError;
@@ -27913,6 +28766,8 @@ export const getReservedIPsAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReservedIPsAction",
 }));
 
 export type GetReservedIPv6Error = NotFound | DigitalOceanOpError;
@@ -27928,6 +28783,8 @@ export const getReservedIPv6: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReservedIPv6",
 }));
 
 export type GetSecurityLatestScanError = NotFound | DigitalOceanOpError;
@@ -27943,6 +28800,8 @@ export const getSecurityLatestScan: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityLatestScan",
 }));
 
 export type GetSecurityScanError = NotFound | DigitalOceanOpError;
@@ -27958,6 +28817,8 @@ export const getSecurityScan: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityScan",
 }));
 
 export type GetSnapshotError = BadRequest | NotFound | DigitalOceanOpError;
@@ -27973,6 +28834,8 @@ export const getSnapshot: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type GetSpacesKeyError = NotFound | DigitalOceanOpError;
@@ -27988,6 +28851,8 @@ export const getSpacesKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpacesKey",
 }));
 
 export type GetSshKeyError = NotFound | DigitalOceanOpError;
@@ -28003,6 +28868,8 @@ export const getSshKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSshKey",
 }));
 
 export type GetTagError = NotFound | DigitalOceanOpError;
@@ -28018,6 +28885,8 @@ export const getTag: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTag",
 }));
 
 export type GetToolbeltError = BadRequest | NotFound | DigitalOceanOpError;
@@ -28033,6 +28902,8 @@ export const getToolbelt: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetToolbelt",
 }));
 
 export type GetToolHealthError = BadRequest | NotFound | DigitalOceanOpError;
@@ -28048,6 +28919,8 @@ export const getToolHealth: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetToolHealth",
 }));
 
 export type GetUptimeAlertError = NotFound | DigitalOceanOpError;
@@ -28063,6 +28936,8 @@ export const getUptimeAlert: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUptimeAlert",
 }));
 
 export type GetUptimeCheckError = NotFound | DigitalOceanOpError;
@@ -28078,6 +28953,8 @@ export const getUptimeCheck: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUptimeCheck",
 }));
 
 export type GetUptimeCheckStateError = NotFound | DigitalOceanOpError;
@@ -28093,6 +28970,8 @@ export const getUptimeCheckState: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUptimeCheckState",
 }));
 
 export type GetUserError = NotFound | DigitalOceanOpError;
@@ -28108,6 +28987,8 @@ export const getUser: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetVectorDatabaseError = NotFound | DigitalOceanOpError;
@@ -28123,6 +29004,8 @@ export const getVectorDatabase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVectorDatabase",
 }));
 
 export type GetVectorDatabaseCredentialsError = NotFound | DigitalOceanOpError;
@@ -28138,6 +29021,8 @@ export const getVectorDatabaseCredentials: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVectorDatabaseCredentials",
 }));
 
 export type GetVolumeError = NotFound | DigitalOceanOpError;
@@ -28153,6 +29038,8 @@ export const getVolume: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolume",
 }));
 
 export type GetVolumeActionError = NotFound | DigitalOceanOpError;
@@ -28168,6 +29055,8 @@ export const getVolumeAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeAction",
 }));
 
 export type GetVolumeSnapshotByIdError = NotFound | DigitalOceanOpError;
@@ -28183,6 +29072,8 @@ export const getVolumeSnapshotById: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeSnapshotById",
 }));
 
 export type GetVpcError = NotFound | DigitalOceanOpError;
@@ -28198,6 +29089,8 @@ export const getVpc: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpc",
 }));
 
 export type GetVpcnatgatewayError = NotFound | DigitalOceanOpError;
@@ -28213,6 +29106,8 @@ export const getVpcnatgateway: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpcnatgateway",
 }));
 
 export type GetVpcPeeringError = NotFound | DigitalOceanOpError;
@@ -28228,6 +29123,8 @@ export const getVpcPeering: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpcPeering",
 }));
 
 export type GetVpcSubnetError = NotFound | DigitalOceanOpError;
@@ -28243,6 +29140,8 @@ export const getVpcSubnet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpcSubnet",
 }));
 
 export type ImagesPostAccountTransferAcceptError = BadRequest | NotFound | DigitalOceanOpError;
@@ -28258,6 +29157,8 @@ export const imagesPostAccountTransferAccept: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImagesPostAccountTransferAccept",
 }));
 
 export type ImagesPostAccountTransferCancelError = BadRequest | NotFound | DigitalOceanOpError;
@@ -28273,6 +29174,8 @@ export const imagesPostAccountTransferCancel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImagesPostAccountTransferCancel",
 }));
 
 export type ImagesPostAccountTransferCreate2Error = BadRequest | NotFound | DigitalOceanOpError;
@@ -28288,6 +29191,8 @@ export const imagesPostAccountTransferCreate2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImagesPostAccountTransferCreate2",
 }));
 
 export type ImportGenaiCustomModelError = NotFound | DigitalOceanOpError;
@@ -28303,6 +29208,8 @@ export const importGenaiCustomModel: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportGenaiCustomModel",
 }));
 
 export type InferenceCreateAsyncInvokeError = DigitalOceanOpError;
@@ -28318,6 +29225,8 @@ export const inferenceCreateAsyncInvoke: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InferenceCreateAsyncInvoke",
 }));
 
 export type InsightsPostLogsSearchError = BadRequest | Forbidden | NotFound | DigitalOceanOpError;
@@ -28333,6 +29242,8 @@ export const insightsPostLogsSearch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightsPostLogsSearch",
 }));
 
 export type InstallOneClickKubernetesError = DigitalOceanOpError;
@@ -28348,6 +29259,8 @@ export const installOneClickKubernetes: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallOneClickKubernetes",
 }));
 
 export type KubernetesDestroyAssociatedResourcesDangerousError = NotFound | DigitalOceanOpError;
@@ -28371,6 +29284,8 @@ export const kubernetesDestroyAssociatedResourcesDangerous: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KubernetesDestroyAssociatedResourcesDangerous",
 }));
 
 export type KubernetesDestroyAssociatedResourcesSelectiveError = NotFound | DigitalOceanOpError;
@@ -28394,6 +29309,8 @@ export const kubernetesDestroyAssociatedResourcesSelective: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KubernetesDestroyAssociatedResourcesSelective",
 }));
 
 export type KubernetesUpgradeClusterError = NotFound | DigitalOceanOpError;
@@ -28409,6 +29326,8 @@ export const kubernetesUpgradeCluster: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KubernetesUpgradeCluster",
 }));
 
 export type ListActionsError = DigitalOceanOpError;
@@ -28424,6 +29343,8 @@ export const listActions: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActions",
 }));
 
 export type ListAddonsError = DigitalOceanOpError;
@@ -28439,6 +29360,8 @@ export const listAddons: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAddons",
 }));
 
 export type ListAppAlertsError = NotFound | DigitalOceanOpError;
@@ -28454,6 +29377,8 @@ export const listAppAlerts: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppAlerts",
 }));
 
 export type ListAppDeploymentsError = NotFound | DigitalOceanOpError;
@@ -28469,6 +29394,8 @@ export const listAppDeployments: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppDeployments",
 }));
 
 export type ListAppEventsError = NotFound | DigitalOceanOpError;
@@ -28484,6 +29411,8 @@ export const listAppEvents: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppEvents",
 }));
 
 export type ListAppInstanceSizesError = DigitalOceanOpError;
@@ -28499,6 +29428,8 @@ export const listAppInstanceSizes: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceSizes",
 }));
 
 export type ListAppJobInvocationsError = NotFound | DigitalOceanOpError;
@@ -28514,6 +29445,8 @@ export const listAppJobInvocations: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppJobInvocations",
 }));
 
 export type ListAppMetricsBandwidthDailyError = NotFound | DigitalOceanOpError;
@@ -28529,6 +29462,8 @@ export const listAppMetricsBandwidthDaily: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppMetricsBandwidthDaily",
 }));
 
 export type ListAppRegionsError = DigitalOceanOpError;
@@ -28544,6 +29479,8 @@ export const listAppRegions: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppRegions",
 }));
 
 export type ListAppsError = DigitalOceanOpError;
@@ -28559,6 +29496,8 @@ export const listApps: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 }));
 
 export type ListAutoscalepoolHistoryError = NotFound | DigitalOceanOpError;
@@ -28574,6 +29513,8 @@ export const listAutoscalepoolHistory: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoscalepoolHistory",
 }));
 
 export type ListAutoscalepoolMembersError = NotFound | DigitalOceanOpError;
@@ -28589,6 +29530,8 @@ export const listAutoscalepoolMembers: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoscalepoolMembers",
 }));
 
 export type ListAutoscalepoolsError = DigitalOceanOpError;
@@ -28604,6 +29547,8 @@ export const listAutoscalepools: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoscalepools",
 }));
 
 export type ListBillingHistoryError = NotFound | DigitalOceanOpError;
@@ -28619,6 +29564,8 @@ export const listBillingHistory: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingHistory",
 }));
 
 export type ListBillingInsightsError = NotFound | DigitalOceanOpError;
@@ -28634,6 +29581,8 @@ export const listBillingInsights: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingInsights",
 }));
 
 export type ListByoipPrefixesError = DigitalOceanOpError;
@@ -28649,6 +29598,8 @@ export const listByoipPrefixes: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListByoipPrefixes",
 }));
 
 export type ListByoipPrefixResourcesError = NotFound | DigitalOceanOpError;
@@ -28664,6 +29615,8 @@ export const listByoipPrefixResources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListByoipPrefixResources",
 }));
 
 export type ListCdnEndpointsError = DigitalOceanOpError;
@@ -28679,6 +29632,8 @@ export const listCdnEndpoints: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCdnEndpoints",
 }));
 
 export type ListCertificatesError = DigitalOceanOpError;
@@ -28694,6 +29649,8 @@ export const listCertificates: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificates",
 }));
 
 export type ListConnectionsError = BadRequest | DigitalOceanOpError;
@@ -28709,6 +29666,8 @@ export const listConnections: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 }));
 
 export type ListDatabaseBackupsError = NotFound | DigitalOceanOpError;
@@ -28724,6 +29683,8 @@ export const listDatabaseBackups: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseBackups",
 }));
 
 export type ListDatabaseClustersError = NotFound | DigitalOceanOpError;
@@ -28739,6 +29700,8 @@ export const listDatabaseClusters: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseClusters",
 }));
 
 export type ListDatabaseConnectionPoolsError = NotFound | DigitalOceanOpError;
@@ -28754,6 +29717,8 @@ export const listDatabaseConnectionPools: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseConnectionPools",
 }));
 
 export type ListDatabaseEventsLogsError = NotFound | DigitalOceanOpError;
@@ -28769,6 +29734,8 @@ export const listDatabaseEventsLogs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseEventsLogs",
 }));
 
 export type ListDatabaseFirewallRulesError = NotFound | DigitalOceanOpError;
@@ -28784,6 +29751,8 @@ export const listDatabaseFirewallRules: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseFirewallRules",
 }));
 
 export type ListDatabaseKafkaSchemasError = NotFound | DigitalOceanOpError;
@@ -28799,6 +29768,8 @@ export const listDatabaseKafkaSchemas: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseKafkaSchemas",
 }));
 
 export type ListDatabaseKafkaTopicsError = NotFound | DigitalOceanOpError;
@@ -28814,6 +29785,8 @@ export const listDatabaseKafkaTopics: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseKafkaTopics",
 }));
 
 export type ListDatabaseLogsinkError = NotFound | DigitalOceanOpError;
@@ -28829,6 +29802,8 @@ export const listDatabaseLogsink: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseLogsink",
 }));
 
 export type ListDatabaseOpeasearchIndexesError = NotFound | DigitalOceanOpError;
@@ -28844,6 +29819,8 @@ export const listDatabaseOpeasearchIndexes: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseOpeasearchIndexes",
 }));
 
 export type ListDatabaseOptionsError = NotFound | DigitalOceanOpError;
@@ -28859,6 +29836,8 @@ export const listDatabaseOptions: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseOptions",
 }));
 
 export type ListDatabaseReplicasError = NotFound | DigitalOceanOpError;
@@ -28874,6 +29853,8 @@ export const listDatabaseReplicas: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseReplicas",
 }));
 
 export type ListDatabasesError = NotFound | DigitalOceanOpError;
@@ -28889,6 +29870,8 @@ export const listDatabases: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 }));
 
 export type ListDatabaseUsersError = NotFound | DigitalOceanOpError;
@@ -28904,6 +29887,8 @@ export const listDatabaseUsers: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseUsers",
 }));
 
 export type ListDedicatedInferenceAcceleratorsError = NotFound | DigitalOceanOpError;
@@ -28919,6 +29904,8 @@ export const listDedicatedInferenceAccelerators: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedInferenceAccelerators",
 }));
 
 export type ListDedicatedInferencesError = DigitalOceanOpError;
@@ -28934,6 +29921,8 @@ export const listDedicatedInferences: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedInferences",
 }));
 
 export type ListDedicatedInferenceSizesError = DigitalOceanOpError;
@@ -28949,6 +29938,8 @@ export const listDedicatedInferenceSizes: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedInferenceSizes",
 }));
 
 export type ListDedicatedInferenceTokensError = NotFound | DigitalOceanOpError;
@@ -28964,6 +29955,8 @@ export const listDedicatedInferenceTokens: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedInferenceTokens",
 }));
 
 export type ListDomainRecordsError = NotFound | DigitalOceanOpError;
@@ -28979,6 +29972,8 @@ export const listDomainRecords: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainRecords",
 }));
 
 export type ListDomainsError = DigitalOceanOpError;
@@ -28994,6 +29989,8 @@ export const listDomains: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 }));
 
 export type ListDropletActionsError = NotFound | DigitalOceanOpError;
@@ -29009,6 +30006,8 @@ export const listDropletActions: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletActions",
 }));
 
 export type ListDropletAssociatedResourcesError = NotFound | DigitalOceanOpError;
@@ -29024,6 +30023,8 @@ export const listDropletAssociatedResources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletAssociatedResources",
 }));
 
 export type ListDropletBackupPoliciesError = NotFound | DigitalOceanOpError;
@@ -29039,6 +30040,8 @@ export const listDropletBackupPolicies: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletBackupPolicies",
 }));
 
 export type ListDropletBackupsError = NotFound | DigitalOceanOpError;
@@ -29054,6 +30057,8 @@ export const listDropletBackups: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletBackups",
 }));
 
 export type ListDropletFirewallsError = NotFound | DigitalOceanOpError;
@@ -29069,6 +30074,8 @@ export const listDropletFirewalls: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletFirewalls",
 }));
 
 export type ListDropletKernelsError = NotFound | DigitalOceanOpError;
@@ -29084,6 +30091,8 @@ export const listDropletKernels: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletKernels",
 }));
 
 export type ListDropletNeighborsError = NotFound | DigitalOceanOpError;
@@ -29099,6 +30108,8 @@ export const listDropletNeighbors: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletNeighbors",
 }));
 
 export type ListDropletNeighborsIdsError = NotFound | DigitalOceanOpError;
@@ -29114,6 +30125,8 @@ export const listDropletNeighborsIds: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletNeighborsIds",
 }));
 
 export type ListDropletsError = DigitalOceanOpError;
@@ -29131,6 +30144,8 @@ export const listDroplets: API.PaginatedOperationMethod<
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDroplets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -29155,6 +30170,8 @@ export const listDropletSnapshots: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletSnapshots",
 }));
 
 export type ListDropletSupportedBackupPoliciesError = NotFound | DigitalOceanOpError;
@@ -29170,6 +30187,8 @@ export const listDropletSupportedBackupPolicies: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDropletSupportedBackupPolicies",
 }));
 
 export type ListFirewallsError = DigitalOceanOpError;
@@ -29187,6 +30206,8 @@ export const listFirewalls: API.PaginatedOperationMethod<
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFirewalls",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -29211,6 +30232,8 @@ export const listFloatingIPs: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFloatingIPs",
 }));
 
 export type ListFloatingIPsActionError = NotFound | DigitalOceanOpError;
@@ -29226,6 +30249,8 @@ export const listFloatingIPsAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFloatingIPsAction",
 }));
 
 export type ListFunctionNamespacesError = DigitalOceanOpError;
@@ -29241,6 +30266,8 @@ export const listFunctionNamespaces: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFunctionNamespaces",
 }));
 
 export type ListFunctionsAccessKeyError = NotFound | DigitalOceanOpError;
@@ -29256,6 +30283,8 @@ export const listFunctionsAccessKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFunctionsAccessKey",
 }));
 
 export type ListFunctionTriggersError = NotFound | DigitalOceanOpError;
@@ -29271,6 +30300,8 @@ export const listFunctionTriggers: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFunctionTriggers",
 }));
 
 export type ListGenaiAgentApiKeysError = NotFound | DigitalOceanOpError;
@@ -29286,6 +30317,8 @@ export const listGenaiAgentApiKeys: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiAgentApiKeys",
 }));
 
 export type ListGenaiAgentsError = NotFound | DigitalOceanOpError;
@@ -29301,6 +30334,8 @@ export const listGenaiAgents: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiAgents",
 }));
 
 export type ListGenaiAgentsByAnthropicKeyError = NotFound | DigitalOceanOpError;
@@ -29316,6 +30351,8 @@ export const listGenaiAgentsByAnthropicKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiAgentsByAnthropicKey",
 }));
 
 export type ListGenaiAgentsByOpenaiKeyError = NotFound | DigitalOceanOpError;
@@ -29331,6 +30368,8 @@ export const listGenaiAgentsByOpenaiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiAgentsByOpenaiKey",
 }));
 
 export type ListGenaiAgentsByWorkspaceError = NotFound | DigitalOceanOpError;
@@ -29346,6 +30385,8 @@ export const listGenaiAgentsByWorkspace: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiAgentsByWorkspace",
 }));
 
 export type ListGenaiAgentVersionsError = NotFound | DigitalOceanOpError;
@@ -29361,6 +30402,8 @@ export const listGenaiAgentVersions: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiAgentVersions",
 }));
 
 export type ListGenaiAnthropicApiKeysError = NotFound | DigitalOceanOpError;
@@ -29376,6 +30419,8 @@ export const listGenaiAnthropicApiKeys: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiAnthropicApiKeys",
 }));
 
 export type ListGenaiCustomModelsError = NotFound | DigitalOceanOpError;
@@ -29391,6 +30436,8 @@ export const listGenaiCustomModels: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiCustomModels",
 }));
 
 export type ListGenaiDatacenterRegionsError = NotFound | DigitalOceanOpError;
@@ -29406,6 +30453,8 @@ export const listGenaiDatacenterRegions: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiDatacenterRegions",
 }));
 
 export type ListGenaiEvaluationDatasetsError = NotFound | DigitalOceanOpError;
@@ -29421,6 +30470,8 @@ export const listGenaiEvaluationDatasets: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiEvaluationDatasets",
 }));
 
 export type ListGenaiEvaluationMetricsError = NotFound | DigitalOceanOpError;
@@ -29436,6 +30487,8 @@ export const listGenaiEvaluationMetrics: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiEvaluationMetrics",
 }));
 
 export type ListGenaiEvaluationRunsByTestCaseError = NotFound | DigitalOceanOpError;
@@ -29451,6 +30504,8 @@ export const listGenaiEvaluationRunsByTestCase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiEvaluationRunsByTestCase",
 }));
 
 export type ListGenaiEvaluationTestCasesError = NotFound | DigitalOceanOpError;
@@ -29466,6 +30521,8 @@ export const listGenaiEvaluationTestCases: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiEvaluationTestCases",
 }));
 
 export type ListGenaiEvaluationTestCasesByWorkspaceError = NotFound | DigitalOceanOpError;
@@ -29481,6 +30538,8 @@ export const listGenaiEvaluationTestCasesByWorkspace: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiEvaluationTestCasesByWorkspace",
 }));
 
 export type ListGenaiIndexingJobDataSourcesError = NotFound | DigitalOceanOpError;
@@ -29496,6 +30555,8 @@ export const listGenaiIndexingJobDataSources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiIndexingJobDataSources",
 }));
 
 export type ListGenaiIndexingJobsError = NotFound | DigitalOceanOpError;
@@ -29511,6 +30572,8 @@ export const listGenaiIndexingJobs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiIndexingJobs",
 }));
 
 export type ListGenaiIndexingJobsByKnowledgeBaseError = NotFound | DigitalOceanOpError;
@@ -29526,6 +30589,8 @@ export const listGenaiIndexingJobsByKnowledgeBase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiIndexingJobsByKnowledgeBase",
 }));
 
 export type ListGenaiKnowledgeBaseDataSourcesError = NotFound | DigitalOceanOpError;
@@ -29541,6 +30606,8 @@ export const listGenaiKnowledgeBaseDataSources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiKnowledgeBaseDataSources",
 }));
 
 export type ListGenaiKnowledgeBasesError = NotFound | DigitalOceanOpError;
@@ -29556,6 +30623,8 @@ export const listGenaiKnowledgeBases: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiKnowledgeBases",
 }));
 
 export type ListGenaiModelApiKeysError = NotFound | DigitalOceanOpError;
@@ -29571,6 +30640,8 @@ export const listGenaiModelApiKeys: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModelApiKeys",
 }));
 
 export type ListGenaiModelCatalogError = NotFound | DigitalOceanOpError;
@@ -29586,6 +30657,8 @@ export const listGenaiModelCatalog: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModelCatalog",
 }));
 
 export type ListGenaiModelEvaluationMetricsError = NotFound | DigitalOceanOpError;
@@ -29601,6 +30674,8 @@ export const listGenaiModelEvaluationMetrics: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModelEvaluationMetrics",
 }));
 
 export type ListGenaiModelEvaluationPresetsError = NotFound | DigitalOceanOpError;
@@ -29616,6 +30691,8 @@ export const listGenaiModelEvaluationPresets: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModelEvaluationPresets",
 }));
 
 export type ListGenaiModelEvaluationRunsError = NotFound | DigitalOceanOpError;
@@ -29631,6 +30708,8 @@ export const listGenaiModelEvaluationRuns: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModelEvaluationRuns",
 }));
 
 export type ListGenaiModelRouterPresetsError = NotFound | DigitalOceanOpError;
@@ -29646,6 +30725,8 @@ export const listGenaiModelRouterPresets: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModelRouterPresets",
 }));
 
 export type ListGenaiModelRoutersError = NotFound | DigitalOceanOpError;
@@ -29661,6 +30742,8 @@ export const listGenaiModelRouters: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModelRouters",
 }));
 
 export type ListGenaiModelRouterTaskPresetsError = NotFound | DigitalOceanOpError;
@@ -29676,6 +30759,8 @@ export const listGenaiModelRouterTaskPresets: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModelRouterTaskPresets",
 }));
 
 export type ListGenaiModelsError = NotFound | DigitalOceanOpError;
@@ -29691,6 +30776,8 @@ export const listGenaiModels: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiModels",
 }));
 
 export type ListGenaiOpenaiApiKeysError = NotFound | DigitalOceanOpError;
@@ -29706,6 +30793,8 @@ export const listGenaiOpenaiApiKeys: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiOpenaiApiKeys",
 }));
 
 export type ListGenaiScenarioLibraryError = NotFound | DigitalOceanOpError;
@@ -29721,6 +30810,8 @@ export const listGenaiScenarioLibrary: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiScenarioLibrary",
 }));
 
 export type ListGenaiScenarioLibraryScenariosError = NotFound | DigitalOceanOpError;
@@ -29736,6 +30827,8 @@ export const listGenaiScenarioLibraryScenarios: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiScenarioLibraryScenarios",
 }));
 
 export type ListGenaiScenariosError = NotFound | DigitalOceanOpError;
@@ -29751,6 +30844,8 @@ export const listGenaiScenarios: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiScenarios",
 }));
 
 export type ListGenaiScenarioSetsError = NotFound | DigitalOceanOpError;
@@ -29766,6 +30861,8 @@ export const listGenaiScenarioSets: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiScenarioSets",
 }));
 
 export type ListGenaiSimulationJourneysError = NotFound | DigitalOceanOpError;
@@ -29781,6 +30878,8 @@ export const listGenaiSimulationJourneys: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiSimulationJourneys",
 }));
 
 export type ListGenaiSimulationRunsError = NotFound | DigitalOceanOpError;
@@ -29796,6 +30895,8 @@ export const listGenaiSimulationRuns: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiSimulationRuns",
 }));
 
 export type ListGenaiWorkspacesError = NotFound | DigitalOceanOpError;
@@ -29811,6 +30912,8 @@ export const listGenaiWorkspaces: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGenaiWorkspaces",
 }));
 
 export type ListImageActionsError = NotFound | DigitalOceanOpError;
@@ -29826,6 +30929,8 @@ export const listImageActions: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImageActions",
 }));
 
 export type ListImagesError = DigitalOceanOpError;
@@ -29841,6 +30946,8 @@ export const listImages: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImages",
 }));
 
 export type ListInferenceBatchesError = Forbidden | DigitalOceanOpError;
@@ -29856,6 +30963,8 @@ export const listInferenceBatches: API.OperationMethod<
   errors: [Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInferenceBatches",
 }));
 
 export type ListInferenceModelsError = DigitalOceanOpError;
@@ -29871,6 +30980,8 @@ export const listInferenceModels: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInferenceModels",
 }));
 
 export type ListInsightAlertInstancesError = BadRequest | DigitalOceanOpError;
@@ -29886,6 +30997,8 @@ export const listInsightAlertInstances: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightAlertInstances",
 }));
 
 export type ListInsightAlertRulesError = DigitalOceanOpError;
@@ -29901,6 +31014,8 @@ export const listInsightAlertRules: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightAlertRules",
 }));
 
 export type ListInsightNotificationChannelsError = DigitalOceanOpError;
@@ -29916,6 +31031,8 @@ export const listInsightNotificationChannels: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightNotificationChannels",
 }));
 
 export type ListInvoicesError = DigitalOceanOpError;
@@ -29931,6 +31048,8 @@ export const listInvoices: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoices",
 }));
 
 export type ListKubernetesAssociatedResourcesError = NotFound | DigitalOceanOpError;
@@ -29946,6 +31065,8 @@ export const listKubernetesAssociatedResources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKubernetesAssociatedResources",
 }));
 
 export type ListKubernetesClustersError = DigitalOceanOpError;
@@ -29961,6 +31082,8 @@ export const listKubernetesClusters: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKubernetesClusters",
 }));
 
 export type ListKubernetesNodePoolsError = NotFound | DigitalOceanOpError;
@@ -29976,6 +31099,8 @@ export const listKubernetesNodePools: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKubernetesNodePools",
 }));
 
 export type ListKubernetesOptionsError = NotFound | DigitalOceanOpError;
@@ -29991,6 +31116,8 @@ export const listKubernetesOptions: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKubernetesOptions",
 }));
 
 export type ListLoadBalancersError = DigitalOceanOpError;
@@ -30006,6 +31133,8 @@ export const listLoadBalancers: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoadBalancers",
 }));
 
 export type ListMcpServersError = DigitalOceanOpError;
@@ -30021,6 +31150,8 @@ export const listMcpServers: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpServers",
 }));
 
 export type ListMcpServerToolsError = NotFound | DigitalOceanOpError;
@@ -30036,6 +31167,8 @@ export const listMcpServerTools: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpServerTools",
 }));
 
 export type ListMonitoringAlertPolicyError = DigitalOceanOpError;
@@ -30051,6 +31184,8 @@ export const listMonitoringAlertPolicy: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitoringAlertPolicy",
 }));
 
 export type ListMonitoringDestinationsError = NotFound | DigitalOceanOpError;
@@ -30066,6 +31201,8 @@ export const listMonitoringDestinations: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitoringDestinations",
 }));
 
 export type ListMonitoringSinksError = NotFound | DigitalOceanOpError;
@@ -30081,6 +31218,8 @@ export const listMonitoringSinks: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitoringSinks",
 }));
 
 export type ListNfsError = NotFound | DigitalOceanOpError;
@@ -30096,6 +31235,8 @@ export const listNfs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNfs",
 }));
 
 export type ListNfsAccessPointsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -30111,6 +31252,8 @@ export const listNfsAccessPoints: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNfsAccessPoints",
 }));
 
 export type ListNfsSnapshotError = NotFound | DigitalOceanOpError;
@@ -30126,6 +31269,8 @@ export const listNfsSnapshot: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNfsSnapshot",
 }));
 
 export type ListOneClicksError = DigitalOceanOpError;
@@ -30141,6 +31286,8 @@ export const listOneClicks: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOneClicks",
 }));
 
 export type ListOrganizationTeamsError = Forbidden | DigitalOceanOpError;
@@ -30156,6 +31303,8 @@ export const listOrganizationTeams: API.OperationMethod<
   errors: [Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationTeams",
 }));
 
 export type ListOutputViewsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -30171,6 +31320,8 @@ export const listOutputViews: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOutputViews",
 }));
 
 export type ListPartnerAttachmentRemoteRoutesError = NotFound | DigitalOceanOpError;
@@ -30186,6 +31337,8 @@ export const listPartnerAttachmentRemoteRoutes: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartnerAttachmentRemoteRoutes",
 }));
 
 export type ListPartnerAttachmentsError = NotFound | DigitalOceanOpError;
@@ -30201,6 +31354,8 @@ export const listPartnerAttachments: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartnerAttachments",
 }));
 
 export type ListProjectResourcesError = NotFound | DigitalOceanOpError;
@@ -30216,6 +31371,8 @@ export const listProjectResources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectResources",
 }));
 
 export type ListProjectResourcesDefaultError = NotFound | DigitalOceanOpError;
@@ -30231,6 +31388,8 @@ export const listProjectResourcesDefault: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectResourcesDefault",
 }));
 
 export type ListProjectsError = DigitalOceanOpError;
@@ -30246,6 +31405,8 @@ export const listProjects: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type ListRegionsError = DigitalOceanOpError;
@@ -30261,6 +31422,8 @@ export const listRegions: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegions",
 }));
 
 export type ListRegistriesError = DigitalOceanOpError;
@@ -30276,6 +31439,8 @@ export const listRegistries: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistries",
 }));
 
 export type ListRegistryGarbageCollectionsError = NotFound | DigitalOceanOpError;
@@ -30291,6 +31456,8 @@ export const listRegistryGarbageCollections: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistryGarbageCollections",
 }));
 
 export type ListRegistryRepositoriesV2Error = BadRequest | NotFound | DigitalOceanOpError;
@@ -30306,6 +31473,8 @@ export const listRegistryRepositoriesV2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistryRepositoriesV2",
 }));
 
 export type ListRegistryRepositoryManifestsError = NotFound | DigitalOceanOpError;
@@ -30321,6 +31490,8 @@ export const listRegistryRepositoryManifests: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistryRepositoryManifests",
 }));
 
 export type ListRegistryRepositoryTagsError = NotFound | DigitalOceanOpError;
@@ -30336,6 +31507,8 @@ export const listRegistryRepositoryTags: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistryRepositoryTags",
 }));
 
 export type ListReservedIPsError = DigitalOceanOpError;
@@ -30351,6 +31524,8 @@ export const listReservedIPs: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservedIPs",
 }));
 
 export type ListReservedIPsActionsError = NotFound | DigitalOceanOpError;
@@ -30366,6 +31541,8 @@ export const listReservedIPsActions: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservedIPsActions",
 }));
 
 export type ListReservedIPv6Error = DigitalOceanOpError;
@@ -30381,6 +31558,8 @@ export const listReservedIPv6: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservedIPv6",
 }));
 
 export type ListSecurityScanFindingAffectedResourcesError = NotFound | DigitalOceanOpError;
@@ -30400,6 +31579,8 @@ export const listSecurityScanFindingAffectedResources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityScanFindingAffectedResources",
 }));
 
 export type ListSecurityScansError = NotFound | DigitalOceanOpError;
@@ -30415,6 +31596,8 @@ export const listSecurityScans: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityScans",
 }));
 
 export type ListSecuritySettingsError = NotFound | DigitalOceanOpError;
@@ -30430,6 +31613,8 @@ export const listSecuritySettings: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecuritySettings",
 }));
 
 export type ListSessionsError = DigitalOceanOpError;
@@ -30445,6 +31630,8 @@ export const listSessions: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 }));
 
 export type ListSizesError = DigitalOceanOpError;
@@ -30460,6 +31647,8 @@ export const listSizes: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSizes",
 }));
 
 export type ListSnapshotsError = DigitalOceanOpError;
@@ -30475,6 +31664,8 @@ export const listSnapshots: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshots",
 }));
 
 export type ListSpacesKeyError = DigitalOceanOpError;
@@ -30490,6 +31681,8 @@ export const listSpacesKey: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacesKey",
 }));
 
 export type ListSshKeysError = DigitalOceanOpError;
@@ -30507,6 +31700,8 @@ export const listSshKeys: API.PaginatedOperationMethod<
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSshKeys",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -30533,6 +31728,8 @@ export const listTags: API.PaginatedOperationMethod<
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTags",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -30557,6 +31754,8 @@ export const listToolbeltProviders: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolbeltProviders",
 }));
 
 export type ListToolbeltProviderToolsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -30572,6 +31771,8 @@ export const listToolbeltProviderTools: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolbeltProviderTools",
 }));
 
 export type ListToolbeltsError = BadRequest | DigitalOceanOpError;
@@ -30587,6 +31788,8 @@ export const listToolbelts: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolbelts",
 }));
 
 export type ListToolHealthError = BadRequest | DigitalOceanOpError;
@@ -30602,6 +31805,8 @@ export const listToolHealth: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolHealth",
 }));
 
 export type ListToolHealthProvidersError = BadRequest | DigitalOceanOpError;
@@ -30617,6 +31822,8 @@ export const listToolHealthProviders: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolHealthProviders",
 }));
 
 export type ListToolProvidersError = DigitalOceanOpError;
@@ -30632,6 +31839,8 @@ export const listToolProviders: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolProviders",
 }));
 
 export type ListToolsError = DigitalOceanOpError;
@@ -30647,6 +31856,8 @@ export const listTools: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTools",
 }));
 
 export type ListToolToolkitsError = DigitalOceanOpError;
@@ -30662,6 +31873,8 @@ export const listToolToolkits: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListToolToolkits",
 }));
 
 export type ListUptimeAlertsError = NotFound | DigitalOceanOpError;
@@ -30677,6 +31890,8 @@ export const listUptimeAlerts: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUptimeAlerts",
 }));
 
 export type ListUptimeChecksError = NotFound | DigitalOceanOpError;
@@ -30692,6 +31907,8 @@ export const listUptimeChecks: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUptimeChecks",
 }));
 
 export type ListUsersError = BadRequest | DigitalOceanOpError;
@@ -30707,6 +31924,8 @@ export const listUsers: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type ListVectorDatabaseBackupsError = NotFound | DigitalOceanOpError;
@@ -30722,6 +31941,8 @@ export const listVectorDatabaseBackups: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVectorDatabaseBackups",
 }));
 
 export type ListVectorDatabasesError = NotFound | DigitalOceanOpError;
@@ -30737,6 +31958,8 @@ export const listVectorDatabases: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVectorDatabases",
 }));
 
 export type ListVolumeActionsError = NotFound | DigitalOceanOpError;
@@ -30752,6 +31975,8 @@ export const listVolumeActions: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeActions",
 }));
 
 export type ListVolumesError = DigitalOceanOpError;
@@ -30767,6 +31992,8 @@ export const listVolumes: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 }));
 
 export type ListVolumeSnapshotsError = NotFound | DigitalOceanOpError;
@@ -30782,6 +32009,8 @@ export const listVolumeSnapshots: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeSnapshots",
 }));
 
 export type ListVpcMembersError = NotFound | DigitalOceanOpError;
@@ -30797,6 +32026,8 @@ export const listVpcMembers: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcMembers",
 }));
 
 export type ListVpcnatgatewaysError = DigitalOceanOpError;
@@ -30812,6 +32043,8 @@ export const listVpcnatgateways: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcnatgateways",
 }));
 
 export type ListVpcPeeringsError = NotFound | DigitalOceanOpError;
@@ -30827,6 +32060,8 @@ export const listVpcPeerings: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcPeerings",
 }));
 
 export type ListVpcPeerings2Error = NotFound | DigitalOceanOpError;
@@ -30842,6 +32077,8 @@ export const listVpcPeerings2: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcPeerings2",
 }));
 
 export type ListVpcRoutesError = NotFound | DigitalOceanOpError;
@@ -30857,6 +32094,8 @@ export const listVpcRoutes: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcRoutes",
 }));
 
 export type ListVpcsError = NotFound | DigitalOceanOpError;
@@ -30872,6 +32111,8 @@ export const listVpcs: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcs",
 }));
 
 export type ListVpcSubnetMembersError = NotFound | DigitalOceanOpError;
@@ -30887,6 +32128,8 @@ export const listVpcSubnetMembers: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcSubnetMembers",
 }));
 
 export type ListVpcSubnetRoutesError = NotFound | DigitalOceanOpError;
@@ -30902,6 +32145,8 @@ export const listVpcSubnetRoutes: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcSubnetRoutes",
 }));
 
 export type ListVpcSubnetsError = NotFound | DigitalOceanOpError;
@@ -30917,6 +32162,8 @@ export const listVpcSubnets: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVpcSubnets",
 }));
 
 export type MonitoringGetAppRestartCountMetricsYmlError = DigitalOceanOpError;
@@ -30932,6 +32179,8 @@ export const monitoringGetAppRestartCountMetricsYml: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MonitoringGetAppRestartCountMetricsYml",
 }));
 
 export type MonitoringGetDatabaseMysqlIndexVsSequentialReadsError = NotFound | DigitalOceanOpError;
@@ -30951,6 +32200,8 @@ export const monitoringGetDatabaseMysqlIndexVsSequentialReads: API.OperationMeth
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MonitoringGetDatabaseMysqlIndexVsSequentialReads",
 }));
 
 export type PatchAddonError = NotFound | DigitalOceanOpError;
@@ -30966,6 +32217,8 @@ export const patchAddon: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAddon",
 }));
 
 export type PatchAddonPlanError = NotFound | DigitalOceanOpError;
@@ -30981,6 +32234,8 @@ export const patchAddonPlan: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAddonPlan",
 }));
 
 export type PatchByoipPrefixError = NotFound | UnprocessableEntity | DigitalOceanOpError;
@@ -30996,6 +32251,8 @@ export const patchByoipPrefix: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchByoipPrefix",
 }));
 
 export type PatchDatabaseConfigError = NotFound | DigitalOceanOpError;
@@ -31011,6 +32268,8 @@ export const patchDatabaseConfig: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDatabaseConfig",
 }));
 
 export type PatchDedicatedInferenceError = NotFound | DigitalOceanOpError;
@@ -31026,6 +32285,8 @@ export const patchDedicatedInference: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDedicatedInference",
 }));
 
 export type PatchDomainRecordError = NotFound | DigitalOceanOpError;
@@ -31041,6 +32302,8 @@ export const patchDomainRecord: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDomainRecord",
 }));
 
 export type PatchMcpServerError = BadRequest | NotFound | DigitalOceanOpError;
@@ -31056,6 +32319,8 @@ export const patchMcpServer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMcpServer",
 }));
 
 export type PatchPartnerAttachmentError = NotFound | DigitalOceanOpError;
@@ -31071,6 +32336,8 @@ export const patchPartnerAttachment: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPartnerAttachment",
 }));
 
 export type PatchProjectError = NotFound | DigitalOceanOpError;
@@ -31086,6 +32353,8 @@ export const patchProject: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProject",
 }));
 
 export type PatchProjectDefaultError = NotFound | DigitalOceanOpError;
@@ -31101,6 +32370,8 @@ export const patchProjectDefault: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectDefault",
 }));
 
 export type PatchSpacesKeyError = BadRequest | NotFound | DigitalOceanOpError;
@@ -31116,6 +32387,8 @@ export const patchSpacesKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSpacesKey",
 }));
 
 export type PatchVpcError = NotFound | DigitalOceanOpError;
@@ -31131,6 +32404,8 @@ export const patchVpc: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchVpc",
 }));
 
 export type PatchVpcPeeringError = NotFound | DigitalOceanOpError;
@@ -31146,6 +32421,8 @@ export const patchVpcPeering: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchVpcPeering",
 }));
 
 export type PatchVpcPeeringsError = NotFound | DigitalOceanOpError;
@@ -31161,6 +32438,8 @@ export const patchVpcPeerings: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchVpcPeerings",
 }));
 
 export type PostDropletActionError = NotFound | DigitalOceanOpError;
@@ -31176,6 +32455,8 @@ export const postDropletAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDropletAction",
 }));
 
 export type PostDropletActionByTagError = DigitalOceanOpError;
@@ -31191,6 +32472,8 @@ export const postDropletActionByTag: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDropletActionByTag",
 }));
 
 export type PostFloatingIPsActionError = NotFound | DigitalOceanOpError;
@@ -31206,6 +32489,8 @@ export const postFloatingIPsAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFloatingIPsAction",
 }));
 
 export type PostImageAccountTransferDeclineError = BadRequest | NotFound | DigitalOceanOpError;
@@ -31221,6 +32506,8 @@ export const postImageAccountTransferDecline: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostImageAccountTransferDecline",
 }));
 
 export type PostImageActionError = NotFound | DigitalOceanOpError;
@@ -31236,6 +32523,8 @@ export const postImageAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostImageAction",
 }));
 
 export type PostReservedIPsActionError = NotFound | DigitalOceanOpError;
@@ -31251,6 +32540,8 @@ export const postReservedIPsAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostReservedIPsAction",
 }));
 
 export type PostReservedIPv6ActionError = NotFound | DigitalOceanOpError;
@@ -31266,6 +32557,8 @@ export const postReservedIPv6Action: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostReservedIPv6Action",
 }));
 
 export type PostVolumeActionError = NotFound | DigitalOceanOpError;
@@ -31281,6 +32574,8 @@ export const postVolumeAction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostVolumeAction",
 }));
 
 export type PostVolumeActionByIdError = NotFound | DigitalOceanOpError;
@@ -31296,6 +32591,8 @@ export const postVolumeActionById: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostVolumeActionById",
 }));
 
 export type PromoteDatabaseReplicaError = NotFound | DigitalOceanOpError;
@@ -31311,6 +32608,8 @@ export const promoteDatabaseReplica: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteDatabaseReplica",
 }));
 
 export type PurgeCdnCacheError = NotFound | DigitalOceanOpError;
@@ -31326,6 +32625,8 @@ export const purgeCdnCache: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeCdnCache",
 }));
 
 export type RegenerateGenaiAgentApiKeyError = NotFound | DigitalOceanOpError;
@@ -31341,6 +32642,8 @@ export const regenerateGenaiAgentApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateGenaiAgentApiKey",
 }));
 
 export type RegenerateGenaiModelApiKeyError = NotFound | DigitalOceanOpError;
@@ -31356,6 +32659,8 @@ export const regenerateGenaiModelApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateGenaiModelApiKey",
 }));
 
 export type RemoveKubernetesRegistriesError = DigitalOceanOpError;
@@ -31371,6 +32676,8 @@ export const removeKubernetesRegistries: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveKubernetesRegistries",
 }));
 
 export type RemoveKubernetesRegistryError = DigitalOceanOpError;
@@ -31386,6 +32693,8 @@ export const removeKubernetesRegistry: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveKubernetesRegistry",
 }));
 
 export type RemoveLoadBalancerDropletsError = NotFound | DigitalOceanOpError;
@@ -31401,6 +32710,8 @@ export const removeLoadBalancerDroplets: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveLoadBalancerDroplets",
 }));
 
 export type RemoveLoadBalancerForwardingRulesError = NotFound | DigitalOceanOpError;
@@ -31416,6 +32727,8 @@ export const removeLoadBalancerForwardingRules: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveLoadBalancerForwardingRules",
 }));
 
 export type ResetDatabaseAuthError = NotFound | DigitalOceanOpError;
@@ -31431,6 +32744,8 @@ export const resetDatabaseAuth: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetDatabaseAuth",
 }));
 
 export type RestartAppError = NotFound | DigitalOceanOpError;
@@ -31446,6 +32761,8 @@ export const restartApp: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartApp",
 }));
 
 export type RetryDropletsDestroyWithAssociatedResourcesError =
@@ -31472,6 +32789,8 @@ export const retryDropletsDestroyWithAssociatedResources: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryDropletsDestroyWithAssociatedResources",
 }));
 
 export type RunGenaiEvaluationTestCaseError = NotFound | DigitalOceanOpError;
@@ -31487,6 +32806,8 @@ export const runGenaiEvaluationTestCase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunGenaiEvaluationTestCase",
 }));
 
 export type RunKubernetesClusterLintError = NotFound | DigitalOceanOpError;
@@ -31502,6 +32823,8 @@ export const runKubernetesClusterLint: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunKubernetesClusterLint",
 }));
 
 export type RunMcpServerResyncError = BadRequest | NotFound | DigitalOceanOpError;
@@ -31517,6 +32840,8 @@ export const runMcpServerResync: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunMcpServerResync",
 }));
 
 export type RunRegistryGarbageCollectionError = NotFound | DigitalOceanOpError;
@@ -31532,6 +32857,8 @@ export const runRegistryGarbageCollection: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunRegistryGarbageCollection",
 }));
 
 export type SessionsListSearchError = BadRequest | DigitalOceanOpError;
@@ -31547,6 +32874,8 @@ export const sessionsListSearch: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionsListSearch",
 }));
 
 export type ToolbeltsListSearchError = BadRequest | DigitalOceanOpError;
@@ -31562,6 +32891,8 @@ export const toolbeltsListSearch: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToolbeltsListSearch",
 }));
 
 export type ToolsListSearchError = BadRequest | NotFound | DigitalOceanOpError;
@@ -31577,6 +32908,8 @@ export const toolsListSearch: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToolsListSearch",
 }));
 
 export type ToolsListSearchProvidersError = BadRequest | DigitalOceanOpError;
@@ -31592,6 +32925,8 @@ export const toolsListSearchProviders: API.OperationMethod<
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToolsListSearchProviders",
 }));
 
 export type UnassignTagResourcesError = NotFound | DigitalOceanOpError;
@@ -31607,6 +32942,8 @@ export const unassignTagResources: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignTagResources",
 }));
 
 export type UpdateActorLimitError = BadRequest | NotFound | DigitalOceanOpError;
@@ -31622,6 +32959,8 @@ export const updateActorLimit: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateActorLimit",
 }));
 
 export type UpdateAppError = NotFound | DigitalOceanOpError;
@@ -31637,6 +32976,8 @@ export const updateApp: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateAutoscalepoolError = NotFound | DigitalOceanOpError;
@@ -31652,6 +32993,8 @@ export const updateAutoscalepool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoscalepool",
 }));
 
 export type UpdateCdnEndpointsError = NotFound | DigitalOceanOpError;
@@ -31667,6 +33010,8 @@ export const updateCdnEndpoints: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCdnEndpoints",
 }));
 
 export type UpdateDatabaseAutoscaleError = NotFound | UnprocessableEntity | DigitalOceanOpError;
@@ -31682,6 +33027,8 @@ export const updateDatabaseAutoscale: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseAutoscale",
 }));
 
 export type UpdateDatabaseClusterMetricsCredentialsError = DigitalOceanOpError;
@@ -31697,6 +33044,8 @@ export const updateDatabaseClusterMetricsCredentials: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseClusterMetricsCredentials",
 }));
 
 export type UpdateDatabaseClusterSizeError = NotFound | DigitalOceanOpError;
@@ -31712,6 +33061,8 @@ export const updateDatabaseClusterSize: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseClusterSize",
 }));
 
 export type UpdateDatabaseConnectionPoolError = NotFound | DigitalOceanOpError;
@@ -31727,6 +33078,8 @@ export const updateDatabaseConnectionPool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseConnectionPool",
 }));
 
 export type UpdateDatabaseDoSettingsError =
@@ -31746,6 +33099,8 @@ export const updateDatabaseDoSettings: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseDoSettings",
 }));
 
 export type UpdateDatabaseEvictionPolicyError = NotFound | DigitalOceanOpError;
@@ -31761,6 +33116,8 @@ export const updateDatabaseEvictionPolicy: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseEvictionPolicy",
 }));
 
 export type UpdateDatabaseFirewallRulesError = NotFound | DigitalOceanOpError;
@@ -31776,6 +33133,8 @@ export const updateDatabaseFirewallRules: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseFirewallRules",
 }));
 
 export type UpdateDatabaseKafkaSchemaConfigError = NotFound | DigitalOceanOpError;
@@ -31791,6 +33150,8 @@ export const updateDatabaseKafkaSchemaConfig: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseKafkaSchemaConfig",
 }));
 
 export type UpdateDatabaseKafkaSchemaSubjectConfigError = NotFound | DigitalOceanOpError;
@@ -31806,6 +33167,8 @@ export const updateDatabaseKafkaSchemaSubjectConfig: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseKafkaSchemaSubjectConfig",
 }));
 
 export type UpdateDatabaseKafkaTopicError = NotFound | DigitalOceanOpError;
@@ -31821,6 +33184,8 @@ export const updateDatabaseKafkaTopic: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseKafkaTopic",
 }));
 
 export type UpdateDatabaseLogsinkError = NotFound | DigitalOceanOpError;
@@ -31836,6 +33201,8 @@ export const updateDatabaseLogsink: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseLogsink",
 }));
 
 export type UpdateDatabaseMaintenanceWindowError = NotFound | DigitalOceanOpError;
@@ -31851,6 +33218,8 @@ export const updateDatabaseMaintenanceWindow: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseMaintenanceWindow",
 }));
 
 export type UpdateDatabaseMajorVersionError = NotFound | DigitalOceanOpError;
@@ -31866,6 +33235,8 @@ export const updateDatabaseMajorVersion: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseMajorVersion",
 }));
 
 export type UpdateDatabaseOnlineMigrationError = NotFound | DigitalOceanOpError;
@@ -31881,6 +33252,8 @@ export const updateDatabaseOnlineMigration: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseOnlineMigration",
 }));
 
 export type UpdateDatabaseRegionError = NotFound | DigitalOceanOpError;
@@ -31896,6 +33269,8 @@ export const updateDatabaseRegion: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseRegion",
 }));
 
 export type UpdateDatabaseSqlModeError = NotFound | DigitalOceanOpError;
@@ -31911,6 +33286,8 @@ export const updateDatabaseSqlMode: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseSqlMode",
 }));
 
 export type UpdateDatabaseUserError = NotFound | UnprocessableEntity | DigitalOceanOpError;
@@ -31926,6 +33303,8 @@ export const updateDatabaseUser: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseUser",
 }));
 
 export type UpdateDomainRecordError = NotFound | DigitalOceanOpError;
@@ -31941,6 +33320,8 @@ export const updateDomainRecord: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainRecord",
 }));
 
 export type UpdateFirewallError =
@@ -31967,6 +33348,8 @@ export const updateFirewall: API.OperationMethod<
   ],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFirewall",
 }));
 
 export type UpdateFunctionsAccessKeyError = BadRequest | NotFound | Conflict | DigitalOceanOpError;
@@ -31982,6 +33365,8 @@ export const updateFunctionsAccessKey: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFunctionsAccessKey",
 }));
 
 export type UpdateGenaiAgentError = NotFound | DigitalOceanOpError;
@@ -31997,6 +33382,8 @@ export const updateGenaiAgent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiAgent",
 }));
 
 export type UpdateGenaiAgentApiKeyError = NotFound | DigitalOceanOpError;
@@ -32012,6 +33399,8 @@ export const updateGenaiAgentApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiAgentApiKey",
 }));
 
 export type UpdateGenaiAgentDeploymentVisibilityError = NotFound | DigitalOceanOpError;
@@ -32027,6 +33416,8 @@ export const updateGenaiAgentDeploymentVisibility: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiAgentDeploymentVisibility",
 }));
 
 export type UpdateGenaiAgentFunctionError = NotFound | DigitalOceanOpError;
@@ -32042,6 +33433,8 @@ export const updateGenaiAgentFunction: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiAgentFunction",
 }));
 
 export type UpdateGenaiAgentsWorkspaceError = NotFound | DigitalOceanOpError;
@@ -32057,6 +33450,8 @@ export const updateGenaiAgentsWorkspace: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiAgentsWorkspace",
 }));
 
 export type UpdateGenaiAnthropicApiKeyError = NotFound | DigitalOceanOpError;
@@ -32072,6 +33467,8 @@ export const updateGenaiAnthropicApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiAnthropicApiKey",
 }));
 
 export type UpdateGenaiAttachedAgentError = NotFound | DigitalOceanOpError;
@@ -32087,6 +33484,8 @@ export const updateGenaiAttachedAgent: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiAttachedAgent",
 }));
 
 export type UpdateGenaiCustomEvaluationMetricError = NotFound | DigitalOceanOpError;
@@ -32102,6 +33501,8 @@ export const updateGenaiCustomEvaluationMetric: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiCustomEvaluationMetric",
 }));
 
 export type UpdateGenaiCustomModelMetadataError = NotFound | DigitalOceanOpError;
@@ -32117,6 +33518,8 @@ export const updateGenaiCustomModelMetadata: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiCustomModelMetadata",
 }));
 
 export type UpdateGenaiEvaluationTestCaseError = NotFound | DigitalOceanOpError;
@@ -32132,6 +33535,8 @@ export const updateGenaiEvaluationTestCase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiEvaluationTestCase",
 }));
 
 export type UpdateGenaiKnowledgeBaseError = NotFound | DigitalOceanOpError;
@@ -32147,6 +33552,8 @@ export const updateGenaiKnowledgeBase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiKnowledgeBase",
 }));
 
 export type UpdateGenaiKnowledgeBaseDataSourceError = NotFound | DigitalOceanOpError;
@@ -32162,6 +33569,8 @@ export const updateGenaiKnowledgeBaseDataSource: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiKnowledgeBaseDataSource",
 }));
 
 export type UpdateGenaiModelApiKeyError = NotFound | DigitalOceanOpError;
@@ -32177,6 +33586,8 @@ export const updateGenaiModelApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiModelApiKey",
 }));
 
 export type UpdateGenaiModelEvaluationRunError = NotFound | DigitalOceanOpError;
@@ -32192,6 +33603,8 @@ export const updateGenaiModelEvaluationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiModelEvaluationRun",
 }));
 
 export type UpdateGenaiModelRouterError = NotFound | DigitalOceanOpError;
@@ -32207,6 +33620,8 @@ export const updateGenaiModelRouter: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiModelRouter",
 }));
 
 export type UpdateGenaiOpenaiApiKeyError = NotFound | DigitalOceanOpError;
@@ -32222,6 +33637,8 @@ export const updateGenaiOpenaiApiKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiOpenaiApiKey",
 }));
 
 export type UpdateGenaiScenarioSetError = NotFound | DigitalOceanOpError;
@@ -32237,6 +33654,8 @@ export const updateGenaiScenarioSet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiScenarioSet",
 }));
 
 export type UpdateGenaiSimulationRunError = NotFound | DigitalOceanOpError;
@@ -32252,6 +33671,8 @@ export const updateGenaiSimulationRun: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiSimulationRun",
 }));
 
 export type UpdateGenaiWorkspaceError = NotFound | DigitalOceanOpError;
@@ -32267,6 +33688,8 @@ export const updateGenaiWorkspace: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenaiWorkspace",
 }));
 
 export type UpdateImageError = NotFound | DigitalOceanOpError;
@@ -32282,6 +33705,8 @@ export const updateImage: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImage",
 }));
 
 export type UpdateInsightAlertRuleError =
@@ -32301,6 +33726,8 @@ export const updateInsightAlertRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInsightAlertRule",
 }));
 
 export type UpdateInsightNotificationChannelError = BadRequest | NotFound | DigitalOceanOpError;
@@ -32316,6 +33743,8 @@ export const updateInsightNotificationChannel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInsightNotificationChannel",
 }));
 
 export type UpdateKubernetesClusterError = NotFound | DigitalOceanOpError;
@@ -32331,6 +33760,8 @@ export const updateKubernetesCluster: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKubernetesCluster",
 }));
 
 export type UpdateKubernetesNodePoolError = NotFound | DigitalOceanOpError;
@@ -32346,6 +33777,8 @@ export const updateKubernetesNodePool: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKubernetesNodePool",
 }));
 
 export type UpdateLoadBalancerError = NotFound | DigitalOceanOpError;
@@ -32361,6 +33794,8 @@ export const updateLoadBalancer: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoadBalancer",
 }));
 
 export type UpdateMcpServerToolsError = BadRequest | NotFound | DigitalOceanOpError;
@@ -32376,6 +33811,8 @@ export const updateMcpServerTools: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpServerTools",
 }));
 
 export type UpdateMonitoringAlertPolicyError = NotFound | DigitalOceanOpError;
@@ -32391,6 +33828,8 @@ export const updateMonitoringAlertPolicy: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoringAlertPolicy",
 }));
 
 export type UpdateMonitoringDestinationError = NotFound | DigitalOceanOpError;
@@ -32406,6 +33845,8 @@ export const updateMonitoringDestination: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoringDestination",
 }));
 
 export type UpdateProjectError = NotFound | DigitalOceanOpError;
@@ -32421,6 +33862,8 @@ export const updateProject: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectDefaultError = NotFound | DigitalOceanOpError;
@@ -32436,6 +33879,8 @@ export const updateProjectDefault: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectDefault",
 }));
 
 export type UpdateRegistryGarbageCollectionError = NotFound | DigitalOceanOpError;
@@ -32451,6 +33896,8 @@ export const updateRegistryGarbageCollection: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRegistryGarbageCollection",
 }));
 
 export type UpdateRegistrySubscriptionError = DigitalOceanOpError;
@@ -32466,6 +33913,8 @@ export const updateRegistrySubscription: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRegistrySubscription",
 }));
 
 export type UpdateSecuritySettingsPlanError = BadRequest | NotFound | DigitalOceanOpError;
@@ -32481,6 +33930,8 @@ export const updateSecuritySettingsPlan: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecuritySettingsPlan",
 }));
 
 export type UpdateSpacesKeyError = BadRequest | NotFound | DigitalOceanOpError;
@@ -32496,6 +33947,8 @@ export const updateSpacesKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpacesKey",
 }));
 
 export type UpdateSshKeyError = NotFound | DigitalOceanOpError;
@@ -32511,6 +33964,8 @@ export const updateSshKey: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSshKey",
 }));
 
 export type UpdateUptimeAlertError = NotFound | DigitalOceanOpError;
@@ -32526,6 +33981,8 @@ export const updateUptimeAlert: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUptimeAlert",
 }));
 
 export type UpdateUptimeCheckError = NotFound | DigitalOceanOpError;
@@ -32541,6 +33998,8 @@ export const updateUptimeCheck: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUptimeCheck",
 }));
 
 export type UpdateVectorDatabaseError = NotFound | DigitalOceanOpError;
@@ -32556,6 +34015,8 @@ export const updateVectorDatabase: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVectorDatabase",
 }));
 
 export type UpdateVectorDatabaseTagsError = NotFound | DigitalOceanOpError;
@@ -32571,6 +34032,8 @@ export const updateVectorDatabaseTags: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVectorDatabaseTags",
 }));
 
 export type UpdateVpcError = NotFound | DigitalOceanOpError;
@@ -32586,6 +34049,8 @@ export const updateVpc: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVpc",
 }));
 
 export type UpdateVpcnatgatewayError = NotFound | DigitalOceanOpError;
@@ -32601,6 +34066,8 @@ export const updateVpcnatgateway: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVpcnatgateway",
 }));
 
 export type UpdateVpcSubnetError = NotFound | DigitalOceanOpError;
@@ -32616,6 +34083,8 @@ export const updateVpcSubnet: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVpcSubnet",
 }));
 
 export type UpdateVpcSubnetRouteError =
@@ -32635,6 +34104,8 @@ export const updateVpcSubnetRoute: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVpcSubnetRoute",
 }));
 
 export type UploadInferenceBatchFileError = Forbidden | DigitalOceanOpError;
@@ -32650,6 +34121,8 @@ export const uploadInferenceBatchFile: API.OperationMethod<
   errors: [Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadInferenceBatchFile",
 }));
 
 export type ValidateAppAppSpecError = DigitalOceanOpError;
@@ -32665,6 +34138,8 @@ export const validateAppAppSpec: API.OperationMethod<
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAppAppSpec",
 }));
 
 export type ValidateAppRollbackError = NotFound | DigitalOceanOpError;
@@ -32680,6 +34155,8 @@ export const validateAppRollback: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAppRollback",
 }));
 
 export type ValidateOutputViewError = BadRequest | NotFound | DigitalOceanOpError;
@@ -32695,6 +34172,8 @@ export const validateOutputView: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateOutputView",
 }));
 
 export type ValidateRegistryNameError = Conflict | DigitalOceanOpError;
@@ -32710,6 +34189,8 @@ export const validateRegistryName: API.OperationMethod<
   errors: [Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateRegistryName",
 }));
 
 export type VectorDatabasesGetRestoreStatusError = NotFound | DigitalOceanOpError;
@@ -32725,6 +34206,8 @@ export const vectorDatabasesGetRestoreStatus: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VectorDatabasesGetRestoreStatus",
 }));
 
 export type VectorDatabasesPostResizeError = NotFound | DigitalOceanOpError;
@@ -32740,6 +34223,8 @@ export const vectorDatabasesPostResize: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VectorDatabasesPostResize",
 }));
 
 export type VectorDatabasesPostRestoreBackupError = NotFound | DigitalOceanOpError;
@@ -32755,6 +34240,8 @@ export const vectorDatabasesPostRestoreBackup: API.OperationMethod<
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VectorDatabasesPostRestoreBackup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

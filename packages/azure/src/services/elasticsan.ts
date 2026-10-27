@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ElasticSan" },
+  prefix: "Elasticsan",
+  service: "Elasticsan",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateElasticSanRequestTagsMap = { [key: string]: string | undefined };
 /** The sku name. */
@@ -1214,6 +1234,8 @@ export const CreateElasticSan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateElasticSan",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -1229,6 +1251,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type CreateVolumeError = AzureOpError;
@@ -1244,6 +1268,8 @@ export const CreateVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type CreateVolumeGroupError = AzureOpError;
@@ -1259,6 +1285,8 @@ export const CreateVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolumeGroup",
 }));
 
 export type CreateVolumeSnapshotError = AzureOpError;
@@ -1274,6 +1302,8 @@ export const CreateVolumeSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolumeSnapshot",
 }));
 
 export type DeleteElasticSanError = AzureOpError;
@@ -1289,6 +1319,8 @@ export const DeleteElasticSan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteElasticSan",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1304,6 +1336,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteVolumeError = AzureOpError;
@@ -1319,6 +1353,8 @@ export const DeleteVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DeleteVolumeGroupError = AzureOpError;
@@ -1334,6 +1370,8 @@ export const DeleteVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeGroup",
 }));
 
 export type DeleteVolumeSnapshotError = AzureOpError;
@@ -1349,6 +1387,8 @@ export const DeleteVolumeSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeSnapshot",
 }));
 
 export type GetElasticSanError = AzureOpError;
@@ -1364,6 +1404,8 @@ export const GetElasticSan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetElasticSan",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1379,6 +1421,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetVolumeError = AzureOpError;
@@ -1394,6 +1438,8 @@ export const GetVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolume",
 }));
 
 export type GetVolumeGroupError = AzureOpError;
@@ -1409,6 +1455,8 @@ export const GetVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeGroup",
 }));
 
 export type GetVolumeSnapshotError = AzureOpError;
@@ -1424,6 +1472,8 @@ export const GetVolumeSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeSnapshot",
 }));
 
 export type ListElasticSanByResourceGroupError = AzureOpError;
@@ -1439,6 +1489,8 @@ export const ListElasticSanByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListElasticSanByResourceGroup",
 }));
 
 export type ListElasticSanBySubscriptionError = AzureOpError;
@@ -1454,6 +1506,8 @@ export const ListElasticSanBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListElasticSanBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1469,6 +1523,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -1484,6 +1540,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourceByElasticSanError = AzureOpError;
@@ -1499,6 +1557,8 @@ export const ListPrivateLinkResourceByElasticSan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByElasticSan",
 }));
 
 export type ListSkusError = AzureOpError;
@@ -1514,6 +1574,8 @@ export const ListSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkus",
 }));
 
 export type ListVolumeByVolumeGroupError = AzureOpError;
@@ -1529,6 +1591,8 @@ export const ListVolumeByVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeByVolumeGroup",
 }));
 
 export type ListVolumeGroupByElasticSanError = AzureOpError;
@@ -1544,6 +1608,8 @@ export const ListVolumeGroupByElasticSan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeGroupByElasticSan",
 }));
 
 export type ListVolumeSnapshotByVolumeGroupError = AzureOpError;
@@ -1559,6 +1625,8 @@ export const ListVolumeSnapshotByVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeSnapshotByVolumeGroup",
 }));
 
 export type RestoreVolumesPreError = AzureOpError;
@@ -1574,6 +1642,8 @@ export const RestoreVolumesPre: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreVolumesPre",
 }));
 
 export type UpdateElasticSanError = AzureOpError;
@@ -1589,6 +1659,8 @@ export const UpdateElasticSan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateElasticSan",
 }));
 
 export type UpdateVolumeError = AzureOpError;
@@ -1604,6 +1676,8 @@ export const UpdateVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVolume",
 }));
 
 export type UpdateVolumeGroupError = AzureOpError;
@@ -1619,6 +1693,8 @@ export const UpdateVolumeGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVolumeGroup",
 }));
 
 export type VolumesPreBackupError = AzureOpError;
@@ -1634,6 +1710,8 @@ export const VolumesPreBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumesPreBackup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

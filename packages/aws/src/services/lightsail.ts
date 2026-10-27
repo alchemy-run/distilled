@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lightsail.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Lightsail",
+  service: "Lightsail",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3079,6 +3094,8 @@ export const allocateStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateStaticIp",
+  telemetry: TELEMETRY,
+  span: "AllocateStaticIp",
 }));
 
 export type AttachCertificateToDistributionError =
@@ -3124,6 +3141,8 @@ export const attachCertificateToDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachCertificateToDistribution",
+  telemetry: TELEMETRY,
+  span: "AttachCertificateToDistribution",
 }));
 
 export type AttachDiskError =
@@ -3165,6 +3184,8 @@ export const attachDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachDisk",
+  telemetry: TELEMETRY,
+  span: "AttachDisk",
 }));
 
 export type AttachInstancesToLoadBalancerError =
@@ -3208,6 +3229,8 @@ export const attachInstancesToLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachInstancesToLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "AttachInstancesToLoadBalancer",
 }));
 
 export type AttachLoadBalancerTlsCertificateError =
@@ -3254,6 +3277,8 @@ export const attachLoadBalancerTlsCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerTlsCertificate",
+  telemetry: TELEMETRY,
+  span: "AttachLoadBalancerTlsCertificate",
 }));
 
 export type AttachStaticIpError =
@@ -3290,6 +3315,8 @@ export const attachStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachStaticIp",
+  telemetry: TELEMETRY,
+  span: "AttachStaticIp",
 }));
 
 export type CloseInstancePublicPortsError =
@@ -3330,6 +3357,8 @@ export const closeInstancePublicPorts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseInstancePublicPorts",
+  telemetry: TELEMETRY,
+  span: "CloseInstancePublicPorts",
 }));
 
 export type CopySnapshotError =
@@ -3377,6 +3406,8 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
+  telemetry: TELEMETRY,
+  span: "CopySnapshot",
 }));
 
 export type CreateBucketError =
@@ -3412,6 +3443,8 @@ export const createBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucket",
+  telemetry: TELEMETRY,
+  span: "CreateBucket",
 }));
 
 export type CreateBucketAccessKeyError =
@@ -3455,6 +3488,8 @@ export const createBucketAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketAccessKey",
+  telemetry: TELEMETRY,
+  span: "CreateBucketAccessKey",
 }));
 
 export type CreateCertificateError =
@@ -3499,6 +3534,8 @@ export const createCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificate",
+  telemetry: TELEMETRY,
+  span: "CreateCertificate",
 }));
 
 export type CreateCloudFormationStackError =
@@ -3541,6 +3578,8 @@ export const createCloudFormationStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFormationStack",
+  telemetry: TELEMETRY,
+  span: "CreateCloudFormationStack",
 }));
 
 export type CreateContactMethodError =
@@ -3583,6 +3622,8 @@ export const createContactMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactMethod",
+  telemetry: TELEMETRY,
+  span: "CreateContactMethod",
 }));
 
 export type CreateContainerServiceError =
@@ -3619,6 +3660,8 @@ export const createContainerService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerService",
+  telemetry: TELEMETRY,
+  span: "CreateContainerService",
 }));
 
 export type CreateContainerServiceDeploymentError =
@@ -3662,6 +3705,8 @@ export const createContainerServiceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerServiceDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateContainerServiceDeployment",
 }));
 
 export type CreateContainerServiceRegistryLoginError =
@@ -3712,6 +3757,8 @@ export const createContainerServiceRegistryLogin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerServiceRegistryLogin",
+  telemetry: TELEMETRY,
+  span: "CreateContainerServiceRegistryLogin",
 }));
 
 export type CreateDiskError =
@@ -3752,6 +3799,8 @@ export const createDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDisk",
+  telemetry: TELEMETRY,
+  span: "CreateDisk",
 }));
 
 export type CreateDiskFromSnapshotError =
@@ -3794,6 +3843,8 @@ export const createDiskFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDiskFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateDiskFromSnapshot",
 }));
 
 export type CreateDiskSnapshotError =
@@ -3851,6 +3902,8 @@ export const createDiskSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDiskSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateDiskSnapshot",
 }));
 
 export type CreateDistributionError =
@@ -3887,6 +3940,8 @@ export const createDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistribution",
+  telemetry: TELEMETRY,
+  span: "CreateDistribution",
 }));
 
 export type CreateDomainError =
@@ -3926,6 +3981,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateDomainEntryError =
@@ -3968,6 +4025,8 @@ export const createDomainEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainEntry",
+  telemetry: TELEMETRY,
+  span: "CreateDomainEntry",
 }));
 
 export type CreateGUISessionAccessDetailsError =
@@ -4005,6 +4064,8 @@ export const createGUISessionAccessDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGUISessionAccessDetails",
+  telemetry: TELEMETRY,
+  span: "CreateGUISessionAccessDetails",
 }));
 
 export type CreateInstancesError =
@@ -4044,6 +4105,8 @@ export const createInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstances",
+  telemetry: TELEMETRY,
+  span: "CreateInstances",
 }));
 
 export type CreateInstancesFromSnapshotError =
@@ -4085,6 +4148,8 @@ export const createInstancesFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstancesFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateInstancesFromSnapshot",
 }));
 
 export type CreateInstanceSnapshotError =
@@ -4125,6 +4190,8 @@ export const createInstanceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateInstanceSnapshot",
 }));
 
 export type CreateKeyPairError =
@@ -4169,6 +4236,8 @@ export const createKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyPair",
+  telemetry: TELEMETRY,
+  span: "CreateKeyPair",
 }));
 
 export type CreateLoadBalancerError =
@@ -4214,6 +4283,8 @@ export const createLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancer",
 }));
 
 export type CreateLoadBalancerTlsCertificateError =
@@ -4256,6 +4327,8 @@ export const createLoadBalancerTlsCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancerTlsCertificate",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancerTlsCertificate",
 }));
 
 export type CreateRelationalDatabaseError =
@@ -4295,6 +4368,8 @@ export const createRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationalDatabase",
+  telemetry: TELEMETRY,
+  span: "CreateRelationalDatabase",
 }));
 
 export type CreateRelationalDatabaseFromSnapshotError =
@@ -4339,6 +4414,8 @@ export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationalDatabaseFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateRelationalDatabaseFromSnapshot",
 }));
 
 export type CreateRelationalDatabaseSnapshotError =
@@ -4379,6 +4456,8 @@ export const createRelationalDatabaseSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationalDatabaseSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateRelationalDatabaseSnapshot",
 }));
 
 export type DeleteAlarmError =
@@ -4418,6 +4497,8 @@ export const deleteAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlarm",
+  telemetry: TELEMETRY,
+  span: "DeleteAlarm",
 }));
 
 export type DeleteAutoSnapshotError =
@@ -4452,6 +4533,8 @@ export const deleteAutoSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteAutoSnapshot",
 }));
 
 export type DeleteBucketError =
@@ -4487,6 +4570,8 @@ export const deleteBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucket",
+  telemetry: TELEMETRY,
+  span: "DeleteBucket",
 }));
 
 export type DeleteBucketAccessKeyError =
@@ -4524,6 +4609,8 @@ export const deleteBucketAccessKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketAccessKey",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketAccessKey",
 }));
 
 export type DeleteCertificateError =
@@ -4561,6 +4648,8 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type DeleteContactMethodError =
@@ -4600,6 +4689,8 @@ export const deleteContactMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactMethod",
+  telemetry: TELEMETRY,
+  span: "DeleteContactMethod",
 }));
 
 export type DeleteContainerImageError =
@@ -4633,6 +4724,8 @@ export const deleteContainerImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerImage",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerImage",
 }));
 
 export type DeleteContainerServiceError =
@@ -4665,6 +4758,8 @@ export const deleteContainerService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerService",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerService",
 }));
 
 export type DeleteDiskError =
@@ -4708,6 +4803,8 @@ export const deleteDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDisk",
+  telemetry: TELEMETRY,
+  span: "DeleteDisk",
 }));
 
 export type DeleteDiskSnapshotError =
@@ -4754,6 +4851,8 @@ export const deleteDiskSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDiskSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteDiskSnapshot",
 }));
 
 export type DeleteDistributionError =
@@ -4786,6 +4885,8 @@ export const deleteDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistribution",
+  telemetry: TELEMETRY,
+  span: "DeleteDistribution",
 }));
 
 export type DeleteDomainError =
@@ -4826,6 +4927,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteDomainEntryError =
@@ -4866,6 +4969,8 @@ export const deleteDomainEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainEntry",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainEntry",
 }));
 
 export type DeleteInstanceError =
@@ -4906,6 +5011,8 @@ export const deleteInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeleteInstanceSnapshotError =
@@ -4947,6 +5054,8 @@ export const deleteInstanceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceSnapshot",
 }));
 
 export type DeleteKeyPairError =
@@ -4992,6 +5101,8 @@ export const deleteKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyPair",
+  telemetry: TELEMETRY,
+  span: "DeleteKeyPair",
 }));
 
 export type DeleteKnownHostKeysError =
@@ -5035,6 +5146,8 @@ export const deleteKnownHostKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnownHostKeys",
+  telemetry: TELEMETRY,
+  span: "DeleteKnownHostKeys",
 }));
 
 export type DeleteLoadBalancerError =
@@ -5077,6 +5190,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancer",
 }));
 
 export type DeleteLoadBalancerTlsCertificateError =
@@ -5117,6 +5232,8 @@ export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancerTlsCertificate",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancerTlsCertificate",
 }));
 
 export type DeleteRelationalDatabaseError =
@@ -5157,6 +5274,8 @@ export const deleteRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelationalDatabase",
+  telemetry: TELEMETRY,
+  span: "DeleteRelationalDatabase",
 }));
 
 export type DeleteRelationalDatabaseSnapshotError =
@@ -5197,6 +5316,8 @@ export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelationalDatabaseSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteRelationalDatabaseSnapshot",
 }));
 
 export type DetachCertificateFromDistributionError =
@@ -5233,6 +5354,8 @@ export const detachCertificateFromDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachCertificateFromDistribution",
+  telemetry: TELEMETRY,
+  span: "DetachCertificateFromDistribution",
 }));
 
 export type DetachDiskError =
@@ -5275,6 +5398,8 @@ export const detachDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachDisk",
+  telemetry: TELEMETRY,
+  span: "DetachDisk",
 }));
 
 export type DetachInstancesFromLoadBalancerError =
@@ -5318,6 +5443,8 @@ export const detachInstancesFromLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachInstancesFromLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DetachInstancesFromLoadBalancer",
 }));
 
 export type DetachStaticIpError =
@@ -5354,6 +5481,8 @@ export const detachStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachStaticIp",
+  telemetry: TELEMETRY,
+  span: "DetachStaticIp",
 }));
 
 export type DisableAddOnError =
@@ -5388,6 +5517,8 @@ export const disableAddOn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAddOn",
+  telemetry: TELEMETRY,
+  span: "DisableAddOn",
 }));
 
 export type DownloadDefaultKeyPairError =
@@ -5427,6 +5558,8 @@ export const downloadDefaultKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DownloadDefaultKeyPair",
+  telemetry: TELEMETRY,
+  span: "DownloadDefaultKeyPair",
 }));
 
 export type EnableAddOnError =
@@ -5462,6 +5595,8 @@ export const enableAddOn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAddOn",
+  telemetry: TELEMETRY,
+  span: "EnableAddOn",
 }));
 
 export type ExportSnapshotError =
@@ -5512,6 +5647,8 @@ export const exportSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportSnapshot",
+  telemetry: TELEMETRY,
+  span: "ExportSnapshot",
 }));
 
 export type GetActiveNamesError =
@@ -5548,6 +5685,8 @@ export const getActiveNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActiveNames",
+  telemetry: TELEMETRY,
+  span: "GetActiveNames",
 }));
 
 export type GetAlarmsError =
@@ -5589,6 +5728,8 @@ export const getAlarms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlarms",
+  telemetry: TELEMETRY,
+  span: "GetAlarms",
 }));
 
 export type GetAutoSnapshotsError =
@@ -5624,6 +5765,8 @@ export const getAutoSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoSnapshots",
+  telemetry: TELEMETRY,
+  span: "GetAutoSnapshots",
 }));
 
 export type GetBlueprintsError =
@@ -5668,6 +5811,8 @@ export const getBlueprints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprints",
+  telemetry: TELEMETRY,
+  span: "GetBlueprints",
 }));
 
 export type GetBucketAccessKeysError =
@@ -5704,6 +5849,8 @@ export const getBucketAccessKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAccessKeys",
+  telemetry: TELEMETRY,
+  span: "GetBucketAccessKeys",
 }));
 
 export type GetBucketBundlesError =
@@ -5740,6 +5887,8 @@ export const getBucketBundles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketBundles",
+  telemetry: TELEMETRY,
+  span: "GetBucketBundles",
 }));
 
 export type GetBucketMetricDataError =
@@ -5776,6 +5925,8 @@ export const getBucketMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetricData",
+  telemetry: TELEMETRY,
+  span: "GetBucketMetricData",
 }));
 
 export type GetBucketsError =
@@ -5813,6 +5964,8 @@ export const getBuckets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBuckets",
+  telemetry: TELEMETRY,
+  span: "GetBuckets",
 }));
 
 export type GetBundlesError =
@@ -5857,6 +6010,8 @@ export const getBundles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBundles",
+  telemetry: TELEMETRY,
+  span: "GetBundles",
 }));
 
 export type GetCertificatesError =
@@ -5893,6 +6048,8 @@ export const getCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificates",
+  telemetry: TELEMETRY,
+  span: "GetCertificates",
 }));
 
 export type GetCloudFormationStackRecordsError =
@@ -5933,6 +6090,8 @@ export const getCloudFormationStackRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFormationStackRecords",
+  telemetry: TELEMETRY,
+  span: "GetCloudFormationStackRecords",
 }));
 
 export type GetContactMethodsError =
@@ -5973,6 +6132,8 @@ export const getContactMethods: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactMethods",
+  telemetry: TELEMETRY,
+  span: "GetContactMethods",
 }));
 
 export type GetContainerAPIMetadataError =
@@ -6002,6 +6163,8 @@ export const getContainerAPIMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerAPIMetadata",
+  telemetry: TELEMETRY,
+  span: "GetContainerAPIMetadata",
 }));
 
 export type GetContainerImagesError =
@@ -6039,6 +6202,8 @@ export const getContainerImages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerImages",
+  telemetry: TELEMETRY,
+  span: "GetContainerImages",
 }));
 
 export type GetContainerLogError =
@@ -6080,6 +6245,8 @@ export const getContainerLog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerLog",
+  telemetry: TELEMETRY,
+  span: "GetContainerLog",
 }));
 
 export type GetContainerServiceDeploymentsError =
@@ -6123,6 +6290,8 @@ export const getContainerServiceDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerServiceDeployments",
+  telemetry: TELEMETRY,
+  span: "GetContainerServiceDeployments",
 }));
 
 export type GetContainerServiceMetricDataError =
@@ -6159,6 +6328,8 @@ export const getContainerServiceMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerServiceMetricData",
+  telemetry: TELEMETRY,
+  span: "GetContainerServiceMetricData",
 }));
 
 export type GetContainerServicePowersError =
@@ -6195,6 +6366,8 @@ export const getContainerServicePowers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerServicePowers",
+  telemetry: TELEMETRY,
+  span: "GetContainerServicePowers",
 }));
 
 export type GetContainerServicesError =
@@ -6227,6 +6400,8 @@ export const getContainerServices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerServices",
+  telemetry: TELEMETRY,
+  span: "GetContainerServices",
 }));
 
 export type GetCostEstimateError =
@@ -6260,6 +6435,8 @@ export const getCostEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostEstimate",
+  telemetry: TELEMETRY,
+  span: "GetCostEstimate",
 }));
 
 export type GetDiskError =
@@ -6296,6 +6473,8 @@ export const getDisk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDisk",
+  telemetry: TELEMETRY,
+  span: "GetDisk",
 }));
 
 export type GetDisksError =
@@ -6332,6 +6511,8 @@ export const getDisks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDisks",
+  telemetry: TELEMETRY,
+  span: "GetDisks",
 }));
 
 export type GetDiskSnapshotError =
@@ -6368,6 +6549,8 @@ export const getDiskSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiskSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetDiskSnapshot",
 }));
 
 export type GetDiskSnapshotsError =
@@ -6405,6 +6588,8 @@ export const getDiskSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiskSnapshots",
+  telemetry: TELEMETRY,
+  span: "GetDiskSnapshots",
 }));
 
 export type GetDistributionBundlesError =
@@ -6441,6 +6626,8 @@ export const getDistributionBundles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionBundles",
+  telemetry: TELEMETRY,
+  span: "GetDistributionBundles",
 }));
 
 export type GetDistributionLatestCacheResetError =
@@ -6474,6 +6661,8 @@ export const getDistributionLatestCacheReset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionLatestCacheReset",
+  telemetry: TELEMETRY,
+  span: "GetDistributionLatestCacheReset",
 }));
 
 export type GetDistributionMetricDataError =
@@ -6511,6 +6700,8 @@ export const getDistributionMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionMetricData",
+  telemetry: TELEMETRY,
+  span: "GetDistributionMetricData",
 }));
 
 export type GetDistributionsError =
@@ -6544,6 +6735,8 @@ export const getDistributions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributions",
+  telemetry: TELEMETRY,
+  span: "GetDistributions",
 }));
 
 export type GetDomainError =
@@ -6580,6 +6773,8 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainsError =
@@ -6616,6 +6811,8 @@ export const getDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomains",
+  telemetry: TELEMETRY,
+  span: "GetDomains",
 }));
 
 export type GetExportSnapshotRecordsError =
@@ -6657,6 +6854,8 @@ export const getExportSnapshotRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportSnapshotRecords",
+  telemetry: TELEMETRY,
+  span: "GetExportSnapshotRecords",
 }));
 
 export type GetInstanceError =
@@ -6694,6 +6893,8 @@ export const getInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstance",
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetInstanceAccessDetailsError =
@@ -6735,6 +6936,8 @@ export const getInstanceAccessDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceAccessDetails",
+  telemetry: TELEMETRY,
+  span: "GetInstanceAccessDetails",
 }));
 
 export type GetInstanceMetricDataError =
@@ -6776,6 +6979,8 @@ export const getInstanceMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceMetricData",
+  telemetry: TELEMETRY,
+  span: "GetInstanceMetricData",
 }));
 
 export type GetInstancePortStatesError =
@@ -6813,6 +7018,8 @@ export const getInstancePortStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstancePortStates",
+  telemetry: TELEMETRY,
+  span: "GetInstancePortStates",
 }));
 
 export type GetInstancesError =
@@ -6850,6 +7057,8 @@ export const getInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstances",
+  telemetry: TELEMETRY,
+  span: "GetInstances",
 }));
 
 export type GetInstanceSnapshotError =
@@ -6886,6 +7095,8 @@ export const getInstanceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetInstanceSnapshot",
 }));
 
 export type GetInstanceSnapshotsError =
@@ -6922,6 +7133,8 @@ export const getInstanceSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceSnapshots",
+  telemetry: TELEMETRY,
+  span: "GetInstanceSnapshots",
 }));
 
 export type GetInstanceStateError =
@@ -6958,6 +7171,8 @@ export const getInstanceState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceState",
+  telemetry: TELEMETRY,
+  span: "GetInstanceState",
 }));
 
 export type GetKeyPairError =
@@ -6994,6 +7209,8 @@ export const getKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyPair",
+  telemetry: TELEMETRY,
+  span: "GetKeyPair",
 }));
 
 export type GetKeyPairsError =
@@ -7030,6 +7247,8 @@ export const getKeyPairs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyPairs",
+  telemetry: TELEMETRY,
+  span: "GetKeyPairs",
 }));
 
 export type GetLoadBalancerError =
@@ -7066,6 +7285,8 @@ export const getLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancer",
 }));
 
 export type GetLoadBalancerMetricDataError =
@@ -7106,6 +7327,8 @@ export const getLoadBalancerMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancerMetricData",
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancerMetricData",
 }));
 
 export type GetLoadBalancersError =
@@ -7142,6 +7365,8 @@ export const getLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancers",
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancers",
 }));
 
 export type GetLoadBalancerTlsCertificatesError =
@@ -7184,6 +7409,8 @@ export const getLoadBalancerTlsCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancerTlsCertificates",
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancerTlsCertificates",
 }));
 
 export type GetLoadBalancerTlsPoliciesError =
@@ -7220,6 +7447,8 @@ export const getLoadBalancerTlsPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoadBalancerTlsPolicies",
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancerTlsPolicies",
 }));
 
 export type GetOperationError =
@@ -7257,6 +7486,8 @@ export const getOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperation",
+  telemetry: TELEMETRY,
+  span: "GetOperation",
 }));
 
 export type GetOperationsError =
@@ -7297,6 +7528,8 @@ export const getOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperations",
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetOperationsForResourceError =
@@ -7333,6 +7566,8 @@ export const getOperationsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperationsForResource",
+  telemetry: TELEMETRY,
+  span: "GetOperationsForResource",
 }));
 
 export type GetProfileError =
@@ -7365,6 +7600,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetRegionsError =
@@ -7403,6 +7640,8 @@ export const getRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegions",
+  telemetry: TELEMETRY,
+  span: "GetRegions",
 }));
 
 export type GetRelationalDatabaseError =
@@ -7439,6 +7678,8 @@ export const getRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabase",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabase",
 }));
 
 export type GetRelationalDatabaseBlueprintsError =
@@ -7479,6 +7720,8 @@ export const getRelationalDatabaseBlueprints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseBlueprints",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseBlueprints",
 }));
 
 export type GetRelationalDatabaseBundlesError =
@@ -7519,6 +7762,8 @@ export const getRelationalDatabaseBundles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseBundles",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseBundles",
 }));
 
 export type GetRelationalDatabaseEventsError =
@@ -7555,6 +7800,8 @@ export const getRelationalDatabaseEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseEvents",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseEvents",
 }));
 
 export type GetRelationalDatabaseLogEventsError =
@@ -7591,6 +7838,8 @@ export const getRelationalDatabaseLogEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseLogEvents",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseLogEvents",
 }));
 
 export type GetRelationalDatabaseLogStreamsError =
@@ -7627,6 +7876,8 @@ export const getRelationalDatabaseLogStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseLogStreams",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseLogStreams",
 }));
 
 export type GetRelationalDatabaseMasterUserPasswordError =
@@ -7668,6 +7919,8 @@ export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseMasterUserPassword",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseMasterUserPassword",
 }));
 
 export type GetRelationalDatabaseMetricDataError =
@@ -7708,6 +7961,8 @@ export const getRelationalDatabaseMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseMetricData",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseMetricData",
 }));
 
 export type GetRelationalDatabaseParametersError =
@@ -7749,6 +8004,8 @@ export const getRelationalDatabaseParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseParameters",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseParameters",
 }));
 
 export type GetRelationalDatabasesError =
@@ -7785,6 +8042,8 @@ export const getRelationalDatabases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabases",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabases",
 }));
 
 export type GetRelationalDatabaseSnapshotError =
@@ -7821,6 +8080,8 @@ export const getRelationalDatabaseSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseSnapshot",
 }));
 
 export type GetRelationalDatabaseSnapshotsError =
@@ -7857,6 +8118,8 @@ export const getRelationalDatabaseSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationalDatabaseSnapshots",
+  telemetry: TELEMETRY,
+  span: "GetRelationalDatabaseSnapshots",
 }));
 
 export type GetSetupHistoryError =
@@ -7890,6 +8153,8 @@ export const getSetupHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSetupHistory",
+  telemetry: TELEMETRY,
+  span: "GetSetupHistory",
 }));
 
 export type GetStaticIpError =
@@ -7926,6 +8191,8 @@ export const getStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStaticIp",
+  telemetry: TELEMETRY,
+  span: "GetStaticIp",
 }));
 
 export type GetStaticIpsError =
@@ -7962,6 +8229,8 @@ export const getStaticIps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStaticIps",
+  telemetry: TELEMETRY,
+  span: "GetStaticIps",
 }));
 
 export type ImportKeyPairError =
@@ -7998,6 +8267,8 @@ export const importKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportKeyPair",
+  telemetry: TELEMETRY,
+  span: "ImportKeyPair",
 }));
 
 export type IsVpcPeeredError =
@@ -8034,6 +8305,8 @@ export const isVpcPeered: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsVpcPeered",
+  telemetry: TELEMETRY,
+  span: "IsVpcPeered",
 }));
 
 export type OpenInstancePublicPortsError =
@@ -8075,6 +8348,8 @@ export const openInstancePublicPorts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OpenInstancePublicPorts",
+  telemetry: TELEMETRY,
+  span: "OpenInstancePublicPorts",
 }));
 
 export type PeerVpcError =
@@ -8111,6 +8386,8 @@ export const peerVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PeerVpc",
+  telemetry: TELEMETRY,
+  span: "PeerVpc",
 }));
 
 export type PutAlarmError =
@@ -8161,6 +8438,8 @@ export const putAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlarm",
+  telemetry: TELEMETRY,
+  span: "PutAlarm",
 }));
 
 export type PutInstancePublicPortsError =
@@ -8206,6 +8485,8 @@ export const putInstancePublicPorts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInstancePublicPorts",
+  telemetry: TELEMETRY,
+  span: "PutInstancePublicPorts",
 }));
 
 export type RebootInstanceError =
@@ -8246,6 +8527,8 @@ export const rebootInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootInstance",
+  telemetry: TELEMETRY,
+  span: "RebootInstance",
 }));
 
 export type RebootRelationalDatabaseError =
@@ -8286,6 +8569,8 @@ export const rebootRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootRelationalDatabase",
+  telemetry: TELEMETRY,
+  span: "RebootRelationalDatabase",
 }));
 
 export type RegisterContainerImageError =
@@ -8323,6 +8608,8 @@ export const registerContainerImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterContainerImage",
+  telemetry: TELEMETRY,
+  span: "RegisterContainerImage",
 }));
 
 export type ReleaseStaticIpError =
@@ -8359,6 +8646,8 @@ export const releaseStaticIp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseStaticIp",
+  telemetry: TELEMETRY,
+  span: "ReleaseStaticIp",
 }));
 
 export type ResetDistributionCacheError =
@@ -8395,6 +8684,8 @@ export const resetDistributionCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDistributionCache",
+  telemetry: TELEMETRY,
+  span: "ResetDistributionCache",
 }));
 
 export type SendContactMethodVerificationError =
@@ -8442,6 +8733,8 @@ export const sendContactMethodVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendContactMethodVerification",
+  telemetry: TELEMETRY,
+  span: "SendContactMethodVerification",
 }));
 
 export type SetIpAddressTypeError =
@@ -8482,6 +8775,8 @@ export const setIpAddressType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIpAddressType",
+  telemetry: TELEMETRY,
+  span: "SetIpAddressType",
 }));
 
 export type SetResourceAccessForBucketError =
@@ -8518,6 +8813,8 @@ export const setResourceAccessForBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetResourceAccessForBucket",
+  telemetry: TELEMETRY,
+  span: "SetResourceAccessForBucket",
 }));
 
 export type SetupInstanceHttpsError =
@@ -8554,6 +8851,8 @@ export const setupInstanceHttps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetupInstanceHttps",
+  telemetry: TELEMETRY,
+  span: "SetupInstanceHttps",
 }));
 
 export type StartGUISessionError =
@@ -8588,6 +8887,8 @@ export const startGUISession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGUISession",
+  telemetry: TELEMETRY,
+  span: "StartGUISession",
 }));
 
 export type StartInstanceError =
@@ -8633,6 +8934,8 @@ export const startInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstance",
+  telemetry: TELEMETRY,
+  span: "StartInstance",
 }));
 
 export type StartRelationalDatabaseError =
@@ -8674,6 +8977,8 @@ export const startRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRelationalDatabase",
+  telemetry: TELEMETRY,
+  span: "StartRelationalDatabase",
 }));
 
 export type StopGUISessionError =
@@ -8708,6 +9013,8 @@ export const stopGUISession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopGUISession",
+  telemetry: TELEMETRY,
+  span: "StopGUISession",
 }));
 
 export type StopInstanceError =
@@ -8752,6 +9059,8 @@ export const stopInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInstance",
+  telemetry: TELEMETRY,
+  span: "StopInstance",
 }));
 
 export type StopRelationalDatabaseError =
@@ -8796,6 +9105,8 @@ export const stopRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRelationalDatabase",
+  telemetry: TELEMETRY,
+  span: "StopRelationalDatabase",
 }));
 
 export type TagResourceError =
@@ -8838,6 +9149,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestAlarmError =
@@ -8880,6 +9193,8 @@ export const testAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestAlarm",
+  telemetry: TELEMETRY,
+  span: "TestAlarm",
 }));
 
 export type UnpeerVpcError =
@@ -8916,6 +9231,8 @@ export const unpeerVpc: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnpeerVpc",
+  telemetry: TELEMETRY,
+  span: "UnpeerVpc",
 }));
 
 export type UntagResourceError =
@@ -8957,6 +9274,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBucketError =
@@ -8992,6 +9311,8 @@ export const updateBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucket",
+  telemetry: TELEMETRY,
+  span: "UpdateBucket",
 }));
 
 export type UpdateBucketBundleError =
@@ -9038,6 +9359,8 @@ export const updateBucketBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketBundle",
+  telemetry: TELEMETRY,
+  span: "UpdateBucketBundle",
 }));
 
 export type UpdateContainerServiceError =
@@ -9071,6 +9394,8 @@ export const updateContainerService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerService",
+  telemetry: TELEMETRY,
+  span: "UpdateContainerService",
 }));
 
 export type UpdateDistributionError =
@@ -9105,6 +9430,8 @@ export const updateDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistribution",
+  telemetry: TELEMETRY,
+  span: "UpdateDistribution",
 }));
 
 export type UpdateDistributionBundleError =
@@ -9148,6 +9475,8 @@ export const updateDistributionBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionBundle",
+  telemetry: TELEMETRY,
+  span: "UpdateDistributionBundle",
 }));
 
 export type UpdateDomainEntryError =
@@ -9188,6 +9517,8 @@ export const updateDomainEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainEntry",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainEntry",
 }));
 
 export type UpdateInstanceMetadataOptionsError =
@@ -9229,6 +9560,8 @@ export const updateInstanceMetadataOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceMetadataOptions",
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceMetadataOptions",
 }));
 
 export type UpdateLoadBalancerAttributeError =
@@ -9270,6 +9603,8 @@ export const updateLoadBalancerAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoadBalancerAttribute",
+  telemetry: TELEMETRY,
+  span: "UpdateLoadBalancerAttribute",
 }));
 
 export type UpdateRelationalDatabaseError =
@@ -9313,6 +9648,8 @@ export const updateRelationalDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelationalDatabase",
+  telemetry: TELEMETRY,
+  span: "UpdateRelationalDatabase",
 }));
 
 export type UpdateRelationalDatabaseParametersError =
@@ -9360,6 +9697,8 @@ export const updateRelationalDatabaseParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelationalDatabaseParameters",
+  telemetry: TELEMETRY,
+  span: "UpdateRelationalDatabaseParameters",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

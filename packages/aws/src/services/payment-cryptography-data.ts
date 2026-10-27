@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://dataplane.payment-cryptography.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PaymentCryptographyData",
+  service: "PaymentCryptographyData",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1111,6 +1126,8 @@ export const decryptData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecryptData",
+  telemetry: TELEMETRY,
+  span: "DecryptData",
 }));
 
 export type EncryptDataError =
@@ -1167,6 +1184,8 @@ export const encryptData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EncryptData",
+  telemetry: TELEMETRY,
+  span: "EncryptData",
 }));
 
 export type GenerateAs2805KekValidationError =
@@ -1207,6 +1226,8 @@ export const generateAs2805KekValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateAs2805KekValidation",
+  telemetry: TELEMETRY,
+  span: "GenerateAs2805KekValidation",
 }));
 
 export type GenerateAuthRequestCryptogramError =
@@ -1249,6 +1270,8 @@ export const generateAuthRequestCryptogram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateAuthRequestCryptogram",
+  telemetry: TELEMETRY,
+  span: "GenerateAuthRequestCryptogram",
 }));
 
 export type GenerateCardValidationDataError =
@@ -1291,6 +1314,8 @@ export const generateCardValidationData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateCardValidationData",
+  telemetry: TELEMETRY,
+  span: "GenerateCardValidationData",
 }));
 
 export type GenerateMacError =
@@ -1333,6 +1358,8 @@ export const generateMac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMac",
+  telemetry: TELEMETRY,
+  span: "GenerateMac",
 }));
 
 export type GenerateMacEmvPinChangeError =
@@ -1381,6 +1408,8 @@ export const generateMacEmvPinChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMacEmvPinChange",
+  telemetry: TELEMETRY,
+  span: "GenerateMacEmvPinChange",
 }));
 
 export type GeneratePinDataError =
@@ -1427,6 +1456,8 @@ export const generatePinData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GeneratePinData",
+  telemetry: TELEMETRY,
+  span: "GeneratePinData",
 }));
 
 export type ReEncryptDataError =
@@ -1483,6 +1514,8 @@ export const reEncryptData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReEncryptData",
+  telemetry: TELEMETRY,
+  span: "ReEncryptData",
 }));
 
 export type TranslateKeyMaterialError =
@@ -1529,6 +1562,8 @@ export const translateKeyMaterial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TranslateKeyMaterial",
+  telemetry: TELEMETRY,
+  span: "TranslateKeyMaterial",
 }));
 
 export type TranslatePinDataError =
@@ -1581,6 +1616,8 @@ export const translatePinData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TranslatePinData",
+  telemetry: TELEMETRY,
+  span: "TranslatePinData",
 }));
 
 export type VerifyAuthRequestCryptogramError =
@@ -1625,6 +1662,8 @@ export const verifyAuthRequestCryptogram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyAuthRequestCryptogram",
+  telemetry: TELEMETRY,
+  span: "VerifyAuthRequestCryptogram",
 }));
 
 export type VerifyCardValidationDataError =
@@ -1671,6 +1710,8 @@ export const verifyCardValidationData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyCardValidationData",
+  telemetry: TELEMETRY,
+  span: "VerifyCardValidationData",
 }));
 
 export type VerifyMacError =
@@ -1713,6 +1754,8 @@ export const verifyMac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyMac",
+  telemetry: TELEMETRY,
+  span: "VerifyMac",
 }));
 
 export type VerifyPinDataError =
@@ -1757,6 +1800,8 @@ export const verifyPinData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyPinData",
+  telemetry: TELEMETRY,
+  span: "VerifyPinData",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://tagging.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ResourceGroupsTaggingAPI",
+  service: "ResourceGroupsTaggingAPI",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -289,6 +304,8 @@ export const describeReportCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportCreation",
+  telemetry: TELEMETRY,
+  span: "DescribeReportCreation",
 }));
 
 export type GetComplianceSummaryError =
@@ -338,6 +355,8 @@ export const getComplianceSummary: API.PaginatedOperationMethod<
     items: "SummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetComplianceSummary",
 })) as any;
 
 export type GetResourcesError =
@@ -397,6 +416,8 @@ export const getResources: API.PaginatedOperationMethod<
     items: "ResourceTagMappingList",
     pageSize: "ResourcesPerPage",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResources",
 })) as any;
 
 export type GetTagKeysError =
@@ -439,6 +460,8 @@ export const getTagKeys: API.PaginatedOperationMethod<
     outputToken: "PaginationToken",
     items: "TagKeys",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTagKeys",
 })) as any;
 
 export type GetTagValuesError =
@@ -481,6 +504,8 @@ export const getTagValues: API.PaginatedOperationMethod<
     outputToken: "PaginationToken",
     items: "TagValues",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTagValues",
 })) as any;
 
 export type ListRequiredTagsError =
@@ -516,6 +541,8 @@ export const listRequiredTags: API.PaginatedOperationMethod<
     items: "RequiredTags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRequiredTags",
 })) as any;
 
 export type StartReportCreationError =
@@ -566,6 +593,8 @@ export const startReportCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReportCreation",
+  telemetry: TELEMETRY,
+  span: "StartReportCreation",
 }));
 
 export type TagResourcesError =
@@ -637,6 +666,8 @@ export const tagResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResources",
+  telemetry: TELEMETRY,
+  span: "TagResources",
 }));
 
 export type UntagResourcesError =
@@ -688,6 +719,8 @@ export const untagResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResources",
+  telemetry: TELEMETRY,
+  span: "UntagResources",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

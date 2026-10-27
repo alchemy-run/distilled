@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codeguru-reviewer.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeGuruReviewer",
+  service: "CodeGuruReviewer",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -534,6 +549,8 @@ export const associateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRepository",
+  telemetry: TELEMETRY,
+  span: "AssociateRepository",
 }));
 
 export type CreateCodeReviewError =
@@ -569,6 +586,8 @@ export const createCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeReview",
+  telemetry: TELEMETRY,
+  span: "CreateCodeReview",
 }));
 
 export type DescribeCodeReviewError =
@@ -599,6 +618,8 @@ export const describeCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCodeReview",
+  telemetry: TELEMETRY,
+  span: "DescribeCodeReview",
 }));
 
 export type DescribeRecommendationFeedbackError =
@@ -629,6 +650,8 @@ export const describeRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecommendationFeedback",
+  telemetry: TELEMETRY,
+  span: "DescribeRecommendationFeedback",
 }));
 
 export type DescribeRepositoryAssociationError =
@@ -660,6 +683,8 @@ export const describeRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRepositoryAssociation",
+  telemetry: TELEMETRY,
+  span: "DescribeRepositoryAssociation",
 }));
 
 export type DisassociateRepositoryError =
@@ -692,6 +717,8 @@ export const disassociateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRepository",
+  telemetry: TELEMETRY,
+  span: "DisassociateRepository",
 }));
 
 export type ListCodeReviewsError =
@@ -726,6 +753,8 @@ export const listCodeReviews: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeReviews",
 })) as any;
 
 export type ListRecommendationFeedbackError =
@@ -763,6 +792,8 @@ export const listRecommendationFeedback: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendationFeedback",
 })) as any;
 
 export type ListRecommendationsError =
@@ -799,6 +830,8 @@ export const listRecommendations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 })) as any;
 
 export type ListRepositoryAssociationsError =
@@ -829,6 +862,8 @@ export const listRepositoryAssociations: API.PaginatedOperationMethod<
     items: "RepositoryAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryAssociations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -851,6 +886,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutRecommendationFeedbackError =
@@ -882,6 +919,8 @@ export const putRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecommendationFeedback",
+  telemetry: TELEMETRY,
+  span: "PutRecommendationFeedback",
 }));
 
 export type TagResourceError =
@@ -904,6 +943,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -926,6 +967,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "ChecksV2",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1396,6 +1410,8 @@ export const createDeploymentCheckRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentCheckRun",
 }));
 
 export type CreateProjectCheckError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1411,6 +1427,8 @@ export const createProjectCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectCheck",
 }));
 
 export type DeleteProjectCheckError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1426,6 +1444,8 @@ export const deleteProjectCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectCheck",
 }));
 
 export type GetDeploymentCheckRunError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1441,6 +1461,8 @@ export const getDeploymentCheckRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentCheckRun",
 }));
 
 export type GetProjectCheckError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1456,6 +1478,8 @@ export const getProjectCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectCheck",
 }));
 
 export type ListCheckRunsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1471,6 +1495,8 @@ export const listCheckRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCheckRuns",
 }));
 
 export type ListDeploymentCheckRunsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1486,6 +1512,8 @@ export const listDeploymentCheckRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentCheckRuns",
 }));
 
 export type ListProjectChecksError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1501,6 +1529,8 @@ export const listProjectChecks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectChecks",
 }));
 
 export type UpdateDeploymentCheckRunError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1516,6 +1546,8 @@ export const updateDeploymentCheckRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeploymentCheckRun",
 }));
 
 export type UpdateProjectCheckError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1531,6 +1563,8 @@ export const updateProjectCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectCheck",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

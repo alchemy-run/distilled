@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SurrealdbOpError, SurrealdbOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "surrealdb-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "SurrealDB",
+  service: "Surrealdb",
+  labels: "surrealdb",
+  propagate: "w3c",
+} as const;
+
 export interface CreateSqlRequest {
   /** Sets the selected Namespace for queries */
   nS?: string;
@@ -189,6 +202,8 @@ export const createSql: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSql",
 }));
 
 export type DeleteKeyError = SurrealdbOpError;
@@ -204,6 +219,8 @@ export const deleteKey: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeleteKeyByIdError = SurrealdbOpError;
@@ -219,6 +236,8 @@ export const deleteKeyById: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKeyById",
 }));
 
 export type GetExportError = SurrealdbOpError;
@@ -234,6 +253,8 @@ export const getExport: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type GetHealthError = SurrealdbOpError;
@@ -249,6 +270,8 @@ export const getHealth: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealth",
 }));
 
 export type GetKeyError = SurrealdbOpError;
@@ -264,6 +287,8 @@ export const getKey: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKey",
 }));
 
 export type GetKeyByIdError = SurrealdbOpError;
@@ -279,6 +304,8 @@ export const getKeyById: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyById",
 }));
 
 export type GetStatusError = SurrealdbOpError;
@@ -294,6 +321,8 @@ export const getStatus: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatus",
 }));
 
 export type GetVersionError = SurrealdbOpError;
@@ -309,6 +338,8 @@ export const getVersion: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type ImportError = SurrealdbOpError;
@@ -324,6 +355,8 @@ export const Import: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Import",
 }));
 
 export type PutKeyError = SurrealdbOpError;
@@ -339,6 +372,8 @@ export const putKey: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutKey",
 }));
 
 export type PutKeyByIdError = SurrealdbOpError;
@@ -354,6 +389,8 @@ export const putKeyById: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutKeyById",
 }));
 
 export type UpdateKeyError = SurrealdbOpError;
@@ -369,6 +406,8 @@ export const updateKey: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKey",
 }));
 
 export type UpdateKeyByIdError = SurrealdbOpError;
@@ -384,6 +423,8 @@ export const updateKeyById: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKeyById",
 }));
 
 export type UpdateKeyById2Error = SurrealdbOpError;
@@ -399,6 +440,8 @@ export const updateKeyById2: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKeyById2",
 }));
 
 export type UpdateKeyByTableError = SurrealdbOpError;
@@ -414,6 +457,8 @@ export const updateKeyByTable: API.OperationMethod<
   errors: [UnknownSurrealdbError],
   protocol: SurrealdbProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKeyByTable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

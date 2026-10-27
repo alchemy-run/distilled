@@ -1,9 +1,11 @@
 #!/usr/bin/env -S node --conditions=bun
 /**
- * generate — turn the Smithy JSON models in .generated-specs into an Effect SDK.
+ * generate — run scripts/convert.ts in memory and compile its Smithy models
+ * into an Effect SDK.
  *
- * Input:  .generated-specs/stable/<service>.json   (default; see --smithy)
- * Output: src/services/<service>.ts + services/index.ts (default; see --out)
+ * Input:  the stable and unstable models convert.ts converts (in memory)
+ * Output: src/services/<service>.ts + index.ts            (stable)
+ *         src/unstable-services/<service>.ts + index.ts   (unstable)
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Google Workspace's provider spec: the
@@ -12,8 +14,8 @@
  * (discovery primitive/any schemas), the token pagination profile, and the
  * protocol/retry names.
  *
- * Run twice to cover both trees (see package.json `generate`):
- *   node --conditions=bun scripts/generate.ts
+ * One run converts once and compiles both trees. `--smithy`/`--out` compile
+ * a single tree instead:
  *   node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
  */
 
@@ -102,8 +104,11 @@ const makeGoogleWorkspaceSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
 
 runGeneratorCli({
   description: "Generate the Google Workspace Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
-  smithyDir: ".generated-specs/stable",
-  outDir: "src/services",
+  targets: [
+    { smithyDir: ".generated-specs/stable", outDir: "src/services" },
+    { smithyDir: ".generated-specs/unstable", outDir: "src/unstable-services" },
+  ],
   spec: (model) => makeGoogleWorkspaceSpec(model.metadata ?? {}),
 });

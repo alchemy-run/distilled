@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DevOpsInfrastructure" },
+  prefix: "Devopsinfrastructure",
+  service: "Devopsinfrastructure",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The type of resource. */
 export type DevOpsInfrastructureResourceType = "Microsoft.DevOpsInfrastructure/pools";
 export interface CheckPoolNameAvailabilityRequest {
@@ -779,6 +799,8 @@ export const CheckPoolNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPoolNameAvailability",
 }));
 
 export type DeletePoolError = AzureOpError;
@@ -794,6 +816,8 @@ export const DeletePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePool",
 }));
 
 export type DeletePoolResourcesError = AzureOpError;
@@ -809,6 +833,8 @@ export const DeletePoolResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePoolResources",
 }));
 
 export type GetPoolError = AzureOpError;
@@ -824,6 +850,8 @@ export const GetPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPool",
 }));
 
 export type ListImageVersionByImageError = AzureOpError;
@@ -839,6 +867,8 @@ export const ListImageVersionByImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImageVersionByImage",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -854,6 +884,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPoolByResourceGroupError = AzureOpError;
@@ -869,6 +901,8 @@ export const ListPoolByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPoolByResourceGroup",
 }));
 
 export type ListPoolBySubscriptionError = AzureOpError;
@@ -884,6 +918,8 @@ export const ListPoolBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPoolBySubscription",
 }));
 
 export type ListResourceDetailByPoolError = AzureOpError;
@@ -899,6 +935,8 @@ export const ListResourceDetailByPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceDetailByPool",
 }));
 
 export type ListSkuByLocationError = AzureOpError;
@@ -914,6 +952,8 @@ export const ListSkuByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkuByLocation",
 }));
 
 export type PoolsCreateOrUpdateError = AzureOpError;
@@ -929,6 +969,8 @@ export const PoolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoolsCreateOrUpdate",
 }));
 
 export type SubscriptionUsagesUsagesError = AzureOpError;
@@ -944,6 +986,8 @@ export const SubscriptionUsagesUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionUsagesUsages",
 }));
 
 export type UpdatePoolError = AzureOpError;
@@ -959,6 +1003,8 @@ export const UpdatePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePool",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

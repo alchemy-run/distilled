@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AzureArcData" },
+  prefix: "Azurearcdata",
+  service: "Azurearcdata",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** List of database names. */
 export type AddSqlServerAvailabilityGroupDatabasesRequestValuesList = Array<string>;
 export interface AddSqlServerAvailabilityGroupDatabasesRequest {
@@ -4484,6 +4504,8 @@ export const AddSqlServerAvailabilityGroupDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSqlServerAvailabilityGroupDatabases",
 }));
 
 export type CreateActiveDirectoryConnectorError = AzureOpError;
@@ -4499,6 +4521,8 @@ export const CreateActiveDirectoryConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActiveDirectoryConnector",
 }));
 
 export type CreateFailoverGroupError = AzureOpError;
@@ -4514,6 +4538,8 @@ export const CreateFailoverGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFailoverGroup",
 }));
 
 export type CreatePostgresInstanceError = AzureOpError;
@@ -4529,6 +4555,8 @@ export const CreatePostgresInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgresInstance",
 }));
 
 export type CreateSqlManagedInstanceError = AzureOpError;
@@ -4544,6 +4572,8 @@ export const CreateSqlManagedInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlManagedInstance",
 }));
 
 export type CreateSqlServerAvailabilityGroupError = AzureOpError;
@@ -4559,6 +4589,8 @@ export const CreateSqlServerAvailabilityGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlServerAvailabilityGroup",
 }));
 
 export type CreateSqlServerAvailabilityGroupAvailabilityGroupError = AzureOpError;
@@ -4582,6 +4614,8 @@ export const CreateSqlServerAvailabilityGroupAvailabilityGroup: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlServerAvailabilityGroupAvailabilityGroup",
 }));
 
 export type CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupError = AzureOpError;
@@ -4605,6 +4639,8 @@ export const CreateSqlServerAvailabilityGroupDistributedAvailabilityGroup: API.O
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlServerAvailabilityGroupDistributedAvailabilityGroup",
 }));
 
 export type CreateSqlServerAvailabilityGroupManagedInstanceLinkError = AzureOpError;
@@ -4628,6 +4664,8 @@ export const CreateSqlServerAvailabilityGroupManagedInstanceLink: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlServerAvailabilityGroupManagedInstanceLink",
 }));
 
 export type CreateSqlServerDatabaseError = AzureOpError;
@@ -4643,6 +4681,8 @@ export const CreateSqlServerDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlServerDatabase",
 }));
 
 export type CreateSqlServerEsuLicenseError = AzureOpError;
@@ -4658,6 +4698,8 @@ export const CreateSqlServerEsuLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlServerEsuLicense",
 }));
 
 export type CreateSqlServerInstanceError = AzureOpError;
@@ -4673,6 +4715,8 @@ export const CreateSqlServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlServerInstance",
 }));
 
 export type CreateSqlServerLicenseError = AzureOpError;
@@ -4688,6 +4732,8 @@ export const CreateSqlServerLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlServerLicense",
 }));
 
 export type DeleteActiveDirectoryConnectorError = AzureOpError;
@@ -4703,6 +4749,8 @@ export const DeleteActiveDirectoryConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActiveDirectoryConnector",
 }));
 
 export type DeleteDataControllerDataControllerError = AzureOpError;
@@ -4718,6 +4766,8 @@ export const DeleteDataControllerDataController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataControllerDataController",
 }));
 
 export type DeleteFailoverGroupError = AzureOpError;
@@ -4733,6 +4783,8 @@ export const DeleteFailoverGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFailoverGroup",
 }));
 
 export type DeletePostgresInstanceError = AzureOpError;
@@ -4748,6 +4800,8 @@ export const DeletePostgresInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgresInstance",
 }));
 
 export type DeleteSqlManagedInstanceError = AzureOpError;
@@ -4763,6 +4817,8 @@ export const DeleteSqlManagedInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlManagedInstance",
 }));
 
 export type DeleteSqlServerAvailabilityGroupError = AzureOpError;
@@ -4778,6 +4834,8 @@ export const DeleteSqlServerAvailabilityGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlServerAvailabilityGroup",
 }));
 
 export type DeleteSqlServerAvailabilityGroupMiLinkError = AzureOpError;
@@ -4793,6 +4851,8 @@ export const DeleteSqlServerAvailabilityGroupMiLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlServerAvailabilityGroupMiLink",
 }));
 
 export type DeleteSqlServerDatabaseError = AzureOpError;
@@ -4808,6 +4868,8 @@ export const DeleteSqlServerDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlServerDatabase",
 }));
 
 export type DeleteSqlServerEsuLicenseError = AzureOpError;
@@ -4823,6 +4885,8 @@ export const DeleteSqlServerEsuLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlServerEsuLicense",
 }));
 
 export type DeleteSqlServerInstanceError = AzureOpError;
@@ -4838,6 +4902,8 @@ export const DeleteSqlServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlServerInstance",
 }));
 
 export type DeleteSqlServerLicenseError = AzureOpError;
@@ -4853,6 +4919,8 @@ export const DeleteSqlServerLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlServerLicense",
 }));
 
 export type GetActiveDirectoryConnectorError = AzureOpError;
@@ -4868,6 +4936,8 @@ export const GetActiveDirectoryConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveDirectoryConnector",
 }));
 
 export type GetDataControllerDataControllerError = AzureOpError;
@@ -4883,6 +4953,8 @@ export const GetDataControllerDataController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataControllerDataController",
 }));
 
 export type GetFailoverGroupError = AzureOpError;
@@ -4898,6 +4970,8 @@ export const GetFailoverGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFailoverGroup",
 }));
 
 export type GetPostgresInstanceError = AzureOpError;
@@ -4913,6 +4987,8 @@ export const GetPostgresInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgresInstance",
 }));
 
 export type GetSqlManagedInstanceError = AzureOpError;
@@ -4928,6 +5004,8 @@ export const GetSqlManagedInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlManagedInstance",
 }));
 
 export type GetSqlServerAvailabilityGroupError = AzureOpError;
@@ -4943,6 +5021,8 @@ export const GetSqlServerAvailabilityGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerAvailabilityGroup",
 }));
 
 export type GetSqlServerDatabaseError = AzureOpError;
@@ -4958,6 +5038,8 @@ export const GetSqlServerDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerDatabase",
 }));
 
 export type GetSqlServerEsuLicenseError = AzureOpError;
@@ -4973,6 +5055,8 @@ export const GetSqlServerEsuLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerEsuLicense",
 }));
 
 export type GetSqlServerInstanceError = AzureOpError;
@@ -4988,6 +5072,8 @@ export const GetSqlServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerInstance",
 }));
 
 export type GetSqlServerInstanceAllAvailabilityGroupsError = AzureOpError;
@@ -5003,6 +5089,8 @@ export const GetSqlServerInstanceAllAvailabilityGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerInstanceAllAvailabilityGroups",
 }));
 
 export type GetSqlServerInstanceBestPracticesAssessmentError = AzureOpError;
@@ -5022,6 +5110,8 @@ export const GetSqlServerInstanceBestPracticesAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerInstanceBestPracticesAssessment",
 }));
 
 export type GetSqlServerInstanceJobsStatusError = AzureOpError;
@@ -5037,6 +5127,8 @@ export const GetSqlServerInstanceJobsStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerInstanceJobsStatus",
 }));
 
 export type GetSqlServerInstanceTelemetryError = AzureOpError;
@@ -5052,6 +5144,8 @@ export const GetSqlServerInstanceTelemetry: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerInstanceTelemetry",
 }));
 
 export type GetSqlServerLicenseError = AzureOpError;
@@ -5067,6 +5161,8 @@ export const GetSqlServerLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServerLicense",
 }));
 
 export type ListActiveDirectoryConnectorsError = AzureOpError;
@@ -5082,6 +5178,8 @@ export const ListActiveDirectoryConnectors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActiveDirectoryConnectors",
 }));
 
 export type ListDataControllerInGroupError = AzureOpError;
@@ -5097,6 +5195,8 @@ export const ListDataControllerInGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataControllerInGroup",
 }));
 
 export type ListDataControllerInSubscriptionError = AzureOpError;
@@ -5112,6 +5212,8 @@ export const ListDataControllerInSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataControllerInSubscription",
 }));
 
 export type ListFailoverGroupsError = AzureOpError;
@@ -5127,6 +5229,8 @@ export const ListFailoverGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFailoverGroups",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -5142,6 +5246,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPostgresInstanceByResourceGroupError = AzureOpError;
@@ -5157,6 +5263,8 @@ export const ListPostgresInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresInstanceByResourceGroup",
 }));
 
 export type ListPostgresInstancesError = AzureOpError;
@@ -5172,6 +5280,8 @@ export const ListPostgresInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresInstances",
 }));
 
 export type ListSqlManagedInstanceByResourceGroupError = AzureOpError;
@@ -5187,6 +5297,8 @@ export const ListSqlManagedInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlManagedInstanceByResourceGroup",
 }));
 
 export type ListSqlManagedInstancesError = AzureOpError;
@@ -5202,6 +5314,8 @@ export const ListSqlManagedInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlManagedInstances",
 }));
 
 export type ListSqlServerAvailabilityGroupsError = AzureOpError;
@@ -5217,6 +5331,8 @@ export const ListSqlServerAvailabilityGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServerAvailabilityGroups",
 }));
 
 export type ListSqlServerDatabasesError = AzureOpError;
@@ -5232,6 +5348,8 @@ export const ListSqlServerDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServerDatabases",
 }));
 
 export type ListSqlServerEsuLicenseByResourceGroupError = AzureOpError;
@@ -5247,6 +5365,8 @@ export const ListSqlServerEsuLicenseByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServerEsuLicenseByResourceGroup",
 }));
 
 export type ListSqlServerEsuLicensesError = AzureOpError;
@@ -5262,6 +5382,8 @@ export const ListSqlServerEsuLicenses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServerEsuLicenses",
 }));
 
 export type ListSqlServerInstanceByResourceGroupError = AzureOpError;
@@ -5277,6 +5399,8 @@ export const ListSqlServerInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServerInstanceByResourceGroup",
 }));
 
 export type ListSqlServerInstancesError = AzureOpError;
@@ -5292,6 +5416,8 @@ export const ListSqlServerInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServerInstances",
 }));
 
 export type ListSqlServerLicenseByResourceGroupError = AzureOpError;
@@ -5307,6 +5433,8 @@ export const ListSqlServerLicenseByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServerLicenseByResourceGroup",
 }));
 
 export type ListSqlServerLicensesError = AzureOpError;
@@ -5322,6 +5450,8 @@ export const ListSqlServerLicenses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServerLicenses",
 }));
 
 export type PatchDataControllerDataControllerError = AzureOpError;
@@ -5337,6 +5467,8 @@ export const PatchDataControllerDataController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDataControllerDataController",
 }));
 
 export type PostSqlServerInstanceUpgradeError = AzureOpError;
@@ -5352,6 +5484,8 @@ export const PostSqlServerInstanceUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSqlServerInstanceUpgrade",
 }));
 
 export type PutDataControllerDataControllerError = AzureOpError;
@@ -5367,6 +5501,8 @@ export const PutDataControllerDataController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDataControllerDataController",
 }));
 
 export type RemoveSqlServerAvailabilityGroupDatabasesError = AzureOpError;
@@ -5382,6 +5518,8 @@ export const RemoveSqlServerAvailabilityGroupDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSqlServerAvailabilityGroupDatabases",
 }));
 
 export type RunSqlServerInstanceBestPracticesAssessmentError = AzureOpError;
@@ -5401,6 +5539,8 @@ export const RunSqlServerInstanceBestPracticesAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunSqlServerInstanceBestPracticesAssessment",
 }));
 
 export type RunSqlServerInstanceManagedInstanceLinkAssessmentError = AzureOpError;
@@ -5424,6 +5564,8 @@ export const RunSqlServerInstanceManagedInstanceLinkAssessment: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunSqlServerInstanceManagedInstanceLinkAssessment",
 }));
 
 export type RunSqlServerInstanceMigrationAssessmentError = AzureOpError;
@@ -5439,6 +5581,8 @@ export const RunSqlServerInstanceMigrationAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunSqlServerInstanceMigrationAssessment",
 }));
 
 export type SqlServerAvailabilityGroupsDetailViewError = AzureOpError;
@@ -5454,6 +5598,8 @@ export const SqlServerAvailabilityGroupsDetailView: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlServerAvailabilityGroupsDetailView",
 }));
 
 export type SqlServerAvailabilityGroupsFailoverError = AzureOpError;
@@ -5469,6 +5615,8 @@ export const SqlServerAvailabilityGroupsFailover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlServerAvailabilityGroupsFailover",
 }));
 
 export type SqlServerAvailabilityGroupsFailoverMiLinkError = AzureOpError;
@@ -5488,6 +5636,8 @@ export const SqlServerAvailabilityGroupsFailoverMiLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlServerAvailabilityGroupsFailoverMiLink",
 }));
 
 export type SqlServerAvailabilityGroupsForceFailoverAllowDataLossError = AzureOpError;
@@ -5511,6 +5661,8 @@ export const SqlServerAvailabilityGroupsForceFailoverAllowDataLoss: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlServerAvailabilityGroupsForceFailoverAllowDataLoss",
 }));
 
 export type SqlServerInstancesPreUpgradeError = AzureOpError;
@@ -5526,6 +5678,8 @@ export const SqlServerInstancesPreUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlServerInstancesPreUpgrade",
 }));
 
 export type UpdatePostgresInstanceError = AzureOpError;
@@ -5541,6 +5695,8 @@ export const UpdatePostgresInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePostgresInstance",
 }));
 
 export type UpdateSqlManagedInstanceError = AzureOpError;
@@ -5556,6 +5712,8 @@ export const UpdateSqlManagedInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlManagedInstance",
 }));
 
 export type UpdateSqlServerAvailabilityGroupError = AzureOpError;
@@ -5571,6 +5729,8 @@ export const UpdateSqlServerAvailabilityGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlServerAvailabilityGroup",
 }));
 
 export type UpdateSqlServerDatabaseError = AzureOpError;
@@ -5586,6 +5746,8 @@ export const UpdateSqlServerDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlServerDatabase",
 }));
 
 export type UpdateSqlServerEsuLicenseError = AzureOpError;
@@ -5601,6 +5763,8 @@ export const UpdateSqlServerEsuLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlServerEsuLicense",
 }));
 
 export type UpdateSqlServerInstanceError = AzureOpError;
@@ -5616,6 +5780,8 @@ export const UpdateSqlServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlServerInstance",
 }));
 
 export type UpdateSqlServerLicenseError = AzureOpError;
@@ -5631,6 +5797,8 @@ export const UpdateSqlServerLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlServerLicense",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

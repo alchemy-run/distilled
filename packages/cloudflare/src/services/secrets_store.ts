@@ -26,6 +26,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "SecretsStore",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class InvalidAccountId
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidAccountId>()("InvalidAccountId", {
@@ -487,6 +501,8 @@ export const bulkDeleteStoreSecrets: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteStoreSecrets",
 }));
 
 export type CreateStoreError = InvalidAccountId | MaximumStoresExceeded | CloudflareOpError;
@@ -502,6 +518,8 @@ export const createStore: API.OperationMethod<
   errors: [InvalidAccountId, MaximumStoresExceeded, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStore",
 }));
 
 export type CreateStoreSecretError =
@@ -533,6 +551,8 @@ export const createStoreSecret: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateStoreSecret",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -551,6 +571,8 @@ export const deleteStore: API.OperationMethod<
   errors: [StoreNotFound, InvalidAccountId, NotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStore",
 }));
 
 export type DeleteStoreSecretError =
@@ -578,6 +600,8 @@ export const deleteStoreSecret: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStoreSecret",
 }));
 
 export type DuplicateStoreSecretError =
@@ -611,6 +635,8 @@ export const duplicateStoreSecret: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateStoreSecret",
 }));
 
 export type GetQuotaError = InvalidAccountId | CloudflareOpError;
@@ -626,6 +652,8 @@ export const getQuota: API.OperationMethod<
   errors: [InvalidAccountId, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuota",
 }));
 
 export type GetStoreError = CloudflareOpError;
@@ -641,6 +669,8 @@ export const getStore: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStore",
 }));
 
 export type GetStoreSecretError =
@@ -668,6 +698,8 @@ export const getStoreSecret: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStoreSecret",
 }));
 
 export type ListStoresError = InvalidAccountId | CloudflareOpError;
@@ -685,6 +717,8 @@ export const listStores: API.PaginatedOperationMethod<
     errors: [InvalidAccountId, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListStores",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -711,6 +745,8 @@ export const listStoreSecrets: API.PaginatedOperationMethod<
     errors: [StoreNotFound, InvalidAccountId, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListStoreSecrets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -747,6 +783,8 @@ export const patchStoreSecret: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStoreSecret",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

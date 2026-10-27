@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Elastic" },
+  prefix: "Elastic",
+  service: "Elastic",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface AssociateTrafficFilterAssociateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1343,6 +1363,8 @@ export const AssociateTrafficFilterAssociate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssociateTrafficFilterAssociate",
 }));
 
 export type CreateCreateAndAssociateIPFilterError = AzureOpError;
@@ -1358,6 +1380,8 @@ export const CreateCreateAndAssociateIPFilter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCreateAndAssociateIPFilter",
 }));
 
 export type CreateCreateAndAssociatePLFilterError = AzureOpError;
@@ -1373,6 +1397,8 @@ export const CreateCreateAndAssociatePLFilter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCreateAndAssociatePLFilter",
 }));
 
 export type CreateMonitorError = AzureOpError;
@@ -1388,6 +1414,8 @@ export const CreateMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type DeleteDetachAndDeleteTrafficFilterError = AzureOpError;
@@ -1403,6 +1431,8 @@ export const DeleteDetachAndDeleteTrafficFilter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDetachAndDeleteTrafficFilter",
 }));
 
 export type DeleteMonitorError = AzureOpError;
@@ -1418,6 +1448,8 @@ export const DeleteMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteMonitoredSubscriptionError = AzureOpError;
@@ -1433,6 +1465,8 @@ export const DeleteMonitoredSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitoredSubscription",
 }));
 
 export type DeleteOpenAIError = AzureOpError;
@@ -1448,6 +1482,8 @@ export const DeleteOpenAI: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOpenAI",
 }));
 
 export type DeleteTagRuleError = AzureOpError;
@@ -1463,6 +1499,8 @@ export const DeleteTagRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagRule",
 }));
 
 export type DeleteTrafficFilterError = AzureOpError;
@@ -1478,6 +1516,8 @@ export const DeleteTrafficFilter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficFilter",
 }));
 
 export type ExternalUserCreateOrUpdateError = AzureOpError;
@@ -1493,6 +1533,8 @@ export const ExternalUserCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalUserCreateOrUpdate",
 }));
 
 export type GetBillingInfoError = AzureOpError;
@@ -1508,6 +1550,8 @@ export const GetBillingInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingInfo",
 }));
 
 export type GetMonitorError = AzureOpError;
@@ -1523,6 +1567,8 @@ export const GetMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetMonitoredSubscriptionError = AzureOpError;
@@ -1538,6 +1584,8 @@ export const GetMonitoredSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoredSubscription",
 }));
 
 export type GetOpenAIError = AzureOpError;
@@ -1553,6 +1601,8 @@ export const GetOpenAI: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenAI",
 }));
 
 export type GetOpenAIStatusError = AzureOpError;
@@ -1568,6 +1618,8 @@ export const GetOpenAIStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenAIStatus",
 }));
 
 export type GetOrganizationApiKeyError = AzureOpError;
@@ -1583,6 +1635,8 @@ export const GetOrganizationApiKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationApiKey",
 }));
 
 export type GetOrganizationElasticToAzureSubscriptionMappingError = AzureOpError;
@@ -1606,6 +1660,8 @@ export const GetOrganizationElasticToAzureSubscriptionMapping: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationElasticToAzureSubscriptionMapping",
 }));
 
 export type GetTagRuleError = AzureOpError;
@@ -1621,6 +1677,8 @@ export const GetTagRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagRule",
 }));
 
 export type ListAllTrafficFiltersError = AzureOpError;
@@ -1636,6 +1694,8 @@ export const ListAllTrafficFilters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllTrafficFilters",
 }));
 
 export type ListConnectedPartnerResourcesError = AzureOpError;
@@ -1651,6 +1711,8 @@ export const ListConnectedPartnerResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectedPartnerResources",
 }));
 
 export type ListDeploymentInfoError = AzureOpError;
@@ -1666,6 +1728,8 @@ export const ListDeploymentInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentInfo",
 }));
 
 export type ListElasticVersionsError = AzureOpError;
@@ -1681,6 +1745,8 @@ export const ListElasticVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListElasticVersions",
 }));
 
 export type ListListAssociatedTrafficFiltersError = AzureOpError;
@@ -1696,6 +1762,8 @@ export const ListListAssociatedTrafficFilters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListListAssociatedTrafficFilters",
 }));
 
 export type ListMonitorByResourceGroupError = AzureOpError;
@@ -1711,6 +1779,8 @@ export const ListMonitorByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorByResourceGroup",
 }));
 
 export type ListMonitoredResourcesError = AzureOpError;
@@ -1726,6 +1796,8 @@ export const ListMonitoredResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitoredResources",
 }));
 
 export type ListMonitoredSubscriptionsError = AzureOpError;
@@ -1741,6 +1813,8 @@ export const ListMonitoredSubscriptions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitoredSubscriptions",
 }));
 
 export type ListMonitorsError = AzureOpError;
@@ -1756,6 +1830,8 @@ export const ListMonitors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 }));
 
 export type ListOpenAIError = AzureOpError;
@@ -1771,6 +1847,8 @@ export const ListOpenAI: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenAI",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1786,6 +1864,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListTagRulesError = AzureOpError;
@@ -1801,6 +1881,8 @@ export const ListTagRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagRules",
 }));
 
 export type ListVMHostError = AzureOpError;
@@ -1816,6 +1898,8 @@ export const ListVMHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVMHost",
 }));
 
 export type MonitorUpgradeError = AzureOpError;
@@ -1831,6 +1915,8 @@ export const MonitorUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MonitorUpgrade",
 }));
 
 export type OpenAICreateOrUpdateError = AzureOpError;
@@ -1846,6 +1932,8 @@ export const OpenAICreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OpenAICreateOrUpdate",
 }));
 
 export type OrganizationsResubscribeError = AzureOpError;
@@ -1861,6 +1949,8 @@ export const OrganizationsResubscribe: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsResubscribe",
 }));
 
 export type TagRulesCreateOrUpdateError = AzureOpError;
@@ -1876,6 +1966,8 @@ export const TagRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TagRulesCreateOrUpdate",
 }));
 
 export type UpdateDetachTrafficFilterError = AzureOpError;
@@ -1891,6 +1983,8 @@ export const UpdateDetachTrafficFilter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDetachTrafficFilter",
 }));
 
 export type UpdateMonitorError = AzureOpError;
@@ -1906,6 +2000,8 @@ export const UpdateMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateMonitoredSubscriptionError = AzureOpError;
@@ -1921,6 +2017,8 @@ export const UpdateMonitoredSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoredSubscription",
 }));
 
 export type UpdateMonitoredSubscriptionsCreateorError = AzureOpError;
@@ -1936,6 +2034,8 @@ export const UpdateMonitoredSubscriptionsCreateor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoredSubscriptionsCreateor",
 }));
 
 export type UpdateVMCollectionError = AzureOpError;
@@ -1951,6 +2051,8 @@ export const UpdateVMCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVMCollection",
 }));
 
 export type UpgradableVersionsDetailsError = AzureOpError;
@@ -1966,6 +2068,8 @@ export const UpgradableVersionsDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpgradableVersionsDetails",
 }));
 
 export type VMIngestionDetailsError = AzureOpError;
@@ -1981,6 +2085,8 @@ export const VMIngestionDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VMIngestionDetails",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

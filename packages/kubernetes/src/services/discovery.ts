@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Discovery",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -700,6 +713,8 @@ export const createDiscoveryV1NamespacedEndpointSlice: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDiscoveryV1NamespacedEndpointSlice",
 }));
 
 export type DeleteDiscoveryV1CollectionNamespacedEndpointSliceError = KubernetesOpError;
@@ -719,6 +734,8 @@ export const deleteDiscoveryV1CollectionNamespacedEndpointSlice: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDiscoveryV1CollectionNamespacedEndpointSlice",
 }));
 
 export type DeleteDiscoveryV1NamespacedEndpointSliceError = NotFound | Conflict | KubernetesOpError;
@@ -734,6 +751,8 @@ export const deleteDiscoveryV1NamespacedEndpointSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDiscoveryV1NamespacedEndpointSlice",
 }));
 
 export type GetDiscoveryAPIGroupError = KubernetesOpError;
@@ -749,6 +768,8 @@ export const getDiscoveryAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscoveryAPIGroup",
 }));
 
 export type GetDiscoveryV1APIResourcesError = KubernetesOpError;
@@ -764,6 +785,8 @@ export const getDiscoveryV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscoveryV1APIResources",
 }));
 
 export type ListDiscoveryV1EndpointSliceForAllNamespacesError = KubernetesOpError;
@@ -779,6 +802,8 @@ export const listDiscoveryV1EndpointSliceForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveryV1EndpointSliceForAllNamespaces",
 }));
 
 export type ListDiscoveryV1NamespacedEndpointSliceError = KubernetesOpError;
@@ -794,6 +819,8 @@ export const listDiscoveryV1NamespacedEndpointSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveryV1NamespacedEndpointSlice",
 }));
 
 export type PatchDiscoveryV1NamespacedEndpointSliceError =
@@ -813,6 +840,8 @@ export const patchDiscoveryV1NamespacedEndpointSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDiscoveryV1NamespacedEndpointSlice",
 }));
 
 export type ReadDiscoveryV1NamespacedEndpointSliceError = NotFound | KubernetesOpError;
@@ -828,6 +857,8 @@ export const readDiscoveryV1NamespacedEndpointSlice: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadDiscoveryV1NamespacedEndpointSlice",
 }));
 
 export type ReplaceDiscoveryV1NamespacedEndpointSliceError =
@@ -847,6 +878,8 @@ export const replaceDiscoveryV1NamespacedEndpointSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceDiscoveryV1NamespacedEndpointSlice",
 }));
 
 export type WatchDiscoveryV1EndpointSliceListForAllNamespacesError = KubernetesOpError;
@@ -866,6 +899,8 @@ export const watchDiscoveryV1EndpointSliceListForAllNamespaces: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchDiscoveryV1EndpointSliceListForAllNamespaces",
 }));
 
 export type WatchDiscoveryV1NamespacedEndpointSliceError = KubernetesOpError;
@@ -881,6 +916,8 @@ export const watchDiscoveryV1NamespacedEndpointSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchDiscoveryV1NamespacedEndpointSlice",
 }));
 
 export type WatchDiscoveryV1NamespacedEndpointSliceListError = KubernetesOpError;
@@ -896,6 +933,8 @@ export const watchDiscoveryV1NamespacedEndpointSliceList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchDiscoveryV1NamespacedEndpointSliceList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

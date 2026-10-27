@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://app-integrations.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppIntegrations",
+  service: "AppIntegrations",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -554,6 +569,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateDataIntegrationError =
@@ -592,6 +609,8 @@ export const createDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegration",
 }));
 
 export type CreateDataIntegrationAssociationError =
@@ -626,6 +645,8 @@ export const createDataIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegrationAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegrationAssociation",
 }));
 
 export type CreateEventIntegrationError =
@@ -663,6 +684,8 @@ export const createEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateEventIntegration",
 }));
 
 export type DeleteApplicationError =
@@ -697,6 +720,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteDataIntegrationError =
@@ -735,6 +760,8 @@ export const deleteDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteDataIntegration",
 }));
 
 export type DeleteEventIntegrationError =
@@ -768,6 +795,8 @@ export const deleteEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteEventIntegration",
 }));
 
 export type GetApplicationError =
@@ -800,6 +829,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetDataIntegrationError =
@@ -836,6 +867,8 @@ export const getDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegration",
+  telemetry: TELEMETRY,
+  span: "GetDataIntegration",
 }));
 
 export type GetEventIntegrationError =
@@ -868,6 +901,8 @@ export const getEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventIntegration",
+  telemetry: TELEMETRY,
+  span: "GetEventIntegration",
 }));
 
 export type ListApplicationAssociationsError =
@@ -907,6 +942,8 @@ export const listApplicationAssociations: API.PaginatedOperationMethod<
     items: "ApplicationAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationAssociations",
 })) as any;
 
 export type ListApplicationsError =
@@ -944,6 +981,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListDataIntegrationAssociationsError =
@@ -987,6 +1026,8 @@ export const listDataIntegrationAssociations: API.PaginatedOperationMethod<
     items: "DataIntegrationAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIntegrationAssociations",
 })) as any;
 
 export type ListDataIntegrationsError =
@@ -1028,6 +1069,8 @@ export const listDataIntegrations: API.PaginatedOperationMethod<
     items: "DataIntegrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIntegrations",
 })) as any;
 
 export type ListEventIntegrationAssociationsError =
@@ -1067,6 +1110,8 @@ export const listEventIntegrationAssociations: API.PaginatedOperationMethod<
     items: "EventIntegrationAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventIntegrationAssociations",
 })) as any;
 
 export type ListEventIntegrationsError =
@@ -1104,6 +1149,8 @@ export const listEventIntegrations: API.PaginatedOperationMethod<
     items: "EventIntegrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventIntegrations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1134,6 +1181,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1164,6 +1213,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1194,6 +1245,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -1230,6 +1283,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateDataIntegrationError =
@@ -1266,6 +1321,8 @@ export const updateDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegration",
 }));
 
 export type UpdateDataIntegrationAssociationError =
@@ -1300,6 +1357,8 @@ export const updateDataIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegrationAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegrationAssociation",
 }));
 
 export type UpdateEventIntegrationError =
@@ -1332,6 +1391,8 @@ export const updateEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateEventIntegration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

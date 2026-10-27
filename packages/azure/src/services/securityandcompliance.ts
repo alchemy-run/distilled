@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.SecurityAndCompliance" },
+  prefix: "Securityandcompliance",
+  service: "Securityandcompliance",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeletePrivateEndpointConnectionsAdtAPIRequest {
   /** The subscription identifier. */
   subscriptionId: string;
@@ -4705,6 +4725,8 @@ export const DeletePrivateEndpointConnectionsAdtAPI: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionsAdtAPI",
 }));
 
 export type DeletePrivateEndpointConnectionsCompError = AzureOpError;
@@ -4720,6 +4742,8 @@ export const DeletePrivateEndpointConnectionsComp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionsComp",
 }));
 
 export type DeletePrivateEndpointConnectionsForEDMError = AzureOpError;
@@ -4735,6 +4759,8 @@ export const DeletePrivateEndpointConnectionsForEDM: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionsForEDM",
 }));
 
 export type DeletePrivateEndpointConnectionsForMIPPolicySyncError = AzureOpError;
@@ -4758,6 +4784,8 @@ export const DeletePrivateEndpointConnectionsForMIPPolicySync: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionsForMIPPolicySync",
 }));
 
 export type DeletePrivateEndpointConnectionsForSCCPowershellError = AzureOpError;
@@ -4781,6 +4809,8 @@ export const DeletePrivateEndpointConnectionsForSCCPowershell: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionsForSCCPowershell",
 }));
 
 export type DeletePrivateEndpointConnectionsSecError = AzureOpError;
@@ -4796,6 +4826,8 @@ export const DeletePrivateEndpointConnectionsSec: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionsSec",
 }));
 
 export type DeletePrivateLinkServicesForM365ComplianceCenterError = AzureOpError;
@@ -4819,6 +4851,8 @@ export const DeletePrivateLinkServicesForM365ComplianceCenter: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkServicesForM365ComplianceCenter",
 }));
 
 export type DeletePrivateLinkServicesForM365SecurityCenterError = AzureOpError;
@@ -4842,6 +4876,8 @@ export const DeletePrivateLinkServicesForM365SecurityCenter: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkServicesForM365SecurityCenter",
 }));
 
 export type DeletePrivateLinkServicesForMIPPolicySyncError = AzureOpError;
@@ -4857,6 +4893,8 @@ export const DeletePrivateLinkServicesForMIPPolicySync: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkServicesForMIPPolicySync",
 }));
 
 export type DeletePrivateLinkServicesForO365ManagementActivityAPIError = AzureOpError;
@@ -4880,6 +4918,8 @@ export const DeletePrivateLinkServicesForO365ManagementActivityAPI: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkServicesForO365ManagementActivityAPI",
 }));
 
 export type DeletePrivateLinkServicesForSCCPowershellError = AzureOpError;
@@ -4895,6 +4935,8 @@ export const DeletePrivateLinkServicesForSCCPowershell: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkServicesForSCCPowershell",
 }));
 
 export type DeleteServiceError = AzureOpError;
@@ -4910,6 +4952,8 @@ export const DeleteService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type GetOperationResultError = AzureOpError;
@@ -4925,6 +4969,8 @@ export const GetOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationResult",
 }));
 
 export type GetPrivateEndpointConnectionsAdtAPIError = AzureOpError;
@@ -4940,6 +4986,8 @@ export const GetPrivateEndpointConnectionsAdtAPI: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionsAdtAPI",
 }));
 
 export type GetPrivateEndpointConnectionsCompError = AzureOpError;
@@ -4955,6 +5003,8 @@ export const GetPrivateEndpointConnectionsComp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionsComp",
 }));
 
 export type GetPrivateEndpointConnectionsForEDMError = AzureOpError;
@@ -4970,6 +5020,8 @@ export const GetPrivateEndpointConnectionsForEDM: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionsForEDM",
 }));
 
 export type GetPrivateEndpointConnectionsForMIPPolicySyncError = AzureOpError;
@@ -4993,6 +5045,8 @@ export const GetPrivateEndpointConnectionsForMIPPolicySync: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionsForMIPPolicySync",
 }));
 
 export type GetPrivateEndpointConnectionsForSCCPowershellError = AzureOpError;
@@ -5016,6 +5070,8 @@ export const GetPrivateEndpointConnectionsForSCCPowershell: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionsForSCCPowershell",
 }));
 
 export type GetPrivateEndpointConnectionsSecError = AzureOpError;
@@ -5031,6 +5087,8 @@ export const GetPrivateEndpointConnectionsSec: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionsSec",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -5046,6 +5104,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetPrivateLinkResourcesAdtAPIError = AzureOpError;
@@ -5061,6 +5121,8 @@ export const GetPrivateLinkResourcesAdtAPI: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResourcesAdtAPI",
 }));
 
 export type GetPrivateLinkResourcesCompError = AzureOpError;
@@ -5076,6 +5138,8 @@ export const GetPrivateLinkResourcesComp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResourcesComp",
 }));
 
 export type GetPrivateLinkResourcesForMIPPolicySyncError = AzureOpError;
@@ -5091,6 +5155,8 @@ export const GetPrivateLinkResourcesForMIPPolicySync: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResourcesForMIPPolicySync",
 }));
 
 export type GetPrivateLinkResourcesForSCCPowershellError = AzureOpError;
@@ -5106,6 +5172,8 @@ export const GetPrivateLinkResourcesForSCCPowershell: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResourcesForSCCPowershell",
 }));
 
 export type GetPrivateLinkResourcesSecError = AzureOpError;
@@ -5121,6 +5189,8 @@ export const GetPrivateLinkResourcesSec: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResourcesSec",
 }));
 
 export type GetPrivateLinkServicesForEDMUploadError = AzureOpError;
@@ -5136,6 +5206,8 @@ export const GetPrivateLinkServicesForEDMUpload: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkServicesForEDMUpload",
 }));
 
 export type GetPrivateLinkServicesForM365ComplianceCenterError = AzureOpError;
@@ -5159,6 +5231,8 @@ export const GetPrivateLinkServicesForM365ComplianceCenter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkServicesForM365ComplianceCenter",
 }));
 
 export type GetPrivateLinkServicesForM365SecurityCenterError = AzureOpError;
@@ -5178,6 +5252,8 @@ export const GetPrivateLinkServicesForM365SecurityCenter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkServicesForM365SecurityCenter",
 }));
 
 export type GetPrivateLinkServicesForMIPPolicySyncError = AzureOpError;
@@ -5193,6 +5269,8 @@ export const GetPrivateLinkServicesForMIPPolicySync: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkServicesForMIPPolicySync",
 }));
 
 export type GetPrivateLinkServicesForO365ManagementActivityAPIError = AzureOpError;
@@ -5216,6 +5294,8 @@ export const GetPrivateLinkServicesForO365ManagementActivityAPI: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkServicesForO365ManagementActivityAPI",
 }));
 
 export type GetPrivateLinkServicesForSCCPowershellError = AzureOpError;
@@ -5231,6 +5311,8 @@ export const GetPrivateLinkServicesForSCCPowershell: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkServicesForSCCPowershell",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -5246,6 +5328,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsAdtAPIByServiceError = AzureOpError;
@@ -5269,6 +5353,8 @@ export const ListPrivateEndpointConnectionsAdtAPIByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionsAdtAPIByService",
 }));
 
 export type ListPrivateEndpointConnectionsCompByServiceError = AzureOpError;
@@ -5288,6 +5374,8 @@ export const ListPrivateEndpointConnectionsCompByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionsCompByService",
 }));
 
 export type ListPrivateEndpointConnectionsForEDMByServiceError = AzureOpError;
@@ -5311,6 +5399,8 @@ export const ListPrivateEndpointConnectionsForEDMByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionsForEDMByService",
 }));
 
 export type ListPrivateEndpointConnectionsForMIPPolicySyncByServiceError = AzureOpError;
@@ -5334,6 +5424,8 @@ export const ListPrivateEndpointConnectionsForMIPPolicySyncByService: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionsForMIPPolicySyncByService",
 }));
 
 export type ListPrivateEndpointConnectionsForSCCPowershellByServiceError = AzureOpError;
@@ -5357,6 +5449,8 @@ export const ListPrivateEndpointConnectionsForSCCPowershellByService: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionsForSCCPowershellByService",
 }));
 
 export type ListPrivateEndpointConnectionsSecByServiceError = AzureOpError;
@@ -5372,6 +5466,8 @@ export const ListPrivateEndpointConnectionsSecByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionsSecByService",
 }));
 
 export type ListPrivateLinkResourceByServiceError = AzureOpError;
@@ -5387,6 +5483,8 @@ export const ListPrivateLinkResourceByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByService",
 }));
 
 export type ListPrivateLinkResourcesAdtAPIByServiceError = AzureOpError;
@@ -5402,6 +5500,8 @@ export const ListPrivateLinkResourcesAdtAPIByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourcesAdtAPIByService",
 }));
 
 export type ListPrivateLinkResourcesCompByServiceError = AzureOpError;
@@ -5417,6 +5517,8 @@ export const ListPrivateLinkResourcesCompByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourcesCompByService",
 }));
 
 export type ListPrivateLinkResourcesForMIPPolicySyncByServiceError = AzureOpError;
@@ -5440,6 +5542,8 @@ export const ListPrivateLinkResourcesForMIPPolicySyncByService: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourcesForMIPPolicySyncByService",
 }));
 
 export type ListPrivateLinkResourcesForSCCPowershellByServiceError = AzureOpError;
@@ -5463,6 +5567,8 @@ export const ListPrivateLinkResourcesForSCCPowershellByService: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourcesForSCCPowershellByService",
 }));
 
 export type ListPrivateLinkResourcesSecByServiceError = AzureOpError;
@@ -5478,6 +5584,8 @@ export const ListPrivateLinkResourcesSecByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourcesSecByService",
 }));
 
 export type ListPrivateLinkServicesForEDMUploadError = AzureOpError;
@@ -5497,6 +5605,8 @@ export const ListPrivateLinkServicesForEDMUpload: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForEDMUpload",
 }));
 
 export type ListPrivateLinkServicesForEDMUploadByResourceGroupError = AzureOpError;
@@ -5520,6 +5630,8 @@ export const ListPrivateLinkServicesForEDMUploadByResourceGroup: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForEDMUploadByResourceGroup",
 }));
 
 export type ListPrivateLinkServicesForM365ComplianceCenterError = AzureOpError;
@@ -5543,6 +5655,8 @@ export const ListPrivateLinkServicesForM365ComplianceCenter: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForM365ComplianceCenter",
 }));
 
 export type ListPrivateLinkServicesForM365ComplianceCenterByResourceGroupError = AzureOpError;
@@ -5566,6 +5680,8 @@ export const ListPrivateLinkServicesForM365ComplianceCenterByResourceGroup: API.
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForM365ComplianceCenterByResourceGroup",
 }));
 
 export type ListPrivateLinkServicesForM365SecurityCenterError = AzureOpError;
@@ -5585,6 +5701,8 @@ export const ListPrivateLinkServicesForM365SecurityCenter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForM365SecurityCenter",
 }));
 
 export type ListPrivateLinkServicesForM365SecurityCenterByResourceGroupError = AzureOpError;
@@ -5608,6 +5726,8 @@ export const ListPrivateLinkServicesForM365SecurityCenterByResourceGroup: API.Op
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForM365SecurityCenterByResourceGroup",
 }));
 
 export type ListPrivateLinkServicesForMIPPolicySyncError = AzureOpError;
@@ -5627,6 +5747,8 @@ export const ListPrivateLinkServicesForMIPPolicySync: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForMIPPolicySync",
 }));
 
 export type ListPrivateLinkServicesForMIPPolicySyncByResourceGroupError = AzureOpError;
@@ -5650,6 +5772,8 @@ export const ListPrivateLinkServicesForMIPPolicySyncByResourceGroup: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForMIPPolicySyncByResourceGroup",
 }));
 
 export type ListPrivateLinkServicesForO365ManagementActivityAPIError = AzureOpError;
@@ -5673,6 +5797,8 @@ export const ListPrivateLinkServicesForO365ManagementActivityAPI: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForO365ManagementActivityAPI",
 }));
 
 export type ListPrivateLinkServicesForO365ManagementActivityAPIByResourceGroupError = AzureOpError;
@@ -5696,6 +5822,8 @@ export const ListPrivateLinkServicesForO365ManagementActivityAPIByResourceGroup:
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForO365ManagementActivityAPIByResourceGroup",
 }));
 
 export type ListPrivateLinkServicesForSCCPowershellError = AzureOpError;
@@ -5715,6 +5843,8 @@ export const ListPrivateLinkServicesForSCCPowershell: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForSCCPowershell",
 }));
 
 export type ListPrivateLinkServicesForSCCPowershellByResourceGroupError = AzureOpError;
@@ -5738,6 +5868,8 @@ export const ListPrivateLinkServicesForSCCPowershellByResourceGroup: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForSCCPowershellByResourceGroup",
 }));
 
 export type PrivateEndpointConnectionsAdtAPICreateOrUpdateError = AzureOpError;
@@ -5761,6 +5893,8 @@ export const PrivateEndpointConnectionsAdtAPICreateOrUpdate: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsAdtAPICreateOrUpdate",
 }));
 
 export type PrivateEndpointConnectionsCompCreateOrUpdateError = AzureOpError;
@@ -5784,6 +5918,8 @@ export const PrivateEndpointConnectionsCompCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCompCreateOrUpdate",
 }));
 
 export type PrivateEndpointConnectionsForEDMCreateOrUpdateError = AzureOpError;
@@ -5807,6 +5943,8 @@ export const PrivateEndpointConnectionsForEDMCreateOrUpdate: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsForEDMCreateOrUpdate",
 }));
 
 export type PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdateError = AzureOpError;
@@ -5830,6 +5968,8 @@ export const PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdate: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsForMIPPolicySyncCreateOrUpdate",
 }));
 
 export type PrivateEndpointConnectionsForSCCPowershellCreateOrUpdateError = AzureOpError;
@@ -5853,6 +5993,8 @@ export const PrivateEndpointConnectionsForSCCPowershellCreateOrUpdate: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsForSCCPowershellCreateOrUpdate",
 }));
 
 export type PrivateEndpointConnectionsSecCreateOrUpdateError = AzureOpError;
@@ -5868,6 +6010,8 @@ export const PrivateEndpointConnectionsSecCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsSecCreateOrUpdate",
 }));
 
 export type PrivateLinkServicesForEDMUploadCreateOrUpdateError = AzureOpError;
@@ -5891,6 +6035,8 @@ export const PrivateLinkServicesForEDMUploadCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateLinkServicesForEDMUploadCreateOrUpdate",
 }));
 
 export type PrivateLinkServicesForM365ComplianceCenterCreateOrUpdateError = AzureOpError;
@@ -5914,6 +6060,8 @@ export const PrivateLinkServicesForM365ComplianceCenterCreateOrUpdate: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateLinkServicesForM365ComplianceCenterCreateOrUpdate",
 }));
 
 export type PrivateLinkServicesForM365SecurityCenterCreateOrUpdateError = AzureOpError;
@@ -5937,6 +6085,8 @@ export const PrivateLinkServicesForM365SecurityCenterCreateOrUpdate: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateLinkServicesForM365SecurityCenterCreateOrUpdate",
 }));
 
 export type PrivateLinkServicesForMIPPolicySyncCreateOrUpdateError = AzureOpError;
@@ -5960,6 +6110,8 @@ export const PrivateLinkServicesForMIPPolicySyncCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateLinkServicesForMIPPolicySyncCreateOrUpdate",
 }));
 
 export type PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdateError = AzureOpError;
@@ -5983,6 +6135,8 @@ export const PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdate: API.
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateLinkServicesForO365ManagementActivityAPICreateOrUpdate",
 }));
 
 export type PrivateLinkServicesForSCCPowershellCreateOrUpdateError = AzureOpError;
@@ -6006,6 +6160,8 @@ export const PrivateLinkServicesForSCCPowershellCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateLinkServicesForSCCPowershellCreateOrUpdate",
 }));
 
 export type UpdatePrivateLinkServicesForEDMUploadError = AzureOpError;
@@ -6021,6 +6177,8 @@ export const UpdatePrivateLinkServicesForEDMUpload: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkServicesForEDMUpload",
 }));
 
 export type UpdatePrivateLinkServicesForM365ComplianceCenterError = AzureOpError;
@@ -6044,6 +6202,8 @@ export const UpdatePrivateLinkServicesForM365ComplianceCenter: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkServicesForM365ComplianceCenter",
 }));
 
 export type UpdatePrivateLinkServicesForM365SecurityCenterError = AzureOpError;
@@ -6067,6 +6227,8 @@ export const UpdatePrivateLinkServicesForM365SecurityCenter: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkServicesForM365SecurityCenter",
 }));
 
 export type UpdatePrivateLinkServicesForMIPPolicySyncError = AzureOpError;
@@ -6082,6 +6244,8 @@ export const UpdatePrivateLinkServicesForMIPPolicySync: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkServicesForMIPPolicySync",
 }));
 
 export type UpdatePrivateLinkServicesForO365ManagementActivityAPIError = AzureOpError;
@@ -6105,6 +6269,8 @@ export const UpdatePrivateLinkServicesForO365ManagementActivityAPI: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkServicesForO365ManagementActivityAPI",
 }));
 
 export type UpdatePrivateLinkServicesForSCCPowershellError = AzureOpError;
@@ -6120,6 +6286,8 @@ export const UpdatePrivateLinkServicesForSCCPowershell: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkServicesForSCCPowershell",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "androidpublisher" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Androidpublisher",
+  service: "androidpublisher",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -5349,6 +5368,8 @@ export const acknowledgePurchasesProducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgePurchasesProducts",
 }));
 
 export type AcknowledgePurchasesSubscriptionsError =
@@ -5369,6 +5390,8 @@ export const acknowledgePurchasesSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgePurchasesSubscriptions",
 }));
 
 export type ActivateMonetizationOnetimeproductsPurchaseOptionsOffersError =
@@ -5393,6 +5416,8 @@ export const activateMonetizationOnetimeproductsPurchaseOptionsOffers: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateMonetizationOnetimeproductsPurchaseOptionsOffers",
 }));
 
 export type ActivateMonetizationSubscriptionsBasePlansError =
@@ -5413,6 +5438,8 @@ export const activateMonetizationSubscriptionsBasePlans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateMonetizationSubscriptionsBasePlans",
 }));
 
 export type ActivateMonetizationSubscriptionsBasePlansOffersError =
@@ -5437,6 +5464,8 @@ export const activateMonetizationSubscriptionsBasePlansOffers: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type AddexternallyhostedEditsApksError =
@@ -5457,6 +5486,8 @@ export const addexternallyhostedEditsApks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddexternallyhostedEditsApks",
 }));
 
 export type AddTargetingApprecoveryError =
@@ -5477,6 +5508,8 @@ export const addTargetingApprecovery: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTargetingApprecovery",
 }));
 
 export type ArchiveMonetizationSubscriptionsError =
@@ -5497,6 +5530,8 @@ export const archiveMonetizationSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveMonetizationSubscriptions",
 }));
 
 export type BatchDeleteInappproductsError =
@@ -5517,6 +5552,8 @@ export const batchDeleteInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteInappproducts",
 }));
 
 export type BatchDeleteMonetizationOnetimeproductsError =
@@ -5537,6 +5574,8 @@ export const batchDeleteMonetizationOnetimeproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteMonetizationOnetimeproducts",
 }));
 
 export type BatchDeleteMonetizationOnetimeproductsPurchaseOptionsError =
@@ -5565,6 +5604,8 @@ export const batchDeleteMonetizationOnetimeproductsPurchaseOptions: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteMonetizationOnetimeproductsPurchaseOptions",
 }));
 
 export type BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersError =
@@ -5593,6 +5634,8 @@ export const batchDeleteMonetizationOnetimeproductsPurchaseOptionsOffers: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffers",
 }));
 
 export type BatchGetInappproductsError = NotFound | Forbidden | GcpOpError;
@@ -5608,6 +5651,8 @@ export const batchGetInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetInappproducts",
 }));
 
 export type BatchGetMonetizationOnetimeproductsError = NotFound | Forbidden | GcpOpError;
@@ -5623,6 +5668,8 @@ export const batchGetMonetizationOnetimeproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetMonetizationOnetimeproducts",
 }));
 
 export type BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersError =
@@ -5647,6 +5694,8 @@ export const batchGetMonetizationOnetimeproductsPurchaseOptionsOffers: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetMonetizationOnetimeproductsPurchaseOptionsOffers",
 }));
 
 export type BatchGetMonetizationSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -5662,6 +5711,8 @@ export const batchGetMonetizationSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetMonetizationSubscriptions",
 }));
 
 export type BatchGetMonetizationSubscriptionsBasePlansOffersError =
@@ -5686,6 +5737,8 @@ export const batchGetMonetizationSubscriptionsBasePlansOffers: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type BatchgetOrdersError = NotFound | Forbidden | GcpOpError;
@@ -5701,6 +5754,8 @@ export const batchgetOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchgetOrders",
 }));
 
 export type BatchMigratePricesMonetizationSubscriptionsBasePlansError =
@@ -5725,6 +5780,8 @@ export const batchMigratePricesMonetizationSubscriptionsBasePlans: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchMigratePricesMonetizationSubscriptionsBasePlans",
 }));
 
 export type BatchUpdateInappproductsError =
@@ -5745,6 +5802,8 @@ export const batchUpdateInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateInappproducts",
 }));
 
 export type BatchUpdateMonetizationOnetimeproductsError =
@@ -5765,6 +5824,8 @@ export const batchUpdateMonetizationOnetimeproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateMonetizationOnetimeproducts",
 }));
 
 export type BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersError =
@@ -5789,6 +5850,8 @@ export const batchUpdateMonetizationOnetimeproductsPurchaseOptionsOffers: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffers",
 }));
 
 export type BatchUpdateMonetizationSubscriptionsError =
@@ -5809,6 +5872,8 @@ export const batchUpdateMonetizationSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateMonetizationSubscriptions",
 }));
 
 export type BatchUpdateMonetizationSubscriptionsBasePlansOffersError =
@@ -5833,6 +5898,8 @@ export const batchUpdateMonetizationSubscriptionsBasePlansOffers: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsError =
@@ -5857,6 +5924,8 @@ export const batchUpdateStatesMonetizationOnetimeproductsPurchaseOptions: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptions",
 }));
 
 export type BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersError =
@@ -5881,6 +5950,8 @@ export const batchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffers: 
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffers",
 }));
 
 export type BatchUpdateStatesMonetizationSubscriptionsBasePlansError =
@@ -5905,6 +5976,8 @@ export const batchUpdateStatesMonetizationSubscriptionsBasePlans: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateStatesMonetizationSubscriptionsBasePlans",
 }));
 
 export type BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersError =
@@ -5929,6 +6002,8 @@ export const batchUpdateStatesMonetizationSubscriptionsBasePlansOffers: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateStatesMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type CancelApprecoveryError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5944,6 +6019,8 @@ export const cancelApprecovery: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelApprecovery",
 }));
 
 export type CancelMonetizationOnetimeproductsPurchaseOptionsOffersError =
@@ -5968,6 +6045,8 @@ export const cancelMonetizationOnetimeproductsPurchaseOptionsOffers: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMonetizationOnetimeproductsPurchaseOptionsOffers",
 }));
 
 export type CancelPurchasesSubscriptionsError =
@@ -5988,6 +6067,8 @@ export const cancelPurchasesSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPurchasesSubscriptions",
 }));
 
 export type CancelPurchasesSubscriptionsv2Error =
@@ -6008,6 +6089,8 @@ export const cancelPurchasesSubscriptionsv2: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPurchasesSubscriptionsv2",
 }));
 
 export type CommitEditsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6023,6 +6106,8 @@ export const commitEdits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitEdits",
 }));
 
 export type ConsumePurchasesProductsError =
@@ -6043,6 +6128,8 @@ export const consumePurchasesProducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConsumePurchasesProducts",
 }));
 
 export type ConvertRegionPricesMonetizationError =
@@ -6063,6 +6150,8 @@ export const convertRegionPricesMonetization: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertRegionPricesMonetization",
 }));
 
 export type CreateApplicationsDeviceTierConfigsError =
@@ -6083,6 +6172,8 @@ export const createApplicationsDeviceTierConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationsDeviceTierConfigs",
 }));
 
 export type CreateApprecoveryError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6098,6 +6189,8 @@ export const createApprecovery: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApprecovery",
 }));
 
 export type CreateappstorehostedappAppstoreappsreviewError =
@@ -6118,6 +6211,8 @@ export const createappstorehostedappAppstoreappsreview: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateappstorehostedappAppstoreappsreview",
 }));
 
 export type CreateEditsTracksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6133,6 +6228,8 @@ export const createEditsTracks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEditsTracks",
 }));
 
 export type CreateexternaltransactionExternaltransactionsError =
@@ -6157,6 +6254,8 @@ export const createexternaltransactionExternaltransactions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateexternaltransactionExternaltransactions",
 }));
 
 export type CreateGrantsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6172,6 +6271,8 @@ export const createGrants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGrants",
 }));
 
 export type CreateMonetizationSubscriptionsError =
@@ -6192,6 +6293,8 @@ export const createMonetizationSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonetizationSubscriptions",
 }));
 
 export type CreateMonetizationSubscriptionsBasePlansOffersError =
@@ -6216,6 +6319,8 @@ export const createMonetizationSubscriptionsBasePlansOffers: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type CreateSystemapksVariantsError =
@@ -6236,6 +6341,8 @@ export const createSystemapksVariants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSystemapksVariants",
 }));
 
 export type CreateUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6251,6 +6358,8 @@ export const createUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsers",
 }));
 
 export type DataSafetyApplicationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6266,6 +6375,8 @@ export const dataSafetyApplications: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataSafetyApplications",
 }));
 
 export type DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersError =
@@ -6290,6 +6401,8 @@ export const deactivateMonetizationOnetimeproductsPurchaseOptionsOffers: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateMonetizationOnetimeproductsPurchaseOptionsOffers",
 }));
 
 export type DeactivateMonetizationSubscriptionsBasePlansError =
@@ -6314,6 +6427,8 @@ export const deactivateMonetizationSubscriptionsBasePlans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateMonetizationSubscriptionsBasePlans",
 }));
 
 export type DeactivateMonetizationSubscriptionsBasePlansOffersError =
@@ -6338,6 +6453,8 @@ export const deactivateMonetizationSubscriptionsBasePlansOffers: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type DeferPurchasesSubscriptionsError =
@@ -6358,6 +6475,8 @@ export const deferPurchasesSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeferPurchasesSubscriptions",
 }));
 
 export type DeferPurchasesSubscriptionsv2Error =
@@ -6378,6 +6497,8 @@ export const deferPurchasesSubscriptionsv2: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeferPurchasesSubscriptionsv2",
 }));
 
 export type DeleteallEditsImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6393,6 +6514,8 @@ export const deleteallEditsImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteallEditsImages",
 }));
 
 export type DeleteallEditsListingsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6408,6 +6531,8 @@ export const deleteallEditsListings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteallEditsListings",
 }));
 
 export type DeleteEditsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6423,6 +6548,8 @@ export const deleteEdits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdits",
 }));
 
 export type DeleteEditsImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6438,6 +6565,8 @@ export const deleteEditsImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEditsImages",
 }));
 
 export type DeleteEditsListingsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6453,6 +6582,8 @@ export const deleteEditsListings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEditsListings",
 }));
 
 export type DeleteGrantsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6468,6 +6599,8 @@ export const deleteGrants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGrants",
 }));
 
 export type DeleteInappproductsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6483,6 +6616,8 @@ export const deleteInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInappproducts",
 }));
 
 export type DeleteMonetizationOnetimeproductsError =
@@ -6503,6 +6638,8 @@ export const deleteMonetizationOnetimeproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonetizationOnetimeproducts",
 }));
 
 export type DeleteMonetizationSubscriptionsError =
@@ -6523,6 +6660,8 @@ export const deleteMonetizationSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonetizationSubscriptions",
 }));
 
 export type DeleteMonetizationSubscriptionsBasePlansError =
@@ -6543,6 +6682,8 @@ export const deleteMonetizationSubscriptionsBasePlans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonetizationSubscriptionsBasePlans",
 }));
 
 export type DeleteMonetizationSubscriptionsBasePlansOffersError =
@@ -6571,6 +6712,8 @@ export const deleteMonetizationSubscriptionsBasePlansOffers: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type DeleteUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6586,6 +6729,8 @@ export const deleteUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsers",
 }));
 
 export type DeployApprecoveryError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6601,6 +6746,8 @@ export const deployApprecovery: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployApprecovery",
 }));
 
 export type DownloadGeneratedapksError = NotFound | Forbidden | GcpOpError;
@@ -6616,6 +6763,8 @@ export const downloadGeneratedapks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadGeneratedapks",
 }));
 
 export type DownloadSystemapksVariantsError = NotFound | Forbidden | GcpOpError;
@@ -6631,6 +6780,8 @@ export const downloadSystemapksVariants: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadSystemapksVariants",
 }));
 
 export type EnrollAppAppsigningError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6646,6 +6797,8 @@ export const enrollAppAppsigning: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrollAppAppsigning",
 }));
 
 export type GetApplicationsDeviceTierConfigsError = NotFound | Forbidden | GcpOpError;
@@ -6661,6 +6814,8 @@ export const getApplicationsDeviceTierConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationsDeviceTierConfigs",
 }));
 
 export type GetAppstorecatalogRecentappviewsError = NotFound | Forbidden | GcpOpError;
@@ -6676,6 +6831,8 @@ export const getAppstorecatalogRecentappviews: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppstorecatalogRecentappviews",
 }));
 
 export type GetEditsError = NotFound | Forbidden | GcpOpError;
@@ -6687,6 +6844,8 @@ export const getEdits: API.OperationMethod<GetEditsRequest, AppEdit, GetEditsErr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetEdits",
   }));
 
 export type GetEditsCountryavailabilityError = NotFound | Forbidden | GcpOpError;
@@ -6702,6 +6861,8 @@ export const getEditsCountryavailability: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEditsCountryavailability",
 }));
 
 export type GetEditsDetailsError = NotFound | Forbidden | GcpOpError;
@@ -6717,6 +6878,8 @@ export const getEditsDetails: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEditsDetails",
 }));
 
 export type GetEditsExpansionfilesError = NotFound | Forbidden | GcpOpError;
@@ -6732,6 +6895,8 @@ export const getEditsExpansionfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEditsExpansionfiles",
 }));
 
 export type GetEditsListingsError = NotFound | Forbidden | GcpOpError;
@@ -6747,6 +6912,8 @@ export const getEditsListings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEditsListings",
 }));
 
 export type GetEditsTestersError = NotFound | Forbidden | GcpOpError;
@@ -6762,6 +6929,8 @@ export const getEditsTesters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEditsTesters",
 }));
 
 export type GetEditsTracksError = NotFound | Forbidden | GcpOpError;
@@ -6777,6 +6946,8 @@ export const getEditsTracks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEditsTracks",
 }));
 
 export type GetexternaltransactionExternaltransactionsError = NotFound | Forbidden | GcpOpError;
@@ -6792,6 +6963,8 @@ export const getexternaltransactionExternaltransactions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetexternaltransactionExternaltransactions",
 }));
 
 export type GetInappproductsError = NotFound | Forbidden | GcpOpError;
@@ -6807,6 +6980,8 @@ export const getInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInappproducts",
 }));
 
 export type GetMonetizationOnetimeproductsError = NotFound | Forbidden | GcpOpError;
@@ -6822,6 +6997,8 @@ export const getMonetizationOnetimeproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonetizationOnetimeproducts",
 }));
 
 export type GetMonetizationSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -6837,6 +7014,8 @@ export const getMonetizationSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonetizationSubscriptions",
 }));
 
 export type GetMonetizationSubscriptionsBasePlansOffersError = NotFound | Forbidden | GcpOpError;
@@ -6856,6 +7035,8 @@ export const getMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type GetOrdersError = NotFound | Forbidden | GcpOpError;
@@ -6867,6 +7048,8 @@ export const getOrders: API.OperationMethod<GetOrdersRequest, Order, GetOrdersEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetOrders",
   }));
 
 export type Getproductpurchasev2PurchasesProductsv2Error = NotFound | Forbidden | GcpOpError;
@@ -6882,6 +7065,8 @@ export const getproductpurchasev2PurchasesProductsv2: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Getproductpurchasev2PurchasesProductsv2",
 }));
 
 export type GetPurchasesProductsError = NotFound | Forbidden | GcpOpError;
@@ -6897,6 +7082,8 @@ export const getPurchasesProducts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPurchasesProducts",
 }));
 
 export type GetPurchasesSubscriptionsv2Error = NotFound | Forbidden | GcpOpError;
@@ -6912,6 +7099,8 @@ export const getPurchasesSubscriptionsv2: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPurchasesSubscriptionsv2",
 }));
 
 export type GetReviewsError = NotFound | Forbidden | GcpOpError;
@@ -6927,6 +7116,8 @@ export const getReviews: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviews",
 }));
 
 export type GetSystemapksVariantsError = NotFound | Forbidden | GcpOpError;
@@ -6942,6 +7133,8 @@ export const getSystemapksVariants: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSystemapksVariants",
 }));
 
 export type InsertEditsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6957,6 +7150,8 @@ export const insertEdits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertEdits",
 }));
 
 export type InsertInappproductsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6972,6 +7167,8 @@ export const insertInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertInappproducts",
 }));
 
 export type ListApplicationsDeviceTierConfigsError = NotFound | Forbidden | GcpOpError;
@@ -6988,6 +7185,8 @@ export const listApplicationsDeviceTierConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationsDeviceTierConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7004,6 +7203,8 @@ export const listApplicationsTracksReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationsTracksReleases",
 }));
 
 export type ListApprecoveryError = NotFound | Forbidden | GcpOpError;
@@ -7019,6 +7220,8 @@ export const listApprecovery: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApprecovery",
 }));
 
 export type ListAppstorecatalogRecentupdateeventsError = NotFound | Forbidden | GcpOpError;
@@ -7035,6 +7238,8 @@ export const listAppstorecatalogRecentupdateevents: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppstorecatalogRecentupdateevents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7051,6 +7256,8 @@ export const listEditsApks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEditsApks",
 }));
 
 export type ListEditsBundlesError = NotFound | Forbidden | GcpOpError;
@@ -7066,6 +7273,8 @@ export const listEditsBundles: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEditsBundles",
 }));
 
 export type ListEditsImagesError = NotFound | Forbidden | GcpOpError;
@@ -7081,6 +7290,8 @@ export const listEditsImages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEditsImages",
 }));
 
 export type ListEditsListingsError = NotFound | Forbidden | GcpOpError;
@@ -7096,6 +7307,8 @@ export const listEditsListings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEditsListings",
 }));
 
 export type ListEditsTracksError = NotFound | Forbidden | GcpOpError;
@@ -7111,6 +7324,8 @@ export const listEditsTracks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEditsTracks",
 }));
 
 export type ListGeneratedapksError = NotFound | Forbidden | GcpOpError;
@@ -7126,6 +7341,8 @@ export const listGeneratedapks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGeneratedapks",
 }));
 
 export type ListInappproductsError = NotFound | Forbidden | GcpOpError;
@@ -7141,6 +7358,8 @@ export const listInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInappproducts",
 }));
 
 export type ListMonetizationOnetimeproductsError = NotFound | Forbidden | GcpOpError;
@@ -7157,6 +7376,8 @@ export const listMonetizationOnetimeproducts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonetizationOnetimeproducts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7181,6 +7402,8 @@ export const listMonetizationOnetimeproductsPurchaseOptionsOffers: API.Paginated
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonetizationOnetimeproductsPurchaseOptionsOffers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7198,6 +7421,8 @@ export const listMonetizationSubscriptions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonetizationSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7215,6 +7440,8 @@ export const listMonetizationSubscriptionsBasePlansOffers: API.PaginatedOperatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonetizationSubscriptionsBasePlansOffers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7231,6 +7458,8 @@ export const listPurchasesVoidedpurchases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPurchasesVoidedpurchases",
 }));
 
 export type ListReviewsError = NotFound | Forbidden | GcpOpError;
@@ -7246,6 +7475,8 @@ export const listReviews: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviews",
 }));
 
 export type ListSystemapksVariantsError = NotFound | Forbidden | GcpOpError;
@@ -7261,6 +7492,8 @@ export const listSystemapksVariants: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSystemapksVariants",
 }));
 
 export type ListUsersError = NotFound | Forbidden | GcpOpError;
@@ -7277,6 +7510,8 @@ export const listUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7302,6 +7537,8 @@ export const migratePricesMonetizationSubscriptionsBasePlans: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigratePricesMonetizationSubscriptionsBasePlans",
 }));
 
 export type PatchEditsDetailsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7317,6 +7554,8 @@ export const patchEditsDetails: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEditsDetails",
 }));
 
 export type PatchEditsExpansionfilesError =
@@ -7337,6 +7576,8 @@ export const patchEditsExpansionfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEditsExpansionfiles",
 }));
 
 export type PatchEditsListingsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7352,6 +7593,8 @@ export const patchEditsListings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEditsListings",
 }));
 
 export type PatchEditsTestersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7367,6 +7610,8 @@ export const patchEditsTesters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEditsTesters",
 }));
 
 export type PatchEditsTracksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7382,6 +7627,8 @@ export const patchEditsTracks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEditsTracks",
 }));
 
 export type PatchGrantsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7397,6 +7644,8 @@ export const patchGrants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGrants",
 }));
 
 export type PatchInappproductsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7412,6 +7661,8 @@ export const patchInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInappproducts",
 }));
 
 export type PatchMonetizationOnetimeproductsError =
@@ -7432,6 +7683,8 @@ export const patchMonetizationOnetimeproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMonetizationOnetimeproducts",
 }));
 
 export type PatchMonetizationSubscriptionsError =
@@ -7452,6 +7705,8 @@ export const patchMonetizationSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMonetizationSubscriptions",
 }));
 
 export type PatchMonetizationSubscriptionsBasePlansOffersError =
@@ -7476,6 +7731,8 @@ export const patchMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMonetizationSubscriptionsBasePlansOffers",
 }));
 
 export type PatchUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7491,6 +7748,8 @@ export const patchUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsers",
 }));
 
 export type RefundexternaltransactionExternaltransactionsError =
@@ -7515,6 +7774,8 @@ export const refundexternaltransactionExternaltransactions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefundexternaltransactionExternaltransactions",
 }));
 
 export type RefundOrdersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7530,6 +7791,8 @@ export const refundOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefundOrders",
 }));
 
 export type ReplyReviewsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7545,6 +7808,8 @@ export const replyReviews: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyReviews",
 }));
 
 export type ReviewrefundOrdersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7560,6 +7825,8 @@ export const reviewrefundOrders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewrefundOrders",
 }));
 
 export type RevokePurchasesSubscriptionsv2Error =
@@ -7580,6 +7847,8 @@ export const revokePurchasesSubscriptionsv2: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokePurchasesSubscriptionsv2",
 }));
 
 export type RotateAppSigningKeyAppsigningError =
@@ -7600,6 +7869,8 @@ export const rotateAppSigningKeyAppsigning: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAppSigningKeyAppsigning",
 }));
 
 export type UpdateappstorehostedappAppstoreappsreviewError =
@@ -7620,6 +7891,8 @@ export const updateappstorehostedappAppstoreappsreview: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateappstorehostedappAppstoreappsreview",
 }));
 
 export type UpdateappstorehostedapppublishstatusAppstoreappsreviewError =
@@ -7644,6 +7917,8 @@ export const updateappstorehostedapppublishstatusAppstoreappsreview: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateappstorehostedapppublishstatusAppstoreappsreview",
 }));
 
 export type UpdateEditsDetailsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7659,6 +7934,8 @@ export const updateEditsDetails: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEditsDetails",
 }));
 
 export type UpdateEditsExpansionfilesError =
@@ -7679,6 +7956,8 @@ export const updateEditsExpansionfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEditsExpansionfiles",
 }));
 
 export type UpdateEditsListingsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7694,6 +7973,8 @@ export const updateEditsListings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEditsListings",
 }));
 
 export type UpdateEditsTestersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7709,6 +7990,8 @@ export const updateEditsTesters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEditsTesters",
 }));
 
 export type UpdateEditsTracksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7724,6 +8007,8 @@ export const updateEditsTracks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEditsTracks",
 }));
 
 export type UpdateInappproductsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7739,6 +8024,8 @@ export const updateInappproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInappproducts",
 }));
 
 export type UploadapkAppstoreappsreviewError =
@@ -7759,6 +8046,8 @@ export const uploadapkAppstoreappsreview: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadapkAppstoreappsreview",
 }));
 
 export type UploadapkInternalappsharingartifactsError =
@@ -7779,6 +8068,8 @@ export const uploadapkInternalappsharingartifacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadapkInternalappsharingartifacts",
 }));
 
 export type UploadappstoreapppolicydeclarationfileAppstoreappsreviewError =
@@ -7803,6 +8094,8 @@ export const uploadappstoreapppolicydeclarationfileAppstoreappsreview: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadappstoreapppolicydeclarationfileAppstoreappsreview",
 }));
 
 export type UploadbundleInternalappsharingartifactsError =
@@ -7823,6 +8116,8 @@ export const uploadbundleInternalappsharingartifacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadbundleInternalappsharingartifacts",
 }));
 
 export type UploadEditsApksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7838,6 +8133,8 @@ export const uploadEditsApks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadEditsApks",
 }));
 
 export type UploadEditsBundlesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7853,6 +8150,8 @@ export const uploadEditsBundles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadEditsBundles",
 }));
 
 export type UploadEditsDeobfuscationfilesError =
@@ -7873,6 +8172,8 @@ export const uploadEditsDeobfuscationfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadEditsDeobfuscationfiles",
 }));
 
 export type UploadEditsExpansionfilesError =
@@ -7893,6 +8194,8 @@ export const uploadEditsExpansionfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadEditsExpansionfiles",
 }));
 
 export type UploadEditsImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7908,6 +8211,8 @@ export const uploadEditsImages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadEditsImages",
 }));
 
 export type UploadimageAppstoreappsreviewError =
@@ -7928,6 +8233,8 @@ export const uploadimageAppstoreappsreview: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadimageAppstoreappsreview",
 }));
 
 export type ValidateEditsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7943,6 +8250,8 @@ export const validateEdits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateEdits",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

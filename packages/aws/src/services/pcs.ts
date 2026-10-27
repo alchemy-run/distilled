@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pcs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PCS",
+  service: "PCS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -701,6 +717,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateComputeNodeGroupError =
@@ -735,6 +753,8 @@ export const createComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputeNodeGroup",
+  telemetry: TELEMETRY,
+  span: "CreateComputeNodeGroup",
 }));
 
 export type CreateQueueError =
@@ -769,6 +789,8 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type DeleteClusterError =
@@ -801,6 +823,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteComputeNodeGroupError =
@@ -833,6 +857,8 @@ export const deleteComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComputeNodeGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteComputeNodeGroup",
 }));
 
 export type DeleteQueueError =
@@ -865,6 +891,8 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type GetClusterError =
@@ -897,6 +925,8 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetComputeNodeGroupError =
@@ -929,6 +959,8 @@ export const getComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeNodeGroup",
+  telemetry: TELEMETRY,
+  span: "GetComputeNodeGroup",
 }));
 
 export type GetQueueError =
@@ -961,6 +993,8 @@ export const getQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueue",
+  telemetry: TELEMETRY,
+  span: "GetQueue",
 }));
 
 export type ListClustersError =
@@ -1000,6 +1034,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListComputeNodeGroupsError =
@@ -1039,6 +1075,8 @@ export const listComputeNodeGroups: API.PaginatedOperationMethod<
     items: "computeNodeGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputeNodeGroups",
 })) as any;
 
 export type ListQueuesError =
@@ -1078,6 +1116,8 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "queues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1096,6 +1136,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterComputeNodeGroupInstanceError =
@@ -1119,6 +1161,8 @@ export const registerComputeNodeGroupInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterComputeNodeGroupInstance",
+  telemetry: TELEMETRY,
+  span: "RegisterComputeNodeGroupInstance",
 }));
 
 export type TagResourceError =
@@ -1140,6 +1184,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -1158,6 +1204,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateClusterError =
@@ -1192,6 +1240,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateComputeNodeGroupError =
@@ -1226,6 +1276,8 @@ export const updateComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComputeNodeGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateComputeNodeGroup",
 }));
 
 export type UpdateQueueError =
@@ -1260,6 +1312,8 @@ export const updateQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueue",
+  telemetry: TELEMETRY,
+  span: "UpdateQueue",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

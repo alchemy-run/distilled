@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Network" },
+  prefix: "Privatedns",
+  service: "Privatedns",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeletePrivateZoneRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -783,6 +803,8 @@ export const DeletePrivateZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateZone",
 }));
 
 export type DeleteRecordSetError = AzureOpError;
@@ -798,6 +820,8 @@ export const DeleteRecordSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecordSet",
 }));
 
 export type DeleteVirtualNetworkLinkError = AzureOpError;
@@ -813,6 +837,8 @@ export const DeleteVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualNetworkLink",
 }));
 
 export type GetPrivateZoneError = AzureOpError;
@@ -828,6 +854,8 @@ export const GetPrivateZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateZone",
 }));
 
 export type GetRecordSetError = AzureOpError;
@@ -843,6 +871,8 @@ export const GetRecordSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecordSet",
 }));
 
 export type GetVirtualNetworkLinkError = AzureOpError;
@@ -858,6 +888,8 @@ export const GetVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualNetworkLink",
 }));
 
 export type ListPrivateZoneByResourceGroupError = AzureOpError;
@@ -873,6 +905,8 @@ export const ListPrivateZoneByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateZoneByResourceGroup",
 }));
 
 export type ListPrivateZonesError = AzureOpError;
@@ -888,6 +922,8 @@ export const ListPrivateZones: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateZones",
 }));
 
 export type ListRecordSetByTypeError = AzureOpError;
@@ -903,6 +939,8 @@ export const ListRecordSetByType: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecordSetByType",
 }));
 
 export type ListRecordSetsError = AzureOpError;
@@ -918,6 +956,8 @@ export const ListRecordSets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecordSets",
 }));
 
 export type ListVirtualNetworkLinksError = AzureOpError;
@@ -933,6 +973,8 @@ export const ListVirtualNetworkLinks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworkLinks",
 }));
 
 export type PrivateZonesCreateOrUpdateError = AzureOpError;
@@ -948,6 +990,8 @@ export const PrivateZonesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateZonesCreateOrUpdate",
 }));
 
 export type RecordSetsCreateOrUpdateError = AzureOpError;
@@ -963,6 +1007,8 @@ export const RecordSetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordSetsCreateOrUpdate",
 }));
 
 export type UpdatePrivateZoneError = AzureOpError;
@@ -978,6 +1024,8 @@ export const UpdatePrivateZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateZone",
 }));
 
 export type UpdateRecordSetError = AzureOpError;
@@ -993,6 +1041,8 @@ export const UpdateRecordSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRecordSet",
 }));
 
 export type UpdateVirtualNetworkLinkError = AzureOpError;
@@ -1008,6 +1058,8 @@ export const UpdateVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualNetworkLink",
 }));
 
 export type VirtualNetworkLinksCreateOrUpdateError = AzureOpError;
@@ -1023,6 +1075,8 @@ export const VirtualNetworkLinksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualNetworkLinksCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

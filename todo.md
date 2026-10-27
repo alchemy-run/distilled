@@ -62,3 +62,12 @@
     package's models into `packages/<pkg>/.generated-specs/`
   - not GitHub Actions artifacts or a mirror repo; `pnpm convert <pkg>` stays
     the local fallback
+- rethink github webhooks
+  - #936 generates `@distilled.cloud/github/webhooks`: one type per payload
+    in the spec's `x-webhooks` plus a `WebhookEvents` map. It is types only,
+    about 1.8 MB of generated source, and it grew the github tarball 25%.
+  - it has no signature check (HMAC-SHA256 of `X-Hub-Signature-256`), no
+    runtime payload schemas and no event-name constants; draft #583 has all
+    three
+  - decide the shape: a separate subpath or package, runtime decoding or
+    types only, and whether other providers' webhooks follow the same pattern

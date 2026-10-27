@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Webhooks",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface GetWebhookControllerAppPortalAccessRequest {
   organizationId: string;
   /** Use with JWT to specify the organization ID */
@@ -66,6 +79,8 @@ export const getWebhookControllerAppPortalAccess: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookControllerAppPortalAccess",
 }));
 
 export type GetWebhookControllerInitializationStatusError = DaytonaOpError;
@@ -81,6 +96,8 @@ export const getWebhookControllerInitializationStatus: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookControllerInitializationStatus",
 }));
 
 export type RefreshWebhookControllerEndpointsError = DaytonaOpError;
@@ -96,6 +113,8 @@ export const refreshWebhookControllerEndpoints: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshWebhookControllerEndpoints",
 }));
 
 export type WebhookControllerInitializeWebhooksError = DaytonaOpError;
@@ -111,6 +130,8 @@ export const webhookControllerInitializeWebhooks: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhookControllerInitializeWebhooks",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

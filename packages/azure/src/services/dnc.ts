@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DelegatedNetwork" },
+  prefix: "Dnc",
+  service: "Dnc",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The resource tags. */
 export type CreateControllerRequestTagsMap = { [key: string]: string | undefined };
 export interface CreateControllerRequest {
@@ -606,6 +626,8 @@ export const CreateController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateController",
 }));
 
 export type CreateOrchestratorInstanceServiceError = AzureOpError;
@@ -621,6 +643,8 @@ export const CreateOrchestratorInstanceService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrchestratorInstanceService",
 }));
 
 export type DeleteControllerError = AzureOpError;
@@ -636,6 +660,8 @@ export const DeleteController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteController",
 }));
 
 export type DeleteDelegatedSubnetServiceDetailsError = AzureOpError;
@@ -651,6 +677,8 @@ export const DeleteDelegatedSubnetServiceDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDelegatedSubnetServiceDetails",
 }));
 
 export type DeleteOrchestratorInstanceServiceError = AzureOpError;
@@ -666,6 +694,8 @@ export const DeleteOrchestratorInstanceService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrchestratorInstanceService",
 }));
 
 export type GetControllerDetailsError = AzureOpError;
@@ -681,6 +711,8 @@ export const GetControllerDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetControllerDetails",
 }));
 
 export type GetDelegatedSubnetServiceDetailsError = AzureOpError;
@@ -696,6 +728,8 @@ export const GetDelegatedSubnetServiceDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDelegatedSubnetServiceDetails",
 }));
 
 export type GetOrchestratorInstanceServiceDetailsError = AzureOpError;
@@ -711,6 +745,8 @@ export const GetOrchestratorInstanceServiceDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrchestratorInstanceServiceDetails",
 }));
 
 export type ListDelegatedNetworkByResourceGroupError = AzureOpError;
@@ -726,6 +762,8 @@ export const ListDelegatedNetworkByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDelegatedNetworkByResourceGroup",
 }));
 
 export type ListDelegatedNetworkBySubscriptionError = AzureOpError;
@@ -741,6 +779,8 @@ export const ListDelegatedNetworkBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDelegatedNetworkBySubscription",
 }));
 
 export type ListDelegatedSubnetServiceByResourceGroupError = AzureOpError;
@@ -756,6 +796,8 @@ export const ListDelegatedSubnetServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDelegatedSubnetServiceByResourceGroup",
 }));
 
 export type ListDelegatedSubnetServiceBySubscriptionError = AzureOpError;
@@ -771,6 +813,8 @@ export const ListDelegatedSubnetServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDelegatedSubnetServiceBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -786,6 +830,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListOrchestratorInstanceServiceByResourceGroupError = AzureOpError;
@@ -805,6 +851,8 @@ export const ListOrchestratorInstanceServiceByResourceGroup: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrchestratorInstanceServiceByResourceGroup",
 }));
 
 export type ListOrchestratorInstanceServiceBySubscriptionError = AzureOpError;
@@ -820,6 +868,8 @@ export const ListOrchestratorInstanceServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrchestratorInstanceServiceBySubscription",
 }));
 
 export type PatchControllerError = AzureOpError;
@@ -835,6 +885,8 @@ export const PatchController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchController",
 }));
 
 export type PatchDelegatedSubnetServiceDetailsError = AzureOpError;
@@ -850,6 +902,8 @@ export const PatchDelegatedSubnetServiceDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDelegatedSubnetServiceDetails",
 }));
 
 export type PatchOrchestratorInstanceServiceError = AzureOpError;
@@ -865,6 +919,8 @@ export const PatchOrchestratorInstanceService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrchestratorInstanceService",
 }));
 
 export type PutDelegatedSubnetServiceDetailsError = AzureOpError;
@@ -880,6 +936,8 @@ export const PutDelegatedSubnetServiceDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDelegatedSubnetServiceDetails",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

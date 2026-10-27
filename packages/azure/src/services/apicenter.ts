@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ApiCenter" },
+  prefix: "Apicenter",
+  service: "Apicenter",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** API specification details. */
 export interface ApiDefinitionPropertiesSpecification {
   /** Specification name. */
@@ -1250,6 +1270,8 @@ export const ApiDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApiDefinitionsCreateOrUpdate",
 }));
 
 export type ApisCreateOrUpdateError = AzureOpError;
@@ -1265,6 +1287,8 @@ export const ApisCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApisCreateOrUpdate",
 }));
 
 export type ApiVersionsCreateOrUpdateError = AzureOpError;
@@ -1280,6 +1304,8 @@ export const ApiVersionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApiVersionsCreateOrUpdate",
 }));
 
 export type DeleteApiDefinitionError = AzureOpError;
@@ -1295,6 +1321,8 @@ export const DeleteApiDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiDefinition",
 }));
 
 export type DeleteApisError = AzureOpError;
@@ -1310,6 +1338,8 @@ export const DeleteApis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApis",
 }));
 
 export type DeleteApiVersionError = AzureOpError;
@@ -1325,6 +1355,8 @@ export const DeleteApiVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiVersion",
 }));
 
 export type DeleteDeploymentError = AzureOpError;
@@ -1340,6 +1372,8 @@ export const DeleteDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DeleteEnvironmentError = AzureOpError;
@@ -1355,6 +1389,8 @@ export const DeleteEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteMetadataSchemaError = AzureOpError;
@@ -1370,6 +1406,8 @@ export const DeleteMetadataSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetadataSchema",
 }));
 
 export type DeleteServiceError = AzureOpError;
@@ -1385,6 +1423,8 @@ export const DeleteService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteWorkspaceError = AzureOpError;
@@ -1400,6 +1440,8 @@ export const DeleteWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DeploymentsCreateOrUpdateError = AzureOpError;
@@ -1415,6 +1457,8 @@ export const DeploymentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeploymentsCreateOrUpdate",
 }));
 
 export type EnvironmentsCreateOrUpdateError = AzureOpError;
@@ -1430,6 +1474,8 @@ export const EnvironmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentsCreateOrUpdate",
 }));
 
 export type ExportApiDefinitionSpecificationError = AzureOpError;
@@ -1445,6 +1491,8 @@ export const ExportApiDefinitionSpecification: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportApiDefinitionSpecification",
 }));
 
 export type ExportServiceMetadataSchemaError = AzureOpError;
@@ -1460,6 +1508,8 @@ export const ExportServiceMetadataSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportServiceMetadataSchema",
 }));
 
 export type GetApiDefinitionError = AzureOpError;
@@ -1475,6 +1525,8 @@ export const GetApiDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiDefinition",
 }));
 
 export type GetApisError = AzureOpError;
@@ -1490,6 +1542,8 @@ export const GetApis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApis",
 }));
 
 export type GetApiVersionError = AzureOpError;
@@ -1505,6 +1559,8 @@ export const GetApiVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiVersion",
 }));
 
 export type GetDeploymentError = AzureOpError;
@@ -1520,6 +1576,8 @@ export const GetDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetEnvironmentError = AzureOpError;
@@ -1535,6 +1593,8 @@ export const GetEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetMetadataSchemaError = AzureOpError;
@@ -1550,6 +1610,8 @@ export const GetMetadataSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadataSchema",
 }));
 
 export type GetServiceError = AzureOpError;
@@ -1565,6 +1627,8 @@ export const GetService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetWorkspaceError = AzureOpError;
@@ -1580,6 +1644,8 @@ export const GetWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type ImportApiDefinitionSpecificationError = AzureOpError;
@@ -1595,6 +1661,8 @@ export const ImportApiDefinitionSpecification: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportApiDefinitionSpecification",
 }));
 
 export type ListApiDefinitionsError = AzureOpError;
@@ -1610,6 +1678,8 @@ export const ListApiDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiDefinitions",
 }));
 
 export type ListApisError = AzureOpError;
@@ -1625,6 +1695,8 @@ export const ListApis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApis",
 }));
 
 export type ListApiVersionsError = AzureOpError;
@@ -1640,6 +1712,8 @@ export const ListApiVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiVersions",
 }));
 
 export type ListDeploymentsError = AzureOpError;
@@ -1655,6 +1729,8 @@ export const ListDeployments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 }));
 
 export type ListEnvironmentsError = AzureOpError;
@@ -1670,6 +1746,8 @@ export const ListEnvironments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListMetadataSchemasError = AzureOpError;
@@ -1685,6 +1763,8 @@ export const ListMetadataSchemas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetadataSchemas",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1700,6 +1780,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListServiceByResourceGroupError = AzureOpError;
@@ -1715,6 +1797,8 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceByResourceGroup",
 }));
 
 export type ListServiceBySubscriptionError = AzureOpError;
@@ -1730,6 +1814,8 @@ export const ListServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceBySubscription",
 }));
 
 export type ListWorkspacesError = AzureOpError;
@@ -1745,6 +1831,8 @@ export const ListWorkspaces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 }));
 
 export type MetadataSchemasCreateOrUpdateError = AzureOpError;
@@ -1760,6 +1848,8 @@ export const MetadataSchemasCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetadataSchemasCreateOrUpdate",
 }));
 
 export type ServicesCreateOrUpdateError = AzureOpError;
@@ -1775,6 +1865,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServicesCreateOrUpdate",
 }));
 
 export type UpdateServiceError = AzureOpError;
@@ -1790,6 +1882,8 @@ export const UpdateService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type WorkspacesCreateOrUpdateError = AzureOpError;
@@ -1805,6 +1899,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

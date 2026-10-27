@@ -30,6 +30,7 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
@@ -77,6 +78,56 @@ if (!fs.existsSync(specPath)) {
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
 
+// ---- 2. Alternate text media types ---------------------------------------------
+// Some endpoints answer with plain text when asked through `Accept`: the
+// `application/vnd.github.diff` / `.patch` / `.sha` media types return a
+// commit or pull request as a unified diff, patches or a SHA instead of JSON.
+// The spec lists them as extra response content types, which the converter
+// (JSON only) would drop. Model them the way the API works: an optional
+// `accept` header on the SAME operation, and a response that is the JSON
+// object or the text.
+//
+// `pulls/get` documents these media types only in prose
+// (https://docs.github.com/rest/pulls/pulls#get-a-pull-request), so they are
+// declared here.
+const TEXT_MEDIA_TYPES = [
+  "application/vnd.github.diff",
+  "application/vnd.github.patch",
+  "application/vnd.github.sha",
+];
+const DOCUMENTED_MEDIA_TYPES: Record<string, readonly string[]> = {
+  "pulls/get": ["application/vnd.github.diff", "application/vnd.github.patch"],
+};
+for (const pathItem of Object.values<Record<string, any>>(fullSpec.paths)) {
+  for (const method of HTTP_METHODS) {
+    const op = pathItem[method];
+    const ok = op?.responses?.["200"];
+    const content: Record<string, { schema?: unknown }> | undefined = ok?.content;
+    if (!content?.["application/json"]) continue;
+    for (const type of DOCUMENTED_MEDIA_TYPES[op.operationId] ?? []) {
+      content[type] ??= { schema: { type: "string" } };
+    }
+    const text = TEXT_MEDIA_TYPES.filter((type) => type in content);
+    if (text.length === 0) continue;
+    const json = content["application/json"];
+    for (const type of text) delete content[type];
+    content["application/json"] = {
+      ...json,
+      schema: { oneOf: [json.schema, { type: "string" }] },
+    };
+    op.parameters = [
+      ...(op.parameters ?? []),
+      {
+        name: "Accept",
+        in: "header",
+        required: false,
+        description: `A media type that returns text instead of JSON: ${text.map((type) => `\`${type}\``).join(", ")}.`,
+        schema: { type: "string", enum: ["application/vnd.github+json", ...text] },
+      },
+    ];
+  }
+}
+
 // ---- 3./4. Bucket paths by primary tag, shortening operation ids -----------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
 for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
@@ -100,8 +151,7 @@ for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(f
 }
 
 // ---- 5. Convert each bucket ------------------------------------------------
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
@@ -112,6 +162,8 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     namespace: `com.github.${slug}`,
     serviceName: toPascal(slug),
     skipDeprecated: true,
+    // Only the `Accept` headers added above: the spec declares no others.
+    headerParams: true,
     statusToErrorClass: {
       // The converter's defaults …
       "400": "BadRequest",
@@ -128,9 +180,73 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   });
   const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket
-  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += opCount;
+}
+
+// ---- 6. Webhook payloads ---------------------------------------------------
+// `x-webhooks` describes every delivery GitHub POSTs to a webhook: one entry
+// per event and action (`issues/opened`), each with the payload as its
+// request body. Converting them as synthetic POST operations reuses the
+// converter's schema handling (the body flattens into the input structure,
+// which IS the payload); the operations are then dropped, leaving a
+// types-only `webhooks` model. Each payload is renamed `<Event><Action>Event`
+// and tagged with its `X-GitHub-Event` name and action, which roots it for
+// generate.ts and feeds the `WebhookEvents` map.
+const WEBHOOK_EVENT_TRAIT = "com.distilled.github#webhookEvent";
+const webhookPaths: Record<string, unknown> = {};
+const webhookMeta = new Map<string, { event: string; action: string | undefined }>();
+for (const [name, item] of Object.entries<Record<string, any>>(fullSpec["x-webhooks"] ?? {})) {
+  const op = item.post;
+  const body = op?.requestBody?.content?.["application/json"];
+  const event = op?.parameters?.find((p: any) => p.name === "X-Github-Event")?.example;
+  if (!body || typeof event !== "string" || typeof op.operationId !== "string") continue;
+  const [, action] = op.operationId.split("/");
+  webhookPaths[`/webhooks/${name}`] = {
+    post: {
+      operationId: op.operationId,
+      requestBody: { content: { "application/json": body } },
+      responses: { "200": { description: "Delivered" } },
+    },
+  };
+  webhookMeta.set(op.operationId, { event, action });
+}
+if (webhookMeta.size > 0) {
+  const ns = "com.github.webhooks";
+  const model = convertOpenApiToSmithy(
+    { ...fullSpec, paths: webhookPaths },
+    { namespace: ns, serviceName: "Webhooks", skipDeprecated: false },
+  );
+  // operation shape id → its payload (input) shape id
+  const payloads = new Map<string, string>();
+  for (const [id, shape] of Object.entries<any>(model.shapes)) {
+    if (shape.type === "operation") payloads.set(id, shape.input.target);
+  }
+  let json = JSON.stringify(model);
+  for (const [opId, input] of payloads) {
+    // `IssuesOpenedRequest…` → `IssuesOpenedEvent…` (the payload and its nested shapes)
+    json = json.replace(
+      new RegExp(`#${input.slice(ns.length + 1)}(?=["A-Z])`, "g"),
+      `#${opId.slice(ns.length + 1)}Event`,
+    );
+  }
+  const renamed = JSON.parse(json);
+  const shapes: Record<string, any> = {};
+  for (const [id, shape] of Object.entries<any>(renamed.shapes)) {
+    if (shape.type === "operation" || shape.type === "service") continue;
+    shapes[id] = shape;
+  }
+  for (const [opId, shape] of Object.entries<any>(model.shapes)) {
+    if (shape.type !== "operation") continue;
+    const rawId = (shape.traits?.["smithy.api#http"]?.uri as string).slice("/webhooks/".length);
+    const operationId = fullSpec["x-webhooks"][rawId].post.operationId as string;
+    const payload = `${ns}#${opId.slice(ns.length + 1)}Event`;
+    const { "smithy.api#input": _, ...traits } = shapes[payload].traits ?? {};
+    shapes[payload].traits = { ...traits, [WEBHOOK_EVENT_TRAIT]: webhookMeta.get(operationId) };
+  }
+  writeModel(path.join(outDir, "webhooks.json"), { ...renamed, shapes });
+  console.log(`✅ webhooks model (${webhookMeta.size} payloads) → ${outDir}`);
 }
 
 console.log(`✅ ${written} Smithy models (${totalOps} operations) → ${outDir}`);

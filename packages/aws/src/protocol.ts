@@ -1,4 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
  * seam.
@@ -528,11 +529,32 @@ const encodeWith = <A>(
   input: unknown,
   f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
 ): Effect.Effect<A, any, any> => {
-  const debug = debugEnabled(fiber.context as Context.Context<any>);
+  const context = fiber.context as Context.Context<any>;
+  const debug = debugEnabled(context);
+  const traceDebug = Telemetry.isDebug(context);
   const sendSigned = (request: Request) =>
-    withAwsContext(fiber.context as Context.Context<any>, (credentials, region, custom) =>
-      thenSend(toHttpRequest(prepared, input, request, credentials, region, custom, fiber), f),
-    );
+    withAwsContext(context, (credentials, region, custom) => {
+      Telemetry.annotate(context, "cloud.region", region);
+      if (!traceDebug) {
+        return thenSend(
+          toHttpRequest(prepared, input, request, credentials, region, custom, fiber),
+          f,
+        );
+      }
+      // BRAINSTORM: endpoint rules + SigV4 as one debug span.
+      return Effect.flatMap(
+        Telemetry.phase(
+          context,
+          "aws.endpoint_and_sign",
+          Effect.suspend(() => {
+            const r = toHttpRequest(prepared, input, request, credentials, region, custom, fiber);
+            return HttpClientRequest.isHttpClientRequest(r) ? Effect.succeed(r) : r;
+          }),
+          { "aws.signing.name": prepared.sigv4?.name },
+        ),
+        f,
+      );
+    });
   const send = debug
     ? (request: Request) =>
         logDebugThen(
@@ -543,6 +565,24 @@ const encodeWith = <A>(
         )
     : sendSigned;
   // Serialize the input (protocol serializer + annotation middleware)
+  if (traceDebug) {
+    // BRAINSTORM: serialization as its own debug span.
+    return Effect.flatMap(
+      Telemetry.phase(
+        context,
+        "aws.serialize",
+        Effect.suspend(() => {
+          try {
+            const r = plan.build(input);
+            return Effect.isEffect(r) ? r : Effect.succeed(r);
+          } catch (e) {
+            return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+          }
+        }),
+      ),
+      send,
+    );
+  }
   let request: Request | Effect.Effect<Request, ParseError>;
   try {
     request = plan.build(input);
@@ -612,16 +652,27 @@ const decodeWith = (
 const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
   Effect.withFiber((fiber) => {
     const prepared = prepare(op.config);
+    const context = fiber.context as Context.Context<any>;
     const run = (plan: Plan) => {
-      const context = fiber.context as Context.Context<any>;
       const client = Context.get(context, HttpClient.HttpClient);
       return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request) =>
-        Effect.flatMap(client.execute(request), (response) =>
-          decodeWith(prepared, plan, context, response),
+        Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+          Telemetry.phase(
+            context,
+            "aws.deserialize",
+            decodeWith(prepared, plan, context, response),
+          ),
         ),
       );
     };
-    return prepared.plan ? run(prepared.plan) : Effect.flatMap(planOf(prepared), run);
+    return prepared.plan
+      ? run(prepared.plan)
+      : Effect.flatMap(
+          Telemetry.phase(context, "aws.load_protocol", planOf(prepared), {
+            "distilled.setup.first_call": true,
+          }),
+          run,
+        );
   }) as Effect.Effect<unknown>;
 
 /**

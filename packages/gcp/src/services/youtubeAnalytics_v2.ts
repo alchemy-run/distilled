@@ -12,6 +12,24 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "youtubeanalytics" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "YoutubeAnalytics",
+  service: "youtubeAnalytics",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -288,6 +306,8 @@ export const deleteGroupItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupItems",
 }));
 
 export type DeleteGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -303,6 +323,8 @@ export const deleteGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroups",
 }));
 
 export type InsertGroupItemsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -318,6 +340,8 @@ export const insertGroupItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertGroupItems",
 }));
 
 export type InsertGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -333,6 +357,8 @@ export const insertGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertGroups",
 }));
 
 export type ListGroupItemsError = NotFound | Forbidden | GcpOpError;
@@ -348,6 +374,8 @@ export const listGroupItems: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupItems",
 }));
 
 export type ListGroupsError = NotFound | Forbidden | GcpOpError;
@@ -364,6 +392,8 @@ export const listGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -380,6 +410,8 @@ export const queryReports: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryReports",
 }));
 
 export type UpdateGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -395,6 +427,8 @@ export const updateGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroups",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

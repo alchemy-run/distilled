@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -194,6 +195,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Organizations",
+  service: "Organizations",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1487,6 +1503,8 @@ export const acceptHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptHandshake",
+  telemetry: TELEMETRY,
+  span: "AcceptHandshake",
 }));
 
 export type AttachPolicyError =
@@ -1565,6 +1583,8 @@ export const attachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachPolicy",
+  telemetry: TELEMETRY,
+  span: "AttachPolicy",
 }));
 
 export type CancelHandshakeError =
@@ -1607,6 +1627,8 @@ export const cancelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelHandshake",
+  telemetry: TELEMETRY,
+  span: "CancelHandshake",
 }));
 
 export type CloseAccountError =
@@ -1695,6 +1717,8 @@ export const closeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseAccount",
+  telemetry: TELEMETRY,
+  span: "CloseAccount",
 }));
 
 export type CreateAccountError =
@@ -1802,6 +1826,8 @@ export const createAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccount",
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type CreateGovCloudAccountError =
@@ -1953,6 +1979,8 @@ export const createGovCloudAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGovCloudAccount",
+  telemetry: TELEMETRY,
+  span: "CreateGovCloudAccount",
 }));
 
 export type CreateOrganizationError =
@@ -2006,6 +2034,8 @@ export const createOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrganization",
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateOrganizationalUnitError =
@@ -2056,6 +2086,8 @@ export const createOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrganizationalUnit",
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationalUnit",
 }));
 
 export type CreatePolicyError =
@@ -2107,6 +2139,8 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type DeclineHandshakeError =
@@ -2149,6 +2183,8 @@ export const declineHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineHandshake",
+  telemetry: TELEMETRY,
+  span: "DeclineHandshake",
 }));
 
 export type DeleteOrganizationError =
@@ -2191,6 +2227,8 @@ export const deleteOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganization",
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteOrganizationalUnitError =
@@ -2230,6 +2268,8 @@ export const deleteOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationalUnit",
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationalUnit",
 }));
 
 export type DeletePolicyError =
@@ -2272,6 +2312,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteResourcePolicyError =
@@ -2310,6 +2352,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeregisterDelegatedAdministratorError =
@@ -2363,6 +2407,8 @@ export const deregisterDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDelegatedAdministrator",
+  telemetry: TELEMETRY,
+  span: "DeregisterDelegatedAdministrator",
 }));
 
 export type DescribeAccountError =
@@ -2397,6 +2443,8 @@ export const describeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccount",
+  telemetry: TELEMETRY,
+  span: "DescribeAccount",
 }));
 
 export type DescribeCreateAccountStatusError =
@@ -2433,6 +2481,8 @@ export const describeCreateAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCreateAccountStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeCreateAccountStatus",
 }));
 
 export type DescribeEffectivePolicyError =
@@ -2483,6 +2533,8 @@ export const describeEffectivePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEffectivePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeEffectivePolicy",
 }));
 
 export type DescribeHandshakeError =
@@ -2521,6 +2573,8 @@ export const describeHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHandshake",
+  telemetry: TELEMETRY,
+  span: "DescribeHandshake",
 }));
 
 export type DescribeOrganizationError =
@@ -2558,6 +2612,8 @@ export const describeOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganization",
 }));
 
 export type DescribeOrganizationalUnitError =
@@ -2592,6 +2648,8 @@ export const describeOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationalUnit",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationalUnit",
 }));
 
 export type DescribePolicyError =
@@ -2628,6 +2686,8 @@ export const describePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribePolicy",
 }));
 
 export type DescribeResourcePolicyError =
@@ -2664,6 +2724,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeResponsibilityTransferError =
@@ -2700,6 +2762,8 @@ export const describeResponsibilityTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResponsibilityTransfer",
+  telemetry: TELEMETRY,
+  span: "DescribeResponsibilityTransfer",
 }));
 
 export type DetachPolicyError =
@@ -2759,6 +2823,8 @@ export const detachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachPolicy",
+  telemetry: TELEMETRY,
+  span: "DetachPolicy",
 }));
 
 export type DisableAWSServiceAccessError =
@@ -2849,6 +2915,8 @@ export const disableAWSServiceAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAWSServiceAccess",
+  telemetry: TELEMETRY,
+  span: "DisableAWSServiceAccess",
 }));
 
 export type DisablePolicyTypeError =
@@ -2904,6 +2972,8 @@ export const disablePolicyType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisablePolicyType",
+  telemetry: TELEMETRY,
+  span: "DisablePolicyType",
 }));
 
 export type EnableAllFeaturesError =
@@ -2967,6 +3037,8 @@ export const enableAllFeatures: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAllFeatures",
+  telemetry: TELEMETRY,
+  span: "EnableAllFeatures",
 }));
 
 export type EnableAWSServiceAccessError =
@@ -3021,6 +3093,8 @@ export const enableAWSServiceAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAWSServiceAccess",
+  telemetry: TELEMETRY,
+  span: "EnableAWSServiceAccess",
 }));
 
 export type EnablePolicyTypeError =
@@ -3078,6 +3152,8 @@ export const enablePolicyType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnablePolicyType",
+  telemetry: TELEMETRY,
+  span: "EnablePolicyType",
 }));
 
 export type InviteAccountToOrganizationError =
@@ -3134,6 +3210,8 @@ export const inviteAccountToOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteAccountToOrganization",
+  telemetry: TELEMETRY,
+  span: "InviteAccountToOrganization",
 }));
 
 export type InviteOrganizationToTransferResponsibilityError =
@@ -3178,6 +3256,8 @@ export const inviteOrganizationToTransferResponsibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteOrganizationToTransferResponsibility",
+  telemetry: TELEMETRY,
+  span: "InviteOrganizationToTransferResponsibility",
 }));
 
 export type LeaveOrganizationError =
@@ -3269,6 +3349,8 @@ export const leaveOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LeaveOrganization",
+  telemetry: TELEMETRY,
+  span: "LeaveOrganization",
 }));
 
 export type ListAccountsError =
@@ -3312,6 +3394,8 @@ export const listAccounts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 })) as any;
 
 export type ListAccountsForParentError =
@@ -3360,6 +3444,8 @@ export const listAccountsForParent: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountsForParent",
 })) as any;
 
 export type ListAccountsWithInvalidEffectivePolicyError =
@@ -3408,6 +3494,8 @@ export const listAccountsWithInvalidEffectivePolicy: API.PaginatedOperationMetho
     items: "Accounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountsWithInvalidEffectivePolicy",
 })) as any;
 
 export type ListAWSServiceAccessForOrganizationError =
@@ -3456,6 +3544,8 @@ export const listAWSServiceAccessForOrganization: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAWSServiceAccessForOrganization",
 })) as any;
 
 export type ListChildrenError =
@@ -3502,6 +3592,8 @@ export const listChildren: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChildren",
 })) as any;
 
 export type ListCreateAccountStatusError =
@@ -3547,6 +3639,8 @@ export const listCreateAccountStatus: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCreateAccountStatus",
 })) as any;
 
 export type ListDelegatedAdministratorsError =
@@ -3591,6 +3685,8 @@ export const listDelegatedAdministrators: API.PaginatedOperationMethod<
     items: "DelegatedAdministrators",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDelegatedAdministrators",
 })) as any;
 
 export type ListDelegatedServicesForAccountError =
@@ -3639,6 +3735,8 @@ export const listDelegatedServicesForAccount: API.PaginatedOperationMethod<
     items: "DelegatedServices",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDelegatedServicesForAccount",
 })) as any;
 
 export type ListEffectivePolicyValidationErrorsError =
@@ -3687,6 +3785,8 @@ export const listEffectivePolicyValidationErrors: API.PaginatedOperationMethod<
     items: "EffectivePolicyValidationErrors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEffectivePolicyValidationErrors",
 })) as any;
 
 export type ListHandshakesForAccountError =
@@ -3733,6 +3833,8 @@ export const listHandshakesForAccount: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHandshakesForAccount",
 })) as any;
 
 export type ListHandshakesForOrganizationError =
@@ -3781,6 +3883,8 @@ export const listHandshakesForOrganization: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHandshakesForOrganization",
 })) as any;
 
 export type ListInboundResponsibilityTransfersError =
@@ -3822,6 +3926,8 @@ export const listInboundResponsibilityTransfers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInboundResponsibilityTransfers",
+  telemetry: TELEMETRY,
+  span: "ListInboundResponsibilityTransfers",
 }));
 
 export type ListOrganizationalUnitsForParentError =
@@ -3866,6 +3972,8 @@ export const listOrganizationalUnitsForParent: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationalUnitsForParent",
 })) as any;
 
 export type ListOutboundResponsibilityTransfersError =
@@ -3906,6 +4014,8 @@ export const listOutboundResponsibilityTransfers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOutboundResponsibilityTransfers",
+  telemetry: TELEMETRY,
+  span: "ListOutboundResponsibilityTransfers",
 }));
 
 export type ListParentsError =
@@ -3954,6 +4064,8 @@ export const listParents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParents",
 })) as any;
 
 export type ListPoliciesError =
@@ -3998,6 +4110,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 })) as any;
 
 export type ListPoliciesForTargetError =
@@ -4046,6 +4160,8 @@ export const listPoliciesForTarget: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPoliciesForTarget",
 })) as any;
 
 export type ListRootsError =
@@ -4094,6 +4210,8 @@ export const listRoots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoots",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4140,6 +4258,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Tags" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTargetsForPolicyError =
@@ -4187,6 +4307,8 @@ export const listTargetsForPolicy: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetsForPolicy",
 })) as any;
 
 export type MoveAccountError =
@@ -4230,6 +4352,8 @@ export const moveAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MoveAccount",
+  telemetry: TELEMETRY,
+  span: "MoveAccount",
 }));
 
 export type PutResourcePolicyError =
@@ -4268,6 +4392,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterDelegatedAdministratorError =
@@ -4317,6 +4443,8 @@ export const registerDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDelegatedAdministrator",
+  telemetry: TELEMETRY,
+  span: "RegisterDelegatedAdministrator",
 }));
 
 export type RemoveAccountFromOrganizationError =
@@ -4386,6 +4514,8 @@ export const removeAccountFromOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAccountFromOrganization",
+  telemetry: TELEMETRY,
+  span: "RemoveAccountFromOrganization",
 }));
 
 export type TagResourceError =
@@ -4434,6 +4564,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateResponsibilityTransferError =
@@ -4484,6 +4616,8 @@ export const terminateResponsibilityTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateResponsibilityTransfer",
+  telemetry: TELEMETRY,
+  span: "TerminateResponsibilityTransfer",
 }));
 
 export type UntagResourceError =
@@ -4532,6 +4666,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateOrganizationalUnitError =
@@ -4572,6 +4708,8 @@ export const updateOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationalUnit",
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationalUnit",
 }));
 
 export type UpdatePolicyError =
@@ -4620,6 +4758,8 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 export type UpdateResponsibilityTransferError =
@@ -4660,6 +4800,8 @@ export const updateResponsibilityTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponsibilityTransfer",
+  telemetry: TELEMETRY,
+  span: "UpdateResponsibilityTransfer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

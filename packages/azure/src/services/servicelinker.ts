@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ServiceLinker" },
+  prefix: "Servicelinker",
+  service: "Servicelinker",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The target service type. */
 export type TargetServiceType =
   | "AzureResource"
@@ -985,6 +1005,8 @@ export const ConnectorCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorCreateOrUpdate",
 }));
 
 export type CreateConnectorDryrunError = AzureOpError;
@@ -1000,6 +1022,8 @@ export const CreateConnectorDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnectorDryrun",
 }));
 
 export type CreateLinkerDryrunError = AzureOpError;
@@ -1015,6 +1039,13 @@ export const CreateLinkerDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateLinkerDryrun",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+    },
+  },
 }));
 
 export type DeleteConnectorError = AzureOpError;
@@ -1030,6 +1061,8 @@ export const DeleteConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteConnectorDryrunError = AzureOpError;
@@ -1045,6 +1078,8 @@ export const DeleteConnectorDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnectorDryrun",
 }));
 
 export type DeleteLinkerError = AzureOpError;
@@ -1060,6 +1095,13 @@ export const DeleteLinker: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteLinker",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+    },
+  },
 }));
 
 export type DeleteLinkerDryrunError = AzureOpError;
@@ -1075,6 +1117,13 @@ export const DeleteLinkerDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteLinkerDryrun",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+    },
+  },
 }));
 
 export type GenerateConnectorConfigurationsError = AzureOpError;
@@ -1090,6 +1139,8 @@ export const GenerateConnectorConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateConnectorConfigurations",
 }));
 
 export type GenerateLinkerConfigurationsError = AzureOpError;
@@ -1105,6 +1156,14 @@ export const GenerateLinkerConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GenerateLinkerConfigurations",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/generateConfigurations",
+    },
+  },
 }));
 
 export type GetConnectorError = AzureOpError;
@@ -1120,6 +1179,8 @@ export const GetConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetConnectorDryrunError = AzureOpError;
@@ -1135,6 +1196,8 @@ export const GetConnectorDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectorDryrun",
 }));
 
 export type GetLinkerError = AzureOpError;
@@ -1150,6 +1213,13 @@ export const GetLinker: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetLinker",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+    },
+  },
 }));
 
 export type GetLinkerDryrunError = AzureOpError;
@@ -1165,6 +1235,13 @@ export const GetLinkerDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetLinkerDryrun",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+    },
+  },
 }));
 
 export type LinkerCreateOrUpdateError = AzureOpError;
@@ -1180,6 +1257,13 @@ export const LinkerCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "LinkerCreateOrUpdate",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+    },
+  },
 }));
 
 export type ListConfigurationNamesError = AzureOpError;
@@ -1195,6 +1279,8 @@ export const ListConfigurationNames: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationNames",
 }));
 
 export type ListConnectorError = AzureOpError;
@@ -1210,6 +1296,8 @@ export const ListConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnector",
 }));
 
 export type ListConnectorDryrunError = AzureOpError;
@@ -1225,6 +1313,8 @@ export const ListConnectorDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectorDryrun",
 }));
 
 export type ListLinkerError = AzureOpError;
@@ -1240,6 +1330,11 @@ export const ListLinker: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListLinker",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers" },
+  },
 }));
 
 export type ListLinkerConfigurationsError = AzureOpError;
@@ -1255,6 +1350,14 @@ export const ListLinkerConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListLinkerConfigurations",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/listConfigurations",
+    },
+  },
 }));
 
 export type ListLinkerDaprConfigurationsError = AzureOpError;
@@ -1270,6 +1373,13 @@ export const ListLinkerDaprConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListLinkerDaprConfigurations",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/daprConfigurations",
+    },
+  },
 }));
 
 export type ListLinkerDryrunError = AzureOpError;
@@ -1285,6 +1395,11 @@ export const ListLinkerDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListLinkerDryrun",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns" },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1300,6 +1415,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateConnectorError = AzureOpError;
@@ -1315,6 +1432,8 @@ export const UpdateConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 export type UpdateConnectorDryrunError = AzureOpError;
@@ -1330,6 +1449,8 @@ export const UpdateConnectorDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnectorDryrun",
 }));
 
 export type UpdateLinkerError = AzureOpError;
@@ -1345,6 +1466,13 @@ export const UpdateLinker: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateLinker",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+    },
+  },
 }));
 
 export type UpdateLinkerDryrunError = AzureOpError;
@@ -1360,6 +1488,13 @@ export const UpdateLinkerDryrun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateLinkerDryrun",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+    },
+  },
 }));
 
 export type ValidateConnectorError = AzureOpError;
@@ -1375,6 +1510,8 @@ export const ValidateConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateConnector",
 }));
 
 export type ValidateLinkerError = AzureOpError;
@@ -1390,6 +1527,14 @@ export const ValidateLinker: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateLinker",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/validateLinker",
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

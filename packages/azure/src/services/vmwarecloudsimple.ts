@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.VMwareCloudSimple" },
+  prefix: "Vmwarecloudsimple",
+  service: "Vmwarecloudsimple",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The purchase SKU for CloudSimple paid resources */
 export interface SkuDescription {
   /** SKU's id */
@@ -1273,6 +1293,8 @@ export const DedicatedCloudNodesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DedicatedCloudNodesCreateOrUpdate",
 }));
 
 export type DedicatedCloudServicesCreateOrUpdateError = AzureOpError;
@@ -1288,6 +1310,8 @@ export const DedicatedCloudServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DedicatedCloudServicesCreateOrUpdate",
 }));
 
 export type DeleteDedicatedCloudNodeError = AzureOpError;
@@ -1303,6 +1327,8 @@ export const DeleteDedicatedCloudNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedCloudNode",
 }));
 
 export type DeleteDedicatedCloudServiceError = AzureOpError;
@@ -1318,6 +1344,8 @@ export const DeleteDedicatedCloudService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedCloudService",
 }));
 
 export type DeleteVirtualMachineError = AzureOpError;
@@ -1333,6 +1361,8 @@ export const DeleteVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachine",
 }));
 
 export type GetCustomizationPolicyError = AzureOpError;
@@ -1348,6 +1378,8 @@ export const GetCustomizationPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomizationPolicy",
 }));
 
 export type GetDedicatedCloudNodeError = AzureOpError;
@@ -1363,6 +1395,8 @@ export const GetDedicatedCloudNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCloudNode",
 }));
 
 export type GetDedicatedCloudServiceError = AzureOpError;
@@ -1378,6 +1412,8 @@ export const GetDedicatedCloudService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedCloudService",
 }));
 
 export type GetOperationError = AzureOpError;
@@ -1393,6 +1429,8 @@ export const GetOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperation",
 }));
 
 export type GetPrivateCloudError = AzureOpError;
@@ -1408,6 +1446,8 @@ export const GetPrivateCloud: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateCloud",
 }));
 
 export type GetResourcePoolError = AzureOpError;
@@ -1423,6 +1463,8 @@ export const GetResourcePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcePool",
 }));
 
 export type GetVirtualMachineError = AzureOpError;
@@ -1438,6 +1480,8 @@ export const GetVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachine",
 }));
 
 export type GetVirtualMachineTemplateError = AzureOpError;
@@ -1453,6 +1497,8 @@ export const GetVirtualMachineTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineTemplate",
 }));
 
 export type GetVirtualNetworkError = AzureOpError;
@@ -1468,6 +1514,8 @@ export const GetVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualNetwork",
 }));
 
 export type ListCustomizationPoliciesError = AzureOpError;
@@ -1483,6 +1531,8 @@ export const ListCustomizationPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomizationPolicies",
 }));
 
 export type ListDedicatedCloudNodeByResourceGroupError = AzureOpError;
@@ -1498,6 +1548,8 @@ export const ListDedicatedCloudNodeByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCloudNodeByResourceGroup",
 }));
 
 export type ListDedicatedCloudNodeBySubscriptionError = AzureOpError;
@@ -1513,6 +1565,8 @@ export const ListDedicatedCloudNodeBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCloudNodeBySubscription",
 }));
 
 export type ListDedicatedCloudServiceByResourceGroupError = AzureOpError;
@@ -1528,6 +1582,8 @@ export const ListDedicatedCloudServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCloudServiceByResourceGroup",
 }));
 
 export type ListDedicatedCloudServiceBySubscriptionError = AzureOpError;
@@ -1543,6 +1599,8 @@ export const ListDedicatedCloudServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedCloudServiceBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1558,6 +1616,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateCloudsError = AzureOpError;
@@ -1573,6 +1633,8 @@ export const ListPrivateClouds: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateClouds",
 }));
 
 export type ListResourcePoolsError = AzureOpError;
@@ -1588,6 +1650,8 @@ export const ListResourcePools: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourcePools",
 }));
 
 export type ListSkusAvailabilityError = AzureOpError;
@@ -1603,6 +1667,8 @@ export const ListSkusAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkusAvailability",
 }));
 
 export type ListUsagesError = AzureOpError;
@@ -1618,6 +1684,8 @@ export const ListUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsages",
 }));
 
 export type ListVirtualMachineByResourceGroupError = AzureOpError;
@@ -1633,6 +1701,8 @@ export const ListVirtualMachineByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineByResourceGroup",
 }));
 
 export type ListVirtualMachineBySubscriptionError = AzureOpError;
@@ -1648,6 +1718,8 @@ export const ListVirtualMachineBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineBySubscription",
 }));
 
 export type ListVirtualMachineTemplatesError = AzureOpError;
@@ -1663,6 +1735,8 @@ export const ListVirtualMachineTemplates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineTemplates",
 }));
 
 export type ListVirtualNetworksError = AzureOpError;
@@ -1678,6 +1752,8 @@ export const ListVirtualNetworks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworks",
 }));
 
 export type StartVirtualMachineError = AzureOpError;
@@ -1693,6 +1769,8 @@ export const StartVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachine",
 }));
 
 export type StopVirtualMachineError = AzureOpError;
@@ -1708,6 +1786,8 @@ export const StopVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopVirtualMachine",
 }));
 
 export type UpdateDedicatedCloudNodeError = AzureOpError;
@@ -1723,6 +1803,8 @@ export const UpdateDedicatedCloudNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDedicatedCloudNode",
 }));
 
 export type UpdateDedicatedCloudServiceError = AzureOpError;
@@ -1738,6 +1820,8 @@ export const UpdateDedicatedCloudService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDedicatedCloudService",
 }));
 
 export type UpdateVirtualMachineError = AzureOpError;
@@ -1753,6 +1837,8 @@ export const UpdateVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachine",
 }));
 
 export type VirtualMachinesCreateOrUpdateError = AzureOpError;
@@ -1768,6 +1854,8 @@ export const VirtualMachinesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

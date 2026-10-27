@@ -33,6 +33,7 @@ import {
 } from "@distilled.cloud/core/protocol-rest";
 import { checkResponse, withholdActual } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * StripeProtocol -- hand-written.
  *
@@ -622,7 +623,14 @@ const decodeResponse = (
           headers,
         });
         if (typed !== undefined) return fail(typed);
-        return fail(matchStripeError(status, errorBody, headers));
+        // Its own frames would point into this decoder; the failure frame
+        // names the operation at the caller's line instead.
+        const saved = Telemetry.suppressStack();
+        try {
+          return fail(matchStripeError(status, errorBody, headers));
+        } finally {
+          Telemetry.restoreStack(saved);
+        }
       }
 
       // 2xx: the response body IS the payload (no envelope). Wire->TS key
@@ -657,7 +665,7 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
       return Effect.flatMap(
         requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, op.inputAst),
         (request) =>
-          Effect.flatMap(client.execute(request), (response) =>
+          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
             decodeResponse(context, response, op.outputAst, op.errors),
           ),
       );

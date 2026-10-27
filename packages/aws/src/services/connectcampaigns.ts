@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://connect-campaigns.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectCampaigns",
+  service: "ConnectCampaigns",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -475,6 +490,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type DeleteCampaignError =
@@ -503,6 +520,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteConnectInstanceConfigError =
@@ -535,6 +554,8 @@ export const deleteConnectInstanceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectInstanceConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectInstanceConfig",
 }));
 
 export type DeleteInstanceOnboardingJobError =
@@ -565,6 +586,8 @@ export const deleteInstanceOnboardingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceOnboardingJob",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceOnboardingJob",
 }));
 
 export type DescribeCampaignError =
@@ -593,6 +616,8 @@ export const describeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCampaign",
+  telemetry: TELEMETRY,
+  span: "DescribeCampaign",
 }));
 
 export type GetCampaignStateError =
@@ -623,6 +648,8 @@ export const getCampaignState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignState",
+  telemetry: TELEMETRY,
+  span: "GetCampaignState",
 }));
 
 export type GetCampaignStateBatchError =
@@ -651,6 +678,8 @@ export const getCampaignStateBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignStateBatch",
+  telemetry: TELEMETRY,
+  span: "GetCampaignStateBatch",
 }));
 
 export type GetConnectInstanceConfigError =
@@ -679,6 +708,8 @@ export const getConnectInstanceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectInstanceConfig",
+  telemetry: TELEMETRY,
+  span: "GetConnectInstanceConfig",
 }));
 
 export type GetInstanceOnboardingJobStatusError =
@@ -707,6 +738,8 @@ export const getInstanceOnboardingJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceOnboardingJobStatus",
+  telemetry: TELEMETRY,
+  span: "GetInstanceOnboardingJobStatus",
 }));
 
 export type ListCampaignsError =
@@ -736,6 +769,8 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaignSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -766,6 +801,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PauseCampaignError =
@@ -800,6 +837,8 @@ export const pauseCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseCampaign",
+  telemetry: TELEMETRY,
+  span: "PauseCampaign",
 }));
 
 export type PutDialRequestBatchError =
@@ -834,6 +873,8 @@ export const putDialRequestBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDialRequestBatch",
+  telemetry: TELEMETRY,
+  span: "PutDialRequestBatch",
 }));
 
 export type ResumeCampaignError =
@@ -868,6 +909,8 @@ export const resumeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeCampaign",
+  telemetry: TELEMETRY,
+  span: "ResumeCampaign",
 }));
 
 export type StartCampaignError =
@@ -902,6 +945,8 @@ export const startCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCampaign",
+  telemetry: TELEMETRY,
+  span: "StartCampaign",
 }));
 
 export type StartInstanceOnboardingJobError =
@@ -934,6 +979,8 @@ export const startInstanceOnboardingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstanceOnboardingJob",
+  telemetry: TELEMETRY,
+  span: "StartInstanceOnboardingJob",
 }));
 
 export type StopCampaignError =
@@ -968,6 +1015,8 @@ export const stopCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCampaign",
+  telemetry: TELEMETRY,
+  span: "StopCampaign",
 }));
 
 export type TagResourceError =
@@ -998,6 +1047,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1028,6 +1079,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCampaignDialerConfigError =
@@ -1058,6 +1111,8 @@ export const updateCampaignDialerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignDialerConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignDialerConfig",
 }));
 
 export type UpdateCampaignNameError =
@@ -1088,6 +1143,8 @@ export const updateCampaignName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignName",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignName",
 }));
 
 export type UpdateCampaignOutboundCallConfigError =
@@ -1120,6 +1177,8 @@ export const updateCampaignOutboundCallConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignOutboundCallConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignOutboundCallConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DBforMariaDB" },
+  prefix: "Mariadb",
+  service: "Mariadb",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface StartServerRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -42,6 +62,8 @@ export const StartServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartServer",
 }));
 
 export type StopServerError = AzureOpError;
@@ -57,6 +79,8 @@ export const StopServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopServer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

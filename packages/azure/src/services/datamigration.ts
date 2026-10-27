@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DataMigration" },
+  prefix: "Datamigration",
+  service: "Datamigration",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CancelDatabaseMigrationsSqlDbRequest {
   /** Subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
@@ -3076,6 +3096,8 @@ export const CancelDatabaseMigrationsSqlDb: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDatabaseMigrationsSqlDb",
 }));
 
 export type CancelDatabaseMigrationsSqlMiError = AzureOpError;
@@ -3091,6 +3113,8 @@ export const CancelDatabaseMigrationsSqlMi: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDatabaseMigrationsSqlMi",
 }));
 
 export type CancelDatabaseMigrationsSqlVmError = AzureOpError;
@@ -3106,6 +3130,8 @@ export const CancelDatabaseMigrationsSqlVm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDatabaseMigrationsSqlVm",
 }));
 
 export type CancelServiceTaskError = AzureOpError;
@@ -3121,6 +3147,8 @@ export const CancelServiceTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelServiceTask",
 }));
 
 export type CancelTaskError = AzureOpError;
@@ -3136,6 +3164,8 @@ export const CancelTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTask",
 }));
 
 export type CheckServiceChildrenNameAvailabilityError = AzureOpError;
@@ -3151,6 +3181,8 @@ export const CheckServiceChildrenNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServiceChildrenNameAvailability",
 }));
 
 export type CheckServiceNameAvailabilityError = AzureOpError;
@@ -3166,6 +3198,8 @@ export const CheckServiceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServiceNameAvailability",
 }));
 
 export type CheckServiceStatusError = AzureOpError;
@@ -3181,6 +3215,8 @@ export const CheckServiceStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServiceStatus",
 }));
 
 export type CreateDatabaseMigrationsMongoToCosmosDbRUMongoError = AzureOpError;
@@ -3204,6 +3240,8 @@ export const CreateDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseMigrationsMongoToCosmosDbRUMongo",
 }));
 
 export type CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoError = AzureOpError;
@@ -3227,6 +3265,8 @@ export const CreateDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseMigrationsMongoToCosmosDbvCoreMongo",
 }));
 
 export type DatabaseMigrationsSqlDbCreateOrUpdateError = AzureOpError;
@@ -3242,6 +3282,8 @@ export const DatabaseMigrationsSqlDbCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseMigrationsSqlDbCreateOrUpdate",
 }));
 
 export type DatabaseMigrationsSqlMiCreateOrUpdateError = AzureOpError;
@@ -3257,6 +3299,8 @@ export const DatabaseMigrationsSqlMiCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseMigrationsSqlMiCreateOrUpdate",
 }));
 
 export type DatabaseMigrationsSqlMiCutoverError = AzureOpError;
@@ -3272,6 +3316,8 @@ export const DatabaseMigrationsSqlMiCutover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseMigrationsSqlMiCutover",
 }));
 
 export type DatabaseMigrationsSqlVmCreateOrUpdateError = AzureOpError;
@@ -3287,6 +3333,8 @@ export const DatabaseMigrationsSqlVmCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseMigrationsSqlVmCreateOrUpdate",
 }));
 
 export type DatabaseMigrationsSqlVmCutoverError = AzureOpError;
@@ -3302,6 +3350,8 @@ export const DatabaseMigrationsSqlVmCutover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabaseMigrationsSqlVmCutover",
 }));
 
 export type DeleteDatabaseMigrationsMongoToCosmosDbRUMongoError = AzureOpError;
@@ -3325,6 +3375,8 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseMigrationsMongoToCosmosDbRUMongo",
 }));
 
 export type DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoError = AzureOpError;
@@ -3348,6 +3400,8 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongo",
 }));
 
 export type DeleteDatabaseMigrationsSqlDbError = AzureOpError;
@@ -3363,6 +3417,8 @@ export const DeleteDatabaseMigrationsSqlDb: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseMigrationsSqlDb",
 }));
 
 export type DeleteDatabaseMigrationsSqlMiError = AzureOpError;
@@ -3378,6 +3434,8 @@ export const DeleteDatabaseMigrationsSqlMi: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseMigrationsSqlMi",
 }));
 
 export type DeleteDatabaseMigrationsSqlVmError = AzureOpError;
@@ -3393,6 +3451,8 @@ export const DeleteDatabaseMigrationsSqlVm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabaseMigrationsSqlVm",
 }));
 
 export type DeleteFileError = AzureOpError;
@@ -3408,6 +3468,8 @@ export const DeleteFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFile",
 }));
 
 export type DeleteMigrationServiceError = AzureOpError;
@@ -3423,6 +3485,8 @@ export const DeleteMigrationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMigrationService",
 }));
 
 export type DeleteProjectError = AzureOpError;
@@ -3438,6 +3502,8 @@ export const DeleteProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteServiceError = AzureOpError;
@@ -3453,6 +3519,8 @@ export const DeleteService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteServiceTaskError = AzureOpError;
@@ -3468,6 +3536,8 @@ export const DeleteServiceTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceTask",
 }));
 
 export type DeleteSqlMigrationServiceError = AzureOpError;
@@ -3483,6 +3553,8 @@ export const DeleteSqlMigrationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlMigrationService",
 }));
 
 export type DeleteSqlMigrationServiceNodeError = AzureOpError;
@@ -3498,6 +3570,8 @@ export const DeleteSqlMigrationServiceNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlMigrationServiceNode",
 }));
 
 export type DeleteTaskError = AzureOpError;
@@ -3513,6 +3587,8 @@ export const DeleteTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTask",
 }));
 
 export type FilesCreateOrUpdateError = AzureOpError;
@@ -3528,6 +3604,8 @@ export const FilesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FilesCreateOrUpdate",
 }));
 
 export type GetDatabaseMigrationsMongoToCosmosDbRUMongoError = AzureOpError;
@@ -3547,6 +3625,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMigrationsMongoToCosmosDbRUMongo",
 }));
 
 export type GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeError = AzureOpError;
@@ -3566,6 +3646,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbRUMongoForScope: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMigrationsMongoToCosmosDbRUMongoForScope",
 }));
 
 export type GetDatabaseMigrationsMongoToCosmosDbvCoreMongoError = AzureOpError;
@@ -3589,6 +3671,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMigrationsMongoToCosmosDbvCoreMongo",
 }));
 
 export type GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeError = AzureOpError;
@@ -3608,6 +3692,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScope: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScope",
 }));
 
 export type GetDatabaseMigrationsSqlDbError = AzureOpError;
@@ -3623,6 +3709,8 @@ export const GetDatabaseMigrationsSqlDb: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMigrationsSqlDb",
 }));
 
 export type GetDatabaseMigrationsSqlMiError = AzureOpError;
@@ -3638,6 +3726,8 @@ export const GetDatabaseMigrationsSqlMi: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMigrationsSqlMi",
 }));
 
 export type GetDatabaseMigrationsSqlVmError = AzureOpError;
@@ -3653,6 +3743,8 @@ export const GetDatabaseMigrationsSqlVm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseMigrationsSqlVm",
 }));
 
 export type GetFileError = AzureOpError;
@@ -3668,6 +3760,8 @@ export const GetFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFile",
 }));
 
 export type GetMigrationServiceError = AzureOpError;
@@ -3683,6 +3777,8 @@ export const GetMigrationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMigrationService",
 }));
 
 export type GetProjectError = AzureOpError;
@@ -3698,6 +3794,8 @@ export const GetProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetServiceError = AzureOpError;
@@ -3713,6 +3811,8 @@ export const GetService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceTaskError = AzureOpError;
@@ -3728,6 +3828,8 @@ export const GetServiceTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceTask",
 }));
 
 export type GetSqlMigrationServiceError = AzureOpError;
@@ -3743,6 +3845,8 @@ export const GetSqlMigrationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlMigrationService",
 }));
 
 export type GetTaskError = AzureOpError;
@@ -3758,6 +3862,8 @@ export const GetTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTask",
 }));
 
 export type ListFilesError = AzureOpError;
@@ -3773,6 +3879,8 @@ export const ListFiles: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFiles",
 }));
 
 export type ListMigrationServiceByResourceGroupError = AzureOpError;
@@ -3788,6 +3896,8 @@ export const ListMigrationServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMigrationServiceByResourceGroup",
 }));
 
 export type ListMigrationServiceBySubscriptionError = AzureOpError;
@@ -3803,6 +3913,8 @@ export const ListMigrationServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMigrationServiceBySubscription",
 }));
 
 export type ListMigrationServiceMigrationsError = AzureOpError;
@@ -3818,6 +3930,8 @@ export const ListMigrationServiceMigrations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMigrationServiceMigrations",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -3833,6 +3947,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProjectsError = AzureOpError;
@@ -3848,6 +3964,8 @@ export const ListProjects: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type ListResourceSkusSkusError = AzureOpError;
@@ -3863,6 +3981,8 @@ export const ListResourceSkusSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceSkusSkus",
 }));
 
 export type ListServiceByResourceGroupError = AzureOpError;
@@ -3878,6 +3998,8 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceByResourceGroup",
 }));
 
 export type ListServicesError = AzureOpError;
@@ -3893,6 +4015,8 @@ export const ListServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 }));
 
 export type ListServiceSkusError = AzureOpError;
@@ -3908,6 +4032,8 @@ export const ListServiceSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceSkus",
 }));
 
 export type ListServiceTasksError = AzureOpError;
@@ -3923,6 +4049,8 @@ export const ListServiceTasks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceTasks",
 }));
 
 export type ListSqlMigrationServiceAuthKeysError = AzureOpError;
@@ -3938,6 +4066,8 @@ export const ListSqlMigrationServiceAuthKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlMigrationServiceAuthKeys",
 }));
 
 export type ListSqlMigrationServiceByResourceGroupError = AzureOpError;
@@ -3953,6 +4083,8 @@ export const ListSqlMigrationServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlMigrationServiceByResourceGroup",
 }));
 
 export type ListSqlMigrationServiceBySubscriptionError = AzureOpError;
@@ -3968,6 +4100,8 @@ export const ListSqlMigrationServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlMigrationServiceBySubscription",
 }));
 
 export type ListSqlMigrationServiceMigrationsError = AzureOpError;
@@ -3983,6 +4117,8 @@ export const ListSqlMigrationServiceMigrations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlMigrationServiceMigrations",
 }));
 
 export type ListSqlMigrationServiceMonitoringDataError = AzureOpError;
@@ -3998,6 +4134,8 @@ export const ListSqlMigrationServiceMonitoringData: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlMigrationServiceMonitoringData",
 }));
 
 export type ListTasksError = AzureOpError;
@@ -4013,6 +4151,8 @@ export const ListTasks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 }));
 
 export type ListUsagesError = AzureOpError;
@@ -4028,6 +4168,8 @@ export const ListUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsages",
 }));
 
 export type MigrationServicesCreateOrUpdateError = AzureOpError;
@@ -4043,6 +4185,8 @@ export const MigrationServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrationServicesCreateOrUpdate",
 }));
 
 export type ProjectsCreateOrUpdateError = AzureOpError;
@@ -4058,6 +4202,8 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProjectsCreateOrUpdate",
 }));
 
 export type ReadFileError = AzureOpError;
@@ -4073,6 +4219,8 @@ export const ReadFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadFile",
 }));
 
 export type ReadFileWriteError = AzureOpError;
@@ -4088,6 +4236,8 @@ export const ReadFileWrite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadFileWrite",
 }));
 
 export type RegenerateSqlMigrationServiceAuthKeysError = AzureOpError;
@@ -4103,6 +4253,8 @@ export const RegenerateSqlMigrationServiceAuthKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateSqlMigrationServiceAuthKeys",
 }));
 
 export type RetryDatabaseMigrationsSqlDbError = AzureOpError;
@@ -4118,6 +4270,8 @@ export const RetryDatabaseMigrationsSqlDb: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryDatabaseMigrationsSqlDb",
 }));
 
 export type ServicesCreateOrUpdateError = AzureOpError;
@@ -4133,6 +4287,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServicesCreateOrUpdate",
 }));
 
 export type ServiceTasksCreateOrUpdateError = AzureOpError;
@@ -4148,6 +4304,8 @@ export const ServiceTasksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceTasksCreateOrUpdate",
 }));
 
 export type SqlMigrationServicesCreateOrUpdateError = AzureOpError;
@@ -4163,6 +4321,8 @@ export const SqlMigrationServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlMigrationServicesCreateOrUpdate",
 }));
 
 export type StartServiceError = AzureOpError;
@@ -4178,6 +4338,8 @@ export const StartService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartService",
 }));
 
 export type StopServiceError = AzureOpError;
@@ -4193,6 +4355,8 @@ export const StopService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopService",
 }));
 
 export type TasksCommandError = AzureOpError;
@@ -4208,6 +4372,8 @@ export const TasksCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksCommand",
 }));
 
 export type TasksCreateOrUpdateError = AzureOpError;
@@ -4223,6 +4389,8 @@ export const TasksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksCreateOrUpdate",
 }));
 
 export type UpdateFileError = AzureOpError;
@@ -4238,6 +4406,8 @@ export const UpdateFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFile",
 }));
 
 export type UpdateMigrationServiceError = AzureOpError;
@@ -4253,6 +4423,8 @@ export const UpdateMigrationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMigrationService",
 }));
 
 export type UpdateProjectError = AzureOpError;
@@ -4268,6 +4440,8 @@ export const UpdateProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateServiceError = AzureOpError;
@@ -4283,6 +4457,8 @@ export const UpdateService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateServiceTaskError = AzureOpError;
@@ -4298,6 +4474,8 @@ export const UpdateServiceTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceTask",
 }));
 
 export type UpdateSqlMigrationServiceError = AzureOpError;
@@ -4313,6 +4491,8 @@ export const UpdateSqlMigrationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlMigrationService",
 }));
 
 export type UpdateTaskError = AzureOpError;
@@ -4328,6 +4508,8 @@ export const UpdateTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTask",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Process",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface ConnectPtySessionRequest {
   /** PTY session ID */
   sessionId: string;
@@ -223,6 +236,8 @@ export const connectPtySession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectPtySession",
 }));
 
 export type CreatePtySessionError = DaytonaOpError;
@@ -238,6 +253,8 @@ export const createPtySession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePtySession",
 }));
 
 export type CreateSessionError = DaytonaOpError;
@@ -253,6 +270,8 @@ export const createSession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type DeletePtySessionError = DaytonaOpError;
@@ -268,6 +287,8 @@ export const deletePtySession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePtySession",
 }));
 
 export type DeleteSessionError = DaytonaOpError;
@@ -283,6 +304,8 @@ export const deleteSession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type ExecuteCommandError = DaytonaOpError;
@@ -298,6 +321,8 @@ export const executeCommand: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteCommand",
 }));
 
 export type GetEntrypointLogsError = DaytonaOpError;
@@ -313,6 +338,8 @@ export const getEntrypointLogs: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntrypointLogs",
 }));
 
 export type GetEntrypointSessionError = DaytonaOpError;
@@ -328,6 +355,8 @@ export const getEntrypointSession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntrypointSession",
 }));
 
 export type GetPtySessionError = DaytonaOpError;
@@ -343,6 +372,8 @@ export const getPtySession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPtySession",
 }));
 
 export type GetSessionError = DaytonaOpError;
@@ -358,6 +389,8 @@ export const getSession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionCommandError = DaytonaOpError;
@@ -373,6 +406,8 @@ export const getSessionCommand: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionCommand",
 }));
 
 export type GetSessionCommandLogsError = DaytonaOpError;
@@ -388,6 +423,8 @@ export const getSessionCommandLogs: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionCommandLogs",
 }));
 
 export type ListPtySessionsError = DaytonaOpError;
@@ -403,6 +440,8 @@ export const listPtySessions: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPtySessions",
 }));
 
 export type ListSessionsError = DaytonaOpError;
@@ -418,6 +457,8 @@ export const listSessions: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 }));
 
 export type ResizePtySessionError = DaytonaOpError;
@@ -433,6 +474,8 @@ export const resizePtySession: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResizePtySession",
 }));
 
 export type RunCodeError = DaytonaOpError;
@@ -448,6 +491,8 @@ export const runCode: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunCode",
 }));
 
 export type SendInputError = DaytonaOpError;
@@ -463,6 +508,8 @@ export const sendInput: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendInput",
 }));
 
 export type SessionExecuteCommandError = DaytonaOpError;
@@ -478,6 +525,8 @@ export const sessionExecuteCommand: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionExecuteCommand",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

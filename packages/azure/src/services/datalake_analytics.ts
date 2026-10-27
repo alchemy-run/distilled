@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DataLakeAnalytics" },
+  prefix: "DatalakeAnalytics",
+  service: "DatalakeAnalytics",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The Data Lake Store account properties to use when adding a new Data Lake Store account. */
 export interface AddDataLakeStoreProperties {
   /** The optional suffix for the Data Lake Store account. */
@@ -1231,6 +1251,8 @@ export const AddDataLakeStoreAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDataLakeStoreAccount",
 }));
 
 export type AddStorageAccountError = AzureOpError;
@@ -1246,6 +1268,8 @@ export const AddStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddStorageAccount",
 }));
 
 export type CheckAccountNameAvailabilityError = AzureOpError;
@@ -1261,6 +1285,8 @@ export const CheckAccountNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAccountNameAvailability",
 }));
 
 export type ComputePoliciesCreateOrUpdateError = AzureOpError;
@@ -1276,6 +1302,8 @@ export const ComputePoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ComputePoliciesCreateOrUpdate",
 }));
 
 export type CreateAccountError = AzureOpError;
@@ -1291,6 +1319,8 @@ export const CreateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type DeleteAccountError = AzureOpError;
@@ -1306,6 +1336,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteComputePolicyError = AzureOpError;
@@ -1321,6 +1353,8 @@ export const DeleteComputePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComputePolicy",
 }));
 
 export type DeleteDataLakeStoreAccountError = AzureOpError;
@@ -1336,6 +1370,8 @@ export const DeleteDataLakeStoreAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataLakeStoreAccount",
 }));
 
 export type DeleteFirewallRuleError = AzureOpError;
@@ -1351,6 +1387,8 @@ export const DeleteFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRule",
 }));
 
 export type DeleteStorageAccountError = AzureOpError;
@@ -1366,6 +1404,8 @@ export const DeleteStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageAccount",
 }));
 
 export type FirewallRulesCreateOrUpdateError = AzureOpError;
@@ -1381,6 +1421,8 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FirewallRulesCreateOrUpdate",
 }));
 
 export type GetAccountError = AzureOpError;
@@ -1396,6 +1438,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetComputePolicyError = AzureOpError;
@@ -1411,6 +1455,8 @@ export const GetComputePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComputePolicy",
 }));
 
 export type GetDataLakeStoreAccountError = AzureOpError;
@@ -1426,6 +1472,8 @@ export const GetDataLakeStoreAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataLakeStoreAccount",
 }));
 
 export type GetFirewallRuleError = AzureOpError;
@@ -1441,6 +1489,8 @@ export const GetFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewallRule",
 }));
 
 export type GetLocationCapabilityError = AzureOpError;
@@ -1456,6 +1506,8 @@ export const GetLocationCapability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocationCapability",
 }));
 
 export type GetStorageAccountError = AzureOpError;
@@ -1471,6 +1523,8 @@ export const GetStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageAccount",
 }));
 
 export type GetStorageAccountStorageContainerError = AzureOpError;
@@ -1486,6 +1540,8 @@ export const GetStorageAccountStorageContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageAccountStorageContainer",
 }));
 
 export type ListAccountByResourceGroupError = AzureOpError;
@@ -1501,6 +1557,8 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountByResourceGroup",
 }));
 
 export type ListAccountsError = AzureOpError;
@@ -1516,6 +1574,8 @@ export const ListAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 }));
 
 export type ListComputePolicyByAccountError = AzureOpError;
@@ -1531,6 +1591,8 @@ export const ListComputePolicyByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComputePolicyByAccount",
 }));
 
 export type ListDataLakeStoreAccountByAccountError = AzureOpError;
@@ -1546,6 +1608,8 @@ export const ListDataLakeStoreAccountByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataLakeStoreAccountByAccount",
 }));
 
 export type ListFirewallRuleByAccountError = AzureOpError;
@@ -1561,6 +1625,8 @@ export const ListFirewallRuleByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleByAccount",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1576,6 +1642,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListStorageAccountByAccountError = AzureOpError;
@@ -1591,6 +1659,8 @@ export const ListStorageAccountByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAccountByAccount",
 }));
 
 export type ListStorageAccountSasTokensError = AzureOpError;
@@ -1606,6 +1676,8 @@ export const ListStorageAccountSasTokens: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAccountSasTokens",
 }));
 
 export type ListStorageAccountStorageContainersError = AzureOpError;
@@ -1621,6 +1693,8 @@ export const ListStorageAccountStorageContainers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAccountStorageContainers",
 }));
 
 export type UpdateAccountError = AzureOpError;
@@ -1636,6 +1710,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateComputePolicyError = AzureOpError;
@@ -1651,6 +1727,8 @@ export const UpdateComputePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateComputePolicy",
 }));
 
 export type UpdateFirewallRuleError = AzureOpError;
@@ -1666,6 +1744,8 @@ export const UpdateFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallRule",
 }));
 
 export type UpdateStorageAccountError = AzureOpError;
@@ -1681,6 +1761,8 @@ export const UpdateStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageAccount",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

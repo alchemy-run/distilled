@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "VolumeActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface AttachVolumeRequest {
   /** ID of the Volume. */
   id: number;
@@ -368,6 +381,8 @@ export const attachVolume: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachVolume",
 }));
 
 export type ChangeVolumeProtectionError = HetznerOpError;
@@ -383,6 +398,8 @@ export const changeVolumeProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeVolumeProtection",
 }));
 
 export type DetachVolumeError = HetznerOpError;
@@ -398,6 +415,8 @@ export const detachVolume: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachVolume",
 }));
 
 export type GetVolumesActionError = HetznerOpError;
@@ -413,6 +432,8 @@ export const getVolumesAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumesAction",
 }));
 
 export type ListVolumeActionsError = HetznerOpError;
@@ -430,6 +451,8 @@ export const listVolumeActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListVolumeActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -456,6 +479,8 @@ export const listVolumesActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListVolumesActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -480,6 +505,8 @@ export const resizeVolume: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResizeVolume",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

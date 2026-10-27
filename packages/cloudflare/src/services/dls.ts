@@ -29,6 +29,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   versionCreatedOn: "version_created_on",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Dls",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface CreateRegionalServicePrefixBindingRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
@@ -173,6 +187,8 @@ export const createRegionalServicePrefixBinding: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegionalServicePrefixBinding",
 }));
 
 export type DeleteRegionalServicePrefixBindingError = CloudflareOpError;
@@ -188,6 +204,8 @@ export const deleteRegionalServicePrefixBinding: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegionalServicePrefixBinding",
 }));
 
 export type GetRegionError = CloudflareOpError;
@@ -203,6 +221,8 @@ export const getRegion: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegion",
 }));
 
 export type GetRegionalServicePrefixBindingError = CloudflareOpError;
@@ -218,6 +238,8 @@ export const getRegionalServicePrefixBinding: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegionalServicePrefixBinding",
 }));
 
 export type ListRegionalServicePrefixBindingsError = CloudflareOpError;
@@ -235,6 +257,8 @@ export const listRegionalServicePrefixBindings: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRegionalServicePrefixBindings",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -261,6 +285,8 @@ export const listRegions: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRegions",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -285,6 +311,8 @@ export const patchRegionalServicePrefixBinding: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRegionalServicePrefixBinding",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

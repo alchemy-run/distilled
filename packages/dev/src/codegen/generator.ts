@@ -37,6 +37,12 @@ import {
 } from "./operations.ts";
 import { validatePaginated } from "./pagination.ts";
 import { JSON_PRELUDE, makeSchemaRef, makeTsRef, TS_JSON_PRELUDE } from "./prelude.ts";
+import {
+  ATTRIBUTES_TRAIT as TELEMETRY_ATTRIBUTES_TRAIT,
+  OPERATION_TRAIT as TELEMETRY_OPERATION_TRAIT,
+  SERVICE_TRAIT as TELEMETRY_SERVICE_TRAIT,
+  snakeCase as telemetrySnakeCase,
+} from "./telemetry.ts";
 
 const PAGINATED_TRAIT = "smithy.api#paginated";
 
@@ -158,6 +164,12 @@ export interface OperationEmit {
   readonly doc: string | undefined;
   /** The validated pagination trait, when the op paginates. */
   readonly pagination: unknown | undefined;
+  /**
+   * Op config lines for the telemetry traits (`telemetry: TELEMETRY` and
+   * `span: {…}`, see ./telemetry.ts); empty when the model has none. A
+   * spec's own `operation` emitter must include them.
+   */
+  readonly telemetry: readonly string[];
 }
 
 export interface SdkSpec {
@@ -396,6 +408,13 @@ export interface SdkSpec {
       | {
           readonly protocol?: string;
           readonly contextType?: string;
+          /**
+           * The const's whole type annotation, e.g. an intersection of two
+           * `API.OperationMethod`s so a call's result type follows its input
+           * (GitHub's `Accept` media types). Replaces the default
+           * `API.OperationMethod<Input, Output, Error, Context>`.
+           */
+          readonly typeAnnotation?: string;
         }
       | undefined;
   };
@@ -459,13 +478,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     if (op.def.traits) opTraitsFor[input] = op.def.traits;
   }
 
-  if (selected.length === 0) return { code: "", operations: 0 };
+  // A model with no operations still emits when the provider roots shapes
+  // of its own: GitHub's webhook payloads are types with no operation.
+  const extraRoots = [...(spec.extraRoots?.(selected, shapes) ?? [])];
+  if (selected.length === 0 && extraRoots.length === 0) return { code: "", operations: 0 };
 
   // 2. Reachability + dependencies-first order (cycles suspend at refs).
-  const roots = [
-    ...selected.flatMap((op) => [op.def.__input, op.def.__output]),
-    ...(spec.extraRoots?.(selected, shapes) ?? []),
-  ];
+  const roots = [...selected.flatMap((op) => [op.def.__input, op.def.__output]), ...extraRoots];
   const reachable = reachableFrom(shapes, roots, shapeDeps);
   const order = topoOrder(shapes, reachable, shapeDeps);
   const indexOf = orderIndex(order);
@@ -1077,13 +1096,14 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
         : undefined;
       const typeAnnotation =
+        overrides?.typeAnnotation ??
         `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
-        `  ${ctx.inputName},\n` +
-        `  ${ctx.outputTsType},\n` +
-        `  ${ctx.opName}Error,\n` +
-        `  ${contextType}` +
-        (itemTsType ? `,\n  ${itemTsType}\n` : `\n`) +
-        `>`;
+          `  ${ctx.inputName},\n` +
+          `  ${ctx.outputTsType},\n` +
+          `  ${ctx.opName}Error,\n` +
+          `  ${contextType}` +
+          (itemTsType ? `,\n  ${itemTsType}\n` : `\n`) +
+          `>`;
       const protocol =
         (paginated && opProfile.get(ctx.op.id)?.protocol) || overrides?.protocol || decl.protocol;
       usedProtocols.add(protocol);
@@ -1095,6 +1115,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         `  protocol: ${protocol},\n` +
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
+        ctx.telemetry.map((l) => `  ${l},\n`).join("") +
         (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
         `}`;
       return [
@@ -1110,10 +1131,217 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
           // `makePaginated` infers the items element from the structural
           // fallback; an explicit item type needs the same `as any as`
           // idiom the schema consts use.
-          castToAnnotation: itemTsType !== undefined,
+          // An overridden annotation (overloads) is narrower than what
+          // `API.make` infers from the schemas, by construction.
+          castToAnnotation: itemTsType !== undefined || overrides?.typeAnnotation !== undefined,
         }),
       ].join("\n");
     });
+
+  // Telemetry traits → the TELEMETRY module const and each op's `span`.
+  // Telemetry extension modules this file uses: namespace -> module.
+  const telemetryImports = new Map<string, string>();
+  const TX_NAME = ["TxName", "@distilled.cloud/core/telemetry-name-template"] as const;
+  const TX_MESSAGE = ["TxMessage", "@distilled.cloud/core/telemetry-message-context"] as const;
+  const TX_HOST = ["TxHost", "@distilled.cloud/core/telemetry-host-rules"] as const;
+  const TX_XRAY = ["TxXray", "@distilled.cloud/core/telemetry-xray"] as const;
+  const TX_LAMBDA = ["TxLambda", "@distilled.cloud/core/telemetry-lambda-context"] as const;
+  /** Message trace context: format and direction -> module and function. */
+  const MESSAGE_FORMATS: Record<string, readonly [readonly [string, string], string]> = {
+    "awsMessageAttributes/inject": [TX_MESSAGE, "injectAwsMessageAttributes"],
+    "awsMessageAttributes/extract": [TX_MESSAGE, "extractAwsMessageAttributes"],
+    "xrayTraceHeader/inject": [TX_XRAY, "injectTraceHeader"],
+    "lambdaClientContext/inject": [TX_LAMBDA, "injectLambdaClientContext"],
+  };
+  const use = ([ns, mod]: readonly [string, string]): string => {
+    telemetryImports.set(ns, mod);
+    return ns;
+  };
+  const serviceTelemetry = (() => {
+    const svc = Object.values(shapes).find((d: any) => d?.type === "service") as any;
+    return svc?.traits?.[TELEMETRY_SERVICE_TRAIT] ?? model?.metadata?.[TELEMETRY_SERVICE_TRAIT];
+  })();
+  // The rules most operations of this module follow (see core
+  // `Telemetry.operationInfo`): each op's `span` then holds only what
+  // differs. Inferred from the traits, so any model works.
+  const telemetryRules = (() => {
+    const mostCommon = (values: string[]) => {
+      const counts = new Map<string, number>();
+      for (const v of values) counts.set(v, (counts.get(v) ?? 0) + 1);
+      return [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0];
+    };
+    let withTemplate = 0;
+    let traced = 0;
+    // Operation attributes most operations share, hoisted to TELEMETRY.
+    const shared = new Map<string, number>();
+    const prefixes: string[] = [];
+    const services: string[] = [];
+    const namespaces: string[] = [];
+    for (const op of selected) {
+      const trait = op.def.traits?.[TELEMETRY_OPERATION_TRAIT];
+      if (trait === undefined) continue;
+      const x = local(op.id);
+      traced++;
+      if (trait.attributes?.["url.template"] !== undefined) withTemplate++;
+      for (const [key, value] of Object.entries(trait.attributes ?? {})) {
+        if (key === "url.template") continue;
+        const pair = JSON.stringify([key, value]);
+        shared.set(pair, (shared.get(pair) ?? 0) + 1);
+      }
+      if (typeof trait.name === "string" && trait.name.endsWith(`.${x}`)) {
+        prefixes.push(trait.name.slice(0, -(x.length + 1)));
+      }
+      if (typeof trait.method === "string" && trait.method.endsWith(`/${x}`)) {
+        services.push(trait.method.slice(0, -(x.length + 1)));
+      }
+      for (const m of memberInfos(shapes[op.def.__input] ?? {})) {
+        if (!("smithy.api#httpLabel" in m.traits)) continue;
+        const rules = m.traits[TELEMETRY_ATTRIBUTES_TRAIT] as any[] | undefined;
+        const tail = `.${telemetrySnakeCase(m.tsName)}`;
+        if (rules?.length === 1 && !rules[0].transform && rules[0].name.endsWith(tail)) {
+          namespaces.push(rules[0].name.slice(0, -tail.length));
+        }
+      }
+    }
+    const hoisted: Record<string, unknown> = {};
+    for (const [pair, count] of shared) {
+      const [key, value] = JSON.parse(pair) as [string, unknown];
+      if (count * 2 > traced && !(key in hoisted)) hoisted[key] = value;
+    }
+    return {
+      prefix: mostCommon(prefixes),
+      service: mostCommon(services),
+      labels: mostCommon(namespaces),
+      hoisted,
+      // Most operations of RPC protocols have no url.template.
+      templates: withTemplate * 2 >= traced,
+    };
+  })();
+  const sameRules = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+  /** An object literal: `data` as JSON plus `key: code` entries (no spread, so it stays compact). */
+  const objectCode = (data: Record<string, unknown>, extra: readonly string[]): string => {
+    const json = JSON.stringify(data);
+    if (extra.length === 0) return json;
+    return `${json.slice(0, -1)}${json === "{}" ? "" : ", "}${extra.join(", ")}}`;
+  };
+  const telemetryLines = (op: OpEntry): string[] => {
+    const trait = op.def.traits?.[TELEMETRY_OPERATION_TRAIT];
+    if (trait === undefined) return [];
+    const x = local(op.id);
+    const members = memberInfos(shapes[op.def.__input] ?? {});
+    // Member rules keyed by the input property the caller passes, and by
+    // the output property the call returns.
+    const input: Record<string, unknown> = {};
+    for (const m of members) {
+      const rules = m.traits[TELEMETRY_ATTRIBUTES_TRAIT] as readonly unknown[] | undefined;
+      if (rules?.length) input[m.tsName] = rules;
+    }
+    const output: Record<string, unknown> = {};
+    for (const m of memberInfos(shapes[op.def.__output] ?? {})) {
+      const rules = m.traits[TELEMETRY_ATTRIBUTES_TRAIT] as readonly unknown[] | undefined;
+      if (rules?.length) output[m.tsName] = rules;
+    }
+    const uri = (op.def.traits?.["smithy.api#http"] as { uri?: string } | undefined)?.uri;
+    // What the runtime derives from the input's T.Http, when the module
+    // derives templates; anything else is stated on the op.
+    const derivedTemplate = telemetryRules.templates ? uri?.split("?")[0] : undefined;
+    // Message context names Smithy members; the runtime reads TS properties.
+    const tsName = (shapeId: string | undefined, member: string | undefined) =>
+      member === undefined
+        ? undefined
+        : (memberInfos(shapes[shapeId ?? ""] ?? {}).find((m) => m.name === member)?.tsName ??
+          member);
+    const itemOf = (shapeId: string, list: string | undefined): string | undefined => {
+      if (list === undefined) return shapeId;
+      const target = (shapes[shapeId]?.members ?? {})[list]?.target;
+      const listShape = target ? shapes[target] : undefined;
+      return listShape?.type === "list" ? listShape.member?.target : undefined;
+    };
+    const message = (ctx: any, shapeId: string) => {
+      if (ctx === undefined) return undefined;
+      const item = itemOf(shapeId, ctx.list);
+      const out: Record<string, unknown> = { ...ctx };
+      if (ctx.list !== undefined) out.list = tsName(shapeId, ctx.list);
+      for (const key of ["member", "envelope", "system", "messageId"]) {
+        if (ctx[key] !== undefined) out[key] = tsName(item, ctx[key]);
+      }
+      for (const key of ["request", "systemRequest"]) {
+        if (ctx[key] !== undefined) out[key] = tsName(op.def.__input, ctx[key]);
+      }
+      return out;
+    };
+    const { nameTemplate, inject, extract, ...data } = trait;
+    let span: Record<string, unknown>;
+    {
+      const { name, method, attributes, ...rest } = data;
+      const { "url.template": template, ...ownAttributes } = attributes ?? {};
+      // The trait's url.template: derived, stated, or switched off.
+      let templateFlag: false | undefined;
+      if (template === undefined) {
+        // The input may still carry a default T.Http (AWS RPC protocols).
+        if (telemetryRules.templates) templateFlag = false;
+      } else if (template !== derivedTemplate) {
+        ownAttributes["url.template"] = template;
+      }
+      // Hoisted attributes: drop the shared value, null out a missing one.
+      for (const [key, value] of Object.entries(telemetryRules.hoisted)) {
+        if (!(key in ownAttributes)) ownAttributes[key] = null;
+        else if (sameRules(ownAttributes[key], value)) delete ownAttributes[key];
+      }
+      // Labels the runtime derives; an entry here replaces the derived one.
+      const overrides: Record<string, unknown> = {};
+      const derived = new Set<string>();
+      if (telemetryRules.labels !== undefined) {
+        for (const m of members) {
+          if (!("smithy.api#httpLabel" in m.traits)) continue;
+          derived.add(m.tsName);
+          const want = [{ name: `${telemetryRules.labels}.${telemetrySnakeCase(m.tsName)}` }];
+          if (!sameRules(input[m.tsName], want)) overrides[m.tsName] = input[m.tsName] ?? [];
+        }
+      }
+      for (const [property, rules] of Object.entries(input)) {
+        if (!derived.has(property)) overrides[property] = rules;
+      }
+      span = {
+        op: x,
+        ...(templateFlag === false ? { template: false } : {}),
+        ...(name !== `${telemetryRules.prefix}.${x}` ? { name } : {}),
+        ...(method !== `${telemetryRules.service}/${x}` ? { method } : {}),
+        ...rest,
+        ...(Object.keys(ownAttributes).length > 0 ? { attributes: ownAttributes } : {}),
+        ...(Object.keys(overrides).length > 0 ? { input: overrides } : {}),
+        ...(Object.keys(output).length > 0 ? { output } : {}),
+      };
+    }
+    // Features few operations use are functions from their own core
+    // modules, imported only by the generated modules that need them.
+    const extensions: string[] = [];
+    if (nameTemplate !== undefined) {
+      extensions.push(`rename: ${use(TX_NAME)}.nameTemplate(${JSON.stringify(nameTemplate)})`);
+    }
+    for (const [key, ctx, shapeId] of [
+      ["inject", inject, op.def.__input],
+      ["extract", extract, op.def.__output],
+    ] as const) {
+      if (ctx === undefined) continue;
+      const target = MESSAGE_FORMATS[`${ctx.format}/${key}`];
+      if (target === undefined) {
+        throw new Error(`${op.id}: no telemetry ${key} for message format ${ctx.format}`);
+      }
+      const { format: _format, ...place } = message(ctx, shapeId)!;
+      extensions.push(`${key}: ${use(target[0])}.${target[1]}(${JSON.stringify(place)})`);
+    }
+    const spanCode =
+      extensions.length > 0
+        ? objectCode(span, extensions)
+        : Object.keys(span).length === 1 && span.op !== undefined
+          ? JSON.stringify(span.op)
+          : JSON.stringify(span);
+    return [
+      ...(serviceTelemetry !== undefined ? ["telemetry: TELEMETRY"] : []),
+      `span: ${spanCode}`,
+    ];
+  };
 
   for (const op of selected) {
     const opName = local(op.id);
@@ -1132,6 +1360,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         errorNames: errNames,
         doc: oneLine(op.def.traits?.["smithy.api#documentation"]),
         pagination: op.def.__pagination,
+        telemetry: telemetryLines(op),
       }),
     );
   }
@@ -1217,7 +1446,47 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     hasPaginated: paginatedOutputs.size > 0,
     model,
   });
-  const code = header + out.join("\n") + "\n";
+  const telemetryConst = (() => {
+    if (serviceTelemetry === undefined || selected.length === 0) return "";
+    const { hosts, propagation, ...trait } = serviceTelemetry;
+    const hoisted = telemetryRules.hoisted;
+    const data = {
+      ...trait,
+      ...(Object.keys(hoisted).length > 0
+        ? { attributes: { ...trait.attributes, ...hoisted } }
+        : {}),
+      ...(telemetryRules.prefix !== undefined ? { prefix: telemetryRules.prefix } : {}),
+      ...(telemetryRules.service !== undefined ? { service: telemetryRules.service } : {}),
+      ...(telemetryRules.labels !== undefined ? { labels: telemetryRules.labels } : {}),
+      ...(telemetryRules.templates ? {} : { templates: false }),
+    };
+    const extra: string[] = [];
+    if (hosts !== undefined) {
+      extra.push(`onRequest: ${use(TX_HOST)}.hostRules(${JSON.stringify(hosts)})`);
+    }
+    if (propagation === "xray") extra.push(`propagate: ${use(TX_XRAY)}.propagate`);
+    else if (propagation === "w3c") extra.push(`propagate: "w3c"`);
+    else if (propagation !== undefined)
+      throw new Error(`unknown telemetry propagation ${propagation}`);
+    const value = objectCode(data, extra);
+    return (
+      `/** Span facts shared by every operation (com.distilled.telemetry#service). */\n` +
+      `const TELEMETRY = ${value} as const;\n\n`
+    );
+  })();
+  // After the header's last import (imports are hoisted either way).
+  const withImport = (text: string): string => {
+    if (telemetryImports.size === 0) return text;
+    const line = [...telemetryImports]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([ns, mod]) => `import * as ${ns} from "${mod}";\n`)
+      .join("");
+    const last = [...text.matchAll(/^import [^;]*;\n/gm)].pop();
+    if (last === undefined) return line + text;
+    const at = last.index! + last[0].length;
+    return text.slice(0, at) + line + text.slice(at);
+  };
+  const code = withImport(header + telemetryConst + out.join("\n") + "\n");
   return {
     code: spec.postProcess?.(code) ?? code,
     operations: selected.length,

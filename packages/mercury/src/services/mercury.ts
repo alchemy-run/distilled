@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { MercuryOpError, MercuryOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "mercury-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Mercury",
+  service: "Mercury",
+  labels: "mercury",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2016,6 +2029,8 @@ export const cancelCard: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCard",
 }));
 
 export type CancelInvoiceError = NotFound | MercuryOpError;
@@ -2031,6 +2046,8 @@ export const cancelInvoice: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelInvoice",
 }));
 
 export type CreateCardError = BadRequest | MercuryOpError;
@@ -2046,6 +2063,8 @@ export const createCard: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCard",
 }));
 
 export type CreateCategoryError = BadRequest | MercuryOpError;
@@ -2061,6 +2080,8 @@ export const createCategory: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCategory",
 }));
 
 export type CreateCustomerError = BadRequest | MercuryOpError;
@@ -2076,6 +2097,8 @@ export const createCustomer: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomer",
 }));
 
 export type CreateInternalTransferError = BadRequest | MercuryOpError;
@@ -2091,6 +2114,8 @@ export const createInternalTransfer: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInternalTransfer",
 }));
 
 export type CreateInvoiceError = BadRequest | MercuryOpError;
@@ -2106,6 +2131,8 @@ export const createInvoice: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoice",
 }));
 
 export type CreateRecipientError = BadRequest | MercuryOpError;
@@ -2121,6 +2148,8 @@ export const createRecipient: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRecipient",
 }));
 
 export type CreateRecipientInviteError = BadRequest | MercuryOpError;
@@ -2136,6 +2165,8 @@ export const createRecipientInvite: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRecipientInvite",
 }));
 
 export type CreateTransactionError = BadRequest | NotFound | MercuryOpError;
@@ -2151,6 +2182,8 @@ export const createTransaction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransaction",
 }));
 
 export type CreateWebhookError = BadRequest | MercuryOpError;
@@ -2166,6 +2199,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteCategoryError = NotFound | MercuryOpError;
@@ -2181,6 +2216,8 @@ export const deleteCategory: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCategory",
 }));
 
 export type DeleteCustomerError = NotFound | MercuryOpError;
@@ -2196,6 +2233,8 @@ export const deleteCustomer: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomer",
 }));
 
 export type DeleteRecipientError = NotFound | MercuryOpError;
@@ -2211,6 +2250,8 @@ export const deleteRecipient: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecipient",
 }));
 
 export type DeleteRecipientInviteError = NotFound | MercuryOpError;
@@ -2226,6 +2267,8 @@ export const deleteRecipientInvite: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecipientInvite",
 }));
 
 export type DeleteWebhookError = NotFound | MercuryOpError;
@@ -2241,6 +2284,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type EditCategoryError = BadRequest | NotFound | MercuryOpError;
@@ -2256,6 +2301,8 @@ export const editCategory: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditCategory",
 }));
 
 export type FreezeCardError = NotFound | MercuryOpError;
@@ -2271,6 +2318,8 @@ export const freezeCard: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FreezeCard",
 }));
 
 export type GetAccountCardsError = NotFound | MercuryOpError;
@@ -2286,6 +2335,8 @@ export const getAccountCards: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountCards",
 }));
 
 export type GetAccountsError = BadRequest | MercuryOpError;
@@ -2301,6 +2352,8 @@ export const getAccounts: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type GetAccountStatementsError = BadRequest | NotFound | MercuryOpError;
@@ -2316,6 +2369,8 @@ export const getAccountStatements: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountStatements",
 }));
 
 export type GetAttachmentError = NotFound | MercuryOpError;
@@ -2331,6 +2386,8 @@ export const getAttachment: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttachment",
 }));
 
 export type GetCardError = NotFound | MercuryOpError;
@@ -2342,6 +2399,8 @@ export const getCard: API.OperationMethod<GetCardRequest, Card, GetCardError, Me
     errors: [NotFound, UnknownMercuryError],
     protocol: MercuryProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetCard",
   }));
 
 export type GetCustomerError = NotFound | MercuryOpError;
@@ -2357,6 +2416,8 @@ export const getCustomer: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomer",
 }));
 
 export type GetEventError = NotFound | MercuryOpError;
@@ -2372,6 +2433,8 @@ export const getEvent: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvent",
 }));
 
 export type GetEventsError = BadRequest | MercuryOpError;
@@ -2387,6 +2450,8 @@ export const getEvents: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvents",
 }));
 
 export type GetInvoiceError = NotFound | MercuryOpError;
@@ -2402,6 +2467,8 @@ export const getInvoice: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type GetInvoicePdfError = NotFound | MercuryOpError;
@@ -2417,6 +2484,8 @@ export const getInvoicePdf: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoicePdf",
 }));
 
 export type GetOrganizationError = MercuryOpError;
@@ -2432,6 +2501,8 @@ export const getOrganization: API.OperationMethod<
   errors: [UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetRecipientError = NotFound | MercuryOpError;
@@ -2447,6 +2518,8 @@ export const getRecipient: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecipient",
 }));
 
 export type GetRecipientInviteError = NotFound | MercuryOpError;
@@ -2462,6 +2535,8 @@ export const getRecipientInvite: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecipientInvite",
 }));
 
 export type GetRecipientsError = BadRequest | MercuryOpError;
@@ -2477,6 +2552,8 @@ export const getRecipients: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecipients",
 }));
 
 export type GetSafeRequestError = NotFound | MercuryOpError;
@@ -2492,6 +2569,8 @@ export const getSafeRequest: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSafeRequest",
 }));
 
 export type GetSafeRequestDocumentError = NotFound | MercuryOpError;
@@ -2507,6 +2586,8 @@ export const getSafeRequestDocument: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSafeRequestDocument",
 }));
 
 export type GetSafeRequestsError = MercuryOpError;
@@ -2522,6 +2603,8 @@ export const getSafeRequests: API.OperationMethod<
   errors: [UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSafeRequests",
 }));
 
 export type GetSendMoneyApprovalRequestError = NotFound | MercuryOpError;
@@ -2537,6 +2620,8 @@ export const getSendMoneyApprovalRequest: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSendMoneyApprovalRequest",
 }));
 
 export type GetStatementPdfError = NotFound | MercuryOpError;
@@ -2552,6 +2637,8 @@ export const getStatementPdf: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatementPdf",
 }));
 
 export type GetTransactionError = NotFound | MercuryOpError;
@@ -2567,6 +2654,8 @@ export const getTransaction: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransaction",
 }));
 
 export type GetTransactionByTransactionIdError = NotFound | MercuryOpError;
@@ -2582,6 +2671,8 @@ export const getTransactionByTransactionId: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionByTransactionId",
 }));
 
 export type GetTreasuryError = BadRequest | MercuryOpError;
@@ -2597,6 +2688,8 @@ export const getTreasury: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasury",
 }));
 
 export type GetTreasuryStatementsError = BadRequest | NotFound | MercuryOpError;
@@ -2612,6 +2705,8 @@ export const getTreasuryStatements: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryStatements",
 }));
 
 export type GetTreasuryTransactionsError = BadRequest | NotFound | MercuryOpError;
@@ -2627,6 +2722,8 @@ export const getTreasuryTransactions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTreasuryTransactions",
 }));
 
 export type GetUserError = NotFound | MercuryOpError;
@@ -2642,6 +2739,8 @@ export const getUser: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUsersError = BadRequest | MercuryOpError;
@@ -2657,6 +2756,8 @@ export const getUsers: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsers",
 }));
 
 export type GetWebhookError = NotFound | MercuryOpError;
@@ -2672,6 +2773,8 @@ export const getWebhook: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWebhooksError = BadRequest | MercuryOpError;
@@ -2687,6 +2790,8 @@ export const getWebhooks: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhooks",
 }));
 
 export type ListAccountTransactionsError = BadRequest | NotFound | MercuryOpError;
@@ -2702,6 +2807,8 @@ export const listAccountTransactions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountTransactions",
 }));
 
 export type ListCardsError = BadRequest | MercuryOpError;
@@ -2717,6 +2824,8 @@ export const listCards: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCards",
 }));
 
 export type ListCategoriesError = BadRequest | MercuryOpError;
@@ -2732,6 +2841,8 @@ export const listCategories: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCategories",
 }));
 
 export type ListCreditError = MercuryOpError;
@@ -2747,6 +2858,8 @@ export const listCredit: API.OperationMethod<
   errors: [UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCredit",
 }));
 
 export type ListCustomersError = BadRequest | MercuryOpError;
@@ -2762,6 +2875,8 @@ export const listCustomers: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomers",
 }));
 
 export type ListInvoiceAttachmentsError = NotFound | MercuryOpError;
@@ -2777,6 +2892,8 @@ export const listInvoiceAttachments: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceAttachments",
 }));
 
 export type ListInvoicesError = BadRequest | MercuryOpError;
@@ -2792,6 +2909,8 @@ export const listInvoices: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoices",
 }));
 
 export type ListMerchantsError = BadRequest | MercuryOpError;
@@ -2807,6 +2926,8 @@ export const listMerchants: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMerchants",
 }));
 
 export type ListRecipientInvitesError = BadRequest | MercuryOpError;
@@ -2822,6 +2943,8 @@ export const listRecipientInvites: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecipientInvites",
 }));
 
 export type ListRecipientsAttachmentsError = BadRequest | MercuryOpError;
@@ -2837,6 +2960,8 @@ export const listRecipientsAttachments: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecipientsAttachments",
 }));
 
 export type ListSendMoneyApprovalRequestsError = BadRequest | MercuryOpError;
@@ -2852,6 +2977,8 @@ export const listSendMoneyApprovalRequests: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSendMoneyApprovalRequests",
 }));
 
 export type ListTransactionsError = BadRequest | MercuryOpError;
@@ -2867,6 +2994,8 @@ export const listTransactions: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransactions",
 }));
 
 export type ObtainAccessTokenError = BadRequest | MercuryOpError;
@@ -2882,6 +3011,8 @@ export const obtainAccessToken: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ObtainAccessToken",
 }));
 
 export type RequestSendMoneyError = BadRequest | NotFound | MercuryOpError;
@@ -2897,6 +3028,8 @@ export const requestSendMoney: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestSendMoney",
 }));
 
 export type RequestTransferMoneyError = BadRequest | MercuryOpError;
@@ -2912,6 +3045,8 @@ export const requestTransferMoney: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestTransferMoney",
 }));
 
 export type RevealCardPanError = NotFound | MercuryOpError;
@@ -2927,6 +3062,8 @@ export const revealCardPan: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevealCardPan",
 }));
 
 export type StartOAuth2FlowError = BadRequest | MercuryOpError;
@@ -2942,6 +3079,8 @@ export const startOAuth2Flow: API.OperationMethod<
   errors: [BadRequest, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartOAuth2Flow",
 }));
 
 export type UnfreezeCardError = NotFound | MercuryOpError;
@@ -2957,6 +3096,8 @@ export const unfreezeCard: API.OperationMethod<
   errors: [NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnfreezeCard",
 }));
 
 export type UpdateCardError = BadRequest | NotFound | MercuryOpError;
@@ -2972,6 +3113,8 @@ export const updateCard: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCard",
 }));
 
 export type UpdateCustomerError = BadRequest | NotFound | MercuryOpError;
@@ -2987,6 +3130,8 @@ export const updateCustomer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomer",
 }));
 
 export type UpdateInvoiceError = BadRequest | NotFound | MercuryOpError;
@@ -3002,6 +3147,8 @@ export const updateInvoice: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInvoice",
 }));
 
 export type UpdateRecipientError = BadRequest | NotFound | MercuryOpError;
@@ -3017,6 +3164,8 @@ export const updateRecipient: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRecipient",
 }));
 
 export type UpdateTransactionError = BadRequest | NotFound | MercuryOpError;
@@ -3032,6 +3181,8 @@ export const updateTransaction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransaction",
 }));
 
 export type UpdateWebhookError = BadRequest | NotFound | MercuryOpError;
@@ -3047,6 +3198,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type UploadRecipientAttachmentError = BadRequest | NotFound | MercuryOpError;
@@ -3062,6 +3215,8 @@ export const uploadRecipientAttachment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadRecipientAttachment",
 }));
 
 export type UploadTransactionAttachmentError = BadRequest | NotFound | MercuryOpError;
@@ -3077,6 +3232,8 @@ export const uploadTransactionAttachment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadTransactionAttachment",
 }));
 
 export type VerifyWebhookError = BadRequest | NotFound | MercuryOpError;
@@ -3092,6 +3249,8 @@ export const verifyWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownMercuryError],
   protocol: MercuryProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

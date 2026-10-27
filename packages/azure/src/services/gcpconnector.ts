@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.GcpConnector" },
+  prefix: "Gcpconnector",
+  service: "Gcpconnector",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type BigQueryDatasetsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 /** Definition of DatasetReference */
@@ -4441,6 +4461,8 @@ export const BigQueryDatasetsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BigQueryDatasetsCreateOrReplace",
 }));
 
 export type CloudFunctionsCreateOrReplaceError = AzureOpError;
@@ -4456,6 +4478,8 @@ export const CloudFunctionsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudFunctionsCreateOrReplace",
 }));
 
 export type ComputeInstancesCreateOrReplaceError = AzureOpError;
@@ -4471,6 +4495,13 @@ export const ComputeInstancesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ComputeInstancesCreateOrReplace",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/computeInstances/default",
+    },
+  },
 }));
 
 export type ContainerClustersCreateOrReplaceError = AzureOpError;
@@ -4486,6 +4517,13 @@ export const ContainerClustersCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ContainerClustersCreateOrReplace",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/containerClusters/default",
+    },
+  },
 }));
 
 export type DeleteBigQueryDatasetError = AzureOpError;
@@ -4501,6 +4539,8 @@ export const DeleteBigQueryDataset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBigQueryDataset",
 }));
 
 export type DeleteCloudFunctionError = AzureOpError;
@@ -4516,6 +4556,8 @@ export const DeleteCloudFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudFunction",
 }));
 
 export type DeleteComputeInstanceError = AzureOpError;
@@ -4531,6 +4573,13 @@ export const DeleteComputeInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteComputeInstance",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/computeInstances/default",
+    },
+  },
 }));
 
 export type DeleteContainerClusterError = AzureOpError;
@@ -4546,6 +4595,13 @@ export const DeleteContainerCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteContainerCluster",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/containerClusters/default",
+    },
+  },
 }));
 
 export type DeleteSQLAdminInstanceError = AzureOpError;
@@ -4561,6 +4617,8 @@ export const DeleteSQLAdminInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSQLAdminInstance",
 }));
 
 export type DeleteStorageBucketError = AzureOpError;
@@ -4576,6 +4634,8 @@ export const DeleteStorageBucket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageBucket",
 }));
 
 export type GetBigQueryDatasetError = AzureOpError;
@@ -4591,6 +4651,8 @@ export const GetBigQueryDataset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBigQueryDataset",
 }));
 
 export type GetCloudFunctionError = AzureOpError;
@@ -4606,6 +4668,8 @@ export const GetCloudFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudFunction",
 }));
 
 export type GetComputeInstanceError = AzureOpError;
@@ -4621,6 +4685,13 @@ export const GetComputeInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetComputeInstance",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/computeInstances/default",
+    },
+  },
 }));
 
 export type GetContainerClusterError = AzureOpError;
@@ -4636,6 +4707,13 @@ export const GetContainerCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetContainerCluster",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/containerClusters/default",
+    },
+  },
 }));
 
 export type GetSQLAdminInstanceError = AzureOpError;
@@ -4651,6 +4729,8 @@ export const GetSQLAdminInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSQLAdminInstance",
 }));
 
 export type GetStorageBucketError = AzureOpError;
@@ -4666,6 +4746,8 @@ export const GetStorageBucket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageBucket",
 }));
 
 export type ListBigQueryDatasetByResourceGroupError = AzureOpError;
@@ -4681,6 +4763,8 @@ export const ListBigQueryDatasetByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBigQueryDatasetByResourceGroup",
 }));
 
 export type ListBigQueryDatasetBySubscriptionError = AzureOpError;
@@ -4696,6 +4780,8 @@ export const ListBigQueryDatasetBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBigQueryDatasetBySubscription",
 }));
 
 export type ListCloudFunctionByResourceGroupError = AzureOpError;
@@ -4711,6 +4797,8 @@ export const ListCloudFunctionByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudFunctionByResourceGroup",
 }));
 
 export type ListCloudFunctionBySubscriptionError = AzureOpError;
@@ -4726,6 +4814,8 @@ export const ListCloudFunctionBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudFunctionBySubscription",
 }));
 
 export type ListComputeInstancesError = AzureOpError;
@@ -4741,6 +4831,13 @@ export const ListComputeInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListComputeInstances",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/computeInstances",
+    },
+  },
 }));
 
 export type ListContainerClustersError = AzureOpError;
@@ -4756,6 +4853,13 @@ export const ListContainerClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListContainerClusters",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/containerClusters",
+    },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -4771,6 +4875,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSQLAdminInstanceByResourceGroupError = AzureOpError;
@@ -4786,6 +4892,8 @@ export const ListSQLAdminInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSQLAdminInstanceByResourceGroup",
 }));
 
 export type ListSQLAdminInstanceBySubscriptionError = AzureOpError;
@@ -4801,6 +4909,8 @@ export const ListSQLAdminInstanceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSQLAdminInstanceBySubscription",
 }));
 
 export type ListStorageBucketByResourceGroupError = AzureOpError;
@@ -4816,6 +4926,8 @@ export const ListStorageBucketByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageBucketByResourceGroup",
 }));
 
 export type ListStorageBucketBySubscriptionError = AzureOpError;
@@ -4831,6 +4943,8 @@ export const ListStorageBucketBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageBucketBySubscription",
 }));
 
 export type SQLAdminInstancesCreateOrReplaceError = AzureOpError;
@@ -4846,6 +4960,8 @@ export const SQLAdminInstancesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SQLAdminInstancesCreateOrReplace",
 }));
 
 export type StorageBucketsCreateOrReplaceError = AzureOpError;
@@ -4861,6 +4977,8 @@ export const StorageBucketsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageBucketsCreateOrReplace",
 }));
 
 export type UpdateBigQueryDatasetError = AzureOpError;
@@ -4876,6 +4994,8 @@ export const UpdateBigQueryDataset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBigQueryDataset",
 }));
 
 export type UpdateCloudFunctionError = AzureOpError;
@@ -4891,6 +5011,8 @@ export const UpdateCloudFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudFunction",
 }));
 
 export type UpdateSQLAdminInstanceError = AzureOpError;
@@ -4906,6 +5028,8 @@ export const UpdateSQLAdminInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSQLAdminInstance",
 }));
 
 export type UpdateStorageBucketError = AzureOpError;
@@ -4921,6 +5045,8 @@ export const UpdateStorageBucket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageBucket",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

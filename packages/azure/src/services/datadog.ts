@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Datadog" },
+  prefix: "Datadog",
+  service: "Datadog",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateMonitorRequestTagsMap = { [key: string]: string | undefined };
 /** Flag specifying if the resource monitoring is enabled or disabled. */
@@ -1096,6 +1116,8 @@ export const CreateMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type DeleteMonitorError = AzureOpError;
@@ -1111,6 +1133,8 @@ export const DeleteMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteMonitoredSubscriptionError = AzureOpError;
@@ -1126,6 +1150,8 @@ export const DeleteMonitoredSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitoredSubscription",
 }));
 
 export type GetBillingInfoError = AzureOpError;
@@ -1141,6 +1167,8 @@ export const GetBillingInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingInfo",
 }));
 
 export type GetCreationSupportedError = AzureOpError;
@@ -1156,6 +1184,8 @@ export const GetCreationSupported: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreationSupported",
 }));
 
 export type GetMonitorError = AzureOpError;
@@ -1171,6 +1201,8 @@ export const GetMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetMonitorDefaultKeyError = AzureOpError;
@@ -1186,6 +1218,8 @@ export const GetMonitorDefaultKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitorDefaultKey",
 }));
 
 export type GetMonitoredSubscriptionError = AzureOpError;
@@ -1201,6 +1235,8 @@ export const GetMonitoredSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoredSubscription",
 }));
 
 export type GetSingleSignOnConfigurationError = AzureOpError;
@@ -1216,6 +1252,8 @@ export const GetSingleSignOnConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSingleSignOnConfiguration",
 }));
 
 export type GetTagRuleError = AzureOpError;
@@ -1231,6 +1269,8 @@ export const GetTagRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagRule",
 }));
 
 export type ListCreationSupportedError = AzureOpError;
@@ -1246,6 +1286,8 @@ export const ListCreationSupported: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreationSupported",
 }));
 
 export type ListMarketplaceAgreementsError = AzureOpError;
@@ -1261,6 +1303,8 @@ export const ListMarketplaceAgreements: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceAgreements",
 }));
 
 export type ListMonitorApiKeysError = AzureOpError;
@@ -1276,6 +1320,8 @@ export const ListMonitorApiKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorApiKeys",
 }));
 
 export type ListMonitorByResourceGroupError = AzureOpError;
@@ -1291,6 +1337,8 @@ export const ListMonitorByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorByResourceGroup",
 }));
 
 export type ListMonitoredSubscriptionsError = AzureOpError;
@@ -1306,6 +1354,8 @@ export const ListMonitoredSubscriptions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitoredSubscriptions",
 }));
 
 export type ListMonitorHostsError = AzureOpError;
@@ -1321,6 +1371,8 @@ export const ListMonitorHosts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorHosts",
 }));
 
 export type ListMonitorLinkedResourcesError = AzureOpError;
@@ -1336,6 +1388,8 @@ export const ListMonitorLinkedResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorLinkedResources",
 }));
 
 export type ListMonitorMonitoredResourcesError = AzureOpError;
@@ -1351,6 +1405,8 @@ export const ListMonitorMonitoredResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorMonitoredResources",
 }));
 
 export type ListMonitorsError = AzureOpError;
@@ -1366,6 +1422,8 @@ export const ListMonitors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1381,6 +1439,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSingleSignOnConfigurationsError = AzureOpError;
@@ -1396,6 +1456,8 @@ export const ListSingleSignOnConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSingleSignOnConfigurations",
 }));
 
 export type ListTagRulesError = AzureOpError;
@@ -1411,6 +1473,8 @@ export const ListTagRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagRules",
 }));
 
 export type MarketplaceAgreementsCreateOrUpdateError = AzureOpError;
@@ -1426,6 +1490,8 @@ export const MarketplaceAgreementsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarketplaceAgreementsCreateOrUpdate",
 }));
 
 export type OrganizationsResubscribeError = AzureOpError;
@@ -1441,6 +1507,8 @@ export const OrganizationsResubscribe: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsResubscribe",
 }));
 
 export type RefreshMonitorSetPasswordLinkError = AzureOpError;
@@ -1456,6 +1524,8 @@ export const RefreshMonitorSetPasswordLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshMonitorSetPasswordLink",
 }));
 
 export type SetMonitorDefaultKeyError = AzureOpError;
@@ -1471,6 +1541,8 @@ export const SetMonitorDefaultKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetMonitorDefaultKey",
 }));
 
 export type SingleSignOnConfigurationsCreateOrUpdateError = AzureOpError;
@@ -1486,6 +1558,8 @@ export const SingleSignOnConfigurationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SingleSignOnConfigurationsCreateOrUpdate",
 }));
 
 export type TagRulesCreateOrUpdateError = AzureOpError;
@@ -1501,6 +1575,8 @@ export const TagRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TagRulesCreateOrUpdate",
 }));
 
 export type UpdateMonitorError = AzureOpError;
@@ -1516,6 +1592,8 @@ export const UpdateMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateMonitoredSubscriptionError = AzureOpError;
@@ -1531,6 +1609,8 @@ export const UpdateMonitoredSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoredSubscription",
 }));
 
 export type UpdateMonitoredSubscriptionsCreateorError = AzureOpError;
@@ -1546,6 +1626,8 @@ export const UpdateMonitoredSubscriptionsCreateor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoredSubscriptionsCreateor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

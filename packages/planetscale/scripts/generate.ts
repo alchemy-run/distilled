@@ -137,6 +137,7 @@ const makePlanetScaleSpec = (): SdkSpec => {
 
 runGeneratorCli({
   description: "Generate the PlanetScale Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds Swagger-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.

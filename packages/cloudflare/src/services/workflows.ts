@@ -47,6 +47,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   workflowId: "workflow_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Workflows",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class InstanceAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InstanceAlreadyExists>()("InstanceAlreadyExists", {
@@ -988,6 +1002,8 @@ export const bulkInstance: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkInstance",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1018,6 +1034,8 @@ export const createInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type CreateInstanceEventError =
@@ -1045,6 +1063,8 @@ export const createInstanceEvent: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstanceEvent",
 }));
 
 export type DeleteWorkflowError = WorkflowNotFound | InvalidRoute | CloudflareOpError;
@@ -1060,6 +1080,8 @@ export const deleteWorkflow: API.OperationMethod<
   errors: [WorkflowNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type GetInstanceError =
@@ -1085,6 +1107,8 @@ export const getInstance: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetVersionError = WorkflowNotFound | InvalidRoute | VersionNotFound | CloudflareOpError;
@@ -1100,6 +1124,8 @@ export const getVersion: API.OperationMethod<
   errors: [WorkflowNotFound, InvalidRoute, VersionNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type GetWorkflowError = WorkflowNotFound | InvalidRoute | CloudflareOpError;
@@ -1115,6 +1141,8 @@ export const getWorkflow: API.OperationMethod<
   errors: [WorkflowNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GraphVersionError = CloudflareOpError;
@@ -1130,6 +1158,8 @@ export const graphVersion: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GraphVersion",
 }));
 
 export type ListInstancesError =
@@ -1159,6 +1189,8 @@ export const listInstances: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInstances",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1185,6 +1217,8 @@ export const listVersions: API.PaginatedOperationMethod<
     errors: [WorkflowNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListVersions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1211,6 +1245,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWorkflows",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1247,6 +1283,8 @@ export const patchInstanceStatus: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInstanceStatus",
 }));
 
 export type PutWorkflowError = WorkflowInternalError | InvalidRoute | CloudflareOpError;
@@ -1262,6 +1300,8 @@ export const putWorkflow: API.OperationMethod<
   errors: [WorkflowInternalError, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutWorkflow",
 }));
 
 export type StepInstanceError = CloudflareOpError;
@@ -1277,6 +1317,8 @@ export const stepInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StepInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

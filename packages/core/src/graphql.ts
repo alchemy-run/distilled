@@ -59,6 +59,7 @@ import * as Schedule from "effect/Schedule";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { unwrapRedactedDeep } from "./plain-values.ts";
+import * as Telemetry from "./telemetry.ts";
 
 export const QuerySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/graphql/Query");
 const inspect = /*@__PURE__*/ Symbol.for("nodejs.util.inspect.custom");
@@ -304,6 +305,20 @@ export interface CompiledOperation {
   readonly tree: SelNode;
 }
 
+/**
+ * What a GraphQL SDK's document spans carry, generated from its GraphQL
+ * model's `telemetry` entry (see `packages/dev/src/codegen/telemetry-traits.md`).
+ * One span per document: `<prefix>.<rootField>`, or `<prefix>.<kind>` when
+ * the document selects several root fields.
+ */
+export interface GraphQLTelemetry extends Telemetry.ServiceTelemetry {
+  readonly prefix: string;
+  /** `<kind>.<rootField>`, then argument name, then the attributes read from its value. */
+  readonly fields?: Readonly<
+    Record<string, Readonly<Record<string, ReadonlyArray<Telemetry.AttributeRule>>>>
+  >;
+}
+
 export class GqlTransport
   extends /*@__PURE__*/ Context.Service<
     GqlTransport,
@@ -311,6 +326,8 @@ export class GqlTransport
       readonly execute: (
         req: CompiledOperation,
       ) => Effect.Effect<GraphQLResponse, GraphQLTransportError, any>;
+      /** The SDK's span facts; no spans without it. */
+      readonly telemetry?: GraphQLTelemetry;
     }
   >()("@distilled.cloud/graphql/Transport") {}
 
@@ -1270,15 +1287,71 @@ const execute = (compiled: Compiled): Effect.Effect<unknown, ExecuteError, GqlTr
           }),
     );
   });
-  return compiled.kind === "query"
-    ? once.pipe(
-        Effect.retry({
-          while: (error) => isRetryable(compiled, error),
-          times: 5,
-          schedule: Schedule.exponential("200 millis"),
-        }),
-      )
-    : once;
+  const attempts = Effect.withFiber((fiber) => {
+    if (compiled.kind !== "query") return once;
+    const context = fiber.context as Context.Context<any>;
+    let retries = 0;
+    return once.pipe(
+      Effect.retry({
+        while: (error) => {
+          const retry = isRetryable(compiled, error) && retries < 5;
+          // Schedule.exponential("200 millis"): 200 ms, then doubling.
+          if (retry) Telemetry.retried(context, ++retries, error, 200 * 2 ** (retries - 1));
+          return retry;
+        },
+        times: 5,
+        schedule: Schedule.exponential("200 millis"),
+      }),
+    );
+  });
+  return Effect.withFiber((fiber) => {
+    const debug = fiber.getRef(Telemetry.Debug);
+    const telemetry = Context.getOrUndefined(fiber.context, GqlTransport)?.telemetry;
+    if (telemetry === undefined) return attempts;
+    const [info, input] = documentInfo(telemetry, compiled);
+    return Telemetry.operationSpan(fiber, debug, info, undefined, input, () => attempts);
+  }) as Effect.Effect<unknown, ExecuteError, GqlTransport>;
+};
+
+/**
+ * One document's span facts: its root fields name it, and their arguments
+ * fill the attributes the SDK's `fields` rules name (an input object keyed
+ * `<kind>.<field>.<argument>`).
+ */
+const documentInfo = (
+  telemetry: GraphQLTelemetry,
+  compiled: Compiled,
+): readonly [Telemetry.OperationInfo, Record<string, unknown>] => {
+  const roots = [...new Set([...compiled.tree.children.values()].map((node) => node.field))];
+  const single = roots.length === 1 ? roots[0] : undefined;
+  const target = single ?? compiled.kind;
+  const input: Record<string, unknown> = {};
+  const rules: Record<string, ReadonlyArray<Telemetry.AttributeRule>> = {};
+  for (const node of compiled.tree.children.values()) {
+    const fieldRules = telemetry.fields?.[`${compiled.kind}.${node.field}`];
+    if (fieldRules === undefined || node.args === undefined) continue;
+    for (const arg in node.args) {
+      const argRules = fieldRules[arg];
+      if (argRules === undefined) continue;
+      const key = `${compiled.kind}.${node.field}.${arg}`;
+      input[key] = compiled.variables[node.args[arg]!];
+      rules[key] = argRules;
+    }
+  }
+  const info = Telemetry.operationInfo(
+    telemetry,
+    {
+      name: `${telemetry.prefix}.${target}`,
+      method: `${telemetry.prefix}/${target}`,
+      attributes: {
+        "graphql.operation.type": compiled.kind,
+        ...(single !== undefined ? { "graphql.operation.name": single } : {}),
+      },
+      input: rules,
+    },
+    undefined,
+  );
+  return [info, input];
 };
 
 type ExecuteError = GraphQLIssue | GraphQLFailure | GraphQLTransportError;

@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Sandboxes",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2908,6 +2922,8 @@ export const createSandboxesByNameForkV2: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxesByNameForkV2",
 }));
 
 export type CreateSandboxesByNameForkV3Error =
@@ -2930,6 +2946,8 @@ export const createSandboxesByNameForkV3: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxesByNameForkV3",
 }));
 
 export type CreateSandboxesSessionsBySessionIdSnapshotV2Error =
@@ -2955,6 +2973,8 @@ export const createSandboxesSessionsBySessionIdSnapshotV2: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxesSessionsBySessionIdSnapshotV2",
 }));
 
 export type CreateSandboxesSessionsBySessionIdSnapshotV3Error =
@@ -2980,6 +3000,8 @@ export const createSandboxesSessionsBySessionIdSnapshotV3: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxesSessionsBySessionIdSnapshotV3",
 }));
 
 export type CreateSandboxesV2Error =
@@ -3002,6 +3024,8 @@ export const createSandboxesV2: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxesV2",
 }));
 
 export type CreateSandboxesV3Error =
@@ -3024,6 +3048,8 @@ export const createSandboxesV3: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxesV3",
 }));
 
 export type CreateSandboxesV4Error =
@@ -3046,6 +3072,8 @@ export const createSandboxesV4: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxesV4",
 }));
 
 export type CreateSessionDirectoryError =
@@ -3066,6 +3094,8 @@ export const createSessionDirectory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionDirectory",
 }));
 
 export type DeleteDriveError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -3081,6 +3111,8 @@ export const deleteDrive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDrive",
 }));
 
 export type DeleteSandboxError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3096,6 +3128,8 @@ export const deleteSandbox: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandbox",
 }));
 
 export type DeleteSessionSnapshotError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3111,6 +3145,8 @@ export const deleteSessionSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSessionSnapshot",
 }));
 
 export type ExtendSessionTimeoutError =
@@ -3131,6 +3167,8 @@ export const extendSessionTimeout: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendSessionTimeout",
 }));
 
 export type GetNamedSandboxError =
@@ -3153,6 +3191,8 @@ export const getNamedSandbox: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamedSandbox",
 }));
 
 export type GetOrCreateDriveError =
@@ -3174,6 +3214,8 @@ export const getOrCreateDrive: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrCreateDrive",
 }));
 
 export type GetSessionError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3189,6 +3231,8 @@ export const getSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionCommandError =
@@ -3209,6 +3253,8 @@ export const getSessionCommand: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionCommand",
 }));
 
 export type GetSessionCommandLogsError =
@@ -3229,6 +3275,8 @@ export const getSessionCommandLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionCommandLogs",
 }));
 
 export type GetSessionSnapshotError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3244,6 +3292,8 @@ export const getSessionSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionSnapshot",
 }));
 
 export type KillSessionCommandError =
@@ -3264,6 +3314,8 @@ export const killSessionCommand: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KillSessionCommand",
 }));
 
 export type ListDrivesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3279,6 +3331,8 @@ export const listDrives: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDrives",
 }));
 
 export type ListNamedSandboxesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3294,6 +3348,8 @@ export const listNamedSandboxes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamedSandboxes",
 }));
 
 export type ListSessionCommandsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3309,6 +3365,8 @@ export const listSessionCommands: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessionCommands",
 }));
 
 export type ListSessionsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3324,6 +3382,8 @@ export const listSessions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 }));
 
 export type ListSessionSnapshotsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3339,6 +3399,8 @@ export const listSessionSnapshots: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessionSnapshots",
 }));
 
 export type ReadSessionFileError =
@@ -3359,6 +3421,8 @@ export const readSessionFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSessionFile",
 }));
 
 export type RunSessionCommandError =
@@ -3379,6 +3443,8 @@ export const runSessionCommand: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunSessionCommand",
 }));
 
 export type StopSessionError =
@@ -3399,6 +3465,8 @@ export const stopSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSession",
 }));
 
 export type UpdateSandboxError =
@@ -3421,6 +3489,8 @@ export const updateSandbox: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandbox",
 }));
 
 export type UpdateSessionNetworkPolicyError =
@@ -3441,6 +3511,8 @@ export const updateSessionNetworkPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSessionNetworkPolicy",
 }));
 
 export type WriteSessionFilesError =
@@ -3461,6 +3533,8 @@ export const writeSessionFiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WriteSessionFiles",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

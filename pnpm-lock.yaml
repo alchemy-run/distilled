@@ -301,6 +301,52 @@ importers:
         specifier: 8.3.0
         version: 8.3.0(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1)
 
+  benches/otel-lab:
+    dependencies:
+      '@distilled.cloud/aws':
+        specifier: workspace:*
+        version: link:../../packages/aws
+      '@distilled.cloud/azure':
+        specifier: workspace:*
+        version: link:../../packages/azure
+      '@distilled.cloud/cloudflare':
+        specifier: workspace:*
+        version: link:../../packages/cloudflare
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@distilled.cloud/fly-io':
+        specifier: workspace:*
+        version: link:../../packages/fly-io
+      '@distilled.cloud/gcp':
+        specifier: workspace:*
+        version: link:../../packages/gcp
+      '@distilled.cloud/github':
+        specifier: workspace:*
+        version: link:../../packages/github
+      '@distilled.cloud/neon':
+        specifier: workspace:*
+        version: link:../../packages/neon
+      '@distilled.cloud/railway':
+        specifier: workspace:*
+        version: link:../../packages/railway
+      '@distilled.cloud/slack':
+        specifier: workspace:*
+        version: link:../../packages/slack
+      '@distilled.cloud/stripe':
+        specifier: workspace:*
+        version: link:../../packages/stripe
+      '@distilled.cloud/vercel':
+        specifier: workspace:*
+        version: link:../../packages/vercel
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.5
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+
   benches/runtime:
     dependencies:
       '@distilled.cloud/aws':

@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Core",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -9438,6 +9451,8 @@ export const connectCoreV1DeleteNamespacedPodProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1DeleteNamespacedPodProxy",
 }));
 
 export type ConnectCoreV1DeleteNamespacedPodProxyWithPathError = KubernetesOpError;
@@ -9461,6 +9476,8 @@ export const connectCoreV1DeleteNamespacedPodProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1DeleteNamespacedPodProxyWithPath",
 }));
 
 export type ConnectCoreV1DeleteNamespacedServiceProxyError = KubernetesOpError;
@@ -9480,6 +9497,8 @@ export const connectCoreV1DeleteNamespacedServiceProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1DeleteNamespacedServiceProxy",
 }));
 
 export type ConnectCoreV1DeleteNamespacedServiceProxyWithPathError = KubernetesOpError;
@@ -9503,6 +9522,8 @@ export const connectCoreV1DeleteNamespacedServiceProxyWithPath: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1DeleteNamespacedServiceProxyWithPath",
 }));
 
 export type ConnectCoreV1DeleteNodeProxyError = KubernetesOpError;
@@ -9518,6 +9539,8 @@ export const connectCoreV1DeleteNodeProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1DeleteNodeProxy",
 }));
 
 export type ConnectCoreV1DeleteNodeProxyWithPathError = KubernetesOpError;
@@ -9533,6 +9556,8 @@ export const connectCoreV1DeleteNodeProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1DeleteNodeProxyWithPath",
 }));
 
 export type ConnectCoreV1GetNamespacedPodAttachError = KubernetesOpError;
@@ -9548,6 +9573,8 @@ export const connectCoreV1GetNamespacedPodAttach: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNamespacedPodAttach",
 }));
 
 export type ConnectCoreV1GetNamespacedPodExecError = KubernetesOpError;
@@ -9563,6 +9590,8 @@ export const connectCoreV1GetNamespacedPodExec: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNamespacedPodExec",
 }));
 
 export type ConnectCoreV1GetNamespacedPodPortforwardError = KubernetesOpError;
@@ -9578,6 +9607,8 @@ export const connectCoreV1GetNamespacedPodPortforward: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNamespacedPodPortforward",
 }));
 
 export type ConnectCoreV1GetNamespacedPodProxyError = KubernetesOpError;
@@ -9593,6 +9624,8 @@ export const connectCoreV1GetNamespacedPodProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNamespacedPodProxy",
 }));
 
 export type ConnectCoreV1GetNamespacedPodProxyWithPathError = KubernetesOpError;
@@ -9612,6 +9645,8 @@ export const connectCoreV1GetNamespacedPodProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNamespacedPodProxyWithPath",
 }));
 
 export type ConnectCoreV1GetNamespacedServiceProxyError = KubernetesOpError;
@@ -9627,6 +9662,8 @@ export const connectCoreV1GetNamespacedServiceProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNamespacedServiceProxy",
 }));
 
 export type ConnectCoreV1GetNamespacedServiceProxyWithPathError = KubernetesOpError;
@@ -9650,6 +9687,8 @@ export const connectCoreV1GetNamespacedServiceProxyWithPath: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNamespacedServiceProxyWithPath",
 }));
 
 export type ConnectCoreV1GetNodeProxyError = KubernetesOpError;
@@ -9665,6 +9704,8 @@ export const connectCoreV1GetNodeProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNodeProxy",
 }));
 
 export type ConnectCoreV1GetNodeProxyWithPathError = KubernetesOpError;
@@ -9680,6 +9721,8 @@ export const connectCoreV1GetNodeProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1GetNodeProxyWithPath",
 }));
 
 export type ConnectCoreV1PatchNamespacedPodProxyError = KubernetesOpError;
@@ -9695,6 +9738,8 @@ export const connectCoreV1PatchNamespacedPodProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PatchNamespacedPodProxy",
 }));
 
 export type ConnectCoreV1PatchNamespacedPodProxyWithPathError = KubernetesOpError;
@@ -9718,6 +9763,8 @@ export const connectCoreV1PatchNamespacedPodProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PatchNamespacedPodProxyWithPath",
 }));
 
 export type ConnectCoreV1PatchNamespacedServiceProxyError = KubernetesOpError;
@@ -9733,6 +9780,8 @@ export const connectCoreV1PatchNamespacedServiceProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PatchNamespacedServiceProxy",
 }));
 
 export type ConnectCoreV1PatchNamespacedServiceProxyWithPathError = KubernetesOpError;
@@ -9756,6 +9805,8 @@ export const connectCoreV1PatchNamespacedServiceProxyWithPath: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PatchNamespacedServiceProxyWithPath",
 }));
 
 export type ConnectCoreV1PatchNodeProxyError = KubernetesOpError;
@@ -9771,6 +9822,8 @@ export const connectCoreV1PatchNodeProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PatchNodeProxy",
 }));
 
 export type ConnectCoreV1PatchNodeProxyWithPathError = KubernetesOpError;
@@ -9786,6 +9839,8 @@ export const connectCoreV1PatchNodeProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PatchNodeProxyWithPath",
 }));
 
 export type ConnectCoreV1PostNamespacedPodAttachError = KubernetesOpError;
@@ -9801,6 +9856,8 @@ export const connectCoreV1PostNamespacedPodAttach: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNamespacedPodAttach",
 }));
 
 export type ConnectCoreV1PostNamespacedPodExecError = KubernetesOpError;
@@ -9816,6 +9873,8 @@ export const connectCoreV1PostNamespacedPodExec: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNamespacedPodExec",
 }));
 
 export type ConnectCoreV1PostNamespacedPodPortforwardError = KubernetesOpError;
@@ -9835,6 +9894,8 @@ export const connectCoreV1PostNamespacedPodPortforward: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNamespacedPodPortforward",
 }));
 
 export type ConnectCoreV1PostNamespacedPodProxyError = KubernetesOpError;
@@ -9850,6 +9911,8 @@ export const connectCoreV1PostNamespacedPodProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNamespacedPodProxy",
 }));
 
 export type ConnectCoreV1PostNamespacedPodProxyWithPathError = KubernetesOpError;
@@ -9873,6 +9936,8 @@ export const connectCoreV1PostNamespacedPodProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNamespacedPodProxyWithPath",
 }));
 
 export type ConnectCoreV1PostNamespacedServiceProxyError = KubernetesOpError;
@@ -9888,6 +9953,8 @@ export const connectCoreV1PostNamespacedServiceProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNamespacedServiceProxy",
 }));
 
 export type ConnectCoreV1PostNamespacedServiceProxyWithPathError = KubernetesOpError;
@@ -9911,6 +9978,8 @@ export const connectCoreV1PostNamespacedServiceProxyWithPath: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNamespacedServiceProxyWithPath",
 }));
 
 export type ConnectCoreV1PostNodeProxyError = KubernetesOpError;
@@ -9926,6 +9995,8 @@ export const connectCoreV1PostNodeProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNodeProxy",
 }));
 
 export type ConnectCoreV1PostNodeProxyWithPathError = KubernetesOpError;
@@ -9941,6 +10012,8 @@ export const connectCoreV1PostNodeProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PostNodeProxyWithPath",
 }));
 
 export type ConnectCoreV1PutNamespacedPodProxyError = KubernetesOpError;
@@ -9956,6 +10029,8 @@ export const connectCoreV1PutNamespacedPodProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PutNamespacedPodProxy",
 }));
 
 export type ConnectCoreV1PutNamespacedPodProxyWithPathError = KubernetesOpError;
@@ -9975,6 +10050,8 @@ export const connectCoreV1PutNamespacedPodProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PutNamespacedPodProxyWithPath",
 }));
 
 export type ConnectCoreV1PutNamespacedServiceProxyError = KubernetesOpError;
@@ -9990,6 +10067,8 @@ export const connectCoreV1PutNamespacedServiceProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PutNamespacedServiceProxy",
 }));
 
 export type ConnectCoreV1PutNamespacedServiceProxyWithPathError = KubernetesOpError;
@@ -10013,6 +10092,8 @@ export const connectCoreV1PutNamespacedServiceProxyWithPath: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PutNamespacedServiceProxyWithPath",
 }));
 
 export type ConnectCoreV1PutNodeProxyError = KubernetesOpError;
@@ -10028,6 +10109,8 @@ export const connectCoreV1PutNodeProxy: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PutNodeProxy",
 }));
 
 export type ConnectCoreV1PutNodeProxyWithPathError = KubernetesOpError;
@@ -10043,6 +10126,8 @@ export const connectCoreV1PutNodeProxyWithPath: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCoreV1PutNodeProxyWithPath",
 }));
 
 export type CreateCoreV1NamespaceError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -10058,6 +10143,8 @@ export const createCoreV1Namespace: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1Namespace",
 }));
 
 export type CreateCoreV1NamespacedBindingError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -10073,6 +10160,8 @@ export const createCoreV1NamespacedBinding: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedBinding",
 }));
 
 export type CreateCoreV1NamespacedConfigMapError =
@@ -10091,6 +10180,8 @@ export const createCoreV1NamespacedConfigMap: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedConfigMap",
 }));
 
 export type CreateCoreV1NamespacedEndpointsError =
@@ -10109,6 +10200,8 @@ export const createCoreV1NamespacedEndpoints: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedEndpoints",
 }));
 
 export type CreateCoreV1NamespacedEventError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -10124,6 +10217,8 @@ export const createCoreV1NamespacedEvent: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedEvent",
 }));
 
 export type CreateCoreV1NamespacedLimitRangeError =
@@ -10142,6 +10237,8 @@ export const createCoreV1NamespacedLimitRange: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedLimitRange",
 }));
 
 export type CreateCoreV1NamespacedPersistentVolumeClaimError =
@@ -10164,6 +10261,8 @@ export const createCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedPersistentVolumeClaim",
 }));
 
 export type CreateCoreV1NamespacedPodError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -10179,6 +10278,8 @@ export const createCoreV1NamespacedPod: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedPod",
 }));
 
 export type CreateCoreV1NamespacedPodBindingError =
@@ -10197,6 +10298,8 @@ export const createCoreV1NamespacedPodBinding: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedPodBinding",
 }));
 
 export type CreateCoreV1NamespacedPodEvictionError =
@@ -10215,6 +10318,8 @@ export const createCoreV1NamespacedPodEviction: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedPodEviction",
 }));
 
 export type CreateCoreV1NamespacedPodTemplateError =
@@ -10233,6 +10338,8 @@ export const createCoreV1NamespacedPodTemplate: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedPodTemplate",
 }));
 
 export type CreateCoreV1NamespacedReplicationControllerError =
@@ -10255,6 +10362,8 @@ export const createCoreV1NamespacedReplicationController: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedReplicationController",
 }));
 
 export type CreateCoreV1NamespacedResourceQuotaError =
@@ -10273,6 +10382,8 @@ export const createCoreV1NamespacedResourceQuota: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedResourceQuota",
 }));
 
 export type CreateCoreV1NamespacedSecretError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -10288,6 +10399,8 @@ export const createCoreV1NamespacedSecret: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedSecret",
 }));
 
 export type CreateCoreV1NamespacedServiceError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -10303,6 +10416,8 @@ export const createCoreV1NamespacedService: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedService",
 }));
 
 export type CreateCoreV1NamespacedServiceAccountError =
@@ -10321,6 +10436,8 @@ export const createCoreV1NamespacedServiceAccount: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedServiceAccount",
 }));
 
 export type CreateCoreV1NamespacedServiceAccountTokenError =
@@ -10339,6 +10456,8 @@ export const createCoreV1NamespacedServiceAccountToken: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1NamespacedServiceAccountToken",
 }));
 
 export type CreateCoreV1NodeError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -10354,6 +10473,8 @@ export const createCoreV1Node: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1Node",
 }));
 
 export type CreateCoreV1PersistentVolumeError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -10369,6 +10490,8 @@ export const createCoreV1PersistentVolume: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCoreV1PersistentVolume",
 }));
 
 export type CreateLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
@@ -10384,6 +10507,8 @@ export const createLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLifecycleV1alpha1NamespacedEviction",
 }));
 
 export type CreateLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
@@ -10403,6 +10528,8 @@ export const createLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type DeleteCoreV1CollectionNamespacedConfigMapError = KubernetesOpError;
@@ -10418,6 +10545,8 @@ export const deleteCoreV1CollectionNamespacedConfigMap: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedConfigMap",
 }));
 
 export type DeleteCoreV1CollectionNamespacedEndpointsError = KubernetesOpError;
@@ -10433,6 +10562,8 @@ export const deleteCoreV1CollectionNamespacedEndpoints: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedEndpoints",
 }));
 
 export type DeleteCoreV1CollectionNamespacedEventError = KubernetesOpError;
@@ -10448,6 +10579,8 @@ export const deleteCoreV1CollectionNamespacedEvent: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedEvent",
 }));
 
 export type DeleteCoreV1CollectionNamespacedLimitRangeError = KubernetesOpError;
@@ -10463,6 +10596,8 @@ export const deleteCoreV1CollectionNamespacedLimitRange: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedLimitRange",
 }));
 
 export type DeleteCoreV1CollectionNamespacedPersistentVolumeClaimError = KubernetesOpError;
@@ -10482,6 +10617,8 @@ export const deleteCoreV1CollectionNamespacedPersistentVolumeClaim: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedPersistentVolumeClaim",
 }));
 
 export type DeleteCoreV1CollectionNamespacedPodError = KubernetesOpError;
@@ -10497,6 +10634,8 @@ export const deleteCoreV1CollectionNamespacedPod: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedPod",
 }));
 
 export type DeleteCoreV1CollectionNamespacedPodTemplateError = KubernetesOpError;
@@ -10516,6 +10655,8 @@ export const deleteCoreV1CollectionNamespacedPodTemplate: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedPodTemplate",
 }));
 
 export type DeleteCoreV1CollectionNamespacedReplicationControllerError = KubernetesOpError;
@@ -10535,6 +10676,8 @@ export const deleteCoreV1CollectionNamespacedReplicationController: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedReplicationController",
 }));
 
 export type DeleteCoreV1CollectionNamespacedResourceQuotaError = KubernetesOpError;
@@ -10554,6 +10697,8 @@ export const deleteCoreV1CollectionNamespacedResourceQuota: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedResourceQuota",
 }));
 
 export type DeleteCoreV1CollectionNamespacedSecretError = KubernetesOpError;
@@ -10569,6 +10714,8 @@ export const deleteCoreV1CollectionNamespacedSecret: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedSecret",
 }));
 
 export type DeleteCoreV1CollectionNamespacedServiceError = KubernetesOpError;
@@ -10584,6 +10731,8 @@ export const deleteCoreV1CollectionNamespacedService: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedService",
 }));
 
 export type DeleteCoreV1CollectionNamespacedServiceAccountError = KubernetesOpError;
@@ -10603,6 +10752,8 @@ export const deleteCoreV1CollectionNamespacedServiceAccount: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNamespacedServiceAccount",
 }));
 
 export type DeleteCoreV1CollectionNodeError = KubernetesOpError;
@@ -10618,6 +10769,8 @@ export const deleteCoreV1CollectionNode: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionNode",
 }));
 
 export type DeleteCoreV1CollectionPersistentVolumeError = KubernetesOpError;
@@ -10633,6 +10786,8 @@ export const deleteCoreV1CollectionPersistentVolume: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1CollectionPersistentVolume",
 }));
 
 export type DeleteCoreV1NamespaceError = NotFound | Conflict | KubernetesOpError;
@@ -10648,6 +10803,8 @@ export const deleteCoreV1Namespace: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1Namespace",
 }));
 
 export type DeleteCoreV1NamespacedConfigMapError = NotFound | Conflict | KubernetesOpError;
@@ -10663,6 +10820,8 @@ export const deleteCoreV1NamespacedConfigMap: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedConfigMap",
 }));
 
 export type DeleteCoreV1NamespacedEndpointsError = NotFound | Conflict | KubernetesOpError;
@@ -10678,6 +10837,8 @@ export const deleteCoreV1NamespacedEndpoints: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedEndpoints",
 }));
 
 export type DeleteCoreV1NamespacedEventError = NotFound | Conflict | KubernetesOpError;
@@ -10693,6 +10854,8 @@ export const deleteCoreV1NamespacedEvent: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedEvent",
 }));
 
 export type DeleteCoreV1NamespacedLimitRangeError = NotFound | Conflict | KubernetesOpError;
@@ -10708,6 +10871,8 @@ export const deleteCoreV1NamespacedLimitRange: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedLimitRange",
 }));
 
 export type DeleteCoreV1NamespacedPersistentVolumeClaimError =
@@ -10730,6 +10895,8 @@ export const deleteCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedPersistentVolumeClaim",
 }));
 
 export type DeleteCoreV1NamespacedPodError = NotFound | Conflict | KubernetesOpError;
@@ -10745,6 +10912,8 @@ export const deleteCoreV1NamespacedPod: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedPod",
 }));
 
 export type DeleteCoreV1NamespacedPodTemplateError = NotFound | Conflict | KubernetesOpError;
@@ -10760,6 +10929,8 @@ export const deleteCoreV1NamespacedPodTemplate: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedPodTemplate",
 }));
 
 export type DeleteCoreV1NamespacedReplicationControllerError =
@@ -10782,6 +10953,8 @@ export const deleteCoreV1NamespacedReplicationController: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedReplicationController",
 }));
 
 export type DeleteCoreV1NamespacedResourceQuotaError = NotFound | Conflict | KubernetesOpError;
@@ -10797,6 +10970,8 @@ export const deleteCoreV1NamespacedResourceQuota: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedResourceQuota",
 }));
 
 export type DeleteCoreV1NamespacedSecretError = NotFound | Conflict | KubernetesOpError;
@@ -10812,6 +10987,8 @@ export const deleteCoreV1NamespacedSecret: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedSecret",
 }));
 
 export type DeleteCoreV1NamespacedServiceError = NotFound | Conflict | KubernetesOpError;
@@ -10827,6 +11004,8 @@ export const deleteCoreV1NamespacedService: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedService",
 }));
 
 export type DeleteCoreV1NamespacedServiceAccountError = NotFound | Conflict | KubernetesOpError;
@@ -10842,6 +11021,8 @@ export const deleteCoreV1NamespacedServiceAccount: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1NamespacedServiceAccount",
 }));
 
 export type DeleteCoreV1NodeError = NotFound | Conflict | KubernetesOpError;
@@ -10857,6 +11038,8 @@ export const deleteCoreV1Node: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1Node",
 }));
 
 export type DeleteCoreV1PersistentVolumeError = NotFound | Conflict | KubernetesOpError;
@@ -10872,6 +11055,8 @@ export const deleteCoreV1PersistentVolume: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCoreV1PersistentVolume",
 }));
 
 export type DeleteLifecycleV1alpha1CollectionNamespacedEvictionError = KubernetesOpError;
@@ -10891,6 +11076,8 @@ export const deleteLifecycleV1alpha1CollectionNamespacedEviction: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLifecycleV1alpha1CollectionNamespacedEviction",
 }));
 
 export type DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestError = KubernetesOpError;
@@ -10910,6 +11097,8 @@ export const deleteLifecycleV1alpha1CollectionNamespacedEvictionRequest: API.Ope
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest",
 }));
 
 export type DeleteLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
@@ -10929,6 +11118,8 @@ export const deleteLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLifecycleV1alpha1NamespacedEviction",
 }));
 
 export type DeleteLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
@@ -10948,6 +11139,8 @@ export const deleteLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type GetAPIVersionsError = KubernetesOpError;
@@ -10963,6 +11156,8 @@ export const getAPIVersions: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAPIVersions",
 }));
 
 export type GetCodeVersionError = KubernetesOpError;
@@ -10978,6 +11173,8 @@ export const getCodeVersion: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodeVersion",
 }));
 
 export type GetCoreAPIVersionsError = KubernetesOpError;
@@ -10993,6 +11190,8 @@ export const getCoreAPIVersions: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreAPIVersions",
 }));
 
 export type GetCoreV1APIResourcesError = KubernetesOpError;
@@ -11008,6 +11207,8 @@ export const getCoreV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCoreV1APIResources",
 }));
 
 export type GetLifecycleAPIGroupError = KubernetesOpError;
@@ -11023,6 +11224,8 @@ export const getLifecycleAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLifecycleAPIGroup",
 }));
 
 export type GetLifecycleV1alpha1APIResourcesError = KubernetesOpError;
@@ -11038,6 +11241,8 @@ export const getLifecycleV1alpha1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLifecycleV1alpha1APIResources",
 }));
 
 export type GetServiceAccountIssuerOpenIDConfigurationError = KubernetesOpError;
@@ -11061,6 +11266,8 @@ export const getServiceAccountIssuerOpenIDConfiguration: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountIssuerOpenIDConfiguration",
 }));
 
 export type GetServiceAccountIssuerOpenIDKeysetError = KubernetesOpError;
@@ -11076,6 +11283,8 @@ export const getServiceAccountIssuerOpenIDKeyset: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountIssuerOpenIDKeyset",
 }));
 
 export type ListCoreV1ComponentStatusError = KubernetesOpError;
@@ -11091,6 +11300,8 @@ export const listCoreV1ComponentStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1ComponentStatus",
 }));
 
 export type ListCoreV1ConfigMapForAllNamespacesError = KubernetesOpError;
@@ -11106,6 +11317,8 @@ export const listCoreV1ConfigMapForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1ConfigMapForAllNamespaces",
 }));
 
 export type ListCoreV1EndpointsForAllNamespacesError = KubernetesOpError;
@@ -11121,6 +11334,8 @@ export const listCoreV1EndpointsForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1EndpointsForAllNamespaces",
 }));
 
 export type ListCoreV1EventForAllNamespacesError = KubernetesOpError;
@@ -11136,6 +11351,8 @@ export const listCoreV1EventForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1EventForAllNamespaces",
 }));
 
 export type ListCoreV1LimitRangeForAllNamespacesError = KubernetesOpError;
@@ -11151,6 +11368,8 @@ export const listCoreV1LimitRangeForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1LimitRangeForAllNamespaces",
 }));
 
 export type ListCoreV1NamespaceError = KubernetesOpError;
@@ -11166,6 +11385,8 @@ export const listCoreV1Namespace: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1Namespace",
 }));
 
 export type ListCoreV1NamespacedConfigMapError = KubernetesOpError;
@@ -11181,6 +11402,8 @@ export const listCoreV1NamespacedConfigMap: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedConfigMap",
 }));
 
 export type ListCoreV1NamespacedEndpointsError = KubernetesOpError;
@@ -11196,6 +11419,8 @@ export const listCoreV1NamespacedEndpoints: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedEndpoints",
 }));
 
 export type ListCoreV1NamespacedEventError = KubernetesOpError;
@@ -11211,6 +11436,8 @@ export const listCoreV1NamespacedEvent: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedEvent",
 }));
 
 export type ListCoreV1NamespacedLimitRangeError = KubernetesOpError;
@@ -11226,6 +11453,8 @@ export const listCoreV1NamespacedLimitRange: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedLimitRange",
 }));
 
 export type ListCoreV1NamespacedPersistentVolumeClaimError = KubernetesOpError;
@@ -11241,6 +11470,8 @@ export const listCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedPersistentVolumeClaim",
 }));
 
 export type ListCoreV1NamespacedPodError = KubernetesOpError;
@@ -11256,6 +11487,8 @@ export const listCoreV1NamespacedPod: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedPod",
 }));
 
 export type ListCoreV1NamespacedPodTemplateError = KubernetesOpError;
@@ -11271,6 +11504,8 @@ export const listCoreV1NamespacedPodTemplate: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedPodTemplate",
 }));
 
 export type ListCoreV1NamespacedReplicationControllerError = KubernetesOpError;
@@ -11286,6 +11521,8 @@ export const listCoreV1NamespacedReplicationController: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedReplicationController",
 }));
 
 export type ListCoreV1NamespacedResourceQuotaError = KubernetesOpError;
@@ -11301,6 +11538,8 @@ export const listCoreV1NamespacedResourceQuota: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedResourceQuota",
 }));
 
 export type ListCoreV1NamespacedSecretError = KubernetesOpError;
@@ -11316,6 +11555,8 @@ export const listCoreV1NamespacedSecret: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedSecret",
 }));
 
 export type ListCoreV1NamespacedServiceError = KubernetesOpError;
@@ -11331,6 +11572,8 @@ export const listCoreV1NamespacedService: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedService",
 }));
 
 export type ListCoreV1NamespacedServiceAccountError = KubernetesOpError;
@@ -11346,6 +11589,8 @@ export const listCoreV1NamespacedServiceAccount: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1NamespacedServiceAccount",
 }));
 
 export type ListCoreV1NodeError = KubernetesOpError;
@@ -11361,6 +11606,8 @@ export const listCoreV1Node: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1Node",
 }));
 
 export type ListCoreV1PersistentVolumeError = KubernetesOpError;
@@ -11376,6 +11623,8 @@ export const listCoreV1PersistentVolume: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1PersistentVolume",
 }));
 
 export type ListCoreV1PersistentVolumeClaimForAllNamespacesError = KubernetesOpError;
@@ -11395,6 +11644,8 @@ export const listCoreV1PersistentVolumeClaimForAllNamespaces: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1PersistentVolumeClaimForAllNamespaces",
 }));
 
 export type ListCoreV1PodForAllNamespacesError = KubernetesOpError;
@@ -11410,6 +11661,8 @@ export const listCoreV1PodForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1PodForAllNamespaces",
 }));
 
 export type ListCoreV1PodTemplateForAllNamespacesError = KubernetesOpError;
@@ -11425,6 +11678,8 @@ export const listCoreV1PodTemplateForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1PodTemplateForAllNamespaces",
 }));
 
 export type ListCoreV1ReplicationControllerForAllNamespacesError = KubernetesOpError;
@@ -11444,6 +11699,8 @@ export const listCoreV1ReplicationControllerForAllNamespaces: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1ReplicationControllerForAllNamespaces",
 }));
 
 export type ListCoreV1ResourceQuotaForAllNamespacesError = KubernetesOpError;
@@ -11459,6 +11716,8 @@ export const listCoreV1ResourceQuotaForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1ResourceQuotaForAllNamespaces",
 }));
 
 export type ListCoreV1SecretForAllNamespacesError = KubernetesOpError;
@@ -11474,6 +11733,8 @@ export const listCoreV1SecretForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1SecretForAllNamespaces",
 }));
 
 export type ListCoreV1ServiceAccountForAllNamespacesError = KubernetesOpError;
@@ -11489,6 +11750,8 @@ export const listCoreV1ServiceAccountForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1ServiceAccountForAllNamespaces",
 }));
 
 export type ListCoreV1ServiceForAllNamespacesError = KubernetesOpError;
@@ -11504,6 +11767,8 @@ export const listCoreV1ServiceForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCoreV1ServiceForAllNamespaces",
 }));
 
 export type ListLifecycleV1alpha1EvictionForAllNamespacesError = KubernetesOpError;
@@ -11523,6 +11788,8 @@ export const listLifecycleV1alpha1EvictionForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLifecycleV1alpha1EvictionForAllNamespaces",
 }));
 
 export type ListLifecycleV1alpha1EvictionRequestForAllNamespacesError = KubernetesOpError;
@@ -11542,6 +11809,8 @@ export const listLifecycleV1alpha1EvictionRequestForAllNamespaces: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLifecycleV1alpha1EvictionRequestForAllNamespaces",
 }));
 
 export type ListLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
@@ -11557,6 +11826,8 @@ export const listLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLifecycleV1alpha1NamespacedEviction",
 }));
 
 export type ListLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
@@ -11576,6 +11847,8 @@ export const listLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type LogFileHandlerError = KubernetesOpError;
@@ -11590,6 +11863,8 @@ export const logFileHandler: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogFileHandler",
 }));
 
 export type LogFileListHandlerError = KubernetesOpError;
@@ -11604,6 +11879,8 @@ export const logFileListHandler: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogFileListHandler",
 }));
 
 export type PatchCoreV1NamespaceError =
@@ -11623,6 +11900,8 @@ export const patchCoreV1Namespace: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1Namespace",
 }));
 
 export type PatchCoreV1NamespacedConfigMapError =
@@ -11642,6 +11921,8 @@ export const patchCoreV1NamespacedConfigMap: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedConfigMap",
 }));
 
 export type PatchCoreV1NamespacedEndpointsError =
@@ -11661,6 +11942,8 @@ export const patchCoreV1NamespacedEndpoints: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedEndpoints",
 }));
 
 export type PatchCoreV1NamespacedEventError =
@@ -11680,6 +11963,8 @@ export const patchCoreV1NamespacedEvent: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedEvent",
 }));
 
 export type PatchCoreV1NamespacedLimitRangeError =
@@ -11699,6 +11984,8 @@ export const patchCoreV1NamespacedLimitRange: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedLimitRange",
 }));
 
 export type PatchCoreV1NamespacedPersistentVolumeClaimError =
@@ -11718,6 +12005,8 @@ export const patchCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedPersistentVolumeClaim",
 }));
 
 export type PatchCoreV1NamespacedPersistentVolumeClaimStatusError =
@@ -11741,6 +12030,8 @@ export const patchCoreV1NamespacedPersistentVolumeClaimStatus: API.OperationMeth
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedPersistentVolumeClaimStatus",
 }));
 
 export type PatchCoreV1NamespacedPodError =
@@ -11760,6 +12051,8 @@ export const patchCoreV1NamespacedPod: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedPod",
 }));
 
 export type PatchCoreV1NamespacedPodEphemeralcontainersError =
@@ -11779,6 +12072,8 @@ export const patchCoreV1NamespacedPodEphemeralcontainers: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedPodEphemeralcontainers",
 }));
 
 export type PatchCoreV1NamespacedPodResizeError =
@@ -11798,6 +12093,8 @@ export const patchCoreV1NamespacedPodResize: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedPodResize",
 }));
 
 export type PatchCoreV1NamespacedPodStatusError =
@@ -11817,6 +12114,8 @@ export const patchCoreV1NamespacedPodStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedPodStatus",
 }));
 
 export type PatchCoreV1NamespacedPodTemplateError =
@@ -11836,6 +12135,8 @@ export const patchCoreV1NamespacedPodTemplate: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedPodTemplate",
 }));
 
 export type PatchCoreV1NamespacedReplicationControllerError =
@@ -11855,6 +12156,8 @@ export const patchCoreV1NamespacedReplicationController: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedReplicationController",
 }));
 
 export type PatchCoreV1NamespacedReplicationControllerScaleError =
@@ -11878,6 +12181,8 @@ export const patchCoreV1NamespacedReplicationControllerScale: API.OperationMetho
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedReplicationControllerScale",
 }));
 
 export type PatchCoreV1NamespacedReplicationControllerStatusError =
@@ -11901,6 +12206,8 @@ export const patchCoreV1NamespacedReplicationControllerStatus: API.OperationMeth
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedReplicationControllerStatus",
 }));
 
 export type PatchCoreV1NamespacedResourceQuotaError =
@@ -11920,6 +12227,8 @@ export const patchCoreV1NamespacedResourceQuota: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedResourceQuota",
 }));
 
 export type PatchCoreV1NamespacedResourceQuotaStatusError =
@@ -11939,6 +12248,8 @@ export const patchCoreV1NamespacedResourceQuotaStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedResourceQuotaStatus",
 }));
 
 export type PatchCoreV1NamespacedSecretError =
@@ -11958,6 +12269,8 @@ export const patchCoreV1NamespacedSecret: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedSecret",
 }));
 
 export type PatchCoreV1NamespacedServiceError =
@@ -11977,6 +12290,8 @@ export const patchCoreV1NamespacedService: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedService",
 }));
 
 export type PatchCoreV1NamespacedServiceAccountError =
@@ -11996,6 +12311,8 @@ export const patchCoreV1NamespacedServiceAccount: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedServiceAccount",
 }));
 
 export type PatchCoreV1NamespacedServiceStatusError =
@@ -12015,6 +12332,8 @@ export const patchCoreV1NamespacedServiceStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespacedServiceStatus",
 }));
 
 export type PatchCoreV1NamespaceStatusError =
@@ -12034,6 +12353,8 @@ export const patchCoreV1NamespaceStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NamespaceStatus",
 }));
 
 export type PatchCoreV1NodeError = NotFound | Conflict | UnprocessableEntity | KubernetesOpError;
@@ -12049,6 +12370,8 @@ export const patchCoreV1Node: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1Node",
 }));
 
 export type PatchCoreV1NodeStatusError =
@@ -12068,6 +12391,8 @@ export const patchCoreV1NodeStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1NodeStatus",
 }));
 
 export type PatchCoreV1PersistentVolumeError =
@@ -12087,6 +12412,8 @@ export const patchCoreV1PersistentVolume: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1PersistentVolume",
 }));
 
 export type PatchCoreV1PersistentVolumeStatusError =
@@ -12106,6 +12433,8 @@ export const patchCoreV1PersistentVolumeStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCoreV1PersistentVolumeStatus",
 }));
 
 export type PatchLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
@@ -12121,6 +12450,8 @@ export const patchLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLifecycleV1alpha1NamespacedEviction",
 }));
 
 export type PatchLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
@@ -12140,6 +12471,8 @@ export const patchLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type PatchLifecycleV1alpha1NamespacedEvictionRequestStatusError = KubernetesOpError;
@@ -12159,6 +12492,8 @@ export const patchLifecycleV1alpha1NamespacedEvictionRequestStatus: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLifecycleV1alpha1NamespacedEvictionRequestStatus",
 }));
 
 export type PatchLifecycleV1alpha1NamespacedEvictionStatusError = KubernetesOpError;
@@ -12178,6 +12513,8 @@ export const patchLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchLifecycleV1alpha1NamespacedEvictionStatus",
 }));
 
 export type ReadCoreV1ComponentStatusError = NotFound | KubernetesOpError;
@@ -12193,6 +12530,8 @@ export const readCoreV1ComponentStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1ComponentStatus",
 }));
 
 export type ReadCoreV1NamespaceError = NotFound | KubernetesOpError;
@@ -12208,6 +12547,8 @@ export const readCoreV1Namespace: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1Namespace",
 }));
 
 export type ReadCoreV1NamespacedConfigMapError = NotFound | KubernetesOpError;
@@ -12223,6 +12564,8 @@ export const readCoreV1NamespacedConfigMap: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedConfigMap",
 }));
 
 export type ReadCoreV1NamespacedEndpointsError = NotFound | KubernetesOpError;
@@ -12238,6 +12581,8 @@ export const readCoreV1NamespacedEndpoints: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedEndpoints",
 }));
 
 export type ReadCoreV1NamespacedEventError = NotFound | KubernetesOpError;
@@ -12253,6 +12598,8 @@ export const readCoreV1NamespacedEvent: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedEvent",
 }));
 
 export type ReadCoreV1NamespacedLimitRangeError = NotFound | KubernetesOpError;
@@ -12268,6 +12615,8 @@ export const readCoreV1NamespacedLimitRange: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedLimitRange",
 }));
 
 export type ReadCoreV1NamespacedPersistentVolumeClaimError = NotFound | KubernetesOpError;
@@ -12283,6 +12632,8 @@ export const readCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedPersistentVolumeClaim",
 }));
 
 export type ReadCoreV1NamespacedPersistentVolumeClaimStatusError = NotFound | KubernetesOpError;
@@ -12302,6 +12653,8 @@ export const readCoreV1NamespacedPersistentVolumeClaimStatus: API.OperationMetho
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedPersistentVolumeClaimStatus",
 }));
 
 export type ReadCoreV1NamespacedPodError = NotFound | KubernetesOpError;
@@ -12317,6 +12670,8 @@ export const readCoreV1NamespacedPod: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedPod",
 }));
 
 export type ReadCoreV1NamespacedPodEphemeralcontainersError = NotFound | KubernetesOpError;
@@ -12332,6 +12687,8 @@ export const readCoreV1NamespacedPodEphemeralcontainers: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedPodEphemeralcontainers",
 }));
 
 export type ReadCoreV1NamespacedPodLogError = NotFound | KubernetesOpError;
@@ -12347,6 +12704,8 @@ export const readCoreV1NamespacedPodLog: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedPodLog",
 }));
 
 export type ReadCoreV1NamespacedPodResizeError = NotFound | KubernetesOpError;
@@ -12362,6 +12721,8 @@ export const readCoreV1NamespacedPodResize: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedPodResize",
 }));
 
 export type ReadCoreV1NamespacedPodStatusError = NotFound | KubernetesOpError;
@@ -12377,6 +12738,8 @@ export const readCoreV1NamespacedPodStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedPodStatus",
 }));
 
 export type ReadCoreV1NamespacedPodTemplateError = NotFound | KubernetesOpError;
@@ -12392,6 +12755,8 @@ export const readCoreV1NamespacedPodTemplate: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedPodTemplate",
 }));
 
 export type ReadCoreV1NamespacedReplicationControllerError = NotFound | KubernetesOpError;
@@ -12407,6 +12772,8 @@ export const readCoreV1NamespacedReplicationController: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedReplicationController",
 }));
 
 export type ReadCoreV1NamespacedReplicationControllerScaleError = NotFound | KubernetesOpError;
@@ -12426,6 +12793,8 @@ export const readCoreV1NamespacedReplicationControllerScale: API.OperationMethod
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedReplicationControllerScale",
 }));
 
 export type ReadCoreV1NamespacedReplicationControllerStatusError = NotFound | KubernetesOpError;
@@ -12445,6 +12814,8 @@ export const readCoreV1NamespacedReplicationControllerStatus: API.OperationMetho
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedReplicationControllerStatus",
 }));
 
 export type ReadCoreV1NamespacedResourceQuotaError = NotFound | KubernetesOpError;
@@ -12460,6 +12831,8 @@ export const readCoreV1NamespacedResourceQuota: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedResourceQuota",
 }));
 
 export type ReadCoreV1NamespacedResourceQuotaStatusError = NotFound | KubernetesOpError;
@@ -12475,6 +12848,8 @@ export const readCoreV1NamespacedResourceQuotaStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedResourceQuotaStatus",
 }));
 
 export type ReadCoreV1NamespacedSecretError = NotFound | KubernetesOpError;
@@ -12490,6 +12865,8 @@ export const readCoreV1NamespacedSecret: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedSecret",
 }));
 
 export type ReadCoreV1NamespacedServiceError = NotFound | KubernetesOpError;
@@ -12505,6 +12882,8 @@ export const readCoreV1NamespacedService: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedService",
 }));
 
 export type ReadCoreV1NamespacedServiceAccountError = NotFound | KubernetesOpError;
@@ -12520,6 +12899,8 @@ export const readCoreV1NamespacedServiceAccount: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedServiceAccount",
 }));
 
 export type ReadCoreV1NamespacedServiceStatusError = NotFound | KubernetesOpError;
@@ -12535,6 +12916,8 @@ export const readCoreV1NamespacedServiceStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespacedServiceStatus",
 }));
 
 export type ReadCoreV1NamespaceStatusError = NotFound | KubernetesOpError;
@@ -12550,6 +12933,8 @@ export const readCoreV1NamespaceStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NamespaceStatus",
 }));
 
 export type ReadCoreV1NodeError = NotFound | KubernetesOpError;
@@ -12565,6 +12950,8 @@ export const readCoreV1Node: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1Node",
 }));
 
 export type ReadCoreV1NodeStatusError = NotFound | KubernetesOpError;
@@ -12580,6 +12967,8 @@ export const readCoreV1NodeStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1NodeStatus",
 }));
 
 export type ReadCoreV1PersistentVolumeError = NotFound | KubernetesOpError;
@@ -12595,6 +12984,8 @@ export const readCoreV1PersistentVolume: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1PersistentVolume",
 }));
 
 export type ReadCoreV1PersistentVolumeStatusError = NotFound | KubernetesOpError;
@@ -12610,6 +13001,8 @@ export const readCoreV1PersistentVolumeStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCoreV1PersistentVolumeStatus",
 }));
 
 export type ReadLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
@@ -12625,6 +13018,8 @@ export const readLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadLifecycleV1alpha1NamespacedEviction",
 }));
 
 export type ReadLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
@@ -12644,6 +13039,8 @@ export const readLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type ReadLifecycleV1alpha1NamespacedEvictionRequestStatusError = KubernetesOpError;
@@ -12663,6 +13060,8 @@ export const readLifecycleV1alpha1NamespacedEvictionRequestStatus: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadLifecycleV1alpha1NamespacedEvictionRequestStatus",
 }));
 
 export type ReadLifecycleV1alpha1NamespacedEvictionStatusError = KubernetesOpError;
@@ -12682,6 +13081,8 @@ export const readLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadLifecycleV1alpha1NamespacedEvictionStatus",
 }));
 
 export type ReplaceCoreV1NamespaceError =
@@ -12701,6 +13102,8 @@ export const replaceCoreV1Namespace: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1Namespace",
 }));
 
 export type ReplaceCoreV1NamespacedConfigMapError =
@@ -12720,6 +13123,8 @@ export const replaceCoreV1NamespacedConfigMap: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedConfigMap",
 }));
 
 export type ReplaceCoreV1NamespacedEndpointsError =
@@ -12739,6 +13144,8 @@ export const replaceCoreV1NamespacedEndpoints: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedEndpoints",
 }));
 
 export type ReplaceCoreV1NamespacedEventError =
@@ -12758,6 +13165,8 @@ export const replaceCoreV1NamespacedEvent: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedEvent",
 }));
 
 export type ReplaceCoreV1NamespacedLimitRangeError =
@@ -12777,6 +13186,8 @@ export const replaceCoreV1NamespacedLimitRange: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedLimitRange",
 }));
 
 export type ReplaceCoreV1NamespacedPersistentVolumeClaimError =
@@ -12800,6 +13211,8 @@ export const replaceCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedPersistentVolumeClaim",
 }));
 
 export type ReplaceCoreV1NamespacedPersistentVolumeClaimStatusError =
@@ -12823,6 +13236,8 @@ export const replaceCoreV1NamespacedPersistentVolumeClaimStatus: API.OperationMe
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedPersistentVolumeClaimStatus",
 }));
 
 export type ReplaceCoreV1NamespacedPodError =
@@ -12842,6 +13257,8 @@ export const replaceCoreV1NamespacedPod: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedPod",
 }));
 
 export type ReplaceCoreV1NamespacedPodEphemeralcontainersError =
@@ -12865,6 +13282,8 @@ export const replaceCoreV1NamespacedPodEphemeralcontainers: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedPodEphemeralcontainers",
 }));
 
 export type ReplaceCoreV1NamespacedPodResizeError =
@@ -12884,6 +13303,8 @@ export const replaceCoreV1NamespacedPodResize: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedPodResize",
 }));
 
 export type ReplaceCoreV1NamespacedPodStatusError =
@@ -12903,6 +13324,8 @@ export const replaceCoreV1NamespacedPodStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedPodStatus",
 }));
 
 export type ReplaceCoreV1NamespacedPodTemplateError =
@@ -12922,6 +13345,8 @@ export const replaceCoreV1NamespacedPodTemplate: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedPodTemplate",
 }));
 
 export type ReplaceCoreV1NamespacedReplicationControllerError =
@@ -12945,6 +13370,8 @@ export const replaceCoreV1NamespacedReplicationController: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedReplicationController",
 }));
 
 export type ReplaceCoreV1NamespacedReplicationControllerScaleError =
@@ -12968,6 +13395,8 @@ export const replaceCoreV1NamespacedReplicationControllerScale: API.OperationMet
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedReplicationControllerScale",
 }));
 
 export type ReplaceCoreV1NamespacedReplicationControllerStatusError =
@@ -12991,6 +13420,8 @@ export const replaceCoreV1NamespacedReplicationControllerStatus: API.OperationMe
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedReplicationControllerStatus",
 }));
 
 export type ReplaceCoreV1NamespacedResourceQuotaError =
@@ -13010,6 +13441,8 @@ export const replaceCoreV1NamespacedResourceQuota: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedResourceQuota",
 }));
 
 export type ReplaceCoreV1NamespacedResourceQuotaStatusError =
@@ -13029,6 +13462,8 @@ export const replaceCoreV1NamespacedResourceQuotaStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedResourceQuotaStatus",
 }));
 
 export type ReplaceCoreV1NamespacedSecretError =
@@ -13048,6 +13483,8 @@ export const replaceCoreV1NamespacedSecret: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedSecret",
 }));
 
 export type ReplaceCoreV1NamespacedServiceError =
@@ -13067,6 +13504,8 @@ export const replaceCoreV1NamespacedService: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedService",
 }));
 
 export type ReplaceCoreV1NamespacedServiceAccountError =
@@ -13086,6 +13525,8 @@ export const replaceCoreV1NamespacedServiceAccount: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedServiceAccount",
 }));
 
 export type ReplaceCoreV1NamespacedServiceStatusError =
@@ -13105,6 +13546,8 @@ export const replaceCoreV1NamespacedServiceStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespacedServiceStatus",
 }));
 
 export type ReplaceCoreV1NamespaceFinalizeError =
@@ -13124,6 +13567,8 @@ export const replaceCoreV1NamespaceFinalize: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespaceFinalize",
 }));
 
 export type ReplaceCoreV1NamespaceStatusError =
@@ -13143,6 +13588,8 @@ export const replaceCoreV1NamespaceStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NamespaceStatus",
 }));
 
 export type ReplaceCoreV1NodeError = NotFound | Conflict | UnprocessableEntity | KubernetesOpError;
@@ -13158,6 +13605,8 @@ export const replaceCoreV1Node: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1Node",
 }));
 
 export type ReplaceCoreV1NodeStatusError =
@@ -13177,6 +13626,8 @@ export const replaceCoreV1NodeStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1NodeStatus",
 }));
 
 export type ReplaceCoreV1PersistentVolumeError =
@@ -13196,6 +13647,8 @@ export const replaceCoreV1PersistentVolume: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1PersistentVolume",
 }));
 
 export type ReplaceCoreV1PersistentVolumeStatusError =
@@ -13215,6 +13668,8 @@ export const replaceCoreV1PersistentVolumeStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCoreV1PersistentVolumeStatus",
 }));
 
 export type ReplaceLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
@@ -13234,6 +13689,8 @@ export const replaceLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceLifecycleV1alpha1NamespacedEviction",
 }));
 
 export type ReplaceLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
@@ -13253,6 +13710,8 @@ export const replaceLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusError = KubernetesOpError;
@@ -13272,6 +13731,8 @@ export const replaceLifecycleV1alpha1NamespacedEvictionRequestStatus: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatus",
 }));
 
 export type ReplaceLifecycleV1alpha1NamespacedEvictionStatusError = KubernetesOpError;
@@ -13291,6 +13752,8 @@ export const replaceLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceLifecycleV1alpha1NamespacedEvictionStatus",
 }));
 
 export type WatchCoreV1ConfigMapListForAllNamespacesError = KubernetesOpError;
@@ -13306,6 +13769,8 @@ export const watchCoreV1ConfigMapListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1ConfigMapListForAllNamespaces",
 }));
 
 export type WatchCoreV1EndpointsListForAllNamespacesError = KubernetesOpError;
@@ -13321,6 +13786,8 @@ export const watchCoreV1EndpointsListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1EndpointsListForAllNamespaces",
 }));
 
 export type WatchCoreV1EventListForAllNamespacesError = KubernetesOpError;
@@ -13336,6 +13803,8 @@ export const watchCoreV1EventListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1EventListForAllNamespaces",
 }));
 
 export type WatchCoreV1LimitRangeListForAllNamespacesError = KubernetesOpError;
@@ -13351,6 +13820,8 @@ export const watchCoreV1LimitRangeListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1LimitRangeListForAllNamespaces",
 }));
 
 export type WatchCoreV1NamespaceError = KubernetesOpError;
@@ -13366,6 +13837,8 @@ export const watchCoreV1Namespace: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1Namespace",
 }));
 
 export type WatchCoreV1NamespacedConfigMapError = KubernetesOpError;
@@ -13381,6 +13854,8 @@ export const watchCoreV1NamespacedConfigMap: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedConfigMap",
 }));
 
 export type WatchCoreV1NamespacedConfigMapListError = KubernetesOpError;
@@ -13396,6 +13871,8 @@ export const watchCoreV1NamespacedConfigMapList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedConfigMapList",
 }));
 
 export type WatchCoreV1NamespacedEndpointsError = KubernetesOpError;
@@ -13411,6 +13888,8 @@ export const watchCoreV1NamespacedEndpoints: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedEndpoints",
 }));
 
 export type WatchCoreV1NamespacedEndpointsListError = KubernetesOpError;
@@ -13426,6 +13905,8 @@ export const watchCoreV1NamespacedEndpointsList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedEndpointsList",
 }));
 
 export type WatchCoreV1NamespacedEventError = KubernetesOpError;
@@ -13441,6 +13922,8 @@ export const watchCoreV1NamespacedEvent: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedEvent",
 }));
 
 export type WatchCoreV1NamespacedEventListError = KubernetesOpError;
@@ -13456,6 +13939,8 @@ export const watchCoreV1NamespacedEventList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedEventList",
 }));
 
 export type WatchCoreV1NamespacedLimitRangeError = KubernetesOpError;
@@ -13471,6 +13956,8 @@ export const watchCoreV1NamespacedLimitRange: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedLimitRange",
 }));
 
 export type WatchCoreV1NamespacedLimitRangeListError = KubernetesOpError;
@@ -13486,6 +13973,8 @@ export const watchCoreV1NamespacedLimitRangeList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedLimitRangeList",
 }));
 
 export type WatchCoreV1NamespacedPersistentVolumeClaimError = KubernetesOpError;
@@ -13501,6 +13990,8 @@ export const watchCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedPersistentVolumeClaim",
 }));
 
 export type WatchCoreV1NamespacedPersistentVolumeClaimListError = KubernetesOpError;
@@ -13520,6 +14011,8 @@ export const watchCoreV1NamespacedPersistentVolumeClaimList: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedPersistentVolumeClaimList",
 }));
 
 export type WatchCoreV1NamespacedPodError = KubernetesOpError;
@@ -13535,6 +14028,8 @@ export const watchCoreV1NamespacedPod: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedPod",
 }));
 
 export type WatchCoreV1NamespacedPodListError = KubernetesOpError;
@@ -13550,6 +14045,8 @@ export const watchCoreV1NamespacedPodList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedPodList",
 }));
 
 export type WatchCoreV1NamespacedPodTemplateError = KubernetesOpError;
@@ -13565,6 +14062,8 @@ export const watchCoreV1NamespacedPodTemplate: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedPodTemplate",
 }));
 
 export type WatchCoreV1NamespacedPodTemplateListError = KubernetesOpError;
@@ -13580,6 +14079,8 @@ export const watchCoreV1NamespacedPodTemplateList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedPodTemplateList",
 }));
 
 export type WatchCoreV1NamespacedReplicationControllerError = KubernetesOpError;
@@ -13595,6 +14096,8 @@ export const watchCoreV1NamespacedReplicationController: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedReplicationController",
 }));
 
 export type WatchCoreV1NamespacedReplicationControllerListError = KubernetesOpError;
@@ -13614,6 +14117,8 @@ export const watchCoreV1NamespacedReplicationControllerList: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedReplicationControllerList",
 }));
 
 export type WatchCoreV1NamespacedResourceQuotaError = KubernetesOpError;
@@ -13629,6 +14134,8 @@ export const watchCoreV1NamespacedResourceQuota: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedResourceQuota",
 }));
 
 export type WatchCoreV1NamespacedResourceQuotaListError = KubernetesOpError;
@@ -13644,6 +14151,8 @@ export const watchCoreV1NamespacedResourceQuotaList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedResourceQuotaList",
 }));
 
 export type WatchCoreV1NamespacedSecretError = KubernetesOpError;
@@ -13659,6 +14168,8 @@ export const watchCoreV1NamespacedSecret: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedSecret",
 }));
 
 export type WatchCoreV1NamespacedSecretListError = KubernetesOpError;
@@ -13674,6 +14185,8 @@ export const watchCoreV1NamespacedSecretList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedSecretList",
 }));
 
 export type WatchCoreV1NamespacedServiceError = KubernetesOpError;
@@ -13689,6 +14202,8 @@ export const watchCoreV1NamespacedService: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedService",
 }));
 
 export type WatchCoreV1NamespacedServiceAccountError = KubernetesOpError;
@@ -13704,6 +14219,8 @@ export const watchCoreV1NamespacedServiceAccount: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedServiceAccount",
 }));
 
 export type WatchCoreV1NamespacedServiceAccountListError = KubernetesOpError;
@@ -13719,6 +14236,8 @@ export const watchCoreV1NamespacedServiceAccountList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedServiceAccountList",
 }));
 
 export type WatchCoreV1NamespacedServiceListError = KubernetesOpError;
@@ -13734,6 +14253,8 @@ export const watchCoreV1NamespacedServiceList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespacedServiceList",
 }));
 
 export type WatchCoreV1NamespaceListError = KubernetesOpError;
@@ -13749,6 +14270,8 @@ export const watchCoreV1NamespaceList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NamespaceList",
 }));
 
 export type WatchCoreV1NodeError = KubernetesOpError;
@@ -13764,6 +14287,8 @@ export const watchCoreV1Node: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1Node",
 }));
 
 export type WatchCoreV1NodeListError = KubernetesOpError;
@@ -13779,6 +14304,8 @@ export const watchCoreV1NodeList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1NodeList",
 }));
 
 export type WatchCoreV1PersistentVolumeError = KubernetesOpError;
@@ -13794,6 +14321,8 @@ export const watchCoreV1PersistentVolume: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1PersistentVolume",
 }));
 
 export type WatchCoreV1PersistentVolumeClaimListForAllNamespacesError = KubernetesOpError;
@@ -13813,6 +14342,8 @@ export const watchCoreV1PersistentVolumeClaimListForAllNamespaces: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1PersistentVolumeClaimListForAllNamespaces",
 }));
 
 export type WatchCoreV1PersistentVolumeListError = KubernetesOpError;
@@ -13828,6 +14359,8 @@ export const watchCoreV1PersistentVolumeList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1PersistentVolumeList",
 }));
 
 export type WatchCoreV1PodListForAllNamespacesError = KubernetesOpError;
@@ -13843,6 +14376,8 @@ export const watchCoreV1PodListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1PodListForAllNamespaces",
 }));
 
 export type WatchCoreV1PodTemplateListForAllNamespacesError = KubernetesOpError;
@@ -13858,6 +14393,8 @@ export const watchCoreV1PodTemplateListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1PodTemplateListForAllNamespaces",
 }));
 
 export type WatchCoreV1ReplicationControllerListForAllNamespacesError = KubernetesOpError;
@@ -13877,6 +14414,8 @@ export const watchCoreV1ReplicationControllerListForAllNamespaces: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1ReplicationControllerListForAllNamespaces",
 }));
 
 export type WatchCoreV1ResourceQuotaListForAllNamespacesError = KubernetesOpError;
@@ -13896,6 +14435,8 @@ export const watchCoreV1ResourceQuotaListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1ResourceQuotaListForAllNamespaces",
 }));
 
 export type WatchCoreV1SecretListForAllNamespacesError = KubernetesOpError;
@@ -13911,6 +14452,8 @@ export const watchCoreV1SecretListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1SecretListForAllNamespaces",
 }));
 
 export type WatchCoreV1ServiceAccountListForAllNamespacesError = KubernetesOpError;
@@ -13930,6 +14473,8 @@ export const watchCoreV1ServiceAccountListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1ServiceAccountListForAllNamespaces",
 }));
 
 export type WatchCoreV1ServiceListForAllNamespacesError = KubernetesOpError;
@@ -13945,6 +14490,8 @@ export const watchCoreV1ServiceListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCoreV1ServiceListForAllNamespaces",
 }));
 
 export type WatchLifecycleV1alpha1EvictionListForAllNamespacesError = KubernetesOpError;
@@ -13964,6 +14511,8 @@ export const watchLifecycleV1alpha1EvictionListForAllNamespaces: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchLifecycleV1alpha1EvictionListForAllNamespaces",
 }));
 
 export type WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesError = KubernetesOpError;
@@ -13983,6 +14532,8 @@ export const watchLifecycleV1alpha1EvictionRequestListForAllNamespaces: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchLifecycleV1alpha1EvictionRequestListForAllNamespaces",
 }));
 
 export type WatchLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
@@ -13998,6 +14549,8 @@ export const watchLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchLifecycleV1alpha1NamespacedEviction",
 }));
 
 export type WatchLifecycleV1alpha1NamespacedEvictionListError = KubernetesOpError;
@@ -14017,6 +14570,8 @@ export const watchLifecycleV1alpha1NamespacedEvictionList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchLifecycleV1alpha1NamespacedEvictionList",
 }));
 
 export type WatchLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
@@ -14036,6 +14591,8 @@ export const watchLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type WatchLifecycleV1alpha1NamespacedEvictionRequestListError = KubernetesOpError;
@@ -14055,6 +14612,8 @@ export const watchLifecycleV1alpha1NamespacedEvictionRequestList: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchLifecycleV1alpha1NamespacedEvictionRequestList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

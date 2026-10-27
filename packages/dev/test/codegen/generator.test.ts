@@ -135,3 +135,42 @@ describe("primitive union generation", () => {
     expect(code).not.toContain("S.Union([Mode, S.Boolean])");
   });
 });
+
+describe("models without operations", () => {
+  const typesOnly = {
+    smithy: "2.0",
+    shapes: {
+      "com.example.hooks#PingEvent": {
+        type: "structure",
+        members: { zen: { target: "smithy.api#String" } },
+      },
+    },
+  };
+
+  test("emit nothing by default", () => {
+    expect(generateService(typesOnly, spec).code).toBe("");
+  });
+
+  test("emit the shapes extraRoots names", () => {
+    const { code, operations } = generateService(typesOnly, {
+      ...spec,
+      extraRoots: () => ["com.example.hooks#PingEvent"],
+    });
+    expect(operations).toBe(0);
+    expect(code).toContain("export interface PingEvent {");
+  });
+});
+
+describe("operation type annotation overrides", () => {
+  test("replace the annotation and cast the value to it", () => {
+    const { code } = generateService(primitiveUnionModel("enum", false), {
+      ...spec,
+      operationDecl: {
+        ...spec.operationDecl!,
+        overrides: () => ({ typeAnnotation: "API.OperationMethod<A, B, C, D> & Overload" }),
+      },
+    });
+    expect(code).toContain("export const getValue: API.OperationMethod<A, B, C, D> & Overload =");
+    expect(code).toMatch(/\}\)\) as any;/);
+  });
+});

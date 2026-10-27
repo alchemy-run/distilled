@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://meetings-chime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ChimeSDKMeetings",
+  service: "ChimeSDKMeetings",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -547,6 +562,8 @@ export const batchCreateAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateAttendee",
+  telemetry: TELEMETRY,
+  span: "BatchCreateAttendee",
 }));
 
 export type BatchUpdateAttendeeCapabilitiesExceptError =
@@ -612,6 +629,8 @@ export const batchUpdateAttendeeCapabilitiesExcept: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAttendeeCapabilitiesExcept",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateAttendeeCapabilitiesExcept",
 }));
 
 export type CreateAttendeeError =
@@ -653,6 +672,8 @@ export const createAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttendee",
+  telemetry: TELEMETRY,
+  span: "CreateAttendee",
 }));
 
 export type CreateMeetingError =
@@ -702,6 +723,8 @@ export const createMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeeting",
+  telemetry: TELEMETRY,
+  span: "CreateMeeting",
 }));
 
 export type CreateMeetingWithAttendeesError =
@@ -751,6 +774,8 @@ export const createMeetingWithAttendees: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeetingWithAttendees",
+  telemetry: TELEMETRY,
+  span: "CreateMeetingWithAttendees",
 }));
 
 export type DeleteAttendeeError =
@@ -788,6 +813,8 @@ export const deleteAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttendee",
+  telemetry: TELEMETRY,
+  span: "DeleteAttendee",
 }));
 
 export type DeleteMeetingError =
@@ -825,6 +852,8 @@ export const deleteMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMeeting",
+  telemetry: TELEMETRY,
+  span: "DeleteMeeting",
 }));
 
 export type GetAttendeeError =
@@ -861,6 +890,8 @@ export const getAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttendee",
+  telemetry: TELEMETRY,
+  span: "GetAttendee",
 }));
 
 export type GetMeetingError =
@@ -897,6 +928,8 @@ export const getMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMeeting",
+  telemetry: TELEMETRY,
+  span: "GetMeeting",
 }));
 
 export type ListAttendeesError =
@@ -939,6 +972,8 @@ export const listAttendees: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttendees",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -975,6 +1010,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartMeetingTranscriptionError =
@@ -1027,6 +1064,8 @@ export const startMeetingTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMeetingTranscription",
+  telemetry: TELEMETRY,
+  span: "StartMeetingTranscription",
 }));
 
 export type StopMeetingTranscriptionError =
@@ -1072,6 +1111,8 @@ export const stopMeetingTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMeetingTranscription",
+  telemetry: TELEMETRY,
+  span: "StopMeetingTranscription",
 }));
 
 export type TagResourceError =
@@ -1110,6 +1151,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1161,6 +1204,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAttendeeCapabilitiesError =
@@ -1226,6 +1271,8 @@ export const updateAttendeeCapabilities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttendeeCapabilities",
+  telemetry: TELEMETRY,
+  span: "UpdateAttendeeCapabilities",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

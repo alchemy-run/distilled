@@ -2,8 +2,8 @@
  * JSON Patch (RFC 6902) Implementation
  *
  * The patch engine for every SDK. Patches are Smithy ops applied in
- * `convert` (`finalizeConvert`), so `.generated-specs` is the patched Smithy
- * model; generate does not patch. Operation names are convert policy
+ * `convert` (`finalizeConvert`), so the Smithy models convert hands generate
+ * are patched; generate does not patch. Operation names are convert policy
  * (`operationNames`), never a patch.
  *
  * Pure functions only -- callers load patch files themselves (the generators

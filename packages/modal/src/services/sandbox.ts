@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "SandboxService",
+  propagate: "w3c",
+} as const;
+
 export type StringList = Array<string>;
 export type GPUType =
   | "GPU_TYPE_UNSPECIFIED"
@@ -704,6 +716,8 @@ export const createSandbox: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandbox",
 }));
 
 export type GetSandboxSnapshotError = ModalOpError;
@@ -718,6 +732,8 @@ export const getSandboxSnapshot: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxSnapshot",
 }));
 
 export type GetSandboxSnapshotFsAsyncError = ModalOpError;
@@ -732,6 +748,8 @@ export const getSandboxSnapshotFsAsync: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxSnapshotFsAsync",
 }));
 
 export type GetSandboxTagError = ModalOpError;
@@ -746,6 +764,8 @@ export const getSandboxTag: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxTag",
 }));
 
 export type ListSandboxError = ModalOpError;
@@ -760,6 +780,8 @@ export const listSandbox: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandbox",
 }));
 
 export type RestoreSandboxError = ModalOpError;
@@ -774,6 +796,8 @@ export const restoreSandbox: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreSandbox",
 }));
 
 export type SandboxContainerCreateV2Error = ModalOpError;
@@ -789,6 +813,8 @@ export const sandboxContainerCreateV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxContainerCreateV2",
 }));
 
 export type SandboxCreateConnectTokenError = ModalOpError;
@@ -803,6 +829,8 @@ export const sandboxCreateConnectToken: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxCreateConnectToken",
 }));
 
 export type SandboxCreateConnectTokenV2Error = ModalOpError;
@@ -817,6 +845,8 @@ export const sandboxCreateConnectTokenV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxCreateConnectTokenV2",
 }));
 
 export type SandboxCreateV2Error = ModalOpError;
@@ -831,6 +861,8 @@ export const sandboxCreateV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxCreateV2",
 }));
 
 export type SandboxGetCommandRouterAccessError = ModalOpError;
@@ -845,6 +877,8 @@ export const sandboxGetCommandRouterAccess: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetCommandRouterAccess",
 }));
 
 export type SandboxGetExitSnapshotError = ModalOpError;
@@ -859,6 +893,8 @@ export const sandboxGetExitSnapshot: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetExitSnapshot",
 }));
 
 export type SandboxGetExitSnapshotV2Error = ModalOpError;
@@ -873,6 +909,8 @@ export const sandboxGetExitSnapshotV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetExitSnapshotV2",
 }));
 
 export type SandboxGetFromNameError = ModalOpError;
@@ -887,6 +925,8 @@ export const sandboxGetFromName: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetFromName",
 }));
 
 export type SandboxGetFromNameV2Error = ModalOpError;
@@ -901,6 +941,8 @@ export const sandboxGetFromNameV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetFromNameV2",
 }));
 
 export type SandboxGetResourceUsageError = ModalOpError;
@@ -915,6 +957,8 @@ export const sandboxGetResourceUsage: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetResourceUsage",
 }));
 
 export type SandboxGetTaskIdError = ModalOpError;
@@ -929,6 +973,8 @@ export const sandboxGetTaskId: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetTaskId",
 }));
 
 export type SandboxGetTaskIdV2Error = ModalOpError;
@@ -944,6 +990,8 @@ export const sandboxGetTaskIdV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetTaskIdV2",
 }));
 
 export type SandboxGetTunnelsError = ModalOpError;
@@ -958,6 +1006,8 @@ export const sandboxGetTunnels: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetTunnels",
 }));
 
 export type SandboxGetTunnelsV2Error = ModalOpError;
@@ -972,6 +1022,8 @@ export const sandboxGetTunnelsV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetTunnelsV2",
 }));
 
 export type SandboxListV2Error = ModalOpError;
@@ -986,6 +1038,8 @@ export const sandboxListV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxListV2",
 }));
 
 export type SandboxRestoreV2Error = ModalOpError;
@@ -1000,6 +1054,8 @@ export const sandboxRestoreV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxRestoreV2",
 }));
 
 export type SandboxSetNameError = ModalOpError;
@@ -1014,6 +1070,8 @@ export const sandboxSetName: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxSetName",
 }));
 
 export type SandboxSnapshotError = ModalOpError;
@@ -1028,6 +1086,8 @@ export const sandboxSnapshot: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxSnapshot",
 }));
 
 export type SandboxSnapshotFsError = ModalOpError;
@@ -1042,6 +1102,8 @@ export const sandboxSnapshotFs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxSnapshotFs",
 }));
 
 export type SandboxSnapshotFsAsyncError = ModalOpError;
@@ -1056,6 +1118,8 @@ export const sandboxSnapshotFsAsync: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxSnapshotFsAsync",
 }));
 
 export type SandboxStdinWriteError = ModalOpError;
@@ -1070,6 +1134,8 @@ export const sandboxStdinWrite: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxStdinWrite",
 }));
 
 export type SandboxTagsGetV2Error = ModalOpError;
@@ -1084,6 +1150,8 @@ export const sandboxTagsGetV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTagsGetV2",
 }));
 
 export type SandboxTagsSetV2Error = ModalOpError;
@@ -1098,6 +1166,8 @@ export const sandboxTagsSetV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTagsSetV2",
 }));
 
 export type SandboxTerminateV2Error = ModalOpError;
@@ -1112,6 +1182,8 @@ export const sandboxTerminateV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTerminateV2",
 }));
 
 export type SandboxWaitUntilReadyError = ModalOpError;
@@ -1126,6 +1198,8 @@ export const sandboxWaitUntilReady: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxWaitUntilReady",
 }));
 
 export type SandboxWaitV2Error = ModalOpError;
@@ -1140,6 +1214,8 @@ export const sandboxWaitV2: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxWaitV2",
 }));
 
 export type SetSandboxTagError = ModalOpError;
@@ -1154,6 +1230,8 @@ export const setSandboxTag: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSandboxTag",
 }));
 
 export type TerminateSandboxError = ModalOpError;
@@ -1168,6 +1246,8 @@ export const terminateSandbox: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateSandbox",
 }));
 
 export type WaitSandboxError = ModalOpError;
@@ -1182,6 +1262,8 @@ export const waitSandbox: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitSandbox",
 }));
 
 export type WaitSandboxSnapshotError = ModalOpError;
@@ -1196,6 +1278,8 @@ export const waitSandboxSnapshot: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitSandboxSnapshot",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

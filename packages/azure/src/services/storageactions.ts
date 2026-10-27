@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.StorageActions" },
+  prefix: "Storageactions",
+  service: "Storageactions",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateStorageTaskRequestTagsMap = { [key: string]: string | undefined };
 /** The operation to be performed on the object. */
@@ -564,6 +584,8 @@ export const CreateStorageTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageTask",
 }));
 
 export type DeleteStorageTaskError = AzureOpError;
@@ -579,6 +601,8 @@ export const DeleteStorageTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageTask",
 }));
 
 export type GetStorageTaskError = AzureOpError;
@@ -594,6 +618,8 @@ export const GetStorageTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageTask",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -609,6 +635,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListStorageTaskAssignmentError = AzureOpError;
@@ -624,6 +652,8 @@ export const ListStorageTaskAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageTaskAssignment",
 }));
 
 export type ListStorageTaskByResourceGroupError = AzureOpError;
@@ -639,6 +669,8 @@ export const ListStorageTaskByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageTaskByResourceGroup",
 }));
 
 export type ListStorageTaskBySubscriptionError = AzureOpError;
@@ -654,6 +686,8 @@ export const ListStorageTaskBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageTaskBySubscription",
 }));
 
 export type ListStorageTasksReportError = AzureOpError;
@@ -669,6 +703,8 @@ export const ListStorageTasksReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageTasksReport",
 }));
 
 export type PreviewStorageTaskActionsError = AzureOpError;
@@ -684,6 +720,8 @@ export const PreviewStorageTaskActions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewStorageTaskActions",
 }));
 
 export type StopStorageTaskAllAssignmentsError = AzureOpError;
@@ -699,6 +737,8 @@ export const StopStorageTaskAllAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopStorageTaskAllAssignments",
 }));
 
 export type UpdateStorageTaskError = AzureOpError;
@@ -714,6 +754,8 @@ export const UpdateStorageTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageTask",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

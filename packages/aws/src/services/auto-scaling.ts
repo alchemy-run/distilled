@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -79,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://autoscaling.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AutoScaling",
+  service: "AutoScaling",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ActiveInstanceRefreshNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ActiveInstanceRefreshNotFoundFault>()(
@@ -1965,6 +1981,8 @@ export const attachInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachInstances",
+  telemetry: TELEMETRY,
+  span: "AttachInstances",
 }));
 
 export type AttachLoadBalancersError =
@@ -2006,6 +2024,8 @@ export const attachLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancers",
+  telemetry: TELEMETRY,
+  span: "AttachLoadBalancers",
 }));
 
 export type AttachLoadBalancerTargetGroupsError =
@@ -2056,6 +2076,8 @@ export const attachLoadBalancerTargetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerTargetGroups",
+  telemetry: TELEMETRY,
+  span: "AttachLoadBalancerTargetGroups",
 }));
 
 export type AttachTrafficSourcesError =
@@ -2098,6 +2120,8 @@ export const attachTrafficSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachTrafficSources",
+  telemetry: TELEMETRY,
+  span: "AttachTrafficSources",
 }));
 
 export type BatchDeleteScheduledActionError = ResourceContentionFault | CommonErrors;
@@ -2116,6 +2140,8 @@ export const batchDeleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteScheduledAction",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteScheduledAction",
 }));
 
 export type BatchPutScheduledUpdateGroupActionError =
@@ -2138,6 +2164,8 @@ export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutScheduledUpdateGroupAction",
+  telemetry: TELEMETRY,
+  span: "BatchPutScheduledUpdateGroupAction",
 }));
 
 export type CancelInstanceRefreshError =
@@ -2169,6 +2197,8 @@ export const cancelInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelInstanceRefresh",
+  telemetry: TELEMETRY,
+  span: "CancelInstanceRefresh",
 }));
 
 export type CompleteLifecycleActionError = ResourceContentionFault | CommonErrors;
@@ -2216,6 +2246,8 @@ export const completeLifecycleAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLifecycleAction",
+  telemetry: TELEMETRY,
+  span: "CompleteLifecycleAction",
 }));
 
 export type CreateAutoScalingGroupError =
@@ -2262,6 +2294,8 @@ export const createAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoScalingGroup",
+  telemetry: TELEMETRY,
+  span: "CreateAutoScalingGroup",
 }));
 
 export type CreateLaunchConfigurationError =
@@ -2297,6 +2331,8 @@ export const createLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLaunchConfiguration",
 }));
 
 export type CreateOrUpdateTagsError =
@@ -2326,6 +2362,8 @@ export const createOrUpdateTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrUpdateTags",
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateTags",
 }));
 
 export type DeleteAutoScalingGroupError =
@@ -2369,6 +2407,8 @@ export const deleteAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoScalingGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteAutoScalingGroup",
 }));
 
 export type DeleteLaunchConfigurationError =
@@ -2393,6 +2433,8 @@ export const deleteLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLaunchConfiguration",
 }));
 
 export type DeleteLifecycleHookError =
@@ -2418,6 +2460,8 @@ export const deleteLifecycleHook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecycleHook",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecycleHook",
 }));
 
 export type DeleteNotificationConfigurationError = ResourceContentionFault | CommonErrors;
@@ -2436,6 +2480,8 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationConfiguration",
 }));
 
 export type DeletePolicyError = ResourceContentionFault | ServiceLinkedRoleFailure | CommonErrors;
@@ -2461,6 +2507,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteScheduledActionError =
@@ -2482,6 +2530,8 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledAction",
 }));
 
 export type DeleteTagsError = ResourceContentionFault | ResourceInUseFault | CommonErrors;
@@ -2500,6 +2550,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DeleteWarmPoolError =
@@ -2531,6 +2583,8 @@ export const deleteWarmPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWarmPool",
+  telemetry: TELEMETRY,
+  span: "DeleteWarmPool",
 }));
 
 export type DescribeAccountLimitsError = ResourceContentionFault | CommonErrors;
@@ -2554,6 +2608,8 @@ export const describeAccountLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountLimits",
 }));
 
 export type DescribeAdjustmentTypesError = ResourceContentionFault | CommonErrors;
@@ -2581,6 +2637,8 @@ export const describeAdjustmentTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAdjustmentTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeAdjustmentTypes",
 }));
 
 export type DescribeAutoScalingGroupsError =
@@ -2618,6 +2676,8 @@ export const describeAutoScalingGroups: API.PaginatedOperationMethod<
     items: "AutoScalingGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAutoScalingGroups",
 })) as any;
 
 export type DescribeAutoScalingInstancesError =
@@ -2646,6 +2706,8 @@ export const describeAutoScalingInstances: API.PaginatedOperationMethod<
     items: "AutoScalingInstances",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAutoScalingInstances",
 })) as any;
 
 export type DescribeAutoScalingNotificationTypesError = ResourceContentionFault | CommonErrors;
@@ -2664,6 +2726,8 @@ export const describeAutoScalingNotificationTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoScalingNotificationTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeAutoScalingNotificationTypes",
 }));
 
 export type DescribeInstanceRefreshesError =
@@ -2703,6 +2767,8 @@ export const describeInstanceRefreshes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceRefreshes",
 })) as any;
 
 export type DescribeLaunchConfigurationsError =
@@ -2731,6 +2797,8 @@ export const describeLaunchConfigurations: API.PaginatedOperationMethod<
     items: "LaunchConfigurations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLaunchConfigurations",
 })) as any;
 
 export type DescribeLifecycleHooksError =
@@ -2752,6 +2820,8 @@ export const describeLifecycleHooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleHooks",
+  telemetry: TELEMETRY,
+  span: "DescribeLifecycleHooks",
 }));
 
 export type DescribeLifecycleHookTypesError = ResourceContentionFault | CommonErrors;
@@ -2776,6 +2846,8 @@ export const describeLifecycleHookTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleHookTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeLifecycleHookTypes",
 }));
 
 export type DescribeLoadBalancersError = InvalidNextToken | ResourceContentionFault | CommonErrors;
@@ -2833,6 +2905,8 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancers",
 })) as any;
 
 export type DescribeLoadBalancerTargetGroupsError =
@@ -2893,6 +2967,8 @@ export const describeLoadBalancerTargetGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerTargetGroups",
 })) as any;
 
 export type DescribeMetricCollectionTypesError = ResourceContentionFault | CommonErrors;
@@ -2911,6 +2987,8 @@ export const describeMetricCollectionTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricCollectionTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeMetricCollectionTypes",
 }));
 
 export type DescribeNotificationConfigurationsError =
@@ -2940,6 +3018,8 @@ export const describeNotificationConfigurations: API.PaginatedOperationMethod<
     items: "NotificationConfigurations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationConfigurations",
 })) as any;
 
 export type DescribePoliciesError =
@@ -2969,6 +3049,8 @@ export const describePolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePolicies",
 })) as any;
 
 export type DescribeScalingActivitiesError =
@@ -3007,6 +3089,8 @@ export const describeScalingActivities: API.PaginatedOperationMethod<
     items: "Activities",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScalingActivities",
 })) as any;
 
 export type DescribeScalingProcessTypesError = ResourceContentionFault | CommonErrors;
@@ -3026,6 +3110,8 @@ export const describeScalingProcessTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingProcessTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeScalingProcessTypes",
 }));
 
 export type DescribeScheduledActionsError =
@@ -3059,6 +3145,8 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
     items: "ScheduledUpdateGroupActions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScheduledActions",
 })) as any;
 
 export type DescribeTagsError = InvalidNextToken | ResourceContentionFault | CommonErrors;
@@ -3095,6 +3183,8 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 })) as any;
 
 export type DescribeTerminationPolicyTypesError = ResourceContentionFault | CommonErrors;
@@ -3117,6 +3207,8 @@ export const describeTerminationPolicyTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTerminationPolicyTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeTerminationPolicyTypes",
 }));
 
 export type DescribeTrafficSourcesError = InvalidNextToken | ResourceContentionFault | CommonErrors;
@@ -3147,6 +3239,8 @@ export const describeTrafficSources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTrafficSources",
 })) as any;
 
 export type DescribeWarmPoolError =
@@ -3179,6 +3273,8 @@ export const describeWarmPool: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeWarmPool",
 })) as any;
 
 export type DetachInstancesError = ResourceContentionFault | CommonErrors;
@@ -3210,6 +3306,8 @@ export const detachInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachInstances",
+  telemetry: TELEMETRY,
+  span: "DetachInstances",
 }));
 
 export type DetachLoadBalancersError = ResourceContentionFault | CommonErrors;
@@ -3243,6 +3341,8 @@ export const detachLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancers",
+  telemetry: TELEMETRY,
+  span: "DetachLoadBalancers",
 }));
 
 export type DetachLoadBalancerTargetGroupsError = ResourceContentionFault | CommonErrors;
@@ -3278,6 +3378,8 @@ export const detachLoadBalancerTargetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancerTargetGroups",
+  telemetry: TELEMETRY,
+  span: "DetachLoadBalancerTargetGroups",
 }));
 
 export type DetachTrafficSourcesError = ResourceContentionFault | CommonErrors;
@@ -3302,6 +3404,8 @@ export const detachTrafficSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachTrafficSources",
+  telemetry: TELEMETRY,
+  span: "DetachTrafficSources",
 }));
 
 export type DisableMetricsCollectionError = ResourceContentionFault | CommonErrors;
@@ -3320,6 +3424,8 @@ export const disableMetricsCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableMetricsCollection",
+  telemetry: TELEMETRY,
+  span: "DisableMetricsCollection",
 }));
 
 export type EnableMetricsCollectionError = ResourceContentionFault | CommonErrors;
@@ -3344,6 +3450,8 @@ export const enableMetricsCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMetricsCollection",
+  telemetry: TELEMETRY,
+  span: "EnableMetricsCollection",
 }));
 
 export type EnterStandbyError = ResourceContentionFault | CommonErrors;
@@ -3374,6 +3482,8 @@ export const enterStandby: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnterStandby",
+  telemetry: TELEMETRY,
+  span: "EnterStandby",
 }));
 
 export type ExecutePolicyError =
@@ -3396,6 +3506,8 @@ export const executePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecutePolicy",
+  telemetry: TELEMETRY,
+  span: "ExecutePolicy",
 }));
 
 export type ExitStandbyError = ResourceContentionFault | CommonErrors;
@@ -3421,6 +3533,8 @@ export const exitStandby: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExitStandby",
+  telemetry: TELEMETRY,
+  span: "ExitStandby",
 }));
 
 export type GetPredictiveScalingForecastError = ResourceContentionFault | CommonErrors;
@@ -3450,6 +3564,8 @@ export const getPredictiveScalingForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPredictiveScalingForecast",
+  telemetry: TELEMETRY,
+  span: "GetPredictiveScalingForecast",
 }));
 
 export type LaunchInstancesError =
@@ -3477,6 +3593,8 @@ export const launchInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LaunchInstances",
+  telemetry: TELEMETRY,
+  span: "LaunchInstances",
 }));
 
 export type PutLifecycleHookError =
@@ -3537,6 +3655,8 @@ export const putLifecycleHook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleHook",
+  telemetry: TELEMETRY,
+  span: "PutLifecycleHook",
 }));
 
 export type PutNotificationConfigurationError =
@@ -3570,6 +3690,8 @@ export const putNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutNotificationConfiguration",
 }));
 
 export type PutScalingPolicyError =
@@ -3605,6 +3727,8 @@ export const putScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutScalingPolicy",
 }));
 
 export type PutScheduledUpdateGroupActionError =
@@ -3644,6 +3768,8 @@ export const putScheduledUpdateGroupAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScheduledUpdateGroupAction",
+  telemetry: TELEMETRY,
+  span: "PutScheduledUpdateGroupAction",
 }));
 
 export type PutWarmPoolError =
@@ -3678,6 +3804,8 @@ export const putWarmPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWarmPool",
+  telemetry: TELEMETRY,
+  span: "PutWarmPool",
 }));
 
 export type RecordLifecycleActionHeartbeatError = ResourceContentionFault | CommonErrors;
@@ -3725,6 +3853,8 @@ export const recordLifecycleActionHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordLifecycleActionHeartbeat",
+  telemetry: TELEMETRY,
+  span: "RecordLifecycleActionHeartbeat",
 }));
 
 export type ResumeProcessesError = ResourceContentionFault | ResourceInUseFault | CommonErrors;
@@ -3747,6 +3877,8 @@ export const resumeProcesses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeProcesses",
+  telemetry: TELEMETRY,
+  span: "ResumeProcesses",
 }));
 
 export type RollbackInstanceRefreshError =
@@ -3796,6 +3928,8 @@ export const rollbackInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackInstanceRefresh",
+  telemetry: TELEMETRY,
+  span: "RollbackInstanceRefresh",
 }));
 
 export type SetDesiredCapacityError =
@@ -3824,6 +3958,8 @@ export const setDesiredCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDesiredCapacity",
+  telemetry: TELEMETRY,
+  span: "SetDesiredCapacity",
 }));
 
 export type SetInstanceHealthError = ResourceContentionFault | CommonErrors;
@@ -3846,6 +3982,8 @@ export const setInstanceHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetInstanceHealth",
+  telemetry: TELEMETRY,
+  span: "SetInstanceHealth",
 }));
 
 export type SetInstanceProtectionError =
@@ -3875,6 +4013,8 @@ export const setInstanceProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetInstanceProtection",
+  telemetry: TELEMETRY,
+  span: "SetInstanceProtection",
 }));
 
 export type StartInstanceRefreshError =
@@ -3923,6 +4063,8 @@ export const startInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstanceRefresh",
+  telemetry: TELEMETRY,
+  span: "StartInstanceRefresh",
 }));
 
 export type SuspendProcessesError = ResourceContentionFault | ResourceInUseFault | CommonErrors;
@@ -3949,6 +4091,8 @@ export const suspendProcesses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendProcesses",
+  telemetry: TELEMETRY,
+  span: "SuspendProcesses",
 }));
 
 export type TerminateInstanceInAutoScalingGroupError =
@@ -3990,6 +4134,8 @@ export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateInstanceInAutoScalingGroup",
+  telemetry: TELEMETRY,
+  span: "TerminateInstanceInAutoScalingGroup",
 }));
 
 export type UpdateAutoScalingGroupError =
@@ -4058,6 +4204,8 @@ export const updateAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoScalingGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateAutoScalingGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -83,6 +84,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appstream2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppStream",
+  service: "AppStream",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -1931,6 +1947,8 @@ export const associateAppBlockBuilderAppBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAppBlockBuilderAppBlock",
+  telemetry: TELEMETRY,
+  span: "AssociateAppBlockBuilderAppBlock",
 }));
 
 export type AssociateApplicationFleetError =
@@ -1961,6 +1979,8 @@ export const associateApplicationFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplicationFleet",
+  telemetry: TELEMETRY,
+  span: "AssociateApplicationFleet",
 }));
 
 export type AssociateApplicationToEntitlementError =
@@ -1989,6 +2009,8 @@ export const associateApplicationToEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplicationToEntitlement",
+  telemetry: TELEMETRY,
+  span: "AssociateApplicationToEntitlement",
 }));
 
 export type AssociateFleetError =
@@ -2021,6 +2043,8 @@ export const associateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFleet",
+  telemetry: TELEMETRY,
+  span: "AssociateFleet",
 }));
 
 export type AssociateSoftwareToImageBuilderError =
@@ -2051,6 +2075,8 @@ export const associateSoftwareToImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSoftwareToImageBuilder",
+  telemetry: TELEMETRY,
+  span: "AssociateSoftwareToImageBuilder",
 }));
 
 export type BatchAssociateUserStackError =
@@ -2072,6 +2098,8 @@ export const batchAssociateUserStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateUserStack",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateUserStack",
 }));
 
 export type BatchDisassociateUserStackError =
@@ -2093,6 +2121,8 @@ export const batchDisassociateUserStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateUserStack",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateUserStack",
 }));
 
 export type CopyImageError =
@@ -2125,6 +2155,8 @@ export const copyImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyImage",
+  telemetry: TELEMETRY,
+  span: "CopyImage",
 }));
 
 export type CreateAppBlockError =
@@ -2161,6 +2193,8 @@ export const createAppBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlock",
+  telemetry: TELEMETRY,
+  span: "CreateAppBlock",
 }));
 
 export type CreateAppBlockBuilderError =
@@ -2201,6 +2235,8 @@ export const createAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlockBuilder",
+  telemetry: TELEMETRY,
+  span: "CreateAppBlockBuilder",
 }));
 
 export type CreateAppBlockBuilderStreamingURLError =
@@ -2222,6 +2258,8 @@ export const createAppBlockBuilderStreamingURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlockBuilderStreamingURL",
+  telemetry: TELEMETRY,
+  span: "CreateAppBlockBuilderStreamingURL",
 }));
 
 export type CreateApplicationError =
@@ -2260,6 +2298,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateDirectoryConfigError =
@@ -2292,6 +2332,8 @@ export const createDirectoryConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectoryConfig",
+  telemetry: TELEMETRY,
+  span: "CreateDirectoryConfig",
 }));
 
 export type CreateEntitlementError =
@@ -2325,6 +2367,8 @@ export const createEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
+  telemetry: TELEMETRY,
+  span: "CreateEntitlement",
 }));
 
 export type CreateExportImageTaskError =
@@ -2359,6 +2403,8 @@ export const createExportImageTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExportImageTask",
+  telemetry: TELEMETRY,
+  span: "CreateExportImageTask",
 }));
 
 export type CreateFleetError =
@@ -2401,6 +2447,8 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateImageBuilderError =
@@ -2445,6 +2493,8 @@ export const createImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageBuilder",
+  telemetry: TELEMETRY,
+  span: "CreateImageBuilder",
 }));
 
 export type CreateImageBuilderStreamingURLError =
@@ -2466,6 +2516,8 @@ export const createImageBuilderStreamingURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageBuilderStreamingURL",
+  telemetry: TELEMETRY,
+  span: "CreateImageBuilderStreamingURL",
 }));
 
 export type CreateImportedImageError =
@@ -2504,6 +2556,8 @@ export const createImportedImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImportedImage",
+  telemetry: TELEMETRY,
+  span: "CreateImportedImage",
 }));
 
 export type CreateStackError =
@@ -2540,6 +2594,8 @@ export const createStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStack",
+  telemetry: TELEMETRY,
+  span: "CreateStack",
 }));
 
 export type CreateStreamingURLError =
@@ -2568,6 +2624,8 @@ export const createStreamingURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingURL",
+  telemetry: TELEMETRY,
+  span: "CreateStreamingURL",
 }));
 
 export type CreateThemeForStackError =
@@ -2600,6 +2658,8 @@ export const createThemeForStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThemeForStack",
+  telemetry: TELEMETRY,
+  span: "CreateThemeForStack",
 }));
 
 export type CreateUpdatedImageError =
@@ -2637,6 +2697,8 @@ export const createUpdatedImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUpdatedImage",
+  telemetry: TELEMETRY,
+  span: "CreateUpdatedImage",
 }));
 
 export type CreateUsageReportSubscriptionError =
@@ -2659,6 +2721,8 @@ export const createUsageReportSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsageReportSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateUsageReportSubscription",
 }));
 
 export type CreateUserError =
@@ -2689,6 +2753,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteAppBlockError =
@@ -2711,6 +2777,8 @@ export const deleteAppBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppBlock",
+  telemetry: TELEMETRY,
+  span: "DeleteAppBlock",
 }));
 
 export type DeleteAppBlockBuilderError =
@@ -2742,6 +2810,8 @@ export const deleteAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppBlockBuilder",
+  telemetry: TELEMETRY,
+  span: "DeleteAppBlockBuilder",
 }));
 
 export type DeleteApplicationError =
@@ -2770,6 +2840,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteDirectoryConfigError =
@@ -2791,6 +2863,8 @@ export const deleteDirectoryConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectoryConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectoryConfig",
 }));
 
 export type DeleteEntitlementError =
@@ -2819,6 +2893,8 @@ export const deleteEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
+  telemetry: TELEMETRY,
+  span: "DeleteEntitlement",
 }));
 
 export type DeleteFleetError =
@@ -2841,6 +2917,8 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteImageError =
@@ -2870,6 +2948,8 @@ export const deleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImage",
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteImageBuilderError =
@@ -2896,6 +2976,8 @@ export const deleteImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageBuilder",
+  telemetry: TELEMETRY,
+  span: "DeleteImageBuilder",
 }));
 
 export type DeleteImagePermissionsError =
@@ -2917,6 +2999,8 @@ export const deleteImagePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImagePermissions",
+  telemetry: TELEMETRY,
+  span: "DeleteImagePermissions",
 }));
 
 export type DeleteStackError =
@@ -2945,6 +3029,8 @@ export const deleteStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStack",
+  telemetry: TELEMETRY,
+  span: "DeleteStack",
 }));
 
 export type DeleteThemeForStackError =
@@ -2971,6 +3057,8 @@ export const deleteThemeForStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThemeForStack",
+  telemetry: TELEMETRY,
+  span: "DeleteThemeForStack",
 }));
 
 export type DeleteUsageReportSubscriptionError =
@@ -2992,6 +3080,8 @@ export const deleteUsageReportSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsageReportSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteUsageReportSubscription",
 }));
 
 export type DeleteUserError = ResourceNotFoundException | CommonErrors;
@@ -3010,6 +3100,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeAppBlockBuilderAppBlockAssociationsError =
@@ -3037,6 +3129,8 @@ export const describeAppBlockBuilderAppBlockAssociations: API.PaginatedOperation
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAppBlockBuilderAppBlockAssociations",
 })) as any;
 
 export type DescribeAppBlockBuildersError =
@@ -3064,6 +3158,8 @@ export const describeAppBlockBuilders: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAppBlockBuilders",
 })) as any;
 
 export type DescribeAppBlocksError =
@@ -3085,6 +3181,8 @@ export const describeAppBlocks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppBlocks",
+  telemetry: TELEMETRY,
+  span: "DescribeAppBlocks",
 }));
 
 export type DescribeApplicationFleetAssociationsError =
@@ -3106,6 +3204,8 @@ export const describeApplicationFleetAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationFleetAssociations",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationFleetAssociations",
 }));
 
 export type DescribeApplicationsError =
@@ -3127,6 +3227,8 @@ export const describeApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplications",
+  telemetry: TELEMETRY,
+  span: "DescribeApplications",
 }));
 
 export type DescribeAppLicenseUsageError =
@@ -3153,6 +3255,8 @@ export const describeAppLicenseUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppLicenseUsage",
+  telemetry: TELEMETRY,
+  span: "DescribeAppLicenseUsage",
 }));
 
 export type DescribeDirectoryConfigsError = ResourceNotFoundException | CommonErrors;
@@ -3173,6 +3277,8 @@ export const describeDirectoryConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectoryConfigs",
+  telemetry: TELEMETRY,
+  span: "DescribeDirectoryConfigs",
 }));
 
 export type DescribeEntitlementsError =
@@ -3195,6 +3301,8 @@ export const describeEntitlements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntitlements",
+  telemetry: TELEMETRY,
+  span: "DescribeEntitlements",
 }));
 
 export type DescribeFleetsError = ResourceNotFoundException | CommonErrors;
@@ -3213,6 +3321,8 @@ export const describeFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleets",
+  telemetry: TELEMETRY,
+  span: "DescribeFleets",
 }));
 
 export type DescribeImageBuildersError = ResourceNotFoundException | CommonErrors;
@@ -3231,6 +3341,8 @@ export const describeImageBuilders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageBuilders",
+  telemetry: TELEMETRY,
+  span: "DescribeImageBuilders",
 }));
 
 export type DescribeImagePermissionsError = ResourceNotFoundException | CommonErrors;
@@ -3255,6 +3367,8 @@ export const describeImagePermissions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImagePermissions",
 })) as any;
 
 export type DescribeImagesError =
@@ -3282,6 +3396,8 @@ export const describeImages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImages",
 })) as any;
 
 export type DescribeSessionsError = InvalidParameterCombinationException | CommonErrors;
@@ -3302,6 +3418,8 @@ export const describeSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSessions",
+  telemetry: TELEMETRY,
+  span: "DescribeSessions",
 }));
 
 export type DescribeSoftwareAssociationsError =
@@ -3323,6 +3441,8 @@ export const describeSoftwareAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSoftwareAssociations",
+  telemetry: TELEMETRY,
+  span: "DescribeSoftwareAssociations",
 }));
 
 export type DescribeStacksError = ResourceNotFoundException | CommonErrors;
@@ -3341,6 +3461,8 @@ export const describeStacks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStacks",
+  telemetry: TELEMETRY,
+  span: "DescribeStacks",
 }));
 
 export type DescribeThemeForStackError =
@@ -3362,6 +3484,8 @@ export const describeThemeForStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThemeForStack",
+  telemetry: TELEMETRY,
+  span: "DescribeThemeForStack",
 }));
 
 export type DescribeUsageReportSubscriptionsError =
@@ -3383,6 +3507,8 @@ export const describeUsageReportSubscriptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUsageReportSubscriptions",
+  telemetry: TELEMETRY,
+  span: "DescribeUsageReportSubscriptions",
 }));
 
 export type DescribeUsersError =
@@ -3409,6 +3535,8 @@ export const describeUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUsers",
+  telemetry: TELEMETRY,
+  span: "DescribeUsers",
 }));
 
 export type DescribeUserStackAssociationsError =
@@ -3434,6 +3562,8 @@ export const describeUserStackAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserStackAssociations",
+  telemetry: TELEMETRY,
+  span: "DescribeUserStackAssociations",
 }));
 
 export type DisableUserError = ResourceNotFoundException | CommonErrors;
@@ -3452,6 +3582,8 @@ export const disableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableUser",
+  telemetry: TELEMETRY,
+  span: "DisableUser",
 }));
 
 export type DisassociateAppBlockBuilderAppBlockError =
@@ -3480,6 +3612,8 @@ export const disassociateAppBlockBuilderAppBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAppBlockBuilderAppBlock",
+  telemetry: TELEMETRY,
+  span: "DisassociateAppBlockBuilderAppBlock",
 }));
 
 export type DisassociateApplicationFleetError =
@@ -3506,6 +3640,8 @@ export const disassociateApplicationFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplicationFleet",
+  telemetry: TELEMETRY,
+  span: "DisassociateApplicationFleet",
 }));
 
 export type DisassociateApplicationFromEntitlementError =
@@ -3528,6 +3664,8 @@ export const disassociateApplicationFromEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplicationFromEntitlement",
+  telemetry: TELEMETRY,
+  span: "DisassociateApplicationFromEntitlement",
 }));
 
 export type DisassociateFleetError =
@@ -3556,6 +3694,8 @@ export const disassociateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFleet",
+  telemetry: TELEMETRY,
+  span: "DisassociateFleet",
 }));
 
 export type DisassociateSoftwareFromImageBuilderError =
@@ -3584,6 +3724,8 @@ export const disassociateSoftwareFromImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSoftwareFromImageBuilder",
+  telemetry: TELEMETRY,
+  span: "DisassociateSoftwareFromImageBuilder",
 }));
 
 export type DrainSessionInstanceError =
@@ -3610,6 +3752,8 @@ export const drainSessionInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DrainSessionInstance",
+  telemetry: TELEMETRY,
+  span: "DrainSessionInstance",
 }));
 
 export type EnableUserError =
@@ -3631,6 +3775,8 @@ export const enableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableUser",
+  telemetry: TELEMETRY,
+  span: "EnableUser",
 }));
 
 export type ExpireSessionError = CommonErrors;
@@ -3649,6 +3795,8 @@ export const expireSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExpireSession",
+  telemetry: TELEMETRY,
+  span: "ExpireSession",
 }));
 
 export type GetExportImageTaskError =
@@ -3670,6 +3818,8 @@ export const getExportImageTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportImageTask",
+  telemetry: TELEMETRY,
+  span: "GetExportImageTask",
 }));
 
 export type ListAssociatedFleetsError = CommonErrors;
@@ -3688,6 +3838,8 @@ export const listAssociatedFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedFleets",
+  telemetry: TELEMETRY,
+  span: "ListAssociatedFleets",
 }));
 
 export type ListAssociatedStacksError = CommonErrors;
@@ -3706,6 +3858,8 @@ export const listAssociatedStacks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedStacks",
+  telemetry: TELEMETRY,
+  span: "ListAssociatedStacks",
 }));
 
 export type ListEntitledApplicationsError =
@@ -3728,6 +3882,8 @@ export const listEntitledApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntitledApplications",
+  telemetry: TELEMETRY,
+  span: "ListEntitledApplications",
 }));
 
 export type ListExportImageTasksError = OperationNotPermittedException | CommonErrors;
@@ -3746,6 +3902,8 @@ export const listExportImageTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExportImageTasks",
+  telemetry: TELEMETRY,
+  span: "ListExportImageTasks",
 }));
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -3766,6 +3924,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartAppBlockBuilderError =
@@ -3806,6 +3966,8 @@ export const startAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAppBlockBuilder",
+  telemetry: TELEMETRY,
+  span: "StartAppBlockBuilder",
 }));
 
 export type StartFleetError =
@@ -3842,6 +4004,8 @@ export const startFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFleet",
+  telemetry: TELEMETRY,
+  span: "StartFleet",
 }));
 
 export type StartImageBuilderError =
@@ -3872,6 +4036,8 @@ export const startImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImageBuilder",
+  telemetry: TELEMETRY,
+  span: "StartImageBuilder",
 }));
 
 export type StartSoftwareDeploymentToImageBuilderError =
@@ -3898,6 +4064,8 @@ export const startSoftwareDeploymentToImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSoftwareDeploymentToImageBuilder",
+  telemetry: TELEMETRY,
+  span: "StartSoftwareDeploymentToImageBuilder",
 }));
 
 export type StopAppBlockBuilderError =
@@ -3927,6 +4095,8 @@ export const stopAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAppBlockBuilder",
+  telemetry: TELEMETRY,
+  span: "StopAppBlockBuilder",
 }));
 
 export type StopFleetError =
@@ -3948,6 +4118,8 @@ export const stopFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFleet",
+  telemetry: TELEMETRY,
+  span: "StopFleet",
 }));
 
 export type StopImageBuilderError =
@@ -3974,6 +4146,8 @@ export const stopImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopImageBuilder",
+  telemetry: TELEMETRY,
+  span: "StopImageBuilder",
 }));
 
 export type TagResourceError =
@@ -4004,6 +4178,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -4026,6 +4202,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppBlockBuilderError =
@@ -4071,6 +4249,8 @@ export const updateAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppBlockBuilder",
+  telemetry: TELEMETRY,
+  span: "UpdateAppBlockBuilder",
 }));
 
 export type UpdateApplicationError =
@@ -4097,6 +4277,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateDirectoryConfigError =
@@ -4129,6 +4311,8 @@ export const updateDirectoryConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectoryConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateDirectoryConfig",
 }));
 
 export type UpdateEntitlementError =
@@ -4157,6 +4341,8 @@ export const updateEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEntitlement",
+  telemetry: TELEMETRY,
+  span: "UpdateEntitlement",
 }));
 
 export type UpdateFleetError =
@@ -4221,6 +4407,8 @@ export const updateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 export type UpdateImagePermissionsError =
@@ -4243,6 +4431,8 @@ export const updateImagePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImagePermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateImagePermissions",
 }));
 
 export type UpdateStackError =
@@ -4281,6 +4471,8 @@ export const updateStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStack",
+  telemetry: TELEMETRY,
+  span: "UpdateStack",
 }));
 
 export type UpdateThemeForStackError =
@@ -4313,6 +4505,8 @@ export const updateThemeForStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThemeForStack",
+  telemetry: TELEMETRY,
+  span: "UpdateThemeForStack",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

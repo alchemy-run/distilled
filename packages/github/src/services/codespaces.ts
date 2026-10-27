@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Codespaces",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1599,6 +1617,8 @@ export const addRepositoryForSecretForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRepositoryForSecretForAuthenticatedUser",
 }));
 
 export type AddSelectedRepoToOrgSecretError =
@@ -1618,6 +1638,8 @@ export const addSelectedRepoToOrgSecret: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSelectedRepoToOrgSecret",
 }));
 
 export type CheckPermissionsForDevcontainerError =
@@ -1637,6 +1659,8 @@ export const checkPermissionsForDevcontainer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPermissionsForDevcontainer",
 }));
 
 export type CodespaceMachinesForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1652,6 +1676,8 @@ export const codespaceMachinesForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CodespaceMachinesForAuthenticatedUser",
 }));
 
 export type CreateForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1667,6 +1693,8 @@ export const createForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForAuthenticatedUser",
 }));
 
 export type CreateOrUpdateOrgSecretError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1682,6 +1710,8 @@ export const createOrUpdateOrgSecret: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateOrgSecret",
 }));
 
 export type CreateOrUpdateRepoSecretError = GithubOpError;
@@ -1697,6 +1727,8 @@ export const createOrUpdateRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateRepoSecret",
 }));
 
 export type CreateOrUpdateSecretForAuthenticatedUserError =
@@ -1715,6 +1747,8 @@ export const createOrUpdateSecretForAuthenticatedUser: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateSecretForAuthenticatedUser",
 }));
 
 export type CreateWithPrForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1730,6 +1764,8 @@ export const createWithPrForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWithPrForAuthenticatedUser",
 }));
 
 export type CreateWithRepoForAuthenticatedUserError =
@@ -1749,6 +1785,8 @@ export const createWithRepoForAuthenticatedUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWithRepoForAuthenticatedUser",
 }));
 
 export type DeleteForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1764,6 +1802,8 @@ export const deleteForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForAuthenticatedUser",
 }));
 
 export type DeleteFromOrganizationError = Forbidden | NotFound | GithubOpError;
@@ -1779,6 +1819,8 @@ export const deleteFromOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFromOrganization",
 }));
 
 export type DeleteOrgSecretError = NotFound | GithubOpError;
@@ -1794,6 +1836,8 @@ export const deleteOrgSecret: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgSecret",
 }));
 
 export type DeleteRepoSecretError = GithubOpError;
@@ -1809,6 +1853,8 @@ export const deleteRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoSecret",
 }));
 
 export type DeleteSecretForAuthenticatedUserError = GithubOpError;
@@ -1824,6 +1870,8 @@ export const deleteSecretForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretForAuthenticatedUser",
 }));
 
 export type ExportForAuthenticatedUserError =
@@ -1843,6 +1891,8 @@ export const exportForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportForAuthenticatedUser",
 }));
 
 export type GetCodespacesForUserInOrgError = Forbidden | NotFound | GithubOpError;
@@ -1858,6 +1908,8 @@ export const getCodespacesForUserInOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodespacesForUserInOrg",
 }));
 
 export type GetExportDetailsForAuthenticatedUserError = NotFound | GithubOpError;
@@ -1873,6 +1925,8 @@ export const getExportDetailsForAuthenticatedUser: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExportDetailsForAuthenticatedUser",
 }));
 
 export type GetForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1888,6 +1942,8 @@ export const getForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForAuthenticatedUser",
 }));
 
 export type GetOrgPublicKeyError = GithubOpError;
@@ -1903,6 +1959,8 @@ export const getOrgPublicKey: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgPublicKey",
 }));
 
 export type GetOrgSecretError = GithubOpError;
@@ -1918,6 +1976,8 @@ export const getOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgSecret",
 }));
 
 export type GetPublicKeyForAuthenticatedUserError = GithubOpError;
@@ -1933,6 +1993,8 @@ export const getPublicKeyForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicKeyForAuthenticatedUser",
 }));
 
 export type GetRepoPublicKeyError = GithubOpError;
@@ -1948,6 +2010,8 @@ export const getRepoPublicKey: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoPublicKey",
 }));
 
 export type GetRepoSecretError = GithubOpError;
@@ -1963,6 +2027,8 @@ export const getRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoSecret",
 }));
 
 export type GetSecretForAuthenticatedUserError = GithubOpError;
@@ -1978,6 +2044,8 @@ export const getSecretForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretForAuthenticatedUser",
 }));
 
 export type ListDevcontainersInRepositoryForAuthenticatedUserError =
@@ -2005,6 +2073,8 @@ export const listDevcontainersInRepositoryForAuthenticatedUser: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevcontainersInRepositoryForAuthenticatedUser",
 }));
 
 export type ListForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -2020,6 +2090,8 @@ export const listForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForAuthenticatedUser",
 }));
 
 export type ListInOrganizationError = Forbidden | NotFound | GithubOpError;
@@ -2035,6 +2107,8 @@ export const listInOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInOrganization",
 }));
 
 export type ListInRepositoryForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -2050,6 +2124,8 @@ export const listInRepositoryForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInRepositoryForAuthenticatedUser",
 }));
 
 export type ListOrgSecretsError = GithubOpError;
@@ -2065,6 +2141,8 @@ export const listOrgSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgSecrets",
 }));
 
 export type ListRepoSecretsError = GithubOpError;
@@ -2080,6 +2158,8 @@ export const listRepoSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoSecrets",
 }));
 
 export type ListRepositoriesForSecretForAuthenticatedUserError =
@@ -2106,6 +2186,8 @@ export const listRepositoriesForSecretForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoriesForSecretForAuthenticatedUser",
 }));
 
 export type ListSecretsForAuthenticatedUserError = GithubOpError;
@@ -2121,6 +2203,8 @@ export const listSecretsForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretsForAuthenticatedUser",
 }));
 
 export type ListSelectedReposForOrgSecretError = NotFound | GithubOpError;
@@ -2136,6 +2220,8 @@ export const listSelectedReposForOrgSecret: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelectedReposForOrgSecret",
 }));
 
 export type PreFlightWithRepoForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -2151,6 +2237,8 @@ export const preFlightWithRepoForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreFlightWithRepoForAuthenticatedUser",
 }));
 
 export type PublishForAuthenticatedUserError =
@@ -2170,6 +2258,8 @@ export const publishForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishForAuthenticatedUser",
 }));
 
 export type RemoveRepositoryForSecretForAuthenticatedUserError =
@@ -2196,6 +2286,8 @@ export const removeRepositoryForSecretForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRepositoryForSecretForAuthenticatedUser",
 }));
 
 export type RemoveSelectedRepoFromOrgSecretError =
@@ -2215,6 +2307,8 @@ export const removeSelectedRepoFromOrgSecret: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSelectedRepoFromOrgSecret",
 }));
 
 export type RepoMachinesForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -2230,6 +2324,8 @@ export const repoMachinesForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoMachinesForAuthenticatedUser",
 }));
 
 export type SetRepositoriesForSecretForAuthenticatedUserError =
@@ -2252,6 +2348,8 @@ export const setRepositoriesForSecretForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetRepositoriesForSecretForAuthenticatedUser",
 }));
 
 export type SetSelectedReposForOrgSecretError = NotFound | Conflict | GithubOpError;
@@ -2267,6 +2365,8 @@ export const setSelectedReposForOrgSecret: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelectedReposForOrgSecret",
 }));
 
 export type StartForAuthenticatedUserError =
@@ -2287,6 +2387,8 @@ export const startForAuthenticatedUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartForAuthenticatedUser",
 }));
 
 export type StopForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -2302,6 +2404,8 @@ export const stopForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopForAuthenticatedUser",
 }));
 
 export type StopInOrganizationError = Forbidden | NotFound | GithubOpError;
@@ -2317,6 +2421,8 @@ export const stopInOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopInOrganization",
 }));
 
 export type UpdateForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -2332,6 +2438,8 @@ export const updateForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateForAuthenticatedUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

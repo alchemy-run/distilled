@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "AppService",
+  propagate: "w3c",
+} as const;
+
 export type FileDescriptor =
   | "FILE_DESCRIPTOR_UNSPECIFIED"
   | "FILE_DESCRIPTOR_STDOUT"
@@ -639,6 +651,8 @@ export const appCountLogs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppCountLogs",
 }));
 
 export type AppDeploymentHistoryError = ModalOpError;
@@ -653,6 +667,8 @@ export const appDeploymentHistory: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppDeploymentHistory",
 }));
 
 export type AppFetchLogsError = ModalOpError;
@@ -667,6 +683,8 @@ export const appFetchLogs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppFetchLogs",
 }));
 
 export type AppGetByDeploymentNameError = ModalOpError;
@@ -681,6 +699,8 @@ export const appGetByDeploymentName: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppGetByDeploymentName",
 }));
 
 export type AppGetInfoError = ModalOpError;
@@ -695,6 +715,8 @@ export const appGetInfo: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppGetInfo",
 }));
 
 export type AppGetLayoutError = ModalOpError;
@@ -709,6 +731,8 @@ export const appGetLayout: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppGetLayout",
 }));
 
 export type AppGetLifecycleError = ModalOpError;
@@ -723,6 +747,8 @@ export const appGetLifecycle: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppGetLifecycle",
 }));
 
 export type AppGetObjectsError = ModalOpError;
@@ -737,6 +763,8 @@ export const appGetObjects: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppGetObjects",
 }));
 
 export type AppGetOrCreateError = ModalOpError;
@@ -751,6 +779,8 @@ export const appGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppGetOrCreate",
 }));
 
 export type AppGetTagsError = ModalOpError;
@@ -765,6 +795,8 @@ export const appGetTags: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppGetTags",
 }));
 
 export type AppHeartbeatError = ModalOpError;
@@ -779,6 +811,8 @@ export const appHeartbeat: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppHeartbeat",
 }));
 
 export type AppRollbackError = ModalOpError;
@@ -793,6 +827,8 @@ export const appRollback: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppRollback",
 }));
 
 export type AppRolloverError = ModalOpError;
@@ -807,6 +843,8 @@ export const appRollover: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppRollover",
 }));
 
 export type AppSetObjectsError = ModalOpError;
@@ -821,6 +859,8 @@ export const appSetObjects: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppSetObjects",
 }));
 
 export type AppSetTagsError = ModalOpError;
@@ -835,6 +875,8 @@ export const appSetTags: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppSetTags",
 }));
 
 export type CreateAppError = ModalOpError;
@@ -849,6 +891,8 @@ export const createApp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type DeployAppError = ModalOpError;
@@ -863,6 +907,8 @@ export const deployApp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployApp",
 }));
 
 export type DisconnectAppClientError = ModalOpError;
@@ -878,6 +924,8 @@ export const disconnectAppClient: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectAppClient",
 }));
 
 export type ListAppError = ModalOpError;
@@ -892,6 +940,8 @@ export const listApp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApp",
 }));
 
 export type LookupAppError = ModalOpError;
@@ -906,6 +956,8 @@ export const lookupApp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupApp",
 }));
 
 export type PromoteAppError = ModalOpError;
@@ -920,6 +972,8 @@ export const promoteApp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteApp",
 }));
 
 export type PublishAppError = ModalOpError;
@@ -934,6 +988,8 @@ export const publishApp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishApp",
 }));
 
 export type StopAppError = ModalOpError;
@@ -948,6 +1004,8 @@ export const stopApp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopApp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

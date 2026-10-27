@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "servicenetworking" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Servicenetworking",
+  service: "servicenetworking",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -663,6 +682,8 @@ export const addServicesDnsRecordSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddServicesDnsRecordSets",
 }));
 
 export type AddServicesDnsZonesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -678,6 +699,8 @@ export const addServicesDnsZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddServicesDnsZones",
 }));
 
 export type AddServicesRolesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -693,6 +716,8 @@ export const addServicesRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddServicesRoles",
 }));
 
 export type AddSubnetworkServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -708,6 +733,8 @@ export const addSubnetworkServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSubnetworkServices",
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -723,6 +750,8 @@ export const cancelOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOperations",
 }));
 
 export type CreateServicesConnectionsError =
@@ -744,6 +773,8 @@ export const createServicesConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ConnectionAlreadyExists, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServicesConnections",
 }));
 
 export type CreateServicesProjectsGlobalNetworksPeeredDnsDomainsError =
@@ -768,6 +799,8 @@ export const createServicesProjectsGlobalNetworksPeeredDnsDomains: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServicesProjectsGlobalNetworksPeeredDnsDomains",
 }));
 
 export type DeleteConnectionServicesConnectionsError =
@@ -788,6 +821,8 @@ export const deleteConnectionServicesConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnectionServicesConnections",
 }));
 
 export type DeleteOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -803,6 +838,8 @@ export const deleteOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOperations",
 }));
 
 export type DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsError =
@@ -827,6 +864,8 @@ export const deleteServicesProjectsGlobalNetworksPeeredDnsDomains: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServicesProjectsGlobalNetworksPeeredDnsDomains",
 }));
 
 export type DisableVpcServiceControlsServicesError =
@@ -847,6 +886,8 @@ export const disableVpcServiceControlsServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableVpcServiceControlsServices",
 }));
 
 export type EnableVpcServiceControlsServicesError =
@@ -867,6 +908,8 @@ export const enableVpcServiceControlsServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableVpcServiceControlsServices",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -882,6 +925,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetServicesDnsRecordSetsError = NotFound | Forbidden | GcpOpError;
@@ -897,6 +942,8 @@ export const getServicesDnsRecordSets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServicesDnsRecordSets",
 }));
 
 export type GetServicesProjectsGlobalNetworksError = NotFound | Forbidden | GcpOpError;
@@ -912,6 +959,8 @@ export const getServicesProjectsGlobalNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServicesProjectsGlobalNetworks",
 }));
 
 export type GetServicesProjectsGlobalNetworksDnsZonesError = NotFound | Forbidden | GcpOpError;
@@ -927,6 +976,8 @@ export const getServicesProjectsGlobalNetworksDnsZones: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServicesProjectsGlobalNetworksDnsZones",
 }));
 
 export type GetVpcServiceControlsServicesProjectsGlobalNetworksError =
@@ -949,6 +1000,8 @@ export const getVpcServiceControlsServicesProjectsGlobalNetworks: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVpcServiceControlsServicesProjectsGlobalNetworks",
 }));
 
 export type ListOperationsError = NotFound | Forbidden | GcpOpError;
@@ -965,6 +1018,8 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -981,6 +1036,8 @@ export const listServicesConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesConnections",
 }));
 
 export type ListServicesDnsRecordSetsError = NotFound | Forbidden | GcpOpError;
@@ -996,6 +1053,8 @@ export const listServicesDnsRecordSets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesDnsRecordSets",
 }));
 
 export type ListServicesProjectsGlobalNetworksDnsZonesError = NotFound | Forbidden | GcpOpError;
@@ -1011,6 +1070,8 @@ export const listServicesProjectsGlobalNetworksDnsZones: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesProjectsGlobalNetworksDnsZones",
 }));
 
 export type ListServicesProjectsGlobalNetworksPeeredDnsDomainsError =
@@ -1033,6 +1094,8 @@ export const listServicesProjectsGlobalNetworksPeeredDnsDomains: API.OperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesProjectsGlobalNetworksPeeredDnsDomains",
 }));
 
 export type PatchServicesConnectionsError =
@@ -1054,6 +1117,8 @@ export const patchServicesConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ConnectionAlreadyExists, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchServicesConnections",
 }));
 
 export type RemoveServicesDnsRecordSetsError =
@@ -1074,6 +1139,8 @@ export const removeServicesDnsRecordSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveServicesDnsRecordSets",
 }));
 
 export type RemoveServicesDnsZonesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1089,6 +1156,8 @@ export const removeServicesDnsZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveServicesDnsZones",
 }));
 
 export type SearchRangeServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1104,6 +1173,8 @@ export const searchRangeServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchRangeServices",
 }));
 
 export type UpdateConsumerConfigServicesProjectsGlobalNetworksError =
@@ -1128,6 +1199,8 @@ export const updateConsumerConfigServicesProjectsGlobalNetworks: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConsumerConfigServicesProjectsGlobalNetworks",
 }));
 
 export type UpdateServicesDnsRecordSetsError =
@@ -1148,6 +1221,8 @@ export const updateServicesDnsRecordSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServicesDnsRecordSets",
 }));
 
 export type ValidateServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1163,6 +1238,8 @@ export const validateServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateServices",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

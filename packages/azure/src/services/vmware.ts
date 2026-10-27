@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AVS" },
+  prefix: "Vmware",
+  service: "Vmware",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Addon type */
 export type AddonType = "SRM" | "VR" | "HCX" | "Arc";
 /** The properties of an addon */
@@ -4705,6 +4725,8 @@ export const AddonsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddonsCreateOrUpdate",
 }));
 
 export type AuthorizationsCreateOrUpdateError = AzureOpError;
@@ -4720,6 +4742,8 @@ export const AuthorizationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizationsCreateOrUpdate",
 }));
 
 export type CheckLocationQuotaAvailabilityError = AzureOpError;
@@ -4735,6 +4759,8 @@ export const CheckLocationQuotaAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckLocationQuotaAvailability",
 }));
 
 export type CheckLocationTrialAvailabilityError = AzureOpError;
@@ -4750,6 +4776,8 @@ export const CheckLocationTrialAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckLocationTrialAvailability",
 }));
 
 export type CheckServiceComponentAvailabilityError = AzureOpError;
@@ -4765,6 +4793,8 @@ export const CheckServiceComponentAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServiceComponentAvailability",
 }));
 
 export type CloudLinksCreateOrUpdateError = AzureOpError;
@@ -4780,6 +4810,8 @@ export const CloudLinksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudLinksCreateOrUpdate",
 }));
 
 export type ClustersCreateOrUpdateError = AzureOpError;
@@ -4795,6 +4827,8 @@ export const ClustersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClustersCreateOrUpdate",
 }));
 
 export type CreateWorkloadNetworkDhcpError = AzureOpError;
@@ -4810,6 +4844,8 @@ export const CreateWorkloadNetworkDhcp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadNetworkDhcp",
 }));
 
 export type CreateWorkloadNetworkDnsServiceError = AzureOpError;
@@ -4825,6 +4861,8 @@ export const CreateWorkloadNetworkDnsService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadNetworkDnsService",
 }));
 
 export type CreateWorkloadNetworkDnsZoneError = AzureOpError;
@@ -4840,6 +4878,8 @@ export const CreateWorkloadNetworkDnsZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadNetworkDnsZone",
 }));
 
 export type CreateWorkloadNetworkPortMirroringError = AzureOpError;
@@ -4855,6 +4895,8 @@ export const CreateWorkloadNetworkPortMirroring: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadNetworkPortMirroring",
 }));
 
 export type CreateWorkloadNetworkPublicIPError = AzureOpError;
@@ -4870,6 +4912,8 @@ export const CreateWorkloadNetworkPublicIP: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadNetworkPublicIP",
 }));
 
 export type CreateWorkloadNetworkSegmentsError = AzureOpError;
@@ -4885,6 +4929,8 @@ export const CreateWorkloadNetworkSegments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadNetworkSegments",
 }));
 
 export type CreateWorkloadNetworkVMGroupError = AzureOpError;
@@ -4900,6 +4946,8 @@ export const CreateWorkloadNetworkVMGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadNetworkVMGroup",
 }));
 
 export type DatastoresCreateOrUpdateError = AzureOpError;
@@ -4915,6 +4963,8 @@ export const DatastoresCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatastoresCreateOrUpdate",
 }));
 
 export type DeleteAddonError = AzureOpError;
@@ -4930,6 +4980,8 @@ export const DeleteAddon: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddon",
 }));
 
 export type DeleteAuthorizationError = AzureOpError;
@@ -4945,6 +4997,8 @@ export const DeleteAuthorization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorization",
 }));
 
 export type DeleteCloudLinkError = AzureOpError;
@@ -4960,6 +5014,8 @@ export const DeleteCloudLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudLink",
 }));
 
 export type DeleteClusterError = AzureOpError;
@@ -4975,6 +5031,8 @@ export const DeleteCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteDatastoreError = AzureOpError;
@@ -4990,6 +5048,8 @@ export const DeleteDatastore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatastore",
 }));
 
 export type DeleteGlobalReachConnectionError = AzureOpError;
@@ -5005,6 +5065,8 @@ export const DeleteGlobalReachConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalReachConnection",
 }));
 
 export type DeleteHcxEnterpriseSiteError = AzureOpError;
@@ -5020,6 +5082,8 @@ export const DeleteHcxEnterpriseSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHcxEnterpriseSite",
 }));
 
 export type DeleteIscsiPathError = AzureOpError;
@@ -5035,6 +5099,8 @@ export const DeleteIscsiPath: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIscsiPath",
 }));
 
 export type DeleteLicenseError = AzureOpError;
@@ -5050,6 +5116,8 @@ export const DeleteLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLicense",
 }));
 
 export type DeletePlacementPolicyError = AzureOpError;
@@ -5065,6 +5133,8 @@ export const DeletePlacementPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlacementPolicy",
 }));
 
 export type DeletePrivateCloudError = AzureOpError;
@@ -5080,6 +5150,8 @@ export const DeletePrivateCloud: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateCloud",
 }));
 
 export type DeletePureStoragePolicyError = AzureOpError;
@@ -5095,6 +5167,8 @@ export const DeletePureStoragePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePureStoragePolicy",
 }));
 
 export type DeleteScriptExecutionError = AzureOpError;
@@ -5110,6 +5184,8 @@ export const DeleteScriptExecution: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScriptExecution",
 }));
 
 export type DeleteWorkloadNetworkDhcpError = AzureOpError;
@@ -5125,6 +5201,8 @@ export const DeleteWorkloadNetworkDhcp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadNetworkDhcp",
 }));
 
 export type DeleteWorkloadNetworkDnsServiceError = AzureOpError;
@@ -5140,6 +5218,8 @@ export const DeleteWorkloadNetworkDnsService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadNetworkDnsService",
 }));
 
 export type DeleteWorkloadNetworkDnsZoneError = AzureOpError;
@@ -5155,6 +5235,8 @@ export const DeleteWorkloadNetworkDnsZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadNetworkDnsZone",
 }));
 
 export type DeleteWorkloadNetworkPortMirroringError = AzureOpError;
@@ -5170,6 +5252,8 @@ export const DeleteWorkloadNetworkPortMirroring: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadNetworkPortMirroring",
 }));
 
 export type DeleteWorkloadNetworkPublicIPError = AzureOpError;
@@ -5185,6 +5269,8 @@ export const DeleteWorkloadNetworkPublicIP: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadNetworkPublicIP",
 }));
 
 export type DeleteWorkloadNetworkSegmentError = AzureOpError;
@@ -5200,6 +5286,8 @@ export const DeleteWorkloadNetworkSegment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadNetworkSegment",
 }));
 
 export type DeleteWorkloadNetworkVMGroupError = AzureOpError;
@@ -5215,6 +5303,8 @@ export const DeleteWorkloadNetworkVMGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadNetworkVMGroup",
 }));
 
 export type GetAddonError = AzureOpError;
@@ -5230,6 +5320,8 @@ export const GetAddon: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddon",
 }));
 
 export type GetAuthorizationError = AzureOpError;
@@ -5245,6 +5337,8 @@ export const GetAuthorization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorization",
 }));
 
 export type GetCloudLinkError = AzureOpError;
@@ -5260,6 +5354,8 @@ export const GetCloudLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudLink",
 }));
 
 export type GetClusterError = AzureOpError;
@@ -5275,6 +5371,8 @@ export const GetCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetDatastoreError = AzureOpError;
@@ -5290,6 +5388,8 @@ export const GetDatastore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatastore",
 }));
 
 export type GetGlobalReachConnectionError = AzureOpError;
@@ -5305,6 +5405,8 @@ export const GetGlobalReachConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGlobalReachConnection",
 }));
 
 export type GetHcxEnterpriseSiteError = AzureOpError;
@@ -5320,6 +5422,8 @@ export const GetHcxEnterpriseSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHcxEnterpriseSite",
 }));
 
 export type GetHostError = AzureOpError;
@@ -5335,6 +5439,8 @@ export const GetHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHost",
 }));
 
 export type GetIscsiPathError = AzureOpError;
@@ -5350,6 +5456,8 @@ export const GetIscsiPath: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIscsiPath",
 }));
 
 export type GetLicenseError = AzureOpError;
@@ -5365,6 +5473,8 @@ export const GetLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLicense",
 }));
 
 export type GetLicensePropertiesError = AzureOpError;
@@ -5380,6 +5490,8 @@ export const GetLicenseProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLicenseProperties",
 }));
 
 export type GetMaintenanceError = AzureOpError;
@@ -5395,6 +5507,8 @@ export const GetMaintenance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaintenance",
 }));
 
 export type GetPlacementPolicyError = AzureOpError;
@@ -5410,6 +5524,8 @@ export const GetPlacementPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlacementPolicy",
 }));
 
 export type GetPrivateCloudError = AzureOpError;
@@ -5425,6 +5541,8 @@ export const GetPrivateCloud: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateCloud",
 }));
 
 export type GetPrivateCloudVcfLicenseError = AzureOpError;
@@ -5440,6 +5558,8 @@ export const GetPrivateCloudVcfLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateCloudVcfLicense",
 }));
 
 export type GetProvisionedNetworkError = AzureOpError;
@@ -5455,6 +5575,8 @@ export const GetProvisionedNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProvisionedNetwork",
 }));
 
 export type GetPureStoragePolicyError = AzureOpError;
@@ -5470,6 +5592,8 @@ export const GetPureStoragePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPureStoragePolicy",
 }));
 
 export type GetScriptCmdletError = AzureOpError;
@@ -5485,6 +5609,8 @@ export const GetScriptCmdlet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptCmdlet",
 }));
 
 export type GetScriptExecutionError = AzureOpError;
@@ -5500,6 +5626,8 @@ export const GetScriptExecution: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptExecution",
 }));
 
 export type GetScriptExecutionExecutionLogsError = AzureOpError;
@@ -5515,6 +5643,8 @@ export const GetScriptExecutionExecutionLogs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptExecutionExecutionLogs",
 }));
 
 export type GetScriptPackageError = AzureOpError;
@@ -5530,6 +5660,8 @@ export const GetScriptPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptPackage",
 }));
 
 export type GetVirtualMachineError = AzureOpError;
@@ -5545,6 +5677,8 @@ export const GetVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachine",
 }));
 
 export type GetWorkloadNetworkError = AzureOpError;
@@ -5560,6 +5694,8 @@ export const GetWorkloadNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetwork",
 }));
 
 export type GetWorkloadNetworkDhcpError = AzureOpError;
@@ -5575,6 +5711,8 @@ export const GetWorkloadNetworkDhcp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkDhcp",
 }));
 
 export type GetWorkloadNetworkDnsServiceError = AzureOpError;
@@ -5590,6 +5728,8 @@ export const GetWorkloadNetworkDnsService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkDnsService",
 }));
 
 export type GetWorkloadNetworkDnsZoneError = AzureOpError;
@@ -5605,6 +5745,8 @@ export const GetWorkloadNetworkDnsZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkDnsZone",
 }));
 
 export type GetWorkloadNetworkGatewayError = AzureOpError;
@@ -5620,6 +5762,8 @@ export const GetWorkloadNetworkGateway: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkGateway",
 }));
 
 export type GetWorkloadNetworkPortMirroringError = AzureOpError;
@@ -5635,6 +5779,8 @@ export const GetWorkloadNetworkPortMirroring: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkPortMirroring",
 }));
 
 export type GetWorkloadNetworkPublicIPError = AzureOpError;
@@ -5650,6 +5796,8 @@ export const GetWorkloadNetworkPublicIP: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkPublicIP",
 }));
 
 export type GetWorkloadNetworkSegmentError = AzureOpError;
@@ -5665,6 +5813,8 @@ export const GetWorkloadNetworkSegment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkSegment",
 }));
 
 export type GetWorkloadNetworkVirtualMachineError = AzureOpError;
@@ -5680,6 +5830,8 @@ export const GetWorkloadNetworkVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkVirtualMachine",
 }));
 
 export type GetWorkloadNetworkVMGroupError = AzureOpError;
@@ -5695,6 +5847,8 @@ export const GetWorkloadNetworkVMGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkloadNetworkVMGroup",
 }));
 
 export type GlobalReachConnectionsCreateOrUpdateError = AzureOpError;
@@ -5710,6 +5864,8 @@ export const GlobalReachConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GlobalReachConnectionsCreateOrUpdate",
 }));
 
 export type HcxEnterpriseSitesCreateOrUpdateError = AzureOpError;
@@ -5725,6 +5881,8 @@ export const HcxEnterpriseSitesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HcxEnterpriseSitesCreateOrUpdate",
 }));
 
 export type IscsiPathsCreateOrUpdateError = AzureOpError;
@@ -5740,6 +5898,8 @@ export const IscsiPathsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IscsiPathsCreateOrUpdate",
 }));
 
 export type LicensesCreateOrUpdateError = AzureOpError;
@@ -5755,6 +5915,8 @@ export const LicensesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicensesCreateOrUpdate",
 }));
 
 export type ListAddonsError = AzureOpError;
@@ -5770,6 +5932,8 @@ export const ListAddons: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAddons",
 }));
 
 export type ListAuthorizationsError = AzureOpError;
@@ -5785,6 +5949,8 @@ export const ListAuthorizations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizations",
 }));
 
 export type ListCloudLinksError = AzureOpError;
@@ -5800,6 +5966,8 @@ export const ListCloudLinks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudLinks",
 }));
 
 export type ListClustersError = AzureOpError;
@@ -5815,6 +5983,8 @@ export const ListClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 }));
 
 export type ListClusterZonesError = AzureOpError;
@@ -5830,6 +6000,8 @@ export const ListClusterZones: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterZones",
 }));
 
 export type ListDatastoresError = AzureOpError;
@@ -5845,6 +6017,8 @@ export const ListDatastores: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatastores",
 }));
 
 export type ListGlobalReachConnectionsError = AzureOpError;
@@ -5860,6 +6034,8 @@ export const ListGlobalReachConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGlobalReachConnections",
 }));
 
 export type ListHcxEnterpriseSitesError = AzureOpError;
@@ -5875,6 +6051,8 @@ export const ListHcxEnterpriseSites: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHcxEnterpriseSites",
 }));
 
 export type ListHostsError = AzureOpError;
@@ -5890,6 +6068,8 @@ export const ListHosts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHosts",
 }));
 
 export type ListIscsiPathByPrivateCloudError = AzureOpError;
@@ -5905,6 +6085,8 @@ export const ListIscsiPathByPrivateCloud: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIscsiPathByPrivateCloud",
 }));
 
 export type ListLicensesError = AzureOpError;
@@ -5920,6 +6102,8 @@ export const ListLicenses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLicenses",
 }));
 
 export type ListMaintenancesError = AzureOpError;
@@ -5935,6 +6119,8 @@ export const ListMaintenances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaintenances",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -5950,6 +6136,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPlacementPoliciesError = AzureOpError;
@@ -5965,6 +6153,8 @@ export const ListPlacementPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlacementPolicies",
 }));
 
 export type ListPrivateCloudAdminCredentialsError = AzureOpError;
@@ -5980,6 +6170,8 @@ export const ListPrivateCloudAdminCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateCloudAdminCredentials",
 }));
 
 export type ListPrivateCloudInSubscriptionError = AzureOpError;
@@ -5995,6 +6187,8 @@ export const ListPrivateCloudInSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateCloudInSubscription",
 }));
 
 export type ListPrivateCloudsError = AzureOpError;
@@ -6010,6 +6204,8 @@ export const ListPrivateClouds: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateClouds",
 }));
 
 export type ListProvisionedNetworksError = AzureOpError;
@@ -6025,6 +6221,8 @@ export const ListProvisionedNetworks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProvisionedNetworks",
 }));
 
 export type ListPureStoragePoliciesError = AzureOpError;
@@ -6040,6 +6238,8 @@ export const ListPureStoragePolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPureStoragePolicies",
 }));
 
 export type ListScriptCmdletsError = AzureOpError;
@@ -6055,6 +6255,8 @@ export const ListScriptCmdlets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScriptCmdlets",
 }));
 
 export type ListScriptExecutionsError = AzureOpError;
@@ -6070,6 +6272,8 @@ export const ListScriptExecutions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScriptExecutions",
 }));
 
 export type ListScriptPackagesError = AzureOpError;
@@ -6085,6 +6289,8 @@ export const ListScriptPackages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScriptPackages",
 }));
 
 export type ListSkusError = AzureOpError;
@@ -6100,6 +6306,8 @@ export const ListSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkus",
 }));
 
 export type ListVirtualMachinesError = AzureOpError;
@@ -6115,6 +6323,8 @@ export const ListVirtualMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachines",
 }));
 
 export type ListWorkloadNetworkDhcpError = AzureOpError;
@@ -6130,6 +6340,8 @@ export const ListWorkloadNetworkDhcp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkDhcp",
 }));
 
 export type ListWorkloadNetworkDnsServicesError = AzureOpError;
@@ -6145,6 +6357,8 @@ export const ListWorkloadNetworkDnsServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkDnsServices",
 }));
 
 export type ListWorkloadNetworkDnsZonesError = AzureOpError;
@@ -6160,6 +6374,8 @@ export const ListWorkloadNetworkDnsZones: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkDnsZones",
 }));
 
 export type ListWorkloadNetworkGatewaysError = AzureOpError;
@@ -6175,6 +6391,8 @@ export const ListWorkloadNetworkGateways: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkGateways",
 }));
 
 export type ListWorkloadNetworkPortMirroringError = AzureOpError;
@@ -6190,6 +6408,8 @@ export const ListWorkloadNetworkPortMirroring: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkPortMirroring",
 }));
 
 export type ListWorkloadNetworkPublicIPsError = AzureOpError;
@@ -6205,6 +6425,8 @@ export const ListWorkloadNetworkPublicIPs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkPublicIPs",
 }));
 
 export type ListWorkloadNetworksError = AzureOpError;
@@ -6220,6 +6442,8 @@ export const ListWorkloadNetworks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworks",
 }));
 
 export type ListWorkloadNetworkSegmentsError = AzureOpError;
@@ -6235,6 +6459,8 @@ export const ListWorkloadNetworkSegments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkSegments",
 }));
 
 export type ListWorkloadNetworkVirtualMachinesError = AzureOpError;
@@ -6250,6 +6476,8 @@ export const ListWorkloadNetworkVirtualMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkVirtualMachines",
 }));
 
 export type ListWorkloadNetworkVMGroupsError = AzureOpError;
@@ -6265,6 +6493,8 @@ export const ListWorkloadNetworkVMGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadNetworkVMGroups",
 }));
 
 export type MaintenancesInitiateChecksError = AzureOpError;
@@ -6280,6 +6510,8 @@ export const MaintenancesInitiateChecks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MaintenancesInitiateChecks",
 }));
 
 export type MaintenancesRescheduleError = AzureOpError;
@@ -6295,6 +6527,8 @@ export const MaintenancesReschedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MaintenancesReschedule",
 }));
 
 export type MaintenancesScheduleError = AzureOpError;
@@ -6310,6 +6544,8 @@ export const MaintenancesSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MaintenancesSchedule",
 }));
 
 export type PlacementPoliciesCreateOrUpdateError = AzureOpError;
@@ -6325,6 +6561,8 @@ export const PlacementPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PlacementPoliciesCreateOrUpdate",
 }));
 
 export type PrivateCloudsCreateOrUpdateError = AzureOpError;
@@ -6340,6 +6578,8 @@ export const PrivateCloudsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateCloudsCreateOrUpdate",
 }));
 
 export type PureStoragePoliciesCreateOrUpdateError = AzureOpError;
@@ -6355,6 +6595,8 @@ export const PureStoragePoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PureStoragePoliciesCreateOrUpdate",
 }));
 
 export type RotatePrivateCloudNsxtPasswordError = AzureOpError;
@@ -6370,6 +6612,8 @@ export const RotatePrivateCloudNsxtPassword: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotatePrivateCloudNsxtPassword",
 }));
 
 export type RotatePrivateCloudVcenterPasswordError = AzureOpError;
@@ -6385,6 +6629,8 @@ export const RotatePrivateCloudVcenterPassword: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotatePrivateCloudVcenterPassword",
 }));
 
 export type ScriptExecutionsCreateOrUpdateError = AzureOpError;
@@ -6400,6 +6646,8 @@ export const ScriptExecutionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScriptExecutionsCreateOrUpdate",
 }));
 
 export type UpdateClusterError = AzureOpError;
@@ -6415,6 +6663,8 @@ export const UpdateCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateHostError = AzureOpError;
@@ -6430,6 +6680,8 @@ export const UpdateHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHost",
 }));
 
 export type UpdatePlacementPolicyError = AzureOpError;
@@ -6445,6 +6697,8 @@ export const UpdatePlacementPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlacementPolicy",
 }));
 
 export type UpdatePrivateCloudError = AzureOpError;
@@ -6460,6 +6714,8 @@ export const UpdatePrivateCloud: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateCloud",
 }));
 
 export type UpdateWorkloadNetworkDhcpError = AzureOpError;
@@ -6475,6 +6731,8 @@ export const UpdateWorkloadNetworkDhcp: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadNetworkDhcp",
 }));
 
 export type UpdateWorkloadNetworkDnsServiceError = AzureOpError;
@@ -6490,6 +6748,8 @@ export const UpdateWorkloadNetworkDnsService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadNetworkDnsService",
 }));
 
 export type UpdateWorkloadNetworkDnsZoneError = AzureOpError;
@@ -6505,6 +6765,8 @@ export const UpdateWorkloadNetworkDnsZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadNetworkDnsZone",
 }));
 
 export type UpdateWorkloadNetworkPortMirroringError = AzureOpError;
@@ -6520,6 +6782,8 @@ export const UpdateWorkloadNetworkPortMirroring: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadNetworkPortMirroring",
 }));
 
 export type UpdateWorkloadNetworkSegmentsError = AzureOpError;
@@ -6535,6 +6799,8 @@ export const UpdateWorkloadNetworkSegments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadNetworkSegments",
 }));
 
 export type UpdateWorkloadNetworkVMGroupError = AzureOpError;
@@ -6550,6 +6816,8 @@ export const UpdateWorkloadNetworkVMGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadNetworkVMGroup",
 }));
 
 export type VirtualMachinesRestrictMovementError = AzureOpError;
@@ -6565,6 +6833,8 @@ export const VirtualMachinesRestrictMovement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachinesRestrictMovement",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

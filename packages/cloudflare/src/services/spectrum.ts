@@ -37,6 +37,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   virtualNetworkId: "virtual_network_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Spectrum",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -929,6 +943,8 @@ export const createApp: API.OperationMethod<
   errors: [SpectrumProtocolNotAvailable, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type DeleteAppError = SpectrumAppNotFound | Forbidden | CloudflareOpError;
@@ -944,6 +960,8 @@ export const deleteApp: API.OperationMethod<
   errors: [SpectrumAppNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type GetAnalyticAggregateCurrentError = CloudflareOpError;
@@ -959,6 +977,8 @@ export const getAnalyticAggregateCurrent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticAggregateCurrent",
 }));
 
 export type GetAnalyticEventBytimeError = CloudflareOpError;
@@ -974,6 +994,8 @@ export const getAnalyticEventBytime: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticEventBytime",
 }));
 
 export type GetAnalyticEventSummaryError = CloudflareOpError;
@@ -989,6 +1011,8 @@ export const getAnalyticEventSummary: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticEventSummary",
 }));
 
 export type GetAppError = SpectrumAppNotFound | Forbidden | CloudflareOpError;
@@ -1004,6 +1028,8 @@ export const getApp: API.OperationMethod<
   errors: [SpectrumAppNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type ListAppsError = Forbidden | CloudflareOpError;
@@ -1020,6 +1046,8 @@ export const listApps: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListApps",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1044,6 +1072,8 @@ export const listProtocols: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProtocols",
 }));
 
 export type UpdateAppError =
@@ -1069,6 +1099,8 @@ export const updateApp: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

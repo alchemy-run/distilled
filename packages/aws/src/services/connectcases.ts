@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cases.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectCases",
+  service: "ConnectCases",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1245,6 +1260,8 @@ export const batchGetCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCaseRule",
+  telemetry: TELEMETRY,
+  span: "BatchGetCaseRule",
 }));
 
 export type BatchGetFieldError =
@@ -1275,6 +1292,8 @@ export const batchGetField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetField",
+  telemetry: TELEMETRY,
+  span: "BatchGetField",
 }));
 
 export type BatchPutFieldOptionsError =
@@ -1307,6 +1326,8 @@ export const batchPutFieldOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutFieldOptions",
+  telemetry: TELEMETRY,
+  span: "BatchPutFieldOptions",
 }));
 
 export type CreateCaseError =
@@ -1349,6 +1370,8 @@ export const createCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
+  telemetry: TELEMETRY,
+  span: "CreateCase",
 }));
 
 export type CreateCaseRuleError =
@@ -1383,6 +1406,8 @@ export const createCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCaseRule",
+  telemetry: TELEMETRY,
+  span: "CreateCaseRule",
 }));
 
 export type CreateDomainError =
@@ -1417,6 +1442,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateFieldError =
@@ -1451,6 +1478,8 @@ export const createField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateField",
+  telemetry: TELEMETRY,
+  span: "CreateField",
 }));
 
 export type CreateLayoutError =
@@ -1491,6 +1520,8 @@ export const createLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLayout",
+  telemetry: TELEMETRY,
+  span: "CreateLayout",
 }));
 
 export type CreateRelatedItemError =
@@ -1553,6 +1584,8 @@ export const createRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelatedItem",
+  telemetry: TELEMETRY,
+  span: "CreateRelatedItem",
 }));
 
 export type CreateTemplateError =
@@ -1597,6 +1630,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type DeleteCaseError =
@@ -1635,6 +1670,8 @@ export const deleteCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCase",
+  telemetry: TELEMETRY,
+  span: "DeleteCase",
 }));
 
 export type DeleteCaseRuleError =
@@ -1665,6 +1702,8 @@ export const deleteCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCaseRule",
+  telemetry: TELEMETRY,
+  span: "DeleteCaseRule",
 }));
 
 export type DeleteDomainError =
@@ -1699,6 +1738,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteFieldError =
@@ -1759,6 +1800,8 @@ export const deleteField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteField",
+  telemetry: TELEMETRY,
+  span: "DeleteField",
 }));
 
 export type DeleteLayoutError =
@@ -1799,6 +1842,8 @@ export const deleteLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLayout",
+  telemetry: TELEMETRY,
+  span: "DeleteLayout",
 }));
 
 export type DeleteRelatedItemError =
@@ -1831,6 +1876,8 @@ export const deleteRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelatedItem",
+  telemetry: TELEMETRY,
+  span: "DeleteRelatedItem",
 }));
 
 export type DeleteTemplateError =
@@ -1873,6 +1920,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type GetCaseError =
@@ -1905,6 +1954,8 @@ export const getCase: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetCase",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetCase",
 })) as any;
 
 export type GetCaseAuditEventsError =
@@ -1941,6 +1992,8 @@ export const getCaseAuditEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCaseAuditEvents",
 })) as any;
 
 export type GetCaseEventConfigurationError =
@@ -1971,6 +2024,8 @@ export const getCaseEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseEventConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetCaseEventConfiguration",
 }));
 
 export type GetDomainError =
@@ -2001,6 +2056,8 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetLayoutError =
@@ -2031,6 +2088,8 @@ export const getLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayout",
+  telemetry: TELEMETRY,
+  span: "GetLayout",
 }));
 
 export type GetTemplateError =
@@ -2069,6 +2128,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type ListCaseRulesError =
@@ -2106,6 +2167,8 @@ export const listCaseRules: API.PaginatedOperationMethod<
     items: "caseRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCaseRules",
 })) as any;
 
 export type ListCasesForContactError =
@@ -2142,6 +2205,8 @@ export const listCasesForContact: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCasesForContact",
 })) as any;
 
 export type ListDomainsError =
@@ -2176,6 +2241,8 @@ export const listDomains: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListFieldOptionsError =
@@ -2212,6 +2279,8 @@ export const listFieldOptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFieldOptions",
 })) as any;
 
 export type ListFieldsError =
@@ -2248,6 +2317,8 @@ export const listFields: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFields",
 })) as any;
 
 export type ListLayoutsError =
@@ -2284,6 +2355,8 @@ export const listLayouts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLayouts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2314,6 +2387,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplatesError =
@@ -2360,6 +2435,8 @@ export const listTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 })) as any;
 
 export type PutCaseEventConfigurationError =
@@ -2392,6 +2469,8 @@ export const putCaseEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCaseEventConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutCaseEventConfiguration",
 }));
 
 export type SearchAllRelatedItemsError =
@@ -2447,6 +2526,8 @@ export const searchAllRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAllRelatedItems",
 })) as any;
 
 export type SearchCasesError =
@@ -2486,6 +2567,8 @@ export const searchCases: API.PaginatedOperationMethod<
     items: "cases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchCases",
 })) as any;
 
 export type SearchRelatedItemsError =
@@ -2525,6 +2608,8 @@ export const searchRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchRelatedItems",
 })) as any;
 
 export type TagResourceError =
@@ -2555,6 +2640,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2585,6 +2672,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCaseError =
@@ -2619,6 +2708,8 @@ export const updateCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCase",
+  telemetry: TELEMETRY,
+  span: "UpdateCase",
 }));
 
 export type UpdateCaseRuleError =
@@ -2653,6 +2744,8 @@ export const updateCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseRule",
+  telemetry: TELEMETRY,
+  span: "UpdateCaseRule",
 }));
 
 export type UpdateFieldError =
@@ -2685,6 +2778,8 @@ export const updateField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateField",
+  telemetry: TELEMETRY,
+  span: "UpdateField",
 }));
 
 export type UpdateLayoutError =
@@ -2725,6 +2820,8 @@ export const updateLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLayout",
+  telemetry: TELEMETRY,
+  span: "UpdateLayout",
 }));
 
 export type UpdateRelatedItemError =
@@ -2771,6 +2868,8 @@ export const updateRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelatedItem",
+  telemetry: TELEMETRY,
+  span: "UpdateRelatedItem",
 }));
 
 export type UpdateTemplateError =
@@ -2815,6 +2914,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ManufacturingPlatform" },
+  prefix: "Manufacturingplatform",
+  service: "Manufacturingplatform",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteManufacturingDataServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -681,6 +701,8 @@ export const DeleteManufacturingDataService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManufacturingDataService",
 }));
 
 export type GetManufacturingDataServiceError = AzureOpError;
@@ -696,6 +718,8 @@ export const GetManufacturingDataService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManufacturingDataService",
 }));
 
 export type ListManufacturingDataServiceAvailableVersionsError = AzureOpError;
@@ -711,6 +735,8 @@ export const ListManufacturingDataServiceAvailableVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManufacturingDataServiceAvailableVersions",
 }));
 
 export type ListManufacturingDataServiceByResourceGroupError = AzureOpError;
@@ -726,6 +752,8 @@ export const ListManufacturingDataServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManufacturingDataServiceByResourceGroup",
 }));
 
 export type ListManufacturingDataServiceBySubscriptionError = AzureOpError;
@@ -741,6 +769,8 @@ export const ListManufacturingDataServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManufacturingDataServiceBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -756,6 +786,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ManufacturingDataServicesCreateOrUpdateError = AzureOpError;
@@ -771,6 +803,8 @@ export const ManufacturingDataServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManufacturingDataServicesCreateOrUpdate",
 }));
 
 export type UpdateManufacturingDataServiceError = AzureOpError;
@@ -786,6 +820,8 @@ export const UpdateManufacturingDataService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManufacturingDataService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

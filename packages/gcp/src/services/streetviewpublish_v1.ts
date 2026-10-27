@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "streetviewpublish" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Streetviewpublish",
+  service: "streetviewpublish",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -497,6 +516,8 @@ export const batchDeletePhotos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeletePhotos",
 }));
 
 export type BatchGetPhotosError = NotFound | Forbidden | GcpOpError;
@@ -512,6 +533,8 @@ export const batchGetPhotos: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetPhotos",
 }));
 
 export type BatchUpdatePhotosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -527,6 +550,8 @@ export const batchUpdatePhotos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdatePhotos",
 }));
 
 export type CreatePhotoError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -542,6 +567,8 @@ export const createPhoto: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePhoto",
 }));
 
 export type CreatePhotoSequenceError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -557,6 +584,8 @@ export const createPhotoSequence: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePhotoSequence",
 }));
 
 export type DeletePhotoError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -572,6 +601,8 @@ export const deletePhoto: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePhoto",
 }));
 
 export type DeletePhotoSequenceError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -587,6 +618,8 @@ export const deletePhotoSequence: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePhotoSequence",
 }));
 
 export type GetPhotoError = NotFound | Forbidden | GcpOpError;
@@ -598,6 +631,8 @@ export const getPhoto: API.OperationMethod<GetPhotoRequest, Photo, GetPhotoError
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPhoto",
   }));
 
 export type GetPhotoSequenceError = NotFound | Forbidden | GcpOpError;
@@ -613,6 +648,8 @@ export const getPhotoSequence: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhotoSequence",
 }));
 
 export type ListPhotosError = NotFound | Forbidden | GcpOpError;
@@ -629,6 +666,8 @@ export const listPhotos: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPhotos",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -646,6 +685,8 @@ export const listPhotoSequences: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPhotoSequences",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -662,6 +703,8 @@ export const startUploadPhoto: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartUploadPhoto",
 }));
 
 export type StartUploadPhotoSequenceError =
@@ -682,6 +725,8 @@ export const startUploadPhotoSequence: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartUploadPhotoSequence",
 }));
 
 export type UpdatePhotoError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -697,6 +742,8 @@ export const updatePhoto: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePhoto",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://serverlessrepo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServerlessApplicationRepository",
+  service: "ServerlessApplicationRepository",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -501,6 +516,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationVersionError =
@@ -531,6 +548,8 @@ export const createApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationVersion",
 }));
 
 export type CreateCloudFormationChangeSetError =
@@ -559,6 +578,8 @@ export const createCloudFormationChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFormationChangeSet",
+  telemetry: TELEMETRY,
+  span: "CreateCloudFormationChangeSet",
 }));
 
 export type CreateCloudFormationTemplateError =
@@ -589,6 +610,8 @@ export const createCloudFormationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFormationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateCloudFormationTemplate",
 }));
 
 export type DeleteApplicationError =
@@ -621,6 +644,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type GetApplicationError =
@@ -651,6 +676,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationPolicyError =
@@ -681,6 +708,8 @@ export const getApplicationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationPolicy",
+  telemetry: TELEMETRY,
+  span: "GetApplicationPolicy",
 }));
 
 export type GetCloudFormationTemplateError =
@@ -711,6 +740,8 @@ export const getCloudFormationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFormationTemplate",
+  telemetry: TELEMETRY,
+  span: "GetCloudFormationTemplate",
 }));
 
 export type ListApplicationDependenciesError =
@@ -743,6 +774,8 @@ export const listApplicationDependencies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationDependencies",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationDependencies",
 })) as any;
 
 export type ListApplicationsError =
@@ -773,6 +806,8 @@ export const listApplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplications",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListApplicationVersionsError =
@@ -805,6 +840,8 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationVersions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationVersions",
 })) as any;
 
 export type PutApplicationPolicyError =
@@ -838,6 +875,8 @@ export const putApplicationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationPolicy",
+  telemetry: TELEMETRY,
+  span: "PutApplicationPolicy",
 }));
 
 export type UnshareApplicationError =
@@ -870,6 +909,8 @@ export const unshareApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnshareApplication",
+  telemetry: TELEMETRY,
+  span: "UnshareApplication",
 }));
 
 export type UpdateApplicationError =
@@ -902,6 +943,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

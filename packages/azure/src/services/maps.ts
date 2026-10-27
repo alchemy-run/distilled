@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Maps" },
+  prefix: "Maps",
+  service: "Maps",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The name of the SKU, in standard format (such as S0). */
@@ -869,6 +889,8 @@ export const AccountsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsCreateOrUpdate",
 }));
 
 export type CreatorsCreateOrUpdateError = AzureOpError;
@@ -884,6 +906,8 @@ export const CreatorsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatorsCreateOrUpdate",
 }));
 
 export type DeleteAccountError = AzureOpError;
@@ -899,6 +923,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteCreatorError = AzureOpError;
@@ -914,6 +940,8 @@ export const DeleteCreator: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCreator",
 }));
 
 export type GetAccountError = AzureOpError;
@@ -929,6 +957,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetCreatorError = AzureOpError;
@@ -944,6 +974,8 @@ export const GetCreator: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreator",
 }));
 
 export type ListAccountByResourceGroupError = AzureOpError;
@@ -959,6 +991,8 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountByResourceGroup",
 }));
 
 export type ListAccountBySubscriptionError = AzureOpError;
@@ -974,6 +1008,8 @@ export const ListAccountBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountBySubscription",
 }));
 
 export type ListAccountKeysError = AzureOpError;
@@ -989,6 +1025,8 @@ export const ListAccountKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountKeys",
 }));
 
 export type ListAccountSasError = AzureOpError;
@@ -1004,6 +1042,8 @@ export const ListAccountSas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountSas",
 }));
 
 export type ListCreatorByAccountError = AzureOpError;
@@ -1019,6 +1059,8 @@ export const ListCreatorByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreatorByAccount",
 }));
 
 export type ListMapOperationsError = AzureOpError;
@@ -1034,6 +1076,8 @@ export const ListMapOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMapOperations",
 }));
 
 export type ListMapSubscriptionOperationsError = AzureOpError;
@@ -1049,6 +1093,8 @@ export const ListMapSubscriptionOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMapSubscriptionOperations",
 }));
 
 export type RegenerateAccountKeysError = AzureOpError;
@@ -1064,6 +1110,8 @@ export const RegenerateAccountKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateAccountKeys",
 }));
 
 export type UpdateAccountError = AzureOpError;
@@ -1079,6 +1127,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateCreatorError = AzureOpError;
@@ -1094,6 +1144,8 @@ export const UpdateCreator: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCreator",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

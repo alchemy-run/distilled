@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.VirtualMachineImages" },
+  prefix: "Imagebuilder",
+  service: "Imagebuilder",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CancelVirtualMachineImageTemplateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -833,6 +853,8 @@ export const CancelVirtualMachineImageTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelVirtualMachineImageTemplate",
 }));
 
 export type DeleteTriggerError = AzureOpError;
@@ -848,6 +870,8 @@ export const DeleteTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrigger",
 }));
 
 export type DeleteVirtualMachineImageTemplateError = AzureOpError;
@@ -863,6 +887,8 @@ export const DeleteVirtualMachineImageTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualMachineImageTemplate",
 }));
 
 export type GetTriggerError = AzureOpError;
@@ -878,6 +904,8 @@ export const GetTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrigger",
 }));
 
 export type GetVirtualMachineImageTemplateError = AzureOpError;
@@ -893,6 +921,8 @@ export const GetVirtualMachineImageTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineImageTemplate",
 }));
 
 export type GetVirtualMachineImageTemplateRunOutputError = AzureOpError;
@@ -908,6 +938,8 @@ export const GetVirtualMachineImageTemplateRunOutput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineImageTemplateRunOutput",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -923,6 +955,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListTriggerByImageTemplateError = AzureOpError;
@@ -938,6 +972,8 @@ export const ListTriggerByImageTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerByImageTemplate",
 }));
 
 export type ListVirtualMachineImageTemplateByResourceGroupError = AzureOpError;
@@ -957,6 +993,8 @@ export const ListVirtualMachineImageTemplateByResourceGroup: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImageTemplateByResourceGroup",
 }));
 
 export type ListVirtualMachineImageTemplateRunOutputsError = AzureOpError;
@@ -972,6 +1010,8 @@ export const ListVirtualMachineImageTemplateRunOutputs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImageTemplateRunOutputs",
 }));
 
 export type ListVirtualMachineImageTemplatesError = AzureOpError;
@@ -987,6 +1027,8 @@ export const ListVirtualMachineImageTemplates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachineImageTemplates",
 }));
 
 export type RunVirtualMachineImageTemplateError = AzureOpError;
@@ -1002,6 +1044,8 @@ export const RunVirtualMachineImageTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunVirtualMachineImageTemplate",
 }));
 
 export type TriggersCreateOrUpdateError = AzureOpError;
@@ -1017,6 +1061,8 @@ export const TriggersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggersCreateOrUpdate",
 }));
 
 export type UpdateVirtualMachineImageTemplateError = AzureOpError;
@@ -1032,6 +1078,8 @@ export const UpdateVirtualMachineImageTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineImageTemplate",
 }));
 
 export type VirtualMachineImageTemplatesCreateOrUpdateError = AzureOpError;
@@ -1047,6 +1095,8 @@ export const VirtualMachineImageTemplatesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualMachineImageTemplatesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

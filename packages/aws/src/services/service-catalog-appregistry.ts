@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -80,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://servicecatalog-appregistry.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServiceCatalogAppRegistry",
+  service: "ServiceCatalogAppRegistry",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -487,6 +502,8 @@ export const associateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateAttributeGroup",
 }));
 
 export type AssociateResourceError =
@@ -541,6 +558,8 @@ export const associateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResource",
+  telemetry: TELEMETRY,
+  span: "AssociateResource",
 }));
 
 export type CreateApplicationError =
@@ -571,6 +590,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateAttributeGroupError =
@@ -602,6 +623,8 @@ export const createAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "CreateAttributeGroup",
 }));
 
 export type DeleteApplicationError =
@@ -624,6 +647,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteAttributeGroupError =
@@ -646,6 +671,8 @@ export const deleteAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteAttributeGroup",
 }));
 
 export type DisassociateAttributeGroupError =
@@ -668,6 +695,8 @@ export const disassociateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateAttributeGroup",
 }));
 
 export type DisassociateResourceError =
@@ -717,6 +746,8 @@ export const disassociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateResource",
 }));
 
 export type GetApplicationError =
@@ -761,6 +792,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetAssociatedResourceError =
@@ -783,6 +816,8 @@ export const getAssociatedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedResource",
+  telemetry: TELEMETRY,
+  span: "GetAssociatedResource",
 }));
 
 export type GetAttributeGroupError =
@@ -814,6 +849,8 @@ export const getAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "GetAttributeGroup",
 }));
 
 export type GetConfigurationError = InternalServerException | CommonErrors;
@@ -833,6 +870,8 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type ListApplicationsError = InternalServerException | ValidationException | CommonErrors;
@@ -858,6 +897,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListAssociatedAttributeGroupsError =
@@ -887,6 +928,8 @@ export const listAssociatedAttributeGroups: API.PaginatedOperationMethod<
     items: "attributeGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedAttributeGroups",
 })) as any;
 
 export type ListAssociatedResourcesError =
@@ -931,6 +974,8 @@ export const listAssociatedResources: API.PaginatedOperationMethod<
     items: "resources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedResources",
 })) as any;
 
 export type ListAttributeGroupsError = InternalServerException | ValidationException | CommonErrors;
@@ -956,6 +1001,8 @@ export const listAttributeGroups: API.PaginatedOperationMethod<
     items: "attributeGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttributeGroups",
 })) as any;
 
 export type ListAttributeGroupsForApplicationError =
@@ -985,6 +1032,8 @@ export const listAttributeGroupsForApplication: API.PaginatedOperationMethod<
     items: "attributeGroupsDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttributeGroupsForApplication",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1007,6 +1056,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutConfigurationError =
@@ -1030,6 +1081,8 @@ export const putConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutConfiguration",
 }));
 
 export type SyncResourceError =
@@ -1062,6 +1115,8 @@ export const syncResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SyncResource",
+  telemetry: TELEMETRY,
+  span: "SyncResource",
 }));
 
 export type TagResourceError =
@@ -1088,6 +1143,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1112,6 +1169,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -1142,6 +1201,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateAttributeGroupError =
@@ -1170,6 +1231,8 @@ export const updateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttributeGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateAttributeGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

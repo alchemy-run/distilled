@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Users",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -726,6 +744,8 @@ export const addEmailForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddEmailForAuthenticatedUser",
 }));
 
 export type AddSocialAccountForAuthenticatedUserError =
@@ -745,6 +765,8 @@ export const addSocialAccountForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSocialAccountForAuthenticatedUser",
 }));
 
 export type BlockError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -756,6 +778,8 @@ export const block: API.OperationMethod<BlockRequest, BlockResponse, BlockError,
     errors: [Forbidden, NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Block",
   }));
 
 export type CheckBlockedError = Forbidden | NotFound | GithubOpError;
@@ -771,6 +795,8 @@ export const checkBlocked: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBlocked",
 }));
 
 export type CheckFollowingForUserError = NotFound | GithubOpError;
@@ -786,6 +812,8 @@ export const checkFollowingForUser: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckFollowingForUser",
 }));
 
 export type CheckPersonIsFollowedByAuthenticatedError = Forbidden | NotFound | GithubOpError;
@@ -801,6 +829,8 @@ export const checkPersonIsFollowedByAuthenticated: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPersonIsFollowedByAuthenticated",
 }));
 
 export type CreateGpgKeyForAuthenticatedUserError =
@@ -820,6 +850,8 @@ export const createGpgKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGpgKeyForAuthenticatedUser",
 }));
 
 export type CreatePublicSshKeyForAuthenticatedUserError =
@@ -839,6 +871,8 @@ export const createPublicSshKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicSshKeyForAuthenticatedUser",
 }));
 
 export type CreateSshSigningKeyForAuthenticatedUserError =
@@ -858,6 +892,8 @@ export const createSshSigningKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSshSigningKeyForAuthenticatedUser",
 }));
 
 export type DeleteAttestationsBulkError = NotFound | GithubOpError;
@@ -873,6 +909,8 @@ export const deleteAttestationsBulk: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsBulk",
 }));
 
 export type DeleteAttestationsByIdError = Forbidden | NotFound | GithubOpError;
@@ -888,6 +926,8 @@ export const deleteAttestationsById: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsById",
 }));
 
 export type DeleteAttestationsBySubjectDigestError = NotFound | GithubOpError;
@@ -903,6 +943,8 @@ export const deleteAttestationsBySubjectDigest: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsBySubjectDigest",
 }));
 
 export type DeleteEmailForAuthenticatedUserError =
@@ -922,6 +964,8 @@ export const deleteEmailForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailForAuthenticatedUser",
 }));
 
 export type DeleteGpgKeyForAuthenticatedUserError =
@@ -941,6 +985,8 @@ export const deleteGpgKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGpgKeyForAuthenticatedUser",
 }));
 
 export type DeletePublicSshKeyForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -956,6 +1002,8 @@ export const deletePublicSshKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicSshKeyForAuthenticatedUser",
 }));
 
 export type DeleteSocialAccountForAuthenticatedUserError =
@@ -975,6 +1023,8 @@ export const deleteSocialAccountForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSocialAccountForAuthenticatedUser",
 }));
 
 export type DeleteSshSigningKeyForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -990,6 +1040,8 @@ export const deleteSshSigningKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSshSigningKeyForAuthenticatedUser",
 }));
 
 export type FollowError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1005,6 +1057,8 @@ export const follow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Follow",
 }));
 
 export type GetAuthenticatedError = Forbidden | GithubOpError;
@@ -1020,6 +1074,8 @@ export const getAuthenticated: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticated",
 }));
 
 export type GetByIdError = NotFound | GithubOpError;
@@ -1035,6 +1091,8 @@ export const getById: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetById",
 }));
 
 export type GetByUsernameError = NotFound | GithubOpError;
@@ -1050,6 +1108,8 @@ export const getByUsername: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetByUsername",
 }));
 
 export type GetContextForUserError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1065,6 +1125,8 @@ export const getContextForUser: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextForUser",
 }));
 
 export type GetGpgKeyForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1080,6 +1142,8 @@ export const getGpgKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGpgKeyForAuthenticatedUser",
 }));
 
 export type GetPublicSshKeyForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1095,6 +1159,8 @@ export const getPublicSshKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicSshKeyForAuthenticatedUser",
 }));
 
 export type GetSshSigningKeyForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1110,6 +1176,8 @@ export const getSshSigningKeyForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSshSigningKeyForAuthenticatedUser",
 }));
 
 export type ListError = GithubOpError;
@@ -1121,6 +1189,8 @@ export const list: API.OperationMethod<ListRequest, ListResponse, ListError, Git
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "List",
   }));
 
 export type ListAttestationsError = NotFound | GithubOpError;
@@ -1136,6 +1206,8 @@ export const listAttestations: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestations",
 }));
 
 export type ListAttestationsBulkError = GithubOpError;
@@ -1151,6 +1223,8 @@ export const listAttestationsBulk: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationsBulk",
 }));
 
 export type ListBlockedByAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1166,6 +1240,8 @@ export const listBlockedByAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlockedByAuthenticatedUser",
 }));
 
 export type ListEmailsForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1181,6 +1257,8 @@ export const listEmailsForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailsForAuthenticatedUser",
 }));
 
 export type ListFollowedByAuthenticatedUserError = Forbidden | GithubOpError;
@@ -1196,6 +1274,8 @@ export const listFollowedByAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFollowedByAuthenticatedUser",
 }));
 
 export type ListFollowersForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -1211,6 +1291,8 @@ export const listFollowersForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFollowersForAuthenticatedUser",
 }));
 
 export type ListFollowersForUserError = GithubOpError;
@@ -1226,6 +1308,8 @@ export const listFollowersForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFollowersForUser",
 }));
 
 export type ListFollowingForUserError = GithubOpError;
@@ -1241,6 +1325,8 @@ export const listFollowingForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFollowingForUser",
 }));
 
 export type ListGpgKeysForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1256,6 +1342,8 @@ export const listGpgKeysForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGpgKeysForAuthenticatedUser",
 }));
 
 export type ListGpgKeysForUserError = GithubOpError;
@@ -1271,6 +1359,8 @@ export const listGpgKeysForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGpgKeysForUser",
 }));
 
 export type ListPublicEmailsForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1286,6 +1376,8 @@ export const listPublicEmailsForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicEmailsForAuthenticatedUser",
 }));
 
 export type ListPublicKeysForUserError = GithubOpError;
@@ -1301,6 +1393,8 @@ export const listPublicKeysForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicKeysForUser",
 }));
 
 export type ListPublicSshKeysForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1316,6 +1410,8 @@ export const listPublicSshKeysForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicSshKeysForAuthenticatedUser",
 }));
 
 export type ListSocialAccountsForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1331,6 +1427,8 @@ export const listSocialAccountsForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSocialAccountsForAuthenticatedUser",
 }));
 
 export type ListSocialAccountsForUserError = GithubOpError;
@@ -1346,6 +1444,8 @@ export const listSocialAccountsForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSocialAccountsForUser",
 }));
 
 export type ListSshSigningKeysForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1361,6 +1461,8 @@ export const listSshSigningKeysForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSshSigningKeysForAuthenticatedUser",
 }));
 
 export type ListSshSigningKeysForUserError = GithubOpError;
@@ -1376,6 +1478,8 @@ export const listSshSigningKeysForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSshSigningKeysForUser",
 }));
 
 export type SetPrimaryEmailVisibilityForAuthenticatedUserError =
@@ -1403,6 +1507,8 @@ export const setPrimaryEmailVisibilityForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPrimaryEmailVisibilityForAuthenticatedUser",
 }));
 
 export type UnblockError = Forbidden | NotFound | GithubOpError;
@@ -1418,6 +1524,8 @@ export const unblock: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Unblock",
 }));
 
 export type UnfollowError = Forbidden | NotFound | GithubOpError;
@@ -1433,6 +1541,8 @@ export const unfollow: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Unfollow",
 }));
 
 export type UpdateAuthenticatedError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1448,6 +1558,8 @@ export const updateAuthenticated: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuthenticated",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

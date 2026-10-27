@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "CodeScanning",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1368,6 +1386,8 @@ export const commitAutofix: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitAutofix",
 }));
 
 export type CreateAutofixError =
@@ -1388,6 +1408,8 @@ export const createAutofix: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutofix",
 }));
 
 export type CreateVariantAnalysisError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1403,6 +1425,8 @@ export const createVariantAnalysis: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVariantAnalysis",
 }));
 
 export type DeleteAnalysisError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -1418,6 +1442,8 @@ export const deleteAnalysis: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnalysis",
 }));
 
 export type DeleteCodeqlDatabaseError = Forbidden | NotFound | GithubOpError;
@@ -1433,6 +1459,8 @@ export const deleteCodeqlDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCodeqlDatabase",
 }));
 
 export type GetAiScanEnablementError = Forbidden | NotFound | GithubOpError;
@@ -1448,6 +1476,8 @@ export const getAiScanEnablement: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiScanEnablement",
 }));
 
 export type GetAiScanEnablementForOrgError = Forbidden | NotFound | GithubOpError;
@@ -1463,6 +1493,8 @@ export const getAiScanEnablementForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiScanEnablementForOrg",
 }));
 
 export type GetAlertError = Forbidden | NotFound | GithubOpError;
@@ -1478,6 +1510,8 @@ export const getAlert: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlert",
 }));
 
 export type GetAnalysisError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1493,6 +1527,8 @@ export const getAnalysis: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalysis",
 }));
 
 export type GetAutofixError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -1508,6 +1544,8 @@ export const getAutofix: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutofix",
 }));
 
 export type GetCodeqlDatabaseError = Forbidden | NotFound | GithubOpError;
@@ -1523,6 +1561,8 @@ export const getCodeqlDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodeqlDatabase",
 }));
 
 export type GetDefaultSetupError = Forbidden | NotFound | GithubOpError;
@@ -1538,6 +1578,8 @@ export const getDefaultSetup: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultSetup",
 }));
 
 export type GetSarifError = Forbidden | NotFound | GithubOpError;
@@ -1553,6 +1595,8 @@ export const getSarif: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSarif",
 }));
 
 export type GetVariantAnalysisError = NotFound | GithubOpError;
@@ -1568,6 +1612,8 @@ export const getVariantAnalysis: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVariantAnalysis",
 }));
 
 export type GetVariantAnalysisRepoTaskError = NotFound | GithubOpError;
@@ -1583,6 +1629,8 @@ export const getVariantAnalysisRepoTask: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVariantAnalysisRepoTask",
 }));
 
 export type ListAlertInstancesError = Forbidden | NotFound | GithubOpError;
@@ -1598,6 +1646,8 @@ export const listAlertInstances: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertInstances",
 }));
 
 export type ListAlertsForOrgError = NotFound | GithubOpError;
@@ -1613,6 +1663,8 @@ export const listAlertsForOrg: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertsForOrg",
 }));
 
 export type ListAlertsForRepoError = Forbidden | NotFound | GithubOpError;
@@ -1628,6 +1680,8 @@ export const listAlertsForRepo: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertsForRepo",
 }));
 
 export type ListCodeqlDatabasesError = Forbidden | NotFound | GithubOpError;
@@ -1643,6 +1697,8 @@ export const listCodeqlDatabases: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCodeqlDatabases",
 }));
 
 export type ListRecentAnalysesError = Forbidden | NotFound | GithubOpError;
@@ -1658,6 +1714,8 @@ export const listRecentAnalyses: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecentAnalyses",
 }));
 
 export type UpdateAiScanEnablementError =
@@ -1677,6 +1735,8 @@ export const updateAiScanEnablement: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiScanEnablement",
 }));
 
 export type UpdateAiScanEnablementForOrgError =
@@ -1696,6 +1756,8 @@ export const updateAiScanEnablementForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiScanEnablementForOrg",
 }));
 
 export type UpdateAlertError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -1711,6 +1773,8 @@ export const updateAlert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAlert",
 }));
 
 export type UpdateDefaultSetupError =
@@ -1731,6 +1795,8 @@ export const updateDefaultSetup: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDefaultSetup",
 }));
 
 export type UploadSarifError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -1746,6 +1812,8 @@ export const uploadSarif: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadSarif",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

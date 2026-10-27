@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  prefix: "Resourcemover",
+  service: "Resourcemover",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type CommitMoveCollectionRequestMoveResourcesList = Array<string>;
 /** Defines the move resource input type. */
@@ -644,6 +664,8 @@ export const CommitMoveCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitMoveCollection",
 }));
 
 export type CreateMoveCollectionError = AzureOpError;
@@ -659,6 +681,8 @@ export const CreateMoveCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMoveCollection",
 }));
 
 export type CreateMoveResourceError = AzureOpError;
@@ -674,6 +698,8 @@ export const CreateMoveResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMoveResource",
 }));
 
 export type DeleteMoveCollectionError = AzureOpError;
@@ -689,6 +715,8 @@ export const DeleteMoveCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMoveCollection",
 }));
 
 export type DeleteMoveResourceError = AzureOpError;
@@ -704,6 +732,8 @@ export const DeleteMoveResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMoveResource",
 }));
 
 export type GetMoveCollectionError = AzureOpError;
@@ -719,6 +749,8 @@ export const GetMoveCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMoveCollection",
 }));
 
 export type GetMoveResourceError = AzureOpError;
@@ -734,6 +766,8 @@ export const GetMoveResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMoveResource",
 }));
 
 export type GetOperationsDiscoveryError = AzureOpError;
@@ -748,6 +782,8 @@ export const GetOperationsDiscovery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationsDiscovery",
 }));
 
 export type GetUnresolvedDependencyError = AzureOpError;
@@ -763,6 +799,8 @@ export const GetUnresolvedDependency: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUnresolvedDependency",
 }));
 
 export type ListMoveCollectionRequiredForError = AzureOpError;
@@ -778,6 +816,8 @@ export const ListMoveCollectionRequiredFor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMoveCollectionRequiredFor",
 }));
 
 export type ListMoveResourcesError = AzureOpError;
@@ -793,6 +833,8 @@ export const ListMoveResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMoveResources",
 }));
 
 export type MoveCollectionsBulkRemoveError = AzureOpError;
@@ -808,6 +850,8 @@ export const MoveCollectionsBulkRemove: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCollectionsBulkRemove",
 }));
 
 export type MoveCollectionsDiscardError = AzureOpError;
@@ -823,6 +867,8 @@ export const MoveCollectionsDiscard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCollectionsDiscard",
 }));
 
 export type MoveCollectionsInitiateMoveError = AzureOpError;
@@ -838,6 +884,8 @@ export const MoveCollectionsInitiateMove: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCollectionsInitiateMove",
 }));
 
 export type MoveCollectionsListMoveCollectionsByResourceGroupError = AzureOpError;
@@ -857,6 +905,8 @@ export const MoveCollectionsListMoveCollectionsByResourceGroup: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCollectionsListMoveCollectionsByResourceGroup",
 }));
 
 export type MoveCollectionsListMoveCollectionsBySubscriptionError = AzureOpError;
@@ -876,6 +926,8 @@ export const MoveCollectionsListMoveCollectionsBySubscription: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCollectionsListMoveCollectionsBySubscription",
 }));
 
 export type MoveCollectionsPrepareError = AzureOpError;
@@ -891,6 +943,8 @@ export const MoveCollectionsPrepare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCollectionsPrepare",
 }));
 
 export type MoveCollectionsResolveDependenciesError = AzureOpError;
@@ -906,6 +960,8 @@ export const MoveCollectionsResolveDependencies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCollectionsResolveDependencies",
 }));
 
 export type UpdateMoveCollectionError = AzureOpError;
@@ -921,6 +977,8 @@ export const UpdateMoveCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMoveCollection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

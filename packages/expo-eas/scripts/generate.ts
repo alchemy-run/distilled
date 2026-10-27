@@ -100,6 +100,7 @@ const makeEasSpec = (model: any): SdkSpec => ({
 
 runGeneratorCli({
   description: "Generate the Expo EAS Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   spec: makeEasSpec,
 });

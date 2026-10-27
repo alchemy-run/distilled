@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ResourceConnector" },
+  prefix: "Resourceconnector",
+  service: "Resourceconnector",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type AppliancesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Represents a supported Fabric/Infra. (AKSEdge etc...). */
@@ -470,6 +490,8 @@ export const AppliancesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppliancesCreateOrUpdate",
 }));
 
 export type DeleteApplianceError = AzureOpError;
@@ -485,6 +507,8 @@ export const DeleteAppliance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppliance",
 }));
 
 export type GetApplianceError = AzureOpError;
@@ -500,6 +524,8 @@ export const GetAppliance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppliance",
 }));
 
 export type GetApplianceTelemetryConfigError = AzureOpError;
@@ -515,6 +541,8 @@ export const GetApplianceTelemetryConfig: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplianceTelemetryConfig",
 }));
 
 export type GetApplianceUpgradeGraphError = AzureOpError;
@@ -530,6 +558,8 @@ export const GetApplianceUpgradeGraph: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplianceUpgradeGraph",
 }));
 
 export type ListApplianceByResourceGroupError = AzureOpError;
@@ -545,6 +575,8 @@ export const ListApplianceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplianceByResourceGroup",
 }));
 
 export type ListApplianceBySubscriptionError = AzureOpError;
@@ -560,6 +592,8 @@ export const ListApplianceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplianceBySubscription",
 }));
 
 export type ListApplianceClusterUserCredentialError = AzureOpError;
@@ -575,6 +609,8 @@ export const ListApplianceClusterUserCredential: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplianceClusterUserCredential",
 }));
 
 export type ListApplianceKeysError = AzureOpError;
@@ -590,6 +626,8 @@ export const ListApplianceKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplianceKeys",
 }));
 
 export type ListApplianceOperationsError = AzureOpError;
@@ -605,6 +643,8 @@ export const ListApplianceOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplianceOperations",
 }));
 
 export type UpdateApplianceError = AzureOpError;
@@ -620,6 +660,8 @@ export const UpdateAppliance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppliance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

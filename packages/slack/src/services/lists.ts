@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Lists",
+  propagate: "w3c",
+} as const;
+
 /** Initial item data. */
 export type CreateItemRequestInitialFieldsList = Array<unknown>;
 export interface CreateItemRequest {
@@ -247,6 +260,8 @@ export const createItem: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateItem",
 }));
 
 export type CreateSlackListError = SlackOpError;
@@ -262,6 +277,8 @@ export const createSlackList: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSlackList",
 }));
 
 export type DeleteAccessError = SlackOpError;
@@ -277,6 +294,8 @@ export const deleteAccess: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccess",
 }));
 
 export type DeleteItemError = SlackOpError;
@@ -292,6 +311,8 @@ export const deleteItem: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItem",
 }));
 
 export type DeleteMultipleError = SlackOpError;
@@ -307,6 +328,8 @@ export const deleteMultiple: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMultiple",
 }));
 
 export type DownloadGetError = SlackOpError;
@@ -322,6 +345,8 @@ export const downloadGet: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadGet",
 }));
 
 export type DownloadStartError = SlackOpError;
@@ -337,6 +362,8 @@ export const downloadStart: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadStart",
 }));
 
 export type ItemsInfoError = SlackOpError;
@@ -352,6 +379,8 @@ export const itemsInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ItemsInfo",
 }));
 
 export type ListItemsError = SlackOpError;
@@ -369,6 +398,8 @@ export const listItems: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListItems",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -393,6 +424,8 @@ export const setAccess: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAccess",
 }));
 
 export type UpdateItemError = SlackOpError;
@@ -408,6 +441,8 @@ export const updateItem: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItem",
 }));
 
 export type UpdateSlackListError = SlackOpError;
@@ -423,6 +458,8 @@ export const updateSlackList: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSlackList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

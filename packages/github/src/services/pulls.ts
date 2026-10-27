@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Pulls",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -762,6 +780,10 @@ export interface DismissReviewRequest {
   message: string;
   event?: DismissReviewRequestEvent | (string & {});
 }
+export type GetRequestAccept =
+  | "application/vnd.github+json"
+  | "application/vnd.github.diff"
+  | "application/vnd.github.patch";
 export interface GetRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -769,7 +791,11 @@ export interface GetRequest {
   repo: string;
   /** The number that identifies the pull request. */
   pull_number: number;
+  /** A media type that returns text instead of JSON: `application/vnd.github.diff`, `application/vnd.github.patch`. */
+  accept?: GetRequestAccept | (string & {});
 }
+export type GetResponseBody = PullRequest | string;
+export type GetResponse = GetResponseBody;
 export interface GetMergeAsyncResultRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1494,6 +1520,8 @@ export const addPullRequestStack: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPullRequestStack",
 }));
 
 export type CheckIfMergedError = NotFound | GithubOpError;
@@ -1509,6 +1537,8 @@ export const checkIfMerged: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckIfMerged",
 }));
 
 export type CreateError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1520,6 +1550,8 @@ export const create: API.OperationMethod<CreateRequest, PullRequest, CreateError
     errors: [Forbidden, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Create",
   }));
 
 export type CreatePullRequestStackError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1535,6 +1567,8 @@ export const createPullRequestStack: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePullRequestStack",
 }));
 
 export type CreateReplyForReviewCommentError = NotFound | GithubOpError;
@@ -1550,6 +1584,8 @@ export const createReplyForReviewComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReplyForReviewComment",
 }));
 
 export type CreateReviewError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1565,6 +1601,8 @@ export const createReview: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReview",
 }));
 
 export type CreateReviewCommentError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1580,6 +1618,8 @@ export const createReviewComment: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReviewComment",
 }));
 
 export type DeletePendingReviewError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1595,6 +1635,8 @@ export const deletePendingReview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePendingReview",
 }));
 
 export type DeleteReviewCommentError = NotFound | GithubOpError;
@@ -1610,6 +1652,8 @@ export const deleteReviewComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReviewComment",
 }));
 
 export type DismissReviewError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1625,18 +1669,34 @@ export const dismissReview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissReview",
 }));
 
 export type GetError = NotFound | UnprocessableEntity | GithubOpError;
 /** Get a pull request Draft pull requests are available in public repositories with GitHub Free and GitHub Free for organizations, GitHub Pro, and legacy per-repository billing plans, and in public and private repositories with GitHub Team and GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. Lists details of a pull request by providing its number. When you get, [create](https://docs.github.com/rest/pulls/pulls/#create-a-pull-request), or [edit](https://docs.github.com/rest/pulls/pulls#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)". The value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergeable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit. The value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before merging a pull request, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After merging a pull request, the `merge_commit_sha` attribute changes depending on how you merged the pull request: * If merged as a [merge commit](https://docs.github.com/articles/about-merge-methods-on-github/), `merge_commit_sha` represents the SHA of the merge commit. * If merged via a [squash](https://docs.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits), `merge_commit_sha` represents the SHA of the squashed commit on the base branch. * If [rebased](https://docs.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits), `merge_commit_sha` represents the commit that the base branch was updated to. Pass the appropriate [media type](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types) to fetch diff and patch formats. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. - **`application/vnd.github.diff`**: For more information, see "[git-diff](https://git-scm.com/docs/git-diff)" in the Git documentation. If a diff is corrupt, contact us through the [GitHub Support portal](https://support.github.com/). Include the repository name and pull request ID in your message. */
-export const get: API.OperationMethod<GetRequest, PullRequest, GetError, GithubOpContext> =
-  /*@__PURE__*/ API.make(() => ({
-    input: __S(96, __c6, 0) as any as S.Schema<GetRequest>,
-    output: __S(756, __c47, 4) as any as S.Schema<PullRequest>,
-    errors: [NotFound, UnprocessableEntity],
-    protocol: GithubProtocol,
-    retry: Retry.Retry,
-  }));
+export const get: API.OperationMethod<
+  GetRequest & { readonly accept?: "application/vnd.github+json" },
+  PullRequest,
+  GetError,
+  GithubOpContext
+> &
+  API.OperationMethod<
+    GetRequest & {
+      readonly accept: "application/vnd.github.diff" | "application/vnd.github.patch";
+    },
+    string,
+    GetError,
+    GithubOpContext
+  > = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<GetRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<GetResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Get",
+})) as any;
 
 export type GetMergeAsyncResultError = Forbidden | NotFound | GithubOpError;
 /** Get the result of an asynchronous merge Fetches the current result of an asynchronous merge request, identified by the UUID that was returned when the merge was requested. While the request's status is `pending`, the response includes the UUID, merge method, merge action, and expected head SHA of the request. Once the asynchronous request completes, its status is one of: - `merged`: The pull request was merged into the base branch. The response includes the merge commit OID. - `enqueued`: The pull request was added to a merge queue. - `failed`: The request failed. The response includes a message describing the failure. An `enqueued` result is final for the merge queue requests and does not mean the pull request has merged. This result does not change when the merge queue later merges the pull request. To get the eventual merge status, [check if a pull request has been merged](https://docs.github.com/rest/pulls/pulls#check-if-a-pull-request-has-been-merged). The result of an asynchronous merge request is retained for 24 hours after its most recent update. After this window the request expires and this endpoint returns a `404` response for its UUID. */
@@ -1651,6 +1711,8 @@ export const getMergeAsyncResult: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMergeAsyncResult",
 }));
 
 export type GetPullRequestStackError = NotFound | GithubOpError;
@@ -1666,6 +1728,8 @@ export const getPullRequestStack: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPullRequestStack",
 }));
 
 export type GetReviewError = NotFound | GithubOpError;
@@ -1681,6 +1745,8 @@ export const getReview: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReview",
 }));
 
 export type GetReviewCommentError = NotFound | GithubOpError;
@@ -1696,6 +1762,8 @@ export const getReviewComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewComment",
 }));
 
 export type ListError = UnprocessableEntity | GithubOpError;
@@ -1707,6 +1775,8 @@ export const list: API.OperationMethod<ListRequest, ListResponse, ListError, Git
     errors: [UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "List",
   }));
 
 export type ListCommentsForReviewError = NotFound | GithubOpError;
@@ -1722,6 +1792,8 @@ export const listCommentsForReview: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommentsForReview",
 }));
 
 export type ListCommitsError = GithubOpError;
@@ -1737,6 +1809,8 @@ export const listCommits: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommits",
 }));
 
 export type ListFilesError = UnprocessableEntity | GithubOpError;
@@ -1752,6 +1826,8 @@ export const listFiles: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFiles",
 }));
 
 export type ListPullRequestStacksError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1767,6 +1843,8 @@ export const listPullRequestStacks: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPullRequestStacks",
 }));
 
 export type ListRequestedReviewersError = GithubOpError;
@@ -1782,6 +1860,8 @@ export const listRequestedReviewers: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRequestedReviewers",
 }));
 
 export type ListReviewCommentsError = GithubOpError;
@@ -1797,6 +1877,8 @@ export const listReviewComments: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewComments",
 }));
 
 export type ListReviewCommentsForRepoError = GithubOpError;
@@ -1812,6 +1894,8 @@ export const listReviewCommentsForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewCommentsForRepo",
 }));
 
 export type ListReviewsError = GithubOpError;
@@ -1827,6 +1911,8 @@ export const listReviews: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviews",
 }));
 
 export type MergeError = Forbidden | NotFound | Conflict | UnprocessableEntity | GithubOpError;
@@ -1842,6 +1928,8 @@ export const merge: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Merge",
 }));
 
 export type MergeAsyncError =
@@ -1863,6 +1951,8 @@ export const mergeAsync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeAsync",
 }));
 
 export type PullRequestStacksUnstackError =
@@ -1882,6 +1972,8 @@ export const pullRequestStacksUnstack: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PullRequestStacksUnstack",
 }));
 
 export type RemoveRequestedReviewersError = UnprocessableEntity | GithubOpError;
@@ -1897,6 +1989,8 @@ export const removeRequestedReviewers: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRequestedReviewers",
 }));
 
 export type RequestReviewersError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1912,6 +2006,8 @@ export const requestReviewers: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestReviewers",
 }));
 
 export type RerequestReviewersError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1927,6 +2023,8 @@ export const rerequestReviewers: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RerequestReviewers",
 }));
 
 export type SubmitReviewError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1942,6 +2040,8 @@ export const submitReview: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitReview",
 }));
 
 export type UpdateError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1953,6 +2053,8 @@ export const update: API.OperationMethod<UpdateRequest, PullRequest, UpdateError
     errors: [Forbidden, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Update",
   }));
 
 export type UpdateBranchError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1968,6 +2070,8 @@ export const updateBranch: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranch",
 }));
 
 export type UpdateReviewError = UnprocessableEntity | GithubOpError;
@@ -1983,6 +2087,8 @@ export const updateReview: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReview",
 }));
 
 export type UpdateReviewCommentError = GithubOpError;
@@ -1998,6 +2104,8 @@ export const updateReviewComment: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReviewComment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -2160,10 +2268,15 @@ function __c6(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           pull_number: S.Number.pipe(T.Label()),
+          accept: S.optional(S.String.pipe(T.Header("Accept"))),
         }).pipe(
           T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{pull_number}", code: 200 }),
         ),
       ).annotate({ identifier: "GetRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetResponse",
+      });
   }
 }
 function __c7(j: number): any {

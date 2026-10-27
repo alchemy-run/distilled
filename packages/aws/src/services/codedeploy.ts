@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -76,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codedeploy.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeDeploy",
+  service: "CodeDeploy",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlarmsLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<AlarmsLimitExceededException>()(
@@ -1608,6 +1624,8 @@ export const addTagsToOnPremisesInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToOnPremisesInstances",
+  telemetry: TELEMETRY,
+  span: "AddTagsToOnPremisesInstances",
 }));
 
 export type BatchGetApplicationRevisionsError =
@@ -1641,6 +1659,8 @@ export const batchGetApplicationRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetApplicationRevisions",
+  telemetry: TELEMETRY,
+  span: "BatchGetApplicationRevisions",
 }));
 
 export type BatchGetApplicationsError =
@@ -1670,6 +1690,8 @@ export const batchGetApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetApplications",
+  telemetry: TELEMETRY,
+  span: "BatchGetApplications",
 }));
 
 export type BatchGetDeploymentGroupsError =
@@ -1704,6 +1726,8 @@ export const batchGetDeploymentGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDeploymentGroups",
+  telemetry: TELEMETRY,
+  span: "BatchGetDeploymentGroups",
 }));
 
 export type BatchGetDeploymentInstancesError =
@@ -1744,6 +1768,8 @@ export const batchGetDeploymentInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDeploymentInstances",
+  telemetry: TELEMETRY,
+  span: "BatchGetDeploymentInstances",
 }));
 
 export type BatchGetDeploymentsError =
@@ -1771,6 +1797,8 @@ export const batchGetDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDeployments",
+  telemetry: TELEMETRY,
+  span: "BatchGetDeployments",
 }));
 
 export type BatchGetDeploymentTargetsError =
@@ -1826,6 +1854,8 @@ export const batchGetDeploymentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDeploymentTargets",
+  telemetry: TELEMETRY,
+  span: "BatchGetDeploymentTargets",
 }));
 
 export type BatchGetOnPremisesInstancesError =
@@ -1853,6 +1883,8 @@ export const batchGetOnPremisesInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetOnPremisesInstances",
+  telemetry: TELEMETRY,
+  span: "BatchGetOnPremisesInstances",
 }));
 
 export type ContinueDeploymentError =
@@ -1893,6 +1925,8 @@ export const continueDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContinueDeployment",
+  telemetry: TELEMETRY,
+  span: "ContinueDeployment",
 }));
 
 export type CreateApplicationError =
@@ -1927,6 +1961,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateDeploymentError =
@@ -2005,6 +2041,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDeploymentConfigError =
@@ -2041,6 +2079,8 @@ export const createDeploymentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentConfig",
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentConfig",
 }));
 
 export type CreateDeploymentGroupError =
@@ -2127,6 +2167,8 @@ export const createDeploymentGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentGroup",
 }));
 
 export type DeleteApplicationError =
@@ -2149,6 +2191,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteDeploymentConfigError =
@@ -2180,6 +2224,8 @@ export const deleteDeploymentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteDeploymentConfig",
 }));
 
 export type DeleteDeploymentGroupError =
@@ -2210,6 +2256,8 @@ export const deleteDeploymentGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDeploymentGroup",
 }));
 
 export type DeleteGitHubAccountTokenError =
@@ -2240,6 +2288,8 @@ export const deleteGitHubAccountToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGitHubAccountToken",
+  telemetry: TELEMETRY,
+  span: "DeleteGitHubAccountToken",
 }));
 
 export type DeleteResourcesByExternalIdError = CommonErrors;
@@ -2264,6 +2314,8 @@ export const deleteResourcesByExternalId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcesByExternalId",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcesByExternalId",
 }));
 
 export type DeregisterOnPremisesInstanceError =
@@ -2285,6 +2337,8 @@ export const deregisterOnPremisesInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterOnPremisesInstance",
+  telemetry: TELEMETRY,
+  span: "DeregisterOnPremisesInstance",
 }));
 
 export type GetApplicationError =
@@ -2311,6 +2365,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationRevisionError =
@@ -2343,6 +2399,8 @@ export const getApplicationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationRevision",
+  telemetry: TELEMETRY,
+  span: "GetApplicationRevision",
 }));
 
 export type GetDeploymentError =
@@ -2374,6 +2432,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentConfigError =
@@ -2402,6 +2462,8 @@ export const getDeploymentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentConfig",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentConfig",
 }));
 
 export type GetDeploymentGroupError =
@@ -2436,6 +2498,8 @@ export const getDeploymentGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentGroup",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentGroup",
 }));
 
 export type GetDeploymentInstanceError =
@@ -2470,6 +2534,8 @@ export const getDeploymentInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentInstance",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentInstance",
 }));
 
 export type GetDeploymentTargetError =
@@ -2506,6 +2572,8 @@ export const getDeploymentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentTarget",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentTarget",
 }));
 
 export type GetOnPremisesInstanceError =
@@ -2532,6 +2600,8 @@ export const getOnPremisesInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnPremisesInstance",
+  telemetry: TELEMETRY,
+  span: "GetOnPremisesInstance",
 }));
 
 export type ListApplicationRevisionsError =
@@ -2574,6 +2644,8 @@ export const listApplicationRevisions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationRevisions",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "revisions" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationRevisions",
 })) as any;
 
 export type ListApplicationsError = InvalidNextTokenException | CommonErrors;
@@ -2594,6 +2666,8 @@ export const listApplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplications",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "applications" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListDeploymentConfigsError = InvalidNextTokenException | CommonErrors;
@@ -2618,6 +2692,8 @@ export const listDeploymentConfigs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "deploymentConfigsList",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentConfigs",
 })) as any;
 
 export type ListDeploymentGroupsError =
@@ -2653,6 +2729,8 @@ export const listDeploymentGroups: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "deploymentGroups",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentGroups",
 })) as any;
 
 export type ListDeploymentInstancesError =
@@ -2708,6 +2786,8 @@ export const listDeploymentInstances: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "instancesList",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentInstances",
 })) as any;
 
 export type ListDeploymentsError =
@@ -2753,6 +2833,8 @@ export const listDeployments: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDeployments",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "deployments" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListDeploymentTargetsError =
@@ -2795,6 +2877,8 @@ export const listDeploymentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeploymentTargets",
+  telemetry: TELEMETRY,
+  span: "ListDeploymentTargets",
 }));
 
 export type ListGitHubAccountTokenNamesError =
@@ -2817,6 +2901,8 @@ export const listGitHubAccountTokenNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGitHubAccountTokenNames",
+  telemetry: TELEMETRY,
+  span: "ListGitHubAccountTokenNames",
 }));
 
 export type ListOnPremisesInstancesError =
@@ -2847,6 +2933,8 @@ export const listOnPremisesInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOnPremisesInstances",
+  telemetry: TELEMETRY,
+  span: "ListOnPremisesInstances",
 }));
 
 export type ListTagsForResourceError =
@@ -2870,6 +2958,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutLifecycleEventHookExecutionStatusError =
@@ -2912,6 +3002,8 @@ export const putLifecycleEventHookExecutionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleEventHookExecutionStatus",
+  telemetry: TELEMETRY,
+  span: "PutLifecycleEventHookExecutionStatus",
 }));
 
 export type RegisterApplicationRevisionError =
@@ -2944,6 +3036,8 @@ export const registerApplicationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterApplicationRevision",
+  telemetry: TELEMETRY,
+  span: "RegisterApplicationRevision",
 }));
 
 export type RegisterOnPremisesInstanceError =
@@ -2986,6 +3080,8 @@ export const registerOnPremisesInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOnPremisesInstance",
+  telemetry: TELEMETRY,
+  span: "RegisterOnPremisesInstance",
 }));
 
 export type RemoveTagsFromOnPremisesInstancesError =
@@ -3020,6 +3116,8 @@ export const removeTagsFromOnPremisesInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromOnPremisesInstances",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromOnPremisesInstances",
 }));
 
 export type SkipWaitTimeForInstanceTerminationError =
@@ -3053,6 +3151,8 @@ export const skipWaitTimeForInstanceTermination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SkipWaitTimeForInstanceTermination",
+  telemetry: TELEMETRY,
+  span: "SkipWaitTimeForInstanceTermination",
 }));
 
 export type StopDeploymentError =
@@ -3085,6 +3185,8 @@ export const stopDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeployment",
+  telemetry: TELEMETRY,
+  span: "StopDeployment",
 }));
 
 export type TagResourceError =
@@ -3122,6 +3224,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3160,6 +3264,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -3188,6 +3294,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateDeploymentGroupError =
@@ -3270,6 +3378,8 @@ export const updateDeploymentGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeploymentGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateDeploymentGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

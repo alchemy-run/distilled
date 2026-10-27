@@ -14,6 +14,18 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Notifications",
+  propagate: "w3c",
+} as const;
+
 export type ChangeReadStatusRequestReadStatus = "all" | "unread";
 export type ChangeReadStatusRequestRepoType =
   | "dataset"
@@ -260,6 +272,8 @@ export const changeReadStatus: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeReadStatus",
 }));
 
 export type DeleteNotificationsError = HuggingFaceOpError;
@@ -275,6 +289,8 @@ export const deleteNotifications: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotifications",
 }));
 
 export type ListNotificationsError = HuggingFaceOpError;
@@ -290,6 +306,8 @@ export const listNotifications: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotifications",
 }));
 
 export type UpdateNotificationSettingsError = HuggingFaceOpError;
@@ -305,6 +323,8 @@ export const updateNotificationSettings: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationSettings",
 }));
 
 export type UpdateWatchSettingsError = HuggingFaceOpError;
@@ -320,6 +340,8 @@ export const updateWatchSettings: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWatchSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

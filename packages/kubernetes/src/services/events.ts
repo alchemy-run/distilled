@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Events",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -695,6 +708,8 @@ export const createEventsV1NamespacedEvent: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEventsV1NamespacedEvent",
 }));
 
 export type DeleteEventsV1CollectionNamespacedEventError = KubernetesOpError;
@@ -710,6 +725,8 @@ export const deleteEventsV1CollectionNamespacedEvent: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEventsV1CollectionNamespacedEvent",
 }));
 
 export type DeleteEventsV1NamespacedEventError = NotFound | Conflict | KubernetesOpError;
@@ -725,6 +742,8 @@ export const deleteEventsV1NamespacedEvent: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEventsV1NamespacedEvent",
 }));
 
 export type GetEventsAPIGroupError = KubernetesOpError;
@@ -740,6 +759,8 @@ export const getEventsAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventsAPIGroup",
 }));
 
 export type GetEventsV1APIResourcesError = KubernetesOpError;
@@ -755,6 +776,8 @@ export const getEventsV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventsV1APIResources",
 }));
 
 export type ListEventsV1EventForAllNamespacesError = KubernetesOpError;
@@ -770,6 +793,8 @@ export const listEventsV1EventForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventsV1EventForAllNamespaces",
 }));
 
 export type ListEventsV1NamespacedEventError = KubernetesOpError;
@@ -785,6 +810,8 @@ export const listEventsV1NamespacedEvent: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventsV1NamespacedEvent",
 }));
 
 export type PatchEventsV1NamespacedEventError =
@@ -804,6 +831,8 @@ export const patchEventsV1NamespacedEvent: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEventsV1NamespacedEvent",
 }));
 
 export type ReadEventsV1NamespacedEventError = NotFound | KubernetesOpError;
@@ -819,6 +848,8 @@ export const readEventsV1NamespacedEvent: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadEventsV1NamespacedEvent",
 }));
 
 export type ReplaceEventsV1NamespacedEventError =
@@ -838,6 +869,8 @@ export const replaceEventsV1NamespacedEvent: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceEventsV1NamespacedEvent",
 }));
 
 export type WatchEventsV1EventListForAllNamespacesError = KubernetesOpError;
@@ -853,6 +886,8 @@ export const watchEventsV1EventListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchEventsV1EventListForAllNamespaces",
 }));
 
 export type WatchEventsV1NamespacedEventError = KubernetesOpError;
@@ -868,6 +903,8 @@ export const watchEventsV1NamespacedEvent: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchEventsV1NamespacedEvent",
 }));
 
 export type WatchEventsV1NamespacedEventListError = KubernetesOpError;
@@ -883,6 +920,8 @@ export const watchEventsV1NamespacedEventList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchEventsV1NamespacedEventList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

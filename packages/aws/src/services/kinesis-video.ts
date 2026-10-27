@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesisvideo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KinesisVideo",
+  service: "KinesisVideo",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -669,6 +684,8 @@ export const createSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalingChannel",
+  telemetry: TELEMETRY,
+  span: "CreateSignalingChannel",
 }));
 
 export type CreateStreamError =
@@ -713,6 +730,8 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
+  telemetry: TELEMETRY,
+  span: "CreateStream",
 }));
 
 export type DeleteEdgeConfigurationError =
@@ -747,6 +766,8 @@ export const deleteEdgeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEdgeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeConfiguration",
 }));
 
 export type DeleteSignalingChannelError =
@@ -781,6 +802,8 @@ export const deleteSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalingChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteSignalingChannel",
 }));
 
 export type DeleteStreamError =
@@ -824,6 +847,8 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
+  telemetry: TELEMETRY,
+  span: "DeleteStream",
 }));
 
 export type DescribeEdgeConfigurationError =
@@ -858,6 +883,8 @@ export const describeEdgeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEdgeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeEdgeConfiguration",
 }));
 
 export type DescribeImageGenerationConfigurationError =
@@ -886,6 +913,8 @@ export const describeImageGenerationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageGenerationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeImageGenerationConfiguration",
 }));
 
 export type DescribeMappedResourceConfigurationError =
@@ -922,6 +951,8 @@ export const describeMappedResourceConfiguration: API.PaginatedOperationMethod<
     items: "MappedResourceConfigurationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMappedResourceConfiguration",
 })) as any;
 
 export type DescribeMediaStorageConfigurationError =
@@ -951,6 +982,8 @@ export const describeMediaStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMediaStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeMediaStorageConfiguration",
 }));
 
 export type DescribeNotificationConfigurationError =
@@ -979,6 +1012,8 @@ export const describeNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationConfiguration",
 }));
 
 export type DescribeSignalingChannelError =
@@ -1009,6 +1044,8 @@ export const describeSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSignalingChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeSignalingChannel",
 }));
 
 export type DescribeStreamError =
@@ -1038,6 +1075,8 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  telemetry: TELEMETRY,
+  span: "DescribeStream",
 }));
 
 export type DescribeStreamStorageConfigurationError =
@@ -1070,6 +1109,8 @@ export const describeStreamStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeStreamStorageConfiguration",
 }));
 
 export type GetDataEndpointError =
@@ -1107,6 +1148,8 @@ export const getDataEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetDataEndpoint",
 }));
 
 export type GetSignalingChannelEndpointError =
@@ -1151,6 +1194,8 @@ export const getSignalingChannelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalingChannelEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetSignalingChannelEndpoint",
 }));
 
 export type ListEdgeAgentConfigurationsError =
@@ -1182,6 +1227,8 @@ export const listEdgeAgentConfigurations: API.PaginatedOperationMethod<
     items: "EdgeConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEdgeAgentConfigurations",
 })) as any;
 
 export type ListSignalingChannelsError =
@@ -1213,6 +1260,8 @@ export const listSignalingChannels: API.PaginatedOperationMethod<
     items: "ChannelInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSignalingChannels",
 })) as any;
 
 export type ListStreamsError =
@@ -1243,6 +1292,8 @@ export const listStreams: API.PaginatedOperationMethod<
     items: "StreamInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1271,6 +1322,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTagsForStreamError =
@@ -1304,6 +1357,8 @@ export const listTagsForStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForStream",
+  telemetry: TELEMETRY,
+  span: "ListTagsForStream",
 }));
 
 export type StartEdgeConfigurationUpdateError =
@@ -1351,6 +1406,8 @@ export const startEdgeConfigurationUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEdgeConfigurationUpdate",
+  telemetry: TELEMETRY,
+  span: "StartEdgeConfigurationUpdate",
 }));
 
 export type TagResourceError =
@@ -1388,6 +1445,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TagStreamError =
@@ -1434,6 +1493,8 @@ export const tagStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagStream",
+  telemetry: TELEMETRY,
+  span: "TagStream",
 }));
 
 export type UntagResourceError =
@@ -1466,6 +1527,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UntagStreamError =
@@ -1503,6 +1566,8 @@ export const untagStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagStream",
+  telemetry: TELEMETRY,
+  span: "UntagStream",
 }));
 
 export type UpdateDataRetentionError =
@@ -1556,6 +1621,8 @@ export const updateDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataRetention",
+  telemetry: TELEMETRY,
+  span: "UpdateDataRetention",
 }));
 
 export type UpdateImageGenerationConfigurationError =
@@ -1588,6 +1655,8 @@ export const updateImageGenerationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImageGenerationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateImageGenerationConfiguration",
 }));
 
 export type UpdateMediaStorageConfigurationError =
@@ -1633,6 +1702,8 @@ export const updateMediaStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMediaStorageConfiguration",
 }));
 
 export type UpdateNotificationConfigurationError =
@@ -1665,6 +1736,8 @@ export const updateNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationConfiguration",
 }));
 
 export type UpdateSignalingChannelError =
@@ -1705,6 +1778,8 @@ export const updateSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSignalingChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateSignalingChannel",
 }));
 
 export type UpdateStreamError =
@@ -1750,6 +1825,8 @@ export const updateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStream",
+  telemetry: TELEMETRY,
+  span: "UpdateStream",
 }));
 
 export type UpdateStreamStorageConfigurationError =
@@ -1788,6 +1865,8 @@ export const updateStreamStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateStreamStorageConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

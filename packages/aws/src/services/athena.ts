@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -70,6 +71,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://athena.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Athena",
+  service: "Athena",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DataCatalogNotFound
   extends /*@__PURE__*/ S.TaggedError<DataCatalogNotFound>()(
@@ -1332,6 +1348,8 @@ export const batchGetNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetNamedQuery",
+  telemetry: TELEMETRY,
+  span: "BatchGetNamedQuery",
 }));
 
 export type BatchGetPreparedStatementError =
@@ -1357,6 +1375,8 @@ export const batchGetPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPreparedStatement",
+  telemetry: TELEMETRY,
+  span: "BatchGetPreparedStatement",
 }));
 
 export type BatchGetQueryExecutionError =
@@ -1383,6 +1403,8 @@ export const batchGetQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetQueryExecution",
+  telemetry: TELEMETRY,
+  span: "BatchGetQueryExecution",
 }));
 
 export type CancelCapacityReservationError =
@@ -1407,6 +1429,8 @@ export const cancelCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "CancelCapacityReservation",
 }));
 
 export type CreateCapacityReservationError =
@@ -1429,6 +1453,8 @@ export const createCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "CreateCapacityReservation",
 }));
 
 export type CreateDataCatalogError =
@@ -1466,6 +1492,8 @@ export const createDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataCatalog",
+  telemetry: TELEMETRY,
+  span: "CreateDataCatalog",
 }));
 
 export type CreateNamedQueryError =
@@ -1488,6 +1516,8 @@ export const createNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamedQuery",
+  telemetry: TELEMETRY,
+  span: "CreateNamedQuery",
 }));
 
 export type CreateNotebookError =
@@ -1512,6 +1542,8 @@ export const createNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebook",
+  telemetry: TELEMETRY,
+  span: "CreateNotebook",
 }));
 
 export type CreatePreparedStatementError =
@@ -1533,6 +1565,8 @@ export const createPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePreparedStatement",
+  telemetry: TELEMETRY,
+  span: "CreatePreparedStatement",
 }));
 
 export type CreatePresignedNotebookUrlError =
@@ -1559,6 +1593,8 @@ export const createPresignedNotebookUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedNotebookUrl",
+  telemetry: TELEMETRY,
+  span: "CreatePresignedNotebookUrl",
 }));
 
 export type CreateWorkGroupError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -1578,6 +1614,8 @@ export const createWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkGroup",
+  telemetry: TELEMETRY,
+  span: "CreateWorkGroup",
 }));
 
 export type DeleteCapacityReservationError =
@@ -1603,6 +1641,8 @@ export const deleteCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "DeleteCapacityReservation",
 }));
 
 export type DeleteDataCatalogError =
@@ -1625,6 +1665,8 @@ export const deleteDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataCatalog",
+  telemetry: TELEMETRY,
+  span: "DeleteDataCatalog",
 }));
 
 export type DeleteNamedQueryError =
@@ -1648,6 +1690,8 @@ export const deleteNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamedQuery",
+  telemetry: TELEMETRY,
+  span: "DeleteNamedQuery",
 }));
 
 export type DeleteNotebookError =
@@ -1670,6 +1714,8 @@ export const deleteNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebook",
+  telemetry: TELEMETRY,
+  span: "DeleteNotebook",
 }));
 
 export type DeletePreparedStatementError =
@@ -1699,6 +1745,8 @@ export const deletePreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePreparedStatement",
+  telemetry: TELEMETRY,
+  span: "DeletePreparedStatement",
 }));
 
 export type DeleteWorkGroupError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -1718,6 +1766,8 @@ export const deleteWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkGroup",
 }));
 
 export type ExportNotebookError =
@@ -1740,6 +1790,8 @@ export const exportNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportNotebook",
+  telemetry: TELEMETRY,
+  span: "ExportNotebook",
 }));
 
 export type GetCalculationExecutionError =
@@ -1762,6 +1814,8 @@ export const getCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecution",
+  telemetry: TELEMETRY,
+  span: "GetCalculationExecution",
 }));
 
 export type GetCalculationExecutionCodeError =
@@ -1784,6 +1838,8 @@ export const getCalculationExecutionCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecutionCode",
+  telemetry: TELEMETRY,
+  span: "GetCalculationExecutionCode",
 }));
 
 export type GetCalculationExecutionStatusError =
@@ -1806,6 +1862,8 @@ export const getCalculationExecutionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecutionStatus",
+  telemetry: TELEMETRY,
+  span: "GetCalculationExecutionStatus",
 }));
 
 export type GetCapacityAssignmentConfigurationError =
@@ -1828,6 +1886,8 @@ export const getCapacityAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityAssignmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetCapacityAssignmentConfiguration",
 }));
 
 export type GetCapacityReservationError =
@@ -1849,6 +1909,8 @@ export const getCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "GetCapacityReservation",
 }));
 
 export type GetDatabaseError =
@@ -1871,6 +1933,8 @@ export const getDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatabase",
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDataCatalogError =
@@ -1893,6 +1957,8 @@ export const getDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataCatalog",
+  telemetry: TELEMETRY,
+  span: "GetDataCatalog",
 }));
 
 export type GetNamedQueryError =
@@ -1916,6 +1982,8 @@ export const getNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamedQuery",
+  telemetry: TELEMETRY,
+  span: "GetNamedQuery",
 }));
 
 export type GetNotebookMetadataError =
@@ -1938,6 +2006,8 @@ export const getNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookMetadata",
+  telemetry: TELEMETRY,
+  span: "GetNotebookMetadata",
 }));
 
 export type GetPreparedStatementError =
@@ -1967,6 +2037,8 @@ export const getPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreparedStatement",
+  telemetry: TELEMETRY,
+  span: "GetPreparedStatement",
 }));
 
 export type GetQueryExecutionError =
@@ -1990,6 +2062,8 @@ export const getQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryExecution",
+  telemetry: TELEMETRY,
+  span: "GetQueryExecution",
 }));
 
 export type GetQueryResultsError =
@@ -2033,6 +2107,8 @@ export const getQueryResults: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResults",
 })) as any;
 
 export type GetQueryRuntimeStatisticsError =
@@ -2060,6 +2136,8 @@ export const getQueryRuntimeStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryRuntimeStatistics",
+  telemetry: TELEMETRY,
+  span: "GetQueryRuntimeStatistics",
 }));
 
 export type GetResourceDashboardError =
@@ -2082,6 +2160,8 @@ export const getResourceDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDashboard",
+  telemetry: TELEMETRY,
+  span: "GetResourceDashboard",
 }));
 
 export type GetSessionError =
@@ -2105,6 +2185,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionEndpointError =
@@ -2127,6 +2209,8 @@ export const getSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetSessionEndpoint",
 }));
 
 export type GetSessionStatusError =
@@ -2149,6 +2233,8 @@ export const getSessionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionStatus",
+  telemetry: TELEMETRY,
+  span: "GetSessionStatus",
 }));
 
 export type GetTableMetadataError =
@@ -2171,6 +2257,8 @@ export const getTableMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMetadata",
+  telemetry: TELEMETRY,
+  span: "GetTableMetadata",
 }));
 
 export type GetWorkGroupError =
@@ -2193,6 +2281,8 @@ export const getWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkGroup",
+  telemetry: TELEMETRY,
+  span: "GetWorkGroup",
 }));
 
 export type ImportNotebookError =
@@ -2220,6 +2310,8 @@ export const importNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportNotebook",
+  telemetry: TELEMETRY,
+  span: "ImportNotebook",
 }));
 
 export type ListApplicationDPUSizesError =
@@ -2249,6 +2341,8 @@ export const listApplicationDPUSizes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationDPUSizes",
 })) as any;
 
 export type ListCalculationExecutionsError =
@@ -2278,6 +2372,8 @@ export const listCalculationExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCalculationExecutions",
 })) as any;
 
 export type ListCapacityReservationsError =
@@ -2305,6 +2401,8 @@ export const listCapacityReservations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCapacityReservations",
 })) as any;
 
 export type ListDatabasesError =
@@ -2334,6 +2432,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     items: "DatabaseList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 })) as any;
 
 export type ListDataCatalogsError =
@@ -2365,6 +2465,8 @@ export const listDataCatalogs: API.PaginatedOperationMethod<
     items: "DataCatalogsSummary",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataCatalogs",
 })) as any;
 
 export type ListEngineVersionsError =
@@ -2393,6 +2495,8 @@ export const listEngineVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngineVersions",
 })) as any;
 
 export type ListExecutorsError =
@@ -2423,6 +2527,8 @@ export const listExecutors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutors",
 })) as any;
 
 export type ListNamedQueriesError =
@@ -2452,6 +2558,8 @@ export const listNamedQueries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNamedQueries",
 })) as any;
 
 export type ListNotebookMetadataError =
@@ -2474,6 +2582,8 @@ export const listNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookMetadata",
+  telemetry: TELEMETRY,
+  span: "ListNotebookMetadata",
 }));
 
 export type ListNotebookSessionsError =
@@ -2499,6 +2609,8 @@ export const listNotebookSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookSessions",
+  telemetry: TELEMETRY,
+  span: "ListNotebookSessions",
 }));
 
 export type ListPreparedStatementsError =
@@ -2526,6 +2638,8 @@ export const listPreparedStatements: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPreparedStatements",
 })) as any;
 
 export type ListQueryExecutionsError =
@@ -2556,6 +2670,8 @@ export const listQueryExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueryExecutions",
 })) as any;
 
 export type ListSessionsError =
@@ -2587,6 +2703,8 @@ export const listSessions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListTableMetadataError =
@@ -2616,6 +2734,8 @@ export const listTableMetadata: API.PaginatedOperationMethod<
     items: "TableMetadataList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTableMetadata",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2645,6 +2765,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListWorkGroupsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2669,6 +2791,8 @@ export const listWorkGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkGroups",
 })) as any;
 
 export type PutCapacityAssignmentConfigurationError =
@@ -2692,6 +2816,8 @@ export const putCapacityAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCapacityAssignmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutCapacityAssignmentConfiguration",
 }));
 
 export type StartCalculationExecutionError =
@@ -2720,6 +2846,8 @@ export const startCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCalculationExecution",
+  telemetry: TELEMETRY,
+  span: "StartCalculationExecution",
 }));
 
 export type StartQueryExecutionError =
@@ -2747,6 +2875,8 @@ export const startQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryExecution",
+  telemetry: TELEMETRY,
+  span: "StartQueryExecution",
 }));
 
 export type StartSessionError =
@@ -2778,6 +2908,8 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  telemetry: TELEMETRY,
+  span: "StartSession",
 }));
 
 export type StopCalculationExecutionError =
@@ -2808,6 +2940,8 @@ export const stopCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCalculationExecution",
+  telemetry: TELEMETRY,
+  span: "StopCalculationExecution",
 }));
 
 export type StopQueryExecutionError =
@@ -2830,6 +2964,8 @@ export const stopQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryExecution",
+  telemetry: TELEMETRY,
+  span: "StopQueryExecution",
 }));
 
 export type TagResourceError =
@@ -2862,6 +2998,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateSessionError =
@@ -2888,6 +3026,8 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  telemetry: TELEMETRY,
+  span: "TerminateSession",
 }));
 
 export type UntagResourceError =
@@ -2910,6 +3050,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCapacityReservationError =
@@ -2932,6 +3074,8 @@ export const updateCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityReservation",
+  telemetry: TELEMETRY,
+  span: "UpdateCapacityReservation",
 }));
 
 export type UpdateDataCatalogError =
@@ -2954,6 +3098,8 @@ export const updateDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataCatalog",
+  telemetry: TELEMETRY,
+  span: "UpdateDataCatalog",
 }));
 
 export type UpdateNamedQueryError =
@@ -2977,6 +3123,8 @@ export const updateNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNamedQuery",
+  telemetry: TELEMETRY,
+  span: "UpdateNamedQuery",
 }));
 
 export type UpdateNotebookError =
@@ -2999,6 +3147,8 @@ export const updateNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebook",
+  telemetry: TELEMETRY,
+  span: "UpdateNotebook",
 }));
 
 export type UpdateNotebookMetadataError =
@@ -3021,6 +3171,8 @@ export const updateNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebookMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateNotebookMetadata",
 }));
 
 export type UpdatePreparedStatementError =
@@ -3043,6 +3195,8 @@ export const updatePreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreparedStatement",
+  telemetry: TELEMETRY,
+  span: "UpdatePreparedStatement",
 }));
 
 export type UpdateWorkGroupError =
@@ -3066,6 +3220,8 @@ export const updateWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

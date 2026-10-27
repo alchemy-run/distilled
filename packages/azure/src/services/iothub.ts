@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Devices" },
+  prefix: "Iothub",
+  service: "Iothub",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The description of an X509 CA Certificate. */
 export interface CertificatePropertiesInput {
   /** Determines whether certificate has been verified. */
@@ -1706,6 +1726,8 @@ export const CertificatesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CertificatesCreateOrUpdate",
 }));
 
 export type CheckIotHubResourceNameAvailabilityError = AzureOpError;
@@ -1721,6 +1743,8 @@ export const CheckIotHubResourceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckIotHubResourceNameAvailability",
 }));
 
 export type CreateIotHubResourceEventHubConsumerGroupError = AzureOpError;
@@ -1736,6 +1760,8 @@ export const CreateIotHubResourceEventHubConsumerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIotHubResourceEventHubConsumerGroup",
 }));
 
 export type DeleteCertificateError = AzureOpError;
@@ -1751,6 +1777,8 @@ export const DeleteCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type DeleteIotHubResourceError = AzureOpError;
@@ -1766,6 +1794,8 @@ export const DeleteIotHubResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIotHubResource",
 }));
 
 export type DeleteIotHubResourceEventHubConsumerGroupError = AzureOpError;
@@ -1781,6 +1811,8 @@ export const DeleteIotHubResourceEventHubConsumerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIotHubResourceEventHubConsumerGroup",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1796,6 +1828,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type ExportIotHubResourceDevicesError = AzureOpError;
@@ -1811,6 +1845,8 @@ export const ExportIotHubResourceDevices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportIotHubResourceDevices",
 }));
 
 export type GenerateCertificateVerificationCodeError = AzureOpError;
@@ -1826,6 +1862,8 @@ export const GenerateCertificateVerificationCode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCertificateVerificationCode",
 }));
 
 export type GetCertificateError = AzureOpError;
@@ -1841,6 +1879,8 @@ export const GetCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type GetIotHubResourceError = AzureOpError;
@@ -1856,6 +1896,8 @@ export const GetIotHubResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotHubResource",
 }));
 
 export type GetIotHubResourceEndpointHealthError = AzureOpError;
@@ -1871,6 +1913,8 @@ export const GetIotHubResourceEndpointHealth: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotHubResourceEndpointHealth",
 }));
 
 export type GetIotHubResourceEventHubConsumerGroupError = AzureOpError;
@@ -1886,6 +1930,8 @@ export const GetIotHubResourceEventHubConsumerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotHubResourceEventHubConsumerGroup",
 }));
 
 export type GetIotHubResourceJobError = AzureOpError;
@@ -1901,6 +1947,8 @@ export const GetIotHubResourceJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotHubResourceJob",
 }));
 
 export type GetIotHubResourceKeysForKeyNameError = AzureOpError;
@@ -1916,6 +1964,8 @@ export const GetIotHubResourceKeysForKeyName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotHubResourceKeysForKeyName",
 }));
 
 export type GetIotHubResourceQuotaMetricsError = AzureOpError;
@@ -1931,6 +1981,8 @@ export const GetIotHubResourceQuotaMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotHubResourceQuotaMetrics",
 }));
 
 export type GetIotHubResourceStatsError = AzureOpError;
@@ -1946,6 +1998,8 @@ export const GetIotHubResourceStats: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotHubResourceStats",
 }));
 
 export type GetIotHubResourceValidSkusError = AzureOpError;
@@ -1961,6 +2015,8 @@ export const GetIotHubResourceValidSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotHubResourceValidSkus",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1976,6 +2032,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -1991,6 +2049,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetResourceProviderCommonSubscriptionQuotaError = AzureOpError;
@@ -2006,6 +2066,8 @@ export const GetResourceProviderCommonSubscriptionQuota: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceProviderCommonSubscriptionQuota",
 }));
 
 export type ImportIotHubResourceDevicesError = AzureOpError;
@@ -2021,6 +2083,8 @@ export const ImportIotHubResourceDevices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportIotHubResourceDevices",
 }));
 
 export type IotHubManualFailoverError = AzureOpError;
@@ -2036,6 +2100,8 @@ export const IotHubManualFailover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IotHubManualFailover",
 }));
 
 export type IotHubResourceCreateOrUpdateError = AzureOpError;
@@ -2051,6 +2117,8 @@ export const IotHubResourceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IotHubResourceCreateOrUpdate",
 }));
 
 export type ListCertificateByIotHubError = AzureOpError;
@@ -2066,6 +2134,8 @@ export const ListCertificateByIotHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateByIotHub",
 }));
 
 export type ListIotHubResourceByResourceGroupError = AzureOpError;
@@ -2081,6 +2151,8 @@ export const ListIotHubResourceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotHubResourceByResourceGroup",
 }));
 
 export type ListIotHubResourceBySubscriptionError = AzureOpError;
@@ -2096,6 +2168,8 @@ export const ListIotHubResourceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotHubResourceBySubscription",
 }));
 
 export type ListIotHubResourceEventHubConsumerGroupsError = AzureOpError;
@@ -2111,6 +2185,8 @@ export const ListIotHubResourceEventHubConsumerGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotHubResourceEventHubConsumerGroups",
 }));
 
 export type ListIotHubResourceJobsError = AzureOpError;
@@ -2126,6 +2202,8 @@ export const ListIotHubResourceJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotHubResourceJobs",
 }));
 
 export type ListIotHubResourceKeysError = AzureOpError;
@@ -2141,6 +2219,8 @@ export const ListIotHubResourceKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotHubResourceKeys",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2156,6 +2236,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -2171,6 +2253,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -2186,6 +2270,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type TestIotHubResourceAllRoutesError = AzureOpError;
@@ -2201,6 +2287,8 @@ export const TestIotHubResourceAllRoutes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIotHubResourceAllRoutes",
 }));
 
 export type TestIotHubResourceRouteError = AzureOpError;
@@ -2216,6 +2304,8 @@ export const TestIotHubResourceRoute: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIotHubResourceRoute",
 }));
 
 export type UpdateIotHubResourceError = AzureOpError;
@@ -2231,6 +2321,8 @@ export const UpdateIotHubResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIotHubResource",
 }));
 
 export type UpdatePrivateEndpointConnectionError = AzureOpError;
@@ -2246,6 +2338,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnection",
 }));
 
 export type VerifyCertificateError = AzureOpError;
@@ -2261,6 +2355,8 @@ export const VerifyCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyCertificate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

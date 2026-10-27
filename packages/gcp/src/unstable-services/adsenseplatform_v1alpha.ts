@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "adsenseplatform" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Adsenseplatform",
+  service: "adsenseplatform",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -359,6 +378,8 @@ export const closePlatformsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClosePlatformsAccounts",
 }));
 
 export type CreatePlatformsAccountsError =
@@ -379,6 +400,8 @@ export const createPlatformsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlatformsAccounts",
 }));
 
 export type CreatePlatformsAccountsEventsError =
@@ -399,6 +422,8 @@ export const createPlatformsAccountsEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlatformsAccountsEvents",
 }));
 
 export type CreatePlatformsAccountsSitesError =
@@ -419,6 +444,8 @@ export const createPlatformsAccountsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlatformsAccountsSites",
 }));
 
 export type DeletePlatformsAccountsSitesError =
@@ -439,6 +466,8 @@ export const deletePlatformsAccountsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlatformsAccountsSites",
 }));
 
 export type GetAccountsPlatformsError = NotFound | Forbidden | GcpOpError;
@@ -454,6 +483,8 @@ export const getAccountsPlatforms: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsPlatforms",
 }));
 
 export type GetAccountsPlatformsChildAccountsSitesError = NotFound | Forbidden | GcpOpError;
@@ -469,6 +500,8 @@ export const getAccountsPlatformsChildAccountsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsPlatformsChildAccountsSites",
 }));
 
 export type GetAccountsPlatformsGroupsError = NotFound | Forbidden | GcpOpError;
@@ -484,6 +517,8 @@ export const getAccountsPlatformsGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsPlatformsGroups",
 }));
 
 export type GetPlatformsAccountsError = NotFound | Forbidden | GcpOpError;
@@ -499,6 +534,8 @@ export const getPlatformsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlatformsAccounts",
 }));
 
 export type GetPlatformsAccountsSitesError = NotFound | Forbidden | GcpOpError;
@@ -514,6 +551,8 @@ export const getPlatformsAccountsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlatformsAccountsSites",
 }));
 
 export type ListAccountsPlatformsError = NotFound | Forbidden | GcpOpError;
@@ -530,6 +569,8 @@ export const listAccountsPlatforms: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsPlatforms",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -547,6 +588,8 @@ export const listAccountsPlatformsChildAccountsSites: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsPlatformsChildAccountsSites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -564,6 +607,8 @@ export const listAccountsPlatformsGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsPlatformsGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -581,6 +626,8 @@ export const listPlatformsAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlatformsAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -598,6 +645,8 @@ export const listPlatformsAccountsSites: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlatformsAccountsSites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -614,6 +663,8 @@ export const lookupPlatformsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupPlatformsAccounts",
 }));
 
 export type PatchAccountsPlatformsChildAccountsSitesError =
@@ -634,6 +685,8 @@ export const patchAccountsPlatformsChildAccountsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsPlatformsChildAccountsSites",
 }));
 
 export type PatchAccountsPlatformsGroupsError =
@@ -654,6 +707,8 @@ export const patchAccountsPlatformsGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsPlatformsGroups",
 }));
 
 export type RequestReviewPlatformsAccountsSitesError =
@@ -674,6 +729,8 @@ export const requestReviewPlatformsAccountsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestReviewPlatformsAccountsSites",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

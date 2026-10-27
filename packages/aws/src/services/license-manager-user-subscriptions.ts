@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://license-manager-user-subscriptions.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LicenseManagerUserSubscriptions",
+  service: "LicenseManagerUserSubscriptions",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -424,6 +439,8 @@ export const associateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUser",
+  telemetry: TELEMETRY,
+  span: "AssociateUser",
 }));
 
 export type CreateLicenseServerEndpointError =
@@ -458,6 +475,8 @@ export const createLicenseServerEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseServerEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseServerEndpoint",
 }));
 
 export type DeleteLicenseServerEndpointError =
@@ -492,6 +511,8 @@ export const deleteLicenseServerEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseServerEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseServerEndpoint",
 }));
 
 export type DeregisterIdentityProviderError =
@@ -526,6 +547,8 @@ export const deregisterIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "DeregisterIdentityProvider",
 }));
 
 export type DisassociateUserError =
@@ -560,6 +583,8 @@ export const disassociateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUser",
+  telemetry: TELEMETRY,
+  span: "DisassociateUser",
 }));
 
 export type ListIdentityProvidersError =
@@ -601,6 +626,8 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     items: "IdentityProviderSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviders",
 })) as any;
 
 export type ListInstancesError =
@@ -642,6 +669,8 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "InstanceSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 })) as any;
 
 export type ListLicenseServerEndpointsError =
@@ -681,6 +710,8 @@ export const listLicenseServerEndpoints: API.PaginatedOperationMethod<
     items: "LicenseServerEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLicenseServerEndpoints",
 })) as any;
 
 export type ListProductSubscriptionsError =
@@ -722,6 +753,8 @@ export const listProductSubscriptions: API.PaginatedOperationMethod<
     items: "ProductUserSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProductSubscriptions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -744,6 +777,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListUserAssociationsError =
@@ -785,6 +820,8 @@ export const listUserAssociations: API.PaginatedOperationMethod<
     items: "InstanceUserSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserAssociations",
 })) as any;
 
 export type RegisterIdentityProviderError =
@@ -819,6 +856,8 @@ export const registerIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "RegisterIdentityProvider",
 }));
 
 export type StartProductSubscriptionError =
@@ -855,6 +894,8 @@ export const startProductSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProductSubscription",
+  telemetry: TELEMETRY,
+  span: "StartProductSubscription",
 }));
 
 export type StopProductSubscriptionError =
@@ -889,6 +930,8 @@ export const stopProductSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopProductSubscription",
+  telemetry: TELEMETRY,
+  span: "StopProductSubscription",
 }));
 
 export type TagResourceError =
@@ -911,6 +954,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -929,6 +974,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIdentityProviderSettingsError =
@@ -957,6 +1004,8 @@ export const updateIdentityProviderSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityProviderSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProviderSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

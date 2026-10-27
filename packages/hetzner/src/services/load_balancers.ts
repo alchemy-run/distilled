@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "LoadBalancers",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** Type of the algorithm. */
 export type CreateLoadBalancerRequestAlgorithmType = "round_robin" | "least_connections";
 /** Algorithm of the Load Balancer. */
@@ -1052,6 +1065,8 @@ export const createLoadBalancer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancer",
 }));
 
 export type DeleteLoadBalancerError = HetznerOpError;
@@ -1067,6 +1082,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancer",
 }));
 
 export type GetLoadBalancerError = HetznerOpError;
@@ -1082,6 +1099,8 @@ export const getLoadBalancer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancer",
 }));
 
 export type GetLoadBalancerMetricsError = HetznerOpError;
@@ -1097,6 +1116,8 @@ export const getLoadBalancerMetrics: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancerMetrics",
 }));
 
 export type ListLoadBalancersError = HetznerOpError;
@@ -1114,6 +1135,8 @@ export const listLoadBalancers: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLoadBalancers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1138,6 +1161,8 @@ export const updateLoadBalancer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoadBalancer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://medical-imaging.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MedicalImaging",
+  service: "MedicalImaging",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -680,6 +695,8 @@ export const copyImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "CopyImageSet",
   endpointHostPrefix: "runtime-",
+  telemetry: TELEMETRY,
+  span: "CopyImageSet",
 }));
 
 export type CreateDatastoreError =
@@ -714,6 +731,8 @@ export const createDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatastore",
+  telemetry: TELEMETRY,
+  span: "CreateDatastore",
 }));
 
 export type DeleteDatastoreError =
@@ -748,6 +767,8 @@ export const deleteDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatastore",
+  telemetry: TELEMETRY,
+  span: "DeleteDatastore",
 }));
 
 export type DeleteImageSetError =
@@ -781,6 +802,8 @@ export const deleteImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteImageSet",
   endpointHostPrefix: "runtime-",
+  telemetry: TELEMETRY,
+  span: "DeleteImageSet",
 }));
 
 export type GetDatastoreError =
@@ -811,6 +834,8 @@ export const getDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatastore",
+  telemetry: TELEMETRY,
+  span: "GetDatastore",
 }));
 
 export type GetDICOMImportJobError =
@@ -845,6 +870,8 @@ export const getDICOMImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDICOMImportJob",
+  telemetry: TELEMETRY,
+  span: "GetDICOMImportJob",
 }));
 
 export type GetImageFrameError =
@@ -882,6 +909,8 @@ export const getImageFrame: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageFrame",
   endpointHostPrefix: "runtime-",
+  telemetry: TELEMETRY,
+  span: "GetImageFrame",
 }));
 
 export type GetImageSetError =
@@ -915,6 +944,8 @@ export const getImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageSet",
   endpointHostPrefix: "runtime-",
+  telemetry: TELEMETRY,
+  span: "GetImageSet",
 }));
 
 export type GetImageSetMetadataError =
@@ -948,6 +979,8 @@ export const getImageSetMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageSetMetadata",
   endpointHostPrefix: "runtime-",
+  telemetry: TELEMETRY,
+  span: "GetImageSetMetadata",
 }));
 
 export type ListDatastoresError =
@@ -983,6 +1016,8 @@ export const listDatastores: API.PaginatedOperationMethod<
     items: "datastoreSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatastores",
 })) as any;
 
 export type ListDICOMImportJobsError =
@@ -1022,6 +1057,8 @@ export const listDICOMImportJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDICOMImportJobs",
 })) as any;
 
 export type ListImageSetVersionsError =
@@ -1062,6 +1099,8 @@ export const listImageSetVersions: API.PaginatedOperationMethod<
     items: "imageSetPropertiesList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageSetVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1092,6 +1131,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SearchImageSetsError =
@@ -1136,6 +1177,8 @@ export const searchImageSets: API.PaginatedOperationMethod<
     items: "imageSetsMetadataSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchImageSets",
 })) as any;
 
 export type StartDICOMImportJobError =
@@ -1170,6 +1213,8 @@ export const startDICOMImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDICOMImportJob",
+  telemetry: TELEMETRY,
+  span: "StartDICOMImportJob",
 }));
 
 export type TagResourceError =
@@ -1200,6 +1245,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1230,6 +1277,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateImageSetMetadataError =
@@ -1265,6 +1314,8 @@ export const updateImageSetMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateImageSetMetadata",
   endpointHostPrefix: "runtime-",
+  telemetry: TELEMETRY,
+  span: "UpdateImageSetMetadata",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

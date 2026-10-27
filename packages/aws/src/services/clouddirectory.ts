@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://clouddirectory.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudDirectory",
+  service: "CloudDirectory",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1470,6 +1485,8 @@ export const addFacetToObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFacetToObject",
+  telemetry: TELEMETRY,
+  span: "AddFacetToObject",
 }));
 
 export type ApplySchemaError =
@@ -1509,6 +1526,8 @@ export const applySchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplySchema",
+  telemetry: TELEMETRY,
+  span: "ApplySchema",
 }));
 
 export type AttachObjectError =
@@ -1556,6 +1575,8 @@ export const attachObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachObject",
+  telemetry: TELEMETRY,
+  span: "AttachObject",
 }));
 
 export type AttachPolicyError =
@@ -1595,6 +1616,8 @@ export const attachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachPolicy",
+  telemetry: TELEMETRY,
+  span: "AttachPolicy",
 }));
 
 export type AttachToIndexError =
@@ -1639,6 +1662,8 @@ export const attachToIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachToIndex",
+  telemetry: TELEMETRY,
+  span: "AttachToIndex",
 }));
 
 export type AttachTypedLinkError =
@@ -1679,6 +1704,8 @@ export const attachTypedLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachTypedLink",
+  telemetry: TELEMETRY,
+  span: "AttachTypedLink",
 }));
 
 export type BatchReadError =
@@ -1713,6 +1740,8 @@ export const batchRead: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRead",
+  telemetry: TELEMETRY,
+  span: "BatchRead",
 }));
 
 export type BatchWriteError =
@@ -1750,6 +1779,8 @@ export const batchWrite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWrite",
+  telemetry: TELEMETRY,
+  span: "BatchWrite",
 }));
 
 export type CreateDirectoryError =
@@ -1790,6 +1821,8 @@ export const createDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectory",
+  telemetry: TELEMETRY,
+  span: "CreateDirectory",
 }));
 
 export type CreateFacetError =
@@ -1831,6 +1864,8 @@ export const createFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFacet",
+  telemetry: TELEMETRY,
+  span: "CreateFacet",
 }));
 
 export type CreateIndexError =
@@ -1873,6 +1908,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateObjectError =
@@ -1918,6 +1955,8 @@ export const createObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateObject",
+  telemetry: TELEMETRY,
+  span: "CreateObject",
 }));
 
 export type CreateSchemaError =
@@ -1964,6 +2003,8 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
+  telemetry: TELEMETRY,
+  span: "CreateSchema",
 }));
 
 export type CreateTypedLinkFacetError =
@@ -2004,6 +2045,8 @@ export const createTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTypedLinkFacet",
+  telemetry: TELEMETRY,
+  span: "CreateTypedLinkFacet",
 }));
 
 export type DeleteDirectoryError =
@@ -2044,6 +2087,8 @@ export const deleteDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectory",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectory",
 }));
 
 export type DeleteFacetError =
@@ -2084,6 +2129,8 @@ export const deleteFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFacet",
+  telemetry: TELEMETRY,
+  span: "DeleteFacet",
 }));
 
 export type DeleteObjectError =
@@ -2123,6 +2170,8 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
+  telemetry: TELEMETRY,
+  span: "DeleteObject",
 }));
 
 export type DeleteSchemaError =
@@ -2159,6 +2208,8 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
+  telemetry: TELEMETRY,
+  span: "DeleteSchema",
 }));
 
 export type DeleteTypedLinkFacetError =
@@ -2195,6 +2246,8 @@ export const deleteTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTypedLinkFacet",
+  telemetry: TELEMETRY,
+  span: "DeleteTypedLinkFacet",
 }));
 
 export type DetachFromIndexError =
@@ -2235,6 +2288,8 @@ export const detachFromIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachFromIndex",
+  telemetry: TELEMETRY,
+  span: "DetachFromIndex",
 }));
 
 export type DetachObjectError =
@@ -2274,6 +2329,8 @@ export const detachObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachObject",
+  telemetry: TELEMETRY,
+  span: "DetachObject",
 }));
 
 export type DetachPolicyError =
@@ -2312,6 +2369,8 @@ export const detachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachPolicy",
+  telemetry: TELEMETRY,
+  span: "DetachPolicy",
 }));
 
 export type DetachTypedLinkError =
@@ -2350,6 +2409,8 @@ export const detachTypedLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachTypedLink",
+  telemetry: TELEMETRY,
+  span: "DetachTypedLink",
 }));
 
 export type DisableDirectoryError =
@@ -2387,6 +2448,8 @@ export const disableDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDirectory",
+  telemetry: TELEMETRY,
+  span: "DisableDirectory",
 }));
 
 export type EnableDirectoryError =
@@ -2424,6 +2487,8 @@ export const enableDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDirectory",
+  telemetry: TELEMETRY,
+  span: "EnableDirectory",
 }));
 
 export type GetAppliedSchemaVersionError =
@@ -2458,6 +2523,8 @@ export const getAppliedSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppliedSchemaVersion",
+  telemetry: TELEMETRY,
+  span: "GetAppliedSchemaVersion",
 }));
 
 export type GetDirectoryError =
@@ -2490,6 +2557,8 @@ export const getDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectory",
+  telemetry: TELEMETRY,
+  span: "GetDirectory",
 }));
 
 export type GetFacetError =
@@ -2527,6 +2596,8 @@ export const getFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFacet",
+  telemetry: TELEMETRY,
+  span: "GetFacet",
 }));
 
 export type GetLinkAttributesError =
@@ -2565,6 +2636,8 @@ export const getLinkAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkAttributes",
+  telemetry: TELEMETRY,
+  span: "GetLinkAttributes",
 }));
 
 export type GetObjectAttributesError =
@@ -2603,6 +2676,8 @@ export const getObjectAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAttributes",
+  telemetry: TELEMETRY,
+  span: "GetObjectAttributes",
 }));
 
 export type GetObjectInformationError =
@@ -2639,6 +2714,8 @@ export const getObjectInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectInformation",
+  telemetry: TELEMETRY,
+  span: "GetObjectInformation",
 }));
 
 export type GetSchemaAsJsonError =
@@ -2673,6 +2750,8 @@ export const getSchemaAsJson: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaAsJson",
+  telemetry: TELEMETRY,
+  span: "GetSchemaAsJson",
 }));
 
 export type GetTypedLinkFacetInformationError =
@@ -2711,6 +2790,8 @@ export const getTypedLinkFacetInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTypedLinkFacetInformation",
+  telemetry: TELEMETRY,
+  span: "GetTypedLinkFacetInformation",
 }));
 
 export type ListAppliedSchemaArnsError =
@@ -2753,6 +2834,8 @@ export const listAppliedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppliedSchemaArns",
 })) as any;
 
 export type ListAttachedIndicesError =
@@ -2795,6 +2878,8 @@ export const listAttachedIndices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachedIndices",
 })) as any;
 
 export type ListDevelopmentSchemaArnsError =
@@ -2838,6 +2923,8 @@ export const listDevelopmentSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevelopmentSchemaArns",
 })) as any;
 
 export type ListDirectoriesError =
@@ -2878,6 +2965,8 @@ export const listDirectories: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDirectories",
 })) as any;
 
 export type ListFacetAttributesError =
@@ -2922,6 +3011,8 @@ export const listFacetAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFacetAttributes",
 })) as any;
 
 export type ListFacetNamesError =
@@ -2964,6 +3055,8 @@ export const listFacetNames: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFacetNames",
 })) as any;
 
 export type ListIncomingTypedLinksError =
@@ -3006,6 +3099,8 @@ export const listIncomingTypedLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIncomingTypedLinks",
+  telemetry: TELEMETRY,
+  span: "ListIncomingTypedLinks",
 }));
 
 export type ListIndexError =
@@ -3054,6 +3149,8 @@ export const listIndex: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndex",
 })) as any;
 
 export type ListManagedSchemaArnsError =
@@ -3092,6 +3189,8 @@ export const listManagedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedSchemaArns",
 })) as any;
 
 export type ListObjectAttributesError =
@@ -3138,6 +3237,8 @@ export const listObjectAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectAttributes",
 })) as any;
 
 export type ListObjectChildrenError =
@@ -3185,6 +3286,8 @@ export const listObjectChildren: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectChildren",
 })) as any;
 
 export type ListObjectParentPathsError =
@@ -3237,6 +3340,8 @@ export const listObjectParentPaths: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectParentPaths",
 })) as any;
 
 export type ListObjectParentsError =
@@ -3284,6 +3389,8 @@ export const listObjectParents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectParents",
 })) as any;
 
 export type ListObjectPoliciesError =
@@ -3328,6 +3435,8 @@ export const listObjectPolicies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectPolicies",
 })) as any;
 
 export type ListOutgoingTypedLinksError =
@@ -3370,6 +3479,8 @@ export const listOutgoingTypedLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOutgoingTypedLinks",
+  telemetry: TELEMETRY,
+  span: "ListOutgoingTypedLinks",
 }));
 
 export type ListPolicyAttachmentsError =
@@ -3416,6 +3527,8 @@ export const listPolicyAttachments: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyAttachments",
 })) as any;
 
 export type ListPublishedSchemaArnsError =
@@ -3458,6 +3571,8 @@ export const listPublishedSchemaArns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPublishedSchemaArns",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3502,6 +3617,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTypedLinkFacetAttributesError =
@@ -3546,6 +3663,8 @@ export const listTypedLinkFacetAttributes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypedLinkFacetAttributes",
 })) as any;
 
 export type ListTypedLinkFacetNamesError =
@@ -3589,6 +3708,8 @@ export const listTypedLinkFacetNames: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypedLinkFacetNames",
 })) as any;
 
 export type LookupPolicyError =
@@ -3638,6 +3759,8 @@ export const lookupPolicy: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "LookupPolicy",
 })) as any;
 
 export type PublishSchemaError =
@@ -3674,6 +3797,8 @@ export const publishSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishSchema",
+  telemetry: TELEMETRY,
+  span: "PublishSchema",
 }));
 
 export type PutSchemaFromJsonError =
@@ -3710,6 +3835,8 @@ export const putSchemaFromJson: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSchemaFromJson",
+  telemetry: TELEMETRY,
+  span: "PutSchemaFromJson",
 }));
 
 export type RemoveFacetFromObjectError =
@@ -3748,6 +3875,8 @@ export const removeFacetFromObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFacetFromObject",
+  telemetry: TELEMETRY,
+  span: "RemoveFacetFromObject",
 }));
 
 export type TagResourceError =
@@ -3784,6 +3913,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3820,6 +3951,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFacetError =
@@ -3868,6 +4001,8 @@ export const updateFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFacet",
+  telemetry: TELEMETRY,
+  span: "UpdateFacet",
 }));
 
 export type UpdateLinkAttributesError =
@@ -3906,6 +4041,8 @@ export const updateLinkAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateLinkAttributes",
 }));
 
 export type UpdateObjectAttributesError =
@@ -3946,6 +4083,8 @@ export const updateObjectAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateObjectAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateObjectAttributes",
 }));
 
 export type UpdateSchemaError =
@@ -3981,6 +4120,8 @@ export const updateSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchema",
+  telemetry: TELEMETRY,
+  span: "UpdateSchema",
 }));
 
 export type UpdateTypedLinkFacetError =
@@ -4023,6 +4164,8 @@ export const updateTypedLinkFacet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTypedLinkFacet",
+  telemetry: TELEMETRY,
+  span: "UpdateTypedLinkFacet",
 }));
 
 export type UpgradeAppliedSchemaError =
@@ -4061,6 +4204,8 @@ export const upgradeAppliedSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeAppliedSchema",
+  telemetry: TELEMETRY,
+  span: "UpgradeAppliedSchema",
 }));
 
 export type UpgradePublishedSchemaError =
@@ -4099,6 +4244,8 @@ export const upgradePublishedSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradePublishedSchema",
+  telemetry: TELEMETRY,
+  span: "UpgradePublishedSchema",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

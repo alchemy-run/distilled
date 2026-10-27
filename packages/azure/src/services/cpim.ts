@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AzureActiveDirectory" },
+  prefix: "Cpim",
+  service: "Cpim",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckB2CTenantNameAvailabilityRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
@@ -375,6 +395,8 @@ export const CheckB2CTenantNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckB2CTenantNameAvailability",
 }));
 
 export type CreateB2CTenantError = AzureOpError;
@@ -390,6 +412,8 @@ export const CreateB2CTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateB2CTenant",
 }));
 
 export type CreateGuestUsageError = AzureOpError;
@@ -405,6 +429,8 @@ export const CreateGuestUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuestUsage",
 }));
 
 export type DeleteB2CTenantError = AzureOpError;
@@ -420,6 +446,8 @@ export const DeleteB2CTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteB2CTenant",
 }));
 
 export type DeleteGuestUsageError = AzureOpError;
@@ -435,6 +463,8 @@ export const DeleteGuestUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuestUsage",
 }));
 
 export type GetB2CTenantError = AzureOpError;
@@ -450,6 +480,8 @@ export const GetB2CTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetB2CTenant",
 }));
 
 export type GetGuestUsageError = AzureOpError;
@@ -465,6 +497,8 @@ export const GetGuestUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestUsage",
 }));
 
 export type ListB2CTenantByResourceGroupError = AzureOpError;
@@ -480,6 +514,8 @@ export const ListB2CTenantByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListB2CTenantByResourceGroup",
 }));
 
 export type ListB2CTenantBySubscriptionError = AzureOpError;
@@ -495,6 +531,8 @@ export const ListB2CTenantBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListB2CTenantBySubscription",
 }));
 
 export type ListGuestUsageByResourceGroupError = AzureOpError;
@@ -510,6 +548,8 @@ export const ListGuestUsageByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestUsageByResourceGroup",
 }));
 
 export type ListGuestUsageBySubscriptionError = AzureOpError;
@@ -525,6 +565,8 @@ export const ListGuestUsageBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestUsageBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -540,6 +582,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateB2CTenantError = AzureOpError;
@@ -555,6 +599,8 @@ export const UpdateB2CTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateB2CTenant",
 }));
 
 export type UpdateGuestUsageError = AzureOpError;
@@ -570,6 +616,8 @@ export const UpdateGuestUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuestUsage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

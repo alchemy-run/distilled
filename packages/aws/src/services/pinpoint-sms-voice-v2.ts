@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -73,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://sms-voice.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PinpointSMSVoiceV2",
+  service: "PinpointSMSVoiceV2",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -2386,6 +2402,8 @@ export const associateOriginationIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOriginationIdentity",
+  telemetry: TELEMETRY,
+  span: "AssociateOriginationIdentity",
 }));
 
 export type AssociateProtectConfigurationError =
@@ -2418,6 +2436,8 @@ export const associateProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProtectConfiguration",
+  telemetry: TELEMETRY,
+  span: "AssociateProtectConfiguration",
 }));
 
 export type CarrierLookupError =
@@ -2448,6 +2468,8 @@ export const carrierLookup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CarrierLookup",
+  telemetry: TELEMETRY,
+  span: "CarrierLookup",
 }));
 
 export type CreateConfigurationSetError =
@@ -2484,6 +2506,8 @@ export const createConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSet",
 }));
 
 export type CreateEventDestinationError =
@@ -2524,6 +2548,8 @@ export const createEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventDestination",
+  telemetry: TELEMETRY,
+  span: "CreateEventDestination",
 }));
 
 export type CreateNotifyConfigurationError =
@@ -2558,6 +2584,8 @@ export const createNotifyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotifyConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateNotifyConfiguration",
 }));
 
 export type CreateOptOutListError =
@@ -2594,6 +2622,8 @@ export const createOptOutList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOptOutList",
+  telemetry: TELEMETRY,
+  span: "CreateOptOutList",
 }));
 
 export type CreatePoolError =
@@ -2632,6 +2662,8 @@ export const createPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePool",
+  telemetry: TELEMETRY,
+  span: "CreatePool",
 }));
 
 export type CreateProtectConfigurationError =
@@ -2664,6 +2696,8 @@ export const createProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProtectConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateProtectConfiguration",
 }));
 
 export type CreateRcsAgentError =
@@ -2698,6 +2732,8 @@ export const createRcsAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRcsAgent",
+  telemetry: TELEMETRY,
+  span: "CreateRcsAgent",
 }));
 
 export type CreateRegistrationError =
@@ -2730,6 +2766,8 @@ export const createRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistration",
+  telemetry: TELEMETRY,
+  span: "CreateRegistration",
 }));
 
 export type CreateRegistrationAssociationError =
@@ -2764,6 +2802,8 @@ export const createRegistrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistrationAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateRegistrationAssociation",
 }));
 
 export type CreateRegistrationAttachmentError =
@@ -2798,6 +2838,8 @@ export const createRegistrationAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistrationAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateRegistrationAttachment",
 }));
 
 export type CreateRegistrationVersionError =
@@ -2832,6 +2874,8 @@ export const createRegistrationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistrationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateRegistrationVersion",
 }));
 
 export type CreateVerifiedDestinationNumberError =
@@ -2866,6 +2910,8 @@ export const createVerifiedDestinationNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVerifiedDestinationNumber",
+  telemetry: TELEMETRY,
+  span: "CreateVerifiedDestinationNumber",
 }));
 
 export type DeleteAccountDefaultProtectConfigurationError =
@@ -2896,6 +2942,8 @@ export const deleteAccountDefaultProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountDefaultProtectConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteAccountDefaultProtectConfiguration",
 }));
 
 export type DeleteConfigurationSetError =
@@ -2928,6 +2976,8 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSet",
 }));
 
 export type DeleteDefaultMessageTypeError =
@@ -2960,6 +3010,8 @@ export const deleteDefaultMessageType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDefaultMessageType",
+  telemetry: TELEMETRY,
+  span: "DeleteDefaultMessageType",
 }));
 
 export type DeleteDefaultSenderIdError =
@@ -2992,6 +3044,8 @@ export const deleteDefaultSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDefaultSenderId",
+  telemetry: TELEMETRY,
+  span: "DeleteDefaultSenderId",
 }));
 
 export type DeleteEventDestinationError =
@@ -3024,6 +3078,8 @@ export const deleteEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteEventDestination",
 }));
 
 export type DeleteKeywordError =
@@ -3060,6 +3116,8 @@ export const deleteKeyword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyword",
+  telemetry: TELEMETRY,
+  span: "DeleteKeyword",
 }));
 
 export type DeleteMediaMessageSpendLimitOverrideError =
@@ -3088,6 +3146,8 @@ export const deleteMediaMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteMediaMessageSpendLimitOverride",
 }));
 
 export type DeleteNotifyConfigurationError =
@@ -3122,6 +3182,8 @@ export const deleteNotifyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotifyConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNotifyConfiguration",
 }));
 
 export type DeleteNotifyMessageSpendLimitOverrideError =
@@ -3150,6 +3212,8 @@ export const deleteNotifyMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotifyMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteNotifyMessageSpendLimitOverride",
 }));
 
 export type DeleteOptedOutNumberError =
@@ -3186,6 +3250,8 @@ export const deleteOptedOutNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOptedOutNumber",
+  telemetry: TELEMETRY,
+  span: "DeleteOptedOutNumber",
 }));
 
 export type DeleteOptOutListError =
@@ -3220,6 +3286,8 @@ export const deleteOptOutList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOptOutList",
+  telemetry: TELEMETRY,
+  span: "DeleteOptOutList",
 }));
 
 export type DeletePoolError =
@@ -3256,6 +3324,8 @@ export const deletePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePool",
+  telemetry: TELEMETRY,
+  span: "DeletePool",
 }));
 
 export type DeleteProtectConfigurationError =
@@ -3288,6 +3358,8 @@ export const deleteProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtectConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteProtectConfiguration",
 }));
 
 export type DeleteProtectConfigurationRuleSetNumberOverrideError =
@@ -3326,6 +3398,8 @@ export const deleteProtectConfigurationRuleSetNumberOverride: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtectConfigurationRuleSetNumberOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteProtectConfigurationRuleSetNumberOverride",
 }));
 
 export type DeleteRcsAgentError =
@@ -3358,6 +3432,8 @@ export const deleteRcsAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRcsAgent",
+  telemetry: TELEMETRY,
+  span: "DeleteRcsAgent",
 }));
 
 export type DeleteRcsMessageSpendLimitOverrideError =
@@ -3386,6 +3462,8 @@ export const deleteRcsMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRcsMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteRcsMessageSpendLimitOverride",
 }));
 
 export type DeleteRegistrationError =
@@ -3418,6 +3496,8 @@ export const deleteRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistration",
+  telemetry: TELEMETRY,
+  span: "DeleteRegistration",
 }));
 
 export type DeleteRegistrationAttachmentError =
@@ -3450,6 +3530,8 @@ export const deleteRegistrationAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistrationAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteRegistrationAttachment",
 }));
 
 export type DeleteRegistrationFieldValueError =
@@ -3482,6 +3564,8 @@ export const deleteRegistrationFieldValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistrationFieldValue",
+  telemetry: TELEMETRY,
+  span: "DeleteRegistrationFieldValue",
 }));
 
 export type DeleteResourcePolicyError =
@@ -3512,6 +3596,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteTextMessageSpendLimitOverrideError =
@@ -3540,6 +3626,8 @@ export const deleteTextMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTextMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteTextMessageSpendLimitOverride",
 }));
 
 export type DeleteVerifiedDestinationNumberError =
@@ -3572,6 +3660,8 @@ export const deleteVerifiedDestinationNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedDestinationNumber",
+  telemetry: TELEMETRY,
+  span: "DeleteVerifiedDestinationNumber",
 }));
 
 export type DeleteVoiceMessageSpendLimitOverrideError =
@@ -3600,6 +3690,8 @@ export const deleteVoiceMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceMessageSpendLimitOverride",
 }));
 
 export type DescribeAccountAttributesError =
@@ -3637,6 +3729,8 @@ export const describeAccountAttributes: API.PaginatedOperationMethod<
     items: "AccountAttributes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAttributes",
 })) as any;
 
 export type DescribeAccountLimitsError =
@@ -3674,6 +3768,8 @@ export const describeAccountLimits: API.PaginatedOperationMethod<
     items: "AccountLimits",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAccountLimits",
 })) as any;
 
 export type DescribeConfigurationSetsError =
@@ -3715,6 +3811,8 @@ export const describeConfigurationSets: API.PaginatedOperationMethod<
     items: "ConfigurationSets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationSets",
 })) as any;
 
 export type DescribeKeywordsError =
@@ -3756,6 +3854,8 @@ export const describeKeywords: API.PaginatedOperationMethod<
     items: "Keywords",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeKeywords",
 })) as any;
 
 export type DescribeNotifyConfigurationsError =
@@ -3797,6 +3897,8 @@ export const describeNotifyConfigurations: API.PaginatedOperationMethod<
     items: "NotifyConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeNotifyConfigurations",
 })) as any;
 
 export type DescribeNotifyTemplatesError =
@@ -3838,6 +3940,8 @@ export const describeNotifyTemplates: API.PaginatedOperationMethod<
     items: "NotifyTemplates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeNotifyTemplates",
 })) as any;
 
 export type DescribeOptedOutNumbersError =
@@ -3879,6 +3983,8 @@ export const describeOptedOutNumbers: API.PaginatedOperationMethod<
     items: "OptedOutNumbers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOptedOutNumbers",
 })) as any;
 
 export type DescribeOptOutListsError =
@@ -3920,6 +4026,8 @@ export const describeOptOutLists: API.PaginatedOperationMethod<
     items: "OptOutLists",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOptOutLists",
 })) as any;
 
 export type DescribePhoneNumbersError =
@@ -3961,6 +4069,8 @@ export const describePhoneNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumbers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePhoneNumbers",
 })) as any;
 
 export type DescribePoolsError =
@@ -4004,6 +4114,8 @@ export const describePools: API.PaginatedOperationMethod<
     items: "Pools",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePools",
 })) as any;
 
 export type DescribeProtectConfigurationsError =
@@ -4041,6 +4153,8 @@ export const describeProtectConfigurations: API.PaginatedOperationMethod<
     items: "ProtectConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeProtectConfigurations",
 })) as any;
 
 export type DescribeRcsAgentCountryLaunchStatusError =
@@ -4078,6 +4192,8 @@ export const describeRcsAgentCountryLaunchStatus: API.PaginatedOperationMethod<
     items: "CountryLaunchStatus",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRcsAgentCountryLaunchStatus",
 })) as any;
 
 export type DescribeRcsAgentsError =
@@ -4117,6 +4233,8 @@ export const describeRcsAgents: API.PaginatedOperationMethod<
     items: "RcsAgents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRcsAgents",
 })) as any;
 
 export type DescribeRegistrationAttachmentsError =
@@ -4154,6 +4272,8 @@ export const describeRegistrationAttachments: API.PaginatedOperationMethod<
     items: "RegistrationAttachments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistrationAttachments",
 })) as any;
 
 export type DescribeRegistrationFieldDefinitionsError =
@@ -4189,6 +4309,8 @@ export const describeRegistrationFieldDefinitions: API.PaginatedOperationMethod<
     items: "RegistrationFieldDefinitions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistrationFieldDefinitions",
 })) as any;
 
 export type DescribeRegistrationFieldValuesError =
@@ -4226,6 +4348,8 @@ export const describeRegistrationFieldValues: API.PaginatedOperationMethod<
     items: "RegistrationFieldValues",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistrationFieldValues",
 })) as any;
 
 export type DescribeRegistrationsError =
@@ -4263,6 +4387,8 @@ export const describeRegistrations: API.PaginatedOperationMethod<
     items: "Registrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistrations",
 })) as any;
 
 export type DescribeRegistrationSectionDefinitionsError =
@@ -4298,6 +4424,8 @@ export const describeRegistrationSectionDefinitions: API.PaginatedOperationMetho
     items: "RegistrationSectionDefinitions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistrationSectionDefinitions",
 })) as any;
 
 export type DescribeRegistrationTypeDefinitionsError =
@@ -4333,6 +4461,8 @@ export const describeRegistrationTypeDefinitions: API.PaginatedOperationMethod<
     items: "RegistrationTypeDefinitions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistrationTypeDefinitions",
 })) as any;
 
 export type DescribeRegistrationVersionsError =
@@ -4370,6 +4500,8 @@ export const describeRegistrationVersions: API.PaginatedOperationMethod<
     items: "RegistrationVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistrationVersions",
 })) as any;
 
 export type DescribeSenderIdsError =
@@ -4411,6 +4543,8 @@ export const describeSenderIds: API.PaginatedOperationMethod<
     items: "SenderIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSenderIds",
 })) as any;
 
 export type DescribeSpendLimitsError =
@@ -4448,6 +4582,8 @@ export const describeSpendLimits: API.PaginatedOperationMethod<
     items: "SpendLimits",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSpendLimits",
 })) as any;
 
 export type DescribeVerifiedDestinationNumbersError =
@@ -4485,6 +4621,8 @@ export const describeVerifiedDestinationNumbers: API.PaginatedOperationMethod<
     items: "VerifiedDestinationNumbers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeVerifiedDestinationNumbers",
 })) as any;
 
 export type DisassociateOriginationIdentityError =
@@ -4519,6 +4657,8 @@ export const disassociateOriginationIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOriginationIdentity",
+  telemetry: TELEMETRY,
+  span: "DisassociateOriginationIdentity",
 }));
 
 export type DisassociateProtectConfigurationError =
@@ -4551,6 +4691,8 @@ export const disassociateProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProtectConfiguration",
+  telemetry: TELEMETRY,
+  span: "DisassociateProtectConfiguration",
 }));
 
 export type DiscardRegistrationVersionError =
@@ -4583,6 +4725,8 @@ export const discardRegistrationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DiscardRegistrationVersion",
+  telemetry: TELEMETRY,
+  span: "DiscardRegistrationVersion",
 }));
 
 export type GetProtectConfigurationCountryRuleSetError =
@@ -4613,6 +4757,8 @@ export const getProtectConfigurationCountryRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectConfigurationCountryRuleSet",
+  telemetry: TELEMETRY,
+  span: "GetProtectConfigurationCountryRuleSet",
 }));
 
 export type GetResourcePolicyError =
@@ -4643,6 +4789,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListAvailablePhoneNumbersError =
@@ -4684,6 +4832,8 @@ export const listAvailablePhoneNumbers: API.PaginatedOperationMethod<
     items: "AvailablePhoneNumbers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAvailablePhoneNumbers",
 })) as any;
 
 export type ListNotifyCountriesError =
@@ -4719,6 +4869,8 @@ export const listNotifyCountries: API.PaginatedOperationMethod<
     items: "NotifyCountries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotifyCountries",
 })) as any;
 
 export type ListPoolOriginationIdentitiesError =
@@ -4758,6 +4910,8 @@ export const listPoolOriginationIdentities: API.PaginatedOperationMethod<
     items: "OriginationIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPoolOriginationIdentities",
 })) as any;
 
 export type ListProtectConfigurationRuleSetNumberOverridesError =
@@ -4803,6 +4957,8 @@ export const listProtectConfigurationRuleSetNumberOverrides: API.PaginatedOperat
     items: "RuleSetNumberOverrides",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtectConfigurationRuleSetNumberOverrides",
 })) as any;
 
 export type ListRegistrationAssociationsError =
@@ -4840,6 +4996,8 @@ export const listRegistrationAssociations: API.PaginatedOperationMethod<
     items: "RegistrationAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegistrationAssociations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4870,6 +5028,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutKeywordError =
@@ -4908,6 +5068,8 @@ export const putKeyword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKeyword",
+  telemetry: TELEMETRY,
+  span: "PutKeyword",
 }));
 
 export type PutMessageFeedbackError =
@@ -4940,6 +5102,8 @@ export const putMessageFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMessageFeedback",
+  telemetry: TELEMETRY,
+  span: "PutMessageFeedback",
 }));
 
 export type PutOptedOutNumberError =
@@ -4972,6 +5136,8 @@ export const putOptedOutNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOptedOutNumber",
+  telemetry: TELEMETRY,
+  span: "PutOptedOutNumber",
 }));
 
 export type PutProtectConfigurationRuleSetNumberOverrideError =
@@ -5014,6 +5180,8 @@ export const putProtectConfigurationRuleSetNumberOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProtectConfigurationRuleSetNumberOverride",
+  telemetry: TELEMETRY,
+  span: "PutProtectConfigurationRuleSetNumberOverride",
 }));
 
 export type PutRegistrationFieldValueError =
@@ -5046,6 +5214,8 @@ export const putRegistrationFieldValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistrationFieldValue",
+  telemetry: TELEMETRY,
+  span: "PutRegistrationFieldValue",
 }));
 
 export type PutResourcePolicyError =
@@ -5076,6 +5246,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type ReleasePhoneNumberError =
@@ -5110,6 +5282,8 @@ export const releasePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleasePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "ReleasePhoneNumber",
 }));
 
 export type ReleaseSenderIdError =
@@ -5142,6 +5316,8 @@ export const releaseSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseSenderId",
+  telemetry: TELEMETRY,
+  span: "ReleaseSenderId",
 }));
 
 export type RequestPhoneNumberError =
@@ -5176,6 +5352,8 @@ export const requestPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "RequestPhoneNumber",
 }));
 
 export type RequestSenderIdError =
@@ -5208,6 +5386,8 @@ export const requestSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestSenderId",
+  telemetry: TELEMETRY,
+  span: "RequestSenderId",
 }));
 
 export type SendDestinationNumberVerificationCodeError =
@@ -5242,6 +5422,8 @@ export const sendDestinationNumberVerificationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDestinationNumberVerificationCode",
+  telemetry: TELEMETRY,
+  span: "SendDestinationNumberVerificationCode",
 }));
 
 export type SendMediaMessageError =
@@ -5276,6 +5458,8 @@ export const sendMediaMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMediaMessage",
+  telemetry: TELEMETRY,
+  span: "SendMediaMessage",
 }));
 
 export type SendNotifyTextMessageError =
@@ -5310,6 +5494,8 @@ export const sendNotifyTextMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendNotifyTextMessage",
+  telemetry: TELEMETRY,
+  span: "SendNotifyTextMessage",
 }));
 
 export type SendNotifyVoiceMessageError =
@@ -5344,6 +5530,8 @@ export const sendNotifyVoiceMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendNotifyVoiceMessage",
+  telemetry: TELEMETRY,
+  span: "SendNotifyVoiceMessage",
 }));
 
 export type SendRcsMessageError =
@@ -5378,6 +5566,8 @@ export const sendRcsMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendRcsMessage",
+  telemetry: TELEMETRY,
+  span: "SendRcsMessage",
 }));
 
 export type SendTextMessageError =
@@ -5414,6 +5604,8 @@ export const sendTextMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTextMessage",
+  telemetry: TELEMETRY,
+  span: "SendTextMessage",
 }));
 
 export type SendVoiceMessageError =
@@ -5448,6 +5640,8 @@ export const sendVoiceMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendVoiceMessage",
+  telemetry: TELEMETRY,
+  span: "SendVoiceMessage",
 }));
 
 export type SetAccountDefaultProtectConfigurationError =
@@ -5478,6 +5672,8 @@ export const setAccountDefaultProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetAccountDefaultProtectConfiguration",
+  telemetry: TELEMETRY,
+  span: "SetAccountDefaultProtectConfiguration",
 }));
 
 export type SetDefaultMessageFeedbackEnabledError =
@@ -5508,6 +5704,8 @@ export const setDefaultMessageFeedbackEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultMessageFeedbackEnabled",
+  telemetry: TELEMETRY,
+  span: "SetDefaultMessageFeedbackEnabled",
 }));
 
 export type SetDefaultMessageTypeError =
@@ -5540,6 +5738,8 @@ export const setDefaultMessageType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultMessageType",
+  telemetry: TELEMETRY,
+  span: "SetDefaultMessageType",
 }));
 
 export type SetDefaultSenderIdError =
@@ -5572,6 +5772,8 @@ export const setDefaultSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultSenderId",
+  telemetry: TELEMETRY,
+  span: "SetDefaultSenderId",
 }));
 
 export type SetMediaMessageSpendLimitOverrideError =
@@ -5600,6 +5802,8 @@ export const setMediaMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetMediaMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "SetMediaMessageSpendLimitOverride",
 }));
 
 export type SetNotifyMessageSpendLimitOverrideError =
@@ -5628,6 +5832,8 @@ export const setNotifyMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetNotifyMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "SetNotifyMessageSpendLimitOverride",
 }));
 
 export type SetRcsMessageSpendLimitOverrideError =
@@ -5656,6 +5862,8 @@ export const setRcsMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRcsMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "SetRcsMessageSpendLimitOverride",
 }));
 
 export type SetTextMessageSpendLimitOverrideError =
@@ -5684,6 +5892,8 @@ export const setTextMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTextMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "SetTextMessageSpendLimitOverride",
 }));
 
 export type SetVoiceMessageSpendLimitOverrideError =
@@ -5712,6 +5922,8 @@ export const setVoiceMessageSpendLimitOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVoiceMessageSpendLimitOverride",
+  telemetry: TELEMETRY,
+  span: "SetVoiceMessageSpendLimitOverride",
 }));
 
 export type SubmitRegistrationVersionError =
@@ -5744,6 +5956,8 @@ export const submitRegistrationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitRegistrationVersion",
+  telemetry: TELEMETRY,
+  span: "SubmitRegistrationVersion",
 }));
 
 export type TagResourceError =
@@ -5776,6 +5990,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5806,6 +6022,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEventDestinationError =
@@ -5840,6 +6058,8 @@ export const updateEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateEventDestination",
 }));
 
 export type UpdateNotifyConfigurationError =
@@ -5872,6 +6092,8 @@ export const updateNotifyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotifyConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNotifyConfiguration",
 }));
 
 export type UpdatePhoneNumberError =
@@ -5906,6 +6128,8 @@ export const updatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumber",
 }));
 
 export type UpdatePoolError =
@@ -5938,6 +6162,8 @@ export const updatePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePool",
+  telemetry: TELEMETRY,
+  span: "UpdatePool",
 }));
 
 export type UpdateProtectConfigurationError =
@@ -5968,6 +6194,8 @@ export const updateProtectConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateProtectConfiguration",
 }));
 
 export type UpdateProtectConfigurationCountryRuleSetError =
@@ -5998,6 +6226,8 @@ export const updateProtectConfigurationCountryRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectConfigurationCountryRuleSet",
+  telemetry: TELEMETRY,
+  span: "UpdateProtectConfigurationCountryRuleSet",
 }));
 
 export type UpdateRcsAgentError =
@@ -6030,6 +6260,8 @@ export const updateRcsAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRcsAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateRcsAgent",
 }));
 
 export type UpdateSenderIdError =
@@ -6060,6 +6292,8 @@ export const updateSenderId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSenderId",
+  telemetry: TELEMETRY,
+  span: "UpdateSenderId",
 }));
 
 export type VerifyDestinationNumberError =
@@ -6092,6 +6326,8 @@ export const verifyDestinationNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDestinationNumber",
+  telemetry: TELEMETRY,
+  span: "VerifyDestinationNumber",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

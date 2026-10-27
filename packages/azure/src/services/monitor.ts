@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Insights" },
+  prefix: "Monitor",
+  service: "Monitor",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteScheduledQueryRuleRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -497,6 +517,8 @@ export const DeleteScheduledQueryRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledQueryRule",
 }));
 
 export type FetchDataCollectionRuleConfigurationMetadataError = AzureOpError;
@@ -512,6 +534,8 @@ export const FetchDataCollectionRuleConfigurationMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchDataCollectionRuleConfigurationMetadata",
 }));
 
 export type GetScheduledQueryRuleError = AzureOpError;
@@ -527,6 +551,8 @@ export const GetScheduledQueryRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScheduledQueryRule",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -542,6 +568,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListScheduledQueryRuleByResourceGroupError = AzureOpError;
@@ -557,6 +585,8 @@ export const ListScheduledQueryRuleByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduledQueryRuleByResourceGroup",
 }));
 
 export type ListScheduledQueryRuleBySubscriptionError = AzureOpError;
@@ -572,6 +602,8 @@ export const ListScheduledQueryRuleBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduledQueryRuleBySubscription",
 }));
 
 export type ScheduledQueryRulesCreateOrUpdateError = AzureOpError;
@@ -587,6 +619,8 @@ export const ScheduledQueryRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduledQueryRulesCreateOrUpdate",
 }));
 
 export type UpdateScheduledQueryRuleError = AzureOpError;
@@ -602,6 +636,8 @@ export const UpdateScheduledQueryRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledQueryRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

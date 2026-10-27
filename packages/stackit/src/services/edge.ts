@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Edge",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -249,6 +262,8 @@ export const createInstance: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type DeleteInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -264,6 +279,8 @@ export const deleteInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeleteInstanceByNameError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -279,6 +296,8 @@ export const deleteInstanceByName: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceByName",
 }));
 
 export type GetInstanceError = BadRequest | NotFound | StackitOpError;
@@ -294,6 +313,8 @@ export const getInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetInstanceByNameError = BadRequest | NotFound | StackitOpError;
@@ -309,6 +330,8 @@ export const getInstanceByName: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceByName",
 }));
 
 export type GetKubeconfigByInstanceIdError = BadRequest | NotFound | StackitOpError;
@@ -324,6 +347,8 @@ export const getKubeconfigByInstanceId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubeconfigByInstanceId",
 }));
 
 export type GetKubeconfigByInstanceNameError = BadRequest | NotFound | StackitOpError;
@@ -339,6 +364,8 @@ export const getKubeconfigByInstanceName: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubeconfigByInstanceName",
 }));
 
 export type GetTokenByInstanceIdError = BadRequest | NotFound | StackitOpError;
@@ -354,6 +381,8 @@ export const getTokenByInstanceId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenByInstanceId",
 }));
 
 export type GetTokenByInstanceNameError = BadRequest | NotFound | StackitOpError;
@@ -369,6 +398,8 @@ export const getTokenByInstanceName: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenByInstanceName",
 }));
 
 export type ListCompatibleKubernetesReleasesError = BadRequest | NotFound | StackitOpError;
@@ -383,6 +414,8 @@ export const listCompatibleKubernetesReleases: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCompatibleKubernetesReleases",
 }));
 
 export type ListInstancesError = BadRequest | StackitOpError;
@@ -398,6 +431,8 @@ export const listInstances: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 }));
 
 export type ListPlansProjectError = BadRequest | StackitOpError;
@@ -413,6 +448,8 @@ export const listPlansProject: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlansProject",
 }));
 
 export type UpdateInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -428,6 +465,8 @@ export const updateInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 export type UpdateInstanceByNameError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -443,6 +482,8 @@ export const updateInstanceByName: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceByName",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

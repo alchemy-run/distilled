@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Agents",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -642,6 +660,8 @@ export const addSelectedRepoToOrgSecret: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSelectedRepoToOrgSecret",
 }));
 
 export type AddSelectedRepoToOrgVariableError = Conflict | GithubOpError;
@@ -657,6 +677,8 @@ export const addSelectedRepoToOrgVariable: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSelectedRepoToOrgVariable",
 }));
 
 export type CreateOrgVariableError = GithubOpError;
@@ -672,6 +694,8 @@ export const createOrgVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgVariable",
 }));
 
 export type CreateOrUpdateOrgSecretError = GithubOpError;
@@ -687,6 +711,8 @@ export const createOrUpdateOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateOrgSecret",
 }));
 
 export type CreateOrUpdateRepoSecretError = GithubOpError;
@@ -702,6 +728,8 @@ export const createOrUpdateRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateRepoSecret",
 }));
 
 export type CreateRepoVariableError = GithubOpError;
@@ -717,6 +745,8 @@ export const createRepoVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepoVariable",
 }));
 
 export type DeleteOrgSecretError = GithubOpError;
@@ -732,6 +762,8 @@ export const deleteOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgSecret",
 }));
 
 export type DeleteOrgVariableError = GithubOpError;
@@ -747,6 +779,8 @@ export const deleteOrgVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgVariable",
 }));
 
 export type DeleteRepoSecretError = GithubOpError;
@@ -762,6 +796,8 @@ export const deleteRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoSecret",
 }));
 
 export type DeleteRepoVariableError = GithubOpError;
@@ -777,6 +813,8 @@ export const deleteRepoVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoVariable",
 }));
 
 export type GetOrgPublicKeyError = GithubOpError;
@@ -792,6 +830,8 @@ export const getOrgPublicKey: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgPublicKey",
 }));
 
 export type GetOrgSecretError = GithubOpError;
@@ -807,6 +847,8 @@ export const getOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgSecret",
 }));
 
 export type GetOrgVariableError = GithubOpError;
@@ -822,6 +864,8 @@ export const getOrgVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgVariable",
 }));
 
 export type GetRepoPublicKeyError = GithubOpError;
@@ -837,6 +881,8 @@ export const getRepoPublicKey: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoPublicKey",
 }));
 
 export type GetRepoSecretError = GithubOpError;
@@ -852,6 +898,8 @@ export const getRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoSecret",
 }));
 
 export type GetRepoVariableError = GithubOpError;
@@ -867,6 +915,8 @@ export const getRepoVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoVariable",
 }));
 
 export type ListOrgSecretsError = GithubOpError;
@@ -882,6 +932,8 @@ export const listOrgSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgSecrets",
 }));
 
 export type ListOrgVariablesError = GithubOpError;
@@ -897,6 +949,8 @@ export const listOrgVariables: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgVariables",
 }));
 
 export type ListRepoOrganizationSecretsError = GithubOpError;
@@ -912,6 +966,8 @@ export const listRepoOrganizationSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoOrganizationSecrets",
 }));
 
 export type ListRepoOrganizationVariablesError = GithubOpError;
@@ -927,6 +983,8 @@ export const listRepoOrganizationVariables: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoOrganizationVariables",
 }));
 
 export type ListRepoSecretsError = GithubOpError;
@@ -942,6 +1000,8 @@ export const listRepoSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoSecrets",
 }));
 
 export type ListRepoVariablesError = GithubOpError;
@@ -957,6 +1017,8 @@ export const listRepoVariables: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoVariables",
 }));
 
 export type ListSelectedReposForOrgSecretError = GithubOpError;
@@ -972,6 +1034,8 @@ export const listSelectedReposForOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelectedReposForOrgSecret",
 }));
 
 export type ListSelectedReposForOrgVariableError = Conflict | GithubOpError;
@@ -987,6 +1051,8 @@ export const listSelectedReposForOrgVariable: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelectedReposForOrgVariable",
 }));
 
 export type RemoveSelectedRepoFromOrgSecretError = Conflict | GithubOpError;
@@ -1002,6 +1068,8 @@ export const removeSelectedRepoFromOrgSecret: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSelectedRepoFromOrgSecret",
 }));
 
 export type RemoveSelectedRepoFromOrgVariableError = Conflict | GithubOpError;
@@ -1017,6 +1085,8 @@ export const removeSelectedRepoFromOrgVariable: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSelectedRepoFromOrgVariable",
 }));
 
 export type SetSelectedReposForOrgSecretError = GithubOpError;
@@ -1032,6 +1102,8 @@ export const setSelectedReposForOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelectedReposForOrgSecret",
 }));
 
 export type SetSelectedReposForOrgVariableError = Conflict | GithubOpError;
@@ -1047,6 +1119,8 @@ export const setSelectedReposForOrgVariable: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelectedReposForOrgVariable",
 }));
 
 export type UpdateOrgVariableError = GithubOpError;
@@ -1062,6 +1136,8 @@ export const updateOrgVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgVariable",
 }));
 
 export type UpdateRepoVariableError = GithubOpError;
@@ -1077,6 +1153,8 @@ export const updateRepoVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoVariable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

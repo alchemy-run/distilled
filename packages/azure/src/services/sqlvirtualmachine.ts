@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.SqlVirtualMachine" },
+  prefix: "Sqlvirtualmachine",
+  service: "Sqlvirtualmachine",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** A private IP address bound to the availability group listener. */
 export interface PrivateIPAddress {
   /** Private IP address bound to the availability group listener. */
@@ -1145,6 +1165,8 @@ export const AvailabilityGroupListenersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AvailabilityGroupListenersCreateOrUpdate",
 }));
 
 export type DeleteAvailabilityGroupListenerError = AzureOpError;
@@ -1160,6 +1182,8 @@ export const DeleteAvailabilityGroupListener: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAvailabilityGroupListener",
 }));
 
 export type DeleteSqlVirtualMachineError = AzureOpError;
@@ -1175,6 +1199,8 @@ export const DeleteSqlVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlVirtualMachine",
 }));
 
 export type DeleteSqlVirtualMachineGroupError = AzureOpError;
@@ -1190,6 +1216,8 @@ export const DeleteSqlVirtualMachineGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlVirtualMachineGroup",
 }));
 
 export type FetchSqlVirtualMachineDCAssessmentError = AzureOpError;
@@ -1205,6 +1233,8 @@ export const FetchSqlVirtualMachineDCAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchSqlVirtualMachineDCAssessment",
 }));
 
 export type GetAvailabilityGroupListenerError = AzureOpError;
@@ -1220,6 +1250,8 @@ export const GetAvailabilityGroupListener: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvailabilityGroupListener",
 }));
 
 export type GetSqlVirtualMachineError = AzureOpError;
@@ -1235,6 +1267,8 @@ export const GetSqlVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlVirtualMachine",
 }));
 
 export type GetSqlVirtualMachineGroupError = AzureOpError;
@@ -1250,6 +1284,8 @@ export const GetSqlVirtualMachineGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlVirtualMachineGroup",
 }));
 
 export type ListAvailabilityGroupListenerByGroupError = AzureOpError;
@@ -1265,6 +1301,8 @@ export const ListAvailabilityGroupListenerByGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilityGroupListenerByGroup",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1280,6 +1318,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSqlVirtualMachineByResourceGroupError = AzureOpError;
@@ -1295,6 +1335,8 @@ export const ListSqlVirtualMachineByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlVirtualMachineByResourceGroup",
 }));
 
 export type ListSqlVirtualMachineBySqlVmGroupError = AzureOpError;
@@ -1310,6 +1352,8 @@ export const ListSqlVirtualMachineBySqlVmGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlVirtualMachineBySqlVmGroup",
 }));
 
 export type ListSqlVirtualMachineGroupByResourceGroupError = AzureOpError;
@@ -1325,6 +1369,8 @@ export const ListSqlVirtualMachineGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlVirtualMachineGroupByResourceGroup",
 }));
 
 export type ListSqlVirtualMachineGroupsError = AzureOpError;
@@ -1340,6 +1386,8 @@ export const ListSqlVirtualMachineGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlVirtualMachineGroups",
 }));
 
 export type ListSqlVirtualMachinesError = AzureOpError;
@@ -1355,6 +1403,8 @@ export const ListSqlVirtualMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlVirtualMachines",
 }));
 
 export type RedeploySqlVirtualMachineError = AzureOpError;
@@ -1370,6 +1420,8 @@ export const RedeploySqlVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeploySqlVirtualMachine",
 }));
 
 export type SqlVirtualMachineGroupsCreateOrUpdateError = AzureOpError;
@@ -1385,6 +1437,8 @@ export const SqlVirtualMachineGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlVirtualMachineGroupsCreateOrUpdate",
 }));
 
 export type SqlVirtualMachinesCreateOrUpdateError = AzureOpError;
@@ -1400,6 +1454,8 @@ export const SqlVirtualMachinesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlVirtualMachinesCreateOrUpdate",
 }));
 
 export type SqlVirtualMachineTroubleshootTroubleshootError = AzureOpError;
@@ -1415,6 +1471,8 @@ export const SqlVirtualMachineTroubleshootTroubleshoot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlVirtualMachineTroubleshootTroubleshoot",
 }));
 
 export type StartSqlVirtualMachineAssessmentError = AzureOpError;
@@ -1430,6 +1488,8 @@ export const StartSqlVirtualMachineAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSqlVirtualMachineAssessment",
 }));
 
 export type UpdateSqlVirtualMachineError = AzureOpError;
@@ -1445,6 +1505,8 @@ export const UpdateSqlVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlVirtualMachine",
 }));
 
 export type UpdateSqlVirtualMachineGroupError = AzureOpError;
@@ -1460,6 +1522,8 @@ export const UpdateSqlVirtualMachineGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlVirtualMachineGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

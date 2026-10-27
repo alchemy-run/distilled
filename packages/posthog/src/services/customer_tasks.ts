@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "CustomerTasks",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -250,6 +263,8 @@ export const createCustomerTask: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerTask",
 }));
 
 export type CustomerTasksArchiveCreateError = PosthogOpError;
@@ -264,6 +279,8 @@ export const customerTasksArchiveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerTasksArchiveCreate",
 }));
 
 export type CustomerTasksRestoreCreateError = PosthogOpError;
@@ -278,6 +295,8 @@ export const customerTasksRestoreCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerTasksRestoreCreate",
 }));
 
 export type GetCustomerTaskError = NotFound | PosthogOpError;
@@ -292,6 +311,8 @@ export const getCustomerTask: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerTask",
 }));
 
 export type ListCustomerTasksError = PosthogOpError;
@@ -306,6 +327,8 @@ export const listCustomerTasks: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomerTasks",
 }));
 
 export type ListCustomerTasksActivitiesError = PosthogOpError;
@@ -320,6 +343,8 @@ export const listCustomerTasksActivities: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomerTasksActivities",
 }));
 
 export type UpdateCustomerTaskError = PosthogOpError;
@@ -334,6 +359,8 @@ export const updateCustomerTask: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerTask",
 }));
 
 export type UpdateCustomerTasksPartialError = PosthogOpError;
@@ -348,6 +375,8 @@ export const updateCustomerTasksPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerTasksPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

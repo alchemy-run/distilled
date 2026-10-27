@@ -105,6 +105,7 @@ const markScopeLabelsGreedy = (model: any): void => {
 
 runGeneratorCli({
   description: "Generate the Azure Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/<service>/*.json apply in convert (finalizeConvert), so the
   // models here are already patched.

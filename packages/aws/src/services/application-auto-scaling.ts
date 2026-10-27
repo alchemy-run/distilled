@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -80,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://application-autoscaling.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApplicationAutoScaling",
+  service: "ApplicationAutoScaling",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentUpdateException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentUpdateException>()(
@@ -698,6 +714,8 @@ export const deleteScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteScalingPolicy",
 }));
 
 export type DeleteScheduledActionError =
@@ -728,6 +746,8 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledAction",
 }));
 
 export type DeregisterScalableTargetError =
@@ -760,6 +780,8 @@ export const deregisterScalableTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterScalableTarget",
+  telemetry: TELEMETRY,
+  span: "DeregisterScalableTarget",
 }));
 
 export type DescribeScalableTargetsError =
@@ -798,6 +820,8 @@ export const describeScalableTargets: API.PaginatedOperationMethod<
     items: "ScalableTargets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScalableTargets",
 })) as any;
 
 export type DescribeScalingActivitiesError =
@@ -839,6 +863,8 @@ export const describeScalingActivities: API.PaginatedOperationMethod<
     items: "ScalingActivities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScalingActivities",
 })) as any;
 
 export type DescribeScalingPoliciesError =
@@ -881,6 +907,8 @@ export const describeScalingPolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScalingPolicies",
 })) as any;
 
 export type DescribeScheduledActionsError =
@@ -921,6 +949,8 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
     items: "ScheduledActions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScheduledActions",
 })) as any;
 
 export type GetPredictiveScalingForecastError =
@@ -951,6 +981,8 @@ export const getPredictiveScalingForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPredictiveScalingForecast",
+  telemetry: TELEMETRY,
+  span: "GetPredictiveScalingForecast",
 }));
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -972,6 +1004,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutScalingPolicyError =
@@ -1032,6 +1066,8 @@ export const putScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutScalingPolicy",
 }));
 
 export type PutScheduledActionError =
@@ -1079,6 +1115,8 @@ export const putScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScheduledAction",
+  telemetry: TELEMETRY,
+  span: "PutScheduledAction",
 }));
 
 export type RegisterScalableTargetError =
@@ -1143,6 +1181,8 @@ export const registerScalableTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterScalableTarget",
+  telemetry: TELEMETRY,
+  span: "RegisterScalableTarget",
 }));
 
 export type TagResourceError =
@@ -1181,6 +1221,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1200,6 +1242,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

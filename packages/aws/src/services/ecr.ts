@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -316,6 +317,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.ecr.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ECR",
+  service: "ECR",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BlockedByOrganizationPolicyException
   extends /*@__PURE__*/ S.TaggedError<BlockedByOrganizationPolicyException>()(
@@ -1684,6 +1700,8 @@ export const batchCheckLayerAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCheckLayerAvailability",
+  telemetry: TELEMETRY,
+  span: "BatchCheckLayerAvailability",
 }));
 
 export type BatchDeleteImageError =
@@ -1713,6 +1731,8 @@ export const batchDeleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteImage",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteImage",
 }));
 
 export type BatchGetImageError =
@@ -1747,6 +1767,8 @@ export const batchGetImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetImage",
+  telemetry: TELEMETRY,
+  span: "BatchGetImage",
 }));
 
 export type BatchGetRepositoryScanningConfigurationError =
@@ -1775,6 +1797,8 @@ export const batchGetRepositoryScanningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRepositoryScanningConfiguration",
+  telemetry: TELEMETRY,
+  span: "BatchGetRepositoryScanningConfiguration",
 }));
 
 export type CompleteLayerUploadError =
@@ -1821,6 +1845,8 @@ export const completeLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLayerUpload",
+  telemetry: TELEMETRY,
+  span: "CompleteLayerUpload",
 }));
 
 export type CreatePullThroughCacheRuleError =
@@ -1862,6 +1888,8 @@ export const createPullThroughCacheRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePullThroughCacheRule",
+  telemetry: TELEMETRY,
+  span: "CreatePullThroughCacheRule",
 }));
 
 export type CreateRepositoryError =
@@ -1897,6 +1925,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type CreateRepositoryCreationTemplateError =
@@ -1931,6 +1961,8 @@ export const createRepositoryCreationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepositoryCreationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateRepositoryCreationTemplate",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -1961,6 +1993,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecyclePolicy",
 }));
 
 export type DeletePullThroughCacheRuleError =
@@ -1989,6 +2023,8 @@ export const deletePullThroughCacheRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePullThroughCacheRule",
+  telemetry: TELEMETRY,
+  span: "DeletePullThroughCacheRule",
 }));
 
 export type DeleteRegistryPolicyError =
@@ -2017,6 +2053,8 @@ export const deleteRegistryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistryPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteRegistryPolicy",
 }));
 
 export type DeleteRepositoryError =
@@ -2049,6 +2087,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteRepositoryCreationTemplateError =
@@ -2077,6 +2117,8 @@ export const deleteRepositoryCreationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryCreationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryCreationTemplate",
 }));
 
 export type DeleteRepositoryPolicyError =
@@ -2105,6 +2147,8 @@ export const deleteRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryPolicy",
 }));
 
 export type DeleteSigningConfigurationError =
@@ -2133,6 +2177,8 @@ export const deleteSigningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSigningConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSigningConfiguration",
 }));
 
 export type DeregisterPullTimeUpdateExclusionError =
@@ -2163,6 +2209,8 @@ export const deregisterPullTimeUpdateExclusion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterPullTimeUpdateExclusion",
+  telemetry: TELEMETRY,
+  span: "DeregisterPullTimeUpdateExclusion",
 }));
 
 export type DescribeImageReplicationStatusError =
@@ -2193,6 +2241,8 @@ export const describeImageReplicationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageReplicationStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeImageReplicationStatus",
 }));
 
 export type DescribeImagesError =
@@ -2239,6 +2289,8 @@ export const describeImages: API.PaginatedOperationMethod<
     items: "imageDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImages",
 })) as any;
 
 export type DescribeImageScanFindingsError =
@@ -2277,6 +2329,8 @@ export const describeImageScanFindings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImageScanFindings",
 })) as any;
 
 export type DescribeImageSigningStatusError =
@@ -2312,6 +2366,8 @@ export const describeImageSigningStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageSigningStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeImageSigningStatus",
 }));
 
 export type DescribePullThroughCacheRulesError =
@@ -2347,6 +2403,8 @@ export const describePullThroughCacheRules: API.PaginatedOperationMethod<
     items: "pullThroughCacheRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePullThroughCacheRules",
 })) as any;
 
 export type DescribeRegistryError =
@@ -2371,6 +2429,8 @@ export const describeRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegistry",
+  telemetry: TELEMETRY,
+  span: "DescribeRegistry",
 }));
 
 export type DescribeRepositoriesError =
@@ -2400,6 +2460,8 @@ export const describeRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRepositories",
 })) as any;
 
 export type DescribeRepositoryCreationTemplatesError =
@@ -2431,6 +2493,8 @@ export const describeRepositoryCreationTemplates: API.PaginatedOperationMethod<
     items: "repositoryCreationTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRepositoryCreationTemplates",
 })) as any;
 
 export type GetAccountSettingError =
@@ -2453,6 +2517,8 @@ export const getAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSetting",
+  telemetry: TELEMETRY,
+  span: "GetAccountSetting",
 }));
 
 export type GetAuthorizationTokenError = InvalidParameterException | ServerException | CommonErrors;
@@ -2479,6 +2545,8 @@ export const getAuthorizationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizationToken",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationToken",
 }));
 
 export type GetDownloadUrlForLayerError =
@@ -2518,6 +2586,8 @@ export const getDownloadUrlForLayer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDownloadUrlForLayer",
+  telemetry: TELEMETRY,
+  span: "GetDownloadUrlForLayer",
 }));
 
 export type GetLifecyclePolicyError =
@@ -2548,6 +2618,8 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "GetLifecyclePolicy",
 }));
 
 export type GetLifecyclePolicyPreviewError =
@@ -2586,6 +2658,8 @@ export const getLifecyclePolicyPreview: API.PaginatedOperationMethod<
     items: "previewResults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLifecyclePolicyPreview",
 })) as any;
 
 export type GetRegistryPolicyError =
@@ -2614,6 +2688,8 @@ export const getRegistryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryPolicy",
+  telemetry: TELEMETRY,
+  span: "GetRegistryPolicy",
 }));
 
 export type GetRegistryScanningConfigurationError =
@@ -2636,6 +2712,8 @@ export const getRegistryScanningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryScanningConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetRegistryScanningConfiguration",
 }));
 
 export type GetRepositoryPolicyError =
@@ -2664,6 +2742,8 @@ export const getRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryPolicy",
 }));
 
 export type GetSigningConfigurationError =
@@ -2696,6 +2776,8 @@ export const getSigningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetSigningConfiguration",
 }));
 
 export type InitiateLayerUploadError =
@@ -2726,6 +2808,8 @@ export const initiateLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateLayerUpload",
+  telemetry: TELEMETRY,
+  span: "InitiateLayerUpload",
 }));
 
 export type ListImageReferrersError =
@@ -2758,6 +2842,8 @@ export const listImageReferrers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListImageReferrers",
+  telemetry: TELEMETRY,
+  span: "ListImageReferrers",
 }));
 
 export type ListImagesError =
@@ -2794,6 +2880,8 @@ export const listImages: API.PaginatedOperationMethod<
     items: "imageIds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImages",
 })) as any;
 
 export type ListPullTimeUpdateExclusionsError =
@@ -2817,6 +2905,8 @@ export const listPullTimeUpdateExclusions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPullTimeUpdateExclusions",
+  telemetry: TELEMETRY,
+  span: "ListPullTimeUpdateExclusions",
 }));
 
 export type ListTagsForResourceError =
@@ -2839,6 +2929,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAccountSettingError =
@@ -2862,6 +2954,8 @@ export const putAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSetting",
+  telemetry: TELEMETRY,
+  span: "PutAccountSetting",
 }));
 
 export type PutImageError =
@@ -2909,6 +3003,8 @@ export const putImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImage",
+  telemetry: TELEMETRY,
+  span: "PutImage",
 }));
 
 export type PutImageScanningConfigurationError =
@@ -2941,6 +3037,8 @@ export const putImageScanningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImageScanningConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutImageScanningConfiguration",
 }));
 
 export type PutImageTagMutabilityError =
@@ -2965,6 +3063,8 @@ export const putImageTagMutability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImageTagMutability",
+  telemetry: TELEMETRY,
+  span: "PutImageTagMutability",
 }));
 
 export type PutLifecyclePolicyError =
@@ -2995,6 +3095,8 @@ export const putLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "PutLifecyclePolicy",
 }));
 
 export type PutRegistryPolicyError =
@@ -3020,6 +3122,8 @@ export const putRegistryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistryPolicy",
+  telemetry: TELEMETRY,
+  span: "PutRegistryPolicy",
 }));
 
 export type PutRegistryScanningConfigurationError =
@@ -3048,6 +3152,8 @@ export const putRegistryScanningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistryScanningConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutRegistryScanningConfiguration",
 }));
 
 export type PutReplicationConfigurationError =
@@ -3079,6 +3185,8 @@ export const putReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutReplicationConfiguration",
 }));
 
 export type PutSigningConfigurationError =
@@ -3109,6 +3217,8 @@ export const putSigningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSigningConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutSigningConfiguration",
 }));
 
 export type RegisterPullTimeUpdateExclusionError =
@@ -3139,6 +3249,8 @@ export const registerPullTimeUpdateExclusion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPullTimeUpdateExclusion",
+  telemetry: TELEMETRY,
+  span: "RegisterPullTimeUpdateExclusion",
 }));
 
 export type SetRepositoryPolicyError =
@@ -3163,6 +3275,8 @@ export const setRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "SetRepositoryPolicy",
 }));
 
 export type StartImageScanError =
@@ -3204,6 +3318,8 @@ export const startImageScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImageScan",
+  telemetry: TELEMETRY,
+  span: "StartImageScan",
 }));
 
 export type StartLifecyclePolicyPreviewError =
@@ -3237,6 +3353,8 @@ export const startLifecyclePolicyPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLifecyclePolicyPreview",
+  telemetry: TELEMETRY,
+  span: "StartLifecyclePolicyPreview",
 }));
 
 export type TagResourceError =
@@ -3268,6 +3386,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3298,6 +3418,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateImageStorageClassError =
@@ -3330,6 +3452,8 @@ export const updateImageStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImageStorageClass",
+  telemetry: TELEMETRY,
+  span: "UpdateImageStorageClass",
 }));
 
 export type UpdatePullThroughCacheRuleError =
@@ -3364,6 +3488,8 @@ export const updatePullThroughCacheRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullThroughCacheRule",
+  telemetry: TELEMETRY,
+  span: "UpdatePullThroughCacheRule",
 }));
 
 export type UpdateRepositoryCreationTemplateError =
@@ -3392,6 +3518,8 @@ export const updateRepositoryCreationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryCreationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryCreationTemplate",
 }));
 
 export type UploadLayerPartError =
@@ -3433,6 +3561,8 @@ export const uploadLayerPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadLayerPart",
+  telemetry: TELEMETRY,
+  span: "UploadLayerPart",
 }));
 
 export type ValidatePullThroughCacheRuleError =
@@ -3464,6 +3594,8 @@ export const validatePullThroughCacheRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidatePullThroughCacheRule",
+  telemetry: TELEMETRY,
+  span: "ValidatePullThroughCacheRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

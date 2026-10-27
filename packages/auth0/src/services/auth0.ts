@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { Auth0OpError, Auth0OpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "auth0-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Auth0",
+  service: "Auth0",
+  labels: "auth0",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -19508,6 +19521,8 @@ export const advanceExperimentRamp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdvanceExperimentRamp",
 }));
 
 export type CreateActionModuleError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19523,6 +19538,8 @@ export const createActionModule: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActionModule",
 }));
 
 export type CreateActionModuleRollbackError =
@@ -19543,6 +19560,8 @@ export const createActionModuleRollback: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActionModuleRollback",
 }));
 
 export type CreateActionModuleVersionError =
@@ -19563,6 +19582,8 @@ export const createActionModuleVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActionModuleVersion",
 }));
 
 export type CreateAgentError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19578,6 +19599,8 @@ export const createAgent: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgent",
 }));
 
 export type CreateBrandingThemeError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19593,6 +19616,8 @@ export const createBrandingTheme: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBrandingTheme",
 }));
 
 export type CreateClientError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -19608,6 +19633,8 @@ export const createClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClient",
 }));
 
 export type CreateClientGrantError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -19623,6 +19650,8 @@ export const createClientGrant: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClientGrant",
 }));
 
 export type CreateClientsCimdPreviewError = BadRequest | Forbidden | Auth0OpError;
@@ -19638,6 +19667,8 @@ export const createClientsCimdPreview: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClientsCimdPreview",
 }));
 
 export type CreateClientsCimdRegisterError = BadRequest | Forbidden | Auth0OpError;
@@ -19653,6 +19684,8 @@ export const createClientsCimdRegister: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClientsCimdRegister",
 }));
 
 export type CreateConnectionError =
@@ -19673,6 +19706,8 @@ export const createConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateConnectionProfileError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19688,6 +19723,8 @@ export const createConnectionProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnectionProfile",
 }));
 
 export type CreateCustomDomainError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19703,6 +19740,8 @@ export const createCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomDomain",
 }));
 
 export type CreateDeviceCredentialsError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19718,6 +19757,8 @@ export const createDeviceCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceCredentials",
 }));
 
 export type CreateEmailTemplateError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19733,6 +19774,8 @@ export const createEmailTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailTemplate",
 }));
 
 export type CreateEventStreamError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19748,6 +19791,8 @@ export const createEventStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEventStream",
 }));
 
 export type CreateExperimentError =
@@ -19769,6 +19814,8 @@ export const createExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperiment",
 }));
 
 export type CreateFeatureFlagError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19784,6 +19831,8 @@ export const createFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlag",
 }));
 
 export type CreateFlowError = BadRequest | Forbidden | Auth0OpError;
@@ -19799,6 +19848,8 @@ export const createFlow: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlow",
 }));
 
 export type CreateFlowsVaultConnectionError = BadRequest | Forbidden | Auth0OpError;
@@ -19814,6 +19865,8 @@ export const createFlowsVaultConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlowsVaultConnection",
 }));
 
 export type CreateFormError = BadRequest | Forbidden | Auth0OpError;
@@ -19829,6 +19882,8 @@ export const createForm: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForm",
 }));
 
 export type CreateGroupRoleError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -19844,6 +19899,8 @@ export const createGroupRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupRole",
 }));
 
 export type CreateHookError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19859,6 +19916,8 @@ export const createHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHook",
 }));
 
 export type CreateKeysNetworkAclsError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19874,6 +19933,8 @@ export const createKeysNetworkAcls: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKeysNetworkAcls",
 }));
 
 export type CreateLogStreamError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19889,6 +19950,8 @@ export const createLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogStream",
 }));
 
 export type CreateNetworkAclError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19904,6 +19967,8 @@ export const createNetworkAcl: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkAcl",
 }));
 
 export type CreateOrganizationError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -19919,6 +19984,8 @@ export const createOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateOrganizationClientError =
@@ -19939,6 +20006,8 @@ export const createOrganizationClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationClient",
 }));
 
 export type CreateOrganizationClientGrantsError =
@@ -19959,6 +20028,8 @@ export const createOrganizationClientGrants: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationClientGrants",
 }));
 
 export type CreateOrganizationConnectionError =
@@ -19979,6 +20050,8 @@ export const createOrganizationConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationConnection",
 }));
 
 export type CreateOrganizationGroupRoleError =
@@ -19999,6 +20072,8 @@ export const createOrganizationGroupRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationGroupRole",
 }));
 
 export type CreateOrganizationMemberRoleError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20014,6 +20089,8 @@ export const createOrganizationMemberRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationMemberRole",
 }));
 
 export type CreatePhoneProviderError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20029,6 +20106,8 @@ export const createPhoneProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePhoneProvider",
 }));
 
 export type CreatePhoneTemplateError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20044,6 +20123,8 @@ export const createPhoneTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePhoneTemplate",
 }));
 
 export type CreateRateLimitPolicyError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20059,6 +20140,8 @@ export const createRateLimitPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRateLimitPolicy",
 }));
 
 export type CreateResourceServerError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20074,6 +20157,8 @@ export const createResourceServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceServer",
 }));
 
 export type CreateRoleError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20089,6 +20174,8 @@ export const createRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRole",
 }));
 
 export type CreateRoleGroupError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20104,6 +20191,8 @@ export const createRoleGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRoleGroup",
 }));
 
 export type CreateRoleUserError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20119,6 +20208,8 @@ export const createRoleUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRoleUser",
 }));
 
 export type CreateRuleError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20134,6 +20225,8 @@ export const createRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateSegmentError =
@@ -20154,6 +20247,8 @@ export const createSegment: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSegment",
 }));
 
 export type CreateSelfServiceProfileError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20169,6 +20264,8 @@ export const createSelfServiceProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSelfServiceProfile",
 }));
 
 export type CreateTokenExchangeProfileError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20184,6 +20281,8 @@ export const createTokenExchangeProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTokenExchangeProfile",
 }));
 
 export type CreateUserError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20199,6 +20298,8 @@ export const createUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserAttributeProfileError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20214,6 +20315,8 @@ export const createUserAttributeProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserAttributeProfile",
 }));
 
 export type CreateUserRoleError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20229,6 +20332,8 @@ export const createUserRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserRole",
 }));
 
 export type CreateVariationError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -20244,6 +20349,8 @@ export const createVariation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVariation",
 }));
 
 export type DeleteActionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20259,6 +20366,8 @@ export const deleteAction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAction",
 }));
 
 export type DeleteActionModuleError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20274,6 +20383,8 @@ export const deleteActionModule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActionModule",
 }));
 
 export type DeleteAgentError = BadRequest | Forbidden | Auth0OpError;
@@ -20289,6 +20400,8 @@ export const deleteAgent: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgent",
 }));
 
 export type DeleteAuthenticationMethodsError = BadRequest | Forbidden | Auth0OpError;
@@ -20304,6 +20417,8 @@ export const deleteAuthenticationMethods: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthenticationMethods",
 }));
 
 export type DeleteAuthenticationMethodsByAuthenticationMethodIdError =
@@ -20331,6 +20446,8 @@ export const deleteAuthenticationMethodsByAuthenticationMethodId: API.OperationM
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthenticationMethodsByAuthenticationMethodId",
 }));
 
 export type DeleteAuthenticatorsError = BadRequest | Forbidden | Auth0OpError;
@@ -20346,6 +20463,8 @@ export const deleteAuthenticators: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthenticators",
 }));
 
 export type DeleteBrandingThemeError = Forbidden | NotFound | Auth0OpError;
@@ -20361,6 +20480,8 @@ export const deleteBrandingTheme: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrandingTheme",
 }));
 
 export type DeleteClientError = BadRequest | Forbidden | Auth0OpError;
@@ -20376,6 +20497,8 @@ export const deleteClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClient",
 }));
 
 export type DeleteClientGrantError = BadRequest | Forbidden | Auth0OpError;
@@ -20391,6 +20514,8 @@ export const deleteClientGrant: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClientGrant",
 }));
 
 export type DeleteClientGrantsByGrantIdError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20406,6 +20531,8 @@ export const deleteClientGrantsByGrantId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClientGrantsByGrantId",
 }));
 
 export type DeleteConnectionError = BadRequest | Forbidden | Auth0OpError;
@@ -20421,6 +20548,8 @@ export const deleteConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteConnectionProfileError = Forbidden | Auth0OpError;
@@ -20436,6 +20565,8 @@ export const deleteConnectionProfile: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnectionProfile",
 }));
 
 export type DeleteCredentialsByCredentialIdError = BadRequest | Forbidden | Auth0OpError;
@@ -20451,6 +20582,8 @@ export const deleteCredentialsByCredentialId: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentialsByCredentialId",
 }));
 
 export type DeleteCustomDomainError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20466,6 +20599,8 @@ export const deleteCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDomain",
 }));
 
 export type DeleteCustomSigningKeysError = Forbidden | Auth0OpError;
@@ -20481,6 +20616,8 @@ export const deleteCustomSigningKeys: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomSigningKeys",
 }));
 
 export type DeleteDeviceCredentialsError = BadRequest | Forbidden | Auth0OpError;
@@ -20496,6 +20633,8 @@ export const deleteDeviceCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceCredentials",
 }));
 
 export type DeleteDirectoryProvisioningError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20511,6 +20650,8 @@ export const deleteDirectoryProvisioning: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDirectoryProvisioning",
 }));
 
 export type DeleteDiscoveryDomainsByDiscoveryDomainIdError = Forbidden | NotFound | Auth0OpError;
@@ -20530,6 +20671,8 @@ export const deleteDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDiscoveryDomainsByDiscoveryDomainId",
 }));
 
 export type DeleteEnabledConnectionsByConnectionIdError =
@@ -20549,6 +20692,8 @@ export const deleteEnabledConnectionsByConnectionId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnabledConnectionsByConnectionId",
 }));
 
 export type DeleteEncryptionKeyError = BadRequest | Forbidden | Auth0OpError;
@@ -20564,6 +20709,8 @@ export const deleteEncryptionKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEncryptionKey",
 }));
 
 export type DeleteEnrollmentsByIdError = BadRequest | Forbidden | Auth0OpError;
@@ -20579,6 +20726,8 @@ export const deleteEnrollmentsById: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnrollmentsById",
 }));
 
 export type DeleteEventStreamError = BadRequest | Forbidden | Auth0OpError;
@@ -20594,6 +20743,8 @@ export const deleteEventStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEventStream",
 }));
 
 export type DeleteExperimentError = BadRequest | Forbidden | Auth0OpError;
@@ -20609,6 +20760,8 @@ export const deleteExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExperiment",
 }));
 
 export type DeleteFeatureFlagError = Forbidden | Conflict | Auth0OpError;
@@ -20624,6 +20777,8 @@ export const deleteFeatureFlag: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFeatureFlag",
 }));
 
 export type DeleteFlowError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -20639,6 +20794,8 @@ export const deleteFlow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlow",
 }));
 
 export type DeleteFlowsExecutionError = BadRequest | Forbidden | Auth0OpError;
@@ -20654,6 +20811,8 @@ export const deleteFlowsExecution: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlowsExecution",
 }));
 
 export type DeleteFlowsVaultConnectionError = BadRequest | Forbidden | Auth0OpError;
@@ -20669,6 +20828,8 @@ export const deleteFlowsVaultConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlowsVaultConnection",
 }));
 
 export type DeleteFormError = BadRequest | Forbidden | Auth0OpError;
@@ -20684,6 +20845,8 @@ export const deleteForm: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForm",
 }));
 
 export type DeleteGrantError = Forbidden | Auth0OpError;
@@ -20699,6 +20862,8 @@ export const deleteGrant: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGrant",
 }));
 
 export type DeleteGrantsByUserIdError = Forbidden | Auth0OpError;
@@ -20714,6 +20879,8 @@ export const deleteGrantsByUserId: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGrantsByUserId",
 }));
 
 export type DeleteGroupError = Forbidden | NotFound | Auth0OpError;
@@ -20729,6 +20896,8 @@ export const deleteGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteGroupRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20744,6 +20913,8 @@ export const deleteGroupRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupRoles",
 }));
 
 export type DeleteHookError = BadRequest | Forbidden | Auth0OpError;
@@ -20759,6 +20930,8 @@ export const deleteHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHook",
 }));
 
 export type DeleteInvitationsByInvitationIdError = Forbidden | NotFound | Auth0OpError;
@@ -20774,6 +20947,8 @@ export const deleteInvitationsByInvitationId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvitationsByInvitationId",
 }));
 
 export type DeleteIpsByIdError = BadRequest | Forbidden | Auth0OpError;
@@ -20789,6 +20964,8 @@ export const deleteIpsById: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpsById",
 }));
 
 export type DeleteKeysNetworkAclsError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20804,6 +20981,8 @@ export const deleteKeysNetworkAcls: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKeysNetworkAcls",
 }));
 
 export type DeleteLogStreamError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20819,6 +20998,8 @@ export const deleteLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogStream",
 }));
 
 export type DeleteMembersError = BadRequest | Forbidden | Auth0OpError;
@@ -20834,6 +21015,8 @@ export const deleteMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMembers",
 }));
 
 export type DeleteMultifactorByProviderError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20849,6 +21032,8 @@ export const deleteMultifactorByProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMultifactorByProvider",
 }));
 
 export type DeleteNetworkAclError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20864,6 +21049,8 @@ export const deleteNetworkAcl: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkAcl",
 }));
 
 export type DeleteOrganizationError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20879,6 +21066,8 @@ export const deleteOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteOrganizationClientsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20894,6 +21083,8 @@ export const deleteOrganizationClients: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationClients",
 }));
 
 export type DeleteOrganizationConnectionError = Forbidden | Auth0OpError;
@@ -20909,6 +21100,8 @@ export const deleteOrganizationConnection: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationConnection",
 }));
 
 export type DeleteOrganizationGroupRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20924,6 +21117,8 @@ export const deleteOrganizationGroupRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationGroupRoles",
 }));
 
 export type DeleteOrganizationMemberRolesError = BadRequest | Forbidden | Auth0OpError;
@@ -20939,6 +21134,8 @@ export const deleteOrganizationMemberRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationMemberRoles",
 }));
 
 export type DeletePermissionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20954,6 +21151,8 @@ export const deletePermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePermissions",
 }));
 
 export type DeletePhoneProviderError = Forbidden | NotFound | Auth0OpError;
@@ -20969,6 +21168,8 @@ export const deletePhoneProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePhoneProvider",
 }));
 
 export type DeletePhoneTemplateError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20984,6 +21185,8 @@ export const deletePhoneTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePhoneTemplate",
 }));
 
 export type DeleteProviderError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -20999,6 +21202,8 @@ export const deleteProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProvider",
 }));
 
 export type DeleteRateLimitPolicyError = Forbidden | NotFound | Auth0OpError;
@@ -21014,6 +21219,8 @@ export const deleteRateLimitPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRateLimitPolicy",
 }));
 
 export type DeleteRefreshTokenError = BadRequest | Forbidden | Auth0OpError;
@@ -21029,6 +21236,8 @@ export const deleteRefreshToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRefreshToken",
 }));
 
 export type DeleteRefreshTokensForUserError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21044,6 +21253,8 @@ export const deleteRefreshTokensForUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRefreshTokensForUser",
 }));
 
 export type DeleteResourceServerError = BadRequest | Forbidden | Auth0OpError;
@@ -21059,6 +21270,8 @@ export const deleteResourceServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceServer",
 }));
 
 export type DeleteRoleError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21074,6 +21287,8 @@ export const deleteRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRole",
 }));
 
 export type DeleteRoleGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21089,6 +21304,8 @@ export const deleteRoleGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoleGroups",
 }));
 
 export type DeleteRolePermissionAssignmentError = BadRequest | Forbidden | Auth0OpError;
@@ -21104,6 +21321,8 @@ export const deleteRolePermissionAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRolePermissionAssignment",
 }));
 
 export type DeleteRuleError = BadRequest | Forbidden | Auth0OpError;
@@ -21119,6 +21338,8 @@ export const deleteRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteRulesConfigError = Forbidden | Auth0OpError;
@@ -21134,6 +21355,8 @@ export const deleteRulesConfig: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRulesConfig",
 }));
 
 export type DeleteScimConfigurationError = BadRequest | NotFound | Auth0OpError;
@@ -21149,6 +21372,8 @@ export const deleteScimConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScimConfiguration",
 }));
 
 export type DeleteSecretsError = BadRequest | Forbidden | Auth0OpError;
@@ -21164,6 +21389,8 @@ export const deleteSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecrets",
 }));
 
 export type DeleteSegmentError = Forbidden | Conflict | Auth0OpError;
@@ -21179,6 +21406,8 @@ export const deleteSegment: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSegment",
 }));
 
 export type DeleteSelfServiceProfileError = BadRequest | Forbidden | Auth0OpError;
@@ -21194,6 +21423,8 @@ export const deleteSelfServiceProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSelfServiceProfile",
 }));
 
 export type DeleteSessionError = BadRequest | Forbidden | Auth0OpError;
@@ -21209,6 +21440,8 @@ export const deleteSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type DeleteSessionsForUserError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21224,6 +21457,8 @@ export const deleteSessionsForUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSessionsForUser",
 }));
 
 export type DeleteSynchronizedGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21239,6 +21474,8 @@ export const deleteSynchronizedGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSynchronizedGroups",
 }));
 
 export type DeleteTokenExchangeProfileError = Forbidden | Auth0OpError;
@@ -21254,6 +21491,8 @@ export const deleteTokenExchangeProfile: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTokenExchangeProfile",
 }));
 
 export type DeleteTokensByTokenIdError = BadRequest | NotFound | Auth0OpError;
@@ -21269,6 +21508,8 @@ export const deleteTokensByTokenId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTokensByTokenId",
 }));
 
 export type DeleteUniversalLoginError = Forbidden | Auth0OpError;
@@ -21284,6 +21525,8 @@ export const deleteUniversalLogin: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUniversalLogin",
 }));
 
 export type DeleteUserError = BadRequest | Forbidden | Auth0OpError;
@@ -21299,6 +21542,8 @@ export const deleteUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserAttributeProfileError = Forbidden | Auth0OpError;
@@ -21314,6 +21559,8 @@ export const deleteUserAttributeProfile: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserAttributeProfile",
 }));
 
 export type DeleteUserBlockError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21329,6 +21576,8 @@ export const deleteUserBlock: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserBlock",
 }));
 
 export type DeleteUserBlocksError = BadRequest | Forbidden | Auth0OpError;
@@ -21344,6 +21593,8 @@ export const deleteUserBlocks: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserBlocks",
 }));
 
 export type DeleteUserIdentityError = BadRequest | Forbidden | Auth0OpError;
@@ -21359,6 +21610,8 @@ export const deleteUserIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserIdentity",
 }));
 
 export type DeleteUserRolesError = Forbidden | NotFound | Auth0OpError;
@@ -21374,6 +21627,8 @@ export const deleteUserRoles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserRoles",
 }));
 
 export type DeleteUsersByEmailError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21389,6 +21644,8 @@ export const deleteUsersByEmail: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersByEmail",
 }));
 
 export type DeleteVariationError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -21404,6 +21661,8 @@ export const deleteVariation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVariation",
 }));
 
 export type DeleteVcTemplatesByIdError = BadRequest | Forbidden | Auth0OpError;
@@ -21419,6 +21678,8 @@ export const deleteVcTemplatesById: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVcTemplatesById",
 }));
 
 export type GetActionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21434,6 +21695,8 @@ export const getAction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAction",
 }));
 
 export type GetActionModuleError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21449,6 +21712,8 @@ export const getActionModule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionModule",
 }));
 
 export type GetActionModuleActionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21464,6 +21729,8 @@ export const getActionModuleActions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionModuleActions",
 }));
 
 export type GetActionModulesError = BadRequest | Forbidden | Auth0OpError;
@@ -21479,6 +21746,8 @@ export const getActionModules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionModules",
 }));
 
 export type GetActionModuleVersionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21494,6 +21763,8 @@ export const getActionModuleVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionModuleVersion",
 }));
 
 export type GetActionModuleVersionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21509,6 +21780,8 @@ export const getActionModuleVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionModuleVersions",
 }));
 
 export type GetActionsError = BadRequest | Forbidden | Auth0OpError;
@@ -21524,6 +21797,8 @@ export const getActions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActions",
 }));
 
 export type GetActionVersionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21539,6 +21814,8 @@ export const getActionVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionVersion",
 }));
 
 export type GetActionVersionsError = BadRequest | Forbidden | Auth0OpError;
@@ -21554,6 +21831,8 @@ export const getActionVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionVersions",
 }));
 
 export type GetActiveUsersError = Forbidden | Auth0OpError;
@@ -21569,6 +21848,8 @@ export const getActiveUsers: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveUsers",
 }));
 
 export type GetAgentError = Forbidden | NotFound | Auth0OpError;
@@ -21584,6 +21865,8 @@ export const getAgent: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgent",
 }));
 
 export type GetAgentsError = BadRequest | Forbidden | Auth0OpError;
@@ -21599,6 +21882,8 @@ export const getAgents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgents",
 }));
 
 export type GetAllKeysNetworkAclsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21614,6 +21899,8 @@ export const getAllKeysNetworkAcls: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllKeysNetworkAcls",
 }));
 
 export type GetAllRenderingError = BadRequest | Forbidden | Auth0OpError;
@@ -21629,6 +21916,8 @@ export const getAllRendering: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllRendering",
 }));
 
 export type GetApnsError = BadRequest | Forbidden | Auth0OpError;
@@ -21644,6 +21933,8 @@ export const getApns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApns",
 }));
 
 export type GetAuthenticationMethodsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21659,6 +21950,8 @@ export const getAuthenticationMethods: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticationMethods",
 }));
 
 export type GetAuthenticationMethodsByAuthenticationMethodIdError =
@@ -21682,6 +21975,8 @@ export const getAuthenticationMethodsByAuthenticationMethodId: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticationMethodsByAuthenticationMethodId",
 }));
 
 export type GetBindingsError = BadRequest | Forbidden | Auth0OpError;
@@ -21697,6 +21992,8 @@ export const getBindings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBindings",
 }));
 
 export type GetBotDetectionError = Forbidden | NotFound | Auth0OpError;
@@ -21712,6 +22009,8 @@ export const getBotDetection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBotDetection",
 }));
 
 export type GetBrandingError = Forbidden | Auth0OpError;
@@ -21727,6 +22026,8 @@ export const getBranding: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranding",
 }));
 
 export type GetBrandingPhoneProvidersError = BadRequest | Forbidden | Auth0OpError;
@@ -21742,6 +22043,8 @@ export const getBrandingPhoneProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrandingPhoneProviders",
 }));
 
 export type GetBrandingThemeError = Forbidden | NotFound | Auth0OpError;
@@ -21757,6 +22060,8 @@ export const getBrandingTheme: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrandingTheme",
 }));
 
 export type GetBreachedPasswordDetectionError = Forbidden | Auth0OpError;
@@ -21776,6 +22081,8 @@ export const getBreachedPasswordDetection: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBreachedPasswordDetection",
 }));
 
 export type GetBruteForceProtectionError = Forbidden | Auth0OpError;
@@ -21791,6 +22098,8 @@ export const getBruteForceProtection: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBruteForceProtection",
 }));
 
 export type GetCaptchaError = Forbidden | NotFound | Auth0OpError;
@@ -21806,6 +22115,8 @@ export const getCaptcha: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaptcha",
 }));
 
 export type GetClientError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21821,6 +22132,8 @@ export const getClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClient",
 }));
 
 export type GetClientConnectionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21836,6 +22149,8 @@ export const getClientConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClientConnections",
 }));
 
 export type GetClientGrantError = Forbidden | NotFound | Auth0OpError;
@@ -21851,6 +22166,8 @@ export const getClientGrant: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClientGrant",
 }));
 
 export type GetClientGrantOrganizationsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21866,6 +22183,8 @@ export const getClientGrantOrganizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClientGrantOrganizations",
 }));
 
 export type GetClientGrantsError = Forbidden | Auth0OpError;
@@ -21881,6 +22200,8 @@ export const getClientGrants: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClientGrants",
 }));
 
 export type GetClientsError = BadRequest | Forbidden | Auth0OpError;
@@ -21896,6 +22217,8 @@ export const getClients: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClients",
 }));
 
 export type GetClientsSearchError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21911,6 +22234,8 @@ export const getClientsSearch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClientsSearch",
 }));
 
 export type GetConnectedAccountsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21926,6 +22251,8 @@ export const getConnectedAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectedAccounts",
 }));
 
 export type GetConnectionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21941,6 +22268,8 @@ export const getConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetConnectionClientsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21956,6 +22285,8 @@ export const getConnectionClients: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionClients",
 }));
 
 export type GetConnectionProfileError = Forbidden | NotFound | Auth0OpError;
@@ -21971,6 +22302,8 @@ export const getConnectionProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionProfile",
 }));
 
 export type GetConnectionProfilesError = BadRequest | Forbidden | Auth0OpError;
@@ -21986,6 +22319,8 @@ export const getConnectionProfiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionProfiles",
 }));
 
 export type GetConnectionProfileTemplateError = Forbidden | NotFound | Auth0OpError;
@@ -22001,6 +22336,8 @@ export const getConnectionProfileTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionProfileTemplate",
 }));
 
 export type GetConnectionProfileTemplatesError = Forbidden | Auth0OpError;
@@ -22016,6 +22353,8 @@ export const getConnectionProfileTemplates: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionProfileTemplates",
 }));
 
 export type GetConnectionsError = BadRequest | Forbidden | Auth0OpError;
@@ -22031,6 +22370,8 @@ export const getConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnections",
 }));
 
 export type GetConnectionsDirectoryProvisioningsError = BadRequest | Forbidden | Auth0OpError;
@@ -22046,6 +22387,8 @@ export const getConnectionsDirectoryProvisionings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionsDirectoryProvisionings",
 }));
 
 export type GetConnectionsScimConfigurationsError = BadRequest | Forbidden | Auth0OpError;
@@ -22061,6 +22404,8 @@ export const getConnectionsScimConfigurations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionsScimConfigurations",
 }));
 
 export type GetCredentialsError = Forbidden | NotFound | Auth0OpError;
@@ -22076,6 +22421,8 @@ export const getCredentials: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredentials",
 }));
 
 export type GetCredentialsByCredentialIdError = Forbidden | NotFound | Auth0OpError;
@@ -22091,6 +22438,8 @@ export const getCredentialsByCredentialId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredentialsByCredentialId",
 }));
 
 export type GetCustomDomainError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22106,6 +22455,8 @@ export const getCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomDomain",
 }));
 
 export type GetCustomDomainsError = Forbidden | Auth0OpError;
@@ -22121,6 +22472,8 @@ export const getCustomDomains: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomDomains",
 }));
 
 export type GetCustomSigningKeysError = Forbidden | NotFound | Auth0OpError;
@@ -22136,6 +22489,8 @@ export const getCustomSigningKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomSigningKeys",
 }));
 
 export type GetCustomTextByLanguageError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22151,6 +22506,8 @@ export const getCustomTextByLanguage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomTextByLanguage",
 }));
 
 export type GetDailyError = BadRequest | Forbidden | Auth0OpError;
@@ -22166,6 +22523,8 @@ export const getDaily: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDaily",
 }));
 
 export type GetDefaultError = Forbidden | Auth0OpError;
@@ -22181,6 +22540,8 @@ export const getDefault: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefault",
 }));
 
 export type GetDefaultBrandingThemeError = Forbidden | NotFound | Auth0OpError;
@@ -22196,6 +22557,8 @@ export const getDefaultBrandingTheme: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultBrandingTheme",
 }));
 
 export type GetDefaultMappingError = BadRequest | NotFound | Auth0OpError;
@@ -22215,6 +22578,8 @@ export const getDefaultMapping: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultMapping",
 }));
 
 export type GetDeliveriesByEventIdError = Forbidden | NotFound | Auth0OpError;
@@ -22230,6 +22595,8 @@ export const getDeliveriesByEventId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeliveriesByEventId",
 }));
 
 export type GetDeviceCredentialsError = BadRequest | Forbidden | Auth0OpError;
@@ -22245,6 +22612,8 @@ export const getDeviceCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceCredentials",
 }));
 
 export type GetDirectoryProvisioningError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22260,6 +22629,8 @@ export const getDirectoryProvisioning: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDirectoryProvisioning",
 }));
 
 export type GetDirectoryProvisioningDefaultMappingError =
@@ -22283,6 +22654,8 @@ export const getDirectoryProvisioningDefaultMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDirectoryProvisioningDefaultMapping",
 }));
 
 export type GetDiscoveryDomainsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22298,6 +22671,8 @@ export const getDiscoveryDomains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscoveryDomains",
 }));
 
 export type GetDiscoveryDomainsByDiscoveryDomainIdError =
@@ -22317,6 +22692,8 @@ export const getDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscoveryDomainsByDiscoveryDomainId",
 }));
 
 export type GetEmailFactorSettingsError = Forbidden | Auth0OpError;
@@ -22332,6 +22709,8 @@ export const getEmailFactorSettings: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailFactorSettings",
 }));
 
 export type GetEmailTemplateError = BadRequest | Forbidden | Auth0OpError;
@@ -22347,6 +22726,8 @@ export const getEmailTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailTemplate",
 }));
 
 export type GetEnabledConnectionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22362,6 +22743,8 @@ export const getEnabledConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnabledConnections",
 }));
 
 export type GetEnabledConnectionsByConnectionIdError = Forbidden | NotFound | Auth0OpError;
@@ -22377,6 +22760,8 @@ export const getEnabledConnectionsByConnectionId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnabledConnectionsByConnectionId",
 }));
 
 export type GetEncryptionKeyError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22392,6 +22777,8 @@ export const getEncryptionKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEncryptionKey",
 }));
 
 export type GetEncryptionKeysError = BadRequest | Forbidden | Auth0OpError;
@@ -22407,6 +22794,8 @@ export const getEncryptionKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEncryptionKeys",
 }));
 
 export type GetEnrollmentsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22422,6 +22811,8 @@ export const getEnrollments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnrollments",
 }));
 
 export type GetEnrollmentsByIdError = BadRequest | Forbidden | Auth0OpError;
@@ -22437,6 +22828,8 @@ export const getEnrollmentsById: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnrollmentsById",
 }));
 
 export type GetErrorsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22452,6 +22845,8 @@ export const getErrors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrors",
 }));
 
 export type GetEventDeliveriesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22467,6 +22862,8 @@ export const getEventDeliveries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventDeliveries",
 }));
 
 export type GetEventStreamError = Forbidden | NotFound | Auth0OpError;
@@ -22482,6 +22879,8 @@ export const getEventStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventStream",
 }));
 
 export type GetEventStreamsError = BadRequest | Forbidden | Auth0OpError;
@@ -22497,6 +22896,8 @@ export const getEventStreams: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventStreams",
 }));
 
 export type GetExecutionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22512,6 +22913,8 @@ export const getExecution: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExecution",
 }));
 
 export type GetExperimentError = Forbidden | NotFound | Auth0OpError;
@@ -22527,6 +22930,8 @@ export const getExperiment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetExperimentsError = BadRequest | Forbidden | Auth0OpError;
@@ -22542,6 +22947,8 @@ export const getExperiments: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiments",
 }));
 
 export type GetFactorDuoSettingsError = BadRequest | Forbidden | Auth0OpError;
@@ -22557,6 +22964,8 @@ export const getFactorDuoSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactorDuoSettings",
 }));
 
 export type GetFactorPhoneTemplatesError = BadRequest | Forbidden | Auth0OpError;
@@ -22572,6 +22981,8 @@ export const getFactorPhoneTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactorPhoneTemplates",
 }));
 
 export type GetFactorsError = BadRequest | Forbidden | Auth0OpError;
@@ -22587,6 +22998,8 @@ export const getFactors: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactors",
 }));
 
 export type GetFactorSmsTemplatesError = BadRequest | Forbidden | Auth0OpError;
@@ -22602,6 +23015,8 @@ export const getFactorSmsTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactorSmsTemplates",
 }));
 
 export type GetFeatureFlagError = Forbidden | NotFound | Auth0OpError;
@@ -22617,6 +23032,8 @@ export const getFeatureFlag: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlag",
 }));
 
 export type GetFeatureFlagsError = BadRequest | Forbidden | Auth0OpError;
@@ -22632,6 +23049,8 @@ export const getFeatureFlags: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlags",
 }));
 
 export type GetFlowError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22647,6 +23066,8 @@ export const getFlow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlow",
 }));
 
 export type GetFlowsError = BadRequest | Forbidden | Auth0OpError;
@@ -22662,6 +23083,8 @@ export const getFlows: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlows",
 }));
 
 export type GetFlowsExecutionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22677,6 +23100,8 @@ export const getFlowsExecution: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowsExecution",
 }));
 
 export type GetFlowsExecutionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22692,6 +23117,8 @@ export const getFlowsExecutions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowsExecutions",
 }));
 
 export type GetFlowsVaultConnectionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22707,6 +23134,8 @@ export const getFlowsVaultConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowsVaultConnection",
 }));
 
 export type GetFlowsVaultConnectionsError = BadRequest | Forbidden | Auth0OpError;
@@ -22722,6 +23151,8 @@ export const getFlowsVaultConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowsVaultConnections",
 }));
 
 export type GetFormError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22737,6 +23168,8 @@ export const getForm: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForm",
 }));
 
 export type GetFormsError = BadRequest | Forbidden | Auth0OpError;
@@ -22752,6 +23185,8 @@ export const getForms: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForms",
 }));
 
 export type GetGrantsError = Forbidden | Auth0OpError;
@@ -22767,6 +23202,8 @@ export const getGrants: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGrants",
 }));
 
 export type GetGroupError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22782,6 +23219,8 @@ export const getGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetGroupMembersError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22797,6 +23236,8 @@ export const getGroupMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupMembers",
 }));
 
 export type GetGroupRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22812,6 +23253,8 @@ export const getGroupRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupRoles",
 }));
 
 export type GetGroupsError = BadRequest | Forbidden | Auth0OpError;
@@ -22827,6 +23270,8 @@ export const getGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroups",
 }));
 
 export type GetGuardianPhoneProvidersError = BadRequest | Forbidden | Auth0OpError;
@@ -22842,6 +23287,8 @@ export const getGuardianPhoneProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuardianPhoneProviders",
 }));
 
 export type GetGuardianSettingsError = Forbidden | Auth0OpError;
@@ -22857,6 +23304,8 @@ export const getGuardianSettings: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuardianSettings",
 }));
 
 export type GetHookError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22872,6 +23321,8 @@ export const getHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHook",
 }));
 
 export type GetHooksError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22887,6 +23338,8 @@ export const getHooks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHooks",
 }));
 
 export type GetInvitationsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22902,6 +23355,8 @@ export const getInvitations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvitations",
 }));
 
 export type GetInvitationsByInvitationIdError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22917,6 +23372,8 @@ export const getInvitationsByInvitationId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvitationsByInvitationId",
 }));
 
 export type GetIpsByIdError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22932,6 +23389,8 @@ export const getIpsById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpsById",
 }));
 
 export type GetJobError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22947,6 +23406,8 @@ export const getJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetKeysError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22962,6 +23423,8 @@ export const getKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeys",
 }));
 
 export type GetKeysNetworkAclsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22977,6 +23440,8 @@ export const getKeysNetworkAcls: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeysNetworkAcls",
 }));
 
 export type GetLogError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22992,6 +23457,8 @@ export const getLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLog",
 }));
 
 export type GetLogsError = BadRequest | Forbidden | Auth0OpError;
@@ -23007,6 +23474,8 @@ export const getLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogs",
 }));
 
 export type GetLogsByUserError = BadRequest | Forbidden | Auth0OpError;
@@ -23022,6 +23491,8 @@ export const getLogsByUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsByUser",
 }));
 
 export type GetLogStreamError = Forbidden | NotFound | Auth0OpError;
@@ -23037,6 +23508,8 @@ export const getLogStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogStream",
 }));
 
 export type GetLogStreamsError = Forbidden | NotFound | Auth0OpError;
@@ -23052,6 +23525,8 @@ export const getLogStreams: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogStreams",
 }));
 
 export type GetMessageTypesError = BadRequest | Forbidden | Auth0OpError;
@@ -23071,6 +23546,8 @@ export const getMessageTypes: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMessageTypes",
 }));
 
 export type GetNameByDiscoveryDomainError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23090,6 +23567,8 @@ export const getNameByDiscoveryDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNameByDiscoveryDomain",
 }));
 
 export type GetNameByNameError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23105,6 +23584,8 @@ export const getNameByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNameByName",
 }));
 
 export type GetNetworkAclError = Forbidden | NotFound | Auth0OpError;
@@ -23120,6 +23601,8 @@ export const getNetworkAcl: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkAcl",
 }));
 
 export type GetNetworkAclsError = Forbidden | NotFound | Auth0OpError;
@@ -23135,6 +23618,8 @@ export const getNetworkAcls: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkAcls",
 }));
 
 export type GetNewDeviceError = Forbidden | NotFound | Auth0OpError;
@@ -23154,6 +23639,8 @@ export const getNewDevice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewDevice",
 }));
 
 export type GetOrganizationError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23169,6 +23656,8 @@ export const getOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationClientError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23184,6 +23673,8 @@ export const getOrganizationClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationClient",
 }));
 
 export type GetOrganizationClientGrantsError = BadRequest | Forbidden | Auth0OpError;
@@ -23199,6 +23690,8 @@ export const getOrganizationClientGrants: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationClientGrants",
 }));
 
 export type GetOrganizationClientsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23214,6 +23707,8 @@ export const getOrganizationClients: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationClients",
 }));
 
 export type GetOrganizationConnectionError = Forbidden | NotFound | Auth0OpError;
@@ -23229,6 +23724,8 @@ export const getOrganizationConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationConnection",
 }));
 
 export type GetOrganizationConnectionsError = BadRequest | Forbidden | Auth0OpError;
@@ -23244,6 +23741,8 @@ export const getOrganizationConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationConnections",
 }));
 
 export type GetOrganizationGroupRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23259,6 +23758,8 @@ export const getOrganizationGroupRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationGroupRoles",
 }));
 
 export type GetOrganizationGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23274,6 +23775,8 @@ export const getOrganizationGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationGroups",
 }));
 
 export type GetOrganizationMemberEffectiveRolesError =
@@ -23297,6 +23800,8 @@ export const getOrganizationMemberEffectiveRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMemberEffectiveRoles",
 }));
 
 export type GetOrganizationMemberRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23312,6 +23817,8 @@ export const getOrganizationMemberRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMemberRoles",
 }));
 
 export type GetOrganizationMemberRoleSourceGroupsError =
@@ -23335,6 +23842,8 @@ export const getOrganizationMemberRoleSourceGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMemberRoleSourceGroups",
 }));
 
 export type GetOrganizationMembersError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23350,6 +23859,8 @@ export const getOrganizationMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMembers",
 }));
 
 export type GetOrganizationRoleGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23365,6 +23876,8 @@ export const getOrganizationRoleGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationRoleGroups",
 }));
 
 export type GetOrganizationRoleMembersError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23380,6 +23893,8 @@ export const getOrganizationRoleMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationRoleMembers",
 }));
 
 export type GetOrganizationsError = BadRequest | Forbidden | Auth0OpError;
@@ -23395,6 +23910,8 @@ export const getOrganizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizations",
 }));
 
 export type GetPartialsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23410,6 +23927,8 @@ export const getPartials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartials",
 }));
 
 export type GetPermissionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23425,6 +23944,8 @@ export const getPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissions",
 }));
 
 export type GetPhoneFactorSettingsError = Forbidden | Auth0OpError;
@@ -23440,6 +23961,8 @@ export const getPhoneFactorSettings: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhoneFactorSettings",
 }));
 
 export type GetPhoneProviderError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23455,6 +23978,8 @@ export const getPhoneProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhoneProvider",
 }));
 
 export type GetPhoneProviderProtectionError = Forbidden | NotFound | Auth0OpError;
@@ -23470,6 +23995,8 @@ export const getPhoneProviderProtection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhoneProviderProtection",
 }));
 
 export type GetPhoneTemplateError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23485,6 +24012,8 @@ export const getPhoneTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhoneTemplate",
 }));
 
 export type GetPhoneTemplatesError = BadRequest | Forbidden | Auth0OpError;
@@ -23500,6 +24029,8 @@ export const getPhoneTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhoneTemplates",
 }));
 
 export type GetPhoneTwilioFactorProviderError = BadRequest | Forbidden | Auth0OpError;
@@ -23519,6 +24050,8 @@ export const getPhoneTwilioFactorProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhoneTwilioFactorProvider",
 }));
 
 export type GetPnProvidersError = BadRequest | Forbidden | Auth0OpError;
@@ -23538,6 +24071,8 @@ export const getPnProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPnProviders",
 }));
 
 export type GetPoliciesError = BadRequest | Forbidden | Auth0OpError;
@@ -23553,6 +24088,8 @@ export const getPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicies",
 }));
 
 export type GetPromptsError = Forbidden | Auth0OpError;
@@ -23568,6 +24105,8 @@ export const getPrompts: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrompts",
 }));
 
 export type GetProviderError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23583,6 +24122,8 @@ export const getProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProvider",
 }));
 
 export type GetRateLimitPoliciesError = BadRequest | Forbidden | Auth0OpError;
@@ -23598,6 +24139,8 @@ export const getRateLimitPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRateLimitPolicies",
 }));
 
 export type GetRateLimitPolicyError = Forbidden | NotFound | Auth0OpError;
@@ -23613,6 +24156,8 @@ export const getRateLimitPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRateLimitPolicy",
 }));
 
 export type GetRefreshTokenError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23628,6 +24173,8 @@ export const getRefreshToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRefreshToken",
 }));
 
 export type GetRefreshTokensError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23643,6 +24190,8 @@ export const getRefreshTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRefreshTokens",
 }));
 
 export type GetRefreshTokensForUserError = Forbidden | NotFound | Auth0OpError;
@@ -23658,6 +24207,8 @@ export const getRefreshTokensForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRefreshTokensForUser",
 }));
 
 export type GetRenderingError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23673,6 +24224,8 @@ export const getRendering: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRendering",
 }));
 
 export type GetResourceServerError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23688,6 +24241,8 @@ export const getResourceServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceServer",
 }));
 
 export type GetResourceServersError = BadRequest | Forbidden | Auth0OpError;
@@ -23703,6 +24258,8 @@ export const getResourceServers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceServers",
 }));
 
 export type GetResourceServersSearchError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23718,6 +24275,8 @@ export const getResourceServersSearch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceServersSearch",
 }));
 
 export type GetRiskAssessmentsSettingsError = Forbidden | NotFound | Auth0OpError;
@@ -23733,6 +24292,8 @@ export const getRiskAssessmentsSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRiskAssessmentsSettings",
 }));
 
 export type GetRoleError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23748,6 +24309,8 @@ export const getRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRole",
 }));
 
 export type GetRoleGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23763,6 +24326,8 @@ export const getRoleGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleGroups",
 }));
 
 export type GetRolePermissionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23778,6 +24343,8 @@ export const getRolePermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRolePermission",
 }));
 
 export type GetRolesError = BadRequest | Forbidden | Auth0OpError;
@@ -23793,6 +24360,8 @@ export const getRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoles",
 }));
 
 export type GetRoleUserError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23808,6 +24377,8 @@ export const getRoleUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleUser",
 }));
 
 export type GetRuleError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23823,6 +24394,8 @@ export const getRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetRulesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23838,6 +24411,8 @@ export const getRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRules",
 }));
 
 export type GetRulesConfigsError = Forbidden | Auth0OpError;
@@ -23853,6 +24428,8 @@ export const getRulesConfigs: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRulesConfigs",
 }));
 
 export type GetScimConfigurationError = BadRequest | NotFound | Auth0OpError;
@@ -23868,6 +24445,8 @@ export const getScimConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimConfiguration",
 }));
 
 export type GetScimTokensError = BadRequest | NotFound | Auth0OpError;
@@ -23883,6 +24462,8 @@ export const getScimTokens: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimTokens",
 }));
 
 export type GetSearchError = BadRequest | Forbidden | Auth0OpError;
@@ -23898,6 +24479,8 @@ export const getSearch: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSearch",
 }));
 
 export type GetSecretsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23913,6 +24496,8 @@ export const getSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecrets",
 }));
 
 export type GetSegmentError = Forbidden | NotFound | Auth0OpError;
@@ -23928,6 +24513,8 @@ export const getSegment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetSegmentsError = BadRequest | Forbidden | Auth0OpError;
@@ -23943,6 +24530,8 @@ export const getSegments: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegments",
 }));
 
 export type GetSelfServiceProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23958,6 +24547,8 @@ export const getSelfServiceProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSelfServiceProfile",
 }));
 
 export type GetSelfServiceProfileCustomTextError = Forbidden | NotFound | Auth0OpError;
@@ -23973,6 +24564,8 @@ export const getSelfServiceProfileCustomText: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSelfServiceProfileCustomText",
 }));
 
 export type GetSelfServiceProfilesError = Forbidden | Auth0OpError;
@@ -23988,6 +24581,8 @@ export const getSelfServiceProfiles: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSelfServiceProfiles",
 }));
 
 export type GetSessionError = Forbidden | NotFound | Auth0OpError;
@@ -24003,6 +24598,8 @@ export const getSession: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionsForUserError = Forbidden | NotFound | Auth0OpError;
@@ -24018,6 +24615,8 @@ export const getSessionsForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionsForUser",
 }));
 
 export type GetSigningKeyError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24033,6 +24632,8 @@ export const getSigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSigningKey",
 }));
 
 export type GetSigningKeysError = BadRequest | Forbidden | Auth0OpError;
@@ -24048,6 +24649,8 @@ export const getSigningKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSigningKeys",
 }));
 
 export type GetSmsProvidersError = BadRequest | Forbidden | Auth0OpError;
@@ -24063,6 +24666,8 @@ export const getSmsProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsProviders",
 }));
 
 export type GetSmsTwilioFactorProviderError = BadRequest | Forbidden | Auth0OpError;
@@ -24082,6 +24687,8 @@ export const getSmsTwilioFactorProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsTwilioFactorProvider",
 }));
 
 export type GetSnsError = BadRequest | Forbidden | Auth0OpError;
@@ -24097,6 +24704,8 @@ export const getSns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSns",
 }));
 
 export type GetStatusError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24112,6 +24721,8 @@ export const getStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatus",
 }));
 
 export type GetSupplementalSignalsError = Forbidden | NotFound | Auth0OpError;
@@ -24127,6 +24738,8 @@ export const getSupplementalSignals: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupplementalSignals",
 }));
 
 export type GetSuspiciousIpThrottlingError = Forbidden | Auth0OpError;
@@ -24142,6 +24755,8 @@ export const getSuspiciousIpThrottling: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuspiciousIpThrottling",
 }));
 
 export type GetSynchronizedGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24157,6 +24772,8 @@ export const getSynchronizedGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynchronizedGroups",
 }));
 
 export type GetTokenExchangeProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24172,6 +24789,8 @@ export const getTokenExchangeProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenExchangeProfile",
 }));
 
 export type GetTokenExchangeProfilesError = BadRequest | Forbidden | Auth0OpError;
@@ -24187,6 +24806,8 @@ export const getTokenExchangeProfiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenExchangeProfiles",
 }));
 
 export type GetTriggersError = BadRequest | Forbidden | Auth0OpError;
@@ -24202,6 +24823,8 @@ export const getTriggers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggers",
 }));
 
 export type GetUniversalLoginError = Forbidden | NotFound | Auth0OpError;
@@ -24217,6 +24840,8 @@ export const getUniversalLogin: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUniversalLogin",
 }));
 
 export type GetUserError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24232,6 +24857,8 @@ export const getUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserAttributeProfileError = Forbidden | NotFound | Auth0OpError;
@@ -24247,6 +24874,8 @@ export const getUserAttributeProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAttributeProfile",
 }));
 
 export type GetUserAttributeProfilesError = BadRequest | Forbidden | Auth0OpError;
@@ -24266,6 +24895,8 @@ export const getUserAttributeProfiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAttributeProfiles",
 }));
 
 export type GetUserAttributeProfileTemplateError = Forbidden | NotFound | Auth0OpError;
@@ -24281,6 +24912,8 @@ export const getUserAttributeProfileTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAttributeProfileTemplate",
 }));
 
 export type GetUserAttributeProfileTemplatesError = Forbidden | Auth0OpError;
@@ -24296,6 +24929,8 @@ export const getUserAttributeProfileTemplates: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAttributeProfileTemplates",
 }));
 
 export type GetUserBlockError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24311,6 +24946,8 @@ export const getUserBlock: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserBlock",
 }));
 
 export type GetUserBlocksError = BadRequest | Forbidden | Auth0OpError;
@@ -24326,6 +24963,8 @@ export const getUserBlocks: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserBlocks",
 }));
 
 export type GetUserEffectivePermissionRoleSourcesError =
@@ -24349,6 +24988,8 @@ export const getUserEffectivePermissionRoleSources: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserEffectivePermissionRoleSources",
 }));
 
 export type GetUserEffectivePermissionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24364,6 +25005,8 @@ export const getUserEffectivePermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserEffectivePermissions",
 }));
 
 export type GetUserEffectiveRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24379,6 +25022,8 @@ export const getUserEffectiveRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserEffectiveRoles",
 }));
 
 export type GetUserGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24394,6 +25039,8 @@ export const getUserGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserGroups",
 }));
 
 export type GetUserOrganizationsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24409,6 +25056,8 @@ export const getUserOrganizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserOrganizations",
 }));
 
 export type GetUserRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24424,6 +25073,8 @@ export const getUserRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRoles",
 }));
 
 export type GetUserRoleSourceGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24439,6 +25090,8 @@ export const getUserRoleSourceGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRoleSourceGroups",
 }));
 
 export type GetUsersError = BadRequest | Forbidden | Auth0OpError;
@@ -24454,6 +25107,8 @@ export const getUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsers",
 }));
 
 export type GetUsersByEmailError = BadRequest | Forbidden | Auth0OpError;
@@ -24469,6 +25124,8 @@ export const getUsersByEmail: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersByEmail",
 }));
 
 export type GetVariationError = Forbidden | NotFound | Auth0OpError;
@@ -24484,6 +25141,8 @@ export const getVariation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVariation",
 }));
 
 export type GetVariationsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24499,6 +25158,8 @@ export const getVariations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVariations",
 }));
 
 export type GetVcTemplatesError = BadRequest | Forbidden | Auth0OpError;
@@ -24518,6 +25179,8 @@ export const getVcTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVcTemplates",
 }));
 
 export type GetVcTemplatesByIdError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24533,6 +25196,8 @@ export const getVcTemplatesById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVcTemplatesById",
 }));
 
 export type PatchActionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24548,6 +25213,8 @@ export const patchAction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAction",
 }));
 
 export type PatchApnsError = BadRequest | Forbidden | Auth0OpError;
@@ -24567,6 +25234,8 @@ export const patchApns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApns",
 }));
 
 export type PatchAuthenticationMethodsByAuthenticationMethodIdError =
@@ -24590,6 +25259,8 @@ export const patchAuthenticationMethodsByAuthenticationMethodId: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAuthenticationMethodsByAuthenticationMethodId",
 }));
 
 export type PatchBindingsError = BadRequest | Forbidden | Auth0OpError;
@@ -24605,6 +25276,8 @@ export const patchBindings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBindings",
 }));
 
 export type PatchBotDetectionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24620,6 +25293,8 @@ export const patchBotDetection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBotDetection",
 }));
 
 export type PatchBreachedPasswordDetectionError = BadRequest | Forbidden | Auth0OpError;
@@ -24639,6 +25314,8 @@ export const patchBreachedPasswordDetection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBreachedPasswordDetection",
 }));
 
 export type PatchBruteForceProtectionError = BadRequest | Forbidden | Auth0OpError;
@@ -24654,6 +25331,8 @@ export const patchBruteForceProtection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBruteForceProtection",
 }));
 
 export type PatchBulkRenderingError = BadRequest | Forbidden | Auth0OpError;
@@ -24669,6 +25348,8 @@ export const patchBulkRendering: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBulkRendering",
 }));
 
 export type PatchCaptchaError = Forbidden | NotFound | Auth0OpError;
@@ -24684,6 +25365,8 @@ export const patchCaptcha: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCaptcha",
 }));
 
 export type PatchClientsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24699,6 +25382,8 @@ export const patchClients: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchClients",
 }));
 
 export type PatchCredentialsByCredentialIdError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24714,6 +25399,8 @@ export const patchCredentialsByCredentialId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCredentialsByCredentialId",
 }));
 
 export type PatchDefaultError = BadRequest | Forbidden | Auth0OpError;
@@ -24729,6 +25416,8 @@ export const patchDefault: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDefault",
 }));
 
 export type PatchDirectoryProvisioningError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24744,6 +25433,8 @@ export const patchDirectoryProvisioning: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDirectoryProvisioning",
 }));
 
 export type PatchDiscoveryDomainsByDiscoveryDomainIdError = BadRequest | NotFound | Auth0OpError;
@@ -24759,6 +25450,8 @@ export const patchDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDiscoveryDomainsByDiscoveryDomainId",
 }));
 
 export type PatchEnabledConnectionsByConnectionIdError =
@@ -24778,6 +25471,8 @@ export const patchEnabledConnectionsByConnectionId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEnabledConnectionsByConnectionId",
 }));
 
 export type PatchFactorDuoSettingsError = BadRequest | Forbidden | Auth0OpError;
@@ -24793,6 +25488,8 @@ export const patchFactorDuoSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFactorDuoSettings",
 }));
 
 export type PatchFcmError = BadRequest | Forbidden | Auth0OpError;
@@ -24808,6 +25505,8 @@ export const patchFcm: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFcm",
 }));
 
 export type PatchFcmv1Error = BadRequest | Forbidden | Auth0OpError;
@@ -24823,6 +25522,8 @@ export const patchFcmv1: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFcmv1",
 }));
 
 export type PatchNewDeviceError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24842,6 +25543,8 @@ export const patchNewDevice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNewDevice",
 }));
 
 export type PatchPhoneProviderProtectionError = Forbidden | Auth0OpError;
@@ -24857,6 +25560,8 @@ export const patchPhoneProviderProtection: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPhoneProviderProtection",
 }));
 
 export type PatchProviderError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -24872,6 +25577,8 @@ export const patchProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProvider",
 }));
 
 export type PatchRenderingError = BadRequest | Forbidden | Auth0OpError;
@@ -24887,6 +25594,8 @@ export const patchRendering: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRendering",
 }));
 
 export type PatchScimConfigurationError = BadRequest | NotFound | Auth0OpError;
@@ -24902,6 +25611,8 @@ export const patchScimConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchScimConfiguration",
 }));
 
 export type PatchSecretsError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -24917,6 +25628,8 @@ export const patchSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSecrets",
 }));
 
 export type PatchSettingsError = BadRequest | Forbidden | Auth0OpError;
@@ -24932,6 +25645,8 @@ export const patchSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSettings",
 }));
 
 export type PatchSnsError = BadRequest | Forbidden | Auth0OpError;
@@ -24951,6 +25666,8 @@ export const patchSns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSns",
 }));
 
 export type PatchSuspiciousIpThrottlingError = BadRequest | Forbidden | Auth0OpError;
@@ -24970,6 +25687,8 @@ export const patchSuspiciousIpThrottling: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSuspiciousIpThrottling",
 }));
 
 export type PatchVcTemplatesByIdError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -24989,6 +25708,8 @@ export const patchVcTemplatesById: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchVcTemplatesById",
 }));
 
 export type PostActionError = BadRequest | Forbidden | Auth0OpError;
@@ -25004,6 +25725,8 @@ export const postAction: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAction",
 }));
 
 export type PostAuthenticationMethodsError =
@@ -25024,6 +25747,8 @@ export const postAuthenticationMethods: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAuthenticationMethods",
 }));
 
 export type PostClearAssessorsError = BadRequest | Forbidden | Auth0OpError;
@@ -25039,6 +25764,8 @@ export const postClearAssessors: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostClearAssessors",
 }));
 
 export type PostCredentialsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25054,6 +25781,8 @@ export const postCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCredentials",
 }));
 
 export type PostDeployActionError = BadRequest | Forbidden | Auth0OpError;
@@ -25069,6 +25798,8 @@ export const postDeployAction: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDeployAction",
 }));
 
 export type PostDeployDraftVersionError = BadRequest | Forbidden | Auth0OpError;
@@ -25084,6 +25815,8 @@ export const postDeployDraftVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDeployDraftVersion",
 }));
 
 export type PostDirectoryProvisioningError =
@@ -25104,6 +25837,8 @@ export const postDirectoryProvisioning: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDirectoryProvisioning",
 }));
 
 export type PostDiscoveryDomainsError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -25119,6 +25854,8 @@ export const postDiscoveryDomains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDiscoveryDomains",
 }));
 
 export type PostEmailVerificationError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25134,6 +25871,8 @@ export const postEmailVerification: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEmailVerification",
 }));
 
 export type PostEnabledConnectionsError =
@@ -25154,6 +25893,8 @@ export const postEnabledConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEnabledConnections",
 }));
 
 export type PostEncryptionError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25169,6 +25910,8 @@ export const postEncryption: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEncryption",
 }));
 
 export type PostEncryptionKeyError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25184,6 +25927,8 @@ export const postEncryptionKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEncryptionKey",
 }));
 
 export type PostEncryptionRekeyError = Forbidden | Auth0OpError;
@@ -25199,6 +25944,8 @@ export const postEncryptionRekey: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEncryptionRekey",
 }));
 
 export type PostEncryptionWrappingKeyError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25218,6 +25965,8 @@ export const postEncryptionWrappingKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEncryptionWrappingKey",
 }));
 
 export type PostIdentitiesError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25233,6 +25982,8 @@ export const postIdentities: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostIdentities",
 }));
 
 export type PostInvalidateRememberBrowserError = BadRequest | Forbidden | Auth0OpError;
@@ -25248,6 +25999,8 @@ export const postInvalidateRememberBrowser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostInvalidateRememberBrowser",
 }));
 
 export type PostInvitationsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25263,6 +26016,8 @@ export const postInvitations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostInvitations",
 }));
 
 export type PostKeysError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -25278,6 +26033,8 @@ export const postKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostKeys",
 }));
 
 export type PostMembersError = BadRequest | Forbidden | Auth0OpError;
@@ -25293,6 +26050,8 @@ export const postMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostMembers",
 }));
 
 export type PostPasswordChangeError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25308,6 +26067,8 @@ export const postPasswordChange: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostPasswordChange",
 }));
 
 export type PostPermissionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25323,6 +26084,8 @@ export const postPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostPermissions",
 }));
 
 export type PostProviderError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25338,6 +26101,8 @@ export const postProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostProvider",
 }));
 
 export type PostRecoveryCodeRegenerationError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25353,6 +26118,8 @@ export const postRecoveryCodeRegeneration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRecoveryCodeRegeneration",
 }));
 
 export type PostRedeliverError = Forbidden | NotFound | Conflict | Auth0OpError;
@@ -25368,6 +26135,8 @@ export const postRedeliver: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRedeliver",
 }));
 
 export type PostRedeliverByEventIdError = Forbidden | NotFound | Conflict | Auth0OpError;
@@ -25383,6 +26152,8 @@ export const postRedeliverByEventId: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRedeliverByEventId",
 }));
 
 export type PostRevokeError = Forbidden | Auth0OpError;
@@ -25398,6 +26169,8 @@ export const postRevoke: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRevoke",
 }));
 
 export type PostRolePermissionAssignmentError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25413,6 +26186,8 @@ export const postRolePermissionAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRolePermissionAssignment",
 }));
 
 export type PostRotateError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25428,6 +26203,8 @@ export const postRotate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRotate",
 }));
 
 export type PostRotateSecretError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25443,6 +26220,8 @@ export const postRotateSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRotateSecret",
 }));
 
 export type PostScimConfigurationError = BadRequest | NotFound | Conflict | Auth0OpError;
@@ -25458,6 +26237,8 @@ export const postScimConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostScimConfiguration",
 }));
 
 export type PostScimTokenError = BadRequest | NotFound | Conflict | Auth0OpError;
@@ -25473,6 +26254,8 @@ export const postScimToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostScimToken",
 }));
 
 export type PostSecretsError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25488,6 +26271,8 @@ export const postSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSecrets",
 }));
 
 export type PostSigningKeysError = Forbidden | Auth0OpError;
@@ -25503,6 +26288,8 @@ export const postSigningKeys: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSigningKeys",
 }));
 
 export type PostSsoTicketError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25522,6 +26309,8 @@ export const postSsoTicket: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSsoTicket",
 }));
 
 export type PostSynchronizationsError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -25537,6 +26326,8 @@ export const postSynchronizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSynchronizations",
 }));
 
 export type PostSynchronizedGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25552,6 +26343,8 @@ export const postSynchronizedGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSynchronizedGroups",
 }));
 
 export type PostTestActionError = BadRequest | Forbidden | Auth0OpError;
@@ -25567,6 +26360,8 @@ export const postTestAction: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostTestAction",
 }));
 
 export type PostTestDomainError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -25582,6 +26377,8 @@ export const postTestDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostTestDomain",
 }));
 
 export type PostTestEventError = Forbidden | Auth0OpError;
@@ -25597,6 +26394,8 @@ export const postTestEvent: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostTestEvent",
 }));
 
 export type PostTicketError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25612,6 +26411,8 @@ export const postTicket: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostTicket",
 }));
 
 export type PostUsersExportsError = BadRequest | Forbidden | Auth0OpError;
@@ -25627,6 +26428,8 @@ export const postUsersExports: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostUsersExports",
 }));
 
 export type PostUsersImportsError = BadRequest | Forbidden | Auth0OpError;
@@ -25642,6 +26445,8 @@ export const postUsersImports: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostUsersImports",
 }));
 
 export type PostVcTemplatesError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25661,6 +26466,8 @@ export const postVcTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostVcTemplates",
 }));
 
 export type PostVerificationEmailError = BadRequest | Forbidden | Auth0OpError;
@@ -25676,6 +26483,8 @@ export const postVerificationEmail: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostVerificationEmail",
 }));
 
 export type PostVerifyError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25691,6 +26500,8 @@ export const postVerify: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostVerify",
 }));
 
 export type PutApnsError = BadRequest | Forbidden | Auth0OpError;
@@ -25710,6 +26521,8 @@ export const putApns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutApns",
 }));
 
 export type PutAuthenticationMethodsError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -25725,6 +26538,8 @@ export const putAuthenticationMethods: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAuthenticationMethods",
 }));
 
 export type PutCustomSigningKeysError = BadRequest | Forbidden | Auth0OpError;
@@ -25740,6 +26555,8 @@ export const putCustomSigningKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCustomSigningKeys",
 }));
 
 export type PutCustomTextByLanguageError = BadRequest | Forbidden | Auth0OpError;
@@ -25755,6 +26572,8 @@ export const putCustomTextByLanguage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCustomTextByLanguage",
 }));
 
 export type PutEmailTemplateError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25770,6 +26589,8 @@ export const putEmailTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailTemplate",
 }));
 
 export type PutFactorDuoSettingsError = BadRequest | Forbidden | Auth0OpError;
@@ -25785,6 +26606,8 @@ export const putFactorDuoSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFactorDuoSettings",
 }));
 
 export type PutFactorPhoneTemplatesError = BadRequest | Forbidden | Auth0OpError;
@@ -25800,6 +26623,8 @@ export const putFactorPhoneTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFactorPhoneTemplates",
 }));
 
 export type PutFactorsByNameError = BadRequest | Forbidden | Auth0OpError;
@@ -25815,6 +26640,8 @@ export const putFactorsByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFactorsByName",
 }));
 
 export type PutFactorSmsTemplatesError = BadRequest | Forbidden | Auth0OpError;
@@ -25830,6 +26657,8 @@ export const putFactorSmsTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFactorSmsTemplates",
 }));
 
 export type PutFcmError = BadRequest | Forbidden | Auth0OpError;
@@ -25845,6 +26674,8 @@ export const putFcm: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFcm",
 }));
 
 export type PutFcmv1Error = BadRequest | Forbidden | Auth0OpError;
@@ -25860,6 +26691,8 @@ export const putFcmv1: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFcmv1",
 }));
 
 export type PutMessageTypesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25879,6 +26712,8 @@ export const putMessageTypes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMessageTypes",
 }));
 
 export type PutNetworkAclError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25894,6 +26729,8 @@ export const putNetworkAcl: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutNetworkAcl",
 }));
 
 export type PutPartialsError = BadRequest | Forbidden | Auth0OpError;
@@ -25909,6 +26746,8 @@ export const putPartials: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPartials",
 }));
 
 export type PutPhoneProvidersError = BadRequest | Forbidden | Auth0OpError;
@@ -25924,6 +26763,8 @@ export const putPhoneProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPhoneProviders",
 }));
 
 export type PutPnProvidersError = BadRequest | Forbidden | Auth0OpError;
@@ -25943,6 +26784,8 @@ export const putPnProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPnProviders",
 }));
 
 export type PutPoliciesError = BadRequest | Forbidden | Auth0OpError;
@@ -25958,6 +26801,8 @@ export const putPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPolicies",
 }));
 
 export type PutRulesConfigError = Forbidden | Auth0OpError;
@@ -25973,6 +26818,8 @@ export const putRulesConfig: API.OperationMethod<
   errors: [Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutRulesConfig",
 }));
 
 export type PutSelfServiceProfileCustomTextError = Forbidden | NotFound | Auth0OpError;
@@ -25988,6 +26835,8 @@ export const putSelfServiceProfileCustomText: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSelfServiceProfileCustomText",
 }));
 
 export type PutSigningKeysError = Forbidden | NotFound | Auth0OpError;
@@ -26003,6 +26852,8 @@ export const putSigningKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSigningKeys",
 }));
 
 export type PutSmsProvidersError = BadRequest | Forbidden | Auth0OpError;
@@ -26018,6 +26869,8 @@ export const putSmsProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsProviders",
 }));
 
 export type PutSmsTwilioFactorProviderError = BadRequest | Forbidden | Auth0OpError;
@@ -26037,6 +26890,8 @@ export const putSmsTwilioFactorProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSmsTwilioFactorProvider",
 }));
 
 export type PutSnsError = BadRequest | Forbidden | Auth0OpError;
@@ -26056,6 +26911,8 @@ export const putSns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSns",
 }));
 
 export type PutSynchronizedGroupsError =
@@ -26076,6 +26933,8 @@ export const putSynchronizedGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSynchronizedGroups",
 }));
 
 export type PutTwilioError = BadRequest | Forbidden | Auth0OpError;
@@ -26095,6 +26954,8 @@ export const putTwilio: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTwilio",
 }));
 
 export type PutUniversalLoginError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -26110,6 +26971,8 @@ export const putUniversalLogin: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUniversalLogin",
 }));
 
 export type ResetPhoneTemplateError = BadRequest | Forbidden | Auth0OpError;
@@ -26125,6 +26988,8 @@ export const resetPhoneTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetPhoneTemplate",
 }));
 
 export type RevokeRefreshTokensError = BadRequest | Forbidden | Auth0OpError;
@@ -26140,6 +27005,8 @@ export const revokeRefreshTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeRefreshTokens",
 }));
 
 export type RevokeSessionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26155,6 +27022,8 @@ export const revokeSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSession",
 }));
 
 export type RevokeUserAccessError = BadRequest | Forbidden | Auth0OpError;
@@ -26170,6 +27039,8 @@ export const revokeUserAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUserAccess",
 }));
 
 export type SetEmailFactorSettingsError = BadRequest | Forbidden | Auth0OpError;
@@ -26185,6 +27056,8 @@ export const setEmailFactorSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetEmailFactorSettings",
 }));
 
 export type SetGuardianSettingsError = BadRequest | Forbidden | Auth0OpError;
@@ -26200,6 +27073,8 @@ export const setGuardianSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGuardianSettings",
 }));
 
 export type SetPhoneFactorSettingsError = BadRequest | Forbidden | Auth0OpError;
@@ -26215,6 +27090,8 @@ export const setPhoneFactorSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPhoneFactorSettings",
 }));
 
 export type SubscribeEventsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26230,6 +27107,8 @@ export const subscribeEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeEvents",
 }));
 
 export type TenantSettingsRouteError = BadRequest | Forbidden | Auth0OpError;
@@ -26245,6 +27124,8 @@ export const tenantSettingsRoute: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TenantSettingsRoute",
 }));
 
 export type TryPhoneProviderError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -26260,6 +27141,8 @@ export const tryPhoneProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TryPhoneProvider",
 }));
 
 export type TryPhoneTemplateError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26275,6 +27158,8 @@ export const tryPhoneTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TryPhoneTemplate",
 }));
 
 export type UpdateActionModuleError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -26290,6 +27175,8 @@ export const updateActionModule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateActionModule",
 }));
 
 export type UpdateAgentError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26305,6 +27192,8 @@ export const updateAgent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgent",
 }));
 
 export type UpdateBrandingError = BadRequest | Forbidden | Auth0OpError;
@@ -26320,6 +27209,8 @@ export const updateBranding: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranding",
 }));
 
 export type UpdateBrandingThemeError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26335,6 +27226,8 @@ export const updateBrandingTheme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBrandingTheme",
 }));
 
 export type UpdateClientError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26350,6 +27243,8 @@ export const updateClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClient",
 }));
 
 export type UpdateClientGrantError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26365,6 +27260,8 @@ export const updateClientGrant: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClientGrant",
 }));
 
 export type UpdateConnectionError =
@@ -26386,6 +27283,8 @@ export const updateConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnection",
 }));
 
 export type UpdateConnectionProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26401,6 +27300,8 @@ export const updateConnectionProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnectionProfile",
 }));
 
 export type UpdateCustomDomainError = BadRequest | Forbidden | Auth0OpError;
@@ -26416,6 +27317,8 @@ export const updateCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomDomain",
 }));
 
 export type UpdateEmailTemplateError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26431,6 +27334,8 @@ export const updateEmailTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmailTemplate",
 }));
 
 export type UpdateEventStreamError = BadRequest | Forbidden | Auth0OpError;
@@ -26446,6 +27351,8 @@ export const updateEventStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventStream",
 }));
 
 export type UpdateExperimentError =
@@ -26467,6 +27374,8 @@ export const updateExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperiment",
 }));
 
 export type UpdateExperimentStatusError =
@@ -26488,6 +27397,8 @@ export const updateExperimentStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentStatus",
 }));
 
 export type UpdateFeatureFlagError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -26503,6 +27414,8 @@ export const updateFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureFlag",
 }));
 
 export type UpdateFeatureFlagStatusError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26518,6 +27431,8 @@ export const updateFeatureFlagStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureFlagStatus",
 }));
 
 export type UpdateFlowError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26533,6 +27448,8 @@ export const updateFlow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlow",
 }));
 
 export type UpdateFlowsVaultConnectionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26548,6 +27465,8 @@ export const updateFlowsVaultConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlowsVaultConnection",
 }));
 
 export type UpdateFormError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26563,6 +27482,8 @@ export const updateForm: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateForm",
 }));
 
 export type UpdateHookError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -26578,6 +27499,8 @@ export const updateHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHook",
 }));
 
 export type UpdateLogStreamError = BadRequest | Forbidden | Auth0OpError;
@@ -26593,6 +27516,8 @@ export const updateLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogStream",
 }));
 
 export type UpdateNetworkAclError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26608,6 +27533,8 @@ export const updateNetworkAcl: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkAcl",
 }));
 
 export type UpdateOrganizationError = BadRequest | Forbidden | Auth0OpError;
@@ -26623,6 +27550,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type UpdateOrganizationClientError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26638,6 +27567,8 @@ export const updateOrganizationClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationClient",
 }));
 
 export type UpdateOrganizationConnectionError = BadRequest | Forbidden | Auth0OpError;
@@ -26653,6 +27584,8 @@ export const updateOrganizationConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationConnection",
 }));
 
 export type UpdatePhoneProviderError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -26668,6 +27601,8 @@ export const updatePhoneProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneProvider",
 }));
 
 export type UpdatePhoneTemplateError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26683,6 +27618,8 @@ export const updatePhoneTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneTemplate",
 }));
 
 export type UpdatePromptsError = BadRequest | Forbidden | Auth0OpError;
@@ -26698,6 +27635,8 @@ export const updatePrompts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrompts",
 }));
 
 export type UpdateRateLimitPolicyError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26713,6 +27652,8 @@ export const updateRateLimitPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRateLimitPolicy",
 }));
 
 export type UpdateRefreshTokenError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26728,6 +27669,8 @@ export const updateRefreshToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRefreshToken",
 }));
 
 export type UpdateResourceServerError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -26743,6 +27686,8 @@ export const updateResourceServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceServer",
 }));
 
 export type UpdateRiskAssessmentsSettingsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26758,6 +27703,8 @@ export const updateRiskAssessmentsSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRiskAssessmentsSettings",
 }));
 
 export type UpdateRoleError = BadRequest | Forbidden | Auth0OpError;
@@ -26773,6 +27720,8 @@ export const updateRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRole",
 }));
 
 export type UpdateRuleError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -26788,6 +27737,8 @@ export const updateRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateSegmentError =
@@ -26809,6 +27760,8 @@ export const updateSegment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSegment",
 }));
 
 export type UpdateSelfServiceProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26824,6 +27777,8 @@ export const updateSelfServiceProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSelfServiceProfile",
 }));
 
 export type UpdateSessionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26839,6 +27794,8 @@ export const updateSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSession",
 }));
 
 export type UpdateSupplementalSignalsError = Forbidden | NotFound | Auth0OpError;
@@ -26854,6 +27811,8 @@ export const updateSupplementalSignals: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSupplementalSignals",
 }));
 
 export type UpdateTokenExchangeProfileError =
@@ -26874,6 +27833,8 @@ export const updateTokenExchangeProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTokenExchangeProfile",
 }));
 
 export type UpdateUserError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26889,6 +27850,8 @@ export const updateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserAttributeProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26904,6 +27867,8 @@ export const updateUserAttributeProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserAttributeProfile",
 }));
 
 export type UpdateVariationError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -26919,6 +27884,8 @@ export const updateVariation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVariation",
 }));
 
 export type ValidateExperimentError = Forbidden | NotFound | Auth0OpError;
@@ -26934,6 +27901,8 @@ export const validateExperiment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAuth0Error],
   protocol: Auth0Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateExperiment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

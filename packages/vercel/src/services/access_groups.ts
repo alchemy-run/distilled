@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "AccessGroups",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -438,6 +452,8 @@ export const createAccessGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessGroup",
 }));
 
 export type CreateAccessGroupProjectError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -453,6 +469,8 @@ export const createAccessGroupProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessGroupProject",
 }));
 
 export type DeleteAccessGroupError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -468,6 +486,8 @@ export const deleteAccessGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessGroup",
 }));
 
 export type DeleteAccessGroupProjectError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -483,6 +503,8 @@ export const deleteAccessGroupProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessGroupProject",
 }));
 
 export type ListAccessGroupMembersError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -498,6 +520,8 @@ export const listAccessGroupMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessGroupMembers",
 }));
 
 export type ListAccessGroupProjectsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -513,6 +537,8 @@ export const listAccessGroupProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessGroupProjects",
 }));
 
 export type ListAccessGroupsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -528,6 +554,8 @@ export const listAccessGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessGroups",
 }));
 
 export type ReadAccessGroupError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -543,6 +571,8 @@ export const readAccessGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAccessGroup",
 }));
 
 export type ReadAccessGroupProjectError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -558,6 +588,8 @@ export const readAccessGroupProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAccessGroupProject",
 }));
 
 export type UpdateAccessGroupError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -573,6 +605,8 @@ export const updateAccessGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessGroup",
 }));
 
 export type UpdateAccessGroupProjectError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -588,6 +622,8 @@ export const updateAccessGroupProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessGroupProject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

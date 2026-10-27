@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.RedHatOpenShift" },
+  prefix: "Redhatopenshift",
+  service: "Redhatopenshift",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteOpenShiftClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -740,6 +760,8 @@ export const DeleteOpenShiftCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOpenShiftCluster",
 }));
 
 export type GetOpenShiftClusterError = AzureOpError;
@@ -755,6 +777,8 @@ export const GetOpenShiftCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenShiftCluster",
 }));
 
 export type GetOpenShiftVersionError = AzureOpError;
@@ -770,6 +794,8 @@ export const GetOpenShiftVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenShiftVersion",
 }));
 
 export type GetPlatformWorkloadIdentityRoleSetError = AzureOpError;
@@ -785,6 +811,8 @@ export const GetPlatformWorkloadIdentityRoleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlatformWorkloadIdentityRoleSet",
 }));
 
 export type ListOpenShiftClusterAdminCredentialsError = AzureOpError;
@@ -800,6 +828,8 @@ export const ListOpenShiftClusterAdminCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenShiftClusterAdminCredentials",
 }));
 
 export type ListOpenShiftClusterByResourceGroupError = AzureOpError;
@@ -815,6 +845,8 @@ export const ListOpenShiftClusterByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenShiftClusterByResourceGroup",
 }));
 
 export type ListOpenShiftClusterCredentialsError = AzureOpError;
@@ -830,6 +862,8 @@ export const ListOpenShiftClusterCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenShiftClusterCredentials",
 }));
 
 export type ListOpenShiftClustersError = AzureOpError;
@@ -845,6 +879,8 @@ export const ListOpenShiftClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenShiftClusters",
 }));
 
 export type ListOpenShiftVersionsError = AzureOpError;
@@ -860,6 +896,8 @@ export const ListOpenShiftVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenShiftVersions",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -875,6 +913,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPlatformWorkloadIdentityRoleSetsError = AzureOpError;
@@ -890,6 +930,8 @@ export const ListPlatformWorkloadIdentityRoleSets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlatformWorkloadIdentityRoleSets",
 }));
 
 export type OpenShiftClustersCreateOrUpdateError = AzureOpError;
@@ -905,6 +947,8 @@ export const OpenShiftClustersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OpenShiftClustersCreateOrUpdate",
 }));
 
 export type UpdateOpenShiftClusterError = AzureOpError;
@@ -920,6 +964,8 @@ export const UpdateOpenShiftCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOpenShiftCluster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
