@@ -21,6 +21,8 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   accountId: "account_id",
   activeRolloutId: "active_rollout_id",
   artifactDigest: "artifact_digest",
+  assignIpv4: "assign_ipv4",
+  assignIpv6: "assign_ipv6",
   authorizedKeys: "authorized_keys",
   createdAt: "created_at",
   durableObjects: "durable_objects",
@@ -156,6 +158,17 @@ export interface EnvironmentVariable {
 }
 export type EnvironmentVariableList = Array<EnvironmentVariable>;
 export type DocumentList = Array<unknown>;
+export type ContainerNetworkAssignIp = "none" | "predefined";
+export type ContainerNetworkMode = "private" | "public";
+/** Network configuration for a container deployment. Transcribed from the live API: it rejects unknown keys (`unrecognized key: "assignipv4"`). */
+export interface ContainerNetwork {
+  /** Whether to assign an IPv4 address. `predefined` requests public reachability: the API infers `mode: public` when `mode` is omitted, and rejects it combined with `mode: private`. */
+  assignIpv4?: ContainerNetworkAssignIp | (string & {}) | null;
+  /** Whether to assign an IPv6 address. Same rules as `assign_ipv4`. */
+  assignIpv6?: ContainerNetworkAssignIp | (string & {}) | null;
+  /** Network mode. Some accounts only permit `private`. */
+  mode?: ContainerNetworkMode | (string & {}) | null;
+}
 export type StringList = Array<string>;
 export interface ContainerConfiguration {
   image: string;
@@ -168,7 +181,7 @@ export interface ContainerConfiguration {
   secrets?: DocumentList;
   labels?: DocumentList;
   ports?: DocumentList;
-  network?: unknown;
+  network?: ContainerNetwork;
   command?: StringList;
   entrypoint?: StringList;
   observability?: unknown;
@@ -254,7 +267,7 @@ export interface ContainerApplicationConfiguration {
   secrets?: DocumentList | null;
   labels?: DocumentList | null;
   ports?: DocumentList | null;
-  network?: unknown | null;
+  network?: ContainerNetwork | null;
   command?: StringList | null;
   entrypoint?: StringList | null;
   observability?: unknown | null;
@@ -827,7 +840,7 @@ function __c10(j: number): any {
           secrets: S.optional(S.NullOr(__S(130, __c16, 2))),
           labels: S.optional(S.NullOr(__S(130, __c16, 2))),
           ports: S.optional(S.NullOr(__S(130, __c16, 2))),
-          network: S.optional(S.NullOr(S.Unknown)),
+          network: S.optional(S.NullOr(__S(131, __c16, 3))),
           command: S.optional(S.NullOr(__S(104, __c13, 0))),
           entrypoint: S.optional(S.NullOr(__S(104, __c13, 0))),
           observability: S.optional(S.NullOr(S.Unknown)),
@@ -917,7 +930,7 @@ function __c12(j: number): any {
           secrets: S.optional(__S(130, __c16, 2)),
           labels: S.optional(__S(130, __c16, 2)),
           ports: S.optional(__S(130, __c16, 2)),
-          network: S.optional(S.Unknown),
+          network: S.optional(__S(131, __c16, 3)),
           command: S.optional(__S(104, __c13, 0)),
           entrypoint: S.optional(__S(104, __c13, 0)),
           observability: S.optional(S.Unknown),
@@ -996,6 +1009,14 @@ function __c16(j: number): any {
       return S.Array(__S(128, __c16, 0));
     case 2:
       return S.Array(S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          assignIpv4: S.optional(S.NullOr(S.String).pipe(T.Body("assign_ipv4"))),
+          assignIpv6: S.optional(S.NullOr(S.String).pipe(T.Body("assign_ipv6"))),
+          mode: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ContainerNetwork" });
   }
 }
 function __c17(j: number): any {

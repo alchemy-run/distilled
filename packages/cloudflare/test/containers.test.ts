@@ -180,6 +180,41 @@ describe("Container applications, one response type per scheduling policy", () =
       constraints: { regions: ["WNAM"] },
     });
   });
+
+  // The API rejects camelCase network keys: `unrecognized key: "assignipv4"`.
+  test("sends and decodes network in wire names", async () => {
+    let sent: { configuration?: unknown } | undefined;
+    const network = { assign_ipv4: "none", assign_ipv6: "none", mode: "private" };
+    const { strict } = await runValidationModes(
+      createContainerApplication({
+        accountId: "account",
+        name: "fleet",
+        configuration: {
+          image: "registry.cloudflare.com/account/app:1",
+          network: { assignIpv4: "none", assignIpv6: "none", mode: "private" },
+        },
+      }).pipe(Retry.none, withCredentials),
+      (request) => {
+        sent = bodyOf(request);
+        return {
+          body: envelope({
+            ...scheduledApp,
+            configuration: { ...scheduledApp.configuration, network },
+          }),
+        };
+      },
+    );
+    expect(sent?.configuration).toEqual({
+      image: "registry.cloudflare.com/account/app:1",
+      network,
+    });
+    expect(strict).toMatchObject({
+      _tag: "Success",
+      success: {
+        configuration: { network: { assignIpv4: "none", assignIpv6: "none", mode: "private" } },
+      },
+    });
+  });
 });
 
 describe("Container application rollout grace period", () => {
