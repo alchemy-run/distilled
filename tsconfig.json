@@ -159,6 +159,9 @@
     {
       "path": "./packages/prisma/tsconfig.scripts.json"
     },
+    { "path": "./packages/proxmox/tsconfig.json" },
+    { "path": "./packages/proxmox/tsconfig.test.json" },
+    { "path": "./packages/proxmox/tsconfig.scripts.json" },
     {
       "path": "./packages/railway/tsconfig.json"
     },
