@@ -174,7 +174,7 @@ describe("dot-segment labels", () => {
 });
 
 describe("empty labels", () => {
-  const build = (method: "GET" | "DELETE", uri: string, input: Record<string, string>) =>
+  const build = (method: T.HttpTrait["method"], uri: string, input: Record<string, string>) =>
     buildRequest({
       input,
       inputAst: S.Struct(
@@ -186,6 +186,7 @@ describe("empty labels", () => {
   test("an empty label fails with InvalidInput before anything is sent", () => {
     for (const [method, uri, input] of [
       ["DELETE", "/projects/{project_id}", { project_id: "" }],
+      ["POST", "/projects/{project_id}", { project_id: "" }],
       ["GET", "/projects/{project_id}/branches/{branch_id}", { project_id: "", branch_id: "b1" }],
     ] as const) {
       const error = Effect.runSync(Effect.flip(build(method, uri, input)));
@@ -194,8 +195,9 @@ describe("empty labels", () => {
     }
   });
 
-  // GitHub's `GET .../contents/{path}` with `path: ""` lists the repository root.
-  test("an empty label ending the path of a GET is sent", () => {
+  // GitHub's `GET .../contents/{path}` with `path: ""` lists the repository
+  // root; Key Vault's `PATCH .../{secret-version}` with `""` updates the latest.
+  test("an empty label ending the path of a GET or PATCH is sent", () => {
     expect(
       Effect.runSync(
         build("GET", "/repos/{owner}/{repo}/contents/{path}", {
@@ -205,6 +207,14 @@ describe("empty labels", () => {
         }),
       ).url,
     ).toBe("https://example.test/repos/o/r/contents/");
+    expect(
+      Effect.runSync(
+        build("PATCH", "/secrets/{secretName}/{secretVersion}", {
+          secretName: "s",
+          secretVersion: "",
+        }),
+      ).url,
+    ).toBe("https://example.test/secrets/s/");
   });
 });
 

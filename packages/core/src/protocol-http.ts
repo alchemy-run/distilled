@@ -497,7 +497,12 @@ interface MemberPlan {
   readonly preserve: string | undefined;
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
-  /** An empty value ending the path of a GET or HEAD is sent (e.g. GitHub's `contents/{path}` with `""`). */
+  /**
+   * An empty value ending the path is sent, except on a DELETE or POST, where
+   * it would delete or create in the collection. GitHub's
+   * `GET contents/{path}` and Key Vault's `PATCH secrets/{name}/{version}` use
+   * `""` on purpose.
+   */
   readonly emptyAllowed: boolean;
   readonly stringEncoded: boolean;
   /** `mapKeys(type, value, "encode", rootDict)` returns the value unchanged. */
@@ -540,7 +545,8 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
       greedy = http.uri.includes(`{${name}+}`);
       emptyAllowed =
         !greedy &&
-        (http.method === "GET" || http.method === "HEAD") &&
+        http.method !== "DELETE" &&
+        http.method !== "POST" &&
         http.uri.split("?")[0]!.endsWith(`{${name}}`);
     } else if (hasPropAnn(prop, headerSymbol)) {
       bind = "header";
@@ -605,9 +611,9 @@ export const makeRequest = (
  * percent-encoded or not, so no encoding can carry one
  * (`/projects/p1/branches/..` -> `/projects/p1/`). An empty value drops a
  * level the same way (`/projects/` instead of `/projects/{project_id}`),
- * unless `emptyAllowed`: a label that ends the path of a GET or HEAD, where
- * the parent is what the caller asks for. A greedy label keeps its `/`, so
- * each of its segments after a leading `/` counts.
+ * unless `emptyAllowed`: a label that ends the path of a method other than
+ * DELETE or POST, where the parent is what the caller asks for. A greedy
+ * label keeps its `/`, so each of its segments after a leading `/` counts.
  */
 export const invalidLabel = (
   member: string,
@@ -640,8 +646,9 @@ export const invalidLabel = (
  *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * empty, `.` or `..` (for a greedy `{name+}` label, when any of its segments
- * is). An empty label that ends the path of a GET or HEAD is sent, and a
- * greedy `/` followed by more path is sent as the root (`/providers/...`).
+ * is). An empty label that ends the path is sent unless the method is DELETE
+ * or POST, and a greedy `/` followed by more path is sent as the root
+ * (`/providers/...`).
  * Throws when the input schema is missing the `Http()` trait -- a codegen
  * bug, which the calling protocol's Effect surfaces as a defect.
  */
