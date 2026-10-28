@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://managedblockchain.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ManagedBlockchain",
+  service: "ManagedBlockchain",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -706,6 +721,8 @@ export const createAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessor",
+  telemetry: TELEMETRY,
+  span: "CreateAccessor",
 }));
 
 export type CreateMemberError =
@@ -746,6 +763,8 @@ export const createMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMember",
+  telemetry: TELEMETRY,
+  span: "CreateMember",
 }));
 
 export type CreateNetworkError =
@@ -782,6 +801,8 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type CreateNodeError =
@@ -822,6 +843,8 @@ export const createNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNode",
+  telemetry: TELEMETRY,
+  span: "CreateNode",
 }));
 
 export type CreateProposalError =
@@ -858,6 +881,8 @@ export const createProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProposal",
+  telemetry: TELEMETRY,
+  span: "CreateProposal",
 }));
 
 export type DeleteAccessorError =
@@ -894,6 +919,8 @@ export const deleteAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessor",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessor",
 }));
 
 export type DeleteMemberError =
@@ -928,6 +955,8 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DeleteNodeError =
@@ -962,6 +991,8 @@ export const deleteNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNode",
+  telemetry: TELEMETRY,
+  span: "DeleteNode",
 }));
 
 export type GetAccessorError =
@@ -993,6 +1024,8 @@ export const getAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessor",
+  telemetry: TELEMETRY,
+  span: "GetAccessor",
 }));
 
 export type GetMemberError =
@@ -1025,6 +1058,8 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetNetworkError =
@@ -1057,6 +1092,8 @@ export const getNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetwork",
+  telemetry: TELEMETRY,
+  span: "GetNetwork",
 }));
 
 export type GetNodeError =
@@ -1089,6 +1126,8 @@ export const getNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNode",
+  telemetry: TELEMETRY,
+  span: "GetNode",
 }));
 
 export type GetProposalError =
@@ -1121,6 +1160,8 @@ export const getProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProposal",
+  telemetry: TELEMETRY,
+  span: "GetProposal",
 }));
 
 export type ListAccessorsError =
@@ -1157,6 +1198,8 @@ export const listAccessors: API.PaginatedOperationMethod<
     items: "Accessors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessors",
 })) as any;
 
 export type ListInvitationsError =
@@ -1197,6 +1240,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListMembersError =
@@ -1233,6 +1278,8 @@ export const listMembers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListNetworksError =
@@ -1269,6 +1316,8 @@ export const listNetworks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworks",
 })) as any;
 
 export type ListNodesError =
@@ -1305,6 +1354,8 @@ export const listNodes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodes",
 })) as any;
 
 export type ListProposalsError =
@@ -1343,6 +1394,8 @@ export const listProposals: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProposals",
 })) as any;
 
 export type ListProposalVotesError =
@@ -1379,6 +1432,8 @@ export const listProposalVotes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProposalVotes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1409,6 +1464,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectInvitationError =
@@ -1443,6 +1500,8 @@ export const rejectInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectInvitation",
 }));
 
 export type TagResourceError =
@@ -1479,6 +1538,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1509,6 +1570,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMemberError =
@@ -1541,6 +1604,8 @@ export const updateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMember",
+  telemetry: TELEMETRY,
+  span: "UpdateMember",
 }));
 
 export type UpdateNodeError =
@@ -1573,6 +1638,8 @@ export const updateNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNode",
+  telemetry: TELEMETRY,
+  span: "UpdateNode",
 }));
 
 export type VoteOnProposalError =
@@ -1607,6 +1674,8 @@ export const voteOnProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VoteOnProposal",
+  telemetry: TELEMETRY,
+  span: "VoteOnProposal",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

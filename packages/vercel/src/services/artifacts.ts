@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Artifacts",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -198,6 +212,8 @@ export const artifactExists: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArtifactExists",
 }));
 
 export type ArtifactQueryError =
@@ -218,6 +234,8 @@ export const artifactQuery: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArtifactQuery",
 }));
 
 export type DeleteAllArtifactsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -233,6 +251,8 @@ export const deleteAllArtifacts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllArtifacts",
 }));
 
 export type DownloadArtifactError =
@@ -253,6 +273,8 @@ export const downloadArtifact: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadArtifact",
 }));
 
 export type RecordEventsError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -268,6 +290,8 @@ export const recordEvents: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordEvents",
 }));
 
 export type StatusError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -283,6 +307,8 @@ export const status: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Status",
 }));
 
 export type UploadArtifactError =
@@ -303,6 +329,8 @@ export const uploadArtifact: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadArtifact",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

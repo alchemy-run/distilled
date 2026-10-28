@@ -70,13 +70,14 @@
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-slack",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-slack",
     "convert": "node --conditions=bun scripts/convert.ts",
-    "generate": "node --conditions=bun scripts/convert.ts && node --conditions=bun scripts/generate.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
     "typecheck": "tsrs -p tsconfig.json"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@effect/platform-node": "catalog:",
     "@types/node": "catalog:"
   },
@@ -84,7 +85,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-09",
+    "generatedAt": "2026-10-25",
     "specUpdatedAt": "2026-10-08"
   }
 }

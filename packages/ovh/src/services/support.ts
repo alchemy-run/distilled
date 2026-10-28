@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Support",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** Ticket request category */
 export type SupportTicketCategoryEnum = "assistance" | "billing" | "incident";
 /** Ticket level of impact or urgency (reserved for Business or Enterprise support level accounts) */
@@ -227,6 +241,8 @@ export const createSupportTicket: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupportTicket",
 }));
 
 export type CreateSupportTicketCloseError = OvhOpError;
@@ -242,6 +258,8 @@ export const createSupportTicketClose: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupportTicketClose",
 }));
 
 export type CreateSupportTicketReopenError = OvhOpError;
@@ -257,6 +275,8 @@ export const createSupportTicketReopen: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupportTicketReopen",
 }));
 
 export type CreateSupportTicketScoreError = OvhOpError;
@@ -272,6 +292,8 @@ export const createSupportTicketScore: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupportTicketScore",
 }));
 
 export type GetSupportTicketError = OvhOpError;
@@ -287,6 +309,8 @@ export const getSupportTicket: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportTicket",
 }));
 
 export type GetSupportTicketCanBeScoredError = OvhOpError;
@@ -302,6 +326,8 @@ export const getSupportTicketCanBeScored: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportTicketCanBeScored",
 }));
 
 export type ListSupportTicketMessagesError = OvhOpError;
@@ -317,6 +343,8 @@ export const listSupportTicketMessages: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupportTicketMessages",
 }));
 
 export type ListSupportTicketsError = OvhOpError;
@@ -332,6 +360,8 @@ export const listSupportTickets: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupportTickets",
 }));
 
 export type ReplySupportTicketError = OvhOpError;
@@ -347,6 +377,8 @@ export const replySupportTicket: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplySupportTicket",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

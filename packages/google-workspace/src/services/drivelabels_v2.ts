@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Drivelabels",
+  service: "drivelabels",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1196,6 +1209,8 @@ export const batchDeleteLabelsPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteLabelsPermissions",
 }));
 
 export type BatchDeleteLabelsRevisionsPermissionsError =
@@ -1216,6 +1231,8 @@ export const batchDeleteLabelsRevisionsPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteLabelsRevisionsPermissions",
 }));
 
 export type BatchUpdateLabelsPermissionsError =
@@ -1240,6 +1257,8 @@ export const batchUpdateLabelsPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateLabelsPermissions",
 }));
 
 export type BatchUpdateLabelsRevisionsPermissionsError =
@@ -1264,6 +1283,8 @@ export const batchUpdateLabelsRevisionsPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateLabelsRevisionsPermissions",
 }));
 
 export type CreateLabelsError =
@@ -1284,6 +1305,8 @@ export const createLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLabels",
 }));
 
 export type CreateLabelsPermissionsError =
@@ -1304,6 +1327,8 @@ export const createLabelsPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLabelsPermissions",
 }));
 
 export type CreateLabelsRevisionsPermissionsError =
@@ -1324,6 +1349,8 @@ export const createLabelsRevisionsPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLabelsRevisionsPermissions",
 }));
 
 export type DeleteLabelsError =
@@ -1344,6 +1371,8 @@ export const deleteLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLabels",
 }));
 
 export type DeleteLabelsPermissionsError =
@@ -1364,6 +1393,8 @@ export const deleteLabelsPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLabelsPermissions",
 }));
 
 export type DeleteLabelsRevisionsPermissionsError =
@@ -1384,6 +1415,8 @@ export const deleteLabelsRevisionsPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLabelsRevisionsPermissions",
 }));
 
 export type DeltaLabelsError =
@@ -1404,6 +1437,8 @@ export const deltaLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeltaLabels",
 }));
 
 export type DisableLabelsError =
@@ -1424,6 +1459,8 @@ export const disableLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableLabels",
 }));
 
 export type EnableLabelsError =
@@ -1444,6 +1481,8 @@ export const enableLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableLabels",
 }));
 
 export type GetCapabilitiesUsersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1459,6 +1498,8 @@ export const getCapabilitiesUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCapabilitiesUsers",
 }));
 
 export type GetLabelLimitsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1474,6 +1515,8 @@ export const getLabelLimits: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLabelLimits",
 }));
 
 export type GetLabelsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1489,6 +1532,8 @@ export const getLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLabels",
 }));
 
 export type ListLabelsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1505,6 +1550,8 @@ export const listLabels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1522,6 +1569,8 @@ export const listLabelsLocks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabelsLocks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1543,6 +1592,8 @@ export const listLabelsPermissions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabelsPermissions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1560,6 +1611,8 @@ export const listLabelsRevisionsLocks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabelsRevisionsLocks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1581,6 +1634,8 @@ export const listLabelsRevisionsPermissions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabelsRevisionsPermissions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1602,6 +1657,8 @@ export const publishLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishLabels",
 }));
 
 export type UpdateLabelCopyModeLabelsError =
@@ -1622,6 +1679,8 @@ export const updateLabelCopyModeLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLabelCopyModeLabels",
 }));
 
 export type UpdateLabelEnabledAppSettingsLabelsError =
@@ -1642,6 +1701,8 @@ export const updateLabelEnabledAppSettingsLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLabelEnabledAppSettingsLabels",
 }));
 
 export type UpdatePermissionsLabelsError =
@@ -1662,6 +1723,8 @@ export const updatePermissionsLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePermissionsLabels",
 }));
 
 export type UpdatePermissionsLabelsRevisionsError =
@@ -1682,6 +1745,8 @@ export const updatePermissionsLabelsRevisions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePermissionsLabelsRevisions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

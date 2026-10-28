@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://redshift-data.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RedshiftData",
+  service: "RedshiftData",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ActiveSessionsExceededException
   extends /*@__PURE__*/ S.TaggedError<ActiveSessionsExceededException>()(
@@ -535,6 +551,8 @@ export const batchExecuteStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
+  telemetry: TELEMETRY,
+  span: "BatchExecuteStatement",
 }));
 
 export type CancelStatementError =
@@ -567,6 +585,8 @@ export const cancelStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelStatement",
+  telemetry: TELEMETRY,
+  span: "CancelStatement",
 }));
 
 export type DescribeStatementError =
@@ -597,6 +617,8 @@ export const describeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStatement",
+  telemetry: TELEMETRY,
+  span: "DescribeStatement",
 }));
 
 export type DescribeTableError =
@@ -646,6 +668,8 @@ export const describeTable: API.PaginatedOperationMethod<
     items: "ColumnList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTable",
 })) as any;
 
 export type ExecuteStatementError =
@@ -690,6 +714,8 @@ export const executeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
+  telemetry: TELEMETRY,
+  span: "ExecuteStatement",
 }));
 
 export type GetStatementResultError =
@@ -722,6 +748,8 @@ export const getStatementResult: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetStatementResult",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Records" } as const,
+  telemetry: TELEMETRY,
+  span: "GetStatementResult",
 })) as any;
 
 export type GetStatementResultV2Error =
@@ -754,6 +782,8 @@ export const getStatementResultV2: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetStatementResultV2",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Records" } as const,
+  telemetry: TELEMETRY,
+  span: "GetStatementResultV2",
 })) as any;
 
 export type ListDatabasesError =
@@ -803,6 +833,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     items: "Databases",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 })) as any;
 
 export type ListSchemasError =
@@ -852,6 +884,8 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemas",
 })) as any;
 
 export type ListSessionsError =
@@ -883,6 +917,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListStatementsError =
@@ -916,6 +952,8 @@ export const listStatements: API.PaginatedOperationMethod<
     items: "Statements",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStatements",
 })) as any;
 
 export type ListTablesError =
@@ -965,6 +1003,8 @@ export const listTables: API.PaginatedOperationMethod<
     items: "Tables",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

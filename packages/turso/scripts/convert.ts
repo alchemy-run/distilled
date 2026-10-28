@@ -14,7 +14,7 @@
  * (`packages/turso/scripts/generate.ts`): statusToErrorClass without 422,
  * defaultErrorStatuses including 502/504, deprecated operations skipped.
  */
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
   root: `${import.meta.dirname}/..`,

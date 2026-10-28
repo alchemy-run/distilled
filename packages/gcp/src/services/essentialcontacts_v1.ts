@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "essentialcontacts" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Essentialcontacts",
+  service: "essentialcontacts",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -330,6 +349,8 @@ export const computeFoldersContacts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ComputeFoldersContacts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -351,6 +372,8 @@ export const computeOrganizationsContacts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ComputeOrganizationsContacts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -372,6 +395,8 @@ export const computeProjectsContacts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ComputeProjectsContacts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -388,6 +413,8 @@ export const createFoldersContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFoldersContacts",
 }));
 
 export type CreateOrganizationsContactsError =
@@ -408,6 +435,8 @@ export const createOrganizationsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsContacts",
 }));
 
 export type CreateProjectsContactsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -423,6 +452,8 @@ export const createProjectsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsContacts",
 }));
 
 export type DeleteFoldersContactsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -438,6 +469,8 @@ export const deleteFoldersContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFoldersContacts",
 }));
 
 export type DeleteOrganizationsContactsError =
@@ -458,6 +491,8 @@ export const deleteOrganizationsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsContacts",
 }));
 
 export type DeleteProjectsContactsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -473,6 +508,8 @@ export const deleteProjectsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsContacts",
 }));
 
 export type GetFoldersContactsError = NotFound | Forbidden | GcpOpError;
@@ -488,6 +525,8 @@ export const getFoldersContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFoldersContacts",
 }));
 
 export type GetOrganizationsContactsError = NotFound | Forbidden | GcpOpError;
@@ -503,6 +542,8 @@ export const getOrganizationsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsContacts",
 }));
 
 export type GetProjectsContactsError = NotFound | Forbidden | GcpOpError;
@@ -518,6 +559,8 @@ export const getProjectsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsContacts",
 }));
 
 export type ListFoldersContactsError = NotFound | Forbidden | GcpOpError;
@@ -534,6 +577,8 @@ export const listFoldersContacts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFoldersContacts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -551,6 +596,8 @@ export const listOrganizationsContacts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsContacts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -568,6 +615,8 @@ export const listProjectsContacts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsContacts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -584,6 +633,8 @@ export const patchFoldersContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFoldersContacts",
 }));
 
 export type PatchOrganizationsContactsError =
@@ -604,6 +655,8 @@ export const patchOrganizationsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsContacts",
 }));
 
 export type PatchProjectsContactsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -619,6 +672,8 @@ export const patchProjectsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsContacts",
 }));
 
 export type SendTestMessageFoldersContactsError =
@@ -639,6 +694,8 @@ export const sendTestMessageFoldersContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendTestMessageFoldersContacts",
 }));
 
 export type SendTestMessageOrganizationsContactsError =
@@ -659,6 +716,8 @@ export const sendTestMessageOrganizationsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendTestMessageOrganizationsContacts",
 }));
 
 export type SendTestMessageProjectsContactsError =
@@ -679,6 +738,8 @@ export const sendTestMessageProjectsContacts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendTestMessageProjectsContacts",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

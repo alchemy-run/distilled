@@ -10,6 +10,18 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoSettings",
+  propagate: "w3c",
+} as const;
+
 export interface GetGeneralAPISettingsRequest {}
 /** GeneralAPISettings contains global api settings exposed by it */
 export interface GeneralAPISettings {
@@ -59,6 +71,8 @@ export const getGeneralAPISettings: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeneralAPISettings",
 }));
 
 export type GetGeneralAttachmentSettingsError = ForgejoOpError;
@@ -74,6 +88,8 @@ export const getGeneralAttachmentSettings: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeneralAttachmentSettings",
 }));
 
 export type GetGeneralRepositorySettingsError = ForgejoOpError;
@@ -89,6 +105,8 @@ export const getGeneralRepositorySettings: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeneralRepositorySettings",
 }));
 
 export type GetGeneralUISettingsError = ForgejoOpError;
@@ -104,6 +122,8 @@ export const getGeneralUISettings: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeneralUISettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

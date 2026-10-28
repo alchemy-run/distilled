@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "AccountTrackRules",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `account_field` - account_field * `custom_property` - custom_property */
 export type AccountTrackRuleFieldKindEnum = "account_field" | "custom_property";
 /** * `name` - name * `external_id` - external_id * `created_at` - created_at * `updated_at` - updated_at * `churned_at` - churned_at * `ignored_at` - ignored_at * `stripe_customer_id` - stripe_customer_id * `hubspot_deal_id` - hubspot_deal_id * `billing_id` - billing_id * `sfdc_id` - sfdc_id * `zendesk_id` - zendesk_id */
@@ -142,6 +155,8 @@ export const createAccountTrackRulesPreview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountTrackRulesPreview",
 }));
 
 export type CreateAccountTrackRulesRunError = PosthogOpError;
@@ -156,6 +171,8 @@ export const createAccountTrackRulesRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountTrackRulesRun",
 }));
 
 export type ListAccountTrackRulesError = PosthogOpError;
@@ -170,6 +187,8 @@ export const listAccountTrackRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountTrackRules",
 }));
 
 export type ListAccountTrackRulesRunsError = PosthogOpError;
@@ -184,6 +203,8 @@ export const listAccountTrackRulesRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountTrackRulesRuns",
 }));
 
 export type UpdateAccountTrackRuleError = PosthogOpError;
@@ -198,6 +219,8 @@ export const updateAccountTrackRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountTrackRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

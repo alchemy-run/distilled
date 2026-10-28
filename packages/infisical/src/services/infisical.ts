@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { InfisicalOpError, InfisicalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "infisical-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Infisical",
+  service: "Infisical",
+  labels: "infisical",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2290,9 +2303,11 @@ export interface CreateAgentVaultAccessBundleResponse {
 export type CreateAgentVaultAwsAppConnectionRequestMethod = "assume-role";
 /** The credentials used to connect with AWS. */
 export interface CreateAgentVaultAwsAppConnectionRequestCredentials {
-  roleArn: string;
+  roleArn?: string;
   /** An optional custom endpoint URL for the AWS STS API to use when connecting with AWS. */
   stsEndpoint?: string;
+  accessKeyId?: string | Redacted.Redacted<string>;
+  secretAccessKey?: string | Redacted.Redacted<string>;
 }
 export interface CreateAgentVaultAwsAppConnectionRequest {
   /** The method used to authenticate with AWS. */
@@ -4542,8 +4557,12 @@ export interface CreateAzureAdCsCertificateAuthorityV1Response {
 export type CreateAzureAppConfigurationAppConnectionRequestMethod = "oauth";
 /** The credentials used to connect with Azure App Configuration. */
 export interface CreateAzureAppConfigurationAppConnectionRequestCredentials {
-  code: string;
+  code?: string;
   tenantId?: string;
+  clientId?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked. */
+  clientSecretKeyId?: string | Redacted.Redacted<string>;
 }
 export type CreateAzureAppConfigurationAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Azure App Configuration Connections. */
@@ -4891,9 +4910,19 @@ export type CreateAzureClientSecretsAppConnectionRequestMethod = "oauth";
 /** The credentials used to connect with Azure Client Secrets. */
 export interface CreateAzureClientSecretsAppConnectionRequestCredentials {
   /** The OAuth code to use to connect with Azure Client Secrets. */
-  code: string;
+  code?: string;
   /** The Tenant ID to use to connect with Azure Client Secrets. */
-  tenantId: string;
+  tenantId?: string;
+  /** The Client ID to use to connect with Azure Client Secrets. */
+  clientId?: string;
+  /** The Client Secret to use to connect with Azure Client Secrets. */
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked. */
+  clientSecretKeyId?: string | Redacted.Redacted<string>;
+  /** The certificate body in PEM format to use to connect with Azure Client Secrets. */
+  certificateBody?: string;
+  /** The private key to use to connect with Azure Client Secrets. This is never transmitted to Azure and is only used to sign the Azure client assertion with. */
+  privateKey?: string | Redacted.Redacted<string>;
 }
 export type CreateAzureClientSecretsAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Azure Client Secrets Connections. */
@@ -5091,11 +5120,18 @@ export type CreateAzureDevopsAppConnectionRequestMethod = "oauth";
 /** The credentials used to connect with Azure DevOps. */
 export interface CreateAzureDevopsAppConnectionRequestCredentials {
   /** The OAuth code to use to connect with Azure DevOps. */
-  code: string;
+  code?: string;
   /** The Tenant ID to use to connect with Azure DevOps. */
-  tenantId: string;
+  tenantId?: string;
   /** The Organization name to use to connect with Azure DevOps. */
-  orgName: string;
+  orgName?: string;
+  accessToken?: string | Redacted.Redacted<string>;
+  /** The Client ID to use to connect with Azure Client Secrets. */
+  clientId?: string;
+  /** The Client Secret to use to connect with Azure Client Secrets. */
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked. */
+  clientSecretKeyId?: string | Redacted.Redacted<string>;
 }
 export type CreateAzureDevopsAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Azure DevOps Connections. */
@@ -5709,8 +5745,16 @@ export interface CreateAzureEntraIdScimSecretSyncResponse {
 /** The method used to authenticate with Azure Key Vault. */
 export type CreateAzureKeyVaultAppConnectionRequestMethod = "oauth";
 /** The credentials used to connect with Azure Key Vault. */
-export type CreateAzureKeyVaultAppConnectionRequestCredentials =
-  CreateAzureAppConfigurationAppConnectionRequestCredentials;
+export interface CreateAzureKeyVaultAppConnectionRequestCredentials {
+  code?: string;
+  tenantId?: string;
+  clientId?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked. */
+  clientSecretKeyId?: string | Redacted.Redacted<string>;
+  certificateBody?: string;
+  privateKey?: string | Redacted.Redacted<string>;
+}
 export type CreateAzureKeyVaultAppConnectionRequestRotationRotateAtUtc =
   CreateAzureAppConfigurationAppConnectionRequestRotationRotateAtUtc;
 /** The credential rotation configuration for the Azure Key Vault Connection. */
@@ -5720,7 +5764,7 @@ export interface CreateAzureKeyVaultAppConnectionRequest {
   /** The method used to authenticate with Azure Key Vault. */
   method?: CreateAzureKeyVaultAppConnectionRequestMethod | (string & {});
   /** The credentials used to connect with Azure Key Vault. */
-  credentials?: CreateAzureAppConfigurationAppConnectionRequestCredentials;
+  credentials?: CreateAzureKeyVaultAppConnectionRequestCredentials;
   /** The name of the Azure Key Vault Connection to create. Must be slug-friendly. */
   name: string;
   /** An optional description for the Azure Key Vault Connection. */
@@ -9631,9 +9675,13 @@ export type CreateDatadogAppConnectionRequestMethod = "token";
 /** The credentials used to connect with Datadog. */
 export interface CreateDatadogAppConnectionRequestCredentials {
   /** The Datadog site URL to connect to (e.g., 'https://api.datadoghq.com'). */
-  url: string;
+  url?: string;
   /** The Datadog Service Access Token used to authenticate. */
-  token: string;
+  token?: string;
+  /** The Datadog API key used to authenticate. */
+  apiKey?: string | Redacted.Redacted<string>;
+  /** The Datadog Application key used to authenticate. */
+  applicationKey?: string;
 }
 export type CreateDatadogAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Datadog Connections. */
@@ -14698,11 +14746,15 @@ export type CreateHashicorpVaultAppConnectionRequestMethod = "access-token";
 /** The credentials used to connect with Hashicorp Vault. */
 export interface CreateHashicorpVaultAppConnectionRequestCredentials {
   /** The Hashicrop Vault instance URL to connect with. */
-  instanceUrl: string;
+  instanceUrl?: string;
   /** The Hashicrop Vault namespace to connect with. */
   namespace?: string;
   /** The access token used to connect with Hashicorp Vault. */
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
+  /** The Role ID used to connect with Hashicorp Vault. */
+  roleId?: string;
+  /** The Secret ID used to connect with Hashicorp Vault. */
+  secretId?: string;
 }
 export type CreateHashicorpVaultAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Hashicorp Vault Connections. */
@@ -21255,11 +21307,13 @@ export interface CreateNorthflankSecretSyncResponse {
 export type CreateNutanixPrismCentralAppConnectionRequestMethod = "api-key";
 /** The credentials used to connect with Nutanix Prism Central. */
 export interface CreateNutanixPrismCentralAppConnectionRequestCredentials {
-  hostname: string;
+  hostname?: string;
   port?: number;
   sslRejectUnauthorized?: boolean;
   sslCertificate?: string;
-  apiKey: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string>;
+  username?: string;
+  password?: string | Redacted.Redacted<string>;
 }
 export type CreateNutanixPrismCentralAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Nutanix Prism Central Connections. */
@@ -37055,13 +37109,17 @@ export type CreateSshAppConnectionRequestMethod = "password";
 /** The credentials used to connect with SSH. */
 export interface CreateSshAppConnectionRequestCredentials {
   /** The hostname or IP address of the SSH server. */
-  host: string;
+  host?: string;
   /** The port number of the SSH server (default: 22). */
-  port: number;
+  port?: number;
   /** The username for SSH authentication. */
-  username: string;
+  username?: string;
   /** The password for SSH authentication (required when authMethod is 'password'). */
-  password: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string>;
+  /** The private key in PEM format for SSH authentication (required when authMethod is 'ssh-key'). */
+  privateKey?: string | Redacted.Redacted<string>;
+  /** The passphrase for the private key, if encrypted (optional, only for 'ssh-key' authMethod). */
+  passphrase?: string;
 }
 export interface CreateSshAppConnectionRequestConfiguration {
   /** A comma-separated list of usernames that are blocked from being used in operations like secret rotation (e.g., 'root,admin,ubuntu'). */
@@ -110936,6 +110994,7 @@ export type ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList
 export interface ListPkiSyncCertificatesResponseCertificatesItemSyncMetadata {
   isDefault?: boolean;
   files?: ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList;
+  [key: string]: unknown;
 }
 export interface ListPkiSyncCertificatesResponseCertificatesItem {
   id: string;
@@ -110981,6 +111040,7 @@ export type ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList
 export interface ListPkiSyncCertificatesResponseCertificatesItemSyncMetadata2 {
   isDefault?: boolean;
   files?: ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList2;
+  [key: string]: unknown;
 }
 export interface ListPkiSyncCertificatesResponseCertificatesItem2 {
   id: string;
@@ -144033,12 +144093,15 @@ export interface UpdateAgentVaultAccessBundleResponse {
 }
 export type UpdateAgentVaultAwsAppConnectionRequestCredentialsCase0 =
   GetAWSIAMUserSecretRotationGeneratedCredentialsResponseGeneratedCredentialsItem;
-export type UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1 =
-  CreateAgentVaultAwsAppConnectionRequestCredentials;
+export interface UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1 {
+  roleArn: string;
+  /** An optional custom endpoint URL for the AWS STS API to use when connecting with AWS. */
+  stsEndpoint?: string;
+}
 /** The credentials used to connect with AWS. */
 export type UpdateAgentVaultAwsAppConnectionRequestCredentials =
   | GetAWSIAMUserSecretRotationGeneratedCredentialsResponseGeneratedCredentialsItem
-  | CreateAgentVaultAwsAppConnectionRequestCredentials;
+  | UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1;
 export type UpdateAgentVaultAwsAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for AWS Connections. */
 export type UpdateAgentVaultAwsAppConnectionRequestGatewayId =
@@ -144948,11 +145011,11 @@ export interface UpdateAwsAcmPublicCaCertificateAuthorityV1Response {
 export type UpdateAwsAppConnectionRequestCredentialsCase0 =
   GetAWSIAMUserSecretRotationGeneratedCredentialsResponseGeneratedCredentialsItem;
 export type UpdateAwsAppConnectionRequestCredentialsCase1 =
-  CreateAgentVaultAwsAppConnectionRequestCredentials;
+  UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1;
 /** The credentials used to connect with AWS. */
 export type UpdateAwsAppConnectionRequestCredentials =
   | GetAWSIAMUserSecretRotationGeneratedCredentialsResponseGeneratedCredentialsItem
-  | CreateAgentVaultAwsAppConnectionRequestCredentials;
+  | UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1;
 export type UpdateAwsAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for AWS Connections. */
 export type UpdateAwsAppConnectionRequestGatewayId =
@@ -146311,13 +146374,15 @@ export interface UpdateAzureAdCsCertificateAuthorityV1Response {
   type: UpdateAzureAdCsCertificateAuthorityV1ResponseType;
   configuration: CreateAzureAdCsCertificateAuthorityV1RequestConfiguration;
 }
-export type UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0 =
-  CreateAzureAppConfigurationAppConnectionRequestCredentials;
+export interface UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0 {
+  code: string;
+  tenantId?: string;
+}
 export type UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase1 =
   CreateAzureEntraIdAppConnectionRequestCredentials;
 /** The credentials used to connect with Azure App Configuration. */
 export type UpdateAzureAppConfigurationAppConnectionRequestCredentials =
-  | CreateAzureAppConfigurationAppConnectionRequestCredentials
+  | UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0
   | CreateAzureEntraIdAppConnectionRequestCredentials;
 export type UpdateAzureAppConfigurationAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Azure App Configuration Connections. */
@@ -146662,8 +146727,12 @@ export interface UpdateAzureClientSecretRotationResponseSecretRotation {
 export interface UpdateAzureClientSecretRotationResponse {
   secretRotation: UpdateAzureClientSecretRotationResponseSecretRotation;
 }
-export type UpdateAzureClientSecretsAppConnectionRequestCredentialsCase0 =
-  CreateAzureClientSecretsAppConnectionRequestCredentials;
+export interface UpdateAzureClientSecretsAppConnectionRequestCredentialsCase0 {
+  /** The OAuth code to use to connect with Azure Client Secrets. */
+  code: string;
+  /** The Tenant ID to use to connect with Azure Client Secrets. */
+  tenantId: string;
+}
 export interface UpdateAzureClientSecretsAppConnectionRequestCredentialsCase1 {
   /** The Client ID to use to connect with Azure Client Secrets. */
   clientId: string;
@@ -146686,7 +146755,7 @@ export interface UpdateAzureClientSecretsAppConnectionRequestCredentialsCase2 {
 }
 /** The credentials used to connect with Azure Client Secrets. */
 export type UpdateAzureClientSecretsAppConnectionRequestCredentials =
-  | CreateAzureClientSecretsAppConnectionRequestCredentials
+  | UpdateAzureClientSecretsAppConnectionRequestCredentialsCase0
   | UpdateAzureClientSecretsAppConnectionRequestCredentialsCase1
   | UpdateAzureClientSecretsAppConnectionRequestCredentialsCase2;
 export type UpdateAzureClientSecretsAppConnectionRequestGatewayIdCase1 = "null";
@@ -146875,8 +146944,14 @@ export type UpdateAzureClientSecretsAppConnectionResponseAppConnection =
 export interface UpdateAzureClientSecretsAppConnectionResponse {
   appConnection: UpdateAzureClientSecretsAppConnectionResponseAppConnection;
 }
-export type UpdateAzureDevopsAppConnectionRequestCredentialsCase0 =
-  CreateAzureDevopsAppConnectionRequestCredentials;
+export interface UpdateAzureDevopsAppConnectionRequestCredentialsCase0 {
+  /** The OAuth code to use to connect with Azure DevOps. */
+  code: string;
+  /** The Tenant ID to use to connect with Azure DevOps. */
+  tenantId: string;
+  /** The Organization name to use to connect with Azure DevOps. */
+  orgName: string;
+}
 export interface UpdateAzureDevopsAppConnectionRequestCredentialsCase1 {
   accessToken: string | Redacted.Redacted<string>;
   orgName: string;
@@ -146895,7 +146970,7 @@ export interface UpdateAzureDevopsAppConnectionRequestCredentialsCase2 {
 }
 /** The credentials used to connect with Azure DevOps. */
 export type UpdateAzureDevopsAppConnectionRequestCredentials =
-  | CreateAzureDevopsAppConnectionRequestCredentials
+  | UpdateAzureDevopsAppConnectionRequestCredentialsCase0
   | UpdateAzureDevopsAppConnectionRequestCredentialsCase1
   | UpdateAzureDevopsAppConnectionRequestCredentialsCase2;
 export type UpdateAzureDevopsAppConnectionRequestGatewayIdCase1 = "null";
@@ -147466,7 +147541,7 @@ export interface UpdateAzureEntraIdScimSecretSyncResponse {
   secretSync: UpdateAzureEntraIdScimSecretSyncResponseSecretSync;
 }
 export type UpdateAzureKeyVaultAppConnectionRequestCredentialsCase0 =
-  CreateAzureAppConfigurationAppConnectionRequestCredentials;
+  UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0;
 export type UpdateAzureKeyVaultAppConnectionRequestCredentialsCase1 =
   CreateAzureEntraIdAppConnectionRequestCredentials;
 export interface UpdateAzureKeyVaultAppConnectionRequestCredentialsCase2 {
@@ -147477,7 +147552,7 @@ export interface UpdateAzureKeyVaultAppConnectionRequestCredentialsCase2 {
 }
 /** The credentials used to connect with Azure Key Vault. */
 export type UpdateAzureKeyVaultAppConnectionRequestCredentials =
-  | CreateAzureAppConfigurationAppConnectionRequestCredentials
+  | UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0
   | CreateAzureEntraIdAppConnectionRequestCredentials
   | UpdateAzureKeyVaultAppConnectionRequestCredentialsCase2;
 export type UpdateAzureKeyVaultAppConnectionRequestRotationRotateAtUtc =
@@ -151003,12 +151078,16 @@ export interface UpdateDatadogAppConnectionRequestCredentialsCase0 {
   /** The Datadog Application key used to authenticate. */
   applicationKey: string;
 }
-export type UpdateDatadogAppConnectionRequestCredentialsCase1 =
-  CreateDatadogAppConnectionRequestCredentials;
+export interface UpdateDatadogAppConnectionRequestCredentialsCase1 {
+  /** The Datadog site URL to connect to (e.g., 'https://api.datadoghq.com'). */
+  url: string;
+  /** The Datadog Service Access Token used to authenticate. */
+  token: string;
+}
 /** The credentials used to connect with Datadog. */
 export type UpdateDatadogAppConnectionRequestCredentials =
   | UpdateDatadogAppConnectionRequestCredentialsCase0
-  | CreateDatadogAppConnectionRequestCredentials;
+  | UpdateDatadogAppConnectionRequestCredentialsCase1;
 export type UpdateDatadogAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Datadog Connections. */
 export type UpdateDatadogAppConnectionRequestGatewayId =
@@ -155038,8 +155117,14 @@ export interface UpdateGroupResponse {
   createdAt: string;
   updatedAt: string;
 }
-export type UpdateHashicorpVaultAppConnectionRequestCredentialsCase0 =
-  CreateHashicorpVaultAppConnectionRequestCredentials;
+export interface UpdateHashicorpVaultAppConnectionRequestCredentialsCase0 {
+  /** The Hashicrop Vault instance URL to connect with. */
+  instanceUrl: string;
+  /** The Hashicrop Vault namespace to connect with. */
+  namespace?: string;
+  /** The access token used to connect with Hashicorp Vault. */
+  accessToken: string | Redacted.Redacted<string>;
+}
 export interface UpdateHashicorpVaultAppConnectionRequestCredentialsCase1 {
   /** The Hashicrop Vault instance URL to connect with. */
   instanceUrl: string;
@@ -155052,7 +155137,7 @@ export interface UpdateHashicorpVaultAppConnectionRequestCredentialsCase1 {
 }
 /** The credentials used to connect with Hashicorp Vault. */
 export type UpdateHashicorpVaultAppConnectionRequestCredentials =
-  | CreateHashicorpVaultAppConnectionRequestCredentials
+  | UpdateHashicorpVaultAppConnectionRequestCredentialsCase0
   | UpdateHashicorpVaultAppConnectionRequestCredentialsCase1;
 export type UpdateHashicorpVaultAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Hashicorp Vault Connections. */
@@ -161493,8 +161578,13 @@ export interface UpdateNorthflankSecretSyncResponseSecretSync {
 export interface UpdateNorthflankSecretSyncResponse {
   secretSync: UpdateNorthflankSecretSyncResponseSecretSync;
 }
-export type UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase0 =
-  CreateNutanixPrismCentralAppConnectionRequestCredentials;
+export interface UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase0 {
+  hostname: string;
+  port?: number;
+  sslRejectUnauthorized?: boolean;
+  sslCertificate?: string;
+  apiKey: string | Redacted.Redacted<string>;
+}
 export interface UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase1 {
   hostname: string;
   port?: number;
@@ -161505,7 +161595,7 @@ export interface UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase1 {
 }
 /** The credentials used to connect with Nutanix Prism Central. */
 export type UpdateNutanixPrismCentralAppConnectionRequestCredentials =
-  | CreateNutanixPrismCentralAppConnectionRequestCredentials
+  | UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase0
   | UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase1;
 export type UpdateNutanixPrismCentralAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Nutanix Prism Central Connections. */
@@ -176796,8 +176886,16 @@ export interface UpdateSpiffeAuthResponseIdentitySpiffeAuth {
 export interface UpdateSpiffeAuthResponse {
   identitySpiffeAuth: UpdateSpiffeAuthResponseIdentitySpiffeAuth;
 }
-export type UpdateSshAppConnectionRequestCredentialsCase0 =
-  CreateSshAppConnectionRequestCredentials;
+export interface UpdateSshAppConnectionRequestCredentialsCase0 {
+  /** The hostname or IP address of the SSH server. */
+  host: string;
+  /** The port number of the SSH server (default: 22). */
+  port: number;
+  /** The username for SSH authentication. */
+  username: string;
+  /** The password for SSH authentication (required when authMethod is 'password'). */
+  password: string | Redacted.Redacted<string>;
+}
 export interface UpdateSshAppConnectionRequestCredentialsCase1 {
   /** The hostname or IP address of the SSH server. */
   host: string;
@@ -176812,7 +176910,7 @@ export interface UpdateSshAppConnectionRequestCredentialsCase1 {
 }
 /** The credentials used to connect with SSH. */
 export type UpdateSshAppConnectionRequestCredentials =
-  | CreateSshAppConnectionRequestCredentials
+  | UpdateSshAppConnectionRequestCredentialsCase0
   | UpdateSshAppConnectionRequestCredentialsCase1;
 export type UpdateSshAppConnectionRequestConfiguration = CreateSshAppConnectionRequestConfiguration;
 export type UpdateSshAppConnectionRequestRotationCase1 = "null";
@@ -180458,6 +180556,8 @@ export const accessSharedSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccessSharedSecret",
 }));
 
 export type AddAgentVaultAccessBundleMembersError =
@@ -180478,6 +180578,8 @@ export const addAgentVaultAccessBundleMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAgentVaultAccessBundleMembers",
 }));
 
 export type AddAgentVaultMembersError =
@@ -180498,6 +180600,8 @@ export const addAgentVaultMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAgentVaultMembers",
 }));
 
 export type AddCertificatesToPkiSyncError =
@@ -180518,6 +180622,8 @@ export const addCertificatesToPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCertificatesToPkiSync",
 }));
 
 export type AddItemToPkiCollectionError =
@@ -180538,6 +180644,8 @@ export const addItemToPkiCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddItemToPkiCollection",
 }));
 
 export type AddMachineIdentityToGroupError =
@@ -180557,6 +180665,8 @@ export const addMachineIdentityToGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddMachineIdentityToGroup",
 }));
 
 export type AddPkiApplicationGroupMemberError =
@@ -180577,6 +180687,8 @@ export const addPkiApplicationGroupMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPkiApplicationGroupMember",
 }));
 
 export type AddPkiApplicationIdentityMemberError =
@@ -180597,6 +180709,8 @@ export const addPkiApplicationIdentityMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPkiApplicationIdentityMember",
 }));
 
 export type AddPkiApplicationUserMembersError =
@@ -180617,6 +180731,8 @@ export const addPkiApplicationUserMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPkiApplicationUserMembers",
 }));
 
 export type AddSignerGroupMemberError =
@@ -180637,6 +180753,8 @@ export const addSignerGroupMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSignerGroupMember",
 }));
 
 export type AddSignerIdentityMemberError =
@@ -180657,6 +180775,8 @@ export const addSignerIdentityMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSignerIdentityMember",
 }));
 
 export type AddSignerUserMembersError =
@@ -180677,6 +180797,8 @@ export const addSignerUserMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSignerUserMembers",
 }));
 
 export type AddUserToGroupError =
@@ -180696,6 +180818,8 @@ export const addUserToGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddUserToGroup",
 }));
 
 export type AssignCertificateToApplicationError =
@@ -180716,6 +180840,8 @@ export const assignCertificateToApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignCertificateToApplication",
 }));
 
 export type AttachAlicloudAuthError =
@@ -180736,6 +180862,8 @@ export const attachAlicloudAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachAlicloudAuth",
 }));
 
 export type AttachAwsAuthError =
@@ -180756,6 +180884,8 @@ export const attachAwsAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachAwsAuth",
 }));
 
 export type AttachAzureAuthError =
@@ -180776,6 +180906,8 @@ export const attachAzureAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachAzureAuth",
 }));
 
 export type AttachGcpAuthError =
@@ -180796,6 +180928,8 @@ export const attachGcpAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachGcpAuth",
 }));
 
 export type AttachJwtAuthError =
@@ -180816,6 +180950,8 @@ export const attachJwtAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachJwtAuth",
 }));
 
 export type AttachKubernetesAuthError =
@@ -180836,6 +180972,8 @@ export const attachKubernetesAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachKubernetesAuth",
 }));
 
 export type AttachLdapAuthError =
@@ -180856,6 +180994,8 @@ export const attachLdapAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachLdapAuth",
 }));
 
 export type AttachOciAuthError =
@@ -180876,6 +181016,8 @@ export const attachOciAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachOciAuth",
 }));
 
 export type AttachOidcAuthError =
@@ -180896,6 +181038,8 @@ export const attachOidcAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachOidcAuth",
 }));
 
 export type AttachPkiApplicationProfilesError =
@@ -180916,6 +181060,8 @@ export const attachPkiApplicationProfiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachPkiApplicationProfiles",
 }));
 
 export type AttachSpiffeAuthError =
@@ -180936,6 +181082,8 @@ export const attachSpiffeAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachSpiffeAuth",
 }));
 
 export type AttachTlsCertAuthError =
@@ -180956,6 +181104,8 @@ export const attachTlsCertAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTlsCertAuth",
 }));
 
 export type AttachTokenAuthError =
@@ -180976,6 +181126,8 @@ export const attachTokenAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTokenAuth",
 }));
 
 export type AttachUniversalAuthError =
@@ -180996,6 +181148,8 @@ export const attachUniversalAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachUniversalAuth",
 }));
 
 export type BulkDeleteOrgMembershipsError =
@@ -181016,6 +181170,8 @@ export const bulkDeleteOrgMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteOrgMemberships",
 }));
 
 export type BulkExportKmsKeyPrivateKeysError =
@@ -181036,6 +181192,8 @@ export const bulkExportKmsKeyPrivateKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkExportKmsKeyPrivateKeys",
 }));
 
 export type BulkImportKmsKeysError =
@@ -181056,6 +181214,8 @@ export const bulkImportKmsKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkImportKmsKeys",
 }));
 
 export type CancelCertificateRequestError =
@@ -181076,6 +181236,8 @@ export const cancelCertificateRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCertificateRequest",
 }));
 
 export type CheckAuth0ClientSecretRotationCredentialsError =
@@ -181104,6 +181266,8 @@ export const checkAuth0ClientSecretRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAuth0ClientSecretRotationCredentials",
 }));
 
 export type CheckAWSIAMUserSecretRotationCredentialsError =
@@ -181128,6 +181292,8 @@ export const checkAWSIAMUserSecretRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAWSIAMUserSecretRotationCredentials",
 }));
 
 export type CheckAzureClientSecretRotationCredentialsError =
@@ -181156,6 +181322,8 @@ export const checkAzureClientSecretRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAzureClientSecretRotationCredentials",
 }));
 
 export type CheckCloudflareAPITokenRotationCredentialsError =
@@ -181184,6 +181352,8 @@ export const checkCloudflareAPITokenRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCloudflareAPITokenRotationCredentials",
 }));
 
 export type CheckCloudflareR2AccessKeyRotationCredentialsError =
@@ -181212,6 +181382,8 @@ export const checkCloudflareR2AccessKeyRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCloudflareR2AccessKeyRotationCredentials",
 }));
 
 export type CheckConvexAccessKeyRotationCredentialsError =
@@ -181236,6 +181408,8 @@ export const checkConvexAccessKeyRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckConvexAccessKeyRotationCredentials",
 }));
 
 export type CheckDatabricksServicePrincipalSecretRotationCredentialsError =
@@ -181264,6 +181438,8 @@ export const checkDatabricksServicePrincipalSecretRotationCredentials: API.Opera
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDatabricksServicePrincipalSecretRotationCredentials",
 }));
 
 export type CheckDatadogAPIKeyRotationCredentialsError =
@@ -181284,6 +181460,8 @@ export const checkDatadogAPIKeyRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDatadogAPIKeyRotationCredentials",
 }));
 
 export type CheckDatadogApplicationKeyRotationCredentialsError =
@@ -181312,6 +181490,8 @@ export const checkDatadogApplicationKeyRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDatadogApplicationKeyRotationCredentials",
 }));
 
 export type CheckDBTServiceTokenRotationCredentialsError =
@@ -181336,6 +181516,8 @@ export const checkDBTServiceTokenRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDBTServiceTokenRotationCredentials",
 }));
 
 export type CheckFireworksSecretRotationCredentialsError =
@@ -181360,6 +181542,8 @@ export const checkFireworksSecretRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckFireworksSecretRotationCredentials",
 }));
 
 export type CheckHPiLOLocalAccountRotationCredentialsError =
@@ -181388,6 +181572,8 @@ export const checkHPiLOLocalAccountRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckHPiLOLocalAccountRotationCredentials",
 }));
 
 export type CheckLDAPPasswordRotationCredentialsError =
@@ -181408,6 +181594,8 @@ export const checkLDAPPasswordRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckLDAPPasswordRotationCredentials",
 }));
 
 export type CheckLiteLLMAPIKeyRotationCredentialsError =
@@ -181428,6 +181616,8 @@ export const checkLiteLLMAPIKeyRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckLiteLLMAPIKeyRotationCredentials",
 }));
 
 export type CheckMicrosoftSQLServerCredentialsRotationCredentialsError =
@@ -181456,6 +181646,8 @@ export const checkMicrosoftSQLServerCredentialsRotationCredentials: API.Operatio
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMicrosoftSQLServerCredentialsRotationCredentials",
 }));
 
 export type CheckMongoDBCredentialsRotationCredentialsError =
@@ -181484,6 +181676,8 @@ export const checkMongoDBCredentialsRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMongoDBCredentialsRotationCredentials",
 }));
 
 export type CheckMySQLCredentialsRotationCredentialsError =
@@ -181508,6 +181702,8 @@ export const checkMySQLCredentialsRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMySQLCredentialsRotationCredentials",
 }));
 
 export type CheckOktaClientSecretRotationCredentialsError =
@@ -181532,6 +181728,8 @@ export const checkOktaClientSecretRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckOktaClientSecretRotationCredentials",
 }));
 
 export type CheckOpenAIServiceAccountRotationCredentialsError =
@@ -181560,6 +181758,8 @@ export const checkOpenAIServiceAccountRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckOpenAIServiceAccountRotationCredentials",
 }));
 
 export type CheckOpenRouterAPIKeyRotationCredentialsError =
@@ -181584,6 +181784,8 @@ export const checkOpenRouterAPIKeyRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckOpenRouterAPIKeyRotationCredentials",
 }));
 
 export type CheckOracleDBCredentialsRotationCredentialsError =
@@ -181612,6 +181814,8 @@ export const checkOracleDBCredentialsRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckOracleDBCredentialsRotationCredentials",
 }));
 
 export type CheckPostgreSQLCredentialsRotationCredentialsError =
@@ -181640,6 +181844,8 @@ export const checkPostgreSQLCredentialsRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPostgreSQLCredentialsRotationCredentials",
 }));
 
 export type CheckRedisCredentialsRotationCredentialsError =
@@ -181664,6 +181870,8 @@ export const checkRedisCredentialsRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckRedisCredentialsRotationCredentials",
 }));
 
 export type CheckSalesforceOAuthCredentialsRotationCredentialsError =
@@ -181692,6 +181900,8 @@ export const checkSalesforceOAuthCredentialsRotationCredentials: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSalesforceOAuthCredentialsRotationCredentials",
 }));
 
 export type CheckSignerIssuanceError =
@@ -181712,6 +181922,8 @@ export const checkSignerIssuance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSignerIssuance",
 }));
 
 export type CheckSnowflakeUserKeyPairRotationCredentialsError =
@@ -181740,6 +181952,8 @@ export const checkSnowflakeUserKeyPairRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSnowflakeUserKeyPairRotationCredentials",
 }));
 
 export type CheckStripeAPIKeyRotationCredentialsError =
@@ -181760,6 +181974,8 @@ export const checkStripeAPIKeyRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckStripeAPIKeyRotationCredentials",
 }));
 
 export type CheckSupabaseAPIKeyRotationCredentialsError =
@@ -181780,6 +181996,8 @@ export const checkSupabaseAPIKeyRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSupabaseAPIKeyRotationCredentials",
 }));
 
 export type CheckUnixLinuxLocalAccountRotationCredentialsError =
@@ -181808,6 +182026,8 @@ export const checkUnixLinuxLocalAccountRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckUnixLinuxLocalAccountRotationCredentials",
 }));
 
 export type CheckWindowsLocalAccountRotationCredentialsError =
@@ -181836,6 +182056,8 @@ export const checkWindowsLocalAccountRotationCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckWindowsLocalAccountRotationCredentials",
 }));
 
 export type ClearAwsElbDefaultCertificateError =
@@ -181856,6 +182078,8 @@ export const clearAwsElbDefaultCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearAwsElbDefaultCertificate",
 }));
 
 export type ClearLdapAuthLockoutsError =
@@ -181876,6 +182100,8 @@ export const clearLdapAuthLockouts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearLdapAuthLockouts",
 }));
 
 export type ClearPkiApplicationAcmeEnrollmentError =
@@ -181896,6 +182122,8 @@ export const clearPkiApplicationAcmeEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearPkiApplicationAcmeEnrollment",
 }));
 
 export type ClearPkiApplicationApiEnrollmentError =
@@ -181916,6 +182144,8 @@ export const clearPkiApplicationApiEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearPkiApplicationApiEnrollment",
 }));
 
 export type ClearPkiApplicationEstEnrollmentError =
@@ -181936,6 +182166,8 @@ export const clearPkiApplicationEstEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearPkiApplicationEstEnrollment",
 }));
 
 export type ClearPkiApplicationScepEnrollmentError =
@@ -181956,6 +182188,8 @@ export const clearPkiApplicationScepEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearPkiApplicationScepEnrollment",
 }));
 
 export type ClearUniversalAuthLockoutsError =
@@ -181976,6 +182210,8 @@ export const clearUniversalAuthLockouts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearUniversalAuthLockouts",
 }));
 
 export type CountMachineIdentitiesV2Error =
@@ -181996,6 +182232,8 @@ export const countMachineIdentitiesV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountMachineIdentitiesV2",
 }));
 
 export type CreateAcmeCertificateAuthorityV1Error =
@@ -182015,6 +182253,8 @@ export const createAcmeCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAcmeCertificateAuthorityV1",
 }));
 
 export type CreateAdcsAppConnectionError =
@@ -182035,6 +182275,8 @@ export const createAdcsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdcsAppConnection",
 }));
 
 export type CreateAdcsCertificateAuthorityV1Error =
@@ -182054,6 +182296,8 @@ export const createAdcsCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdcsCertificateAuthorityV1",
 }));
 
 export type CreateAdditionalPrivilegeIdentityPermanentError =
@@ -182082,6 +182326,8 @@ export const createAdditionalPrivilegeIdentityPermanent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdditionalPrivilegeIdentityPermanent",
 }));
 
 export type CreateAdditionalPrivilegeIdentityTemporaryError =
@@ -182110,6 +182356,8 @@ export const createAdditionalPrivilegeIdentityTemporary: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdditionalPrivilegeIdentityTemporary",
 }));
 
 export type CreateAdminBootstrapError =
@@ -182129,6 +182377,8 @@ export const createAdminBootstrap: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdminBootstrap",
 }));
 
 export type CreateAgentVaultAccessBundleError =
@@ -182149,6 +182399,8 @@ export const createAgentVaultAccessBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentVaultAccessBundle",
 }));
 
 export type CreateAgentVaultAwsAppConnectionError =
@@ -182169,6 +182421,8 @@ export const createAgentVaultAwsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentVaultAwsAppConnection",
 }));
 
 export type CreateAgentVaultProxyError =
@@ -182189,6 +182443,8 @@ export const createAgentVaultProxy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentVaultProxy",
 }));
 
 export type CreateAgentVaultServiceError =
@@ -182209,6 +182465,8 @@ export const createAgentVaultService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentVaultService",
 }));
 
 export type CreateAgentVaultSessionError =
@@ -182229,6 +182487,8 @@ export const createAgentVaultSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentVaultSession",
 }));
 
 export type CreateAgentVaultVariableError =
@@ -182249,6 +182509,8 @@ export const createAgentVaultVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentVaultVariable",
 }));
 
 export type CreateAnthropicAppConnectionError =
@@ -182269,6 +182531,8 @@ export const createAnthropicAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnthropicAppConnection",
 }));
 
 export type CreateAuth0AppConnectionError =
@@ -182289,6 +182553,8 @@ export const createAuth0AppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuth0AppConnection",
 }));
 
 export type CreateAuth0ClientSecretRotationError =
@@ -182309,6 +182575,8 @@ export const createAuth0ClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuth0ClientSecretRotation",
 }));
 
 export type CreateAwsAcmPublicCaCertificateAuthorityV1Error =
@@ -182336,6 +182604,8 @@ export const createAwsAcmPublicCaCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsAcmPublicCaCertificateAuthorityV1",
 }));
 
 export type CreateAwsAppConnectionError =
@@ -182356,6 +182626,8 @@ export const createAwsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsAppConnection",
 }));
 
 export type CreateAwsCertificateManagerPkiSyncError =
@@ -182376,6 +182648,8 @@ export const createAwsCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsCertificateManagerPkiSync",
 }));
 
 export type CreateAwsElasticLoadBalancerPkiSyncError =
@@ -182396,6 +182670,8 @@ export const createAwsElasticLoadBalancerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsElasticLoadBalancerPkiSync",
 }));
 
 export type CreateAWSIAMUserSecretRotationError =
@@ -182416,6 +182692,8 @@ export const createAWSIAMUserSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAWSIAMUserSecretRotation",
 }));
 
 export type CreateAwsParameterStoreSecretSyncError =
@@ -182436,6 +182714,8 @@ export const createAwsParameterStoreSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsParameterStoreSecretSync",
 }));
 
 export type CreateAwsPcaCertificateAuthorityV1Error =
@@ -182455,6 +182735,8 @@ export const createAwsPcaCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsPcaCertificateAuthorityV1",
 }));
 
 export type CreateAwsSecretsManagerPkiSyncError =
@@ -182475,6 +182757,8 @@ export const createAwsSecretsManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsSecretsManagerPkiSync",
 }));
 
 export type CreateAwsSecretsManagerSecretSyncError =
@@ -182495,6 +182779,8 @@ export const createAwsSecretsManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsSecretsManagerSecretSync",
 }));
 
 export type CreateAzureAdcsAppConnectionError =
@@ -182515,6 +182801,8 @@ export const createAzureAdcsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureAdcsAppConnection",
 }));
 
 export type CreateAzureAdCsCertificateAuthorityV1Error =
@@ -182534,6 +182822,8 @@ export const createAzureAdCsCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureAdCsCertificateAuthorityV1",
 }));
 
 export type CreateAzureAppConfigurationAppConnectionError =
@@ -182549,11 +182839,13 @@ export const createAzureAppConfigurationAppConnection: API.OperationMethod<
   CreateAzureAppConfigurationAppConnectionError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateAzureAppConfigurationAppConnectionRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<CreateAzureAppConfigurationAppConnectionResponse>,
+  input: __S(65, __c4, 1) as any as S.Schema<CreateAzureAppConfigurationAppConnectionRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<CreateAzureAppConfigurationAppConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureAppConfigurationAppConnection",
 }));
 
 export type CreateAzureAppConfigurationSecretSyncError =
@@ -182569,11 +182861,13 @@ export const createAzureAppConfigurationSecretSync: API.OperationMethod<
   CreateAzureAppConfigurationSecretSyncError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CreateAzureAppConfigurationSecretSyncResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateAzureAppConfigurationSecretSyncRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<CreateAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureAppConfigurationSecretSync",
 }));
 
 export type CreateAzureClientSecretRotationError =
@@ -182589,11 +182883,13 @@ export const createAzureClientSecretRotation: API.OperationMethod<
   CreateAzureClientSecretRotationError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CreateAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CreateAzureClientSecretRotationResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<CreateAzureClientSecretRotationRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<CreateAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureClientSecretRotation",
 }));
 
 export type CreateAzureClientSecretsAppConnectionError =
@@ -182609,11 +182905,13 @@ export const createAzureClientSecretsAppConnection: API.OperationMethod<
   CreateAzureClientSecretsAppConnectionError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(817, __c51, 1) as any as S.Schema<CreateAzureClientSecretsAppConnectionRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<CreateAzureClientSecretsAppConnectionResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<CreateAzureClientSecretsAppConnectionRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<CreateAzureClientSecretsAppConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureClientSecretsAppConnection",
 }));
 
 export type CreateAzureDevopsAppConnectionError =
@@ -182634,6 +182932,8 @@ export const createAzureDevopsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureDevopsAppConnection",
 }));
 
 export type CreateAzureDevopsSecretSyncError =
@@ -182654,6 +182954,8 @@ export const createAzureDevopsSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureDevopsSecretSync",
 }));
 
 export type CreateAzureDnsAppConnectionError =
@@ -182674,6 +182976,8 @@ export const createAzureDnsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureDnsAppConnection",
 }));
 
 export type CreateAzureEntraIdAppConnectionError =
@@ -182694,6 +182998,8 @@ export const createAzureEntraIdAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureEntraIdAppConnection",
 }));
 
 export type CreateAzureEntraIdScimSecretSyncError =
@@ -182714,6 +183020,8 @@ export const createAzureEntraIdScimSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureEntraIdScimSecretSync",
 }));
 
 export type CreateAzureKeyVaultAppConnectionError =
@@ -182734,6 +183042,8 @@ export const createAzureKeyVaultAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureKeyVaultAppConnection",
 }));
 
 export type CreateAzureKeyVaultPkiSyncError =
@@ -182754,6 +183064,8 @@ export const createAzureKeyVaultPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureKeyVaultPkiSync",
 }));
 
 export type CreateAzureKeyVaultSecretSyncError =
@@ -182774,6 +183086,8 @@ export const createAzureKeyVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureKeyVaultSecretSync",
 }));
 
 export type CreateBitbucketAppConnectionError =
@@ -182794,6 +183108,8 @@ export const createBitbucketAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBitbucketAppConnection",
 }));
 
 export type CreateBitbucketSecretSyncError =
@@ -182814,6 +183130,8 @@ export const createBitbucketSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBitbucketSecretSync",
 }));
 
 export type CreateCamundaAppConnectionError =
@@ -182834,6 +183152,8 @@ export const createCamundaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCamundaAppConnection",
 }));
 
 export type CreateCamundaSecretSyncError =
@@ -182854,6 +183174,8 @@ export const createCamundaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCamundaSecretSync",
 }));
 
 export type CreateCaSigningConfigError =
@@ -182874,6 +183196,8 @@ export const createCaSigningConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaSigningConfig",
 }));
 
 export type CreateCertificateError =
@@ -182893,6 +183217,8 @@ export const createCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificate",
 }));
 
 export type CreateCertificateAuthorityV1Error =
@@ -182913,6 +183239,8 @@ export const createCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificateAuthorityV1",
 }));
 
 export type CreateCertificatePolicyError =
@@ -182932,6 +183260,8 @@ export const createCertificatePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificatePolicy",
 }));
 
 export type CreateCertificateProfileError =
@@ -182951,6 +183281,8 @@ export const createCertificateProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificateProfile",
 }));
 
 export type CreateCertManagerAcmeApplicationProfileNewAccountError = InfisicalOpError;
@@ -182974,6 +183306,8 @@ export const createCertManagerAcmeApplicationProfileNewAccount: API.OperationMet
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertManagerAcmeApplicationProfileNewAccount",
 }));
 
 export type CreateCertManagerAcmeProfileAccountOrderError = InfisicalOpError;
@@ -182989,6 +183323,8 @@ export const createCertManagerAcmeProfileAccountOrder: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertManagerAcmeProfileAccountOrder",
 }));
 
 export type CreateCertManagerAcmeProfileNewAccountError = InfisicalOpError;
@@ -183004,6 +183340,8 @@ export const createCertManagerAcmeProfileNewAccount: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertManagerAcmeProfileNewAccount",
 }));
 
 export type CreateCertManagerAcmeProfileNewOrderError = InfisicalOpError;
@@ -183019,6 +183357,8 @@ export const createCertManagerAcmeProfileNewOrder: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertManagerAcmeProfileNewOrder",
 }));
 
 export type CreateCertManagerAcmeProfileOrderCertificateError = InfisicalOpError;
@@ -183042,6 +183382,8 @@ export const createCertManagerAcmeProfileOrderCertificate: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertManagerAcmeProfileOrderCertificate",
 }));
 
 export type CreateCertManagerCaInternalCertificateError =
@@ -183062,6 +183404,8 @@ export const createCertManagerCaInternalCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertManagerCaInternalCertificate",
 }));
 
 export type CreateChecklyAppConnectionError =
@@ -183082,6 +183426,8 @@ export const createChecklyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChecklyAppConnection",
 }));
 
 export type CreateChecklySecretSyncError =
@@ -183102,6 +183448,8 @@ export const createChecklySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChecklySecretSync",
 }));
 
 export type CreateChefAppConnectionError =
@@ -183122,6 +183470,8 @@ export const createChefAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChefAppConnection",
 }));
 
 export type CreateChefPkiSyncError =
@@ -183142,6 +183492,8 @@ export const createChefPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChefPkiSync",
 }));
 
 export type CreateChefSecretSyncError =
@@ -183162,6 +183514,8 @@ export const createChefSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChefSecretSync",
 }));
 
 export type CreateCircleciAppConnectionError =
@@ -183182,6 +183536,8 @@ export const createCircleciAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCircleciAppConnection",
 }));
 
 export type CreateCircleciSecretSyncError =
@@ -183202,6 +183558,8 @@ export const createCircleciSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCircleciSecretSync",
 }));
 
 export type CreateCloud66AppConnectionError =
@@ -183222,6 +183580,8 @@ export const createCloud66AppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloud66AppConnection",
 }));
 
 export type CreateCloud66SecretSyncError =
@@ -183242,6 +183602,8 @@ export const createCloud66SecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloud66SecretSync",
 }));
 
 export type CreateCloudflareAPITokenRotationError =
@@ -183262,6 +183624,8 @@ export const createCloudflareAPITokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudflareAPITokenRotation",
 }));
 
 export type CreateCloudflareAppConnectionError =
@@ -183282,6 +183646,8 @@ export const createCloudflareAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudflareAppConnection",
 }));
 
 export type CreateCloudflareCustomCertificatePkiSyncError =
@@ -183302,6 +183668,8 @@ export const createCloudflareCustomCertificatePkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudflareCustomCertificatePkiSync",
 }));
 
 export type CreateCloudflarePagesSecretSyncError =
@@ -183322,6 +183690,8 @@ export const createCloudflarePagesSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudflarePagesSecretSync",
 }));
 
 export type CreateCloudflareR2AccessKeyRotationError =
@@ -183342,6 +183712,8 @@ export const createCloudflareR2AccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudflareR2AccessKeyRotation",
 }));
 
 export type CreateCloudflareWorkersSecretSyncError =
@@ -183362,6 +183734,8 @@ export const createCloudflareWorkersSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudflareWorkersSecretSync",
 }));
 
 export type CreateConvexAccessKeyRotationError =
@@ -183382,6 +183756,8 @@ export const createConvexAccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConvexAccessKeyRotation",
 }));
 
 export type CreateConvexAppConnectionError =
@@ -183402,6 +183778,8 @@ export const createConvexAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConvexAppConnection",
 }));
 
 export type CreateDatabricksAppConnectionError =
@@ -183422,6 +183800,8 @@ export const createDatabricksAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabricksAppConnection",
 }));
 
 export type CreateDatabricksSecretSyncError =
@@ -183442,6 +183822,8 @@ export const createDatabricksSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabricksSecretSync",
 }));
 
 export type CreateDatabricksServicePrincipalSecretRotationError =
@@ -183470,6 +183852,8 @@ export const createDatabricksServicePrincipalSecretRotation: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabricksServicePrincipalSecretRotation",
 }));
 
 export type CreateDatadogAPIKeyRotationError =
@@ -183490,6 +183874,8 @@ export const createDatadogAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatadogAPIKeyRotation",
 }));
 
 export type CreateDatadogAppConnectionError =
@@ -183510,6 +183896,8 @@ export const createDatadogAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatadogAppConnection",
 }));
 
 export type CreateDatadogApplicationKeyRotationError =
@@ -183530,6 +183918,8 @@ export const createDatadogApplicationKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatadogApplicationKeyRotation",
 }));
 
 export type CreateDaytonaAppConnectionError =
@@ -183550,6 +183940,8 @@ export const createDaytonaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDaytonaAppConnection",
 }));
 
 export type CreateDaytonaSecretSyncError =
@@ -183570,6 +183962,8 @@ export const createDaytonaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDaytonaSecretSync",
 }));
 
 export type CreateDbtAppConnectionError =
@@ -183590,6 +183984,8 @@ export const createDbtAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDbtAppConnection",
 }));
 
 export type CreateDBTServiceTokenRotationError =
@@ -183610,6 +184006,8 @@ export const createDBTServiceTokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDBTServiceTokenRotation",
 }));
 
 export type CreateDevinAppConnectionError =
@@ -183630,6 +184028,8 @@ export const createDevinAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevinAppConnection",
 }));
 
 export type CreateDevinSecretSyncError =
@@ -183650,6 +184050,8 @@ export const createDevinSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevinSecretSync",
 }));
 
 export type CreateDigicertAppConnectionError =
@@ -183670,6 +184072,8 @@ export const createDigicertAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDigicertAppConnection",
 }));
 
 export type CreateDigicertCertificateAuthorityV1Error =
@@ -183689,6 +184093,8 @@ export const createDigicertCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDigicertCertificateAuthorityV1",
 }));
 
 export type CreateDigitalOceanAppConnectionError =
@@ -183709,6 +184115,8 @@ export const createDigitalOceanAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDigitalOceanAppConnection",
 }));
 
 export type CreateDigitalOceanAppPlatformSecretSyncError =
@@ -183729,6 +184137,8 @@ export const createDigitalOceanAppPlatformSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDigitalOceanAppPlatformSecretSync",
 }));
 
 export type CreateDnsMadeEasyAppConnectionError =
@@ -183749,6 +184159,8 @@ export const createDnsMadeEasyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDnsMadeEasyAppConnection",
 }));
 
 export type CreateDopplerAppConnectionError =
@@ -183769,6 +184181,8 @@ export const createDopplerAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDopplerAppConnection",
 }));
 
 export type CreateDynamicSecretError =
@@ -183788,6 +184202,8 @@ export const createDynamicSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynamicSecret",
 }));
 
 export type CreateDynamicSecretLeaseError =
@@ -183807,6 +184223,8 @@ export const createDynamicSecretLease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynamicSecretLease",
 }));
 
 export type CreateDynamicSecretLeaseKubernetesError =
@@ -183826,6 +184244,8 @@ export const createDynamicSecretLeaseKubernetes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynamicSecretLeaseKubernetes",
 }));
 
 export type CreateDynamicSecretsValidationRuleError =
@@ -183846,6 +184266,8 @@ export const createDynamicSecretsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynamicSecretsValidationRule",
 }));
 
 export type CreateEnvironmentError =
@@ -183866,6 +184288,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateExternalInfisicalAppConnectionError =
@@ -183886,6 +184310,8 @@ export const createExternalInfisicalAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalInfisicalAppConnection",
 }));
 
 export type CreateExternalInfisicalSecretSyncError =
@@ -183906,6 +184332,8 @@ export const createExternalInfisicalSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalInfisicalSecretSync",
 }));
 
 export type CreateF5BigIpAppConnectionError =
@@ -183926,6 +184354,8 @@ export const createF5BigIpAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateF5BigIpAppConnection",
 }));
 
 export type CreateF5BigIpPkiSyncError =
@@ -183946,6 +184376,8 @@ export const createF5BigIpPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateF5BigIpPkiSync",
 }));
 
 export type CreateFireworksAppConnectionError =
@@ -183966,6 +184398,8 @@ export const createFireworksAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFireworksAppConnection",
 }));
 
 export type CreateFireworksSecretRotationError =
@@ -183986,6 +184420,8 @@ export const createFireworksSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFireworksSecretRotation",
 }));
 
 export type CreateFlyioAppConnectionError =
@@ -184006,6 +184442,8 @@ export const createFlyioAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlyioAppConnection",
 }));
 
 export type CreateFlyioSecretSyncError =
@@ -184026,6 +184464,8 @@ export const createFlyioSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlyioSecretSync",
 }));
 
 export type CreateFolderError =
@@ -184046,6 +184486,8 @@ export const createFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFolder",
 }));
 
 export type CreateGatewayError =
@@ -184065,6 +184507,8 @@ export const createGateway: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type CreateGcpAppConnectionError =
@@ -184085,6 +184529,8 @@ export const createGcpAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGcpAppConnection",
 }));
 
 export type CreateGcpCertificateManagerPkiSyncError =
@@ -184105,6 +184551,8 @@ export const createGcpCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGcpCertificateManagerPkiSync",
 }));
 
 export type CreateGcpSecretManagerSecretSyncError =
@@ -184125,6 +184573,8 @@ export const createGcpSecretManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGcpSecretManagerSecretSync",
 }));
 
 export type CreateGitHubAppConnectionError =
@@ -184145,6 +184595,8 @@ export const createGitHubAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGitHubAppConnection",
 }));
 
 export type CreateGitHubRadarAppConnectionError =
@@ -184165,6 +184617,8 @@ export const createGitHubRadarAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGitHubRadarAppConnection",
 }));
 
 export type CreateGitHubSecretSyncError =
@@ -184185,6 +184639,8 @@ export const createGitHubSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGitHubSecretSync",
 }));
 
 export type CreateGitLabAppConnectionError =
@@ -184205,6 +184661,8 @@ export const createGitLabAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGitLabAppConnection",
 }));
 
 export type CreateGitLabSecretSyncError =
@@ -184225,6 +184683,8 @@ export const createGitLabSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGitLabSecretSync",
 }));
 
 export type CreateGodaddyAppConnectionError =
@@ -184245,6 +184705,8 @@ export const createGodaddyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGodaddyAppConnection",
 }));
 
 export type CreateGodaddyCertificateAuthorityV1Error =
@@ -184264,6 +184726,8 @@ export const createGodaddyCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGodaddyCertificateAuthorityV1",
 }));
 
 export type CreateGroupError =
@@ -184283,6 +184747,8 @@ export const createGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateHashicorpVaultAppConnectionError =
@@ -184303,6 +184769,8 @@ export const createHashicorpVaultAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHashicorpVaultAppConnection",
 }));
 
 export type CreateHashicorpVaultSecretSyncError =
@@ -184323,6 +184791,8 @@ export const createHashicorpVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHashicorpVaultSecretSync",
 }));
 
 export type CreateHasuraCloudAppConnectionError =
@@ -184343,6 +184813,8 @@ export const createHasuraCloudAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHasuraCloudAppConnection",
 }));
 
 export type CreateHasuraCloudSecretSyncError =
@@ -184363,6 +184835,8 @@ export const createHasuraCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHasuraCloudSecretSync",
 }));
 
 export type CreateHerokuAppConnectionError =
@@ -184383,6 +184857,8 @@ export const createHerokuAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHerokuAppConnection",
 }));
 
 export type CreateHerokuSecretSyncError =
@@ -184403,6 +184879,8 @@ export const createHerokuSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHerokuSecretSync",
 }));
 
 export type CreateHPiLOLocalAccountRotationError =
@@ -184423,6 +184901,8 @@ export const createHPiLOLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHPiLOLocalAccountRotation",
 }));
 
 export type CreateHsmConnectorError =
@@ -184442,6 +184922,8 @@ export const createHsmConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHsmConnector",
 }));
 
 export type CreateHumanitecAppConnectionError =
@@ -184462,6 +184944,8 @@ export const createHumanitecAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHumanitecAppConnection",
 }));
 
 export type CreateHumanitecSecretSyncError =
@@ -184482,6 +184966,8 @@ export const createHumanitecSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHumanitecSecretSync",
 }));
 
 export type CreateIdentityProjectAdditionalPrivilegeError =
@@ -184506,6 +184992,8 @@ export const createIdentityProjectAdditionalPrivilege: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProjectAdditionalPrivilege",
 }));
 
 export type CreateIdentityTemplateError =
@@ -184526,6 +185014,8 @@ export const createIdentityTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityTemplate",
 }));
 
 export type CreateIntegrationAuthError =
@@ -184546,6 +185036,8 @@ export const createIntegrationAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationAuth",
 }));
 
 export type CreateInternalCertificateAuthorityV1Error =
@@ -184565,6 +185057,8 @@ export const createInternalCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInternalCertificateAuthorityV1",
 }));
 
 export type CreateKempLoadmasterAppConnectionError =
@@ -184585,6 +185079,8 @@ export const createKempLoadmasterAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKempLoadmasterAppConnection",
 }));
 
 export type CreateKempLoadmasterPkiSyncError =
@@ -184605,6 +185101,8 @@ export const createKempLoadmasterPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKempLoadmasterPkiSync",
 }));
 
 export type CreateKmsKeyError =
@@ -184625,6 +185123,8 @@ export const createKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKmsKey",
 }));
 
 export type CreateLaravelForgeAppConnectionError =
@@ -184645,6 +185145,8 @@ export const createLaravelForgeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLaravelForgeAppConnection",
 }));
 
 export type CreateLaravelForgeSecretSyncError =
@@ -184665,6 +185167,8 @@ export const createLaravelForgeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLaravelForgeSecretSync",
 }));
 
 export type CreateLdapAppConnectionError =
@@ -184685,6 +185189,8 @@ export const createLdapAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLdapAppConnection",
 }));
 
 export type CreateLdapConfigError =
@@ -184705,6 +185211,8 @@ export const createLdapConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLdapConfig",
 }));
 
 export type CreateLDAPPasswordRotationError =
@@ -184725,6 +185233,8 @@ export const createLDAPPasswordRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLDAPPasswordRotation",
 }));
 
 export type CreateLinuxServerPkiSyncError =
@@ -184745,6 +185255,8 @@ export const createLinuxServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLinuxServerPkiSync",
 }));
 
 export type CreateLiteLLMAPIKeyRotationError =
@@ -184765,6 +185277,8 @@ export const createLiteLLMAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLiteLLMAPIKeyRotation",
 }));
 
 export type CreateLitellmAppConnectionError =
@@ -184785,6 +185299,8 @@ export const createLitellmAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLitellmAppConnection",
 }));
 
 export type CreateMachineIdentityError =
@@ -184805,6 +185321,8 @@ export const createMachineIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMachineIdentity",
 }));
 
 export type CreateManySecretsV4Error =
@@ -184825,6 +185343,8 @@ export const createManySecretsV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManySecretsV4",
 }));
 
 export type CreateMicrosoftIntuneAppConnectionError =
@@ -184845,6 +185365,8 @@ export const createMicrosoftIntuneAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMicrosoftIntuneAppConnection",
 }));
 
 export type CreateMicrosoftSQLServerCredentialsRotationError =
@@ -184873,6 +185395,8 @@ export const createMicrosoftSQLServerCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMicrosoftSQLServerCredentialsRotation",
 }));
 
 export type CreateMongoDbAppConnectionError =
@@ -184893,6 +185417,8 @@ export const createMongoDbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMongoDbAppConnection",
 }));
 
 export type CreateMongoDBCredentialsRotationError =
@@ -184913,6 +185439,8 @@ export const createMongoDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMongoDBCredentialsRotation",
 }));
 
 export type CreateMsSqlAppConnectionError =
@@ -184933,6 +185461,8 @@ export const createMsSqlAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMsSqlAppConnection",
 }));
 
 export type CreateMySqlAppConnectionError =
@@ -184953,6 +185483,8 @@ export const createMySqlAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMySqlAppConnection",
 }));
 
 export type CreateMySQLCredentialsRotationError =
@@ -184973,6 +185505,8 @@ export const createMySQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMySQLCredentialsRotation",
 }));
 
 export type CreateNetlifyAppConnectionError =
@@ -184993,6 +185527,8 @@ export const createNetlifyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetlifyAppConnection",
 }));
 
 export type CreateNetlifySecretSyncError =
@@ -185013,6 +185549,8 @@ export const createNetlifySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetlifySecretSync",
 }));
 
 export type CreateNetscalerAppConnectionError =
@@ -185033,6 +185571,8 @@ export const createNetscalerAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetscalerAppConnection",
 }));
 
 export type CreateNetscalerPkiSyncError =
@@ -185053,6 +185593,8 @@ export const createNetscalerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetscalerPkiSync",
 }));
 
 export type CreateNorthflankAppConnectionError =
@@ -185073,6 +185615,8 @@ export const createNorthflankAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNorthflankAppConnection",
 }));
 
 export type CreateNorthflankSecretSyncError =
@@ -185093,6 +185637,8 @@ export const createNorthflankSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNorthflankSecretSync",
 }));
 
 export type CreateNutanixPrismCentralAppConnectionError =
@@ -185113,6 +185659,8 @@ export const createNutanixPrismCentralAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNutanixPrismCentralAppConnection",
 }));
 
 export type CreateNutanixPrismCentralPkiSyncError =
@@ -185133,6 +185681,8 @@ export const createNutanixPrismCentralPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNutanixPrismCentralPkiSync",
 }));
 
 export type CreateOciAppConnectionError =
@@ -185153,6 +185703,8 @@ export const createOciAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOciAppConnection",
 }));
 
 export type CreateOciVaultSecretSyncError =
@@ -185173,6 +185725,8 @@ export const createOciVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOciVaultSecretSync",
 }));
 
 export type CreateOctopusDeployAppConnectionError =
@@ -185193,6 +185747,8 @@ export const createOctopusDeployAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOctopusDeployAppConnection",
 }));
 
 export type CreateOctopusDeploySecretSyncError =
@@ -185213,6 +185769,8 @@ export const createOctopusDeploySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOctopusDeploySecretSync",
 }));
 
 export type CreateOktaAppConnectionError =
@@ -185233,6 +185791,8 @@ export const createOktaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOktaAppConnection",
 }));
 
 export type CreateOktaClientSecretRotationError =
@@ -185253,6 +185813,8 @@ export const createOktaClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOktaClientSecretRotation",
 }));
 
 export type CreateOnaAppConnectionError =
@@ -185273,6 +185835,8 @@ export const createOnaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnaAppConnection",
 }));
 
 export type CreateOnaSecretSyncError =
@@ -185293,6 +185857,8 @@ export const createOnaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnaSecretSync",
 }));
 
 export type CreateOnePasswordAppConnectionError =
@@ -185313,6 +185879,8 @@ export const createOnePasswordAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnePasswordAppConnection",
 }));
 
 export type CreateOnePasswordSecretSyncError =
@@ -185333,6 +185901,8 @@ export const createOnePasswordSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnePasswordSecretSync",
 }));
 
 export type CreateOpenaiAppConnectionError =
@@ -185353,6 +185923,8 @@ export const createOpenaiAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOpenaiAppConnection",
 }));
 
 export type CreateOpenAIServiceAccountRotationError =
@@ -185373,6 +185945,8 @@ export const createOpenAIServiceAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOpenAIServiceAccountRotation",
 }));
 
 export type CreateOpenRouterAPIKeyRotationError =
@@ -185393,6 +185967,8 @@ export const createOpenRouterAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOpenRouterAPIKeyRotation",
 }));
 
 export type CreateOpenRouterAppConnectionError =
@@ -185413,6 +185989,8 @@ export const createOpenRouterAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOpenRouterAppConnection",
 }));
 
 export type CreateOracleDbAppConnectionError =
@@ -185433,6 +186011,8 @@ export const createOracleDbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOracleDbAppConnection",
 }));
 
 export type CreateOracleDBCredentialsRotationError =
@@ -185453,6 +186033,8 @@ export const createOracleDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOracleDBCredentialsRotation",
 }));
 
 export type CreateOrganizationGroupMembershipError =
@@ -185473,6 +186055,8 @@ export const createOrganizationGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationGroupMembership",
 }));
 
 export type CreateOrganizationRoleError =
@@ -185493,6 +186077,8 @@ export const createOrganizationRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationRole",
 }));
 
 export type CreateOvhAppConnectionError =
@@ -185513,6 +186099,8 @@ export const createOvhAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhAppConnection",
 }));
 
 export type CreateOvhSecretSyncError =
@@ -185533,6 +186121,8 @@ export const createOvhSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOvhSecretSync",
 }));
 
 export type CreatePkiApplicationError =
@@ -185553,6 +186143,8 @@ export const createPkiApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiApplication",
 }));
 
 export type CreatePkiCaAcmeError =
@@ -185572,6 +186164,8 @@ export const createPkiCaAcme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiCaAcme",
 }));
 
 export type CreatePkiCaAzureAdCsError =
@@ -185591,6 +186185,8 @@ export const createPkiCaAzureAdCs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiCaAzureAdCs",
 }));
 
 export type CreatePkiCaInternalError =
@@ -185610,6 +186206,8 @@ export const createPkiCaInternal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiCaInternal",
 }));
 
 export type CreatePkiCertificateIssueCertificateError =
@@ -185630,6 +186228,8 @@ export const createPkiCertificateIssueCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiCertificateIssueCertificate",
 }));
 
 export type CreatePkiCertificateProfileError =
@@ -185649,6 +186249,8 @@ export const createPkiCertificateProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiCertificateProfile",
 }));
 
 export type CreatePkiCollectionError =
@@ -185669,6 +186271,8 @@ export const createPkiCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiCollection",
 }));
 
 export type CreatePkiDiscoveryError =
@@ -185689,6 +186293,8 @@ export const createPkiDiscovery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiDiscovery",
 }));
 
 export type CreatePkiSyncAwsCertificateManagerError =
@@ -185709,6 +186315,8 @@ export const createPkiSyncAwsCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncAwsCertificateManager",
 }));
 
 export type CreatePkiSyncAwsElasticLoadBalancerError =
@@ -185729,6 +186337,8 @@ export const createPkiSyncAwsElasticLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncAwsElasticLoadBalancer",
 }));
 
 export type CreatePkiSyncAwsElasticLoadBalancerCertificateDefaultError =
@@ -185757,6 +186367,8 @@ export const createPkiSyncAwsElasticLoadBalancerCertificateDefault: API.Operatio
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncAwsElasticLoadBalancerCertificateDefault",
 }));
 
 export type CreatePkiSyncAwsSecretsManagerError =
@@ -185777,6 +186389,8 @@ export const createPkiSyncAwsSecretsManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncAwsSecretsManager",
 }));
 
 export type CreatePkiSyncAzureKeyVaultError =
@@ -185797,6 +186411,8 @@ export const createPkiSyncAzureKeyVault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncAzureKeyVault",
 }));
 
 export type CreatePkiSyncCertificateError =
@@ -185817,6 +186433,8 @@ export const createPkiSyncCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncCertificate",
 }));
 
 export type CreatePkiSyncChefError =
@@ -185837,6 +186455,8 @@ export const createPkiSyncChef: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncChef",
 }));
 
 export type CreatePkiSyncCloudflareCustomCertificateError =
@@ -185861,6 +186481,8 @@ export const createPkiSyncCloudflareCustomCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncCloudflareCustomCertificate",
 }));
 
 export type CreatePkiSyncF5BigIpError =
@@ -185881,6 +186503,8 @@ export const createPkiSyncF5BigIp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncF5BigIp",
 }));
 
 export type CreatePkiSyncGcpCertificateManagerError =
@@ -185901,6 +186525,8 @@ export const createPkiSyncGcpCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncGcpCertificateManager",
 }));
 
 export type CreatePkiSyncKempLoadmasterError =
@@ -185921,6 +186547,8 @@ export const createPkiSyncKempLoadmaster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncKempLoadmaster",
 }));
 
 export type CreatePkiSyncLinuxServerError =
@@ -185941,6 +186569,8 @@ export const createPkiSyncLinuxServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncLinuxServer",
 }));
 
 export type CreatePkiSyncNetscalerError =
@@ -185961,6 +186591,8 @@ export const createPkiSyncNetscaler: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncNetscaler",
 }));
 
 export type CreatePkiSyncNutanixPrismCentralError =
@@ -185981,6 +186613,8 @@ export const createPkiSyncNutanixPrismCentral: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncNutanixPrismCentral",
 }));
 
 export type CreatePkiSyncWindowsServerError =
@@ -186001,6 +186635,8 @@ export const createPkiSyncWindowsServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePkiSyncWindowsServer",
 }));
 
 export type CreatePostgresAppConnectionError =
@@ -186021,6 +186657,8 @@ export const createPostgresAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgresAppConnection",
 }));
 
 export type CreatePostgreSQLCredentialsRotationError =
@@ -186041,6 +186679,8 @@ export const createPostgreSQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgreSQLCredentialsRotation",
 }));
 
 export type CreatePowerdnsAppConnectionError =
@@ -186061,6 +186701,8 @@ export const createPowerdnsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePowerdnsAppConnection",
 }));
 
 export type CreateProjectError =
@@ -186081,6 +186723,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateProjectGroupMembershipError =
@@ -186101,6 +186745,8 @@ export const createProjectGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectGroupMembership",
 }));
 
 export type CreateProjectIdentityMembershipError =
@@ -186121,6 +186767,8 @@ export const createProjectIdentityMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectIdentityMembership",
 }));
 
 export type CreateProjectMachineIdentityError =
@@ -186141,6 +186789,8 @@ export const createProjectMachineIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectMachineIdentity",
 }));
 
 export type CreateProjectRoleError =
@@ -186161,6 +186811,8 @@ export const createProjectRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectRole",
 }));
 
 export type CreateProjectRole2Error =
@@ -186181,6 +186833,8 @@ export const createProjectRole2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectRole2",
 }));
 
 export type CreateProjectTemplateError =
@@ -186201,6 +186855,8 @@ export const createProjectTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectTemplate",
 }));
 
 export type CreateProxiedServiceError =
@@ -186221,6 +186877,8 @@ export const createProxiedService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProxiedService",
 }));
 
 export type CreateQoveryAppConnectionError =
@@ -186241,6 +186899,8 @@ export const createQoveryAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQoveryAppConnection",
 }));
 
 export type CreateQoverySecretSyncError =
@@ -186261,6 +186921,8 @@ export const createQoverySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQoverySecretSync",
 }));
 
 export type CreateRailwayAppConnectionError =
@@ -186281,6 +186943,8 @@ export const createRailwayAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRailwayAppConnection",
 }));
 
 export type CreateRailwaySecretSyncError =
@@ -186301,6 +186965,8 @@ export const createRailwaySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRailwaySecretSync",
 }));
 
 export type CreateRedisAppConnectionError =
@@ -186321,6 +186987,8 @@ export const createRedisAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRedisAppConnection",
 }));
 
 export type CreateRedisCredentialsRotationError =
@@ -186341,6 +187009,8 @@ export const createRedisCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRedisCredentialsRotation",
 }));
 
 export type CreateRenderAppConnectionError =
@@ -186361,6 +187031,8 @@ export const createRenderAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRenderAppConnection",
 }));
 
 export type CreateRenderSecretSyncError =
@@ -186381,6 +187053,8 @@ export const createRenderSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRenderSecretSync",
 }));
 
 export type CreateRundeckAppConnectionError =
@@ -186401,6 +187075,8 @@ export const createRundeckAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRundeckAppConnection",
 }));
 
 export type CreateRundeckSecretSyncError =
@@ -186421,6 +187097,8 @@ export const createRundeckSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRundeckSecretSync",
 }));
 
 export type CreateSalesforceAppConnectionError =
@@ -186441,6 +187119,8 @@ export const createSalesforceAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSalesforceAppConnection",
 }));
 
 export type CreateSalesforceOAuthCredentialsRotationError =
@@ -186465,6 +187145,8 @@ export const createSalesforceOAuthCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSalesforceOAuthCredentialsRotation",
 }));
 
 export type CreateSecretFolderError =
@@ -186485,6 +187167,8 @@ export const createSecretFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretFolder",
 }));
 
 export type CreateSecretImportError =
@@ -186505,6 +187189,8 @@ export const createSecretImport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretImport",
 }));
 
 export type CreateSecretImport2Error =
@@ -186525,6 +187211,8 @@ export const createSecretImport2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretImport2",
 }));
 
 export type CreateSecretRotationHpIloLocalAccountReconcileError =
@@ -186553,6 +187241,8 @@ export const createSecretRotationHpIloLocalAccountReconcile: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretRotationHpIloLocalAccountReconcile",
 }));
 
 export type CreateSecretRotationsValidationRuleError =
@@ -186573,6 +187263,8 @@ export const createSecretRotationsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretRotationsValidationRule",
 }));
 
 export type CreateSecretRotationUnixLinuxLocalAccountReconcileError =
@@ -186601,6 +187293,8 @@ export const createSecretRotationUnixLinuxLocalAccountReconcile: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretRotationUnixLinuxLocalAccountReconcile",
 }));
 
 export type CreateSecretRotationWindowsLocalAccountReconcileError =
@@ -186629,6 +187323,8 @@ export const createSecretRotationWindowsLocalAccountReconcile: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretRotationWindowsLocalAccountReconcile",
 }));
 
 export type CreateSecretTagError =
@@ -186648,6 +187344,8 @@ export const createSecretTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretTag",
 }));
 
 export type CreateSecretV4Error =
@@ -186668,6 +187366,8 @@ export const createSecretV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecretV4",
 }));
 
 export type CreateSharedSecretError =
@@ -186688,6 +187388,8 @@ export const createSharedSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSharedSecret",
 }));
 
 export type CreateSignerError =
@@ -186708,6 +187410,8 @@ export const createSigner: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSigner",
 }));
 
 export type CreateSmbAppConnectionError =
@@ -186728,6 +187432,8 @@ export const createSmbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmbAppConnection",
 }));
 
 export type CreateSnowflakeAppConnectionError =
@@ -186748,6 +187454,8 @@ export const createSnowflakeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnowflakeAppConnection",
 }));
 
 export type CreateSnowflakeSecretSyncError =
@@ -186768,6 +187476,8 @@ export const createSnowflakeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnowflakeSecretSync",
 }));
 
 export type CreateSnowflakeUserKeyPairRotationError =
@@ -186788,6 +187498,8 @@ export const createSnowflakeUserKeyPairRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnowflakeUserKeyPairRotation",
 }));
 
 export type CreateSpaceliftAppConnectionError =
@@ -186808,6 +187520,8 @@ export const createSpaceliftAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpaceliftAppConnection",
 }));
 
 export type CreateSpaceliftSecretSyncError =
@@ -186828,6 +187542,8 @@ export const createSpaceliftSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpaceliftSecretSync",
 }));
 
 export type CreateSshAppConnectionError =
@@ -186848,6 +187564,8 @@ export const createSshAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSshAppConnection",
 }));
 
 export type CreateSsoConfigError =
@@ -186868,6 +187586,8 @@ export const createSsoConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSsoConfig",
 }));
 
 export type CreateSsoOidcConfigError =
@@ -186888,6 +187608,8 @@ export const createSsoOidcConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSsoOidcConfig",
 }));
 
 export type CreateStaticSecretsValidationRuleError =
@@ -186908,6 +187630,8 @@ export const createStaticSecretsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStaticSecretsValidationRule",
 }));
 
 export type CreateStripeAPIKeyRotationError =
@@ -186928,6 +187652,8 @@ export const createStripeAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStripeAPIKeyRotation",
 }));
 
 export type CreateStripeAppConnectionError =
@@ -186948,6 +187674,8 @@ export const createStripeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStripeAppConnection",
 }));
 
 export type CreateSubOrganizationError =
@@ -186968,6 +187696,8 @@ export const createSubOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubOrganization",
 }));
 
 export type CreateSubOrganizationMembershipError =
@@ -186988,6 +187718,8 @@ export const createSubOrganizationMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubOrganizationMembership",
 }));
 
 export type CreateSupabaseAPIKeyRotationError =
@@ -187008,6 +187740,8 @@ export const createSupabaseAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupabaseAPIKeyRotation",
 }));
 
 export type CreateSupabaseAppConnectionError =
@@ -187028,6 +187762,8 @@ export const createSupabaseAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupabaseAppConnection",
 }));
 
 export type CreateSupabaseSecretSyncError =
@@ -187048,6 +187784,8 @@ export const createSupabaseSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupabaseSecretSync",
 }));
 
 export type CreateTeamcityAppConnectionError =
@@ -187068,6 +187806,8 @@ export const createTeamcityAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamcityAppConnection",
 }));
 
 export type CreateTeamcitySecretSyncError =
@@ -187088,6 +187828,8 @@ export const createTeamcitySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamcitySecretSync",
 }));
 
 export type CreateTerraformCloudAppConnectionError =
@@ -187108,6 +187850,8 @@ export const createTerraformCloudAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerraformCloudAppConnection",
 }));
 
 export type CreateTerraformCloudSecretSyncError =
@@ -187128,6 +187872,8 @@ export const createTerraformCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTerraformCloudSecretSync",
 }));
 
 export type CreateTokenAuthTokenError =
@@ -187148,6 +187894,8 @@ export const createTokenAuthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTokenAuthToken",
 }));
 
 export type CreateTravisCIAppConnectionError =
@@ -187168,6 +187916,8 @@ export const createTravisCIAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTravisCIAppConnection",
 }));
 
 export type CreateTravisCISecretSyncError =
@@ -187188,6 +187938,8 @@ export const createTravisCISecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTravisCISecretSync",
 }));
 
 export type CreateTriggerDevAppConnectionError =
@@ -187208,6 +187960,8 @@ export const createTriggerDevAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTriggerDevAppConnection",
 }));
 
 export type CreateTriggerDevSecretSyncError =
@@ -187228,6 +187982,8 @@ export const createTriggerDevSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTriggerDevSecretSync",
 }));
 
 export type CreateUniversalAuthClientSecretError =
@@ -187248,6 +188004,8 @@ export const createUniversalAuthClientSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUniversalAuthClientSecret",
 }));
 
 export type CreateUnixLinuxLocalAccountRotationError =
@@ -187268,6 +188026,8 @@ export const createUnixLinuxLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUnixLinuxLocalAccountRotation",
 }));
 
 export type CreateVenafiAppConnectionError =
@@ -187288,6 +188048,8 @@ export const createVenafiAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVenafiAppConnection",
 }));
 
 export type CreateVenafiTppAppConnectionError =
@@ -187308,6 +188070,8 @@ export const createVenafiTppAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVenafiTppAppConnection",
 }));
 
 export type CreateVenafiTppCertificateAuthorityV1Error =
@@ -187327,6 +188091,8 @@ export const createVenafiTppCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVenafiTppCertificateAuthorityV1",
 }));
 
 export type CreateVercelAppConnectionError =
@@ -187347,6 +188113,8 @@ export const createVercelAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVercelAppConnection",
 }));
 
 export type CreateVercelSecretSyncError =
@@ -187367,6 +188135,8 @@ export const createVercelSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVercelSecretSync",
 }));
 
 export type CreateWindmillAppConnectionError =
@@ -187387,6 +188157,8 @@ export const createWindmillAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWindmillAppConnection",
 }));
 
 export type CreateWindmillSecretSyncError =
@@ -187407,6 +188179,8 @@ export const createWindmillSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWindmillSecretSync",
 }));
 
 export type CreateWindowsLocalAccountRotationError =
@@ -187427,6 +188201,8 @@ export const createWindowsLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWindowsLocalAccountRotation",
 }));
 
 export type CreateWindowsServerPkiSyncError =
@@ -187447,6 +188223,8 @@ export const createWindowsServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWindowsServerPkiSync",
 }));
 
 export type CreateWinrmAppConnectionError =
@@ -187467,6 +188245,8 @@ export const createWinrmAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWinrmAppConnection",
 }));
 
 export type CreateWorkspaceError =
@@ -187487,6 +188267,8 @@ export const createWorkspace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type CreateWorkspaceEnvironmentError =
@@ -187507,6 +188289,8 @@ export const createWorkspaceEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceEnvironment",
 }));
 
 export type CreateWorkspaceMembershipError =
@@ -187527,6 +188311,8 @@ export const createWorkspaceMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceMembership",
 }));
 
 export type CreateWorkspaceMembershipDetailError =
@@ -187547,6 +188333,8 @@ export const createWorkspaceMembershipDetail: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceMembershipDetail",
 }));
 
 export type CreateWorkspaceTagError =
@@ -187566,6 +188354,8 @@ export const createWorkspaceTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceTag",
 }));
 
 export type CreateZabbixAppConnectionError =
@@ -187586,6 +188376,8 @@ export const createZabbixAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateZabbixAppConnection",
 }));
 
 export type CreateZabbixSecretSyncError =
@@ -187606,6 +188398,8 @@ export const createZabbixSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateZabbixSecretSync",
 }));
 
 export type DecryptWithKmsKeyError =
@@ -187626,6 +188420,8 @@ export const decryptWithKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DecryptWithKmsKey",
 }));
 
 export type DeleteAcmeCertificateAuthorityV1Error =
@@ -187645,6 +188441,8 @@ export const deleteAcmeCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAcmeCertificateAuthorityV1",
 }));
 
 export type DeleteAdcsAppConnectionError =
@@ -187665,6 +188463,8 @@ export const deleteAdcsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdcsAppConnection",
 }));
 
 export type DeleteAdcsCertificateAuthorityV1Error =
@@ -187684,6 +188484,8 @@ export const deleteAdcsCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdcsCertificateAuthorityV1",
 }));
 
 export type DeleteAdditionalPrivilegeIdentityError =
@@ -187704,6 +188506,8 @@ export const deleteAdditionalPrivilegeIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdditionalPrivilegeIdentity",
 }));
 
 export type DeleteAgentVaultAccessBundleError =
@@ -187724,6 +188528,8 @@ export const deleteAgentVaultAccessBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentVaultAccessBundle",
 }));
 
 export type DeleteAgentVaultAwsAppConnectionError =
@@ -187744,6 +188550,8 @@ export const deleteAgentVaultAwsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentVaultAwsAppConnection",
 }));
 
 export type DeleteAgentVaultProxyError =
@@ -187764,6 +188572,8 @@ export const deleteAgentVaultProxy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentVaultProxy",
 }));
 
 export type DeleteAgentVaultServiceError =
@@ -187784,6 +188594,8 @@ export const deleteAgentVaultService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentVaultService",
 }));
 
 export type DeleteAgentVaultVariableError =
@@ -187804,6 +188616,8 @@ export const deleteAgentVaultVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentVaultVariable",
 }));
 
 export type DeleteAlicloudAuthError =
@@ -187824,6 +188638,8 @@ export const deleteAlicloudAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlicloudAuth",
 }));
 
 export type DeleteAnthropicAppConnectionError =
@@ -187844,6 +188660,8 @@ export const deleteAnthropicAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnthropicAppConnection",
 }));
 
 export type DeleteAuth0AppConnectionError =
@@ -187864,6 +188682,8 @@ export const deleteAuth0AppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuth0AppConnection",
 }));
 
 export type DeleteAuth0ClientSecretRotationError =
@@ -187884,6 +188704,8 @@ export const deleteAuth0ClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuth0ClientSecretRotation",
 }));
 
 export type DeleteAwsAcmPublicCaCertificateAuthorityV1Error =
@@ -187911,6 +188733,8 @@ export const deleteAwsAcmPublicCaCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsAcmPublicCaCertificateAuthorityV1",
 }));
 
 export type DeleteAwsAppConnectionError =
@@ -187931,6 +188755,8 @@ export const deleteAwsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsAppConnection",
 }));
 
 export type DeleteAwsAuthError =
@@ -187951,6 +188777,8 @@ export const deleteAwsAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsAuth",
 }));
 
 export type DeleteAwsCertificateManagerPkiSyncError =
@@ -187971,6 +188799,8 @@ export const deleteAwsCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsCertificateManagerPkiSync",
 }));
 
 export type DeleteAwsElasticLoadBalancerPkiSyncError =
@@ -187991,6 +188821,8 @@ export const deleteAwsElasticLoadBalancerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsElasticLoadBalancerPkiSync",
 }));
 
 export type DeleteAWSIAMUserSecretRotationError =
@@ -188011,6 +188843,8 @@ export const deleteAWSIAMUserSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAWSIAMUserSecretRotation",
 }));
 
 export type DeleteAwsParameterStoreSecretSyncError =
@@ -188031,6 +188865,8 @@ export const deleteAwsParameterStoreSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsParameterStoreSecretSync",
 }));
 
 export type DeleteAwsPcaCertificateAuthorityV1Error =
@@ -188050,6 +188886,8 @@ export const deleteAwsPcaCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsPcaCertificateAuthorityV1",
 }));
 
 export type DeleteAwsSecretsManagerPkiSyncError =
@@ -188070,6 +188908,8 @@ export const deleteAwsSecretsManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsSecretsManagerPkiSync",
 }));
 
 export type DeleteAwsSecretsManagerSecretSyncError =
@@ -188090,6 +188930,8 @@ export const deleteAwsSecretsManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsSecretsManagerSecretSync",
 }));
 
 export type DeleteAzureAdcsAppConnectionError =
@@ -188110,6 +188952,8 @@ export const deleteAzureAdcsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureAdcsAppConnection",
 }));
 
 export type DeleteAzureAdCsCertificateAuthorityV1Error =
@@ -188129,6 +188973,8 @@ export const deleteAzureAdCsCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureAdCsCertificateAuthorityV1",
 }));
 
 export type DeleteAzureAppConfigurationAppConnectionError =
@@ -188153,6 +188999,8 @@ export const deleteAzureAppConfigurationAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureAppConfigurationAppConnection",
 }));
 
 export type DeleteAzureAppConfigurationSecretSyncError =
@@ -188169,10 +189017,12 @@ export const deleteAzureAppConfigurationSecretSync: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33344, __c2084, 0) as any as S.Schema<DeleteAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<DeleteAzureAppConfigurationSecretSyncResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureAppConfigurationSecretSync",
 }));
 
 export type DeleteAzureAuthError =
@@ -188193,6 +189043,8 @@ export const deleteAzureAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureAuth",
 }));
 
 export type DeleteAzureClientSecretRotationError =
@@ -188209,10 +189061,12 @@ export const deleteAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33392, __c2087, 0) as any as S.Schema<DeleteAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<DeleteAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<DeleteAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureClientSecretRotation",
 }));
 
 export type DeleteAzureClientSecretsAppConnectionError =
@@ -188233,6 +189087,8 @@ export const deleteAzureClientSecretsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureClientSecretsAppConnection",
 }));
 
 export type DeleteAzureDevopsAppConnectionError =
@@ -188253,6 +189109,8 @@ export const deleteAzureDevopsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureDevopsAppConnection",
 }));
 
 export type DeleteAzureDevopsSecretSyncError =
@@ -188273,6 +189131,8 @@ export const deleteAzureDevopsSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureDevopsSecretSync",
 }));
 
 export type DeleteAzureDnsAppConnectionError =
@@ -188293,6 +189153,8 @@ export const deleteAzureDnsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureDnsAppConnection",
 }));
 
 export type DeleteAzureEntraIdAppConnectionError =
@@ -188313,6 +189175,8 @@ export const deleteAzureEntraIdAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureEntraIdAppConnection",
 }));
 
 export type DeleteAzureEntraIdScimSecretSyncError =
@@ -188333,6 +189197,8 @@ export const deleteAzureEntraIdScimSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureEntraIdScimSecretSync",
 }));
 
 export type DeleteAzureKeyVaultAppConnectionError =
@@ -188353,6 +189219,8 @@ export const deleteAzureKeyVaultAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureKeyVaultAppConnection",
 }));
 
 export type DeleteAzureKeyVaultPkiSyncError =
@@ -188373,6 +189241,8 @@ export const deleteAzureKeyVaultPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureKeyVaultPkiSync",
 }));
 
 export type DeleteAzureKeyVaultSecretSyncError =
@@ -188393,6 +189263,8 @@ export const deleteAzureKeyVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureKeyVaultSecretSync",
 }));
 
 export type DeleteBitbucketAppConnectionError =
@@ -188413,6 +189285,8 @@ export const deleteBitbucketAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBitbucketAppConnection",
 }));
 
 export type DeleteBitbucketSecretSyncError =
@@ -188433,6 +189307,8 @@ export const deleteBitbucketSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBitbucketSecretSync",
 }));
 
 export type DeleteCamundaAppConnectionError =
@@ -188453,6 +189329,8 @@ export const deleteCamundaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCamundaAppConnection",
 }));
 
 export type DeleteCamundaSecretSyncError =
@@ -188473,6 +189351,8 @@ export const deleteCamundaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCamundaSecretSync",
 }));
 
 export type DeleteCertificateError =
@@ -188493,6 +189373,8 @@ export const deleteCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type DeleteCertificateAuthorityV1Error =
@@ -188513,6 +189395,8 @@ export const deleteCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificateAuthorityV1",
 }));
 
 export type DeleteCertificatePolicyError =
@@ -188532,6 +189416,8 @@ export const deleteCertificatePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatePolicy",
 }));
 
 export type DeleteCertificateProfileError =
@@ -188551,6 +189437,8 @@ export const deleteCertificateProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificateProfile",
 }));
 
 export type DeleteChecklyAppConnectionError =
@@ -188571,6 +189459,8 @@ export const deleteChecklyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChecklyAppConnection",
 }));
 
 export type DeleteChecklySecretSyncError =
@@ -188591,6 +189481,8 @@ export const deleteChecklySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChecklySecretSync",
 }));
 
 export type DeleteChefAppConnectionError =
@@ -188611,6 +189503,8 @@ export const deleteChefAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChefAppConnection",
 }));
 
 export type DeleteChefPkiSyncError =
@@ -188631,6 +189525,8 @@ export const deleteChefPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChefPkiSync",
 }));
 
 export type DeleteChefSecretSyncError =
@@ -188651,6 +189547,8 @@ export const deleteChefSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChefSecretSync",
 }));
 
 export type DeleteCircleciAppConnectionError =
@@ -188671,6 +189569,8 @@ export const deleteCircleciAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCircleciAppConnection",
 }));
 
 export type DeleteCircleciSecretSyncError =
@@ -188691,6 +189591,8 @@ export const deleteCircleciSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCircleciSecretSync",
 }));
 
 export type DeleteCloud66AppConnectionError =
@@ -188711,6 +189613,8 @@ export const deleteCloud66AppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloud66AppConnection",
 }));
 
 export type DeleteCloud66SecretSyncError =
@@ -188731,6 +189635,8 @@ export const deleteCloud66SecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloud66SecretSync",
 }));
 
 export type DeleteCloudflareAPITokenRotationError =
@@ -188751,6 +189657,8 @@ export const deleteCloudflareAPITokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudflareAPITokenRotation",
 }));
 
 export type DeleteCloudflareAppConnectionError =
@@ -188771,6 +189679,8 @@ export const deleteCloudflareAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudflareAppConnection",
 }));
 
 export type DeleteCloudflareCustomCertificatePkiSyncError =
@@ -188791,6 +189701,8 @@ export const deleteCloudflareCustomCertificatePkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudflareCustomCertificatePkiSync",
 }));
 
 export type DeleteCloudflarePagesSecretSyncError =
@@ -188811,6 +189723,8 @@ export const deleteCloudflarePagesSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudflarePagesSecretSync",
 }));
 
 export type DeleteCloudflareR2AccessKeyRotationError =
@@ -188831,6 +189745,8 @@ export const deleteCloudflareR2AccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudflareR2AccessKeyRotation",
 }));
 
 export type DeleteCloudflareWorkersSecretSyncError =
@@ -188851,6 +189767,8 @@ export const deleteCloudflareWorkersSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudflareWorkersSecretSync",
 }));
 
 export type DeleteConvexAccessKeyRotationError =
@@ -188871,6 +189789,8 @@ export const deleteConvexAccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConvexAccessKeyRotation",
 }));
 
 export type DeleteConvexAppConnectionError =
@@ -188891,6 +189811,8 @@ export const deleteConvexAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConvexAppConnection",
 }));
 
 export type DeleteDatabricksAppConnectionError =
@@ -188911,6 +189833,8 @@ export const deleteDatabricksAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabricksAppConnection",
 }));
 
 export type DeleteDatabricksSecretSyncError =
@@ -188931,6 +189855,8 @@ export const deleteDatabricksSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabricksSecretSync",
 }));
 
 export type DeleteDatabricksServicePrincipalSecretRotationError =
@@ -188959,6 +189885,8 @@ export const deleteDatabricksServicePrincipalSecretRotation: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabricksServicePrincipalSecretRotation",
 }));
 
 export type DeleteDatadogAPIKeyRotationError =
@@ -188979,6 +189907,8 @@ export const deleteDatadogAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatadogAPIKeyRotation",
 }));
 
 export type DeleteDatadogAppConnectionError =
@@ -188999,6 +189929,8 @@ export const deleteDatadogAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatadogAppConnection",
 }));
 
 export type DeleteDatadogApplicationKeyRotationError =
@@ -189019,6 +189951,8 @@ export const deleteDatadogApplicationKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatadogApplicationKeyRotation",
 }));
 
 export type DeleteDaytonaAppConnectionError =
@@ -189039,6 +189973,8 @@ export const deleteDaytonaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDaytonaAppConnection",
 }));
 
 export type DeleteDaytonaSecretSyncError =
@@ -189059,6 +189995,8 @@ export const deleteDaytonaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDaytonaSecretSync",
 }));
 
 export type DeleteDbtAppConnectionError =
@@ -189079,6 +190017,8 @@ export const deleteDbtAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDbtAppConnection",
 }));
 
 export type DeleteDBTServiceTokenRotationError =
@@ -189099,6 +190039,8 @@ export const deleteDBTServiceTokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDBTServiceTokenRotation",
 }));
 
 export type DeleteDevinAppConnectionError =
@@ -189119,6 +190061,8 @@ export const deleteDevinAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevinAppConnection",
 }));
 
 export type DeleteDevinSecretSyncError =
@@ -189139,6 +190083,8 @@ export const deleteDevinSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevinSecretSync",
 }));
 
 export type DeleteDigicertAppConnectionError =
@@ -189159,6 +190105,8 @@ export const deleteDigicertAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDigicertAppConnection",
 }));
 
 export type DeleteDigicertCertificateAuthorityV1Error =
@@ -189178,6 +190126,8 @@ export const deleteDigicertCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDigicertCertificateAuthorityV1",
 }));
 
 export type DeleteDigitalOceanAppConnectionError =
@@ -189198,6 +190148,8 @@ export const deleteDigitalOceanAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDigitalOceanAppConnection",
 }));
 
 export type DeleteDigitalOceanAppPlatformSecretSyncError =
@@ -189218,6 +190170,8 @@ export const deleteDigitalOceanAppPlatformSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDigitalOceanAppPlatformSecretSync",
 }));
 
 export type DeleteDnsMadeEasyAppConnectionError =
@@ -189238,6 +190192,8 @@ export const deleteDnsMadeEasyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDnsMadeEasyAppConnection",
 }));
 
 export type DeleteDopplerAppConnectionError =
@@ -189258,6 +190214,8 @@ export const deleteDopplerAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDopplerAppConnection",
 }));
 
 export type DeleteDynamicSecretError =
@@ -189277,6 +190235,8 @@ export const deleteDynamicSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynamicSecret",
 }));
 
 export type DeleteDynamicSecretLeaseError =
@@ -189296,6 +190256,8 @@ export const deleteDynamicSecretLease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynamicSecretLease",
 }));
 
 export type DeleteDynamicSecretsValidationRuleError =
@@ -189316,6 +190278,8 @@ export const deleteDynamicSecretsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynamicSecretsValidationRule",
 }));
 
 export type DeleteEnvironmentError =
@@ -189336,6 +190300,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteExternalInfisicalAppConnectionError =
@@ -189356,6 +190322,8 @@ export const deleteExternalInfisicalAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExternalInfisicalAppConnection",
 }));
 
 export type DeleteExternalInfisicalSecretSyncError =
@@ -189376,6 +190344,8 @@ export const deleteExternalInfisicalSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExternalInfisicalSecretSync",
 }));
 
 export type DeleteF5BigIpAppConnectionError =
@@ -189396,6 +190366,8 @@ export const deleteF5BigIpAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteF5BigIpAppConnection",
 }));
 
 export type DeleteF5BigIpPkiSyncError =
@@ -189416,6 +190388,8 @@ export const deleteF5BigIpPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteF5BigIpPkiSync",
 }));
 
 export type DeleteFireworksAppConnectionError =
@@ -189436,6 +190410,8 @@ export const deleteFireworksAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFireworksAppConnection",
 }));
 
 export type DeleteFireworksSecretRotationError =
@@ -189456,6 +190432,8 @@ export const deleteFireworksSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFireworksSecretRotation",
 }));
 
 export type DeleteFlyioAppConnectionError =
@@ -189476,6 +190454,8 @@ export const deleteFlyioAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlyioAppConnection",
 }));
 
 export type DeleteFlyioSecretSyncError =
@@ -189496,6 +190476,8 @@ export const deleteFlyioSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlyioSecretSync",
 }));
 
 export type DeleteFolderError =
@@ -189516,6 +190498,8 @@ export const deleteFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFolder",
 }));
 
 export type DeleteGcpAppConnectionError =
@@ -189536,6 +190520,8 @@ export const deleteGcpAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGcpAppConnection",
 }));
 
 export type DeleteGcpAuthError =
@@ -189556,6 +190542,8 @@ export const deleteGcpAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGcpAuth",
 }));
 
 export type DeleteGcpCertificateManagerPkiSyncError =
@@ -189576,6 +190564,8 @@ export const deleteGcpCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGcpCertificateManagerPkiSync",
 }));
 
 export type DeleteGcpSecretManagerSecretSyncError =
@@ -189596,6 +190586,8 @@ export const deleteGcpSecretManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGcpSecretManagerSecretSync",
 }));
 
 export type DeleteGitHubAppConnectionError =
@@ -189616,6 +190608,8 @@ export const deleteGitHubAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGitHubAppConnection",
 }));
 
 export type DeleteGitHubRadarAppConnectionError =
@@ -189636,6 +190630,8 @@ export const deleteGitHubRadarAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGitHubRadarAppConnection",
 }));
 
 export type DeleteGitHubSecretSyncError =
@@ -189656,6 +190652,8 @@ export const deleteGitHubSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGitHubSecretSync",
 }));
 
 export type DeleteGitLabAppConnectionError =
@@ -189676,6 +190674,8 @@ export const deleteGitLabAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGitLabAppConnection",
 }));
 
 export type DeleteGitLabSecretSyncError =
@@ -189696,6 +190696,8 @@ export const deleteGitLabSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGitLabSecretSync",
 }));
 
 export type DeleteGodaddyAppConnectionError =
@@ -189716,6 +190718,8 @@ export const deleteGodaddyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGodaddyAppConnection",
 }));
 
 export type DeleteGodaddyCertificateAuthorityV1Error =
@@ -189735,6 +190739,8 @@ export const deleteGodaddyCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGodaddyCertificateAuthorityV1",
 }));
 
 export type DeleteGroupError =
@@ -189754,6 +190760,8 @@ export const deleteGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteHashicorpVaultAppConnectionError =
@@ -189774,6 +190782,8 @@ export const deleteHashicorpVaultAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHashicorpVaultAppConnection",
 }));
 
 export type DeleteHashicorpVaultSecretSyncError =
@@ -189794,6 +190804,8 @@ export const deleteHashicorpVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHashicorpVaultSecretSync",
 }));
 
 export type DeleteHasuraCloudAppConnectionError =
@@ -189814,6 +190826,8 @@ export const deleteHasuraCloudAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHasuraCloudAppConnection",
 }));
 
 export type DeleteHasuraCloudSecretSyncError =
@@ -189834,6 +190848,8 @@ export const deleteHasuraCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHasuraCloudSecretSync",
 }));
 
 export type DeleteHerokuAppConnectionError =
@@ -189854,6 +190870,8 @@ export const deleteHerokuAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHerokuAppConnection",
 }));
 
 export type DeleteHerokuSecretSyncError =
@@ -189874,6 +190892,8 @@ export const deleteHerokuSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHerokuSecretSync",
 }));
 
 export type DeleteHPiLOLocalAccountRotationError =
@@ -189894,6 +190914,8 @@ export const deleteHPiLOLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHPiLOLocalAccountRotation",
 }));
 
 export type DeleteHsmConnectorError =
@@ -189913,6 +190935,8 @@ export const deleteHsmConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHsmConnector",
 }));
 
 export type DeleteHumanitecAppConnectionError =
@@ -189933,6 +190957,8 @@ export const deleteHumanitecAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHumanitecAppConnection",
 }));
 
 export type DeleteHumanitecSecretSyncError =
@@ -189953,6 +190979,8 @@ export const deleteHumanitecSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHumanitecSecretSync",
 }));
 
 export type DeleteIdentityProjectAdditionalPrivilegeError =
@@ -189977,6 +191005,8 @@ export const deleteIdentityProjectAdditionalPrivilege: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProjectAdditionalPrivilege",
 }));
 
 export type DeleteIdentityTemplateError =
@@ -189997,6 +191027,8 @@ export const deleteIdentityTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityTemplate",
 }));
 
 export type DeleteIdentityTemplateUsageError =
@@ -190017,6 +191049,8 @@ export const deleteIdentityTemplateUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityTemplateUsage",
 }));
 
 export type DeleteIntegrationError =
@@ -190037,6 +191071,8 @@ export const deleteIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteIntegrationAuthError =
@@ -190057,6 +191093,8 @@ export const deleteIntegrationAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAuth",
 }));
 
 export type DeleteIntegrationAuthsError =
@@ -190077,6 +191115,8 @@ export const deleteIntegrationAuths: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAuths",
 }));
 
 export type DeleteInternalCertificateAuthorityV1Error =
@@ -190096,6 +191136,8 @@ export const deleteInternalCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInternalCertificateAuthorityV1",
 }));
 
 export type DeleteJwtAuthError =
@@ -190116,6 +191158,8 @@ export const deleteJwtAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJwtAuth",
 }));
 
 export type DeleteKempLoadmasterAppConnectionError =
@@ -190136,6 +191180,8 @@ export const deleteKempLoadmasterAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKempLoadmasterAppConnection",
 }));
 
 export type DeleteKempLoadmasterPkiSyncError =
@@ -190156,6 +191202,8 @@ export const deleteKempLoadmasterPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKempLoadmasterPkiSync",
 }));
 
 export type DeleteKmsKeyError =
@@ -190176,6 +191224,8 @@ export const deleteKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKmsKey",
 }));
 
 export type DeleteKubernetesAuthError =
@@ -190196,6 +191246,8 @@ export const deleteKubernetesAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKubernetesAuth",
 }));
 
 export type DeleteLaravelForgeAppConnectionError =
@@ -190216,6 +191268,8 @@ export const deleteLaravelForgeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLaravelForgeAppConnection",
 }));
 
 export type DeleteLaravelForgeSecretSyncError =
@@ -190236,6 +191290,8 @@ export const deleteLaravelForgeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLaravelForgeSecretSync",
 }));
 
 export type DeleteLdapAppConnectionError =
@@ -190256,6 +191312,8 @@ export const deleteLdapAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLdapAppConnection",
 }));
 
 export type DeleteLdapAuthError =
@@ -190276,6 +191334,8 @@ export const deleteLdapAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLdapAuth",
 }));
 
 export type DeleteLDAPPasswordRotationError =
@@ -190296,6 +191356,8 @@ export const deleteLDAPPasswordRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLDAPPasswordRotation",
 }));
 
 export type DeleteLinuxServerPkiSyncError =
@@ -190316,6 +191378,8 @@ export const deleteLinuxServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLinuxServerPkiSync",
 }));
 
 export type DeleteLiteLLMAPIKeyRotationError =
@@ -190336,6 +191400,8 @@ export const deleteLiteLLMAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLiteLLMAPIKeyRotation",
 }));
 
 export type DeleteLitellmAppConnectionError =
@@ -190356,6 +191422,8 @@ export const deleteLitellmAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLitellmAppConnection",
 }));
 
 export type DeleteMachineIdentityError =
@@ -190376,6 +191444,8 @@ export const deleteMachineIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMachineIdentity",
 }));
 
 export type DeleteManySecretsV4Error =
@@ -190396,6 +191466,8 @@ export const deleteManySecretsV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManySecretsV4",
 }));
 
 export type DeleteMicrosoftIntuneAppConnectionError =
@@ -190416,6 +191488,8 @@ export const deleteMicrosoftIntuneAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftIntuneAppConnection",
 }));
 
 export type DeleteMicrosoftSQLServerCredentialsRotationError =
@@ -190444,6 +191518,8 @@ export const deleteMicrosoftSQLServerCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftSQLServerCredentialsRotation",
 }));
 
 export type DeleteMongoDbAppConnectionError =
@@ -190464,6 +191540,8 @@ export const deleteMongoDbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoDbAppConnection",
 }));
 
 export type DeleteMongoDBCredentialsRotationError =
@@ -190484,6 +191562,8 @@ export const deleteMongoDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoDBCredentialsRotation",
 }));
 
 export type DeleteMsSqlAppConnectionError =
@@ -190504,6 +191584,8 @@ export const deleteMsSqlAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMsSqlAppConnection",
 }));
 
 export type DeleteMySqlAppConnectionError =
@@ -190524,6 +191606,8 @@ export const deleteMySqlAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMySqlAppConnection",
 }));
 
 export type DeleteMySQLCredentialsRotationError =
@@ -190544,6 +191628,8 @@ export const deleteMySQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMySQLCredentialsRotation",
 }));
 
 export type DeleteNetlifyAppConnectionError =
@@ -190564,6 +191650,8 @@ export const deleteNetlifyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetlifyAppConnection",
 }));
 
 export type DeleteNetlifySecretSyncError =
@@ -190584,6 +191672,8 @@ export const deleteNetlifySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetlifySecretSync",
 }));
 
 export type DeleteNetscalerAppConnectionError =
@@ -190604,6 +191694,8 @@ export const deleteNetscalerAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetscalerAppConnection",
 }));
 
 export type DeleteNetscalerPkiSyncError =
@@ -190624,6 +191716,8 @@ export const deleteNetscalerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetscalerPkiSync",
 }));
 
 export type DeleteNorthflankAppConnectionError =
@@ -190644,6 +191738,8 @@ export const deleteNorthflankAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNorthflankAppConnection",
 }));
 
 export type DeleteNorthflankSecretSyncError =
@@ -190664,6 +191760,8 @@ export const deleteNorthflankSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNorthflankSecretSync",
 }));
 
 export type DeleteNutanixPrismCentralAppConnectionError =
@@ -190684,6 +191782,8 @@ export const deleteNutanixPrismCentralAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNutanixPrismCentralAppConnection",
 }));
 
 export type DeleteNutanixPrismCentralPkiSyncError =
@@ -190704,6 +191804,8 @@ export const deleteNutanixPrismCentralPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNutanixPrismCentralPkiSync",
 }));
 
 export type DeleteOciAppConnectionError =
@@ -190724,6 +191826,8 @@ export const deleteOciAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOciAppConnection",
 }));
 
 export type DeleteOciAuthError =
@@ -190744,6 +191848,8 @@ export const deleteOciAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOciAuth",
 }));
 
 export type DeleteOciVaultSecretSyncError =
@@ -190764,6 +191870,8 @@ export const deleteOciVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOciVaultSecretSync",
 }));
 
 export type DeleteOctopusDeployAppConnectionError =
@@ -190784,6 +191892,8 @@ export const deleteOctopusDeployAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOctopusDeployAppConnection",
 }));
 
 export type DeleteOctopusDeploySecretSyncError =
@@ -190804,6 +191914,8 @@ export const deleteOctopusDeploySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOctopusDeploySecretSync",
 }));
 
 export type DeleteOidcAuthError =
@@ -190824,6 +191936,8 @@ export const deleteOidcAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOidcAuth",
 }));
 
 export type DeleteOktaAppConnectionError =
@@ -190844,6 +191958,8 @@ export const deleteOktaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOktaAppConnection",
 }));
 
 export type DeleteOktaClientSecretRotationError =
@@ -190864,6 +191980,8 @@ export const deleteOktaClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOktaClientSecretRotation",
 }));
 
 export type DeleteOnaAppConnectionError =
@@ -190884,6 +192002,8 @@ export const deleteOnaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOnaAppConnection",
 }));
 
 export type DeleteOnaSecretSyncError =
@@ -190904,6 +192024,8 @@ export const deleteOnaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOnaSecretSync",
 }));
 
 export type DeleteOnePasswordAppConnectionError =
@@ -190924,6 +192046,8 @@ export const deleteOnePasswordAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOnePasswordAppConnection",
 }));
 
 export type DeleteOnePasswordSecretSyncError =
@@ -190944,6 +192068,8 @@ export const deleteOnePasswordSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOnePasswordSecretSync",
 }));
 
 export type DeleteOpenaiAppConnectionError =
@@ -190964,6 +192090,8 @@ export const deleteOpenaiAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOpenaiAppConnection",
 }));
 
 export type DeleteOpenAIServiceAccountRotationError =
@@ -190984,6 +192112,8 @@ export const deleteOpenAIServiceAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOpenAIServiceAccountRotation",
 }));
 
 export type DeleteOpenRouterAPIKeyRotationError =
@@ -191004,6 +192134,8 @@ export const deleteOpenRouterAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOpenRouterAPIKeyRotation",
 }));
 
 export type DeleteOpenRouterAppConnectionError =
@@ -191024,6 +192156,8 @@ export const deleteOpenRouterAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOpenRouterAppConnection",
 }));
 
 export type DeleteOracleDbAppConnectionError =
@@ -191044,6 +192178,8 @@ export const deleteOracleDbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOracleDbAppConnection",
 }));
 
 export type DeleteOracleDBCredentialsRotationError =
@@ -191064,6 +192200,8 @@ export const deleteOracleDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOracleDBCredentialsRotation",
 }));
 
 export type DeleteOrganizationGroupMembershipError =
@@ -191084,6 +192222,8 @@ export const deleteOrganizationGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationGroupMembership",
 }));
 
 export type DeleteOrganizationRoleError =
@@ -191104,6 +192244,8 @@ export const deleteOrganizationRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationRole",
 }));
 
 export type DeleteOrgMembershipError =
@@ -191124,6 +192266,8 @@ export const deleteOrgMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgMembership",
 }));
 
 export type DeleteOvhAppConnectionError =
@@ -191144,6 +192288,8 @@ export const deleteOvhAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOvhAppConnection",
 }));
 
 export type DeleteOvhSecretSyncError =
@@ -191164,6 +192310,8 @@ export const deleteOvhSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOvhSecretSync",
 }));
 
 export type DeletePkiApplicationError =
@@ -191184,6 +192332,8 @@ export const deletePkiApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiApplication",
 }));
 
 export type DeletePkiCaAcmeError =
@@ -191203,6 +192353,8 @@ export const deletePkiCaAcme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiCaAcme",
 }));
 
 export type DeletePkiCaAzureAdCsError =
@@ -191222,6 +192374,8 @@ export const deletePkiCaAzureAdCs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiCaAzureAdCs",
 }));
 
 export type DeletePkiCaInternalError =
@@ -191241,6 +192395,8 @@ export const deletePkiCaInternal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiCaInternal",
 }));
 
 export type DeletePkiCertificateError =
@@ -191261,6 +192417,8 @@ export const deletePkiCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiCertificate",
 }));
 
 export type DeletePkiCertificateProfileError =
@@ -191280,6 +192438,8 @@ export const deletePkiCertificateProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiCertificateProfile",
 }));
 
 export type DeletePkiCollectionError =
@@ -191300,6 +192460,8 @@ export const deletePkiCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiCollection",
 }));
 
 export type DeletePkiDiscoveryError =
@@ -191320,6 +192482,8 @@ export const deletePkiDiscovery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiDiscovery",
 }));
 
 export type DeletePkiInstallationError =
@@ -191340,6 +192504,8 @@ export const deletePkiInstallation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiInstallation",
 }));
 
 export type DeletePkiSyncAwsCertificateManagerError =
@@ -191360,6 +192526,8 @@ export const deletePkiSyncAwsCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncAwsCertificateManager",
 }));
 
 export type DeletePkiSyncAwsElasticLoadBalancerError =
@@ -191380,6 +192548,8 @@ export const deletePkiSyncAwsElasticLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncAwsElasticLoadBalancer",
 }));
 
 export type DeletePkiSyncAwsElasticLoadBalancerCertificateDefaultError =
@@ -191408,6 +192578,8 @@ export const deletePkiSyncAwsElasticLoadBalancerCertificateDefault: API.Operatio
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncAwsElasticLoadBalancerCertificateDefault",
 }));
 
 export type DeletePkiSyncAwsSecretsManagerError =
@@ -191428,6 +192600,8 @@ export const deletePkiSyncAwsSecretsManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncAwsSecretsManager",
 }));
 
 export type DeletePkiSyncAzureKeyVaultError =
@@ -191448,6 +192622,8 @@ export const deletePkiSyncAzureKeyVault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncAzureKeyVault",
 }));
 
 export type DeletePkiSyncCertificatesError =
@@ -191468,6 +192644,8 @@ export const deletePkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncCertificates",
 }));
 
 export type DeletePkiSyncChefError =
@@ -191488,6 +192666,8 @@ export const deletePkiSyncChef: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncChef",
 }));
 
 export type DeletePkiSyncCloudflareCustomCertificateError =
@@ -191512,6 +192692,8 @@ export const deletePkiSyncCloudflareCustomCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncCloudflareCustomCertificate",
 }));
 
 export type DeletePkiSyncF5BigIpError =
@@ -191532,6 +192714,8 @@ export const deletePkiSyncF5BigIp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncF5BigIp",
 }));
 
 export type DeletePkiSyncGcpCertificateManagerError =
@@ -191552,6 +192736,8 @@ export const deletePkiSyncGcpCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncGcpCertificateManager",
 }));
 
 export type DeletePkiSyncKempLoadmasterError =
@@ -191572,6 +192758,8 @@ export const deletePkiSyncKempLoadmaster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncKempLoadmaster",
 }));
 
 export type DeletePkiSyncLinuxServerError =
@@ -191592,6 +192780,8 @@ export const deletePkiSyncLinuxServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncLinuxServer",
 }));
 
 export type DeletePkiSyncNetscalerError =
@@ -191612,6 +192802,8 @@ export const deletePkiSyncNetscaler: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncNetscaler",
 }));
 
 export type DeletePkiSyncNutanixPrismCentralError =
@@ -191632,6 +192824,8 @@ export const deletePkiSyncNutanixPrismCentral: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncNutanixPrismCentral",
 }));
 
 export type DeletePkiSyncWindowsServerError =
@@ -191652,6 +192846,8 @@ export const deletePkiSyncWindowsServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePkiSyncWindowsServer",
 }));
 
 export type DeletePostgresAppConnectionError =
@@ -191672,6 +192868,8 @@ export const deletePostgresAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgresAppConnection",
 }));
 
 export type DeletePostgreSQLCredentialsRotationError =
@@ -191692,6 +192890,8 @@ export const deletePostgreSQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgreSQLCredentialsRotation",
 }));
 
 export type DeletePowerdnsAppConnectionError =
@@ -191712,6 +192912,8 @@ export const deletePowerdnsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePowerdnsAppConnection",
 }));
 
 export type DeleteProjectError =
@@ -191732,6 +192934,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectIdentityMembershipError =
@@ -191752,6 +192956,8 @@ export const deleteProjectIdentityMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectIdentityMembership",
 }));
 
 export type DeleteProjectIdentityMembership2Error =
@@ -191772,6 +192978,8 @@ export const deleteProjectIdentityMembership2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectIdentityMembership2",
 }));
 
 export type DeleteProjectMachineIdentityError =
@@ -191792,6 +193000,8 @@ export const deleteProjectMachineIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectMachineIdentity",
 }));
 
 export type DeleteProjectRoleError =
@@ -191812,6 +193022,8 @@ export const deleteProjectRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectRole",
 }));
 
 export type DeleteProjectRole2Error =
@@ -191832,6 +193044,8 @@ export const deleteProjectRole2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectRole2",
 }));
 
 export type DeleteProjectTemplateError =
@@ -191852,6 +193066,8 @@ export const deleteProjectTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectTemplate",
 }));
 
 export type DeleteProxiedServiceError =
@@ -191872,6 +193088,8 @@ export const deleteProxiedService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProxiedService",
 }));
 
 export type DeleteQoveryAppConnectionError =
@@ -191892,6 +193110,8 @@ export const deleteQoveryAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQoveryAppConnection",
 }));
 
 export type DeleteQoverySecretSyncError =
@@ -191912,6 +193132,8 @@ export const deleteQoverySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQoverySecretSync",
 }));
 
 export type DeleteRailwayAppConnectionError =
@@ -191932,6 +193154,8 @@ export const deleteRailwayAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRailwayAppConnection",
 }));
 
 export type DeleteRailwaySecretSyncError =
@@ -191952,6 +193176,8 @@ export const deleteRailwaySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRailwaySecretSync",
 }));
 
 export type DeleteRedisAppConnectionError =
@@ -191972,6 +193198,8 @@ export const deleteRedisAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRedisAppConnection",
 }));
 
 export type DeleteRedisCredentialsRotationError =
@@ -191992,6 +193220,8 @@ export const deleteRedisCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRedisCredentialsRotation",
 }));
 
 export type DeleteRenderAppConnectionError =
@@ -192012,6 +193242,8 @@ export const deleteRenderAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRenderAppConnection",
 }));
 
 export type DeleteRenderSecretSyncError =
@@ -192032,6 +193264,8 @@ export const deleteRenderSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRenderSecretSync",
 }));
 
 export type DeleteRundeckAppConnectionError =
@@ -192052,6 +193286,8 @@ export const deleteRundeckAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRundeckAppConnection",
 }));
 
 export type DeleteRundeckSecretSyncError =
@@ -192072,6 +193308,8 @@ export const deleteRundeckSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRundeckSecretSync",
 }));
 
 export type DeleteSalesforceAppConnectionError =
@@ -192092,6 +193330,8 @@ export const deleteSalesforceAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSalesforceAppConnection",
 }));
 
 export type DeleteSalesforceOAuthCredentialsRotationError =
@@ -192116,6 +193356,8 @@ export const deleteSalesforceOAuthCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSalesforceOAuthCredentialsRotation",
 }));
 
 export type DeleteSecretFolderError =
@@ -192136,6 +193378,8 @@ export const deleteSecretFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretFolder",
 }));
 
 export type DeleteSecretImportError =
@@ -192156,6 +193400,8 @@ export const deleteSecretImport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretImport",
 }));
 
 export type DeleteSecretImportBySecretImportIdError =
@@ -192176,6 +193422,8 @@ export const deleteSecretImportBySecretImportId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretImportBySecretImportId",
 }));
 
 export type DeleteSecretRotationsValidationRuleError =
@@ -192196,6 +193444,8 @@ export const deleteSecretRotationsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretRotationsValidationRule",
 }));
 
 export type DeleteSecretTagError =
@@ -192215,6 +193465,8 @@ export const deleteSecretTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretTag",
 }));
 
 export type DeleteSecretV4Error =
@@ -192235,6 +193487,8 @@ export const deleteSecretV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretV4",
 }));
 
 export type DeleteSharedSecretError =
@@ -192255,6 +193509,8 @@ export const deleteSharedSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSharedSecret",
 }));
 
 export type DeleteSignerError =
@@ -192275,6 +193531,8 @@ export const deleteSigner: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSigner",
 }));
 
 export type DeleteSmbAppConnectionError =
@@ -192295,6 +193553,8 @@ export const deleteSmbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmbAppConnection",
 }));
 
 export type DeleteSnowflakeAppConnectionError =
@@ -192315,6 +193575,8 @@ export const deleteSnowflakeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnowflakeAppConnection",
 }));
 
 export type DeleteSnowflakeSecretSyncError =
@@ -192335,6 +193597,8 @@ export const deleteSnowflakeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnowflakeSecretSync",
 }));
 
 export type DeleteSnowflakeUserKeyPairRotationError =
@@ -192355,6 +193619,8 @@ export const deleteSnowflakeUserKeyPairRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnowflakeUserKeyPairRotation",
 }));
 
 export type DeleteSpaceliftAppConnectionError =
@@ -192375,6 +193641,8 @@ export const deleteSpaceliftAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpaceliftAppConnection",
 }));
 
 export type DeleteSpaceliftSecretSyncError =
@@ -192395,6 +193663,8 @@ export const deleteSpaceliftSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpaceliftSecretSync",
 }));
 
 export type DeleteSpiffeAuthError =
@@ -192415,6 +193685,8 @@ export const deleteSpiffeAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpiffeAuth",
 }));
 
 export type DeleteSshAppConnectionError =
@@ -192435,6 +193707,8 @@ export const deleteSshAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSshAppConnection",
 }));
 
 export type DeleteStaticSecretsValidationRuleError =
@@ -192455,6 +193729,8 @@ export const deleteStaticSecretsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStaticSecretsValidationRule",
 }));
 
 export type DeleteStripeAPIKeyRotationError =
@@ -192475,6 +193751,8 @@ export const deleteStripeAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStripeAPIKeyRotation",
 }));
 
 export type DeleteStripeAppConnectionError =
@@ -192495,6 +193773,8 @@ export const deleteStripeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStripeAppConnection",
 }));
 
 export type DeleteSubOrganizationError =
@@ -192515,6 +193795,8 @@ export const deleteSubOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubOrganization",
 }));
 
 export type DeleteSupabaseAPIKeyRotationError =
@@ -192535,6 +193817,8 @@ export const deleteSupabaseAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSupabaseAPIKeyRotation",
 }));
 
 export type DeleteSupabaseAppConnectionError =
@@ -192555,6 +193839,8 @@ export const deleteSupabaseAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSupabaseAppConnection",
 }));
 
 export type DeleteSupabaseSecretSyncError =
@@ -192575,6 +193861,8 @@ export const deleteSupabaseSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSupabaseSecretSync",
 }));
 
 export type DeleteTeamcityAppConnectionError =
@@ -192595,6 +193883,8 @@ export const deleteTeamcityAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamcityAppConnection",
 }));
 
 export type DeleteTeamcitySecretSyncError =
@@ -192615,6 +193905,8 @@ export const deleteTeamcitySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamcitySecretSync",
 }));
 
 export type DeleteTerraformCloudAppConnectionError =
@@ -192635,6 +193927,8 @@ export const deleteTerraformCloudAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTerraformCloudAppConnection",
 }));
 
 export type DeleteTerraformCloudSecretSyncError =
@@ -192655,6 +193949,8 @@ export const deleteTerraformCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTerraformCloudSecretSync",
 }));
 
 export type DeleteTlsCertAuthError =
@@ -192675,6 +193971,8 @@ export const deleteTlsCertAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTlsCertAuth",
 }));
 
 export type DeleteTokenAuthError =
@@ -192695,6 +193993,8 @@ export const deleteTokenAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTokenAuth",
 }));
 
 export type DeleteTravisCIAppConnectionError =
@@ -192715,6 +194015,8 @@ export const deleteTravisCIAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTravisCIAppConnection",
 }));
 
 export type DeleteTravisCISecretSyncError =
@@ -192735,6 +194037,8 @@ export const deleteTravisCISecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTravisCISecretSync",
 }));
 
 export type DeleteTriggerDevAppConnectionError =
@@ -192755,6 +194059,8 @@ export const deleteTriggerDevAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTriggerDevAppConnection",
 }));
 
 export type DeleteTriggerDevSecretSyncError =
@@ -192775,6 +194081,8 @@ export const deleteTriggerDevSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTriggerDevSecretSync",
 }));
 
 export type DeleteUniversalAuthError =
@@ -192795,6 +194103,8 @@ export const deleteUniversalAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUniversalAuth",
 }));
 
 export type DeleteUnixLinuxLocalAccountRotationError =
@@ -192815,6 +194125,8 @@ export const deleteUnixLinuxLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUnixLinuxLocalAccountRotation",
 }));
 
 export type DeleteVenafiAppConnectionError =
@@ -192835,6 +194147,8 @@ export const deleteVenafiAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVenafiAppConnection",
 }));
 
 export type DeleteVenafiTppAppConnectionError =
@@ -192855,6 +194169,8 @@ export const deleteVenafiTppAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVenafiTppAppConnection",
 }));
 
 export type DeleteVenafiTppCertificateAuthorityV1Error =
@@ -192874,6 +194190,8 @@ export const deleteVenafiTppCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVenafiTppCertificateAuthorityV1",
 }));
 
 export type DeleteVercelAppConnectionError =
@@ -192894,6 +194212,8 @@ export const deleteVercelAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVercelAppConnection",
 }));
 
 export type DeleteVercelSecretSyncError =
@@ -192914,6 +194234,8 @@ export const deleteVercelSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVercelSecretSync",
 }));
 
 export type DeleteWindmillAppConnectionError =
@@ -192934,6 +194256,8 @@ export const deleteWindmillAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWindmillAppConnection",
 }));
 
 export type DeleteWindmillSecretSyncError =
@@ -192954,6 +194278,8 @@ export const deleteWindmillSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWindmillSecretSync",
 }));
 
 export type DeleteWindowsLocalAccountRotationError =
@@ -192974,6 +194300,8 @@ export const deleteWindowsLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWindowsLocalAccountRotation",
 }));
 
 export type DeleteWindowsServerPkiSyncError =
@@ -192994,6 +194322,8 @@ export const deleteWindowsServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWindowsServerPkiSync",
 }));
 
 export type DeleteWinrmAppConnectionError =
@@ -193014,6 +194344,8 @@ export const deleteWinrmAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWinrmAppConnection",
 }));
 
 export type DeleteWorkspaceError =
@@ -193034,6 +194366,8 @@ export const deleteWorkspace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DeleteWorkspaceBySlugError =
@@ -193054,6 +194388,8 @@ export const deleteWorkspaceBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceBySlug",
 }));
 
 export type DeleteWorkspaceEnvironmentError =
@@ -193074,6 +194410,8 @@ export const deleteWorkspaceEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceEnvironment",
 }));
 
 export type DeleteWorkspaceGroupError =
@@ -193094,6 +194432,8 @@ export const deleteWorkspaceGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceGroup",
 }));
 
 export type DeleteWorkspaceIdentityMembershipError =
@@ -193114,6 +194454,8 @@ export const deleteWorkspaceIdentityMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceIdentityMembership",
 }));
 
 export type DeleteWorkspaceMembershipsError =
@@ -193134,6 +194476,8 @@ export const deleteWorkspaceMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceMemberships",
 }));
 
 export type DeleteWorkspaceTagError =
@@ -193153,6 +194497,8 @@ export const deleteWorkspaceTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceTag",
 }));
 
 export type DeleteZabbixAppConnectionError =
@@ -193173,6 +194519,8 @@ export const deleteZabbixAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZabbixAppConnection",
 }));
 
 export type DeleteZabbixSecretSyncError =
@@ -193193,6 +194541,8 @@ export const deleteZabbixSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZabbixSecretSync",
 }));
 
 export type DetachPkiApplicationProfileError =
@@ -193213,6 +194563,8 @@ export const detachPkiApplicationProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachPkiApplicationProfile",
 }));
 
 export type DuplicateSecretV4Error =
@@ -193233,6 +194585,8 @@ export const duplicateSecretV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateSecretV4",
 }));
 
 export type EncryptWithKmsKeyError =
@@ -193253,6 +194607,8 @@ export const encryptWithKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EncryptWithKmsKey",
 }));
 
 export type ExportSignerCertificateError =
@@ -193273,6 +194629,8 @@ export const exportSignerCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSignerCertificate",
 }));
 
 export type FinalizeCertManagerAcmeProfilesOrderError = InfisicalOpError;
@@ -193288,6 +194646,8 @@ export const finalizeCertManagerAcmeProfilesOrder: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeCertManagerAcmeProfilesOrder",
 }));
 
 export type GenerateMacWithKmsKeyError =
@@ -193308,6 +194668,8 @@ export const generateMacWithKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateMacWithKmsKey",
 }));
 
 export type GetAcmeCertificateAuthorityV1Error =
@@ -193327,6 +194689,8 @@ export const getAcmeCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAcmeCertificateAuthorityV1",
 }));
 
 export type GetAdcsAppConnectionError =
@@ -193347,6 +194711,8 @@ export const getAdcsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdcsAppConnection",
 }));
 
 export type GetAdcsAppConnectionByNameError =
@@ -193367,6 +194733,8 @@ export const getAdcsAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdcsAppConnectionByName",
 }));
 
 export type GetAdcsCertificateAuthorityV1Error =
@@ -193386,6 +194754,8 @@ export const getAdcsCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdcsCertificateAuthorityV1",
 }));
 
 export type GetAdcsTemplatesError =
@@ -193406,6 +194776,8 @@ export const getAdcsTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdcsTemplates",
 }));
 
 export type GetAdditionalPrivilegeIdentityError =
@@ -193426,6 +194798,8 @@ export const getAdditionalPrivilegeIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdditionalPrivilegeIdentity",
 }));
 
 export type GetAgentVaultAccessBundleError =
@@ -193446,6 +194820,8 @@ export const getAgentVaultAccessBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentVaultAccessBundle",
 }));
 
 export type GetAgentVaultAwsAppConnectionError =
@@ -193466,6 +194842,8 @@ export const getAgentVaultAwsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentVaultAwsAppConnection",
 }));
 
 export type GetAgentVaultSessionError =
@@ -193486,6 +194864,8 @@ export const getAgentVaultSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentVaultSession",
 }));
 
 export type GetAgentVaultSessionLogSettingsError =
@@ -193506,6 +194886,8 @@ export const getAgentVaultSessionLogSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentVaultSessionLogSettings",
 }));
 
 export type GetAgentVaultVariableValueError =
@@ -193526,6 +194908,8 @@ export const getAgentVaultVariableValue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentVaultVariableValue",
 }));
 
 export type GetAlicloudAuthError =
@@ -193546,6 +194930,8 @@ export const getAlicloudAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlicloudAuth",
 }));
 
 export type GetAnthropicAppConnectionError =
@@ -193566,6 +194952,8 @@ export const getAnthropicAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnthropicAppConnection",
 }));
 
 export type GetAnthropicAppConnectionByNameError =
@@ -193586,6 +194974,8 @@ export const getAnthropicAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnthropicAppConnectionByName",
 }));
 
 export type GetAuth0AppConnectionError =
@@ -193606,6 +194996,8 @@ export const getAuth0AppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuth0AppConnection",
 }));
 
 export type GetAuth0AppConnectionByNameError =
@@ -193626,6 +195018,8 @@ export const getAuth0AppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuth0AppConnectionByName",
 }));
 
 export type GetAuth0ClientSecretRotationError =
@@ -193646,6 +195040,8 @@ export const getAuth0ClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuth0ClientSecretRotation",
 }));
 
 export type GetAuth0ClientSecretRotationByNameError =
@@ -193666,6 +195062,8 @@ export const getAuth0ClientSecretRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuth0ClientSecretRotationByName",
 }));
 
 export type GetAuth0ClientSecretRotationGeneratedCredentialsError =
@@ -193694,6 +195092,8 @@ export const getAuth0ClientSecretRotationGeneratedCredentials: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuth0ClientSecretRotationGeneratedCredentials",
 }));
 
 export type GetAwsAcmPublicCaCertificateAuthorityV1Error =
@@ -193717,6 +195117,8 @@ export const getAwsAcmPublicCaCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsAcmPublicCaCertificateAuthorityV1",
 }));
 
 export type GetAwsAppConnectionError =
@@ -193737,6 +195139,8 @@ export const getAwsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsAppConnection",
 }));
 
 export type GetAwsAppConnectionByNameError =
@@ -193757,6 +195161,8 @@ export const getAwsAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsAppConnectionByName",
 }));
 
 export type GetAwsAuthError =
@@ -193777,6 +195183,8 @@ export const getAwsAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsAuth",
 }));
 
 export type GetAwsCertificateManagerPkiSyncError =
@@ -193797,6 +195205,8 @@ export const getAwsCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsCertificateManagerPkiSync",
 }));
 
 export type GetAwsElasticLoadBalancerPkiSyncError =
@@ -193817,6 +195227,8 @@ export const getAwsElasticLoadBalancerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsElasticLoadBalancerPkiSync",
 }));
 
 export type GetAWSIAMUserSecretRotationError =
@@ -193837,6 +195249,8 @@ export const getAWSIAMUserSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSIAMUserSecretRotation",
 }));
 
 export type GetAWSIAMUserSecretRotationByNameError =
@@ -193857,6 +195271,8 @@ export const getAWSIAMUserSecretRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSIAMUserSecretRotationByName",
 }));
 
 export type GetAWSIAMUserSecretRotationGeneratedCredentialsError =
@@ -193885,6 +195301,8 @@ export const getAWSIAMUserSecretRotationGeneratedCredentials: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSIAMUserSecretRotationGeneratedCredentials",
 }));
 
 export type GetAwsParameterStoreSecretSyncError =
@@ -193905,6 +195323,8 @@ export const getAwsParameterStoreSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsParameterStoreSecretSync",
 }));
 
 export type GetAwsParameterStoreSecretSyncByNameError =
@@ -193925,6 +195345,8 @@ export const getAwsParameterStoreSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsParameterStoreSecretSyncByName",
 }));
 
 export type GetAwsPcaCertificateAuthorityV1Error =
@@ -193944,6 +195366,8 @@ export const getAwsPcaCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsPcaCertificateAuthorityV1",
 }));
 
 export type GetAwsSecretsManagerPkiSyncError =
@@ -193964,6 +195388,8 @@ export const getAwsSecretsManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsSecretsManagerPkiSync",
 }));
 
 export type GetAwsSecretsManagerSecretSyncError =
@@ -193984,6 +195410,8 @@ export const getAwsSecretsManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsSecretsManagerSecretSync",
 }));
 
 export type GetAwsSecretsManagerSecretSyncByNameError =
@@ -194004,6 +195432,8 @@ export const getAwsSecretsManagerSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsSecretsManagerSecretSyncByName",
 }));
 
 export type GetAzureAdcsAppConnectionError =
@@ -194024,6 +195454,8 @@ export const getAzureAdcsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAdcsAppConnection",
 }));
 
 export type GetAzureAdcsAppConnectionByNameError =
@@ -194044,6 +195476,8 @@ export const getAzureAdcsAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAdcsAppConnectionByName",
 }));
 
 export type GetAzureAdCsCertificateAuthorityV1Error =
@@ -194063,6 +195497,8 @@ export const getAzureAdCsCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAdCsCertificateAuthorityV1",
 }));
 
 export type GetAzureAdcsTemplatesError =
@@ -194083,6 +195519,8 @@ export const getAzureAdcsTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAdcsTemplates",
 }));
 
 export type GetAzureAppConfigurationAppConnectionError =
@@ -194103,6 +195541,8 @@ export const getAzureAppConfigurationAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAppConfigurationAppConnection",
 }));
 
 export type GetAzureAppConfigurationAppConnectionByNameError =
@@ -194131,6 +195571,8 @@ export const getAzureAppConfigurationAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAppConfigurationAppConnectionByName",
 }));
 
 export type GetAzureAppConfigurationSecretSyncError =
@@ -194147,10 +195589,12 @@ export const getAzureAppConfigurationSecretSync: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38960, __c2435, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAppConfigurationSecretSync",
 }));
 
 export type GetAzureAppConfigurationSecretSyncByNameError =
@@ -194167,10 +195611,12 @@ export const getAzureAppConfigurationSecretSyncByName: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38976, __c2436, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncByNameRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncByNameResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAppConfigurationSecretSyncByName",
 }));
 
 export type GetAzureAuthError =
@@ -194191,6 +195637,8 @@ export const getAzureAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureAuth",
 }));
 
 export type GetAzureClientSecretRotationError =
@@ -194207,10 +195655,12 @@ export const getAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39008, __c2438, 0) as any as S.Schema<GetAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<GetAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<GetAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureClientSecretRotation",
 }));
 
 export type GetAzureClientSecretRotationByNameError =
@@ -194227,10 +195677,12 @@ export const getAzureClientSecretRotationByName: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39056, __c2441, 0) as any as S.Schema<GetAzureClientSecretRotationByNameRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<GetAzureClientSecretRotationByNameResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<GetAzureClientSecretRotationByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureClientSecretRotationByName",
 }));
 
 export type GetAzureClientSecretRotationGeneratedCredentialsError =
@@ -194259,6 +195711,8 @@ export const getAzureClientSecretRotationGeneratedCredentials: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureClientSecretRotationGeneratedCredentials",
 }));
 
 export type GetAzureClientSecretsAppConnectionError =
@@ -194279,6 +195733,8 @@ export const getAzureClientSecretsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureClientSecretsAppConnection",
 }));
 
 export type GetAzureClientSecretsAppConnectionByNameError =
@@ -194303,6 +195759,8 @@ export const getAzureClientSecretsAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureClientSecretsAppConnectionByName",
 }));
 
 export type GetAzureDevopsAppConnectionError =
@@ -194323,6 +195781,8 @@ export const getAzureDevopsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureDevopsAppConnection",
 }));
 
 export type GetAzureDevopsAppConnectionByNameError =
@@ -194343,6 +195803,8 @@ export const getAzureDevopsAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureDevopsAppConnectionByName",
 }));
 
 export type GetAzureDevopsSecretSyncError =
@@ -194363,6 +195825,8 @@ export const getAzureDevopsSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureDevopsSecretSync",
 }));
 
 export type GetAzureDevopsSecretSyncByNameError =
@@ -194383,6 +195847,8 @@ export const getAzureDevopsSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureDevopsSecretSyncByName",
 }));
 
 export type GetAzureDnsAppConnectionError =
@@ -194403,6 +195869,8 @@ export const getAzureDnsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureDnsAppConnection",
 }));
 
 export type GetAzureDnsAppConnectionByNameError =
@@ -194423,6 +195891,8 @@ export const getAzureDnsAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureDnsAppConnectionByName",
 }));
 
 export type GetAzureEntraIdAppConnectionError =
@@ -194443,6 +195913,8 @@ export const getAzureEntraIdAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureEntraIdAppConnection",
 }));
 
 export type GetAzureEntraIdAppConnectionByNameError =
@@ -194463,6 +195935,8 @@ export const getAzureEntraIdAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureEntraIdAppConnectionByName",
 }));
 
 export type GetAzureEntraIdScimSecretSyncError =
@@ -194483,6 +195957,8 @@ export const getAzureEntraIdScimSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureEntraIdScimSecretSync",
 }));
 
 export type GetAzureEntraIdScimSecretSyncByNameError =
@@ -194503,6 +195979,8 @@ export const getAzureEntraIdScimSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureEntraIdScimSecretSyncByName",
 }));
 
 export type GetAzureKeyVaultAppConnectionError =
@@ -194523,6 +196001,8 @@ export const getAzureKeyVaultAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureKeyVaultAppConnection",
 }));
 
 export type GetAzureKeyVaultAppConnectionByNameError =
@@ -194543,6 +196023,8 @@ export const getAzureKeyVaultAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureKeyVaultAppConnectionByName",
 }));
 
 export type GetAzureKeyVaultPkiSyncError =
@@ -194563,6 +196045,8 @@ export const getAzureKeyVaultPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureKeyVaultPkiSync",
 }));
 
 export type GetAzureKeyVaultSecretSyncError =
@@ -194583,6 +196067,8 @@ export const getAzureKeyVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureKeyVaultSecretSync",
 }));
 
 export type GetAzureKeyVaultSecretSyncByNameError =
@@ -194603,6 +196089,8 @@ export const getAzureKeyVaultSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureKeyVaultSecretSyncByName",
 }));
 
 export type GetBitbucketAppConnectionError =
@@ -194623,6 +196111,8 @@ export const getBitbucketAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBitbucketAppConnection",
 }));
 
 export type GetBitbucketAppConnectionByNameError =
@@ -194643,6 +196133,8 @@ export const getBitbucketAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBitbucketAppConnectionByName",
 }));
 
 export type GetBitbucketSecretSyncError =
@@ -194663,6 +196155,8 @@ export const getBitbucketSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBitbucketSecretSync",
 }));
 
 export type GetBitbucketSecretSyncByNameError =
@@ -194683,6 +196177,8 @@ export const getBitbucketSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBitbucketSecretSyncByName",
 }));
 
 export type GetCaAutoRenewalConfigError =
@@ -194703,6 +196199,8 @@ export const getCaAutoRenewalConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaAutoRenewalConfig",
 }));
 
 export type GetCaCertificateError =
@@ -194723,6 +196221,8 @@ export const getCaCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaCertificate",
 }));
 
 export type GetCaCertificateDerError =
@@ -194743,6 +196243,8 @@ export const getCaCertificateDer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaCertificateDer",
 }));
 
 export type GetCaCertificatesError =
@@ -194763,6 +196265,8 @@ export const getCaCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaCertificates",
 }));
 
 export type GetCaCrlsError =
@@ -194783,6 +196287,8 @@ export const getCaCrls: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaCrls",
 }));
 
 export type GetCaCsrError =
@@ -194803,6 +196309,8 @@ export const getCaCsr: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaCsr",
 }));
 
 export type GetCamundaAppConnectionError =
@@ -194823,6 +196331,8 @@ export const getCamundaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCamundaAppConnection",
 }));
 
 export type GetCamundaAppConnectionByNameError =
@@ -194843,6 +196353,8 @@ export const getCamundaAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCamundaAppConnectionByName",
 }));
 
 export type GetCamundaSecretSyncError =
@@ -194863,6 +196375,8 @@ export const getCamundaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCamundaSecretSync",
 }));
 
 export type GetCamundaSecretSyncByNameError =
@@ -194883,6 +196397,8 @@ export const getCamundaSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCamundaSecretSyncByName",
 }));
 
 export type GetCaSigningConfigError =
@@ -194903,6 +196419,8 @@ export const getCaSigningConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaSigningConfig",
 }));
 
 export type GetCertificateError =
@@ -194923,6 +196441,8 @@ export const getCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type GetCertificateAuthorityCertificateError =
@@ -194943,6 +196463,8 @@ export const getCertificateAuthorityCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateAuthorityCertificate",
 }));
 
 export type GetCertificateAuthorityCsrError =
@@ -194963,6 +196485,8 @@ export const getCertificateAuthorityCsr: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateAuthorityCsr",
 }));
 
 export type GetCertificateAuthorityDerCertificateError =
@@ -194983,6 +196507,8 @@ export const getCertificateAuthorityDerCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateAuthorityDerCertificate",
 }));
 
 export type GetCertificateAuthorityV1Error =
@@ -195003,6 +196529,8 @@ export const getCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateAuthorityV1",
 }));
 
 export type GetCertificateBodyError =
@@ -195023,6 +196551,8 @@ export const getCertificateBody: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateBody",
 }));
 
 export type GetCertificateBundleError =
@@ -195043,6 +196573,8 @@ export const getCertificateBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateBundle",
 }));
 
 export type GetCertificateCleanupConfigError =
@@ -195063,6 +196595,8 @@ export const getCertificateCleanupConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateCleanupConfig",
 }));
 
 export type GetCertificatePolicyError =
@@ -195082,6 +196616,8 @@ export const getCertificatePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatePolicy",
 }));
 
 export type GetCertificatePrivateKeyError =
@@ -195102,6 +196638,8 @@ export const getCertificatePrivateKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatePrivateKey",
 }));
 
 export type GetCertificateProfileError =
@@ -195121,6 +196659,8 @@ export const getCertificateProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateProfile",
 }));
 
 export type GetCertificateProfileBySlugError =
@@ -195140,6 +196680,8 @@ export const getCertificateProfileBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateProfileBySlug",
 }));
 
 export type GetCertificateProfileLatestActiveBundleError =
@@ -195164,6 +196706,8 @@ export const getCertificateProfileLatestActiveBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateProfileLatestActiveBundle",
 }));
 
 export type GetCertificateRequestError =
@@ -195183,6 +196727,8 @@ export const getCertificateRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateRequest",
 }));
 
 export type GetCertManagerAcmeApplicationProfileDirectoryError = InfisicalOpError;
@@ -195206,6 +196752,8 @@ export const getCertManagerAcmeApplicationProfileDirectory: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertManagerAcmeApplicationProfileDirectory",
 }));
 
 export type GetCertManagerAcmeProfileDirectoryError = InfisicalOpError;
@@ -195221,6 +196769,8 @@ export const getCertManagerAcmeProfileDirectory: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertManagerAcmeProfileDirectory",
 }));
 
 export type GetCertManagerAcmeProfileNewNonceError = InfisicalOpError;
@@ -195236,6 +196786,8 @@ export const getCertManagerAcmeProfileNewNonce: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertManagerAcmeProfileNewNonce",
 }));
 
 export type GetCertManagerCaInternalCertificateError =
@@ -195256,6 +196808,8 @@ export const getCertManagerCaInternalCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertManagerCaInternalCertificate",
 }));
 
 export type GetChecklyAppConnectionError =
@@ -195276,6 +196830,8 @@ export const getChecklyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChecklyAppConnection",
 }));
 
 export type GetChecklyAppConnectionByNameError =
@@ -195296,6 +196852,8 @@ export const getChecklyAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChecklyAppConnectionByName",
 }));
 
 export type GetChecklySecretSyncError =
@@ -195316,6 +196874,8 @@ export const getChecklySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChecklySecretSync",
 }));
 
 export type GetChecklySecretSyncByNameError =
@@ -195336,6 +196896,8 @@ export const getChecklySecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChecklySecretSyncByName",
 }));
 
 export type GetChefAppConnectionError =
@@ -195356,6 +196918,8 @@ export const getChefAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChefAppConnection",
 }));
 
 export type GetChefAppConnectionByNameError =
@@ -195376,6 +196940,8 @@ export const getChefAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChefAppConnectionByName",
 }));
 
 export type GetChefPkiSyncError =
@@ -195396,6 +196962,8 @@ export const getChefPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChefPkiSync",
 }));
 
 export type GetChefSecretSyncError =
@@ -195416,6 +196984,8 @@ export const getChefSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChefSecretSync",
 }));
 
 export type GetChefSecretSyncByNameError =
@@ -195436,6 +197006,8 @@ export const getChefSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChefSecretSyncByName",
 }));
 
 export type GetCircleciAppConnectionError =
@@ -195456,6 +197028,8 @@ export const getCircleciAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCircleciAppConnection",
 }));
 
 export type GetCircleciAppConnectionByNameError =
@@ -195476,6 +197050,8 @@ export const getCircleciAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCircleciAppConnectionByName",
 }));
 
 export type GetCircleciSecretSyncError =
@@ -195496,6 +197072,8 @@ export const getCircleciSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCircleciSecretSync",
 }));
 
 export type GetCircleciSecretSyncByNameError =
@@ -195516,6 +197094,8 @@ export const getCircleciSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCircleciSecretSyncByName",
 }));
 
 export type GetCloud66AppConnectionError =
@@ -195536,6 +197116,8 @@ export const getCloud66AppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloud66AppConnection",
 }));
 
 export type GetCloud66AppConnectionByNameError =
@@ -195556,6 +197138,8 @@ export const getCloud66AppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloud66AppConnectionByName",
 }));
 
 export type GetCloud66SecretSyncError =
@@ -195576,6 +197160,8 @@ export const getCloud66SecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloud66SecretSync",
 }));
 
 export type GetCloud66SecretSyncByNameError =
@@ -195596,6 +197182,8 @@ export const getCloud66SecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloud66SecretSyncByName",
 }));
 
 export type GetCloudflareAPITokenRotationError =
@@ -195616,6 +197204,8 @@ export const getCloudflareAPITokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareAPITokenRotation",
 }));
 
 export type GetCloudflareAPITokenRotationByNameError =
@@ -195636,6 +197226,8 @@ export const getCloudflareAPITokenRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareAPITokenRotationByName",
 }));
 
 export type GetCloudflareAPITokenRotationGeneratedCredentialsError =
@@ -195664,6 +197256,8 @@ export const getCloudflareAPITokenRotationGeneratedCredentials: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareAPITokenRotationGeneratedCredentials",
 }));
 
 export type GetCloudflareAppConnectionError =
@@ -195684,6 +197278,8 @@ export const getCloudflareAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareAppConnection",
 }));
 
 export type GetCloudflareAppConnectionByNameError =
@@ -195704,6 +197300,8 @@ export const getCloudflareAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareAppConnectionByName",
 }));
 
 export type GetCloudflareCustomCertificatePkiSyncError =
@@ -195724,6 +197322,8 @@ export const getCloudflareCustomCertificatePkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareCustomCertificatePkiSync",
 }));
 
 export type GetCloudflarePagesSecretSyncError =
@@ -195744,6 +197344,8 @@ export const getCloudflarePagesSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflarePagesSecretSync",
 }));
 
 export type GetCloudflarePagesSecretSyncByNameError =
@@ -195764,6 +197366,8 @@ export const getCloudflarePagesSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflarePagesSecretSyncByName",
 }));
 
 export type GetCloudflareR2AccessKeyRotationError =
@@ -195784,6 +197388,8 @@ export const getCloudflareR2AccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareR2AccessKeyRotation",
 }));
 
 export type GetCloudflareR2AccessKeyRotationByNameError =
@@ -195804,6 +197410,8 @@ export const getCloudflareR2AccessKeyRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareR2AccessKeyRotationByName",
 }));
 
 export type GetCloudflareR2AccessKeyRotationGeneratedCredentialsError =
@@ -195832,6 +197440,8 @@ export const getCloudflareR2AccessKeyRotationGeneratedCredentials: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareR2AccessKeyRotationGeneratedCredentials",
 }));
 
 export type GetCloudflareWorkersSecretSyncError =
@@ -195852,6 +197462,8 @@ export const getCloudflareWorkersSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareWorkersSecretSync",
 }));
 
 export type GetCloudflareWorkersSecretSyncByNameError =
@@ -195872,6 +197484,8 @@ export const getCloudflareWorkersSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareWorkersSecretSyncByName",
 }));
 
 export type GetConvexAccessKeyRotationError =
@@ -195892,6 +197506,8 @@ export const getConvexAccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConvexAccessKeyRotation",
 }));
 
 export type GetConvexAccessKeyRotationByNameError =
@@ -195912,6 +197528,8 @@ export const getConvexAccessKeyRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConvexAccessKeyRotationByName",
 }));
 
 export type GetConvexAccessKeyRotationGeneratedCredentialsError =
@@ -195940,6 +197558,8 @@ export const getConvexAccessKeyRotationGeneratedCredentials: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConvexAccessKeyRotationGeneratedCredentials",
 }));
 
 export type GetConvexAppConnectionError =
@@ -195960,6 +197580,8 @@ export const getConvexAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConvexAppConnection",
 }));
 
 export type GetConvexAppConnectionByNameError =
@@ -195980,6 +197602,8 @@ export const getConvexAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConvexAppConnectionByName",
 }));
 
 export type GetDatabricksAppConnectionError =
@@ -196000,6 +197624,8 @@ export const getDatabricksAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabricksAppConnection",
 }));
 
 export type GetDatabricksAppConnectionByNameError =
@@ -196020,6 +197646,8 @@ export const getDatabricksAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabricksAppConnectionByName",
 }));
 
 export type GetDatabricksSecretSyncError =
@@ -196040,6 +197668,8 @@ export const getDatabricksSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabricksSecretSync",
 }));
 
 export type GetDatabricksSecretSyncByNameError =
@@ -196060,6 +197690,8 @@ export const getDatabricksSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabricksSecretSyncByName",
 }));
 
 export type GetDatabricksServicePrincipalSecretRotationError =
@@ -196088,6 +197720,8 @@ export const getDatabricksServicePrincipalSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabricksServicePrincipalSecretRotation",
 }));
 
 export type GetDatabricksServicePrincipalSecretRotationByNameError =
@@ -196116,6 +197750,8 @@ export const getDatabricksServicePrincipalSecretRotationByName: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabricksServicePrincipalSecretRotationByName",
 }));
 
 export type GetDatabricksServicePrincipalSecretRotationGeneratedCredentialsError =
@@ -196144,6 +197780,8 @@ export const getDatabricksServicePrincipalSecretRotationGeneratedCredentials: AP
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabricksServicePrincipalSecretRotationGeneratedCredentials",
 }));
 
 export type GetDatadogAPIKeyRotationError =
@@ -196164,6 +197802,8 @@ export const getDatadogAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatadogAPIKeyRotation",
 }));
 
 export type GetDatadogAPIKeyRotationByNameError =
@@ -196184,6 +197824,8 @@ export const getDatadogAPIKeyRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatadogAPIKeyRotationByName",
 }));
 
 export type GetDatadogAPIKeyRotationGeneratedCredentialsError =
@@ -196212,6 +197854,8 @@ export const getDatadogAPIKeyRotationGeneratedCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatadogAPIKeyRotationGeneratedCredentials",
 }));
 
 export type GetDatadogAppConnectionError =
@@ -196232,6 +197876,8 @@ export const getDatadogAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatadogAppConnection",
 }));
 
 export type GetDatadogAppConnectionByNameError =
@@ -196252,6 +197898,8 @@ export const getDatadogAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatadogAppConnectionByName",
 }));
 
 export type GetDatadogApplicationKeyRotationError =
@@ -196272,6 +197920,8 @@ export const getDatadogApplicationKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatadogApplicationKeyRotation",
 }));
 
 export type GetDatadogApplicationKeyRotationByNameError =
@@ -196292,6 +197942,8 @@ export const getDatadogApplicationKeyRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatadogApplicationKeyRotationByName",
 }));
 
 export type GetDatadogApplicationKeyRotationGeneratedCredentialsError =
@@ -196320,6 +197972,8 @@ export const getDatadogApplicationKeyRotationGeneratedCredentials: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatadogApplicationKeyRotationGeneratedCredentials",
 }));
 
 export type GetDaytonaAppConnectionError =
@@ -196340,6 +197994,8 @@ export const getDaytonaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDaytonaAppConnection",
 }));
 
 export type GetDaytonaAppConnectionByNameError =
@@ -196360,6 +198016,8 @@ export const getDaytonaAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDaytonaAppConnectionByName",
 }));
 
 export type GetDaytonaSecretSyncError =
@@ -196380,6 +198038,8 @@ export const getDaytonaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDaytonaSecretSync",
 }));
 
 export type GetDaytonaSecretSyncByNameError =
@@ -196400,6 +198060,8 @@ export const getDaytonaSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDaytonaSecretSyncByName",
 }));
 
 export type GetDbtAppConnectionError =
@@ -196420,6 +198082,8 @@ export const getDbtAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbtAppConnection",
 }));
 
 export type GetDbtAppConnectionByNameError =
@@ -196440,6 +198104,8 @@ export const getDbtAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDbtAppConnectionByName",
 }));
 
 export type GetDBTServiceTokenRotationError =
@@ -196460,6 +198126,8 @@ export const getDBTServiceTokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDBTServiceTokenRotation",
 }));
 
 export type GetDBTServiceTokenRotationByNameError =
@@ -196480,6 +198148,8 @@ export const getDBTServiceTokenRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDBTServiceTokenRotationByName",
 }));
 
 export type GetDBTServiceTokenRotationGeneratedCredentialsError =
@@ -196508,6 +198178,8 @@ export const getDBTServiceTokenRotationGeneratedCredentials: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDBTServiceTokenRotationGeneratedCredentials",
 }));
 
 export type GetDevinAppConnectionError =
@@ -196528,6 +198200,8 @@ export const getDevinAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevinAppConnection",
 }));
 
 export type GetDevinAppConnectionByNameError =
@@ -196548,6 +198222,8 @@ export const getDevinAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevinAppConnectionByName",
 }));
 
 export type GetDevinSecretSyncError =
@@ -196568,6 +198244,8 @@ export const getDevinSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevinSecretSync",
 }));
 
 export type GetDevinSecretSyncByNameError =
@@ -196588,6 +198266,8 @@ export const getDevinSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevinSecretSyncByName",
 }));
 
 export type GetDigicertAppConnectionError =
@@ -196608,6 +198288,8 @@ export const getDigicertAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigicertAppConnection",
 }));
 
 export type GetDigicertAppConnectionByNameError =
@@ -196628,6 +198310,8 @@ export const getDigicertAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigicertAppConnectionByName",
 }));
 
 export type GetDigicertCertificateAuthorityV1Error =
@@ -196647,6 +198331,8 @@ export const getDigicertCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigicertCertificateAuthorityV1",
 }));
 
 export type GetDigitalOceanAppConnectionError =
@@ -196667,6 +198353,8 @@ export const getDigitalOceanAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitalOceanAppConnection",
 }));
 
 export type GetDigitalOceanAppConnectionByNameError =
@@ -196687,6 +198375,8 @@ export const getDigitalOceanAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitalOceanAppConnectionByName",
 }));
 
 export type GetDigitalOceanAppPlatformSecretSyncError =
@@ -196707,6 +198397,8 @@ export const getDigitalOceanAppPlatformSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitalOceanAppPlatformSecretSync",
 }));
 
 export type GetDigitalOceanAppPlatformSecretSyncByNameError =
@@ -196735,6 +198427,8 @@ export const getDigitalOceanAppPlatformSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitalOceanAppPlatformSecretSyncByName",
 }));
 
 export type GetDnsMadeEasyAppConnectionError =
@@ -196755,6 +198449,8 @@ export const getDnsMadeEasyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsMadeEasyAppConnection",
 }));
 
 export type GetDnsMadeEasyAppConnectionByNameError =
@@ -196775,6 +198471,8 @@ export const getDnsMadeEasyAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsMadeEasyAppConnectionByName",
 }));
 
 export type GetDopplerAppConnectionError =
@@ -196795,6 +198493,8 @@ export const getDopplerAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDopplerAppConnection",
 }));
 
 export type GetDopplerAppConnectionByNameError =
@@ -196815,6 +198515,8 @@ export const getDopplerAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDopplerAppConnectionByName",
 }));
 
 export type GetDynamicSecretError =
@@ -196834,6 +198536,8 @@ export const getDynamicSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynamicSecret",
 }));
 
 export type GetDynamicSecretLeaseError =
@@ -196853,6 +198557,8 @@ export const getDynamicSecretLease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynamicSecretLease",
 }));
 
 export type GetDynamicSecretsValidationRuleError =
@@ -196873,6 +198579,8 @@ export const getDynamicSecretsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynamicSecretsValidationRule",
 }));
 
 export type GetEnvironmentByIdError =
@@ -196893,6 +198601,8 @@ export const getEnvironmentById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentById",
 }));
 
 export type GetEnvironmentBySlugError =
@@ -196913,6 +198623,8 @@ export const getEnvironmentBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentBySlug",
 }));
 
 export type GetExternalInfisicalAppConnectionError =
@@ -196933,6 +198645,8 @@ export const getExternalInfisicalAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalInfisicalAppConnection",
 }));
 
 export type GetExternalInfisicalAppConnectionByNameError =
@@ -196953,6 +198667,8 @@ export const getExternalInfisicalAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalInfisicalAppConnectionByName",
 }));
 
 export type GetExternalInfisicalSecretSyncError =
@@ -196973,6 +198689,8 @@ export const getExternalInfisicalSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalInfisicalSecretSync",
 }));
 
 export type GetExternalInfisicalSecretSyncByNameError =
@@ -196993,6 +198711,8 @@ export const getExternalInfisicalSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalInfisicalSecretSyncByName",
 }));
 
 export type GetF5BigIpAppConnectionError =
@@ -197013,6 +198733,8 @@ export const getF5BigIpAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetF5BigIpAppConnection",
 }));
 
 export type GetF5BigIpAppConnectionByNameError =
@@ -197033,6 +198755,8 @@ export const getF5BigIpAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetF5BigIpAppConnectionByName",
 }));
 
 export type GetF5BigIpPkiSyncError =
@@ -197053,6 +198777,8 @@ export const getF5BigIpPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetF5BigIpPkiSync",
 }));
 
 export type GetFireworksAppConnectionError =
@@ -197073,6 +198799,8 @@ export const getFireworksAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFireworksAppConnection",
 }));
 
 export type GetFireworksAppConnectionByNameError =
@@ -197093,6 +198821,8 @@ export const getFireworksAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFireworksAppConnectionByName",
 }));
 
 export type GetFireworksSecretRotationError =
@@ -197113,6 +198843,8 @@ export const getFireworksSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFireworksSecretRotation",
 }));
 
 export type GetFireworksSecretRotationByNameError =
@@ -197133,6 +198865,8 @@ export const getFireworksSecretRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFireworksSecretRotationByName",
 }));
 
 export type GetFireworksSecretRotationGeneratedCredentialsError =
@@ -197161,6 +198895,8 @@ export const getFireworksSecretRotationGeneratedCredentials: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFireworksSecretRotationGeneratedCredentials",
 }));
 
 export type GetFlyioAppConnectionError =
@@ -197181,6 +198917,8 @@ export const getFlyioAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlyioAppConnection",
 }));
 
 export type GetFlyioAppConnectionByNameError =
@@ -197201,6 +198939,8 @@ export const getFlyioAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlyioAppConnectionByName",
 }));
 
 export type GetFlyioSecretSyncError =
@@ -197221,6 +198961,8 @@ export const getFlyioSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlyioSecretSync",
 }));
 
 export type GetFlyioSecretSyncByNameError =
@@ -197241,6 +198983,8 @@ export const getFlyioSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlyioSecretSyncByName",
 }));
 
 export type GetFolderError =
@@ -197261,6 +199005,8 @@ export const getFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFolder",
 }));
 
 export type GetGatewayError =
@@ -197280,6 +199026,8 @@ export const getGateway: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGateway",
 }));
 
 export type GetGcpAppConnectionError =
@@ -197300,6 +199048,8 @@ export const getGcpAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGcpAppConnection",
 }));
 
 export type GetGcpAppConnectionByNameError =
@@ -197320,6 +199070,8 @@ export const getGcpAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGcpAppConnectionByName",
 }));
 
 export type GetGcpAuthError =
@@ -197340,6 +199092,8 @@ export const getGcpAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGcpAuth",
 }));
 
 export type GetGcpCertificateManagerPkiSyncError =
@@ -197360,6 +199114,8 @@ export const getGcpCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGcpCertificateManagerPkiSync",
 }));
 
 export type GetGcpSecretManagerSecretSyncError =
@@ -197380,6 +199136,8 @@ export const getGcpSecretManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGcpSecretManagerSecretSync",
 }));
 
 export type GetGcpSecretManagerSecretSyncByNameError =
@@ -197400,6 +199158,8 @@ export const getGcpSecretManagerSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGcpSecretManagerSecretSyncByName",
 }));
 
 export type GetGitHubAppConnectionError =
@@ -197420,6 +199180,8 @@ export const getGitHubAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitHubAppConnection",
 }));
 
 export type GetGitHubAppConnectionByNameError =
@@ -197440,6 +199202,8 @@ export const getGitHubAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitHubAppConnectionByName",
 }));
 
 export type GetGitHubRadarAppConnectionError =
@@ -197460,6 +199224,8 @@ export const getGitHubRadarAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitHubRadarAppConnection",
 }));
 
 export type GetGitHubRadarAppConnectionByNameError =
@@ -197480,6 +199246,8 @@ export const getGitHubRadarAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitHubRadarAppConnectionByName",
 }));
 
 export type GetGitHubSecretSyncError =
@@ -197500,6 +199268,8 @@ export const getGitHubSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitHubSecretSync",
 }));
 
 export type GetGitHubSecretSyncByNameError =
@@ -197520,6 +199290,8 @@ export const getGitHubSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitHubSecretSyncByName",
 }));
 
 export type GetGitLabAppConnectionError =
@@ -197540,6 +199312,8 @@ export const getGitLabAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitLabAppConnection",
 }));
 
 export type GetGitLabAppConnectionByNameError =
@@ -197560,6 +199334,8 @@ export const getGitLabAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitLabAppConnectionByName",
 }));
 
 export type GetGitLabSecretSyncError =
@@ -197580,6 +199356,8 @@ export const getGitLabSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitLabSecretSync",
 }));
 
 export type GetGitLabSecretSyncByNameError =
@@ -197600,6 +199378,8 @@ export const getGitLabSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitLabSecretSyncByName",
 }));
 
 export type GetGodaddyAppConnectionError =
@@ -197620,6 +199400,8 @@ export const getGodaddyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGodaddyAppConnection",
 }));
 
 export type GetGodaddyAppConnectionByNameError =
@@ -197640,6 +199422,8 @@ export const getGodaddyAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGodaddyAppConnectionByName",
 }));
 
 export type GetGodaddyCertificateAuthorityV1Error =
@@ -197659,6 +199443,8 @@ export const getGodaddyCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGodaddyCertificateAuthorityV1",
 }));
 
 export type GetGroupError =
@@ -197678,6 +199464,8 @@ export const getGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetHashicorpVaultAppConnectionError =
@@ -197698,6 +199486,8 @@ export const getHashicorpVaultAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHashicorpVaultAppConnection",
 }));
 
 export type GetHashicorpVaultAppConnectionByNameError =
@@ -197718,6 +199508,8 @@ export const getHashicorpVaultAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHashicorpVaultAppConnectionByName",
 }));
 
 export type GetHashicorpVaultSecretSyncError =
@@ -197738,6 +199530,8 @@ export const getHashicorpVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHashicorpVaultSecretSync",
 }));
 
 export type GetHashicorpVaultSecretSyncByNameError =
@@ -197758,6 +199552,8 @@ export const getHashicorpVaultSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHashicorpVaultSecretSyncByName",
 }));
 
 export type GetHasuraCloudAppConnectionError =
@@ -197778,6 +199574,8 @@ export const getHasuraCloudAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHasuraCloudAppConnection",
 }));
 
 export type GetHasuraCloudAppConnectionByNameError =
@@ -197798,6 +199596,8 @@ export const getHasuraCloudAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHasuraCloudAppConnectionByName",
 }));
 
 export type GetHasuraCloudSecretSyncError =
@@ -197818,6 +199618,8 @@ export const getHasuraCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHasuraCloudSecretSync",
 }));
 
 export type GetHasuraCloudSecretSyncByNameError =
@@ -197838,6 +199640,8 @@ export const getHasuraCloudSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHasuraCloudSecretSyncByName",
 }));
 
 export type GetHerokuAppConnectionError =
@@ -197858,6 +199662,8 @@ export const getHerokuAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHerokuAppConnection",
 }));
 
 export type GetHerokuAppConnectionByNameError =
@@ -197878,6 +199684,8 @@ export const getHerokuAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHerokuAppConnectionByName",
 }));
 
 export type GetHerokuSecretSyncError =
@@ -197898,6 +199706,8 @@ export const getHerokuSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHerokuSecretSync",
 }));
 
 export type GetHerokuSecretSyncByNameError =
@@ -197918,6 +199728,8 @@ export const getHerokuSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHerokuSecretSyncByName",
 }));
 
 export type GetHPiLOLocalAccountRotationError =
@@ -197938,6 +199750,8 @@ export const getHPiLOLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHPiLOLocalAccountRotation",
 }));
 
 export type GetHPiLOLocalAccountRotationByNameError =
@@ -197958,6 +199772,8 @@ export const getHPiLOLocalAccountRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHPiLOLocalAccountRotationByName",
 }));
 
 export type GetHPiLOLocalAccountRotationGeneratedCredentialsError =
@@ -197986,6 +199802,8 @@ export const getHPiLOLocalAccountRotationGeneratedCredentials: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHPiLOLocalAccountRotationGeneratedCredentials",
 }));
 
 export type GetHsmConnectorError =
@@ -198005,6 +199823,8 @@ export const getHsmConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHsmConnector",
 }));
 
 export type GetHumanitecAppConnectionError =
@@ -198025,6 +199845,8 @@ export const getHumanitecAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHumanitecAppConnection",
 }));
 
 export type GetHumanitecAppConnectionByNameError =
@@ -198045,6 +199867,8 @@ export const getHumanitecAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHumanitecAppConnectionByName",
 }));
 
 export type GetHumanitecSecretSyncError =
@@ -198065,6 +199889,8 @@ export const getHumanitecSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHumanitecSecretSync",
 }));
 
 export type GetHumanitecSecretSyncByNameError =
@@ -198085,6 +199911,8 @@ export const getHumanitecSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHumanitecSecretSyncByName",
 }));
 
 export type GetIdentityProjectAdditionalPrivilegeError =
@@ -198105,6 +199933,8 @@ export const getIdentityProjectAdditionalPrivilege: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProjectAdditionalPrivilege",
 }));
 
 export type GetIdentityProjectAdditionalPrivilegeBySlugError =
@@ -198133,6 +199963,8 @@ export const getIdentityProjectAdditionalPrivilegeBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProjectAdditionalPrivilegeBySlug",
 }));
 
 export type GetIdentityTemplateError =
@@ -198153,6 +199985,8 @@ export const getIdentityTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityTemplate",
 }));
 
 export type GetInstanceStatusError =
@@ -198173,6 +200007,8 @@ export const getInstanceStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceStatus",
 }));
 
 export type GetIntegrationError =
@@ -198193,6 +200029,8 @@ export const getIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetIntegrationAuthError =
@@ -198213,6 +200051,8 @@ export const getIntegrationAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAuth",
 }));
 
 export type GetInternalCertificateAuthorityV1Error =
@@ -198232,6 +200072,8 @@ export const getInternalCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInternalCertificateAuthorityV1",
 }));
 
 export type GetJwtAuthError =
@@ -198252,6 +200094,8 @@ export const getJwtAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJwtAuth",
 }));
 
 export type GetKempLoadmasterAppConnectionError =
@@ -198272,6 +200116,8 @@ export const getKempLoadmasterAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKempLoadmasterAppConnection",
 }));
 
 export type GetKempLoadmasterAppConnectionByNameError =
@@ -198292,6 +200138,8 @@ export const getKempLoadmasterAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKempLoadmasterAppConnectionByName",
 }));
 
 export type GetKempLoadmasterPkiSyncError =
@@ -198312,6 +200160,8 @@ export const getKempLoadmasterPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKempLoadmasterPkiSync",
 }));
 
 export type GetKmsKeyError =
@@ -198332,6 +200182,8 @@ export const getKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKmsKey",
 }));
 
 export type GetKmsKeyByNameError =
@@ -198352,6 +200204,8 @@ export const getKmsKeyByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKmsKeyByName",
 }));
 
 export type GetKmsKeyPrivateKeyError =
@@ -198372,6 +200226,8 @@ export const getKmsKeyPrivateKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKmsKeyPrivateKey",
 }));
 
 export type GetKmsKeyPublicKeyError =
@@ -198392,6 +200248,8 @@ export const getKmsKeyPublicKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKmsKeyPublicKey",
 }));
 
 export type GetKubernetesAuthError =
@@ -198412,6 +200270,8 @@ export const getKubernetesAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKubernetesAuth",
 }));
 
 export type GetLaravelForgeAppConnectionError =
@@ -198432,6 +200292,8 @@ export const getLaravelForgeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLaravelForgeAppConnection",
 }));
 
 export type GetLaravelForgeAppConnectionByNameError =
@@ -198452,6 +200314,8 @@ export const getLaravelForgeAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLaravelForgeAppConnectionByName",
 }));
 
 export type GetLaravelForgeSecretSyncError =
@@ -198472,6 +200336,8 @@ export const getLaravelForgeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLaravelForgeSecretSync",
 }));
 
 export type GetLaravelForgeSecretSyncByNameError =
@@ -198492,6 +200358,8 @@ export const getLaravelForgeSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLaravelForgeSecretSyncByName",
 }));
 
 export type GetLdapAppConnectionError =
@@ -198512,6 +200380,8 @@ export const getLdapAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLdapAppConnection",
 }));
 
 export type GetLdapAppConnectionByNameError =
@@ -198532,6 +200402,8 @@ export const getLdapAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLdapAppConnectionByName",
 }));
 
 export type GetLdapAuthError =
@@ -198552,6 +200424,8 @@ export const getLdapAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLdapAuth",
 }));
 
 export type GetLdapConfigError =
@@ -198572,6 +200446,8 @@ export const getLdapConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLdapConfig",
 }));
 
 export type GetLDAPPasswordRotationError =
@@ -198592,6 +200468,8 @@ export const getLDAPPasswordRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLDAPPasswordRotation",
 }));
 
 export type GetLDAPPasswordRotationByNameError =
@@ -198612,6 +200490,8 @@ export const getLDAPPasswordRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLDAPPasswordRotationByName",
 }));
 
 export type GetLDAPPasswordRotationGeneratedCredentialsError =
@@ -198640,6 +200520,8 @@ export const getLDAPPasswordRotationGeneratedCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLDAPPasswordRotationGeneratedCredentials",
 }));
 
 export type GetLinuxServerPkiSyncError =
@@ -198660,6 +200542,8 @@ export const getLinuxServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinuxServerPkiSync",
 }));
 
 export type GetLiteLLMAPIKeyRotationError =
@@ -198680,6 +200564,8 @@ export const getLiteLLMAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLiteLLMAPIKeyRotation",
 }));
 
 export type GetLiteLLMAPIKeyRotationByNameError =
@@ -198700,6 +200586,8 @@ export const getLiteLLMAPIKeyRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLiteLLMAPIKeyRotationByName",
 }));
 
 export type GetLiteLLMAPIKeyRotationGeneratedCredentialsError =
@@ -198728,6 +200616,8 @@ export const getLiteLLMAPIKeyRotationGeneratedCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLiteLLMAPIKeyRotationGeneratedCredentials",
 }));
 
 export type GetLitellmAppConnectionError =
@@ -198748,6 +200638,8 @@ export const getLitellmAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLitellmAppConnection",
 }));
 
 export type GetLitellmAppConnectionByNameError =
@@ -198768,6 +200660,8 @@ export const getLitellmAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLitellmAppConnectionByName",
 }));
 
 export type GetMachineIdentityByIdError =
@@ -198788,6 +200682,8 @@ export const getMachineIdentityById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineIdentityById",
 }));
 
 export type GetMachineIdentityDetailsError =
@@ -198808,6 +200704,8 @@ export const getMachineIdentityDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineIdentityDetails",
 }));
 
 export type GetMicrosoftIntuneAppConnectionError =
@@ -198828,6 +200726,8 @@ export const getMicrosoftIntuneAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrosoftIntuneAppConnection",
 }));
 
 export type GetMicrosoftIntuneAppConnectionByNameError =
@@ -198848,6 +200748,8 @@ export const getMicrosoftIntuneAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrosoftIntuneAppConnectionByName",
 }));
 
 export type GetMicrosoftSQLServerCredentialsRotationError =
@@ -198872,6 +200774,8 @@ export const getMicrosoftSQLServerCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrosoftSQLServerCredentialsRotation",
 }));
 
 export type GetMicrosoftSQLServerCredentialsRotationByNameError =
@@ -198900,6 +200804,8 @@ export const getMicrosoftSQLServerCredentialsRotationByName: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrosoftSQLServerCredentialsRotationByName",
 }));
 
 export type GetMicrosoftSQLServerCredentialsRotationGeneratedCredentialsError =
@@ -198928,6 +200834,8 @@ export const getMicrosoftSQLServerCredentialsRotationGeneratedCredentials: API.O
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMicrosoftSQLServerCredentialsRotationGeneratedCredentials",
 }));
 
 export type GetMongoDbAppConnectionError =
@@ -198948,6 +200856,8 @@ export const getMongoDbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDbAppConnection",
 }));
 
 export type GetMongoDbAppConnectionByNameError =
@@ -198968,6 +200878,8 @@ export const getMongoDbAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDbAppConnectionByName",
 }));
 
 export type GetMongoDBCredentialsRotationError =
@@ -198988,6 +200900,8 @@ export const getMongoDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBCredentialsRotation",
 }));
 
 export type GetMongoDBCredentialsRotationByNameError =
@@ -199008,6 +200922,8 @@ export const getMongoDBCredentialsRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBCredentialsRotationByName",
 }));
 
 export type GetMongoDBCredentialsRotationGeneratedCredentialsError =
@@ -199036,6 +200952,8 @@ export const getMongoDBCredentialsRotationGeneratedCredentials: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoDBCredentialsRotationGeneratedCredentials",
 }));
 
 export type GetMsSqlAppConnectionError =
@@ -199056,6 +200974,8 @@ export const getMsSqlAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMsSqlAppConnection",
 }));
 
 export type GetMsSqlAppConnectionByNameError =
@@ -199076,6 +200996,8 @@ export const getMsSqlAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMsSqlAppConnectionByName",
 }));
 
 export type GetMySqlAppConnectionError =
@@ -199096,6 +201018,8 @@ export const getMySqlAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMySqlAppConnection",
 }));
 
 export type GetMySqlAppConnectionByNameError =
@@ -199116,6 +201040,8 @@ export const getMySqlAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMySqlAppConnectionByName",
 }));
 
 export type GetMySQLCredentialsRotationError =
@@ -199136,6 +201062,8 @@ export const getMySQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMySQLCredentialsRotation",
 }));
 
 export type GetMySQLCredentialsRotationByNameError =
@@ -199156,6 +201084,8 @@ export const getMySQLCredentialsRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMySQLCredentialsRotationByName",
 }));
 
 export type GetMySQLCredentialsRotationGeneratedCredentialsError =
@@ -199184,6 +201114,8 @@ export const getMySQLCredentialsRotationGeneratedCredentials: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMySQLCredentialsRotationGeneratedCredentials",
 }));
 
 export type GetNetlifyAppConnectionError =
@@ -199204,6 +201136,8 @@ export const getNetlifyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetlifyAppConnection",
 }));
 
 export type GetNetlifyAppConnectionByNameError =
@@ -199224,6 +201158,8 @@ export const getNetlifyAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetlifyAppConnectionByName",
 }));
 
 export type GetNetlifySecretSyncError =
@@ -199244,6 +201180,8 @@ export const getNetlifySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetlifySecretSync",
 }));
 
 export type GetNetlifySecretSyncByNameError =
@@ -199264,6 +201202,8 @@ export const getNetlifySecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetlifySecretSyncByName",
 }));
 
 export type GetNetscalerAppConnectionError =
@@ -199284,6 +201224,8 @@ export const getNetscalerAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetscalerAppConnection",
 }));
 
 export type GetNetscalerAppConnectionByNameError =
@@ -199304,6 +201246,8 @@ export const getNetscalerAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetscalerAppConnectionByName",
 }));
 
 export type GetNetscalerPkiSyncError =
@@ -199324,6 +201268,8 @@ export const getNetscalerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetscalerPkiSync",
 }));
 
 export type GetNorthflankAppConnectionError =
@@ -199344,6 +201290,8 @@ export const getNorthflankAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNorthflankAppConnection",
 }));
 
 export type GetNorthflankAppConnectionByNameError =
@@ -199364,6 +201312,8 @@ export const getNorthflankAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNorthflankAppConnectionByName",
 }));
 
 export type GetNorthflankSecretSyncError =
@@ -199384,6 +201334,8 @@ export const getNorthflankSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNorthflankSecretSync",
 }));
 
 export type GetNorthflankSecretSyncByNameError =
@@ -199404,6 +201356,8 @@ export const getNorthflankSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNorthflankSecretSyncByName",
 }));
 
 export type GetNutanixPrismCentralAppConnectionError =
@@ -199424,6 +201378,8 @@ export const getNutanixPrismCentralAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNutanixPrismCentralAppConnection",
 }));
 
 export type GetNutanixPrismCentralAppConnectionByNameError =
@@ -199452,6 +201408,8 @@ export const getNutanixPrismCentralAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNutanixPrismCentralAppConnectionByName",
 }));
 
 export type GetNutanixPrismCentralPkiSyncError =
@@ -199472,6 +201430,8 @@ export const getNutanixPrismCentralPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNutanixPrismCentralPkiSync",
 }));
 
 export type GetOciAppConnectionError =
@@ -199492,6 +201452,8 @@ export const getOciAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOciAppConnection",
 }));
 
 export type GetOciAppConnectionByNameError =
@@ -199512,6 +201474,8 @@ export const getOciAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOciAppConnectionByName",
 }));
 
 export type GetOciAuthError =
@@ -199532,6 +201496,8 @@ export const getOciAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOciAuth",
 }));
 
 export type GetOciVaultSecretSyncError =
@@ -199552,6 +201518,8 @@ export const getOciVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOciVaultSecretSync",
 }));
 
 export type GetOciVaultSecretSyncByNameError =
@@ -199572,6 +201540,8 @@ export const getOciVaultSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOciVaultSecretSyncByName",
 }));
 
 export type GetOctopusDeployAppConnectionError =
@@ -199592,6 +201562,8 @@ export const getOctopusDeployAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOctopusDeployAppConnection",
 }));
 
 export type GetOctopusDeployAppConnectionByNameError =
@@ -199612,6 +201584,8 @@ export const getOctopusDeployAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOctopusDeployAppConnectionByName",
 }));
 
 export type GetOctopusDeploySecretSyncError =
@@ -199632,6 +201606,8 @@ export const getOctopusDeploySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOctopusDeploySecretSync",
 }));
 
 export type GetOctopusDeploySecretSyncByNameError =
@@ -199652,6 +201628,8 @@ export const getOctopusDeploySecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOctopusDeploySecretSyncByName",
 }));
 
 export type GetOidcAuthError =
@@ -199672,6 +201650,8 @@ export const getOidcAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOidcAuth",
 }));
 
 export type GetOktaAppConnectionError =
@@ -199692,6 +201672,8 @@ export const getOktaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOktaAppConnection",
 }));
 
 export type GetOktaAppConnectionByNameError =
@@ -199712,6 +201694,8 @@ export const getOktaAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOktaAppConnectionByName",
 }));
 
 export type GetOktaClientSecretRotationError =
@@ -199732,6 +201716,8 @@ export const getOktaClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOktaClientSecretRotation",
 }));
 
 export type GetOktaClientSecretRotationByNameError =
@@ -199752,6 +201738,8 @@ export const getOktaClientSecretRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOktaClientSecretRotationByName",
 }));
 
 export type GetOktaClientSecretRotationGeneratedCredentialsError =
@@ -199780,6 +201768,8 @@ export const getOktaClientSecretRotationGeneratedCredentials: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOktaClientSecretRotationGeneratedCredentials",
 }));
 
 export type GetOnaAppConnectionError =
@@ -199800,6 +201790,8 @@ export const getOnaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnaAppConnection",
 }));
 
 export type GetOnaAppConnectionByNameError =
@@ -199820,6 +201812,8 @@ export const getOnaAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnaAppConnectionByName",
 }));
 
 export type GetOnaSecretSyncError =
@@ -199840,6 +201834,8 @@ export const getOnaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnaSecretSync",
 }));
 
 export type GetOnaSecretSyncByNameError =
@@ -199860,6 +201856,8 @@ export const getOnaSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnaSecretSyncByName",
 }));
 
 export type GetOnePasswordAppConnectionError =
@@ -199880,6 +201878,8 @@ export const getOnePasswordAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnePasswordAppConnection",
 }));
 
 export type GetOnePasswordAppConnectionByNameError =
@@ -199900,6 +201900,8 @@ export const getOnePasswordAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnePasswordAppConnectionByName",
 }));
 
 export type GetOnePasswordSecretSyncError =
@@ -199920,6 +201922,8 @@ export const getOnePasswordSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnePasswordSecretSync",
 }));
 
 export type GetOnePasswordSecretSyncByNameError =
@@ -199940,6 +201944,8 @@ export const getOnePasswordSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnePasswordSecretSyncByName",
 }));
 
 export type GetOpenaiAppConnectionError =
@@ -199960,6 +201966,8 @@ export const getOpenaiAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenaiAppConnection",
 }));
 
 export type GetOpenaiAppConnectionByNameError =
@@ -199980,6 +201988,8 @@ export const getOpenaiAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenaiAppConnectionByName",
 }));
 
 export type GetOpenAIServiceAccountRotationError =
@@ -200000,6 +202010,8 @@ export const getOpenAIServiceAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenAIServiceAccountRotation",
 }));
 
 export type GetOpenAIServiceAccountRotationByNameError =
@@ -200020,6 +202032,8 @@ export const getOpenAIServiceAccountRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenAIServiceAccountRotationByName",
 }));
 
 export type GetOpenAIServiceAccountRotationGeneratedCredentialsError =
@@ -200048,6 +202062,8 @@ export const getOpenAIServiceAccountRotationGeneratedCredentials: API.OperationM
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenAIServiceAccountRotationGeneratedCredentials",
 }));
 
 export type GetOpenRouterAPIKeyRotationError =
@@ -200068,6 +202084,8 @@ export const getOpenRouterAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenRouterAPIKeyRotation",
 }));
 
 export type GetOpenRouterAPIKeyRotationByNameError =
@@ -200088,6 +202106,8 @@ export const getOpenRouterAPIKeyRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenRouterAPIKeyRotationByName",
 }));
 
 export type GetOpenRouterAPIKeyRotationGeneratedCredentialsError =
@@ -200116,6 +202136,8 @@ export const getOpenRouterAPIKeyRotationGeneratedCredentials: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenRouterAPIKeyRotationGeneratedCredentials",
 }));
 
 export type GetOpenRouterAppConnectionError =
@@ -200136,6 +202158,8 @@ export const getOpenRouterAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenRouterAppConnection",
 }));
 
 export type GetOpenRouterAppConnectionByNameError =
@@ -200156,6 +202180,8 @@ export const getOpenRouterAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenRouterAppConnectionByName",
 }));
 
 export type GetOracleDbAppConnectionError =
@@ -200176,6 +202202,8 @@ export const getOracleDbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOracleDbAppConnection",
 }));
 
 export type GetOracleDbAppConnectionByNameError =
@@ -200196,6 +202224,8 @@ export const getOracleDbAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOracleDbAppConnectionByName",
 }));
 
 export type GetOracleDBCredentialsRotationError =
@@ -200216,6 +202246,8 @@ export const getOracleDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOracleDBCredentialsRotation",
 }));
 
 export type GetOracleDBCredentialsRotationByNameError =
@@ -200236,6 +202268,8 @@ export const getOracleDBCredentialsRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOracleDBCredentialsRotationByName",
 }));
 
 export type GetOracleDBCredentialsRotationGeneratedCredentialsError =
@@ -200264,6 +202298,8 @@ export const getOracleDBCredentialsRotationGeneratedCredentials: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOracleDBCredentialsRotationGeneratedCredentials",
 }));
 
 export type GetOrganizationGroupMembershipError =
@@ -200284,6 +202320,8 @@ export const getOrganizationGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationGroupMembership",
 }));
 
 export type GetOrganizationRoleError =
@@ -200304,6 +202342,8 @@ export const getOrganizationRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationRole",
 }));
 
 export type GetOrganizationRoleSlugError =
@@ -200324,6 +202364,8 @@ export const getOrganizationRoleSlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationRoleSlug",
 }));
 
 export type GetOvhAppConnectionError =
@@ -200344,6 +202386,8 @@ export const getOvhAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhAppConnection",
 }));
 
 export type GetOvhAppConnectionByNameError =
@@ -200364,6 +202408,8 @@ export const getOvhAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhAppConnectionByName",
 }));
 
 export type GetOvhSecretSyncError =
@@ -200384,6 +202430,8 @@ export const getOvhSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhSecretSync",
 }));
 
 export type GetOvhSecretSyncByNameError =
@@ -200404,6 +202452,8 @@ export const getOvhSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOvhSecretSyncByName",
 }));
 
 export type GetPkiApplicationError =
@@ -200424,6 +202474,8 @@ export const getPkiApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiApplication",
 }));
 
 export type GetPkiApplicationByNameError =
@@ -200444,6 +202496,8 @@ export const getPkiApplicationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiApplicationByName",
 }));
 
 export type GetPkiApplicationEnrollmentError =
@@ -200464,6 +202518,8 @@ export const getPkiApplicationEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiApplicationEnrollment",
 }));
 
 export type GetPkiApplicationPermissionsError =
@@ -200484,6 +202540,8 @@ export const getPkiApplicationPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiApplicationPermissions",
 }));
 
 export type GetPkiCaAcmeError =
@@ -200503,6 +202561,8 @@ export const getPkiCaAcme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCaAcme",
 }));
 
 export type GetPkiCaAzureAdCsError =
@@ -200522,6 +202582,8 @@ export const getPkiCaAzureAdCs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCaAzureAdCs",
 }));
 
 export type GetPkiCaInternalError =
@@ -200541,6 +202603,8 @@ export const getPkiCaInternal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCaInternal",
 }));
 
 export type GetPkiCertificateError =
@@ -200561,6 +202625,8 @@ export const getPkiCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCertificate",
 }));
 
 export type GetPkiCertificateBundleError =
@@ -200581,6 +202647,8 @@ export const getPkiCertificateBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCertificateBundle",
 }));
 
 export type GetPkiCertificateCertificateError =
@@ -200601,6 +202669,8 @@ export const getPkiCertificateCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCertificateCertificate",
 }));
 
 export type GetPkiCertificatePrivateKeyError =
@@ -200621,6 +202691,8 @@ export const getPkiCertificatePrivateKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCertificatePrivateKey",
 }));
 
 export type GetPkiCertificateProfileError =
@@ -200640,6 +202712,8 @@ export const getPkiCertificateProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCertificateProfile",
 }));
 
 export type GetPkiCertificateProfileAcmeEabSecretRevealError =
@@ -200667,6 +202741,8 @@ export const getPkiCertificateProfileAcmeEabSecretReveal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCertificateProfileAcmeEabSecretReveal",
 }));
 
 export type GetPkiCertificateProfileCertificateLatestActiveBundleError =
@@ -200695,6 +202771,8 @@ export const getPkiCertificateProfileCertificateLatestActiveBundle: API.Operatio
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCertificateProfileCertificateLatestActiveBundle",
 }));
 
 export type GetPkiCertificateProfileSlugError =
@@ -200714,6 +202792,8 @@ export const getPkiCertificateProfileSlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCertificateProfileSlug",
 }));
 
 export type GetPkiCollectionError =
@@ -200734,6 +202814,8 @@ export const getPkiCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiCollection",
 }));
 
 export type GetPkiDiscoveryError =
@@ -200754,6 +202836,8 @@ export const getPkiDiscovery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiDiscovery",
 }));
 
 export type GetPkiDiscoveryConfigError =
@@ -200774,6 +202858,8 @@ export const getPkiDiscoveryConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiDiscoveryConfig",
 }));
 
 export type GetPkiDiscoveryLatestScanError =
@@ -200794,6 +202880,8 @@ export const getPkiDiscoveryLatestScan: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiDiscoveryLatestScan",
 }));
 
 export type GetPkiInstallationError =
@@ -200814,6 +202902,8 @@ export const getPkiInstallation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiInstallation",
 }));
 
 export type GetPkiSyncError =
@@ -200829,11 +202919,13 @@ export const getPkiSync: API.OperationMethod<
   GetPkiSyncError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetPkiSyncRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<GetPkiSyncResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetPkiSyncRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<GetPkiSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSync",
 }));
 
 export type GetPkiSyncAwsCertificateManagerError =
@@ -200849,11 +202941,13 @@ export const getPkiSyncAwsCertificateManager: API.OperationMethod<
   GetPkiSyncAwsCertificateManagerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetPkiSyncAwsCertificateManagerRequest>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetPkiSyncAwsCertificateManagerRequest>,
   output: __S(29392, __c1837, 0) as any as S.Schema<GetPkiSyncAwsCertificateManagerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncAwsCertificateManager",
 }));
 
 export type GetPkiSyncAwsElasticLoadBalancerError =
@@ -200869,11 +202963,13 @@ export const getPkiSyncAwsElasticLoadBalancer: API.OperationMethod<
   GetPkiSyncAwsElasticLoadBalancerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetPkiSyncAwsElasticLoadBalancerRequest>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetPkiSyncAwsElasticLoadBalancerRequest>,
   output: __S(29424, __c1839, 0) as any as S.Schema<GetPkiSyncAwsElasticLoadBalancerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncAwsElasticLoadBalancer",
 }));
 
 export type GetPkiSyncAwsSecretsManagerError =
@@ -200889,11 +202985,13 @@ export const getPkiSyncAwsSecretsManager: API.OperationMethod<
   GetPkiSyncAwsSecretsManagerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetPkiSyncAwsSecretsManagerRequest>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetPkiSyncAwsSecretsManagerRequest>,
   output: __S(29520, __c1845, 0) as any as S.Schema<GetPkiSyncAwsSecretsManagerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncAwsSecretsManager",
 }));
 
 export type GetPkiSyncAzureKeyVaultError =
@@ -200909,11 +203007,13 @@ export const getPkiSyncAzureKeyVault: API.OperationMethod<
   GetPkiSyncAzureKeyVaultError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetPkiSyncAzureKeyVaultRequest>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetPkiSyncAzureKeyVaultRequest>,
   output: __S(29552, __c1847, 0) as any as S.Schema<GetPkiSyncAzureKeyVaultResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncAzureKeyVault",
 }));
 
 export type GetPkiSyncByPkiSyncIdError =
@@ -200929,11 +203029,13 @@ export const getPkiSyncByPkiSyncId: API.OperationMethod<
   GetPkiSyncByPkiSyncIdError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetPkiSyncByPkiSyncIdRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<GetPkiSyncByPkiSyncIdResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetPkiSyncByPkiSyncIdRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<GetPkiSyncByPkiSyncIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncByPkiSyncId",
 }));
 
 export type GetPkiSyncChefError =
@@ -200949,11 +203051,13 @@ export const getPkiSyncChef: API.OperationMethod<
   GetPkiSyncChefError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetPkiSyncChefRequest>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetPkiSyncChefRequest>,
   output: __S(29600, __c1850, 0) as any as S.Schema<GetPkiSyncChefResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncChef",
 }));
 
 export type GetPkiSyncCloudflareCustomCertificateError =
@@ -200969,11 +203073,13 @@ export const getPkiSyncCloudflareCustomCertificate: API.OperationMethod<
   GetPkiSyncCloudflareCustomCertificateError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetPkiSyncCloudflareCustomCertificateRequest>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetPkiSyncCloudflareCustomCertificateRequest>,
   output: __S(29632, __c1852, 0) as any as S.Schema<GetPkiSyncCloudflareCustomCertificateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncCloudflareCustomCertificate",
 }));
 
 export type GetPkiSyncF5BigIpError =
@@ -200989,11 +203095,13 @@ export const getPkiSyncF5BigIp: API.OperationMethod<
   GetPkiSyncF5BigIpError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetPkiSyncF5BigIpRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetPkiSyncF5BigIpRequest>,
   output: __S(29664, __c1854, 0) as any as S.Schema<GetPkiSyncF5BigIpResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncF5BigIp",
 }));
 
 export type GetPkiSyncGcpCertificateManagerError =
@@ -201009,11 +203117,13 @@ export const getPkiSyncGcpCertificateManager: API.OperationMethod<
   GetPkiSyncGcpCertificateManagerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetPkiSyncGcpCertificateManagerRequest>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetPkiSyncGcpCertificateManagerRequest>,
   output: __S(29696, __c1856, 0) as any as S.Schema<GetPkiSyncGcpCertificateManagerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncGcpCertificateManager",
 }));
 
 export type GetPkiSyncKempLoadmasterError =
@@ -201029,11 +203139,13 @@ export const getPkiSyncKempLoadmaster: API.OperationMethod<
   GetPkiSyncKempLoadmasterError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetPkiSyncKempLoadmasterRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetPkiSyncKempLoadmasterRequest>,
   output: __S(29728, __c1858, 0) as any as S.Schema<GetPkiSyncKempLoadmasterResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncKempLoadmaster",
 }));
 
 export type GetPkiSyncLinuxServerError =
@@ -201049,11 +203161,13 @@ export const getPkiSyncLinuxServer: API.OperationMethod<
   GetPkiSyncLinuxServerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetPkiSyncLinuxServerRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetPkiSyncLinuxServerRequest>,
   output: __S(29760, __c1860, 0) as any as S.Schema<GetPkiSyncLinuxServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncLinuxServer",
 }));
 
 export type GetPkiSyncNetscalerError =
@@ -201069,11 +203183,13 @@ export const getPkiSyncNetscaler: API.OperationMethod<
   GetPkiSyncNetscalerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetPkiSyncNetscalerRequest>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetPkiSyncNetscalerRequest>,
   output: __S(29824, __c1864, 0) as any as S.Schema<GetPkiSyncNetscalerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncNetscaler",
 }));
 
 export type GetPkiSyncNutanixPrismCentralError =
@@ -201089,11 +203205,13 @@ export const getPkiSyncNutanixPrismCentral: API.OperationMethod<
   GetPkiSyncNutanixPrismCentralError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetPkiSyncNutanixPrismCentralRequest>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetPkiSyncNutanixPrismCentralRequest>,
   output: __S(29856, __c1866, 0) as any as S.Schema<GetPkiSyncNutanixPrismCentralResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncNutanixPrismCentral",
 }));
 
 export type GetPkiSyncWindowsServerError =
@@ -201109,11 +203227,13 @@ export const getPkiSyncWindowsServer: API.OperationMethod<
   GetPkiSyncWindowsServerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetPkiSyncWindowsServerRequest>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetPkiSyncWindowsServerRequest>,
   output: __S(29920, __c1870, 0) as any as S.Schema<GetPkiSyncWindowsServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPkiSyncWindowsServer",
 }));
 
 export type GetPostgresAppConnectionError =
@@ -201129,11 +203249,13 @@ export const getPostgresAppConnection: API.OperationMethod<
   GetPostgresAppConnectionError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetPostgresAppConnectionRequest>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetPostgresAppConnectionRequest>,
   output: __S(25776, __c1611, 0) as any as S.Schema<GetPostgresAppConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgresAppConnection",
 }));
 
 export type GetPostgresAppConnectionByNameError =
@@ -201149,11 +203271,13 @@ export const getPostgresAppConnectionByName: API.OperationMethod<
   GetPostgresAppConnectionByNameError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetPostgresAppConnectionByNameRequest>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetPostgresAppConnectionByNameRequest>,
   output: __S(25776, __c1611, 0) as any as S.Schema<GetPostgresAppConnectionByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgresAppConnectionByName",
 }));
 
 export type GetPostgreSQLCredentialsRotationError =
@@ -201169,11 +203293,13 @@ export const getPostgreSQLCredentialsRotation: API.OperationMethod<
   GetPostgreSQLCredentialsRotationError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationRequest>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationRequest>,
   output: __S(25120, __c1570, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgreSQLCredentialsRotation",
 }));
 
 export type GetPostgreSQLCredentialsRotationByNameError =
@@ -201189,11 +203315,13 @@ export const getPostgreSQLCredentialsRotationByName: API.OperationMethod<
   GetPostgreSQLCredentialsRotationByNameError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationByNameRequest>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationByNameRequest>,
   output: __S(25120, __c1570, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgreSQLCredentialsRotationByName",
 }));
 
 export type GetPostgreSQLCredentialsRotationGeneratedCredentialsError =
@@ -201210,8 +203338,8 @@ export const getPostgreSQLCredentialsRotationGeneratedCredentials: API.Operation
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    528,
-    __c33,
+    512,
+    __c32,
     0,
   ) as any as S.Schema<GetPostgreSQLCredentialsRotationGeneratedCredentialsRequest>,
   output: __S(
@@ -201222,6 +203350,8 @@ export const getPostgreSQLCredentialsRotationGeneratedCredentials: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgreSQLCredentialsRotationGeneratedCredentials",
 }));
 
 export type GetPowerdnsAppConnectionError =
@@ -201237,11 +203367,13 @@ export const getPowerdnsAppConnection: API.OperationMethod<
   GetPowerdnsAppConnectionError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetPowerdnsAppConnectionRequest>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetPowerdnsAppConnectionRequest>,
   output: __S(30016, __c1876, 0) as any as S.Schema<GetPowerdnsAppConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPowerdnsAppConnection",
 }));
 
 export type GetPowerdnsAppConnectionByNameError =
@@ -201257,11 +203389,13 @@ export const getPowerdnsAppConnectionByName: API.OperationMethod<
   GetPowerdnsAppConnectionByNameError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetPowerdnsAppConnectionByNameRequest>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetPowerdnsAppConnectionByNameRequest>,
   output: __S(30016, __c1876, 0) as any as S.Schema<GetPowerdnsAppConnectionByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPowerdnsAppConnectionByName",
 }));
 
 export type GetProjectError =
@@ -201277,11 +203411,13 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(628, __c39, 4) as any as S.Schema<GetProjectResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(612, __c38, 4) as any as S.Schema<GetProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectBySlugError =
@@ -201297,11 +203433,13 @@ export const getProjectBySlug: API.OperationMethod<
   GetProjectBySlugError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetProjectBySlugRequest>,
-  output: __S(643, __c40, 3) as any as S.Schema<GetProjectBySlugResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetProjectBySlugRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<GetProjectBySlugResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBySlug",
 }));
 
 export type GetProjectGroupMembershipError =
@@ -201317,11 +203455,13 @@ export const getProjectGroupMembership: API.OperationMethod<
   GetProjectGroupMembershipError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetProjectGroupMembershipRequest>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetProjectGroupMembershipRequest>,
   output: __S(30096, __c1881, 0) as any as S.Schema<GetProjectGroupMembershipResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectGroupMembership",
 }));
 
 export type GetProjectIdentityMembershipError =
@@ -201337,11 +203477,13 @@ export const getProjectIdentityMembership: API.OperationMethod<
   GetProjectIdentityMembershipError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetProjectIdentityMembershipRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<GetProjectIdentityMembershipResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetProjectIdentityMembershipRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<GetProjectIdentityMembershipResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectIdentityMembership",
 }));
 
 export type GetProjectIdentityMembershipByIdError =
@@ -201357,11 +203499,13 @@ export const getProjectIdentityMembershipById: API.OperationMethod<
   GetProjectIdentityMembershipByIdError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetProjectIdentityMembershipByIdRequest>,
-  output: __S(723, __c45, 3) as any as S.Schema<GetProjectIdentityMembershipByIdResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetProjectIdentityMembershipByIdRequest>,
+  output: __S(707, __c44, 3) as any as S.Schema<GetProjectIdentityMembershipByIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectIdentityMembershipById",
 }));
 
 export type GetProjectIdentityMembershipByIdentityMembershipIdError =
@@ -201377,18 +203521,20 @@ export const getProjectIdentityMembershipByIdentityMembershipId: API.OperationMe
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    736,
-    __c46,
+    720,
+    __c45,
     0,
   ) as any as S.Schema<GetProjectIdentityMembershipByIdentityMembershipIdRequest>,
   output: __S(
-    752,
-    __c47,
+    736,
+    __c46,
     0,
   ) as any as S.Schema<GetProjectIdentityMembershipByIdentityMembershipIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectIdentityMembershipByIdentityMembershipId",
 }));
 
 export type GetProjectMachineIdentityByIdError =
@@ -201404,11 +203550,13 @@ export const getProjectMachineIdentityById: API.OperationMethod<
   GetProjectMachineIdentityByIdError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetProjectMachineIdentityByIdRequest>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetProjectMachineIdentityByIdRequest>,
   output: __S(30192, __c1887, 0) as any as S.Schema<GetProjectMachineIdentityByIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectMachineIdentityById",
 }));
 
 export type GetProjectMembershipByUsernameError =
@@ -201424,11 +203572,13 @@ export const getProjectMembershipByUsername: API.OperationMethod<
   GetProjectMembershipByUsernameError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetProjectMembershipByUsernameRequest>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetProjectMembershipByUsernameRequest>,
   output: __S(32753, __c2047, 1) as any as S.Schema<GetProjectMembershipByUsernameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectMembershipByUsername",
 }));
 
 export type GetProjectRoleError =
@@ -201449,6 +203599,8 @@ export const getProjectRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectRole",
 }));
 
 export type GetProjectRoleBySlugError =
@@ -201468,6 +203620,8 @@ export const getProjectRoleBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectRoleBySlug",
 }));
 
 export type GetProjectRoleSlugError =
@@ -201487,6 +203641,8 @@ export const getProjectRoleSlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectRoleSlug",
 }));
 
 export type GetProjectTemplateError =
@@ -201507,6 +203663,8 @@ export const getProjectTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectTemplate",
 }));
 
 export type GetProxiedServiceError =
@@ -201527,6 +203685,8 @@ export const getProxiedService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProxiedService",
 }));
 
 export type GetProxiedServiceSlugError =
@@ -201547,6 +203707,8 @@ export const getProxiedServiceSlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProxiedServiceSlug",
 }));
 
 export type GetQoveryAppConnectionError =
@@ -201567,6 +203729,8 @@ export const getQoveryAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQoveryAppConnection",
 }));
 
 export type GetQoveryAppConnectionByNameError =
@@ -201587,6 +203751,8 @@ export const getQoveryAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQoveryAppConnectionByName",
 }));
 
 export type GetQoverySecretSyncError =
@@ -201607,6 +203773,8 @@ export const getQoverySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQoverySecretSync",
 }));
 
 export type GetQoverySecretSyncByNameError =
@@ -201627,6 +203795,8 @@ export const getQoverySecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQoverySecretSyncByName",
 }));
 
 export type GetRailwayAppConnectionError =
@@ -201647,6 +203817,8 @@ export const getRailwayAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRailwayAppConnection",
 }));
 
 export type GetRailwayAppConnectionByNameError =
@@ -201667,6 +203839,8 @@ export const getRailwayAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRailwayAppConnectionByName",
 }));
 
 export type GetRailwaySecretSyncError =
@@ -201687,6 +203861,8 @@ export const getRailwaySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRailwaySecretSync",
 }));
 
 export type GetRailwaySecretSyncByNameError =
@@ -201707,6 +203883,8 @@ export const getRailwaySecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRailwaySecretSyncByName",
 }));
 
 export type GetRawSecretsFromImportsError =
@@ -201726,6 +203904,8 @@ export const getRawSecretsFromImports: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRawSecretsFromImports",
 }));
 
 export type GetRedisAppConnectionError =
@@ -201746,6 +203926,8 @@ export const getRedisAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedisAppConnection",
 }));
 
 export type GetRedisAppConnectionByNameError =
@@ -201766,6 +203948,8 @@ export const getRedisAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedisAppConnectionByName",
 }));
 
 export type GetRedisCredentialsRotationError =
@@ -201786,6 +203970,8 @@ export const getRedisCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedisCredentialsRotation",
 }));
 
 export type GetRedisCredentialsRotationByNameError =
@@ -201806,6 +203992,8 @@ export const getRedisCredentialsRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedisCredentialsRotationByName",
 }));
 
 export type GetRedisCredentialsRotationGeneratedCredentialsError =
@@ -201834,6 +204022,8 @@ export const getRedisCredentialsRotationGeneratedCredentials: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedisCredentialsRotationGeneratedCredentials",
 }));
 
 export type GetRelaysError =
@@ -201853,6 +204043,8 @@ export const getRelays: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRelays",
 }));
 
 export type GetRenderAppConnectionError =
@@ -201873,6 +204065,8 @@ export const getRenderAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRenderAppConnection",
 }));
 
 export type GetRenderAppConnectionByNameError =
@@ -201893,6 +204087,8 @@ export const getRenderAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRenderAppConnectionByName",
 }));
 
 export type GetRenderSecretSyncError =
@@ -201913,6 +204109,8 @@ export const getRenderSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRenderSecretSync",
 }));
 
 export type GetRenderSecretSyncByNameError =
@@ -201933,6 +204131,8 @@ export const getRenderSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRenderSecretSyncByName",
 }));
 
 export type GetRundeckAppConnectionError =
@@ -201953,6 +204153,8 @@ export const getRundeckAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRundeckAppConnection",
 }));
 
 export type GetRundeckAppConnectionByNameError =
@@ -201973,6 +204175,8 @@ export const getRundeckAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRundeckAppConnectionByName",
 }));
 
 export type GetRundeckSecretSyncError =
@@ -201993,6 +204197,8 @@ export const getRundeckSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRundeckSecretSync",
 }));
 
 export type GetRundeckSecretSyncByNameError =
@@ -202013,6 +204219,8 @@ export const getRundeckSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRundeckSecretSyncByName",
 }));
 
 export type GetSalesforceAppConnectionError =
@@ -202033,6 +204241,8 @@ export const getSalesforceAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSalesforceAppConnection",
 }));
 
 export type GetSalesforceAppConnectionByNameError =
@@ -202053,6 +204263,8 @@ export const getSalesforceAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSalesforceAppConnectionByName",
 }));
 
 export type GetSalesforceOAuthCredentialsRotationError =
@@ -202073,6 +204285,8 @@ export const getSalesforceOAuthCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSalesforceOAuthCredentialsRotation",
 }));
 
 export type GetSalesforceOAuthCredentialsRotationByNameError =
@@ -202097,6 +204311,8 @@ export const getSalesforceOAuthCredentialsRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSalesforceOAuthCredentialsRotationByName",
 }));
 
 export type GetSalesforceOAuthCredentialsRotationGeneratedCredentialsError =
@@ -202125,6 +204341,8 @@ export const getSalesforceOAuthCredentialsRotationGeneratedCredentials: API.Oper
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSalesforceOAuthCredentialsRotationGeneratedCredentials",
 }));
 
 export type GetSecretByIdV4Error =
@@ -202144,6 +204362,8 @@ export const getSecretByIdV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretByIdV4",
 }));
 
 export type GetSecretByNameV4Error =
@@ -202164,6 +204384,8 @@ export const getSecretByNameV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretByNameV4",
 }));
 
 export type GetSecretFolderByIdError =
@@ -202184,6 +204406,8 @@ export const getSecretFolderById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretFolderById",
 }));
 
 export type GetSecretImportError =
@@ -202204,6 +204428,8 @@ export const getSecretImport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretImport",
 }));
 
 export type GetSecretImportBySecretImportIdError =
@@ -202224,6 +204450,8 @@ export const getSecretImportBySecretImportId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretImportBySecretImportId",
 }));
 
 export type GetSecretReferencesV4Error =
@@ -202244,6 +204472,8 @@ export const getSecretReferencesV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretReferencesV4",
 }));
 
 export type GetSecretReferenceTreeV4Error =
@@ -202264,6 +204494,8 @@ export const getSecretReferenceTreeV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretReferenceTreeV4",
 }));
 
 export type GetSecretRotationsValidationRuleError =
@@ -202284,6 +204516,8 @@ export const getSecretRotationsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretRotationsValidationRule",
 }));
 
 export type GetSecretTagByIdError =
@@ -202303,6 +204537,8 @@ export const getSecretTagById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretTagById",
 }));
 
 export type GetSecretTagBySlugError =
@@ -202322,6 +204558,8 @@ export const getSecretTagBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretTagBySlug",
 }));
 
 export type GetServiceTokenError =
@@ -202342,6 +204580,8 @@ export const getServiceToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceToken",
 }));
 
 export type GetSharedSecretError =
@@ -202362,6 +204602,8 @@ export const getSharedSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedSecret",
 }));
 
 export type GetSignerApprovalPolicyError =
@@ -202382,6 +204624,8 @@ export const getSignerApprovalPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignerApprovalPolicy",
 }));
 
 export type GetSignerByIdError =
@@ -202402,6 +204646,8 @@ export const getSignerById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignerById",
 }));
 
 export type GetSignerPermissionsError =
@@ -202422,6 +204668,8 @@ export const getSignerPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignerPermissions",
 }));
 
 export type GetSignerPublicKeyError =
@@ -202442,6 +204690,8 @@ export const getSignerPublicKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignerPublicKey",
 }));
 
 export type GetSigningOperationError =
@@ -202462,6 +204712,8 @@ export const getSigningOperation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSigningOperation",
 }));
 
 export type GetSmbAppConnectionError =
@@ -202482,6 +204734,8 @@ export const getSmbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmbAppConnection",
 }));
 
 export type GetSmbAppConnectionByNameError =
@@ -202502,6 +204756,8 @@ export const getSmbAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmbAppConnectionByName",
 }));
 
 export type GetSnowflakeAppConnectionError =
@@ -202522,6 +204778,8 @@ export const getSnowflakeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnowflakeAppConnection",
 }));
 
 export type GetSnowflakeAppConnectionByNameError =
@@ -202542,6 +204800,8 @@ export const getSnowflakeAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnowflakeAppConnectionByName",
 }));
 
 export type GetSnowflakeSecretSyncError =
@@ -202562,6 +204822,8 @@ export const getSnowflakeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnowflakeSecretSync",
 }));
 
 export type GetSnowflakeSecretSyncByNameError =
@@ -202582,6 +204844,8 @@ export const getSnowflakeSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnowflakeSecretSyncByName",
 }));
 
 export type GetSnowflakeUserKeyPairRotationError =
@@ -202602,6 +204866,8 @@ export const getSnowflakeUserKeyPairRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnowflakeUserKeyPairRotation",
 }));
 
 export type GetSnowflakeUserKeyPairRotationByNameError =
@@ -202622,6 +204888,8 @@ export const getSnowflakeUserKeyPairRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnowflakeUserKeyPairRotationByName",
 }));
 
 export type GetSnowflakeUserKeyPairRotationGeneratedCredentialsError =
@@ -202650,6 +204918,8 @@ export const getSnowflakeUserKeyPairRotationGeneratedCredentials: API.OperationM
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnowflakeUserKeyPairRotationGeneratedCredentials",
 }));
 
 export type GetSpaceliftAppConnectionError =
@@ -202670,6 +204940,8 @@ export const getSpaceliftAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpaceliftAppConnection",
 }));
 
 export type GetSpaceliftAppConnectionByNameError =
@@ -202690,6 +204962,8 @@ export const getSpaceliftAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpaceliftAppConnectionByName",
 }));
 
 export type GetSpaceliftSecretSyncError =
@@ -202710,6 +204984,8 @@ export const getSpaceliftSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpaceliftSecretSync",
 }));
 
 export type GetSpaceliftSecretSyncByNameError =
@@ -202730,6 +205006,8 @@ export const getSpaceliftSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpaceliftSecretSyncByName",
 }));
 
 export type GetSpiffeAuthError =
@@ -202750,6 +205028,8 @@ export const getSpiffeAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpiffeAuth",
 }));
 
 export type GetSshAppConnectionError =
@@ -202770,6 +205050,8 @@ export const getSshAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSshAppConnection",
 }));
 
 export type GetSshAppConnectionByNameError =
@@ -202790,6 +205072,8 @@ export const getSshAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSshAppConnectionByName",
 }));
 
 export type GetSsoConfigError =
@@ -202810,6 +205094,8 @@ export const getSsoConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSsoConfig",
 }));
 
 export type GetSsoOidcConfigError =
@@ -202830,6 +205116,8 @@ export const getSsoOidcConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSsoOidcConfig",
 }));
 
 export type GetStaticSecretsValidationRuleError =
@@ -202850,6 +205138,8 @@ export const getStaticSecretsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStaticSecretsValidationRule",
 }));
 
 export type GetStripeAPIKeyRotationError =
@@ -202870,6 +205160,8 @@ export const getStripeAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStripeAPIKeyRotation",
 }));
 
 export type GetStripeAPIKeyRotationByNameError =
@@ -202890,6 +205182,8 @@ export const getStripeAPIKeyRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStripeAPIKeyRotationByName",
 }));
 
 export type GetStripeAPIKeyRotationGeneratedCredentialsError =
@@ -202918,6 +205212,8 @@ export const getStripeAPIKeyRotationGeneratedCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStripeAPIKeyRotationGeneratedCredentials",
 }));
 
 export type GetStripeAppConnectionError =
@@ -202938,6 +205234,8 @@ export const getStripeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStripeAppConnection",
 }));
 
 export type GetStripeAppConnectionByNameError =
@@ -202958,6 +205256,8 @@ export const getStripeAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStripeAppConnectionByName",
 }));
 
 export type GetSupabaseAPIKeyRotationError =
@@ -202978,6 +205278,8 @@ export const getSupabaseAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupabaseAPIKeyRotation",
 }));
 
 export type GetSupabaseAPIKeyRotationByNameError =
@@ -202998,6 +205300,8 @@ export const getSupabaseAPIKeyRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupabaseAPIKeyRotationByName",
 }));
 
 export type GetSupabaseAPIKeyRotationGeneratedCredentialsError =
@@ -203026,6 +205330,8 @@ export const getSupabaseAPIKeyRotationGeneratedCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupabaseAPIKeyRotationGeneratedCredentials",
 }));
 
 export type GetSupabaseAppConnectionError =
@@ -203046,6 +205352,8 @@ export const getSupabaseAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupabaseAppConnection",
 }));
 
 export type GetSupabaseAppConnectionByNameError =
@@ -203066,6 +205374,8 @@ export const getSupabaseAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupabaseAppConnectionByName",
 }));
 
 export type GetSupabaseSecretSyncError =
@@ -203086,6 +205396,8 @@ export const getSupabaseSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupabaseSecretSync",
 }));
 
 export type GetSupabaseSecretSyncByNameError =
@@ -203106,6 +205418,8 @@ export const getSupabaseSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupabaseSecretSyncByName",
 }));
 
 export type GetTeamcityAppConnectionError =
@@ -203126,6 +205440,8 @@ export const getTeamcityAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamcityAppConnection",
 }));
 
 export type GetTeamcityAppConnectionByNameError =
@@ -203146,6 +205462,8 @@ export const getTeamcityAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamcityAppConnectionByName",
 }));
 
 export type GetTeamcitySecretSyncError =
@@ -203166,6 +205484,8 @@ export const getTeamcitySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamcitySecretSync",
 }));
 
 export type GetTeamcitySecretSyncByNameError =
@@ -203186,6 +205506,8 @@ export const getTeamcitySecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamcitySecretSyncByName",
 }));
 
 export type GetTerraformCloudAppConnectionError =
@@ -203206,6 +205528,8 @@ export const getTerraformCloudAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerraformCloudAppConnection",
 }));
 
 export type GetTerraformCloudAppConnectionByNameError =
@@ -203226,6 +205550,8 @@ export const getTerraformCloudAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerraformCloudAppConnectionByName",
 }));
 
 export type GetTerraformCloudSecretSyncError =
@@ -203246,6 +205572,8 @@ export const getTerraformCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerraformCloudSecretSync",
 }));
 
 export type GetTerraformCloudSecretSyncByNameError =
@@ -203266,6 +205594,8 @@ export const getTerraformCloudSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTerraformCloudSecretSyncByName",
 }));
 
 export type GetTlsCertAuthError =
@@ -203286,6 +205616,8 @@ export const getTlsCertAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTlsCertAuth",
 }));
 
 export type GetTokenAuthError =
@@ -203306,6 +205638,8 @@ export const getTokenAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenAuth",
 }));
 
 export type GetTokenAuthTokenByIdError =
@@ -203326,6 +205660,8 @@ export const getTokenAuthTokenById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenAuthTokenById",
 }));
 
 export type GetTokenAuthTokensError =
@@ -203346,6 +205682,8 @@ export const getTokenAuthTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenAuthTokens",
 }));
 
 export type GetTravisCIAppConnectionError =
@@ -203366,6 +205704,8 @@ export const getTravisCIAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTravisCIAppConnection",
 }));
 
 export type GetTravisCIAppConnectionByNameError =
@@ -203386,6 +205726,8 @@ export const getTravisCIAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTravisCIAppConnectionByName",
 }));
 
 export type GetTravisCISecretSyncError =
@@ -203406,6 +205748,8 @@ export const getTravisCISecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTravisCISecretSync",
 }));
 
 export type GetTravisCISecretSyncByNameError =
@@ -203426,6 +205770,8 @@ export const getTravisCISecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTravisCISecretSyncByName",
 }));
 
 export type GetTriggerDevAppConnectionError =
@@ -203446,6 +205792,8 @@ export const getTriggerDevAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerDevAppConnection",
 }));
 
 export type GetTriggerDevAppConnectionByNameError =
@@ -203466,6 +205814,8 @@ export const getTriggerDevAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerDevAppConnectionByName",
 }));
 
 export type GetTriggerDevSecretSyncError =
@@ -203486,6 +205836,8 @@ export const getTriggerDevSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerDevSecretSync",
 }));
 
 export type GetTriggerDevSecretSyncByNameError =
@@ -203506,6 +205858,8 @@ export const getTriggerDevSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerDevSecretSyncByName",
 }));
 
 export type GetUniversalAuthError =
@@ -203526,6 +205880,8 @@ export const getUniversalAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUniversalAuth",
 }));
 
 export type GetUniversalAuthClientSecretError =
@@ -203546,6 +205902,8 @@ export const getUniversalAuthClientSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUniversalAuthClientSecret",
 }));
 
 export type GetUnixLinuxLocalAccountRotationError =
@@ -203566,6 +205924,8 @@ export const getUnixLinuxLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUnixLinuxLocalAccountRotation",
 }));
 
 export type GetUnixLinuxLocalAccountRotationByNameError =
@@ -203586,6 +205946,8 @@ export const getUnixLinuxLocalAccountRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUnixLinuxLocalAccountRotationByName",
 }));
 
 export type GetUnixLinuxLocalAccountRotationGeneratedCredentialsError =
@@ -203614,6 +205976,8 @@ export const getUnixLinuxLocalAccountRotationGeneratedCredentials: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUnixLinuxLocalAccountRotationGeneratedCredentials",
 }));
 
 export type GetVenafiAppConnectionError =
@@ -203634,6 +205998,8 @@ export const getVenafiAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVenafiAppConnection",
 }));
 
 export type GetVenafiAppConnectionByNameError =
@@ -203654,6 +206020,8 @@ export const getVenafiAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVenafiAppConnectionByName",
 }));
 
 export type GetVenafiTppAppConnectionError =
@@ -203674,6 +206042,8 @@ export const getVenafiTppAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVenafiTppAppConnection",
 }));
 
 export type GetVenafiTppAppConnectionByNameError =
@@ -203694,6 +206064,8 @@ export const getVenafiTppAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVenafiTppAppConnectionByName",
 }));
 
 export type GetVenafiTppCertificateAuthorityV1Error =
@@ -203713,6 +206085,8 @@ export const getVenafiTppCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVenafiTppCertificateAuthorityV1",
 }));
 
 export type GetVercelAppConnectionError =
@@ -203733,6 +206107,8 @@ export const getVercelAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelAppConnection",
 }));
 
 export type GetVercelAppConnectionByNameError =
@@ -203753,6 +206129,8 @@ export const getVercelAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelAppConnectionByName",
 }));
 
 export type GetVercelSecretSyncError =
@@ -203773,6 +206151,8 @@ export const getVercelSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelSecretSync",
 }));
 
 export type GetVercelSecretSyncByNameError =
@@ -203793,6 +206173,8 @@ export const getVercelSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelSecretSyncByName",
 }));
 
 export type GetWindmillAppConnectionError =
@@ -203813,6 +206195,8 @@ export const getWindmillAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindmillAppConnection",
 }));
 
 export type GetWindmillAppConnectionByNameError =
@@ -203833,6 +206217,8 @@ export const getWindmillAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindmillAppConnectionByName",
 }));
 
 export type GetWindmillSecretSyncError =
@@ -203853,6 +206239,8 @@ export const getWindmillSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindmillSecretSync",
 }));
 
 export type GetWindmillSecretSyncByNameError =
@@ -203873,6 +206261,8 @@ export const getWindmillSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindmillSecretSyncByName",
 }));
 
 export type GetWindowsLocalAccountRotationError =
@@ -203893,6 +206283,8 @@ export const getWindowsLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindowsLocalAccountRotation",
 }));
 
 export type GetWindowsLocalAccountRotationByNameError =
@@ -203913,6 +206305,8 @@ export const getWindowsLocalAccountRotationByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindowsLocalAccountRotationByName",
 }));
 
 export type GetWindowsLocalAccountRotationGeneratedCredentialsError =
@@ -203941,6 +206335,8 @@ export const getWindowsLocalAccountRotationGeneratedCredentials: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindowsLocalAccountRotationGeneratedCredentials",
 }));
 
 export type GetWindowsServerPkiSyncError =
@@ -203961,6 +206357,8 @@ export const getWindowsServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindowsServerPkiSync",
 }));
 
 export type GetWinrmAppConnectionError =
@@ -203981,6 +206379,8 @@ export const getWinrmAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWinrmAppConnection",
 }));
 
 export type GetWinrmAppConnectionByNameError =
@@ -204001,6 +206401,8 @@ export const getWinrmAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWinrmAppConnectionByName",
 }));
 
 export type GetWorkspaceError =
@@ -204021,6 +206423,8 @@ export const getWorkspace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type GetWorkspaceBySlugError =
@@ -204041,6 +206445,8 @@ export const getWorkspaceBySlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceBySlug",
 }));
 
 export type GetWorkspaceEnvironmentError =
@@ -204061,6 +206467,8 @@ export const getWorkspaceEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceEnvironment",
 }));
 
 export type GetWorkspaceEnvironmentByEnvIdError =
@@ -204081,6 +206489,8 @@ export const getWorkspaceEnvironmentByEnvId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceEnvironmentByEnvId",
 }));
 
 export type GetWorkspaceGroupError =
@@ -204101,6 +206511,8 @@ export const getWorkspaceGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceGroup",
 }));
 
 export type GetWorkspaceIdentityMembershipError =
@@ -204117,10 +206529,12 @@ export const getWorkspaceIdentityMembership: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c234, 0) as any as S.Schema<GetWorkspaceIdentityMembershipRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<GetWorkspaceIdentityMembershipResponse>,
+  output: __S(736, __c46, 0) as any as S.Schema<GetWorkspaceIdentityMembershipResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceIdentityMembership",
 }));
 
 export type GetWorkspaceIdentityMembershipByIdentityMembershipIdError =
@@ -204141,13 +206555,15 @@ export const getWorkspaceIdentityMembershipByIdentityMembershipId: API.Operation
     0,
   ) as any as S.Schema<GetWorkspaceIdentityMembershipByIdentityMembershipIdRequest>,
   output: __S(
-    752,
-    __c47,
+    736,
+    __c46,
     0,
   ) as any as S.Schema<GetWorkspaceIdentityMembershipByIdentityMembershipIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceIdentityMembershipByIdentityMembershipId",
 }));
 
 export type GetWorkspaceTagError =
@@ -204167,6 +206583,8 @@ export const getWorkspaceTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceTag",
 }));
 
 export type GetWorkspaceTagSlugError =
@@ -204186,6 +206604,8 @@ export const getWorkspaceTagSlug: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceTagSlug",
 }));
 
 export type GetZabbixAppConnectionError =
@@ -204206,6 +206626,8 @@ export const getZabbixAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZabbixAppConnection",
 }));
 
 export type GetZabbixAppConnectionByNameError =
@@ -204226,6 +206648,8 @@ export const getZabbixAppConnectionByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZabbixAppConnectionByName",
 }));
 
 export type GetZabbixSecretSyncError =
@@ -204246,6 +206670,8 @@ export const getZabbixSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZabbixSecretSync",
 }));
 
 export type GetZabbixSecretSyncByNameError =
@@ -204266,6 +206692,8 @@ export const getZabbixSecretSyncByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZabbixSecretSyncByName",
 }));
 
 export type ImportAwsParameterStoreSecretSyncSecretsError =
@@ -204290,6 +206718,8 @@ export const importAwsParameterStoreSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAwsParameterStoreSecretSyncSecrets",
 }));
 
 export type ImportAwsSecretsManagerSecretSyncSecretsError =
@@ -204314,6 +206744,8 @@ export const importAwsSecretsManagerSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAwsSecretsManagerSecretSyncSecrets",
 }));
 
 export type ImportAzureAppConfigurationSecretSyncSecretsError =
@@ -204335,13 +206767,15 @@ export const importAzureAppConfigurationSecretSyncSecrets: API.OperationMethod<
     0,
   ) as any as S.Schema<ImportAzureAppConfigurationSecretSyncSecretsRequest>,
   output: __S(
-    368,
-    __c23,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<ImportAzureAppConfigurationSecretSyncSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAzureAppConfigurationSecretSyncSecrets",
 }));
 
 export type ImportAzureDevopsSecretSyncSecretsError =
@@ -204362,6 +206796,8 @@ export const importAzureDevopsSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAzureDevopsSecretSyncSecrets",
 }));
 
 export type ImportAzureEntraIdScimSecretSyncSecretsError =
@@ -204382,6 +206818,8 @@ export const importAzureEntraIdScimSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAzureEntraIdScimSecretSyncSecrets",
 }));
 
 export type ImportAzureKeyVaultSecretSyncSecretsError =
@@ -204402,6 +206840,8 @@ export const importAzureKeyVaultSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAzureKeyVaultSecretSyncSecrets",
 }));
 
 export type ImportBitbucketSecretSyncSecretsError =
@@ -204422,6 +206862,8 @@ export const importBitbucketSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportBitbucketSecretSyncSecrets",
 }));
 
 export type ImportCaCertificateError =
@@ -204442,6 +206884,8 @@ export const importCaCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCaCertificate",
 }));
 
 export type ImportCamundaSecretSyncSecretsError =
@@ -204462,6 +206906,8 @@ export const importCamundaSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCamundaSecretSyncSecrets",
 }));
 
 export type ImportCertificateError =
@@ -204482,6 +206928,8 @@ export const importCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCertificate",
 }));
 
 export type ImportCertificateAuthorityCertificateError =
@@ -204502,6 +206950,8 @@ export const importCertificateAuthorityCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCertificateAuthorityCertificate",
 }));
 
 export type ImportChecklySecretSyncSecretsError =
@@ -204522,6 +206972,8 @@ export const importChecklySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportChecklySecretSyncSecrets",
 }));
 
 export type ImportChefSecretSyncSecretsError =
@@ -204542,6 +206994,8 @@ export const importChefSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportChefSecretSyncSecrets",
 }));
 
 export type ImportCircleciSecretSyncSecretsError =
@@ -204562,6 +207016,8 @@ export const importCircleciSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCircleciSecretSyncSecrets",
 }));
 
 export type ImportCloud66SecretSyncSecretsError =
@@ -204582,6 +207038,8 @@ export const importCloud66SecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCloud66SecretSyncSecrets",
 }));
 
 export type ImportCloudflarePagesSecretSyncSecretsError =
@@ -204602,6 +207060,8 @@ export const importCloudflarePagesSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCloudflarePagesSecretSyncSecrets",
 }));
 
 export type ImportCloudflareWorkersSecretSyncSecretsError =
@@ -204622,6 +207082,8 @@ export const importCloudflareWorkersSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCloudflareWorkersSecretSyncSecrets",
 }));
 
 export type ImportDatabricksSecretSyncSecretsError =
@@ -204642,6 +207104,8 @@ export const importDatabricksSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDatabricksSecretSyncSecrets",
 }));
 
 export type ImportDaytonaSecretSyncSecretsError =
@@ -204662,6 +207126,8 @@ export const importDaytonaSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDaytonaSecretSyncSecrets",
 }));
 
 export type ImportDevinSecretSyncSecretsError =
@@ -204682,6 +207148,8 @@ export const importDevinSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDevinSecretSyncSecrets",
 }));
 
 export type ImportDigitalOceanAppPlatformSecretSyncSecretsError =
@@ -204710,6 +207178,8 @@ export const importDigitalOceanAppPlatformSecretSyncSecrets: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDigitalOceanAppPlatformSecretSyncSecrets",
 }));
 
 export type ImportExternalInfisicalSecretSyncSecretsError =
@@ -204734,6 +207204,8 @@ export const importExternalInfisicalSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportExternalInfisicalSecretSyncSecrets",
 }));
 
 export type ImportFlyioSecretSyncSecretsError =
@@ -204754,6 +207226,8 @@ export const importFlyioSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportFlyioSecretSyncSecrets",
 }));
 
 export type ImportGcpSecretManagerSecretSyncSecretsError =
@@ -204774,6 +207248,8 @@ export const importGcpSecretManagerSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportGcpSecretManagerSecretSyncSecrets",
 }));
 
 export type ImportGitHubSecretSyncSecretsError =
@@ -204794,6 +207270,8 @@ export const importGitHubSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportGitHubSecretSyncSecrets",
 }));
 
 export type ImportGitLabSecretSyncSecretsError =
@@ -204814,6 +207292,8 @@ export const importGitLabSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportGitLabSecretSyncSecrets",
 }));
 
 export type ImportHashicorpVaultSecretSyncSecretsError =
@@ -204834,6 +207314,8 @@ export const importHashicorpVaultSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportHashicorpVaultSecretSyncSecrets",
 }));
 
 export type ImportHasuraCloudSecretSyncSecretsError =
@@ -204854,6 +207336,8 @@ export const importHasuraCloudSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportHasuraCloudSecretSyncSecrets",
 }));
 
 export type ImportHerokuSecretSyncSecretsError =
@@ -204874,6 +207358,8 @@ export const importHerokuSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportHerokuSecretSyncSecrets",
 }));
 
 export type ImportHumanitecSecretSyncSecretsError =
@@ -204894,6 +207380,8 @@ export const importHumanitecSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportHumanitecSecretSyncSecrets",
 }));
 
 export type ImportLaravelForgeSecretSyncSecretsError =
@@ -204914,6 +207402,8 @@ export const importLaravelForgeSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportLaravelForgeSecretSyncSecrets",
 }));
 
 export type ImportNetlifySecretSyncSecretsError =
@@ -204934,6 +207424,8 @@ export const importNetlifySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportNetlifySecretSyncSecrets",
 }));
 
 export type ImportNorthflankSecretSyncSecretsError =
@@ -204954,6 +207446,8 @@ export const importNorthflankSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportNorthflankSecretSyncSecrets",
 }));
 
 export type ImportOciVaultSecretSyncSecretsError =
@@ -204974,6 +207468,8 @@ export const importOciVaultSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportOciVaultSecretSyncSecrets",
 }));
 
 export type ImportOctopusDeploySecretSyncSecretsError =
@@ -204994,6 +207490,8 @@ export const importOctopusDeploySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportOctopusDeploySecretSyncSecrets",
 }));
 
 export type ImportOnaSecretSyncSecretsError =
@@ -205014,6 +207512,8 @@ export const importOnaSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportOnaSecretSyncSecrets",
 }));
 
 export type ImportOnePasswordSecretSyncSecretsError =
@@ -205034,6 +207534,8 @@ export const importOnePasswordSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportOnePasswordSecretSyncSecrets",
 }));
 
 export type ImportOvhSecretSyncSecretsError =
@@ -205054,6 +207556,8 @@ export const importOvhSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportOvhSecretSyncSecrets",
 }));
 
 export type ImportPkiCertificateCertificateError =
@@ -205074,6 +207578,8 @@ export const importPkiCertificateCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportPkiCertificateCertificate",
 }));
 
 export type ImportQoverySecretSyncSecretsError =
@@ -205094,6 +207600,8 @@ export const importQoverySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportQoverySecretSyncSecrets",
 }));
 
 export type ImportRailwaySecretSyncSecretsError =
@@ -205114,6 +207622,8 @@ export const importRailwaySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportRailwaySecretSyncSecrets",
 }));
 
 export type ImportRenderSecretSyncSecretsError =
@@ -205134,6 +207644,8 @@ export const importRenderSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportRenderSecretSyncSecrets",
 }));
 
 export type ImportRundeckSecretSyncSecretsError =
@@ -205154,6 +207666,8 @@ export const importRundeckSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportRundeckSecretSyncSecrets",
 }));
 
 export type ImportSnowflakeSecretSyncSecretsError =
@@ -205174,6 +207688,8 @@ export const importSnowflakeSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSnowflakeSecretSyncSecrets",
 }));
 
 export type ImportSpaceliftSecretSyncSecretsError =
@@ -205194,6 +207710,8 @@ export const importSpaceliftSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSpaceliftSecretSyncSecrets",
 }));
 
 export type ImportSupabaseSecretSyncSecretsError =
@@ -205214,6 +207732,8 @@ export const importSupabaseSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSupabaseSecretSyncSecrets",
 }));
 
 export type ImportTeamcitySecretSyncSecretsError =
@@ -205234,6 +207754,8 @@ export const importTeamcitySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTeamcitySecretSyncSecrets",
 }));
 
 export type ImportTerraformCloudSecretSyncSecretsError =
@@ -205254,6 +207776,8 @@ export const importTerraformCloudSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTerraformCloudSecretSyncSecrets",
 }));
 
 export type ImportTravisCISecretSyncSecretsError =
@@ -205274,6 +207798,8 @@ export const importTravisCISecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTravisCISecretSyncSecrets",
 }));
 
 export type ImportTriggerDevSecretSyncSecretsError =
@@ -205294,6 +207820,8 @@ export const importTriggerDevSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportTriggerDevSecretSyncSecrets",
 }));
 
 export type ImportVercelSecretSyncSecretsError =
@@ -205314,6 +207842,8 @@ export const importVercelSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportVercelSecretSyncSecrets",
 }));
 
 export type ImportWindmillSecretSyncSecretsError =
@@ -205334,6 +207864,8 @@ export const importWindmillSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportWindmillSecretSyncSecrets",
 }));
 
 export type ImportZabbixSecretSyncSecretsError =
@@ -205354,6 +207886,8 @@ export const importZabbixSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportZabbixSecretSyncSecrets",
 }));
 
 export type InstallCaCertificateAdcsError =
@@ -205374,6 +207908,8 @@ export const installCaCertificateAdcs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallCaCertificateAdcs",
 }));
 
 export type InstallCaCertificateAdcsNativeError =
@@ -205394,6 +207930,8 @@ export const installCaCertificateAdcsNative: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallCaCertificateAdcsNative",
 }));
 
 export type InstallCaCertificateVenafiError =
@@ -205414,6 +207952,8 @@ export const installCaCertificateVenafi: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallCaCertificateVenafi",
 }));
 
 export type InviteCertManagerUsersError =
@@ -205434,6 +207974,8 @@ export const inviteCertManagerUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteCertManagerUsers",
 }));
 
 export type InviteProjectMembersError =
@@ -205454,6 +207996,8 @@ export const inviteProjectMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteProjectMembers",
 }));
 
 export type ListAcmeCertificateAuthoritiesV1Error =
@@ -205473,6 +208017,8 @@ export const listAcmeCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAcmeCertificateAuthoritiesV1",
 }));
 
 export type ListAdcsAppConnectionsError =
@@ -205493,6 +208039,8 @@ export const listAdcsAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdcsAppConnections",
 }));
 
 export type ListAdcsAvailableAppConnectionsError =
@@ -205513,6 +208061,8 @@ export const listAdcsAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdcsAvailableAppConnections",
 }));
 
 export type ListAdcsCertificateAuthoritiesV1Error =
@@ -205532,6 +208082,8 @@ export const listAdcsCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdcsCertificateAuthoritiesV1",
 }));
 
 export type ListAdditionalPrivilegeIdentityError =
@@ -205552,6 +208104,8 @@ export const listAdditionalPrivilegeIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdditionalPrivilegeIdentity",
 }));
 
 export type ListAgentVaultAccessBundleMembersError =
@@ -205572,6 +208126,8 @@ export const listAgentVaultAccessBundleMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentVaultAccessBundleMembers",
 }));
 
 export type ListAgentVaultAccessBundlesError =
@@ -205592,6 +208148,8 @@ export const listAgentVaultAccessBundles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentVaultAccessBundles",
 }));
 
 export type ListAgentVaultAwsAppConnectionsError =
@@ -205612,6 +208170,8 @@ export const listAgentVaultAwsAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentVaultAwsAppConnections",
 }));
 
 export type ListAgentVaultMembersError =
@@ -205632,6 +208192,8 @@ export const listAgentVaultMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentVaultMembers",
 }));
 
 export type ListAgentVaultProxiesError =
@@ -205652,6 +208214,8 @@ export const listAgentVaultProxies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentVaultProxies",
 }));
 
 export type ListAgentVaultSessionLogsError =
@@ -205672,6 +208236,8 @@ export const listAgentVaultSessionLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentVaultSessionLogs",
 }));
 
 export type ListAgentVaultSessionsError =
@@ -205692,6 +208258,8 @@ export const listAgentVaultSessions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentVaultSessions",
 }));
 
 export type ListAgentVaultVariablesError =
@@ -205712,6 +208280,8 @@ export const listAgentVaultVariables: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentVaultVariables",
 }));
 
 export type ListAnthropicAppConnectionsError =
@@ -205732,6 +208302,8 @@ export const listAnthropicAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnthropicAppConnections",
 }));
 
 export type ListAnthropicAvailableAppConnectionsError =
@@ -205752,6 +208324,8 @@ export const listAnthropicAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnthropicAvailableAppConnections",
 }));
 
 export type ListAppConnectionOptionsError =
@@ -205772,6 +208346,8 @@ export const listAppConnectionOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppConnectionOptions",
 }));
 
 export type ListAppConnectionsError =
@@ -205792,6 +208368,8 @@ export const listAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppConnections",
 }));
 
 export type ListAuth0AppConnectionsError =
@@ -205812,6 +208390,8 @@ export const listAuth0AppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuth0AppConnections",
 }));
 
 export type ListAuth0AvailableAppConnectionsError =
@@ -205832,6 +208412,8 @@ export const listAuth0AvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuth0AvailableAppConnections",
 }));
 
 export type ListAuth0ClientSecretRotationsError =
@@ -205852,6 +208434,8 @@ export const listAuth0ClientSecretRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuth0ClientSecretRotations",
 }));
 
 export type ListAvailableAgentVaultAccessBundleMembersError =
@@ -205876,6 +208460,8 @@ export const listAvailableAgentVaultAccessBundleMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableAgentVaultAccessBundleMembers",
 }));
 
 export type ListAvailableAgentVaultMembersError =
@@ -205896,6 +208482,8 @@ export const listAvailableAgentVaultMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableAgentVaultMembers",
 }));
 
 export type ListAvailableOrganizationGroupsError =
@@ -205916,6 +208504,8 @@ export const listAvailableOrganizationGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableOrganizationGroups",
 }));
 
 export type ListAvailableOrganizationIdentitiesError =
@@ -205936,6 +208526,8 @@ export const listAvailableOrganizationIdentities: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableOrganizationIdentities",
 }));
 
 export type ListAvailableProjectIdentitiesError =
@@ -205956,6 +208548,8 @@ export const listAvailableProjectIdentities: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableProjectIdentities",
 }));
 
 export type ListAwsAcmPublicCaCertificateAuthoritiesV1Error =
@@ -205979,6 +208573,8 @@ export const listAwsAcmPublicCaCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsAcmPublicCaCertificateAuthoritiesV1",
 }));
 
 export type ListAwsAppConnectionsError =
@@ -205999,6 +208595,8 @@ export const listAwsAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsAppConnections",
 }));
 
 export type ListAwsAvailableAppConnectionsError =
@@ -206019,6 +208617,8 @@ export const listAwsAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsAvailableAppConnections",
 }));
 
 export type ListAwsCertificateManagerPkiSyncsError =
@@ -206039,6 +208639,8 @@ export const listAwsCertificateManagerPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsCertificateManagerPkiSyncs",
 }));
 
 export type ListAwsElasticLoadBalancerListenersError =
@@ -206059,6 +208661,8 @@ export const listAwsElasticLoadBalancerListeners: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsElasticLoadBalancerListeners",
 }));
 
 export type ListAwsElasticLoadBalancerPkiSyncsError =
@@ -206079,6 +208683,8 @@ export const listAwsElasticLoadBalancerPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsElasticLoadBalancerPkiSyncs",
 }));
 
 export type ListAwsElasticLoadBalancersError =
@@ -206099,6 +208705,8 @@ export const listAwsElasticLoadBalancers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsElasticLoadBalancers",
 }));
 
 export type ListAWSIAMUserSecretRotationsError =
@@ -206119,6 +208727,8 @@ export const listAWSIAMUserSecretRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAWSIAMUserSecretRotations",
 }));
 
 export type ListAwsParameterStoreSecretSyncsError =
@@ -206139,6 +208749,8 @@ export const listAwsParameterStoreSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsParameterStoreSecretSyncs",
 }));
 
 export type ListAwsPcaCertificateAuthoritiesV1Error =
@@ -206158,6 +208770,8 @@ export const listAwsPcaCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsPcaCertificateAuthoritiesV1",
 }));
 
 export type ListAwsSecretsManagerPkiSyncsError =
@@ -206178,6 +208792,8 @@ export const listAwsSecretsManagerPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsSecretsManagerPkiSyncs",
 }));
 
 export type ListAwsSecretsManagerSecretSyncsError =
@@ -206198,6 +208814,8 @@ export const listAwsSecretsManagerSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsSecretsManagerSecretSyncs",
 }));
 
 export type ListAzureAdcsAppConnectionsError =
@@ -206218,6 +208836,8 @@ export const listAzureAdcsAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureAdcsAppConnections",
 }));
 
 export type ListAzureAdcsAvailableAppConnectionsError =
@@ -206238,6 +208858,8 @@ export const listAzureAdcsAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureAdcsAvailableAppConnections",
 }));
 
 export type ListAzureAdCsCertificateAuthoritiesV1Error =
@@ -206257,6 +208879,8 @@ export const listAzureAdCsCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureAdCsCertificateAuthoritiesV1",
 }));
 
 export type ListAzureAppConfigurationAppConnectionsError =
@@ -206277,6 +208901,8 @@ export const listAzureAppConfigurationAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureAppConfigurationAppConnections",
 }));
 
 export type ListAzureAppConfigurationAvailableAppConnectionsError =
@@ -206305,6 +208931,8 @@ export const listAzureAppConfigurationAvailableAppConnections: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureAppConfigurationAvailableAppConnections",
 }));
 
 export type ListAzureAppConfigurationSecretSyncsError =
@@ -206325,6 +208953,8 @@ export const listAzureAppConfigurationSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureAppConfigurationSecretSyncs",
 }));
 
 export type ListAzureClientSecretRotationsError =
@@ -206345,6 +208975,8 @@ export const listAzureClientSecretRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureClientSecretRotations",
 }));
 
 export type ListAzureClientSecretsAppConnectionsError =
@@ -206365,6 +208997,8 @@ export const listAzureClientSecretsAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureClientSecretsAppConnections",
 }));
 
 export type ListAzureClientSecretsAvailableAppConnectionsError =
@@ -206393,6 +209027,8 @@ export const listAzureClientSecretsAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureClientSecretsAvailableAppConnections",
 }));
 
 export type ListAzureDevopsAppConnectionsError =
@@ -206413,6 +209049,8 @@ export const listAzureDevopsAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureDevopsAppConnections",
 }));
 
 export type ListAzureDevopsAvailableAppConnectionsError =
@@ -206433,6 +209071,8 @@ export const listAzureDevopsAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureDevopsAvailableAppConnections",
 }));
 
 export type ListAzureDevopsSecretSyncsError =
@@ -206453,6 +209093,8 @@ export const listAzureDevopsSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureDevopsSecretSyncs",
 }));
 
 export type ListAzureDnsAppConnectionsError =
@@ -206473,6 +209115,8 @@ export const listAzureDnsAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureDnsAppConnections",
 }));
 
 export type ListAzureDnsAvailableAppConnectionsError =
@@ -206493,6 +209137,8 @@ export const listAzureDnsAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureDnsAvailableAppConnections",
 }));
 
 export type ListAzureEntraIdAppConnectionsError =
@@ -206513,6 +209159,8 @@ export const listAzureEntraIdAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureEntraIdAppConnections",
 }));
 
 export type ListAzureEntraIdAvailableAppConnectionsError =
@@ -206533,6 +209181,8 @@ export const listAzureEntraIdAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureEntraIdAvailableAppConnections",
 }));
 
 export type ListAzureEntraIdScimSecretSyncsError =
@@ -206553,6 +209203,8 @@ export const listAzureEntraIdScimSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureEntraIdScimSecretSyncs",
 }));
 
 export type ListAzureKeyVaultAppConnectionsError =
@@ -206573,6 +209225,8 @@ export const listAzureKeyVaultAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureKeyVaultAppConnections",
 }));
 
 export type ListAzureKeyVaultAvailableAppConnectionsError =
@@ -206593,6 +209247,8 @@ export const listAzureKeyVaultAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureKeyVaultAvailableAppConnections",
 }));
 
 export type ListAzureKeyVaultPkiSyncsError =
@@ -206613,6 +209269,8 @@ export const listAzureKeyVaultPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureKeyVaultPkiSyncs",
 }));
 
 export type ListAzureKeyVaultSecretSyncsError =
@@ -206633,6 +209291,8 @@ export const listAzureKeyVaultSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureKeyVaultSecretSyncs",
 }));
 
 export type ListBitbucketAppConnectionsError =
@@ -206653,6 +209313,8 @@ export const listBitbucketAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBitbucketAppConnections",
 }));
 
 export type ListBitbucketAvailableAppConnectionsError =
@@ -206673,6 +209335,8 @@ export const listBitbucketAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBitbucketAvailableAppConnections",
 }));
 
 export type ListBitbucketSecretSyncsError =
@@ -206693,6 +209357,8 @@ export const listBitbucketSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBitbucketSecretSyncs",
 }));
 
 export type ListCamundaAppConnectionsError =
@@ -206713,6 +209379,8 @@ export const listCamundaAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCamundaAppConnections",
 }));
 
 export type ListCamundaAvailableAppConnectionsError =
@@ -206733,6 +209401,8 @@ export const listCamundaAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCamundaAvailableAppConnections",
 }));
 
 export type ListCamundaSecretSyncsError =
@@ -206753,6 +209423,8 @@ export const listCamundaSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCamundaSecretSyncs",
 }));
 
 export type ListCertificateAuthoritiesV1GeneralError =
@@ -206773,6 +209445,8 @@ export const listCertificateAuthoritiesV1General: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateAuthoritiesV1General",
 }));
 
 export type ListCertificateAuthoritiesV2Error =
@@ -206793,6 +209467,8 @@ export const listCertificateAuthoritiesV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateAuthoritiesV2",
 }));
 
 export type ListCertificateAuthorityCertificatesError =
@@ -206813,6 +209489,8 @@ export const listCertificateAuthorityCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateAuthorityCertificates",
 }));
 
 export type ListCertificatePoliciesError =
@@ -206832,6 +209510,8 @@ export const listCertificatePolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatePolicies",
 }));
 
 export type ListCertificateProfileCertificatesError =
@@ -206851,6 +209531,8 @@ export const listCertificateProfileCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateProfileCertificates",
 }));
 
 export type ListCertificateProfilesError =
@@ -206870,6 +209552,8 @@ export const listCertificateProfiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateProfiles",
 }));
 
 export type ListCertManagerAlertCertificatesError =
@@ -206890,6 +209574,8 @@ export const listCertManagerAlertCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertManagerAlertCertificates",
 }));
 
 export type ListCertManagerUsersError =
@@ -206910,6 +209596,8 @@ export const listCertManagerUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertManagerUsers",
 }));
 
 export type ListChecklyAppConnectionsError =
@@ -206930,6 +209618,8 @@ export const listChecklyAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChecklyAppConnections",
 }));
 
 export type ListChecklyAvailableAppConnectionsError =
@@ -206950,6 +209640,8 @@ export const listChecklyAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChecklyAvailableAppConnections",
 }));
 
 export type ListChecklySecretSyncsError =
@@ -206970,6 +209662,8 @@ export const listChecklySecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChecklySecretSyncs",
 }));
 
 export type ListChefAppConnectionsError =
@@ -206990,6 +209684,8 @@ export const listChefAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChefAppConnections",
 }));
 
 export type ListChefAvailableAppConnectionsError =
@@ -207010,6 +209706,8 @@ export const listChefAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChefAvailableAppConnections",
 }));
 
 export type ListChefPkiSyncsError =
@@ -207030,6 +209728,8 @@ export const listChefPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChefPkiSyncs",
 }));
 
 export type ListChefSecretSyncsError =
@@ -207050,6 +209750,8 @@ export const listChefSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChefSecretSyncs",
 }));
 
 export type ListCircleciAppConnectionsError =
@@ -207070,6 +209772,8 @@ export const listCircleciAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCircleciAppConnections",
 }));
 
 export type ListCircleciAvailableAppConnectionsError =
@@ -207090,6 +209794,8 @@ export const listCircleciAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCircleciAvailableAppConnections",
 }));
 
 export type ListCircleciSecretSyncsError =
@@ -207110,6 +209816,8 @@ export const listCircleciSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCircleciSecretSyncs",
 }));
 
 export type ListCloud66AppConnectionsError =
@@ -207130,6 +209838,8 @@ export const listCloud66AppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloud66AppConnections",
 }));
 
 export type ListCloud66AvailableAppConnectionsError =
@@ -207150,6 +209860,8 @@ export const listCloud66AvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloud66AvailableAppConnections",
 }));
 
 export type ListCloud66SecretSyncsError =
@@ -207170,6 +209882,8 @@ export const listCloud66SecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloud66SecretSyncs",
 }));
 
 export type ListCloudflareAPITokenRotationsError =
@@ -207190,6 +209904,8 @@ export const listCloudflareAPITokenRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudflareAPITokenRotations",
 }));
 
 export type ListCloudflareAppConnectionsError =
@@ -207210,6 +209926,8 @@ export const listCloudflareAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudflareAppConnections",
 }));
 
 export type ListCloudflareAvailableAppConnectionsError =
@@ -207230,6 +209948,8 @@ export const listCloudflareAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudflareAvailableAppConnections",
 }));
 
 export type ListCloudflareCustomCertificatePkiSyncsError =
@@ -207250,6 +209970,8 @@ export const listCloudflareCustomCertificatePkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudflareCustomCertificatePkiSyncs",
 }));
 
 export type ListCloudflarePagesSecretSyncsError =
@@ -207270,6 +209992,8 @@ export const listCloudflarePagesSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudflarePagesSecretSyncs",
 }));
 
 export type ListCloudflareR2AccessKeyRotationsError =
@@ -207290,6 +210014,8 @@ export const listCloudflareR2AccessKeyRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudflareR2AccessKeyRotations",
 }));
 
 export type ListCloudflareWorkersSecretSyncsError =
@@ -207310,6 +210036,8 @@ export const listCloudflareWorkersSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudflareWorkersSecretSyncs",
 }));
 
 export type ListConvexAccessKeyRotationsError =
@@ -207330,6 +210058,8 @@ export const listConvexAccessKeyRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConvexAccessKeyRotations",
 }));
 
 export type ListConvexAppConnectionsError =
@@ -207350,6 +210080,8 @@ export const listConvexAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConvexAppConnections",
 }));
 
 export type ListConvexAvailableAppConnectionsError =
@@ -207370,6 +210102,8 @@ export const listConvexAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConvexAvailableAppConnections",
 }));
 
 export type ListDatabricksAppConnectionsError =
@@ -207390,6 +210124,8 @@ export const listDatabricksAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabricksAppConnections",
 }));
 
 export type ListDatabricksAvailableAppConnectionsError =
@@ -207410,6 +210146,8 @@ export const listDatabricksAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabricksAvailableAppConnections",
 }));
 
 export type ListDatabricksSecretSyncsError =
@@ -207430,6 +210168,8 @@ export const listDatabricksSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabricksSecretSyncs",
 }));
 
 export type ListDatabricksServicePrincipalSecretRotationsError =
@@ -207458,6 +210198,8 @@ export const listDatabricksServicePrincipalSecretRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabricksServicePrincipalSecretRotations",
 }));
 
 export type ListDatadogAPIKeyRotationsError =
@@ -207478,6 +210220,8 @@ export const listDatadogAPIKeyRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatadogAPIKeyRotations",
 }));
 
 export type ListDatadogAppConnectionsError =
@@ -207498,6 +210242,8 @@ export const listDatadogAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatadogAppConnections",
 }));
 
 export type ListDatadogApplicationKeyRotationsError =
@@ -207518,6 +210264,8 @@ export const listDatadogApplicationKeyRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatadogApplicationKeyRotations",
 }));
 
 export type ListDatadogAvailableAppConnectionsError =
@@ -207538,6 +210286,8 @@ export const listDatadogAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatadogAvailableAppConnections",
 }));
 
 export type ListDaytonaAppConnectionsError =
@@ -207558,6 +210308,8 @@ export const listDaytonaAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDaytonaAppConnections",
 }));
 
 export type ListDaytonaAvailableAppConnectionsError =
@@ -207578,6 +210330,8 @@ export const listDaytonaAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDaytonaAvailableAppConnections",
 }));
 
 export type ListDaytonaSecretSyncsError =
@@ -207598,6 +210352,8 @@ export const listDaytonaSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDaytonaSecretSyncs",
 }));
 
 export type ListDbtAppConnectionsError =
@@ -207618,6 +210374,8 @@ export const listDbtAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbtAppConnections",
 }));
 
 export type ListDbtAvailableAppConnectionsError =
@@ -207638,6 +210396,8 @@ export const listDbtAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDbtAvailableAppConnections",
 }));
 
 export type ListDBTServiceTokenRotationsError =
@@ -207658,6 +210418,8 @@ export const listDBTServiceTokenRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDBTServiceTokenRotations",
 }));
 
 export type ListDevinAppConnectionsError =
@@ -207678,6 +210440,8 @@ export const listDevinAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevinAppConnections",
 }));
 
 export type ListDevinAvailableAppConnectionsError =
@@ -207698,6 +210462,8 @@ export const listDevinAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevinAvailableAppConnections",
 }));
 
 export type ListDevinSecretSyncsError =
@@ -207718,6 +210484,8 @@ export const listDevinSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevinSecretSyncs",
 }));
 
 export type ListDigicertAppConnectionsError =
@@ -207738,6 +210506,8 @@ export const listDigicertAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigicertAppConnections",
 }));
 
 export type ListDigicertAvailableAppConnectionsError =
@@ -207758,6 +210528,8 @@ export const listDigicertAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigicertAvailableAppConnections",
 }));
 
 export type ListDigicertCertificateAuthoritiesV1Error =
@@ -207777,6 +210549,8 @@ export const listDigicertCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigicertCertificateAuthoritiesV1",
 }));
 
 export type ListDigitalOceanAppConnectionsError =
@@ -207797,6 +210571,8 @@ export const listDigitalOceanAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigitalOceanAppConnections",
 }));
 
 export type ListDigitalOceanAppPlatformSecretSyncsError =
@@ -207817,6 +210593,8 @@ export const listDigitalOceanAppPlatformSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigitalOceanAppPlatformSecretSyncs",
 }));
 
 export type ListDigitalOceanAvailableAppConnectionsError =
@@ -207837,6 +210615,8 @@ export const listDigitalOceanAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigitalOceanAvailableAppConnections",
 }));
 
 export type ListDnsMadeEasyAppConnectionsError =
@@ -207857,6 +210637,8 @@ export const listDnsMadeEasyAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsMadeEasyAppConnections",
 }));
 
 export type ListDnsMadeEasyAvailableAppConnectionsError =
@@ -207877,6 +210659,8 @@ export const listDnsMadeEasyAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsMadeEasyAvailableAppConnections",
 }));
 
 export type ListDopplerAppConnectionsError =
@@ -207897,6 +210681,8 @@ export const listDopplerAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDopplerAppConnections",
 }));
 
 export type ListDopplerAvailableAppConnectionsError =
@@ -207917,6 +210703,8 @@ export const listDopplerAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDopplerAvailableAppConnections",
 }));
 
 export type ListDynamicSecretLeasesError =
@@ -207936,6 +210724,8 @@ export const listDynamicSecretLeases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDynamicSecretLeases",
 }));
 
 export type ListDynamicSecretsError =
@@ -207955,6 +210745,8 @@ export const listDynamicSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDynamicSecrets",
 }));
 
 export type ListDynamicSecretsValidationRulesError =
@@ -207975,6 +210767,8 @@ export const listDynamicSecretsValidationRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDynamicSecretsValidationRules",
 }));
 
 export type ListExternalGroupOrgRoleMappingsError =
@@ -207994,6 +210788,8 @@ export const listExternalGroupOrgRoleMappings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalGroupOrgRoleMappings",
 }));
 
 export type ListExternalInfisicalAppConnectionsError =
@@ -208014,6 +210810,8 @@ export const listExternalInfisicalAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalInfisicalAppConnections",
 }));
 
 export type ListExternalInfisicalAvailableAppConnectionsError =
@@ -208042,6 +210840,8 @@ export const listExternalInfisicalAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalInfisicalAvailableAppConnections",
 }));
 
 export type ListExternalInfisicalSecretSyncsError =
@@ -208062,6 +210862,8 @@ export const listExternalInfisicalSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalInfisicalSecretSyncs",
 }));
 
 export type ListF5BigIpAppConnectionsError =
@@ -208082,6 +210884,8 @@ export const listF5BigIpAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListF5BigIpAppConnections",
 }));
 
 export type ListF5BigIpAvailableAppConnectionsError =
@@ -208102,6 +210906,8 @@ export const listF5BigIpAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListF5BigIpAvailableAppConnections",
 }));
 
 export type ListF5BigIpPkiSyncsError =
@@ -208122,6 +210928,8 @@ export const listF5BigIpPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListF5BigIpPkiSyncs",
 }));
 
 export type ListFireworksAppConnectionsError =
@@ -208142,6 +210950,8 @@ export const listFireworksAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFireworksAppConnections",
 }));
 
 export type ListFireworksAvailableAppConnectionsError =
@@ -208162,6 +210972,8 @@ export const listFireworksAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFireworksAvailableAppConnections",
 }));
 
 export type ListFireworksSecretRotationsError =
@@ -208182,6 +210994,8 @@ export const listFireworksSecretRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFireworksSecretRotations",
 }));
 
 export type ListFlyioAppConnectionsError =
@@ -208202,6 +211016,8 @@ export const listFlyioAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlyioAppConnections",
 }));
 
 export type ListFlyioAvailableAppConnectionsError =
@@ -208222,6 +211038,8 @@ export const listFlyioAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlyioAvailableAppConnections",
 }));
 
 export type ListFlyioSecretSyncsError =
@@ -208242,6 +211060,8 @@ export const listFlyioSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlyioSecretSyncs",
 }));
 
 export type ListFoldersError =
@@ -208262,6 +211082,8 @@ export const listFolders: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFolders",
 }));
 
 export type ListGcpAppConnectionsError =
@@ -208282,6 +211104,8 @@ export const listGcpAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGcpAppConnections",
 }));
 
 export type ListGcpAvailableAppConnectionsError =
@@ -208302,6 +211126,8 @@ export const listGcpAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGcpAvailableAppConnections",
 }));
 
 export type ListGcpCertificateManagerPkiSyncsError =
@@ -208322,6 +211148,8 @@ export const listGcpCertificateManagerPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGcpCertificateManagerPkiSyncs",
 }));
 
 export type ListGcpSecretManagerSecretSyncsError =
@@ -208342,6 +211170,8 @@ export const listGcpSecretManagerSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGcpSecretManagerSecretSyncs",
 }));
 
 export type ListGitHubAppConnectionsError =
@@ -208362,6 +211192,8 @@ export const listGitHubAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitHubAppConnections",
 }));
 
 export type ListGitHubAvailableAppConnectionsError =
@@ -208382,6 +211214,8 @@ export const listGitHubAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitHubAvailableAppConnections",
 }));
 
 export type ListGitHubRadarAppConnectionsError =
@@ -208402,6 +211236,8 @@ export const listGitHubRadarAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitHubRadarAppConnections",
 }));
 
 export type ListGitHubRadarAvailableAppConnectionsError =
@@ -208422,6 +211258,8 @@ export const listGitHubRadarAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitHubRadarAvailableAppConnections",
 }));
 
 export type ListGitHubSecretSyncsError =
@@ -208442,6 +211280,8 @@ export const listGitHubSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitHubSecretSyncs",
 }));
 
 export type ListGitLabAppConnectionsError =
@@ -208462,6 +211302,8 @@ export const listGitLabAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitLabAppConnections",
 }));
 
 export type ListGitLabAvailableAppConnectionsError =
@@ -208482,6 +211324,8 @@ export const listGitLabAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitLabAvailableAppConnections",
 }));
 
 export type ListGitLabSecretSyncsError =
@@ -208502,6 +211346,8 @@ export const listGitLabSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGitLabSecretSyncs",
 }));
 
 export type ListGodaddyAppConnectionsError =
@@ -208522,6 +211368,8 @@ export const listGodaddyAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGodaddyAppConnections",
 }));
 
 export type ListGodaddyAvailableAppConnectionsError =
@@ -208542,6 +211390,8 @@ export const listGodaddyAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGodaddyAvailableAppConnections",
 }));
 
 export type ListGodaddyCertificateAuthoritiesV1Error =
@@ -208561,6 +211411,8 @@ export const listGodaddyCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGodaddyCertificateAuthoritiesV1",
 }));
 
 export type ListGroupMachineIdentitiesError =
@@ -208580,6 +211432,8 @@ export const listGroupMachineIdentities: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupMachineIdentities",
 }));
 
 export type ListGroupMembersError =
@@ -208599,6 +211453,8 @@ export const listGroupMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupMembers",
 }));
 
 export type ListGroupProjectsError =
@@ -208618,6 +211474,8 @@ export const listGroupProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupProjects",
 }));
 
 export type ListGroupsError =
@@ -208637,6 +211495,8 @@ export const listGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListGroupUsersError =
@@ -208656,6 +211516,8 @@ export const listGroupUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupUsers",
 }));
 
 export type ListHashicorpVaultAppConnectionsError =
@@ -208676,6 +211538,8 @@ export const listHashicorpVaultAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHashicorpVaultAppConnections",
 }));
 
 export type ListHashicorpVaultAvailableAppConnectionsError =
@@ -208700,6 +211564,8 @@ export const listHashicorpVaultAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHashicorpVaultAvailableAppConnections",
 }));
 
 export type ListHashicorpVaultSecretSyncsError =
@@ -208720,6 +211586,8 @@ export const listHashicorpVaultSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHashicorpVaultSecretSyncs",
 }));
 
 export type ListHasuraCloudAppConnectionsError =
@@ -208740,6 +211608,8 @@ export const listHasuraCloudAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHasuraCloudAppConnections",
 }));
 
 export type ListHasuraCloudAvailableAppConnectionsError =
@@ -208760,6 +211630,8 @@ export const listHasuraCloudAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHasuraCloudAvailableAppConnections",
 }));
 
 export type ListHasuraCloudSecretSyncsError =
@@ -208780,6 +211652,8 @@ export const listHasuraCloudSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHasuraCloudSecretSyncs",
 }));
 
 export type ListHerokuAppConnectionsError =
@@ -208800,6 +211674,8 @@ export const listHerokuAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHerokuAppConnections",
 }));
 
 export type ListHerokuAvailableAppConnectionsError =
@@ -208820,6 +211696,8 @@ export const listHerokuAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHerokuAvailableAppConnections",
 }));
 
 export type ListHerokuSecretSyncsError =
@@ -208840,6 +211718,8 @@ export const listHerokuSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHerokuSecretSyncs",
 }));
 
 export type ListHPiLOLocalAccountRotationsError =
@@ -208860,6 +211740,8 @@ export const listHPiLOLocalAccountRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHPiLOLocalAccountRotations",
 }));
 
 export type ListHsmConnectorLinkedResourcesError =
@@ -208879,6 +211761,8 @@ export const listHsmConnectorLinkedResources: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHsmConnectorLinkedResources",
 }));
 
 export type ListHsmConnectorsError =
@@ -208898,6 +211782,8 @@ export const listHsmConnectors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHsmConnectors",
 }));
 
 export type ListHumanitecAppConnectionsError =
@@ -208918,6 +211804,8 @@ export const listHumanitecAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHumanitecAppConnections",
 }));
 
 export type ListHumanitecAvailableAppConnectionsError =
@@ -208938,6 +211826,8 @@ export const listHumanitecAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHumanitecAvailableAppConnections",
 }));
 
 export type ListHumanitecSecretSyncsError =
@@ -208958,6 +211848,8 @@ export const listHumanitecSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHumanitecSecretSyncs",
 }));
 
 export type ListIdentityProjectAdditionalPrivilegesError =
@@ -208978,6 +211870,8 @@ export const listIdentityProjectAdditionalPrivileges: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProjectAdditionalPrivileges",
 }));
 
 export type ListIdentityTemplatesError =
@@ -208998,6 +211892,8 @@ export const listIdentityTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityTemplates",
 }));
 
 export type ListIdentityTemplateSearchError =
@@ -209018,6 +211914,8 @@ export const listIdentityTemplateSearch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityTemplateSearch",
 }));
 
 export type ListIdentityTemplateUsageError =
@@ -209038,6 +211936,8 @@ export const listIdentityTemplateUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityTemplateUsage",
 }));
 
 export type ListIntegrationAuthIntegrationOptionsError =
@@ -209058,6 +211958,8 @@ export const listIntegrationAuthIntegrationOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAuthIntegrationOptions",
 }));
 
 export type ListInternalCertificateAuthoritiesV1Error =
@@ -209077,6 +211979,8 @@ export const listInternalCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInternalCertificateAuthoritiesV1",
 }));
 
 export type ListKempLoadmasterAppConnectionsError =
@@ -209097,6 +212001,8 @@ export const listKempLoadmasterAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKempLoadmasterAppConnections",
 }));
 
 export type ListKempLoadmasterAvailableAppConnectionsError =
@@ -209121,6 +212027,8 @@ export const listKempLoadmasterAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKempLoadmasterAvailableAppConnections",
 }));
 
 export type ListKempLoadmasterPkiSyncsError =
@@ -209141,6 +212049,8 @@ export const listKempLoadmasterPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKempLoadmasterPkiSyncs",
 }));
 
 export type ListKempLoadMasterVirtualServicesError =
@@ -209161,6 +212071,8 @@ export const listKempLoadMasterVirtualServices: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKempLoadMasterVirtualServices",
 }));
 
 export type ListKmsKeysError =
@@ -209181,6 +212093,8 @@ export const listKmsKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKmsKeys",
 }));
 
 export type ListKmsKeySigningAlgorithmsError =
@@ -209201,6 +212115,8 @@ export const listKmsKeySigningAlgorithms: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKmsKeySigningAlgorithms",
 }));
 
 export type ListLaravelForgeAppConnectionsError =
@@ -209221,6 +212137,8 @@ export const listLaravelForgeAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLaravelForgeAppConnections",
 }));
 
 export type ListLaravelForgeAvailableAppConnectionsError =
@@ -209241,6 +212159,8 @@ export const listLaravelForgeAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLaravelForgeAvailableAppConnections",
 }));
 
 export type ListLaravelForgeSecretSyncsError =
@@ -209261,6 +212181,8 @@ export const listLaravelForgeSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLaravelForgeSecretSyncs",
 }));
 
 export type ListLdapAppConnectionsError =
@@ -209281,6 +212203,8 @@ export const listLdapAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLdapAppConnections",
 }));
 
 export type ListLdapAvailableAppConnectionsError =
@@ -209301,6 +212225,8 @@ export const listLdapAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLdapAvailableAppConnections",
 }));
 
 export type ListLDAPPasswordRotationsError =
@@ -209321,6 +212247,8 @@ export const listLDAPPasswordRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLDAPPasswordRotations",
 }));
 
 export type ListLinuxServerPkiSyncsError =
@@ -209341,6 +212269,8 @@ export const listLinuxServerPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLinuxServerPkiSyncs",
 }));
 
 export type ListLiteLLMAPIKeyRotationsError =
@@ -209361,6 +212291,8 @@ export const listLiteLLMAPIKeyRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLiteLLMAPIKeyRotations",
 }));
 
 export type ListLitellmAppConnectionsError =
@@ -209381,6 +212313,8 @@ export const listLitellmAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLitellmAppConnections",
 }));
 
 export type ListLitellmAvailableAppConnectionsError =
@@ -209401,6 +212335,8 @@ export const listLitellmAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLitellmAvailableAppConnections",
 }));
 
 export type ListMachineIdentitiesError =
@@ -209421,6 +212357,8 @@ export const listMachineIdentities: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineIdentities",
 }));
 
 export type ListMicrosoftIntuneAppConnectionsError =
@@ -209441,6 +212379,8 @@ export const listMicrosoftIntuneAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftIntuneAppConnections",
 }));
 
 export type ListMicrosoftIntuneAvailableAppConnectionsError =
@@ -209465,6 +212405,8 @@ export const listMicrosoftIntuneAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftIntuneAvailableAppConnections",
 }));
 
 export type ListMicrosoftSQLServerCredentialsRotationsError =
@@ -209489,6 +212431,8 @@ export const listMicrosoftSQLServerCredentialsRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftSQLServerCredentialsRotations",
 }));
 
 export type ListMongoDbAppConnectionsError =
@@ -209509,6 +212453,8 @@ export const listMongoDbAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoDbAppConnections",
 }));
 
 export type ListMongoDbAvailableAppConnectionsError =
@@ -209529,6 +212475,8 @@ export const listMongoDbAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoDbAvailableAppConnections",
 }));
 
 export type ListMongoDBCredentialsRotationsError =
@@ -209549,6 +212497,8 @@ export const listMongoDBCredentialsRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoDBCredentialsRotations",
 }));
 
 export type ListMsSqlAppConnectionsError =
@@ -209569,6 +212519,8 @@ export const listMsSqlAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMsSqlAppConnections",
 }));
 
 export type ListMsSqlAvailableAppConnectionsError =
@@ -209589,6 +212541,8 @@ export const listMsSqlAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMsSqlAvailableAppConnections",
 }));
 
 export type ListMySqlAppConnectionsError =
@@ -209609,6 +212563,8 @@ export const listMySqlAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMySqlAppConnections",
 }));
 
 export type ListMySqlAvailableAppConnectionsError =
@@ -209629,6 +212585,8 @@ export const listMySqlAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMySqlAvailableAppConnections",
 }));
 
 export type ListMySQLCredentialsRotationsError =
@@ -209649,6 +212607,8 @@ export const listMySQLCredentialsRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMySQLCredentialsRotations",
 }));
 
 export type ListNetlifyAppConnectionsError =
@@ -209669,6 +212629,8 @@ export const listNetlifyAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetlifyAppConnections",
 }));
 
 export type ListNetlifyAvailableAppConnectionsError =
@@ -209689,6 +212651,8 @@ export const listNetlifyAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetlifyAvailableAppConnections",
 }));
 
 export type ListNetlifySecretSyncsError =
@@ -209709,6 +212673,8 @@ export const listNetlifySecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetlifySecretSyncs",
 }));
 
 export type ListNetscalerAppConnectionsError =
@@ -209729,6 +212695,8 @@ export const listNetscalerAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetscalerAppConnections",
 }));
 
 export type ListNetscalerAvailableAppConnectionsError =
@@ -209749,6 +212717,8 @@ export const listNetscalerAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetscalerAvailableAppConnections",
 }));
 
 export type ListNetscalerPkiSyncsError =
@@ -209769,6 +212739,8 @@ export const listNetscalerPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetscalerPkiSyncs",
 }));
 
 export type ListNorthflankAppConnectionsError =
@@ -209789,6 +212761,8 @@ export const listNorthflankAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNorthflankAppConnections",
 }));
 
 export type ListNorthflankAvailableAppConnectionsError =
@@ -209809,6 +212783,8 @@ export const listNorthflankAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNorthflankAvailableAppConnections",
 }));
 
 export type ListNorthflankSecretSyncsError =
@@ -209829,6 +212805,8 @@ export const listNorthflankSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNorthflankSecretSyncs",
 }));
 
 export type ListNutanixPrismCentralAppConnectionsError =
@@ -209849,6 +212827,8 @@ export const listNutanixPrismCentralAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNutanixPrismCentralAppConnections",
 }));
 
 export type ListNutanixPrismCentralAvailableAppConnectionsError =
@@ -209877,6 +212857,8 @@ export const listNutanixPrismCentralAvailableAppConnections: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNutanixPrismCentralAvailableAppConnections",
 }));
 
 export type ListNutanixPrismCentralPkiSyncsError =
@@ -209897,6 +212879,8 @@ export const listNutanixPrismCentralPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNutanixPrismCentralPkiSyncs",
 }));
 
 export type ListOciAppConnectionsError =
@@ -209917,6 +212901,8 @@ export const listOciAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOciAppConnections",
 }));
 
 export type ListOciAvailableAppConnectionsError =
@@ -209937,6 +212923,8 @@ export const listOciAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOciAvailableAppConnections",
 }));
 
 export type ListOciVaultSecretSyncsError =
@@ -209957,6 +212945,8 @@ export const listOciVaultSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOciVaultSecretSyncs",
 }));
 
 export type ListOctopusDeployAppConnectionsError =
@@ -209977,6 +212967,8 @@ export const listOctopusDeployAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOctopusDeployAppConnections",
 }));
 
 export type ListOctopusDeployAvailableAppConnectionsError =
@@ -209997,6 +212989,8 @@ export const listOctopusDeployAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOctopusDeployAvailableAppConnections",
 }));
 
 export type ListOctopusDeploySecretSyncsError =
@@ -210017,6 +213011,8 @@ export const listOctopusDeploySecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOctopusDeploySecretSyncs",
 }));
 
 export type ListOktaAppConnectionsError =
@@ -210037,6 +213033,8 @@ export const listOktaAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOktaAppConnections",
 }));
 
 export type ListOktaAvailableAppConnectionsError =
@@ -210057,6 +213055,8 @@ export const listOktaAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOktaAvailableAppConnections",
 }));
 
 export type ListOktaClientSecretRotationsError =
@@ -210077,6 +213077,8 @@ export const listOktaClientSecretRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOktaClientSecretRotations",
 }));
 
 export type ListOnaAppConnectionsError =
@@ -210097,6 +213099,8 @@ export const listOnaAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOnaAppConnections",
 }));
 
 export type ListOnaAvailableAppConnectionsError =
@@ -210117,6 +213121,8 @@ export const listOnaAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOnaAvailableAppConnections",
 }));
 
 export type ListOnaSecretSyncsError =
@@ -210137,6 +213143,8 @@ export const listOnaSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOnaSecretSyncs",
 }));
 
 export type ListOnePasswordAppConnectionsError =
@@ -210157,6 +213165,8 @@ export const listOnePasswordAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOnePasswordAppConnections",
 }));
 
 export type ListOnePasswordAvailableAppConnectionsError =
@@ -210177,6 +213187,8 @@ export const listOnePasswordAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOnePasswordAvailableAppConnections",
 }));
 
 export type ListOnePasswordSecretSyncsError =
@@ -210197,6 +213209,8 @@ export const listOnePasswordSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOnePasswordSecretSyncs",
 }));
 
 export type ListOpenaiAppConnectionsError =
@@ -210217,6 +213231,8 @@ export const listOpenaiAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenaiAppConnections",
 }));
 
 export type ListOpenaiAvailableAppConnectionsError =
@@ -210237,6 +213253,8 @@ export const listOpenaiAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenaiAvailableAppConnections",
 }));
 
 export type ListOpenAIServiceAccountRotationsError =
@@ -210257,6 +213275,8 @@ export const listOpenAIServiceAccountRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenAIServiceAccountRotations",
 }));
 
 export type ListOpenRouterAPIKeyRotationsError =
@@ -210277,6 +213297,8 @@ export const listOpenRouterAPIKeyRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenRouterAPIKeyRotations",
 }));
 
 export type ListOpenRouterAppConnectionsError =
@@ -210297,6 +213319,8 @@ export const listOpenRouterAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenRouterAppConnections",
 }));
 
 export type ListOpenRouterAvailableAppConnectionsError =
@@ -210317,6 +213341,8 @@ export const listOpenRouterAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpenRouterAvailableAppConnections",
 }));
 
 export type ListOracleDbAppConnectionsError =
@@ -210337,6 +213363,8 @@ export const listOracleDbAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOracleDbAppConnections",
 }));
 
 export type ListOracleDbAvailableAppConnectionsError =
@@ -210357,6 +213385,8 @@ export const listOracleDbAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOracleDbAvailableAppConnections",
 }));
 
 export type ListOracleDBCredentialsRotationsError =
@@ -210377,6 +213407,8 @@ export const listOracleDBCredentialsRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOracleDBCredentialsRotations",
 }));
 
 export type ListOrganizationAuditLogsError =
@@ -210397,6 +213429,8 @@ export const listOrganizationAuditLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAuditLogs",
 }));
 
 export type ListOrganizationGroupMembershipsError =
@@ -210417,6 +213451,8 @@ export const listOrganizationGroupMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationGroupMemberships",
 }));
 
 export type ListOrganizationRolesError =
@@ -210437,6 +213473,8 @@ export const listOrganizationRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRoles",
 }));
 
 export type ListOrgIdentityMembershipsError =
@@ -210457,6 +213495,8 @@ export const listOrgIdentityMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgIdentityMemberships",
 }));
 
 export type ListOrgMembershipsError =
@@ -210477,6 +213517,8 @@ export const listOrgMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgMemberships",
 }));
 
 export type ListOrgProjectsError =
@@ -210497,6 +213539,8 @@ export const listOrgProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgProjects",
 }));
 
 export type ListOvhAppConnectionsError =
@@ -210517,6 +213561,8 @@ export const listOvhAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhAppConnections",
 }));
 
 export type ListOvhAvailableAppConnectionsError =
@@ -210537,6 +213583,8 @@ export const listOvhAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhAvailableAppConnections",
 }));
 
 export type ListOvhSecretSyncsError =
@@ -210557,6 +213605,8 @@ export const listOvhSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOvhSecretSyncs",
 }));
 
 export type ListPkiApplicationGroupMembersError =
@@ -210577,6 +213627,8 @@ export const listPkiApplicationGroupMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiApplicationGroupMembers",
 }));
 
 export type ListPkiApplicationIdentityMembersError =
@@ -210597,6 +213649,8 @@ export const listPkiApplicationIdentityMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiApplicationIdentityMembers",
 }));
 
 export type ListPkiApplicationProfilesError =
@@ -210617,6 +213671,8 @@ export const listPkiApplicationProfiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiApplicationProfiles",
 }));
 
 export type ListPkiApplicationsError =
@@ -210637,6 +213693,8 @@ export const listPkiApplications: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiApplications",
 }));
 
 export type ListPkiApplicationUserMembersError =
@@ -210657,6 +213715,8 @@ export const listPkiApplicationUserMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiApplicationUserMembers",
 }));
 
 export type ListPkiCaAcmeError =
@@ -210676,6 +213736,8 @@ export const listPkiCaAcme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiCaAcme",
 }));
 
 export type ListPkiCaAzureAdCsError =
@@ -210695,6 +213757,8 @@ export const listPkiCaAzureAdCs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiCaAzureAdCs",
 }));
 
 export type ListPkiCaAzureAdCsTemplatesError =
@@ -210715,6 +213779,8 @@ export const listPkiCaAzureAdCsTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiCaAzureAdCsTemplates",
 }));
 
 export type ListPkiCaInternalError =
@@ -210734,6 +213800,8 @@ export const listPkiCaInternal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiCaInternal",
 }));
 
 export type ListPkiCertificateProfileCertificatesError =
@@ -210753,6 +213821,8 @@ export const listPkiCertificateProfileCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiCertificateProfileCertificates",
 }));
 
 export type ListPkiCertificateProfilesError =
@@ -210772,6 +213842,8 @@ export const listPkiCertificateProfiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiCertificateProfiles",
 }));
 
 export type ListPkiCollectionItemsError =
@@ -210792,6 +213864,8 @@ export const listPkiCollectionItems: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiCollectionItems",
 }));
 
 export type ListPkiDiscoveriesError =
@@ -210812,6 +213886,8 @@ export const listPkiDiscoveries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiDiscoveries",
 }));
 
 export type ListPkiDiscoveryScansError =
@@ -210832,6 +213908,8 @@ export const listPkiDiscoveryScans: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiDiscoveryScans",
 }));
 
 export type ListPkiInstallationsError =
@@ -210852,6 +213930,8 @@ export const listPkiInstallations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiInstallations",
 }));
 
 export type ListPkiSyncAwsCertificateManagerError =
@@ -210872,6 +213952,8 @@ export const listPkiSyncAwsCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncAwsCertificateManager",
 }));
 
 export type ListPkiSyncAwsElasticLoadBalancerError =
@@ -210892,6 +213974,8 @@ export const listPkiSyncAwsElasticLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncAwsElasticLoadBalancer",
 }));
 
 export type ListPkiSyncAwsElasticLoadBalancerListenersError =
@@ -210920,6 +214004,8 @@ export const listPkiSyncAwsElasticLoadBalancerListeners: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncAwsElasticLoadBalancerListeners",
 }));
 
 export type ListPkiSyncAwsElasticLoadBalancerLoadBalancersError =
@@ -210948,6 +214034,8 @@ export const listPkiSyncAwsElasticLoadBalancerLoadBalancers: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncAwsElasticLoadBalancerLoadBalancers",
 }));
 
 export type ListPkiSyncAwsSecretsManagerError =
@@ -210968,6 +214056,8 @@ export const listPkiSyncAwsSecretsManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncAwsSecretsManager",
 }));
 
 export type ListPkiSyncAzureKeyVaultError =
@@ -210988,6 +214078,8 @@ export const listPkiSyncAzureKeyVault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncAzureKeyVault",
 }));
 
 export type ListPkiSyncCertificatesError =
@@ -211008,6 +214100,8 @@ export const listPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncCertificates",
 }));
 
 export type ListPkiSyncCertificates2Error =
@@ -211028,6 +214122,8 @@ export const listPkiSyncCertificates2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncCertificates2",
 }));
 
 export type ListPkiSyncChefError =
@@ -211048,6 +214144,8 @@ export const listPkiSyncChef: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncChef",
 }));
 
 export type ListPkiSyncCloudflareCustomCertificateError =
@@ -211068,6 +214166,8 @@ export const listPkiSyncCloudflareCustomCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncCloudflareCustomCertificate",
 }));
 
 export type ListPkiSyncF5BigIpError =
@@ -211088,6 +214188,8 @@ export const listPkiSyncF5BigIp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncF5BigIp",
 }));
 
 export type ListPkiSyncGcpCertificateManagerError =
@@ -211108,6 +214210,8 @@ export const listPkiSyncGcpCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncGcpCertificateManager",
 }));
 
 export type ListPkiSyncKempLoadmasterError =
@@ -211128,6 +214232,8 @@ export const listPkiSyncKempLoadmaster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncKempLoadmaster",
 }));
 
 export type ListPkiSyncKempLoadmasterVirtualServicesError =
@@ -211148,6 +214254,8 @@ export const listPkiSyncKempLoadmasterVirtualServices: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncKempLoadmasterVirtualServices",
 }));
 
 export type ListPkiSyncLinuxServerError =
@@ -211168,6 +214276,8 @@ export const listPkiSyncLinuxServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncLinuxServer",
 }));
 
 export type ListPkiSyncNetscalerError =
@@ -211188,6 +214298,8 @@ export const listPkiSyncNetscaler: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncNetscaler",
 }));
 
 export type ListPkiSyncNutanixPrismCentralError =
@@ -211208,6 +214320,8 @@ export const listPkiSyncNutanixPrismCentral: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncNutanixPrismCentral",
 }));
 
 export type ListPkiSyncOptionsError =
@@ -211228,6 +214342,8 @@ export const listPkiSyncOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncOptions",
 }));
 
 export type ListPkiSyncOptions2Error =
@@ -211248,6 +214364,8 @@ export const listPkiSyncOptions2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncOptions2",
 }));
 
 export type ListPkiSyncsError =
@@ -211268,6 +214386,8 @@ export const listPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncs",
 }));
 
 export type ListPkiSyncs2Error =
@@ -211288,6 +214408,8 @@ export const listPkiSyncs2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncs2",
 }));
 
 export type ListPkiSyncWindowsServerError =
@@ -211308,6 +214430,8 @@ export const listPkiSyncWindowsServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPkiSyncWindowsServer",
 }));
 
 export type ListPostgresAppConnectionsError =
@@ -211328,6 +214452,8 @@ export const listPostgresAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresAppConnections",
 }));
 
 export type ListPostgresAvailableAppConnectionsError =
@@ -211348,6 +214474,8 @@ export const listPostgresAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresAvailableAppConnections",
 }));
 
 export type ListPostgreSQLCredentialsRotationsError =
@@ -211368,6 +214496,8 @@ export const listPostgreSQLCredentialsRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgreSQLCredentialsRotations",
 }));
 
 export type ListPowerdnsAppConnectionsError =
@@ -211388,6 +214518,8 @@ export const listPowerdnsAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPowerdnsAppConnections",
 }));
 
 export type ListPowerdnsAvailableAppConnectionsError =
@@ -211408,6 +214540,8 @@ export const listPowerdnsAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPowerdnsAvailableAppConnections",
 }));
 
 export type ListProjectCertificateAuthoritiesError =
@@ -211427,6 +214561,8 @@ export const listProjectCertificateAuthorities: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectCertificateAuthorities",
 }));
 
 export type ListProjectCertificateTemplatesError =
@@ -211446,6 +214582,8 @@ export const listProjectCertificateTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectCertificateTemplates",
 }));
 
 export type ListProjectGroupMembershipsError =
@@ -211466,6 +214604,8 @@ export const listProjectGroupMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectGroupMemberships",
 }));
 
 export type ListProjectIdentityMembershipsError =
@@ -211486,6 +214626,8 @@ export const listProjectIdentityMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectIdentityMemberships",
 }));
 
 export type ListProjectIdentityMemberships2Error =
@@ -211506,6 +214648,8 @@ export const listProjectIdentityMemberships2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectIdentityMemberships2",
 }));
 
 export type ListProjectIntegrationAuthorizationsError =
@@ -211526,6 +214670,8 @@ export const listProjectIntegrationAuthorizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectIntegrationAuthorizations",
 }));
 
 export type ListProjectIntegrationsError =
@@ -211546,6 +214692,8 @@ export const listProjectIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectIntegrations",
 }));
 
 export type ListProjectMachineIdentitiesError =
@@ -211566,6 +214714,8 @@ export const listProjectMachineIdentities: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectMachineIdentities",
 }));
 
 export type ListProjectMembershipsError =
@@ -211586,6 +214736,8 @@ export const listProjectMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectMemberships",
 }));
 
 export type ListProjectPkiAlertsError =
@@ -211605,6 +214757,8 @@ export const listProjectPkiAlerts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectPkiAlerts",
 }));
 
 export type ListProjectPkiCollectionsError =
@@ -211624,6 +214778,8 @@ export const listProjectPkiCollections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectPkiCollections",
 }));
 
 export type ListProjectPkiSubscribersError =
@@ -211643,6 +214799,8 @@ export const listProjectPkiSubscribers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectPkiSubscribers",
 }));
 
 export type ListProjectRolesError =
@@ -211663,6 +214821,8 @@ export const listProjectRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectRoles",
 }));
 
 export type ListProjectRoles2Error =
@@ -211683,6 +214843,8 @@ export const listProjectRoles2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectRoles2",
 }));
 
 export type ListProjectsError =
@@ -211703,6 +214865,8 @@ export const listProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type ListProjectTemplatesError =
@@ -211723,6 +214887,8 @@ export const listProjectTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectTemplates",
 }));
 
 export type ListProxiedServicesError =
@@ -211743,6 +214909,8 @@ export const listProxiedServices: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProxiedServices",
 }));
 
 export type ListQoveryAppConnectionsError =
@@ -211763,6 +214931,8 @@ export const listQoveryAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQoveryAppConnections",
 }));
 
 export type ListQoveryAvailableAppConnectionsError =
@@ -211783,6 +214953,8 @@ export const listQoveryAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQoveryAvailableAppConnections",
 }));
 
 export type ListQoverySecretSyncsError =
@@ -211803,6 +214975,8 @@ export const listQoverySecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQoverySecretSyncs",
 }));
 
 export type ListRailwayAppConnectionsError =
@@ -211823,6 +214997,8 @@ export const listRailwayAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRailwayAppConnections",
 }));
 
 export type ListRailwayAvailableAppConnectionsError =
@@ -211843,6 +215019,8 @@ export const listRailwayAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRailwayAvailableAppConnections",
 }));
 
 export type ListRailwaySecretSyncsError =
@@ -211863,6 +215041,8 @@ export const listRailwaySecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRailwaySecretSyncs",
 }));
 
 export type ListRedisAppConnectionsError =
@@ -211883,6 +215063,8 @@ export const listRedisAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisAppConnections",
 }));
 
 export type ListRedisAvailableAppConnectionsError =
@@ -211903,6 +215085,8 @@ export const listRedisAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisAvailableAppConnections",
 }));
 
 export type ListRedisCredentialsRotationsError =
@@ -211923,6 +215107,8 @@ export const listRedisCredentialsRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisCredentialsRotations",
 }));
 
 export type ListRenderAppConnectionsError =
@@ -211943,6 +215129,8 @@ export const listRenderAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRenderAppConnections",
 }));
 
 export type ListRenderAvailableAppConnectionsError =
@@ -211963,6 +215151,8 @@ export const listRenderAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRenderAvailableAppConnections",
 }));
 
 export type ListRenderSecretSyncsError =
@@ -211983,6 +215173,8 @@ export const listRenderSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRenderSecretSyncs",
 }));
 
 export type ListRundeckAppConnectionsError =
@@ -212003,6 +215195,8 @@ export const listRundeckAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRundeckAppConnections",
 }));
 
 export type ListRundeckAvailableAppConnectionsError =
@@ -212023,6 +215217,8 @@ export const listRundeckAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRundeckAvailableAppConnections",
 }));
 
 export type ListRundeckSecretSyncsError =
@@ -212043,6 +215239,8 @@ export const listRundeckSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRundeckSecretSyncs",
 }));
 
 export type ListSalesforceAppConnectionsError =
@@ -212063,6 +215261,8 @@ export const listSalesforceAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSalesforceAppConnections",
 }));
 
 export type ListSalesforceAvailableAppConnectionsError =
@@ -212083,6 +215283,8 @@ export const listSalesforceAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSalesforceAvailableAppConnections",
 }));
 
 export type ListSalesforceOAuthCredentialsRotationsError =
@@ -212103,6 +215305,8 @@ export const listSalesforceOAuthCredentialsRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSalesforceOAuthCredentialsRotations",
 }));
 
 export type ListSecretFoldersError =
@@ -212123,6 +215327,8 @@ export const listSecretFolders: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretFolders",
 }));
 
 export type ListSecretImportsError =
@@ -212143,6 +215349,8 @@ export const listSecretImports: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretImports",
 }));
 
 export type ListSecretImports2Error =
@@ -212163,6 +215371,8 @@ export const listSecretImports2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretImports2",
 }));
 
 export type ListSecretImportSecretRawError =
@@ -212182,6 +215392,8 @@ export const listSecretImportSecretRaw: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretImportSecretRaw",
 }));
 
 export type ListSecretRotationOptionsError =
@@ -212202,6 +215414,8 @@ export const listSecretRotationOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretRotationOptions",
 }));
 
 export type ListSecretRotationsError =
@@ -212222,6 +215436,8 @@ export const listSecretRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretRotations",
 }));
 
 export type ListSecretRotationsValidationRulesError =
@@ -212242,6 +215458,8 @@ export const listSecretRotationsValidationRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretRotationsValidationRules",
 }));
 
 export type ListSecretsV4Error =
@@ -212262,6 +215480,8 @@ export const listSecretsV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretsV4",
 }));
 
 export type ListSecretSyncOptionsError =
@@ -212282,6 +215502,8 @@ export const listSecretSyncOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretSyncOptions",
 }));
 
 export type ListSecretSyncsError =
@@ -212302,6 +215524,8 @@ export const listSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretSyncs",
 }));
 
 export type ListSecretTagsError =
@@ -212321,6 +215545,8 @@ export const listSecretTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretTags",
 }));
 
 export type ListSecretValidationRulesError =
@@ -212341,6 +215567,8 @@ export const listSecretValidationRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretValidationRules",
 }));
 
 export type ListSharedSecretsError =
@@ -212361,6 +215589,8 @@ export const listSharedSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedSecrets",
 }));
 
 export type ListSignerEffectiveIdentityMembersError =
@@ -212381,6 +215611,8 @@ export const listSignerEffectiveIdentityMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignerEffectiveIdentityMembers",
 }));
 
 export type ListSignerEffectiveUserMembersError =
@@ -212401,6 +215633,8 @@ export const listSignerEffectiveUserMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignerEffectiveUserMembers",
 }));
 
 export type ListSignerGroupMembersError =
@@ -212421,6 +215655,8 @@ export const listSignerGroupMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignerGroupMembers",
 }));
 
 export type ListSignerIdentityMembersError =
@@ -212441,6 +215677,8 @@ export const listSignerIdentityMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignerIdentityMembers",
 }));
 
 export type ListSignerRequestsError = InfisicalOpError;
@@ -212456,6 +215694,8 @@ export const listSignerRequests: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignerRequests",
 }));
 
 export type ListSignersError =
@@ -212476,6 +215716,8 @@ export const listSigners: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSigners",
 }));
 
 export type ListSignerUserMembersError =
@@ -212496,6 +215738,8 @@ export const listSignerUserMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignerUserMembers",
 }));
 
 export type ListSigningOperationsError =
@@ -212516,6 +215760,8 @@ export const listSigningOperations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSigningOperations",
 }));
 
 export type ListSmbAppConnectionsError =
@@ -212536,6 +215782,8 @@ export const listSmbAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmbAppConnections",
 }));
 
 export type ListSmbAvailableAppConnectionsError =
@@ -212556,6 +215804,8 @@ export const listSmbAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmbAvailableAppConnections",
 }));
 
 export type ListSnowflakeAppConnectionsError =
@@ -212576,6 +215826,8 @@ export const listSnowflakeAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnowflakeAppConnections",
 }));
 
 export type ListSnowflakeAvailableAppConnectionsError =
@@ -212596,6 +215848,8 @@ export const listSnowflakeAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnowflakeAvailableAppConnections",
 }));
 
 export type ListSnowflakeSecretSyncsError =
@@ -212616,6 +215870,8 @@ export const listSnowflakeSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnowflakeSecretSyncs",
 }));
 
 export type ListSnowflakeUserKeyPairRotationsError =
@@ -212636,6 +215892,8 @@ export const listSnowflakeUserKeyPairRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnowflakeUserKeyPairRotations",
 }));
 
 export type ListSpaceliftAppConnectionsError =
@@ -212656,6 +215914,8 @@ export const listSpaceliftAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpaceliftAppConnections",
 }));
 
 export type ListSpaceliftAvailableAppConnectionsError =
@@ -212676,6 +215936,8 @@ export const listSpaceliftAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpaceliftAvailableAppConnections",
 }));
 
 export type ListSpaceliftSecretSyncsError =
@@ -212696,6 +215958,8 @@ export const listSpaceliftSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpaceliftSecretSyncs",
 }));
 
 export type ListSshAppConnectionsError =
@@ -212716,6 +215980,8 @@ export const listSshAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSshAppConnections",
 }));
 
 export type ListSshAvailableAppConnectionsError =
@@ -212736,6 +216002,8 @@ export const listSshAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSshAvailableAppConnections",
 }));
 
 export type ListStaticSecretsValidationRulesError =
@@ -212756,6 +216024,8 @@ export const listStaticSecretsValidationRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStaticSecretsValidationRules",
 }));
 
 export type ListStripeAPIKeyRotationsError =
@@ -212776,6 +216046,8 @@ export const listStripeAPIKeyRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStripeAPIKeyRotations",
 }));
 
 export type ListStripeAppConnectionsError =
@@ -212796,6 +216068,8 @@ export const listStripeAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStripeAppConnections",
 }));
 
 export type ListStripeAvailableAppConnectionsError =
@@ -212816,6 +216090,8 @@ export const listStripeAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStripeAvailableAppConnections",
 }));
 
 export type ListSubOrganizationsError =
@@ -212836,6 +216112,8 @@ export const listSubOrganizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubOrganizations",
 }));
 
 export type ListSupabaseAPIKeyRotationsError =
@@ -212856,6 +216134,8 @@ export const listSupabaseAPIKeyRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupabaseAPIKeyRotations",
 }));
 
 export type ListSupabaseAppConnectionsError =
@@ -212876,6 +216156,8 @@ export const listSupabaseAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupabaseAppConnections",
 }));
 
 export type ListSupabaseAvailableAppConnectionsError =
@@ -212896,6 +216178,8 @@ export const listSupabaseAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupabaseAvailableAppConnections",
 }));
 
 export type ListSupabaseSecretSyncsError =
@@ -212916,6 +216200,8 @@ export const listSupabaseSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupabaseSecretSyncs",
 }));
 
 export type ListTeamcityAppConnectionsError =
@@ -212936,6 +216222,8 @@ export const listTeamcityAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamcityAppConnections",
 }));
 
 export type ListTeamcityAvailableAppConnectionsError =
@@ -212956,6 +216244,8 @@ export const listTeamcityAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamcityAvailableAppConnections",
 }));
 
 export type ListTeamcitySecretSyncsError =
@@ -212976,6 +216266,8 @@ export const listTeamcitySecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamcitySecretSyncs",
 }));
 
 export type ListTerraformCloudAppConnectionsError =
@@ -212996,6 +216288,8 @@ export const listTerraformCloudAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTerraformCloudAppConnections",
 }));
 
 export type ListTerraformCloudAvailableAppConnectionsError =
@@ -213020,6 +216314,8 @@ export const listTerraformCloudAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTerraformCloudAvailableAppConnections",
 }));
 
 export type ListTerraformCloudSecretSyncsError =
@@ -213040,6 +216336,8 @@ export const listTerraformCloudSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTerraformCloudSecretSyncs",
 }));
 
 export type ListTravisCIAppConnectionsError =
@@ -213060,6 +216358,8 @@ export const listTravisCIAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTravisCIAppConnections",
 }));
 
 export type ListTravisCIAvailableAppConnectionsError =
@@ -213080,6 +216380,8 @@ export const listTravisCIAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTravisCIAvailableAppConnections",
 }));
 
 export type ListTravisCISecretSyncsError =
@@ -213100,6 +216402,8 @@ export const listTravisCISecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTravisCISecretSyncs",
 }));
 
 export type ListTriggerDevAppConnectionsError =
@@ -213120,6 +216424,8 @@ export const listTriggerDevAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerDevAppConnections",
 }));
 
 export type ListTriggerDevAvailableAppConnectionsError =
@@ -213140,6 +216446,8 @@ export const listTriggerDevAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerDevAvailableAppConnections",
 }));
 
 export type ListTriggerDevSecretSyncsError =
@@ -213160,6 +216468,8 @@ export const listTriggerDevSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerDevSecretSyncs",
 }));
 
 export type ListUniversalAuthClientSecretsError =
@@ -213180,6 +216490,8 @@ export const listUniversalAuthClientSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUniversalAuthClientSecrets",
 }));
 
 export type ListUnixLinuxLocalAccountRotationsError =
@@ -213200,6 +216512,8 @@ export const listUnixLinuxLocalAccountRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUnixLinuxLocalAccountRotations",
 }));
 
 export type ListVenafiAppConnectionsError =
@@ -213220,6 +216534,8 @@ export const listVenafiAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVenafiAppConnections",
 }));
 
 export type ListVenafiAvailableAppConnectionsError =
@@ -213240,6 +216556,8 @@ export const listVenafiAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVenafiAvailableAppConnections",
 }));
 
 export type ListVenafiTppAppConnectionsError =
@@ -213260,6 +216578,8 @@ export const listVenafiTppAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVenafiTppAppConnections",
 }));
 
 export type ListVenafiTppAvailableAppConnectionsError =
@@ -213280,6 +216600,8 @@ export const listVenafiTppAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVenafiTppAvailableAppConnections",
 }));
 
 export type ListVenafiTppCertificateAuthoritiesV1Error =
@@ -213299,6 +216621,8 @@ export const listVenafiTppCertificateAuthoritiesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVenafiTppCertificateAuthoritiesV1",
 }));
 
 export type ListVercelAppConnectionsError =
@@ -213319,6 +216643,8 @@ export const listVercelAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelAppConnections",
 }));
 
 export type ListVercelAvailableAppConnectionsError =
@@ -213339,6 +216665,8 @@ export const listVercelAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelAvailableAppConnections",
 }));
 
 export type ListVercelSecretSyncsError =
@@ -213359,6 +216687,8 @@ export const listVercelSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelSecretSyncs",
 }));
 
 export type ListWindmillAppConnectionsError =
@@ -213379,6 +216709,8 @@ export const listWindmillAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWindmillAppConnections",
 }));
 
 export type ListWindmillAvailableAppConnectionsError =
@@ -213399,6 +216731,8 @@ export const listWindmillAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWindmillAvailableAppConnections",
 }));
 
 export type ListWindmillSecretSyncsError =
@@ -213419,6 +216753,8 @@ export const listWindmillSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWindmillSecretSyncs",
 }));
 
 export type ListWindowsLocalAccountRotationsError =
@@ -213439,6 +216775,8 @@ export const listWindowsLocalAccountRotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWindowsLocalAccountRotations",
 }));
 
 export type ListWindowsServerPkiSyncsError =
@@ -213459,6 +216797,8 @@ export const listWindowsServerPkiSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWindowsServerPkiSyncs",
 }));
 
 export type ListWinrmAppConnectionsError =
@@ -213479,6 +216819,8 @@ export const listWinrmAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWinrmAppConnections",
 }));
 
 export type ListWinrmAvailableAppConnectionsError =
@@ -213499,6 +216841,8 @@ export const listWinrmAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWinrmAvailableAppConnections",
 }));
 
 export type ListWorkspaceAuthorizationsError =
@@ -213519,6 +216863,8 @@ export const listWorkspaceAuthorizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceAuthorizations",
 }));
 
 export type ListWorkspaceCasError =
@@ -213538,6 +216884,8 @@ export const listWorkspaceCas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceCas",
 }));
 
 export type ListWorkspaceCertificateTemplatesError =
@@ -213557,6 +216905,8 @@ export const listWorkspaceCertificateTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceCertificateTemplates",
 }));
 
 export type ListWorkspaceGroupsError =
@@ -213577,6 +216927,8 @@ export const listWorkspaceGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceGroups",
 }));
 
 export type ListWorkspaceGroupUsersError =
@@ -213597,6 +216949,8 @@ export const listWorkspaceGroupUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceGroupUsers",
 }));
 
 export type ListWorkspaceIdentityMembershipsError =
@@ -213617,6 +216971,8 @@ export const listWorkspaceIdentityMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceIdentityMemberships",
 }));
 
 export type ListWorkspaceIntegrationsError =
@@ -213637,6 +216993,8 @@ export const listWorkspaceIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceIntegrations",
 }));
 
 export type ListWorkspaceMembershipsError =
@@ -213657,6 +217015,8 @@ export const listWorkspaceMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceMemberships",
 }));
 
 export type ListWorkspacePkiAlertsError =
@@ -213676,6 +217036,8 @@ export const listWorkspacePkiAlerts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspacePkiAlerts",
 }));
 
 export type ListWorkspacePkiCollectionsError =
@@ -213695,6 +217057,8 @@ export const listWorkspacePkiCollections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspacePkiCollections",
 }));
 
 export type ListWorkspacePkiSubscribersError =
@@ -213714,6 +217078,8 @@ export const listWorkspacePkiSubscribers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspacePkiSubscribers",
 }));
 
 export type ListWorkspaceTagsError =
@@ -213733,6 +217099,8 @@ export const listWorkspaceTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceTags",
 }));
 
 export type ListZabbixAppConnectionsError =
@@ -213753,6 +217121,8 @@ export const listZabbixAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListZabbixAppConnections",
 }));
 
 export type ListZabbixAvailableAppConnectionsError =
@@ -213773,6 +217143,8 @@ export const listZabbixAvailableAppConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListZabbixAvailableAppConnections",
 }));
 
 export type ListZabbixSecretSyncsError =
@@ -213793,6 +217165,8 @@ export const listZabbixSecretSyncs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListZabbixSecretSyncs",
 }));
 
 export type LoginWithAlicloudAuthError =
@@ -213813,6 +217187,8 @@ export const loginWithAlicloudAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithAlicloudAuth",
 }));
 
 export type LoginWithAwsAuthError =
@@ -213833,6 +217209,8 @@ export const loginWithAwsAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithAwsAuth",
 }));
 
 export type LoginWithAzureAuthError =
@@ -213853,6 +217231,8 @@ export const loginWithAzureAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithAzureAuth",
 }));
 
 export type LoginWithGcpAuthError =
@@ -213873,6 +217253,8 @@ export const loginWithGcpAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithGcpAuth",
 }));
 
 export type LoginWithJwtAuthError =
@@ -213893,6 +217275,8 @@ export const loginWithJwtAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithJwtAuth",
 }));
 
 export type LoginWithKubernetesAuthError =
@@ -213913,6 +217297,8 @@ export const loginWithKubernetesAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithKubernetesAuth",
 }));
 
 export type LoginWithLdapAuthError =
@@ -213933,6 +217319,8 @@ export const loginWithLdapAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithLdapAuth",
 }));
 
 export type LoginWithOciAuthError =
@@ -213953,6 +217341,8 @@ export const loginWithOciAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithOciAuth",
 }));
 
 export type LoginWithOidcAuthError =
@@ -213973,6 +217363,8 @@ export const loginWithOidcAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithOidcAuth",
 }));
 
 export type LoginWithSpiffeAuthError =
@@ -213993,6 +217385,8 @@ export const loginWithSpiffeAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithSpiffeAuth",
 }));
 
 export type LoginWithTlsCertAuthError =
@@ -214013,6 +217407,8 @@ export const loginWithTlsCertAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithTlsCertAuth",
 }));
 
 export type LoginWithUniversalAuthError =
@@ -214033,6 +217429,8 @@ export const loginWithUniversalAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginWithUniversalAuth",
 }));
 
 export type MintGatewayEnrollmentTokenError =
@@ -214052,6 +217450,8 @@ export const mintGatewayEnrollmentToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MintGatewayEnrollmentToken",
 }));
 
 export type MoveAuth0ClientSecretRotationError =
@@ -214072,6 +217472,8 @@ export const moveAuth0ClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveAuth0ClientSecretRotation",
 }));
 
 export type MoveAWSIAMUserSecretRotationError =
@@ -214092,6 +217494,8 @@ export const moveAWSIAMUserSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveAWSIAMUserSecretRotation",
 }));
 
 export type MoveAzureClientSecretRotationError =
@@ -214108,10 +217512,12 @@ export const moveAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c920, 0) as any as S.Schema<MoveAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<MoveAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<MoveAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveAzureClientSecretRotation",
 }));
 
 export type MoveCloudflareAPITokenRotationError =
@@ -214132,6 +217538,8 @@ export const moveCloudflareAPITokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCloudflareAPITokenRotation",
 }));
 
 export type MoveCloudflareR2AccessKeyRotationError =
@@ -214152,6 +217560,8 @@ export const moveCloudflareR2AccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCloudflareR2AccessKeyRotation",
 }));
 
 export type MoveConvexAccessKeyRotationError =
@@ -214172,6 +217582,8 @@ export const moveConvexAccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveConvexAccessKeyRotation",
 }));
 
 export type MoveDatabricksServicePrincipalSecretRotationError =
@@ -214200,6 +217612,8 @@ export const moveDatabricksServicePrincipalSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveDatabricksServicePrincipalSecretRotation",
 }));
 
 export type MoveDatadogAPIKeyRotationError =
@@ -214220,6 +217634,8 @@ export const moveDatadogAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveDatadogAPIKeyRotation",
 }));
 
 export type MoveDatadogApplicationKeyRotationError =
@@ -214240,6 +217656,8 @@ export const moveDatadogApplicationKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveDatadogApplicationKeyRotation",
 }));
 
 export type MoveDBTServiceTokenRotationError =
@@ -214260,6 +217678,8 @@ export const moveDBTServiceTokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveDBTServiceTokenRotation",
 }));
 
 export type MoveFireworksSecretRotationError =
@@ -214280,6 +217700,8 @@ export const moveFireworksSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveFireworksSecretRotation",
 }));
 
 export type MoveHPiLOLocalAccountRotationError =
@@ -214300,6 +217722,8 @@ export const moveHPiLOLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveHPiLOLocalAccountRotation",
 }));
 
 export type MoveLDAPPasswordRotationError =
@@ -214320,6 +217744,8 @@ export const moveLDAPPasswordRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveLDAPPasswordRotation",
 }));
 
 export type MoveLiteLLMAPIKeyRotationError =
@@ -214340,6 +217766,8 @@ export const moveLiteLLMAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveLiteLLMAPIKeyRotation",
 }));
 
 export type MoveMicrosoftSQLServerCredentialsRotationError =
@@ -214364,6 +217792,8 @@ export const moveMicrosoftSQLServerCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveMicrosoftSQLServerCredentialsRotation",
 }));
 
 export type MoveMongoDBCredentialsRotationError =
@@ -214384,6 +217814,8 @@ export const moveMongoDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveMongoDBCredentialsRotation",
 }));
 
 export type MoveMySQLCredentialsRotationError =
@@ -214404,6 +217836,8 @@ export const moveMySQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveMySQLCredentialsRotation",
 }));
 
 export type MoveOktaClientSecretRotationError =
@@ -214424,6 +217858,8 @@ export const moveOktaClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveOktaClientSecretRotation",
 }));
 
 export type MoveOpenAIServiceAccountRotationError =
@@ -214444,6 +217880,8 @@ export const moveOpenAIServiceAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveOpenAIServiceAccountRotation",
 }));
 
 export type MoveOpenRouterAPIKeyRotationError =
@@ -214464,6 +217902,8 @@ export const moveOpenRouterAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveOpenRouterAPIKeyRotation",
 }));
 
 export type MoveOracleDBCredentialsRotationError =
@@ -214484,6 +217924,8 @@ export const moveOracleDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveOracleDBCredentialsRotation",
 }));
 
 export type MovePostgreSQLCredentialsRotationError =
@@ -214504,6 +217946,8 @@ export const movePostgreSQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MovePostgreSQLCredentialsRotation",
 }));
 
 export type MoveRedisCredentialsRotationError =
@@ -214524,6 +217968,8 @@ export const moveRedisCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveRedisCredentialsRotation",
 }));
 
 export type MoveSalesforceOAuthCredentialsRotationError =
@@ -214544,6 +217990,8 @@ export const moveSalesforceOAuthCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveSalesforceOAuthCredentialsRotation",
 }));
 
 export type MoveSecretFolderError =
@@ -214564,6 +218012,8 @@ export const moveSecretFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveSecretFolder",
 }));
 
 export type MoveSecretsV4Error =
@@ -214583,6 +218033,8 @@ export const moveSecretsV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveSecretsV4",
 }));
 
 export type MoveSnowflakeUserKeyPairRotationError =
@@ -214603,6 +218055,8 @@ export const moveSnowflakeUserKeyPairRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveSnowflakeUserKeyPairRotation",
 }));
 
 export type MoveStripeAPIKeyRotationError =
@@ -214623,6 +218077,8 @@ export const moveStripeAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveStripeAPIKeyRotation",
 }));
 
 export type MoveSupabaseAPIKeyRotationError =
@@ -214643,6 +218099,8 @@ export const moveSupabaseAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveSupabaseAPIKeyRotation",
 }));
 
 export type MoveUnixLinuxLocalAccountRotationError =
@@ -214663,6 +218121,8 @@ export const moveUnixLinuxLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveUnixLinuxLocalAccountRotation",
 }));
 
 export type MoveWindowsLocalAccountRotationError =
@@ -214683,6 +218143,8 @@ export const moveWindowsLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveWindowsLocalAccountRotation",
 }));
 
 export type PreApproveSigningError = InfisicalOpError;
@@ -214698,6 +218160,8 @@ export const preApproveSigning: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreApproveSigning",
 }));
 
 export type PreviewPkiAlertCertificatesV1Error =
@@ -214718,6 +218182,8 @@ export const previewPkiAlertCertificatesV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewPkiAlertCertificatesV1",
 }));
 
 export type RefreshSpiffeBundleError =
@@ -214738,6 +218204,8 @@ export const refreshSpiffeBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshSpiffeBundle",
 }));
 
 export type ReissueAgentVaultProxyEnrollmentTokenError =
@@ -214758,6 +218226,8 @@ export const reissueAgentVaultProxyEnrollmentToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReissueAgentVaultProxyEnrollmentToken",
 }));
 
 export type ReissueSignerCertificateError =
@@ -214778,6 +218248,8 @@ export const reissueSignerCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReissueSignerCertificate",
 }));
 
 export type RemoveAwsCertificateManagerPkiSyncCertificatesError =
@@ -214806,6 +218278,8 @@ export const removeAwsCertificateManagerPkiSyncCertificates: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAwsCertificateManagerPkiSyncCertificates",
 }));
 
 export type RemoveAwsElasticLoadBalancerPkiSyncCertificatesError =
@@ -214834,6 +218308,8 @@ export const removeAwsElasticLoadBalancerPkiSyncCertificates: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAwsElasticLoadBalancerPkiSyncCertificates",
 }));
 
 export type RemoveAwsParameterStoreSecretSyncSecretsError =
@@ -214858,6 +218334,8 @@ export const removeAwsParameterStoreSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAwsParameterStoreSecretSyncSecrets",
 }));
 
 export type RemoveAwsSecretsManagerPkiSyncCertificatesError =
@@ -214886,6 +218364,8 @@ export const removeAwsSecretsManagerPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAwsSecretsManagerPkiSyncCertificates",
 }));
 
 export type RemoveAwsSecretsManagerSecretSyncSecretsError =
@@ -214910,6 +218390,8 @@ export const removeAwsSecretsManagerSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAwsSecretsManagerSecretSyncSecrets",
 }));
 
 export type RemoveAzureAppConfigurationSecretSyncSecretsError =
@@ -214931,13 +218413,15 @@ export const removeAzureAppConfigurationSecretSyncSecrets: API.OperationMethod<
     0,
   ) as any as S.Schema<RemoveAzureAppConfigurationSecretSyncSecretsRequest>,
   output: __S(
-    368,
-    __c23,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<RemoveAzureAppConfigurationSecretSyncSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAzureAppConfigurationSecretSyncSecrets",
 }));
 
 export type RemoveAzureDevopsSecretSyncSecretsError =
@@ -214958,6 +218442,8 @@ export const removeAzureDevopsSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAzureDevopsSecretSyncSecrets",
 }));
 
 export type RemoveAzureEntraIdScimSecretSyncSecretsError =
@@ -214978,6 +218464,8 @@ export const removeAzureEntraIdScimSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAzureEntraIdScimSecretSyncSecrets",
 }));
 
 export type RemoveAzureKeyVaultPkiSyncCertificatesError =
@@ -214998,6 +218486,8 @@ export const removeAzureKeyVaultPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAzureKeyVaultPkiSyncCertificates",
 }));
 
 export type RemoveAzureKeyVaultSecretSyncSecretsError =
@@ -215018,6 +218508,8 @@ export const removeAzureKeyVaultSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAzureKeyVaultSecretSyncSecrets",
 }));
 
 export type RemoveBitbucketSecretSyncSecretsError =
@@ -215038,6 +218530,8 @@ export const removeBitbucketSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveBitbucketSecretSyncSecrets",
 }));
 
 export type RemoveCamundaSecretSyncSecretsError =
@@ -215058,6 +218552,8 @@ export const removeCamundaSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCamundaSecretSyncSecrets",
 }));
 
 export type RemoveCertificatesFromPkiSyncError =
@@ -215078,6 +218574,8 @@ export const removeCertificatesFromPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCertificatesFromPkiSync",
 }));
 
 export type RemoveChecklySecretSyncSecretsError =
@@ -215098,6 +218596,8 @@ export const removeChecklySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveChecklySecretSyncSecrets",
 }));
 
 export type RemoveChefPkiSyncCertificatesError =
@@ -215118,6 +218618,8 @@ export const removeChefPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveChefPkiSyncCertificates",
 }));
 
 export type RemoveChefSecretSyncSecretsError =
@@ -215138,6 +218640,8 @@ export const removeChefSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveChefSecretSyncSecrets",
 }));
 
 export type RemoveCircleciSecretSyncSecretsError =
@@ -215158,6 +218662,8 @@ export const removeCircleciSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCircleciSecretSyncSecrets",
 }));
 
 export type RemoveCloud66SecretSyncSecretsError =
@@ -215178,6 +218684,8 @@ export const removeCloud66SecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCloud66SecretSyncSecrets",
 }));
 
 export type RemoveCloudflareCustomCertificatePkiSyncCertificatesError =
@@ -215206,6 +218714,8 @@ export const removeCloudflareCustomCertificatePkiSyncCertificates: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCloudflareCustomCertificatePkiSyncCertificates",
 }));
 
 export type RemoveCloudflarePagesSecretSyncSecretsError =
@@ -215226,6 +218736,8 @@ export const removeCloudflarePagesSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCloudflarePagesSecretSyncSecrets",
 }));
 
 export type RemoveCloudflareWorkersSecretSyncSecretsError =
@@ -215246,6 +218758,8 @@ export const removeCloudflareWorkersSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCloudflareWorkersSecretSyncSecrets",
 }));
 
 export type RemoveDatabricksSecretSyncSecretsError =
@@ -215266,6 +218780,8 @@ export const removeDatabricksSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDatabricksSecretSyncSecrets",
 }));
 
 export type RemoveDaytonaSecretSyncSecretsError =
@@ -215286,6 +218802,8 @@ export const removeDaytonaSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDaytonaSecretSyncSecrets",
 }));
 
 export type RemoveDevinSecretSyncSecretsError =
@@ -215306,6 +218824,8 @@ export const removeDevinSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDevinSecretSyncSecrets",
 }));
 
 export type RemoveDigitalOceanAppPlatformSecretSyncSecretsError =
@@ -215334,6 +218854,8 @@ export const removeDigitalOceanAppPlatformSecretSyncSecrets: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDigitalOceanAppPlatformSecretSyncSecrets",
 }));
 
 export type RemoveExternalInfisicalSecretSyncSecretsError =
@@ -215358,6 +218880,8 @@ export const removeExternalInfisicalSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveExternalInfisicalSecretSyncSecrets",
 }));
 
 export type RemoveF5BigIpPkiSyncCertificatesError =
@@ -215378,6 +218902,8 @@ export const removeF5BigIpPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveF5BigIpPkiSyncCertificates",
 }));
 
 export type RemoveFlyioSecretSyncSecretsError =
@@ -215398,6 +218924,8 @@ export const removeFlyioSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveFlyioSecretSyncSecrets",
 }));
 
 export type RemoveGcpCertificateManagerPkiSyncCertificatesError =
@@ -215426,6 +218954,8 @@ export const removeGcpCertificateManagerPkiSyncCertificates: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGcpCertificateManagerPkiSyncCertificates",
 }));
 
 export type RemoveGcpSecretManagerSecretSyncSecretsError =
@@ -215450,6 +218980,8 @@ export const removeGcpSecretManagerSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGcpSecretManagerSecretSyncSecrets",
 }));
 
 export type RemoveGitHubSecretSyncSecretsError =
@@ -215470,6 +219002,8 @@ export const removeGitHubSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGitHubSecretSyncSecrets",
 }));
 
 export type RemoveGitLabSecretSyncSecretsError =
@@ -215490,6 +219024,8 @@ export const removeGitLabSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGitLabSecretSyncSecrets",
 }));
 
 export type RemoveHashicorpVaultSecretSyncSecretsError =
@@ -215510,6 +219046,8 @@ export const removeHashicorpVaultSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveHashicorpVaultSecretSyncSecrets",
 }));
 
 export type RemoveHasuraCloudSecretSyncSecretsError =
@@ -215530,6 +219068,8 @@ export const removeHasuraCloudSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveHasuraCloudSecretSyncSecrets",
 }));
 
 export type RemoveHerokuSecretSyncSecretsError =
@@ -215550,6 +219090,8 @@ export const removeHerokuSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveHerokuSecretSyncSecrets",
 }));
 
 export type RemoveHumanitecSecretSyncSecretsError =
@@ -215570,6 +219112,8 @@ export const removeHumanitecSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveHumanitecSecretSyncSecrets",
 }));
 
 export type RemoveItemFromPkiCollectionError =
@@ -215590,6 +219134,8 @@ export const removeItemFromPkiCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveItemFromPkiCollection",
 }));
 
 export type RemoveKempLoadmasterPkiSyncCertificatesError =
@@ -215614,6 +219160,8 @@ export const removeKempLoadmasterPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveKempLoadmasterPkiSyncCertificates",
 }));
 
 export type RemoveLaravelForgeSecretSyncSecretsError =
@@ -215634,6 +219182,8 @@ export const removeLaravelForgeSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveLaravelForgeSecretSyncSecrets",
 }));
 
 export type RemoveLinuxServerPkiSyncCertificatesError =
@@ -215654,6 +219204,8 @@ export const removeLinuxServerPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveLinuxServerPkiSyncCertificates",
 }));
 
 export type RemoveMachineIdentityFromGroupError =
@@ -215673,6 +219225,8 @@ export const removeMachineIdentityFromGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveMachineIdentityFromGroup",
 }));
 
 export type RemoveNetlifySecretSyncSecretsError =
@@ -215693,6 +219247,8 @@ export const removeNetlifySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveNetlifySecretSyncSecrets",
 }));
 
 export type RemoveNetscalerPkiSyncCertificatesError =
@@ -215713,6 +219269,8 @@ export const removeNetscalerPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveNetscalerPkiSyncCertificates",
 }));
 
 export type RemoveNorthflankSecretSyncSecretsError =
@@ -215733,6 +219291,8 @@ export const removeNorthflankSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveNorthflankSecretSyncSecrets",
 }));
 
 export type RemoveOciVaultSecretSyncSecretsError =
@@ -215753,6 +219313,8 @@ export const removeOciVaultSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOciVaultSecretSyncSecrets",
 }));
 
 export type RemoveOctopusDeploySecretSyncSecretsError =
@@ -215773,6 +219335,8 @@ export const removeOctopusDeploySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOctopusDeploySecretSyncSecrets",
 }));
 
 export type RemoveOnaSecretSyncSecretsError =
@@ -215793,6 +219357,8 @@ export const removeOnaSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOnaSecretSyncSecrets",
 }));
 
 export type RemoveOnePasswordSecretSyncSecretsError =
@@ -215813,6 +219379,8 @@ export const removeOnePasswordSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOnePasswordSecretSyncSecrets",
 }));
 
 export type RemoveOvhSecretSyncSecretsError =
@@ -215833,6 +219401,8 @@ export const removeOvhSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOvhSecretSyncSecrets",
 }));
 
 export type RemovePkiApplicationGroupMemberError =
@@ -215853,6 +219423,8 @@ export const removePkiApplicationGroupMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiApplicationGroupMember",
 }));
 
 export type RemovePkiApplicationIdentityMemberError =
@@ -215873,6 +219445,8 @@ export const removePkiApplicationIdentityMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiApplicationIdentityMember",
 }));
 
 export type RemovePkiApplicationUserMemberError =
@@ -215893,6 +219467,8 @@ export const removePkiApplicationUserMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiApplicationUserMember",
 }));
 
 export type RemovePkiSyncsAwsCertificateManagerCertificatesError =
@@ -215921,6 +219497,8 @@ export const removePkiSyncsAwsCertificateManagerCertificates: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsAwsCertificateManagerCertificates",
 }));
 
 export type RemovePkiSyncsAwsElasticLoadBalancerCertificatesError =
@@ -215949,6 +219527,8 @@ export const removePkiSyncsAwsElasticLoadBalancerCertificates: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsAwsElasticLoadBalancerCertificates",
 }));
 
 export type RemovePkiSyncsAwsSecretsManagerCertificatesError =
@@ -215977,6 +219557,8 @@ export const removePkiSyncsAwsSecretsManagerCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsAwsSecretsManagerCertificates",
 }));
 
 export type RemovePkiSyncsAzureKeyVaultCertificatesError =
@@ -216001,6 +219583,8 @@ export const removePkiSyncsAzureKeyVaultCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsAzureKeyVaultCertificates",
 }));
 
 export type RemovePkiSyncsChefCertificatesError =
@@ -216021,6 +219605,8 @@ export const removePkiSyncsChefCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsChefCertificates",
 }));
 
 export type RemovePkiSyncsCloudflareCustomCertificateCertificatesError =
@@ -216049,6 +219635,8 @@ export const removePkiSyncsCloudflareCustomCertificateCertificates: API.Operatio
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsCloudflareCustomCertificateCertificates",
 }));
 
 export type RemovePkiSyncsF5BigIpCertificatesError =
@@ -216069,6 +219657,8 @@ export const removePkiSyncsF5BigIpCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsF5BigIpCertificates",
 }));
 
 export type RemovePkiSyncsGcpCertificateManagerCertificatesError =
@@ -216097,6 +219687,8 @@ export const removePkiSyncsGcpCertificateManagerCertificates: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsGcpCertificateManagerCertificates",
 }));
 
 export type RemovePkiSyncsKempLoadmasterCertificatesError =
@@ -216121,6 +219713,8 @@ export const removePkiSyncsKempLoadmasterCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsKempLoadmasterCertificates",
 }));
 
 export type RemovePkiSyncsLinuxServerCertificatesError =
@@ -216141,6 +219735,8 @@ export const removePkiSyncsLinuxServerCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsLinuxServerCertificates",
 }));
 
 export type RemovePkiSyncsNetscalerCertificatesError =
@@ -216161,6 +219757,8 @@ export const removePkiSyncsNetscalerCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsNetscalerCertificates",
 }));
 
 export type RemovePkiSyncsWindowsServerCertificatesError =
@@ -216185,6 +219783,8 @@ export const removePkiSyncsWindowsServerCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePkiSyncsWindowsServerCertificates",
 }));
 
 export type RemoveProjectGroupMembershipError =
@@ -216205,6 +219805,8 @@ export const removeProjectGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveProjectGroupMembership",
 }));
 
 export type RemoveProjectMembersError =
@@ -216225,6 +219827,8 @@ export const removeProjectMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveProjectMembers",
 }));
 
 export type RemoveQoverySecretSyncSecretsError =
@@ -216245,6 +219849,8 @@ export const removeQoverySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveQoverySecretSyncSecrets",
 }));
 
 export type RemoveRailwaySecretSyncSecretsError =
@@ -216265,6 +219871,8 @@ export const removeRailwaySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRailwaySecretSyncSecrets",
 }));
 
 export type RemoveRenderSecretSyncSecretsError =
@@ -216285,6 +219893,8 @@ export const removeRenderSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRenderSecretSyncSecrets",
 }));
 
 export type RemoveRundeckSecretSyncSecretsError =
@@ -216305,6 +219915,8 @@ export const removeRundeckSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRundeckSecretSyncSecrets",
 }));
 
 export type RemoveSignerGroupMemberError =
@@ -216325,6 +219937,8 @@ export const removeSignerGroupMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSignerGroupMember",
 }));
 
 export type RemoveSignerIdentityMemberError =
@@ -216345,6 +219959,8 @@ export const removeSignerIdentityMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSignerIdentityMember",
 }));
 
 export type RemoveSignerUserMemberError =
@@ -216365,6 +219981,8 @@ export const removeSignerUserMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSignerUserMember",
 }));
 
 export type RemoveSnowflakeSecretSyncSecretsError =
@@ -216385,6 +220003,8 @@ export const removeSnowflakeSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSnowflakeSecretSyncSecrets",
 }));
 
 export type RemoveSpaceliftSecretSyncSecretsError =
@@ -216405,6 +220025,8 @@ export const removeSpaceliftSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSpaceliftSecretSyncSecrets",
 }));
 
 export type RemoveSupabaseSecretSyncSecretsError =
@@ -216425,6 +220047,8 @@ export const removeSupabaseSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSupabaseSecretSyncSecrets",
 }));
 
 export type RemoveTeamcitySecretSyncSecretsError =
@@ -216445,6 +220069,8 @@ export const removeTeamcitySecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeamcitySecretSyncSecrets",
 }));
 
 export type RemoveTerraformCloudSecretSyncSecretsError =
@@ -216465,6 +220091,8 @@ export const removeTerraformCloudSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTerraformCloudSecretSyncSecrets",
 }));
 
 export type RemoveTravisCISecretSyncSecretsError =
@@ -216485,6 +220113,8 @@ export const removeTravisCISecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTravisCISecretSyncSecrets",
 }));
 
 export type RemoveTriggerDevSecretSyncSecretsError =
@@ -216505,6 +220135,8 @@ export const removeTriggerDevSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTriggerDevSecretSyncSecrets",
 }));
 
 export type RemoveUserFromGroupError =
@@ -216524,6 +220156,8 @@ export const removeUserFromGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUserFromGroup",
 }));
 
 export type RemoveVercelSecretSyncSecretsError =
@@ -216544,6 +220178,8 @@ export const removeVercelSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveVercelSecretSyncSecrets",
 }));
 
 export type RemoveWindmillSecretSyncSecretsError =
@@ -216564,6 +220200,8 @@ export const removeWindmillSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveWindmillSecretSyncSecrets",
 }));
 
 export type RemoveWindowsServerPkiSyncCertificatesError =
@@ -216584,6 +220222,8 @@ export const removeWindowsServerPkiSyncCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveWindowsServerPkiSyncCertificates",
 }));
 
 export type RemoveZabbixSecretSyncSecretsError =
@@ -216604,6 +220244,8 @@ export const removeZabbixSecretSyncSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveZabbixSecretSyncSecrets",
 }));
 
 export type RenewCaCertificateError =
@@ -216624,6 +220266,8 @@ export const renewCaCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewCaCertificate",
 }));
 
 export type RenewCertificateError =
@@ -216644,6 +220288,8 @@ export const renewCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewCertificate",
 }));
 
 export type RenewCertificateAuthorityError =
@@ -216664,6 +220310,8 @@ export const renewCertificateAuthority: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewCertificateAuthority",
 }));
 
 export type RenewDynamicSecretsLeaseError =
@@ -216683,6 +220331,8 @@ export const renewDynamicSecretsLease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewDynamicSecretsLease",
 }));
 
 export type RenewIdentityAccessTokenError =
@@ -216703,6 +220353,8 @@ export const renewIdentityAccessToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewIdentityAccessToken",
 }));
 
 export type RenewPkiCertificateError =
@@ -216722,6 +220374,8 @@ export const renewPkiCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewPkiCertificate",
 }));
 
 export type RestoreEnvironmentError =
@@ -216742,6 +220396,8 @@ export const restoreEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreEnvironment",
 }));
 
 export type RevealCertificateProfileAcmeEabSecretError =
@@ -216761,6 +220417,8 @@ export const revealCertificateProfileAcmeEabSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevealCertificateProfileAcmeEabSecret",
 }));
 
 export type RevealPkiApplicationAcmeEabSecretError =
@@ -216781,6 +220439,8 @@ export const revealPkiApplicationAcmeEabSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevealPkiApplicationAcmeEabSecret",
 }));
 
 export type RevokeAgentVaultAccessBundleMembersError =
@@ -216801,6 +220461,8 @@ export const revokeAgentVaultAccessBundleMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAgentVaultAccessBundleMembers",
 }));
 
 export type RevokeAgentVaultMembersError =
@@ -216821,6 +220483,8 @@ export const revokeAgentVaultMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAgentVaultMembers",
 }));
 
 export type RevokeAgentVaultProxyAccessError =
@@ -216841,6 +220505,8 @@ export const revokeAgentVaultProxyAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAgentVaultProxyAccess",
 }));
 
 export type RevokeAgentVaultSessionError =
@@ -216861,6 +220527,8 @@ export const revokeAgentVaultSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAgentVaultSession",
 }));
 
 export type RevokeCertificateError =
@@ -216881,6 +220549,8 @@ export const revokeCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCertificate",
 }));
 
 export type RevokeIdentityAccessTokenError =
@@ -216901,6 +220571,8 @@ export const revokeIdentityAccessToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeIdentityAccessToken",
 }));
 
 export type RevokePkiCertificateError =
@@ -216921,6 +220593,8 @@ export const revokePkiCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokePkiCertificate",
 }));
 
 export type RevokeSignerRequestError = InfisicalOpError;
@@ -216936,6 +220610,8 @@ export const revokeSignerRequest: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSignerRequest",
 }));
 
 export type RevokeTokenAuthTokenError =
@@ -216956,6 +220632,8 @@ export const revokeTokenAuthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeTokenAuthToken",
 }));
 
 export type RevokeUniversalAuthClientSecretError =
@@ -216976,6 +220654,8 @@ export const revokeUniversalAuthClientSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUniversalAuthClientSecret",
 }));
 
 export type RotateAdcsAppConnectionCredentialsError =
@@ -216996,6 +220676,8 @@ export const rotateAdcsAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAdcsAppConnectionCredentials",
 }));
 
 export type RotateAnthropicAppConnectionCredentialsError =
@@ -217020,6 +220702,8 @@ export const rotateAnthropicAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAnthropicAppConnectionCredentials",
 }));
 
 export type RotateAuth0AppConnectionCredentialsError =
@@ -217040,6 +220724,8 @@ export const rotateAuth0AppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAuth0AppConnectionCredentials",
 }));
 
 export type RotateAuth0ClientSecretRotationError =
@@ -217060,6 +220746,8 @@ export const rotateAuth0ClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAuth0ClientSecretRotation",
 }));
 
 export type RotateAwsAppConnectionCredentialsError =
@@ -217080,6 +220768,8 @@ export const rotateAwsAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAwsAppConnectionCredentials",
 }));
 
 export type RotateAWSIAMUserSecretRotationError =
@@ -217100,6 +220790,8 @@ export const rotateAWSIAMUserSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAWSIAMUserSecretRotation",
 }));
 
 export type RotateAzureAdcsAppConnectionCredentialsError =
@@ -217124,6 +220816,8 @@ export const rotateAzureAdcsAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAzureAdcsAppConnectionCredentials",
 }));
 
 export type RotateAzureAppConfigurationAppConnectionCredentialsError =
@@ -217152,6 +220846,8 @@ export const rotateAzureAppConfigurationAppConnectionCredentials: API.OperationM
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAzureAppConfigurationAppConnectionCredentials",
 }));
 
 export type RotateAzureClientSecretRotationError =
@@ -217168,10 +220864,12 @@ export const rotateAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17808, __c1113, 0) as any as S.Schema<RotateAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<RotateAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<RotateAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAzureClientSecretRotation",
 }));
 
 export type RotateAzureClientSecretsAppConnectionCredentialsError =
@@ -217200,6 +220898,8 @@ export const rotateAzureClientSecretsAppConnectionCredentials: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAzureClientSecretsAppConnectionCredentials",
 }));
 
 export type RotateAzureDevopsAppConnectionCredentialsError =
@@ -217228,6 +220928,8 @@ export const rotateAzureDevopsAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAzureDevopsAppConnectionCredentials",
 }));
 
 export type RotateAzureDnsAppConnectionCredentialsError =
@@ -217248,6 +220950,8 @@ export const rotateAzureDnsAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAzureDnsAppConnectionCredentials",
 }));
 
 export type RotateAzureEntraIdAppConnectionCredentialsError =
@@ -217276,6 +220980,8 @@ export const rotateAzureEntraIdAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAzureEntraIdAppConnectionCredentials",
 }));
 
 export type RotateAzureKeyVaultAppConnectionCredentialsError =
@@ -217304,6 +221010,8 @@ export const rotateAzureKeyVaultAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAzureKeyVaultAppConnectionCredentials",
 }));
 
 export type RotateBitbucketAppConnectionCredentialsError =
@@ -217324,6 +221032,8 @@ export const rotateBitbucketAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateBitbucketAppConnectionCredentials",
 }));
 
 export type RotateCamundaAppConnectionCredentialsError =
@@ -217344,6 +221054,8 @@ export const rotateCamundaAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateCamundaAppConnectionCredentials",
 }));
 
 export type RotateChecklyAppConnectionCredentialsError =
@@ -217364,6 +221076,8 @@ export const rotateChecklyAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateChecklyAppConnectionCredentials",
 }));
 
 export type RotateChefAppConnectionCredentialsError =
@@ -217384,6 +221098,8 @@ export const rotateChefAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateChefAppConnectionCredentials",
 }));
 
 export type RotateCircleciAppConnectionCredentialsError =
@@ -217404,6 +221120,8 @@ export const rotateCircleciAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateCircleciAppConnectionCredentials",
 }));
 
 export type RotateCloud66AppConnectionCredentialsError =
@@ -217424,6 +221142,8 @@ export const rotateCloud66AppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateCloud66AppConnectionCredentials",
 }));
 
 export type RotateCloudflareAPITokenRotationError =
@@ -217444,6 +221164,8 @@ export const rotateCloudflareAPITokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateCloudflareAPITokenRotation",
 }));
 
 export type RotateCloudflareAppConnectionCredentialsError =
@@ -217464,6 +221186,8 @@ export const rotateCloudflareAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateCloudflareAppConnectionCredentials",
 }));
 
 export type RotateCloudflareR2AccessKeyRotationError =
@@ -217484,6 +221208,8 @@ export const rotateCloudflareR2AccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateCloudflareR2AccessKeyRotation",
 }));
 
 export type RotateConvexAccessKeyRotationError =
@@ -217504,6 +221230,8 @@ export const rotateConvexAccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateConvexAccessKeyRotation",
 }));
 
 export type RotateConvexAppConnectionCredentialsError =
@@ -217524,6 +221252,8 @@ export const rotateConvexAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateConvexAppConnectionCredentials",
 }));
 
 export type RotateDatabricksAppConnectionCredentialsError =
@@ -217544,6 +221274,8 @@ export const rotateDatabricksAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDatabricksAppConnectionCredentials",
 }));
 
 export type RotateDatabricksServicePrincipalSecretRotationError =
@@ -217572,6 +221304,8 @@ export const rotateDatabricksServicePrincipalSecretRotation: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDatabricksServicePrincipalSecretRotation",
 }));
 
 export type RotateDatadogAPIKeyRotationError =
@@ -217592,6 +221326,8 @@ export const rotateDatadogAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDatadogAPIKeyRotation",
 }));
 
 export type RotateDatadogAppConnectionCredentialsError =
@@ -217612,6 +221348,8 @@ export const rotateDatadogAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDatadogAppConnectionCredentials",
 }));
 
 export type RotateDatadogApplicationKeyRotationError =
@@ -217632,6 +221370,8 @@ export const rotateDatadogApplicationKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDatadogApplicationKeyRotation",
 }));
 
 export type RotateDaytonaAppConnectionCredentialsError =
@@ -217652,6 +221392,8 @@ export const rotateDaytonaAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDaytonaAppConnectionCredentials",
 }));
 
 export type RotateDbtAppConnectionCredentialsError =
@@ -217672,6 +221414,8 @@ export const rotateDbtAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDbtAppConnectionCredentials",
 }));
 
 export type RotateDBTServiceTokenRotationError =
@@ -217692,6 +221436,8 @@ export const rotateDBTServiceTokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDBTServiceTokenRotation",
 }));
 
 export type RotateDevinAppConnectionCredentialsError =
@@ -217712,6 +221458,8 @@ export const rotateDevinAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDevinAppConnectionCredentials",
 }));
 
 export type RotateDigicertAppConnectionCredentialsError =
@@ -217732,6 +221480,8 @@ export const rotateDigicertAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDigicertAppConnectionCredentials",
 }));
 
 export type RotateDigitalOceanAppConnectionCredentialsError =
@@ -217760,6 +221510,8 @@ export const rotateDigitalOceanAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDigitalOceanAppConnectionCredentials",
 }));
 
 export type RotateDnsMadeEasyAppConnectionCredentialsError =
@@ -217788,6 +221540,8 @@ export const rotateDnsMadeEasyAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDnsMadeEasyAppConnectionCredentials",
 }));
 
 export type RotateDopplerAppConnectionCredentialsError =
@@ -217808,6 +221562,8 @@ export const rotateDopplerAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDopplerAppConnectionCredentials",
 }));
 
 export type RotateExternalInfisicalAppConnectionCredentialsError =
@@ -217836,6 +221592,8 @@ export const rotateExternalInfisicalAppConnectionCredentials: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateExternalInfisicalAppConnectionCredentials",
 }));
 
 export type RotateF5BigIpAppConnectionCredentialsError =
@@ -217856,6 +221614,8 @@ export const rotateF5BigIpAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateF5BigIpAppConnectionCredentials",
 }));
 
 export type RotateFireworksAppConnectionCredentialsError =
@@ -217876,6 +221636,8 @@ export const rotateFireworksAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateFireworksAppConnectionCredentials",
 }));
 
 export type RotateFireworksSecretRotationError =
@@ -217896,6 +221658,8 @@ export const rotateFireworksSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateFireworksSecretRotation",
 }));
 
 export type RotateFlyioAppConnectionCredentialsError =
@@ -217916,6 +221680,8 @@ export const rotateFlyioAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateFlyioAppConnectionCredentials",
 }));
 
 export type RotateGcpAppConnectionCredentialsError =
@@ -217936,6 +221702,8 @@ export const rotateGcpAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateGcpAppConnectionCredentials",
 }));
 
 export type RotateGitHubAppConnectionCredentialsError =
@@ -217956,6 +221724,8 @@ export const rotateGitHubAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateGitHubAppConnectionCredentials",
 }));
 
 export type RotateGitHubRadarAppConnectionCredentialsError =
@@ -217984,6 +221754,8 @@ export const rotateGitHubRadarAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateGitHubRadarAppConnectionCredentials",
 }));
 
 export type RotateGitLabAppConnectionCredentialsError =
@@ -218004,6 +221776,8 @@ export const rotateGitLabAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateGitLabAppConnectionCredentials",
 }));
 
 export type RotateGodaddyAppConnectionCredentialsError =
@@ -218024,6 +221798,8 @@ export const rotateGodaddyAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateGodaddyAppConnectionCredentials",
 }));
 
 export type RotateHashicorpVaultAppConnectionCredentialsError =
@@ -218052,6 +221828,8 @@ export const rotateHashicorpVaultAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateHashicorpVaultAppConnectionCredentials",
 }));
 
 export type RotateHasuraCloudAppConnectionCredentialsError =
@@ -218080,6 +221858,8 @@ export const rotateHasuraCloudAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateHasuraCloudAppConnectionCredentials",
 }));
 
 export type RotateHerokuAppConnectionCredentialsError =
@@ -218100,6 +221880,8 @@ export const rotateHerokuAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateHerokuAppConnectionCredentials",
 }));
 
 export type RotateHPiLOLocalAccountRotationError =
@@ -218120,6 +221902,8 @@ export const rotateHPiLOLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateHPiLOLocalAccountRotation",
 }));
 
 export type RotateHumanitecAppConnectionCredentialsError =
@@ -218144,6 +221928,8 @@ export const rotateHumanitecAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateHumanitecAppConnectionCredentials",
 }));
 
 export type RotateKempLoadmasterAppConnectionCredentialsError =
@@ -218172,6 +221958,8 @@ export const rotateKempLoadmasterAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateKempLoadmasterAppConnectionCredentials",
 }));
 
 export type RotateKmsKeyError =
@@ -218192,6 +221980,8 @@ export const rotateKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateKmsKey",
 }));
 
 export type RotateLaravelForgeAppConnectionCredentialsError =
@@ -218220,6 +222010,8 @@ export const rotateLaravelForgeAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateLaravelForgeAppConnectionCredentials",
 }));
 
 export type RotateLdapAppConnectionCredentialsError =
@@ -218240,6 +222032,8 @@ export const rotateLdapAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateLdapAppConnectionCredentials",
 }));
 
 export type RotateLDAPPasswordRotationError =
@@ -218260,6 +222054,8 @@ export const rotateLDAPPasswordRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateLDAPPasswordRotation",
 }));
 
 export type RotateLiteLLMAPIKeyRotationError =
@@ -218280,6 +222076,8 @@ export const rotateLiteLLMAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateLiteLLMAPIKeyRotation",
 }));
 
 export type RotateLitellmAppConnectionCredentialsError =
@@ -218300,6 +222098,8 @@ export const rotateLitellmAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateLitellmAppConnectionCredentials",
 }));
 
 export type RotateMicrosoftIntuneAppConnectionCredentialsError =
@@ -218328,6 +222128,8 @@ export const rotateMicrosoftIntuneAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateMicrosoftIntuneAppConnectionCredentials",
 }));
 
 export type RotateMicrosoftSQLServerCredentialsRotationError =
@@ -218356,6 +222158,8 @@ export const rotateMicrosoftSQLServerCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateMicrosoftSQLServerCredentialsRotation",
 }));
 
 export type RotateMongoDbAppConnectionCredentialsError =
@@ -218376,6 +222180,8 @@ export const rotateMongoDbAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateMongoDbAppConnectionCredentials",
 }));
 
 export type RotateMongoDBCredentialsRotationError =
@@ -218396,6 +222202,8 @@ export const rotateMongoDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateMongoDBCredentialsRotation",
 }));
 
 export type RotateMsSqlAppConnectionCredentialsError =
@@ -218416,6 +222224,8 @@ export const rotateMsSqlAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateMsSqlAppConnectionCredentials",
 }));
 
 export type RotateMySqlAppConnectionCredentialsError =
@@ -218436,6 +222246,8 @@ export const rotateMySqlAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateMySqlAppConnectionCredentials",
 }));
 
 export type RotateMySQLCredentialsRotationError =
@@ -218456,6 +222268,8 @@ export const rotateMySQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateMySQLCredentialsRotation",
 }));
 
 export type RotateNetlifyAppConnectionCredentialsError =
@@ -218476,6 +222290,8 @@ export const rotateNetlifyAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateNetlifyAppConnectionCredentials",
 }));
 
 export type RotateNetscalerAppConnectionCredentialsError =
@@ -218496,6 +222312,8 @@ export const rotateNetscalerAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateNetscalerAppConnectionCredentials",
 }));
 
 export type RotateNorthflankAppConnectionCredentialsError =
@@ -218520,6 +222338,8 @@ export const rotateNorthflankAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateNorthflankAppConnectionCredentials",
 }));
 
 export type RotateNutanixPrismCentralAppConnectionCredentialsError =
@@ -218548,6 +222368,8 @@ export const rotateNutanixPrismCentralAppConnectionCredentials: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateNutanixPrismCentralAppConnectionCredentials",
 }));
 
 export type RotateOciAppConnectionCredentialsError =
@@ -218568,6 +222390,8 @@ export const rotateOciAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOciAppConnectionCredentials",
 }));
 
 export type RotateOctopusDeployAppConnectionCredentialsError =
@@ -218596,6 +222420,8 @@ export const rotateOctopusDeployAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOctopusDeployAppConnectionCredentials",
 }));
 
 export type RotateOktaAppConnectionCredentialsError =
@@ -218616,6 +222442,8 @@ export const rotateOktaAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOktaAppConnectionCredentials",
 }));
 
 export type RotateOktaClientSecretRotationError =
@@ -218636,6 +222464,8 @@ export const rotateOktaClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOktaClientSecretRotation",
 }));
 
 export type RotateOnaAppConnectionCredentialsError =
@@ -218656,6 +222486,8 @@ export const rotateOnaAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOnaAppConnectionCredentials",
 }));
 
 export type RotateOnePasswordAppConnectionCredentialsError =
@@ -218684,6 +222516,8 @@ export const rotateOnePasswordAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOnePasswordAppConnectionCredentials",
 }));
 
 export type RotateOpenaiAppConnectionCredentialsError =
@@ -218704,6 +222538,8 @@ export const rotateOpenaiAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOpenaiAppConnectionCredentials",
 }));
 
 export type RotateOpenAIServiceAccountRotationError =
@@ -218724,6 +222560,8 @@ export const rotateOpenAIServiceAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOpenAIServiceAccountRotation",
 }));
 
 export type RotateOpenRouterAPIKeyRotationError =
@@ -218744,6 +222582,8 @@ export const rotateOpenRouterAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOpenRouterAPIKeyRotation",
 }));
 
 export type RotateOpenRouterAppConnectionCredentialsError =
@@ -218768,6 +222608,8 @@ export const rotateOpenRouterAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOpenRouterAppConnectionCredentials",
 }));
 
 export type RotateOracleDbAppConnectionCredentialsError =
@@ -218788,6 +222630,8 @@ export const rotateOracleDbAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOracleDbAppConnectionCredentials",
 }));
 
 export type RotateOracleDBCredentialsRotationError =
@@ -218808,6 +222652,8 @@ export const rotateOracleDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOracleDBCredentialsRotation",
 }));
 
 export type RotateOvhAppConnectionCredentialsError =
@@ -218828,6 +222674,8 @@ export const rotateOvhAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOvhAppConnectionCredentials",
 }));
 
 export type RotatePkiApplicationAcmeEabSecretError =
@@ -218848,6 +222696,8 @@ export const rotatePkiApplicationAcmeEabSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotatePkiApplicationAcmeEabSecret",
 }));
 
 export type RotatePostgresAppConnectionCredentialsError =
@@ -218868,6 +222718,8 @@ export const rotatePostgresAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotatePostgresAppConnectionCredentials",
 }));
 
 export type RotatePostgreSQLCredentialsRotationError =
@@ -218888,6 +222740,8 @@ export const rotatePostgreSQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotatePostgreSQLCredentialsRotation",
 }));
 
 export type RotatePowerdnsAppConnectionCredentialsError =
@@ -218908,6 +222762,8 @@ export const rotatePowerdnsAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotatePowerdnsAppConnectionCredentials",
 }));
 
 export type RotateQoveryAppConnectionCredentialsError =
@@ -218928,6 +222784,8 @@ export const rotateQoveryAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateQoveryAppConnectionCredentials",
 }));
 
 export type RotateRailwayAppConnectionCredentialsError =
@@ -218948,6 +222806,8 @@ export const rotateRailwayAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateRailwayAppConnectionCredentials",
 }));
 
 export type RotateRedisAppConnectionCredentialsError =
@@ -218968,6 +222828,8 @@ export const rotateRedisAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateRedisAppConnectionCredentials",
 }));
 
 export type RotateRedisCredentialsRotationError =
@@ -218988,6 +222850,8 @@ export const rotateRedisCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateRedisCredentialsRotation",
 }));
 
 export type RotateRenderAppConnectionCredentialsError =
@@ -219008,6 +222872,8 @@ export const rotateRenderAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateRenderAppConnectionCredentials",
 }));
 
 export type RotateRundeckAppConnectionCredentialsError =
@@ -219028,6 +222894,8 @@ export const rotateRundeckAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateRundeckAppConnectionCredentials",
 }));
 
 export type RotateSalesforceAppConnectionCredentialsError =
@@ -219052,6 +222920,8 @@ export const rotateSalesforceAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSalesforceAppConnectionCredentials",
 }));
 
 export type RotateSalesforceOAuthCredentialsRotationError =
@@ -219076,6 +222946,8 @@ export const rotateSalesforceOAuthCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSalesforceOAuthCredentialsRotation",
 }));
 
 export type RotateSmbAppConnectionCredentialsError =
@@ -219096,6 +222968,8 @@ export const rotateSmbAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSmbAppConnectionCredentials",
 }));
 
 export type RotateSnowflakeAppConnectionCredentialsError =
@@ -219120,6 +222994,8 @@ export const rotateSnowflakeAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSnowflakeAppConnectionCredentials",
 }));
 
 export type RotateSnowflakeUserKeyPairRotationError =
@@ -219140,6 +223016,8 @@ export const rotateSnowflakeUserKeyPairRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSnowflakeUserKeyPairRotation",
 }));
 
 export type RotateSpaceliftAppConnectionCredentialsError =
@@ -219164,6 +223042,8 @@ export const rotateSpaceliftAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSpaceliftAppConnectionCredentials",
 }));
 
 export type RotateSshAppConnectionCredentialsError =
@@ -219184,6 +223064,8 @@ export const rotateSshAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSshAppConnectionCredentials",
 }));
 
 export type RotateStripeAPIKeyRotationError =
@@ -219204,6 +223086,8 @@ export const rotateStripeAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateStripeAPIKeyRotation",
 }));
 
 export type RotateStripeAppConnectionCredentialsError =
@@ -219224,6 +223108,8 @@ export const rotateStripeAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateStripeAppConnectionCredentials",
 }));
 
 export type RotateSupabaseAPIKeyRotationError =
@@ -219244,6 +223130,8 @@ export const rotateSupabaseAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSupabaseAPIKeyRotation",
 }));
 
 export type RotateSupabaseAppConnectionCredentialsError =
@@ -219264,6 +223152,8 @@ export const rotateSupabaseAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSupabaseAppConnectionCredentials",
 }));
 
 export type RotateTeamcityAppConnectionCredentialsError =
@@ -219284,6 +223174,8 @@ export const rotateTeamcityAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateTeamcityAppConnectionCredentials",
 }));
 
 export type RotateTerraformCloudAppConnectionCredentialsError =
@@ -219312,6 +223204,8 @@ export const rotateTerraformCloudAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateTerraformCloudAppConnectionCredentials",
 }));
 
 export type RotateTravisCIAppConnectionCredentialsError =
@@ -219332,6 +223226,8 @@ export const rotateTravisCIAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateTravisCIAppConnectionCredentials",
 }));
 
 export type RotateTriggerDevAppConnectionCredentialsError =
@@ -219352,6 +223248,8 @@ export const rotateTriggerDevAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateTriggerDevAppConnectionCredentials",
 }));
 
 export type RotateUnixLinuxLocalAccountRotationError =
@@ -219372,6 +223270,8 @@ export const rotateUnixLinuxLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateUnixLinuxLocalAccountRotation",
 }));
 
 export type RotateVenafiAppConnectionCredentialsError =
@@ -219392,6 +223292,8 @@ export const rotateVenafiAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateVenafiAppConnectionCredentials",
 }));
 
 export type RotateVenafiTppAppConnectionCredentialsError =
@@ -219416,6 +223318,8 @@ export const rotateVenafiTppAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateVenafiTppAppConnectionCredentials",
 }));
 
 export type RotateVercelAppConnectionCredentialsError =
@@ -219436,6 +223340,8 @@ export const rotateVercelAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateVercelAppConnectionCredentials",
 }));
 
 export type RotateWindmillAppConnectionCredentialsError =
@@ -219456,6 +223362,8 @@ export const rotateWindmillAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateWindmillAppConnectionCredentials",
 }));
 
 export type RotateWindowsLocalAccountRotationError =
@@ -219476,6 +223384,8 @@ export const rotateWindowsLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateWindowsLocalAccountRotation",
 }));
 
 export type RotateWinrmAppConnectionCredentialsError =
@@ -219496,6 +223406,8 @@ export const rotateWinrmAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateWinrmAppConnectionCredentials",
 }));
 
 export type RotateZabbixAppConnectionCredentialsError =
@@ -219516,6 +223428,8 @@ export const rotateZabbixAppConnectionCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateZabbixAppConnectionCredentials",
 }));
 
 export type RunLinuxServerPkiSyncHealthCheckError =
@@ -219536,6 +223450,8 @@ export const runLinuxServerPkiSyncHealthCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunLinuxServerPkiSyncHealthCheck",
 }));
 
 export type RunPkiSyncsLinuxServerHealthCheckError =
@@ -219556,6 +223472,8 @@ export const runPkiSyncsLinuxServerHealthCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunPkiSyncsLinuxServerHealthCheck",
 }));
 
 export type RunPkiSyncsWindowsServerHealthCheckError =
@@ -219576,6 +223494,8 @@ export const runPkiSyncsWindowsServerHealthCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunPkiSyncsWindowsServerHealthCheck",
 }));
 
 export type RunWindowsServerPkiSyncHealthCheckError =
@@ -219596,6 +223516,8 @@ export const runWindowsServerPkiSyncHealthCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunWindowsServerPkiSyncHealthCheck",
 }));
 
 export type SearchCertificateRequestsError =
@@ -219616,6 +223538,8 @@ export const searchCertificateRequests: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCertificateRequests",
 }));
 
 export type SearchMachineIdentitiesError =
@@ -219636,6 +223560,8 @@ export const searchMachineIdentities: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchMachineIdentities",
 }));
 
 export type SearchMachineIdentitiesV2Error =
@@ -219656,6 +223582,8 @@ export const searchMachineIdentitiesV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchMachineIdentitiesV2",
 }));
 
 export type SearchPkiSyncCertificateOrdersError =
@@ -219676,6 +223604,8 @@ export const searchPkiSyncCertificateOrders: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPkiSyncCertificateOrders",
 }));
 
 export type SearchPkiSyncFilterCertificatesError =
@@ -219696,6 +223626,8 @@ export const searchPkiSyncFilterCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPkiSyncFilterCertificates",
 }));
 
 export type SearchPkiSyncsCertificateError =
@@ -219716,6 +223648,8 @@ export const searchPkiSyncsCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPkiSyncsCertificate",
 }));
 
 export type SearchPkiSyncsCertificateOrderError =
@@ -219736,6 +223670,8 @@ export const searchPkiSyncsCertificateOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPkiSyncsCertificateOrder",
 }));
 
 export type SearchProjectCertificatesError =
@@ -219756,6 +223692,8 @@ export const searchProjectCertificates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchProjectCertificates",
 }));
 
 export type SetAwsElbCertificateAsDefaultError =
@@ -219776,6 +223714,8 @@ export const setAwsElbCertificateAsDefault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAwsElbCertificateAsDefault",
 }));
 
 export type SetPkiApplicationAcmeEnrollmentError =
@@ -219796,6 +223736,8 @@ export const setPkiApplicationAcmeEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPkiApplicationAcmeEnrollment",
 }));
 
 export type SetPkiApplicationApiEnrollmentError =
@@ -219816,6 +223758,8 @@ export const setPkiApplicationApiEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPkiApplicationApiEnrollment",
 }));
 
 export type SetPkiApplicationEstEnrollmentError =
@@ -219836,6 +223780,8 @@ export const setPkiApplicationEstEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPkiApplicationEstEnrollment",
 }));
 
 export type SetPkiApplicationScepEnrollmentError =
@@ -219856,6 +223802,8 @@ export const setPkiApplicationScepEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPkiApplicationScepEnrollment",
 }));
 
 export type SignDataError =
@@ -219876,6 +223824,8 @@ export const signData: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignData",
 }));
 
 export type SignIntermediateCaError =
@@ -219896,6 +223846,8 @@ export const signIntermediateCa: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignIntermediateCa",
 }));
 
 export type SignIntermediateCertificateAuthorityError =
@@ -219916,6 +223868,8 @@ export const signIntermediateCertificateAuthority: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignIntermediateCertificateAuthority",
 }));
 
 export type SignPkiCertificateCertificateError =
@@ -219936,6 +223890,8 @@ export const signPkiCertificateCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignPkiCertificateCertificate",
 }));
 
 export type SignRequestToError = InfisicalOpError;
@@ -219951,6 +223907,8 @@ export const signRequestTo: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignRequestTo",
 }));
 
 export type SignWithKmsKeyError =
@@ -219971,6 +223929,8 @@ export const signWithKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignWithKmsKey",
 }));
 
 export type SubscribeToProjectEventsError = InfisicalOpError;
@@ -219986,6 +223946,8 @@ export const subscribeToProjectEvents: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeToProjectEvents",
 }));
 
 export type SyncAwsCertificateManagerPkiSyncError =
@@ -220006,6 +223968,8 @@ export const syncAwsCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAwsCertificateManagerPkiSync",
 }));
 
 export type SyncAwsElasticLoadBalancerPkiSyncError =
@@ -220026,6 +223990,8 @@ export const syncAwsElasticLoadBalancerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAwsElasticLoadBalancerPkiSync",
 }));
 
 export type SyncAwsParameterStoreSecretSyncError =
@@ -220046,6 +224012,8 @@ export const syncAwsParameterStoreSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAwsParameterStoreSecretSync",
 }));
 
 export type SyncAwsSecretsManagerPkiSyncError =
@@ -220066,6 +224034,8 @@ export const syncAwsSecretsManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAwsSecretsManagerPkiSync",
 }));
 
 export type SyncAwsSecretsManagerSecretSyncError =
@@ -220086,6 +224056,8 @@ export const syncAwsSecretsManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAwsSecretsManagerSecretSync",
 }));
 
 export type SyncAzureAppConfigurationSecretSyncError =
@@ -220102,10 +224074,12 @@ export const syncAzureAppConfigurationSecretSync: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20576, __c1286, 0) as any as S.Schema<SyncAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<SyncAzureAppConfigurationSecretSyncResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<SyncAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAzureAppConfigurationSecretSync",
 }));
 
 export type SyncAzureDevopsSecretSyncError =
@@ -220126,6 +224100,8 @@ export const syncAzureDevopsSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAzureDevopsSecretSync",
 }));
 
 export type SyncAzureEntraIdScimSecretSyncError =
@@ -220146,6 +224122,8 @@ export const syncAzureEntraIdScimSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAzureEntraIdScimSecretSync",
 }));
 
 export type SyncAzureKeyVaultPkiSyncError =
@@ -220166,6 +224144,8 @@ export const syncAzureKeyVaultPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAzureKeyVaultPkiSync",
 }));
 
 export type SyncAzureKeyVaultSecretSyncError =
@@ -220186,6 +224166,8 @@ export const syncAzureKeyVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAzureKeyVaultSecretSync",
 }));
 
 export type SyncBitbucketSecretSyncError =
@@ -220206,6 +224188,8 @@ export const syncBitbucketSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncBitbucketSecretSync",
 }));
 
 export type SyncCamundaSecretSyncError =
@@ -220226,6 +224210,8 @@ export const syncCamundaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncCamundaSecretSync",
 }));
 
 export type SyncChecklySecretSyncError =
@@ -220246,6 +224232,8 @@ export const syncChecklySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncChecklySecretSync",
 }));
 
 export type SyncChefPkiSyncError =
@@ -220266,6 +224254,8 @@ export const syncChefPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncChefPkiSync",
 }));
 
 export type SyncChefSecretSyncError =
@@ -220286,6 +224276,8 @@ export const syncChefSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncChefSecretSync",
 }));
 
 export type SyncCircleciSecretSyncError =
@@ -220306,6 +224298,8 @@ export const syncCircleciSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncCircleciSecretSync",
 }));
 
 export type SyncCloud66SecretSyncError =
@@ -220326,6 +224320,8 @@ export const syncCloud66SecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncCloud66SecretSync",
 }));
 
 export type SyncCloudflareCustomCertificatePkiSyncError =
@@ -220346,6 +224342,8 @@ export const syncCloudflareCustomCertificatePkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncCloudflareCustomCertificatePkiSync",
 }));
 
 export type SyncCloudflarePagesSecretSyncError =
@@ -220366,6 +224364,8 @@ export const syncCloudflarePagesSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncCloudflarePagesSecretSync",
 }));
 
 export type SyncCloudflareWorkersSecretSyncError =
@@ -220386,6 +224386,8 @@ export const syncCloudflareWorkersSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncCloudflareWorkersSecretSync",
 }));
 
 export type SyncDatabricksSecretSyncError =
@@ -220406,6 +224408,8 @@ export const syncDatabricksSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncDatabricksSecretSync",
 }));
 
 export type SyncDaytonaSecretSyncError =
@@ -220426,6 +224430,8 @@ export const syncDaytonaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncDaytonaSecretSync",
 }));
 
 export type SyncDevinSecretSyncError =
@@ -220446,6 +224452,8 @@ export const syncDevinSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncDevinSecretSync",
 }));
 
 export type SyncDigitalOceanAppPlatformSecretSyncError =
@@ -220466,6 +224474,8 @@ export const syncDigitalOceanAppPlatformSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncDigitalOceanAppPlatformSecretSync",
 }));
 
 export type SyncExternalInfisicalSecretSyncError =
@@ -220486,6 +224496,8 @@ export const syncExternalInfisicalSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncExternalInfisicalSecretSync",
 }));
 
 export type SyncF5BigIpPkiSyncError =
@@ -220506,6 +224518,8 @@ export const syncF5BigIpPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncF5BigIpPkiSync",
 }));
 
 export type SyncFlyioSecretSyncError =
@@ -220526,6 +224540,8 @@ export const syncFlyioSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncFlyioSecretSync",
 }));
 
 export type SyncGcpCertificateManagerPkiSyncError =
@@ -220546,6 +224562,8 @@ export const syncGcpCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncGcpCertificateManagerPkiSync",
 }));
 
 export type SyncGcpSecretManagerSecretSyncError =
@@ -220566,6 +224584,8 @@ export const syncGcpSecretManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncGcpSecretManagerSecretSync",
 }));
 
 export type SyncGitHubSecretSyncError =
@@ -220586,6 +224606,8 @@ export const syncGitHubSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncGitHubSecretSync",
 }));
 
 export type SyncGitLabSecretSyncError =
@@ -220606,6 +224628,8 @@ export const syncGitLabSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncGitLabSecretSync",
 }));
 
 export type SyncHashicorpVaultSecretSyncError =
@@ -220626,6 +224650,8 @@ export const syncHashicorpVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncHashicorpVaultSecretSync",
 }));
 
 export type SyncHasuraCloudSecretSyncError =
@@ -220646,6 +224672,8 @@ export const syncHasuraCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncHasuraCloudSecretSync",
 }));
 
 export type SyncHerokuSecretSyncError =
@@ -220666,6 +224694,8 @@ export const syncHerokuSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncHerokuSecretSync",
 }));
 
 export type SyncHumanitecSecretSyncError =
@@ -220686,6 +224716,8 @@ export const syncHumanitecSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncHumanitecSecretSync",
 }));
 
 export type SyncIntegrationError =
@@ -220706,6 +224738,8 @@ export const syncIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncIntegration",
 }));
 
 export type SyncKempLoadmasterPkiSyncError =
@@ -220726,6 +224760,8 @@ export const syncKempLoadmasterPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncKempLoadmasterPkiSync",
 }));
 
 export type SyncLaravelForgeSecretSyncError =
@@ -220746,6 +224782,8 @@ export const syncLaravelForgeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncLaravelForgeSecretSync",
 }));
 
 export type SyncLinuxServerPkiSyncError =
@@ -220766,6 +224804,8 @@ export const syncLinuxServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncLinuxServerPkiSync",
 }));
 
 export type SyncNetlifySecretSyncError =
@@ -220786,6 +224826,8 @@ export const syncNetlifySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncNetlifySecretSync",
 }));
 
 export type SyncNetscalerPkiSyncError =
@@ -220806,6 +224848,8 @@ export const syncNetscalerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncNetscalerPkiSync",
 }));
 
 export type SyncNorthflankSecretSyncError =
@@ -220826,6 +224870,8 @@ export const syncNorthflankSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncNorthflankSecretSync",
 }));
 
 export type SyncNutanixPrismCentralPkiSyncError =
@@ -220846,6 +224892,8 @@ export const syncNutanixPrismCentralPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncNutanixPrismCentralPkiSync",
 }));
 
 export type SyncOciVaultSecretSyncError =
@@ -220866,6 +224914,8 @@ export const syncOciVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncOciVaultSecretSync",
 }));
 
 export type SyncOctopusDeploySecretSyncError =
@@ -220886,6 +224936,8 @@ export const syncOctopusDeploySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncOctopusDeploySecretSync",
 }));
 
 export type SyncOnaSecretSyncError =
@@ -220906,6 +224958,8 @@ export const syncOnaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncOnaSecretSync",
 }));
 
 export type SyncOnePasswordSecretSyncError =
@@ -220926,6 +224980,8 @@ export const syncOnePasswordSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncOnePasswordSecretSync",
 }));
 
 export type SyncOvhSecretSyncError =
@@ -220946,6 +225002,8 @@ export const syncOvhSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncOvhSecretSync",
 }));
 
 export type SyncPkiSyncsAwsCertificateManagerError =
@@ -220966,6 +225024,8 @@ export const syncPkiSyncsAwsCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsAwsCertificateManager",
 }));
 
 export type SyncPkiSyncsAwsElasticLoadBalancerError =
@@ -220986,6 +225046,8 @@ export const syncPkiSyncsAwsElasticLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsAwsElasticLoadBalancer",
 }));
 
 export type SyncPkiSyncsAwsSecretsManagerError =
@@ -221006,6 +225068,8 @@ export const syncPkiSyncsAwsSecretsManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsAwsSecretsManager",
 }));
 
 export type SyncPkiSyncsAzureKeyVaultError =
@@ -221026,6 +225090,8 @@ export const syncPkiSyncsAzureKeyVault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsAzureKeyVault",
 }));
 
 export type SyncPkiSyncsChefError =
@@ -221046,6 +225112,8 @@ export const syncPkiSyncsChef: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsChef",
 }));
 
 export type SyncPkiSyncsCloudflareCustomCertificateError =
@@ -221070,6 +225138,8 @@ export const syncPkiSyncsCloudflareCustomCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsCloudflareCustomCertificate",
 }));
 
 export type SyncPkiSyncsF5BigIpError =
@@ -221090,6 +225160,8 @@ export const syncPkiSyncsF5BigIp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsF5BigIp",
 }));
 
 export type SyncPkiSyncsGcpCertificateManagerError =
@@ -221110,6 +225182,8 @@ export const syncPkiSyncsGcpCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsGcpCertificateManager",
 }));
 
 export type SyncPkiSyncsKempLoadmasterError =
@@ -221130,6 +225204,8 @@ export const syncPkiSyncsKempLoadmaster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsKempLoadmaster",
 }));
 
 export type SyncPkiSyncsLinuxServerError =
@@ -221150,6 +225226,8 @@ export const syncPkiSyncsLinuxServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsLinuxServer",
 }));
 
 export type SyncPkiSyncsNetscalerError =
@@ -221170,6 +225248,8 @@ export const syncPkiSyncsNetscaler: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsNetscaler",
 }));
 
 export type SyncPkiSyncsNutanixPrismCentralError =
@@ -221190,6 +225270,8 @@ export const syncPkiSyncsNutanixPrismCentral: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsNutanixPrismCentral",
 }));
 
 export type SyncPkiSyncsWindowsServerError =
@@ -221210,6 +225292,8 @@ export const syncPkiSyncsWindowsServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncPkiSyncsWindowsServer",
 }));
 
 export type SyncQoverySecretSyncError =
@@ -221230,6 +225314,8 @@ export const syncQoverySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncQoverySecretSync",
 }));
 
 export type SyncRailwaySecretSyncError =
@@ -221250,6 +225336,8 @@ export const syncRailwaySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncRailwaySecretSync",
 }));
 
 export type SyncRenderSecretSyncError =
@@ -221270,6 +225358,8 @@ export const syncRenderSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncRenderSecretSync",
 }));
 
 export type SyncRundeckSecretSyncError =
@@ -221290,6 +225380,8 @@ export const syncRundeckSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncRundeckSecretSync",
 }));
 
 export type SyncSnowflakeSecretSyncError =
@@ -221310,6 +225402,8 @@ export const syncSnowflakeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncSnowflakeSecretSync",
 }));
 
 export type SyncSpaceliftSecretSyncError =
@@ -221330,6 +225424,8 @@ export const syncSpaceliftSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncSpaceliftSecretSync",
 }));
 
 export type SyncSupabaseSecretSyncError =
@@ -221350,6 +225446,8 @@ export const syncSupabaseSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncSupabaseSecretSync",
 }));
 
 export type SyncTeamcitySecretSyncError =
@@ -221370,6 +225468,8 @@ export const syncTeamcitySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncTeamcitySecretSync",
 }));
 
 export type SyncTerraformCloudSecretSyncError =
@@ -221390,6 +225490,8 @@ export const syncTerraformCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncTerraformCloudSecretSync",
 }));
 
 export type SyncTravisCISecretSyncError =
@@ -221410,6 +225512,8 @@ export const syncTravisCISecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncTravisCISecretSync",
 }));
 
 export type SyncTriggerDevSecretSyncError =
@@ -221430,6 +225534,8 @@ export const syncTriggerDevSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncTriggerDevSecretSync",
 }));
 
 export type SyncVercelSecretSyncError =
@@ -221450,6 +225556,8 @@ export const syncVercelSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncVercelSecretSync",
 }));
 
 export type SyncWindmillSecretSyncError =
@@ -221470,6 +225578,8 @@ export const syncWindmillSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncWindmillSecretSync",
 }));
 
 export type SyncWindowsServerPkiSyncError =
@@ -221490,6 +225600,8 @@ export const syncWindowsServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncWindowsServerPkiSync",
 }));
 
 export type SyncZabbixSecretSyncError =
@@ -221510,6 +225622,8 @@ export const syncZabbixSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncZabbixSecretSync",
 }));
 
 export type TailAgentVaultSessionLogsError =
@@ -221530,6 +225644,8 @@ export const tailAgentVaultSessionLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TailAgentVaultSessionLogs",
 }));
 
 export type TestHsmConnectorError =
@@ -221549,6 +225665,8 @@ export const testHsmConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestHsmConnector",
 }));
 
 export type TestLinuxServerPkiSyncHealthCheckError =
@@ -221569,6 +225687,8 @@ export const testLinuxServerPkiSyncHealthCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestLinuxServerPkiSyncHealthCheck",
 }));
 
 export type TestPkiSyncsLinuxServerHealthCheckError =
@@ -221589,6 +225709,8 @@ export const testPkiSyncsLinuxServerHealthCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestPkiSyncsLinuxServerHealthCheck",
 }));
 
 export type TestPkiSyncsWindowsServerHealthCheckError =
@@ -221609,6 +225731,8 @@ export const testPkiSyncsWindowsServerHealthCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestPkiSyncsWindowsServerHealthCheck",
 }));
 
 export type TestWindowsServerPkiSyncHealthCheckError =
@@ -221629,6 +225753,8 @@ export const testWindowsServerPkiSyncHealthCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestWindowsServerPkiSyncHealthCheck",
 }));
 
 export type TriggerCertificateRequestValidationError =
@@ -221649,6 +225775,8 @@ export const triggerCertificateRequestValidation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerCertificateRequestValidation",
 }));
 
 export type TriggerPkiDiscoveryScanError =
@@ -221669,6 +225797,8 @@ export const triggerPkiDiscoveryScan: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerPkiDiscoveryScan",
 }));
 
 export type UpdateAcmeCertificateAuthorityV1Error =
@@ -221688,6 +225818,8 @@ export const updateAcmeCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAcmeCertificateAuthorityV1",
 }));
 
 export type UpdateAdcsAppConnectionError =
@@ -221708,6 +225840,8 @@ export const updateAdcsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdcsAppConnection",
 }));
 
 export type UpdateAdcsCertificateAuthorityV1Error =
@@ -221727,6 +225861,8 @@ export const updateAdcsCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdcsCertificateAuthorityV1",
 }));
 
 export type UpdateAdditionalPrivilegeIdentityError =
@@ -221747,6 +225883,8 @@ export const updateAdditionalPrivilegeIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdditionalPrivilegeIdentity",
 }));
 
 export type UpdateAgentVaultAccessBundleError =
@@ -221767,6 +225905,8 @@ export const updateAgentVaultAccessBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentVaultAccessBundle",
 }));
 
 export type UpdateAgentVaultAwsAppConnectionError =
@@ -221787,6 +225927,8 @@ export const updateAgentVaultAwsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentVaultAwsAppConnection",
 }));
 
 export type UpdateAgentVaultMemberRoleError =
@@ -221807,6 +225949,8 @@ export const updateAgentVaultMemberRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentVaultMemberRole",
 }));
 
 export type UpdateAgentVaultProxyError =
@@ -221827,6 +225971,8 @@ export const updateAgentVaultProxy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentVaultProxy",
 }));
 
 export type UpdateAgentVaultServiceError =
@@ -221847,6 +225993,8 @@ export const updateAgentVaultService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentVaultService",
 }));
 
 export type UpdateAgentVaultSessionLogSettingsError =
@@ -221867,6 +226015,8 @@ export const updateAgentVaultSessionLogSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentVaultSessionLogSettings",
 }));
 
 export type UpdateAgentVaultVariableError =
@@ -221887,6 +226037,8 @@ export const updateAgentVaultVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentVaultVariable",
 }));
 
 export type UpdateAlicloudAuthError =
@@ -221907,6 +226059,8 @@ export const updateAlicloudAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAlicloudAuth",
 }));
 
 export type UpdateAnthropicAppConnectionError =
@@ -221927,6 +226081,8 @@ export const updateAnthropicAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnthropicAppConnection",
 }));
 
 export type UpdateAuth0AppConnectionError =
@@ -221947,6 +226103,8 @@ export const updateAuth0AppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuth0AppConnection",
 }));
 
 export type UpdateAuth0ClientSecretRotationError =
@@ -221967,6 +226125,8 @@ export const updateAuth0ClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuth0ClientSecretRotation",
 }));
 
 export type UpdateAwsAcmPublicCaCertificateAuthorityV1Error =
@@ -221994,6 +226154,8 @@ export const updateAwsAcmPublicCaCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsAcmPublicCaCertificateAuthorityV1",
 }));
 
 export type UpdateAwsAppConnectionError =
@@ -222014,6 +226176,8 @@ export const updateAwsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsAppConnection",
 }));
 
 export type UpdateAwsAuthError =
@@ -222034,6 +226198,8 @@ export const updateAwsAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsAuth",
 }));
 
 export type UpdateAwsCertificateManagerPkiSyncError =
@@ -222054,6 +226220,8 @@ export const updateAwsCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsCertificateManagerPkiSync",
 }));
 
 export type UpdateAwsElasticLoadBalancerPkiSyncError =
@@ -222074,6 +226242,8 @@ export const updateAwsElasticLoadBalancerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsElasticLoadBalancerPkiSync",
 }));
 
 export type UpdateAWSIAMUserSecretRotationError =
@@ -222094,6 +226264,8 @@ export const updateAWSIAMUserSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAWSIAMUserSecretRotation",
 }));
 
 export type UpdateAwsParameterStoreSecretSyncError =
@@ -222114,6 +226286,8 @@ export const updateAwsParameterStoreSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsParameterStoreSecretSync",
 }));
 
 export type UpdateAwsPcaCertificateAuthorityV1Error =
@@ -222133,6 +226307,8 @@ export const updateAwsPcaCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsPcaCertificateAuthorityV1",
 }));
 
 export type UpdateAwsSecretsManagerPkiSyncError =
@@ -222153,6 +226329,8 @@ export const updateAwsSecretsManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsSecretsManagerPkiSync",
 }));
 
 export type UpdateAwsSecretsManagerSecretSyncError =
@@ -222173,6 +226351,8 @@ export const updateAwsSecretsManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsSecretsManagerSecretSync",
 }));
 
 export type UpdateAzureAdcsAppConnectionError =
@@ -222193,6 +226373,8 @@ export const updateAzureAdcsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureAdcsAppConnection",
 }));
 
 export type UpdateAzureAdCsCertificateAuthorityV1Error =
@@ -222212,6 +226394,8 @@ export const updateAzureAdCsCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureAdCsCertificateAuthorityV1",
 }));
 
 export type UpdateAzureAppConfigurationAppConnectionError =
@@ -222236,6 +226420,8 @@ export const updateAzureAppConfigurationAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureAppConfigurationAppConnection",
 }));
 
 export type UpdateAzureAppConfigurationSecretSyncError =
@@ -222252,10 +226438,12 @@ export const updateAzureAppConfigurationSecretSync: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22688, __c1418, 0) as any as S.Schema<UpdateAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UpdateAzureAppConfigurationSecretSyncResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<UpdateAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureAppConfigurationSecretSync",
 }));
 
 export type UpdateAzureAuthError =
@@ -222276,6 +226464,8 @@ export const updateAzureAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureAuth",
 }));
 
 export type UpdateAzureClientSecretRotationError =
@@ -222292,10 +226482,12 @@ export const updateAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22736, __c1421, 0) as any as S.Schema<UpdateAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<UpdateAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<UpdateAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureClientSecretRotation",
 }));
 
 export type UpdateAzureClientSecretsAppConnectionError =
@@ -222316,6 +226508,8 @@ export const updateAzureClientSecretsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureClientSecretsAppConnection",
 }));
 
 export type UpdateAzureDevopsAppConnectionError =
@@ -222336,6 +226530,8 @@ export const updateAzureDevopsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureDevopsAppConnection",
 }));
 
 export type UpdateAzureDevopsSecretSyncError =
@@ -222356,6 +226552,8 @@ export const updateAzureDevopsSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureDevopsSecretSync",
 }));
 
 export type UpdateAzureDnsAppConnectionError =
@@ -222376,6 +226574,8 @@ export const updateAzureDnsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureDnsAppConnection",
 }));
 
 export type UpdateAzureEntraIdAppConnectionError =
@@ -222396,6 +226596,8 @@ export const updateAzureEntraIdAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureEntraIdAppConnection",
 }));
 
 export type UpdateAzureEntraIdScimSecretSyncError =
@@ -222416,6 +226618,8 @@ export const updateAzureEntraIdScimSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureEntraIdScimSecretSync",
 }));
 
 export type UpdateAzureKeyVaultAppConnectionError =
@@ -222436,6 +226640,8 @@ export const updateAzureKeyVaultAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureKeyVaultAppConnection",
 }));
 
 export type UpdateAzureKeyVaultPkiSyncError =
@@ -222456,6 +226662,8 @@ export const updateAzureKeyVaultPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureKeyVaultPkiSync",
 }));
 
 export type UpdateAzureKeyVaultSecretSyncError =
@@ -222476,6 +226684,8 @@ export const updateAzureKeyVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureKeyVaultSecretSync",
 }));
 
 export type UpdateBitbucketAppConnectionError =
@@ -222496,6 +226706,8 @@ export const updateBitbucketAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBitbucketAppConnection",
 }));
 
 export type UpdateBitbucketSecretSyncError =
@@ -222516,6 +226728,8 @@ export const updateBitbucketSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBitbucketSecretSync",
 }));
 
 export type UpdateCaAutoRenewalConfigError =
@@ -222536,6 +226750,8 @@ export const updateCaAutoRenewalConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaAutoRenewalConfig",
 }));
 
 export type UpdateCamundaAppConnectionError =
@@ -222556,6 +226772,8 @@ export const updateCamundaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCamundaAppConnection",
 }));
 
 export type UpdateCamundaSecretSyncError =
@@ -222576,6 +226794,8 @@ export const updateCamundaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCamundaSecretSync",
 }));
 
 export type UpdateCaSigningConfigError =
@@ -222596,6 +226816,8 @@ export const updateCaSigningConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaSigningConfig",
 }));
 
 export type UpdateCertificateError =
@@ -222616,6 +226838,8 @@ export const updateCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificate",
 }));
 
 export type UpdateCertificateAuthorityV1Error =
@@ -222636,6 +226860,8 @@ export const updateCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificateAuthorityV1",
 }));
 
 export type UpdateCertificateCleanupConfigError =
@@ -222656,6 +226882,8 @@ export const updateCertificateCleanupConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificateCleanupConfig",
 }));
 
 export type UpdateCertificatePolicyError =
@@ -222675,6 +226903,8 @@ export const updateCertificatePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificatePolicy",
 }));
 
 export type UpdateCertificateProfileError =
@@ -222694,6 +226924,8 @@ export const updateCertificateProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificateProfile",
 }));
 
 export type UpdateCertificateRenewalConfigError =
@@ -222713,6 +226945,8 @@ export const updateCertificateRenewalConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificateRenewalConfig",
 }));
 
 export type UpdateCertManagerAcmeProfileAccountError = InfisicalOpError;
@@ -222728,6 +226962,8 @@ export const updateCertManagerAcmeProfileAccount: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertManagerAcmeProfileAccount",
 }));
 
 export type UpdateCertManagerAcmeProfileAuthorizationError = InfisicalOpError;
@@ -222751,6 +226987,8 @@ export const updateCertManagerAcmeProfileAuthorization: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertManagerAcmeProfileAuthorization",
 }));
 
 export type UpdateCertManagerAcmeProfileAuthorizationChallengeError = InfisicalOpError;
@@ -222774,6 +227012,8 @@ export const updateCertManagerAcmeProfileAuthorizationChallenge: API.OperationMe
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertManagerAcmeProfileAuthorizationChallenge",
 }));
 
 export type UpdateCertManagerAcmeProfileOrderError = InfisicalOpError;
@@ -222789,6 +227029,8 @@ export const updateCertManagerAcmeProfileOrder: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertManagerAcmeProfileOrder",
 }));
 
 export type UpdateChecklyAppConnectionError =
@@ -222809,6 +227051,8 @@ export const updateChecklyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChecklyAppConnection",
 }));
 
 export type UpdateChecklySecretSyncError =
@@ -222829,6 +227073,8 @@ export const updateChecklySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChecklySecretSync",
 }));
 
 export type UpdateChefAppConnectionError =
@@ -222849,6 +227095,8 @@ export const updateChefAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChefAppConnection",
 }));
 
 export type UpdateChefPkiSyncError =
@@ -222869,6 +227117,8 @@ export const updateChefPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChefPkiSync",
 }));
 
 export type UpdateChefSecretSyncError =
@@ -222889,6 +227139,8 @@ export const updateChefSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChefSecretSync",
 }));
 
 export type UpdateCircleciAppConnectionError =
@@ -222909,6 +227161,8 @@ export const updateCircleciAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCircleciAppConnection",
 }));
 
 export type UpdateCircleciSecretSyncError =
@@ -222929,6 +227183,8 @@ export const updateCircleciSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCircleciSecretSync",
 }));
 
 export type UpdateCloud66AppConnectionError =
@@ -222949,6 +227205,8 @@ export const updateCloud66AppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloud66AppConnection",
 }));
 
 export type UpdateCloud66SecretSyncError =
@@ -222969,6 +227227,8 @@ export const updateCloud66SecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloud66SecretSync",
 }));
 
 export type UpdateCloudflareAPITokenRotationError =
@@ -222989,6 +227249,8 @@ export const updateCloudflareAPITokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudflareAPITokenRotation",
 }));
 
 export type UpdateCloudflareAppConnectionError =
@@ -223009,6 +227271,8 @@ export const updateCloudflareAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudflareAppConnection",
 }));
 
 export type UpdateCloudflareCustomCertificatePkiSyncError =
@@ -223029,6 +227293,8 @@ export const updateCloudflareCustomCertificatePkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudflareCustomCertificatePkiSync",
 }));
 
 export type UpdateCloudflarePagesSecretSyncError =
@@ -223049,6 +227315,8 @@ export const updateCloudflarePagesSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudflarePagesSecretSync",
 }));
 
 export type UpdateCloudflareR2AccessKeyRotationError =
@@ -223069,6 +227337,8 @@ export const updateCloudflareR2AccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudflareR2AccessKeyRotation",
 }));
 
 export type UpdateCloudflareWorkersSecretSyncError =
@@ -223089,6 +227359,8 @@ export const updateCloudflareWorkersSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudflareWorkersSecretSync",
 }));
 
 export type UpdateConvexAccessKeyRotationError =
@@ -223109,6 +227381,8 @@ export const updateConvexAccessKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConvexAccessKeyRotation",
 }));
 
 export type UpdateConvexAppConnectionError =
@@ -223129,6 +227403,8 @@ export const updateConvexAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConvexAppConnection",
 }));
 
 export type UpdateDatabricksAppConnectionError =
@@ -223149,6 +227425,8 @@ export const updateDatabricksAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabricksAppConnection",
 }));
 
 export type UpdateDatabricksSecretSyncError =
@@ -223169,6 +227447,8 @@ export const updateDatabricksSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabricksSecretSync",
 }));
 
 export type UpdateDatabricksServicePrincipalSecretRotationError =
@@ -223197,6 +227477,8 @@ export const updateDatabricksServicePrincipalSecretRotation: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabricksServicePrincipalSecretRotation",
 }));
 
 export type UpdateDatadogAPIKeyRotationError =
@@ -223217,6 +227499,8 @@ export const updateDatadogAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatadogAPIKeyRotation",
 }));
 
 export type UpdateDatadogAppConnectionError =
@@ -223237,6 +227521,8 @@ export const updateDatadogAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatadogAppConnection",
 }));
 
 export type UpdateDatadogApplicationKeyRotationError =
@@ -223257,6 +227543,8 @@ export const updateDatadogApplicationKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatadogApplicationKeyRotation",
 }));
 
 export type UpdateDaytonaAppConnectionError =
@@ -223277,6 +227565,8 @@ export const updateDaytonaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDaytonaAppConnection",
 }));
 
 export type UpdateDaytonaSecretSyncError =
@@ -223297,6 +227587,8 @@ export const updateDaytonaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDaytonaSecretSync",
 }));
 
 export type UpdateDbtAppConnectionError =
@@ -223317,6 +227609,8 @@ export const updateDbtAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDbtAppConnection",
 }));
 
 export type UpdateDBTServiceTokenRotationError =
@@ -223337,6 +227631,8 @@ export const updateDBTServiceTokenRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDBTServiceTokenRotation",
 }));
 
 export type UpdateDevinAppConnectionError =
@@ -223357,6 +227653,8 @@ export const updateDevinAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDevinAppConnection",
 }));
 
 export type UpdateDevinSecretSyncError =
@@ -223377,6 +227675,8 @@ export const updateDevinSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDevinSecretSync",
 }));
 
 export type UpdateDigicertAppConnectionError =
@@ -223397,6 +227697,8 @@ export const updateDigicertAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDigicertAppConnection",
 }));
 
 export type UpdateDigicertCertificateAuthorityV1Error =
@@ -223416,6 +227718,8 @@ export const updateDigicertCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDigicertCertificateAuthorityV1",
 }));
 
 export type UpdateDigitalOceanAppConnectionError =
@@ -223436,6 +227740,8 @@ export const updateDigitalOceanAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDigitalOceanAppConnection",
 }));
 
 export type UpdateDigitalOceanAppPlatformSecretSyncError =
@@ -223456,6 +227762,8 @@ export const updateDigitalOceanAppPlatformSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDigitalOceanAppPlatformSecretSync",
 }));
 
 export type UpdateDnsMadeEasyAppConnectionError =
@@ -223476,6 +227784,8 @@ export const updateDnsMadeEasyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDnsMadeEasyAppConnection",
 }));
 
 export type UpdateDopplerAppConnectionError =
@@ -223496,6 +227806,8 @@ export const updateDopplerAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDopplerAppConnection",
 }));
 
 export type UpdateDynamicSecretError =
@@ -223515,6 +227827,8 @@ export const updateDynamicSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDynamicSecret",
 }));
 
 export type UpdateDynamicSecretsValidationRuleError =
@@ -223535,6 +227849,8 @@ export const updateDynamicSecretsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDynamicSecretsValidationRule",
 }));
 
 export type UpdateEnvironmentError =
@@ -223555,6 +227871,8 @@ export const updateEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateExternalGroupOrgRoleMappingsError =
@@ -223574,6 +227892,8 @@ export const updateExternalGroupOrgRoleMappings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalGroupOrgRoleMappings",
 }));
 
 export type UpdateExternalInfisicalAppConnectionError =
@@ -223594,6 +227914,8 @@ export const updateExternalInfisicalAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalInfisicalAppConnection",
 }));
 
 export type UpdateExternalInfisicalSecretSyncError =
@@ -223614,6 +227936,8 @@ export const updateExternalInfisicalSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalInfisicalSecretSync",
 }));
 
 export type UpdateF5BigIpAppConnectionError =
@@ -223634,6 +227958,8 @@ export const updateF5BigIpAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateF5BigIpAppConnection",
 }));
 
 export type UpdateF5BigIpPkiSyncError =
@@ -223654,6 +227980,8 @@ export const updateF5BigIpPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateF5BigIpPkiSync",
 }));
 
 export type UpdateFireworksAppConnectionError =
@@ -223674,6 +228002,8 @@ export const updateFireworksAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFireworksAppConnection",
 }));
 
 export type UpdateFireworksSecretRotationError =
@@ -223694,6 +228024,8 @@ export const updateFireworksSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFireworksSecretRotation",
 }));
 
 export type UpdateFlyioAppConnectionError =
@@ -223714,6 +228046,8 @@ export const updateFlyioAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlyioAppConnection",
 }));
 
 export type UpdateFlyioSecretSyncError =
@@ -223734,6 +228068,8 @@ export const updateFlyioSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlyioSecretSync",
 }));
 
 export type UpdateFolderError =
@@ -223754,6 +228090,8 @@ export const updateFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFolder",
 }));
 
 export type UpdateFolderBatchError =
@@ -223774,6 +228112,8 @@ export const updateFolderBatch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFolderBatch",
 }));
 
 export type UpdateGatewayError =
@@ -223793,6 +228133,8 @@ export const updateGateway: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGateway",
 }));
 
 export type UpdateGcpAppConnectionError =
@@ -223813,6 +228155,8 @@ export const updateGcpAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGcpAppConnection",
 }));
 
 export type UpdateGcpAuthError =
@@ -223833,6 +228177,8 @@ export const updateGcpAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGcpAuth",
 }));
 
 export type UpdateGcpCertificateManagerPkiSyncError =
@@ -223853,6 +228199,8 @@ export const updateGcpCertificateManagerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGcpCertificateManagerPkiSync",
 }));
 
 export type UpdateGcpSecretManagerSecretSyncError =
@@ -223873,6 +228221,8 @@ export const updateGcpSecretManagerSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGcpSecretManagerSecretSync",
 }));
 
 export type UpdateGitHubAppConnectionError =
@@ -223893,6 +228243,8 @@ export const updateGitHubAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGitHubAppConnection",
 }));
 
 export type UpdateGitHubRadarAppConnectionError =
@@ -223913,6 +228265,8 @@ export const updateGitHubRadarAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGitHubRadarAppConnection",
 }));
 
 export type UpdateGitHubSecretSyncError =
@@ -223933,6 +228287,8 @@ export const updateGitHubSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGitHubSecretSync",
 }));
 
 export type UpdateGitLabAppConnectionError =
@@ -223953,6 +228309,8 @@ export const updateGitLabAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGitLabAppConnection",
 }));
 
 export type UpdateGitLabSecretSyncError =
@@ -223973,6 +228331,8 @@ export const updateGitLabSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGitLabSecretSync",
 }));
 
 export type UpdateGodaddyAppConnectionError =
@@ -223993,6 +228353,8 @@ export const updateGodaddyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGodaddyAppConnection",
 }));
 
 export type UpdateGodaddyCertificateAuthorityV1Error =
@@ -224012,6 +228374,8 @@ export const updateGodaddyCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGodaddyCertificateAuthorityV1",
 }));
 
 export type UpdateGroupError =
@@ -224031,6 +228395,8 @@ export const updateGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateHashicorpVaultAppConnectionError =
@@ -224051,6 +228417,8 @@ export const updateHashicorpVaultAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHashicorpVaultAppConnection",
 }));
 
 export type UpdateHashicorpVaultSecretSyncError =
@@ -224071,6 +228439,8 @@ export const updateHashicorpVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHashicorpVaultSecretSync",
 }));
 
 export type UpdateHasuraCloudAppConnectionError =
@@ -224091,6 +228461,8 @@ export const updateHasuraCloudAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHasuraCloudAppConnection",
 }));
 
 export type UpdateHasuraCloudSecretSyncError =
@@ -224111,6 +228483,8 @@ export const updateHasuraCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHasuraCloudSecretSync",
 }));
 
 export type UpdateHerokuAppConnectionError =
@@ -224131,6 +228505,8 @@ export const updateHerokuAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHerokuAppConnection",
 }));
 
 export type UpdateHerokuSecretSyncError =
@@ -224151,6 +228527,8 @@ export const updateHerokuSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHerokuSecretSync",
 }));
 
 export type UpdateHPiLOLocalAccountRotationError =
@@ -224171,6 +228549,8 @@ export const updateHPiLOLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHPiLOLocalAccountRotation",
 }));
 
 export type UpdateHsmConnectorError =
@@ -224190,6 +228570,8 @@ export const updateHsmConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHsmConnector",
 }));
 
 export type UpdateHumanitecAppConnectionError =
@@ -224210,6 +228592,8 @@ export const updateHumanitecAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHumanitecAppConnection",
 }));
 
 export type UpdateHumanitecSecretSyncError =
@@ -224230,6 +228614,8 @@ export const updateHumanitecSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHumanitecSecretSync",
 }));
 
 export type UpdateIdentityProjectAdditionalPrivilegeError =
@@ -224254,6 +228640,8 @@ export const updateIdentityProjectAdditionalPrivilege: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProjectAdditionalPrivilege",
 }));
 
 export type UpdateIdentityTemplateError =
@@ -224274,6 +228662,8 @@ export const updateIdentityTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityTemplate",
 }));
 
 export type UpdateIntegrationError =
@@ -224294,6 +228684,8 @@ export const updateIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegration",
 }));
 
 export type UpdateIntegrationAuthError =
@@ -224314,6 +228706,8 @@ export const updateIntegrationAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationAuth",
 }));
 
 export type UpdateInternalCertificateAuthorityV1Error =
@@ -224333,6 +228727,8 @@ export const updateInternalCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInternalCertificateAuthorityV1",
 }));
 
 export type UpdateJwtAuthError =
@@ -224353,6 +228749,8 @@ export const updateJwtAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJwtAuth",
 }));
 
 export type UpdateKempLoadmasterAppConnectionError =
@@ -224373,6 +228771,8 @@ export const updateKempLoadmasterAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKempLoadmasterAppConnection",
 }));
 
 export type UpdateKempLoadmasterPkiSyncError =
@@ -224393,6 +228793,8 @@ export const updateKempLoadmasterPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKempLoadmasterPkiSync",
 }));
 
 export type UpdateKmsKeyError =
@@ -224413,6 +228815,8 @@ export const updateKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKmsKey",
 }));
 
 export type UpdateKubernetesAuthError =
@@ -224433,6 +228837,8 @@ export const updateKubernetesAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKubernetesAuth",
 }));
 
 export type UpdateLaravelForgeAppConnectionError =
@@ -224453,6 +228859,8 @@ export const updateLaravelForgeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLaravelForgeAppConnection",
 }));
 
 export type UpdateLaravelForgeSecretSyncError =
@@ -224473,6 +228881,8 @@ export const updateLaravelForgeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLaravelForgeSecretSync",
 }));
 
 export type UpdateLdapAppConnectionError =
@@ -224493,6 +228903,8 @@ export const updateLdapAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLdapAppConnection",
 }));
 
 export type UpdateLdapAuthError =
@@ -224513,6 +228925,8 @@ export const updateLdapAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLdapAuth",
 }));
 
 export type UpdateLdapConfigError =
@@ -224533,6 +228947,8 @@ export const updateLdapConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLdapConfig",
 }));
 
 export type UpdateLDAPPasswordRotationError =
@@ -224553,6 +228969,8 @@ export const updateLDAPPasswordRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLDAPPasswordRotation",
 }));
 
 export type UpdateLinuxServerPkiSyncError =
@@ -224573,6 +228991,8 @@ export const updateLinuxServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLinuxServerPkiSync",
 }));
 
 export type UpdateLiteLLMAPIKeyRotationError =
@@ -224593,6 +229013,8 @@ export const updateLiteLLMAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLiteLLMAPIKeyRotation",
 }));
 
 export type UpdateLitellmAppConnectionError =
@@ -224613,6 +229035,8 @@ export const updateLitellmAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLitellmAppConnection",
 }));
 
 export type UpdateMachineIdentityError =
@@ -224633,6 +229057,8 @@ export const updateMachineIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMachineIdentity",
 }));
 
 export type UpdateManySecretsV4Error =
@@ -224653,6 +229079,8 @@ export const updateManySecretsV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManySecretsV4",
 }));
 
 export type UpdateMicrosoftIntuneAppConnectionError =
@@ -224673,6 +229101,8 @@ export const updateMicrosoftIntuneAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMicrosoftIntuneAppConnection",
 }));
 
 export type UpdateMicrosoftSQLServerCredentialsRotationError =
@@ -224701,6 +229131,8 @@ export const updateMicrosoftSQLServerCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMicrosoftSQLServerCredentialsRotation",
 }));
 
 export type UpdateMongoDbAppConnectionError =
@@ -224721,6 +229153,8 @@ export const updateMongoDbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMongoDbAppConnection",
 }));
 
 export type UpdateMongoDBCredentialsRotationError =
@@ -224741,6 +229175,8 @@ export const updateMongoDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMongoDBCredentialsRotation",
 }));
 
 export type UpdateMsSqlAppConnectionError =
@@ -224761,6 +229197,8 @@ export const updateMsSqlAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMsSqlAppConnection",
 }));
 
 export type UpdateMySqlAppConnectionError =
@@ -224781,6 +229219,8 @@ export const updateMySqlAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMySqlAppConnection",
 }));
 
 export type UpdateMySQLCredentialsRotationError =
@@ -224801,6 +229241,8 @@ export const updateMySQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMySQLCredentialsRotation",
 }));
 
 export type UpdateNetlifyAppConnectionError =
@@ -224821,6 +229263,8 @@ export const updateNetlifyAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetlifyAppConnection",
 }));
 
 export type UpdateNetlifySecretSyncError =
@@ -224841,6 +229285,8 @@ export const updateNetlifySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetlifySecretSync",
 }));
 
 export type UpdateNetscalerAppConnectionError =
@@ -224861,6 +229307,8 @@ export const updateNetscalerAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetscalerAppConnection",
 }));
 
 export type UpdateNetscalerPkiSyncError =
@@ -224881,6 +229329,8 @@ export const updateNetscalerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetscalerPkiSync",
 }));
 
 export type UpdateNorthflankAppConnectionError =
@@ -224901,6 +229351,8 @@ export const updateNorthflankAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNorthflankAppConnection",
 }));
 
 export type UpdateNorthflankSecretSyncError =
@@ -224921,6 +229373,8 @@ export const updateNorthflankSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNorthflankSecretSync",
 }));
 
 export type UpdateNutanixPrismCentralAppConnectionError =
@@ -224941,6 +229395,8 @@ export const updateNutanixPrismCentralAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNutanixPrismCentralAppConnection",
 }));
 
 export type UpdateNutanixPrismCentralPkiSyncError =
@@ -224961,6 +229417,8 @@ export const updateNutanixPrismCentralPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNutanixPrismCentralPkiSync",
 }));
 
 export type UpdateOciAppConnectionError =
@@ -224981,6 +229439,8 @@ export const updateOciAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOciAppConnection",
 }));
 
 export type UpdateOciAuthError =
@@ -225001,6 +229461,8 @@ export const updateOciAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOciAuth",
 }));
 
 export type UpdateOciVaultSecretSyncError =
@@ -225021,6 +229483,8 @@ export const updateOciVaultSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOciVaultSecretSync",
 }));
 
 export type UpdateOctopusDeployAppConnectionError =
@@ -225041,6 +229505,8 @@ export const updateOctopusDeployAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOctopusDeployAppConnection",
 }));
 
 export type UpdateOctopusDeploySecretSyncError =
@@ -225061,6 +229527,8 @@ export const updateOctopusDeploySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOctopusDeploySecretSync",
 }));
 
 export type UpdateOidcAuthError =
@@ -225081,6 +229549,8 @@ export const updateOidcAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOidcAuth",
 }));
 
 export type UpdateOktaAppConnectionError =
@@ -225101,6 +229571,8 @@ export const updateOktaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOktaAppConnection",
 }));
 
 export type UpdateOktaClientSecretRotationError =
@@ -225121,6 +229593,8 @@ export const updateOktaClientSecretRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOktaClientSecretRotation",
 }));
 
 export type UpdateOnaAppConnectionError =
@@ -225141,6 +229615,8 @@ export const updateOnaAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOnaAppConnection",
 }));
 
 export type UpdateOnaSecretSyncError =
@@ -225161,6 +229637,8 @@ export const updateOnaSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOnaSecretSync",
 }));
 
 export type UpdateOnePasswordAppConnectionError =
@@ -225181,6 +229659,8 @@ export const updateOnePasswordAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOnePasswordAppConnection",
 }));
 
 export type UpdateOnePasswordSecretSyncError =
@@ -225201,6 +229681,8 @@ export const updateOnePasswordSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOnePasswordSecretSync",
 }));
 
 export type UpdateOpenaiAppConnectionError =
@@ -225221,6 +229703,8 @@ export const updateOpenaiAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOpenaiAppConnection",
 }));
 
 export type UpdateOpenAIServiceAccountRotationError =
@@ -225241,6 +229725,8 @@ export const updateOpenAIServiceAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOpenAIServiceAccountRotation",
 }));
 
 export type UpdateOpenRouterAPIKeyRotationError =
@@ -225261,6 +229747,8 @@ export const updateOpenRouterAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOpenRouterAPIKeyRotation",
 }));
 
 export type UpdateOpenRouterAppConnectionError =
@@ -225281,6 +229769,8 @@ export const updateOpenRouterAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOpenRouterAppConnection",
 }));
 
 export type UpdateOracleDbAppConnectionError =
@@ -225301,6 +229791,8 @@ export const updateOracleDbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOracleDbAppConnection",
 }));
 
 export type UpdateOracleDBCredentialsRotationError =
@@ -225321,6 +229813,8 @@ export const updateOracleDBCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOracleDBCredentialsRotation",
 }));
 
 export type UpdateOrganizationGroupMembershipError =
@@ -225341,6 +229835,8 @@ export const updateOrganizationGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationGroupMembership",
 }));
 
 export type UpdateOrganizationRoleError =
@@ -225361,6 +229857,8 @@ export const updateOrganizationRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationRole",
 }));
 
 export type UpdateOrgMembershipError =
@@ -225381,6 +229879,8 @@ export const updateOrgMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgMembership",
 }));
 
 export type UpdateOvhAppConnectionError =
@@ -225401,6 +229901,8 @@ export const updateOvhAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOvhAppConnection",
 }));
 
 export type UpdateOvhSecretSyncError =
@@ -225421,6 +229923,8 @@ export const updateOvhSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOvhSecretSync",
 }));
 
 export type UpdatePkiApplicationError =
@@ -225441,6 +229945,8 @@ export const updatePkiApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiApplication",
 }));
 
 export type UpdatePkiApplicationGroupMemberRoleError =
@@ -225461,6 +229967,8 @@ export const updatePkiApplicationGroupMemberRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiApplicationGroupMemberRole",
 }));
 
 export type UpdatePkiApplicationIdentityMemberRoleError =
@@ -225481,6 +229989,8 @@ export const updatePkiApplicationIdentityMemberRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiApplicationIdentityMemberRole",
 }));
 
 export type UpdatePkiApplicationUserMemberRoleError =
@@ -225501,6 +230011,8 @@ export const updatePkiApplicationUserMemberRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiApplicationUserMemberRole",
 }));
 
 export type UpdatePkiCaAcmeError =
@@ -225520,6 +230032,8 @@ export const updatePkiCaAcme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiCaAcme",
 }));
 
 export type UpdatePkiCaAzureAdCsError =
@@ -225539,6 +230053,8 @@ export const updatePkiCaAzureAdCs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiCaAzureAdCs",
 }));
 
 export type UpdatePkiCaInternalError =
@@ -225558,6 +230074,8 @@ export const updatePkiCaInternal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiCaInternal",
 }));
 
 export type UpdatePkiCertificateConfigError =
@@ -225577,6 +230095,8 @@ export const updatePkiCertificateConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiCertificateConfig",
 }));
 
 export type UpdatePkiCertificateProfileError =
@@ -225596,6 +230116,8 @@ export const updatePkiCertificateProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiCertificateProfile",
 }));
 
 export type UpdatePkiCollectionError =
@@ -225616,6 +230138,8 @@ export const updatePkiCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiCollection",
 }));
 
 export type UpdatePkiDiscoveryError =
@@ -225636,6 +230160,8 @@ export const updatePkiDiscovery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiDiscovery",
 }));
 
 export type UpdatePkiInstallationError =
@@ -225656,6 +230182,8 @@ export const updatePkiInstallation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiInstallation",
 }));
 
 export type UpdatePkiSyncAwsCertificateManagerError =
@@ -225676,6 +230204,8 @@ export const updatePkiSyncAwsCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncAwsCertificateManager",
 }));
 
 export type UpdatePkiSyncAwsElasticLoadBalancerError =
@@ -225696,6 +230226,8 @@ export const updatePkiSyncAwsElasticLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncAwsElasticLoadBalancer",
 }));
 
 export type UpdatePkiSyncAwsSecretsManagerError =
@@ -225716,6 +230248,8 @@ export const updatePkiSyncAwsSecretsManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncAwsSecretsManager",
 }));
 
 export type UpdatePkiSyncAzureKeyVaultError =
@@ -225736,6 +230270,8 @@ export const updatePkiSyncAzureKeyVault: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncAzureKeyVault",
 }));
 
 export type UpdatePkiSyncChefError =
@@ -225756,6 +230292,8 @@ export const updatePkiSyncChef: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncChef",
 }));
 
 export type UpdatePkiSyncCloudflareCustomCertificateError =
@@ -225780,6 +230318,8 @@ export const updatePkiSyncCloudflareCustomCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncCloudflareCustomCertificate",
 }));
 
 export type UpdatePkiSyncF5BigIpError =
@@ -225800,6 +230340,8 @@ export const updatePkiSyncF5BigIp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncF5BigIp",
 }));
 
 export type UpdatePkiSyncGcpCertificateManagerError =
@@ -225820,6 +230362,8 @@ export const updatePkiSyncGcpCertificateManager: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncGcpCertificateManager",
 }));
 
 export type UpdatePkiSyncKempLoadmasterError =
@@ -225840,6 +230384,8 @@ export const updatePkiSyncKempLoadmaster: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncKempLoadmaster",
 }));
 
 export type UpdatePkiSyncLinuxServerError =
@@ -225860,6 +230406,8 @@ export const updatePkiSyncLinuxServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncLinuxServer",
 }));
 
 export type UpdatePkiSyncNetscalerError =
@@ -225880,6 +230428,8 @@ export const updatePkiSyncNetscaler: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncNetscaler",
 }));
 
 export type UpdatePkiSyncNutanixPrismCentralError =
@@ -225900,6 +230450,8 @@ export const updatePkiSyncNutanixPrismCentral: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncNutanixPrismCentral",
 }));
 
 export type UpdatePkiSyncWindowsServerError =
@@ -225920,6 +230472,8 @@ export const updatePkiSyncWindowsServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePkiSyncWindowsServer",
 }));
 
 export type UpdatePostgresAppConnectionError =
@@ -225940,6 +230494,8 @@ export const updatePostgresAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePostgresAppConnection",
 }));
 
 export type UpdatePostgreSQLCredentialsRotationError =
@@ -225960,6 +230516,8 @@ export const updatePostgreSQLCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePostgreSQLCredentialsRotation",
 }));
 
 export type UpdatePowerdnsAppConnectionError =
@@ -225980,6 +230538,8 @@ export const updatePowerdnsAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePowerdnsAppConnection",
 }));
 
 export type UpdateProjectError =
@@ -226000,6 +230560,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectGroupMembershipError =
@@ -226020,6 +230582,8 @@ export const updateProjectGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectGroupMembership",
 }));
 
 export type UpdateProjectIdentityMembershipError =
@@ -226040,6 +230604,8 @@ export const updateProjectIdentityMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectIdentityMembership",
 }));
 
 export type UpdateProjectIdentityMembership2Error =
@@ -226060,6 +230626,8 @@ export const updateProjectIdentityMembership2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectIdentityMembership2",
 }));
 
 export type UpdateProjectIdentityMembershipByIdentityIdError =
@@ -226088,6 +230656,8 @@ export const updateProjectIdentityMembershipByIdentityId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectIdentityMembershipByIdentityId",
 }));
 
 export type UpdateProjectMachineIdentityError =
@@ -226108,6 +230678,8 @@ export const updateProjectMachineIdentity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectMachineIdentity",
 }));
 
 export type UpdateProjectMembershipError =
@@ -226128,6 +230700,8 @@ export const updateProjectMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectMembership",
 }));
 
 export type UpdateProjectRoleError =
@@ -226148,6 +230722,8 @@ export const updateProjectRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectRole",
 }));
 
 export type UpdateProjectRole2Error =
@@ -226168,6 +230744,8 @@ export const updateProjectRole2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectRole2",
 }));
 
 export type UpdateProjectTemplateError =
@@ -226188,6 +230766,8 @@ export const updateProjectTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectTemplate",
 }));
 
 export type UpdateProxiedServiceError =
@@ -226208,6 +230788,8 @@ export const updateProxiedService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProxiedService",
 }));
 
 export type UpdateQoveryAppConnectionError =
@@ -226228,6 +230810,8 @@ export const updateQoveryAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateQoveryAppConnection",
 }));
 
 export type UpdateQoverySecretSyncError =
@@ -226248,6 +230832,8 @@ export const updateQoverySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateQoverySecretSync",
 }));
 
 export type UpdateRailwayAppConnectionError =
@@ -226268,6 +230854,8 @@ export const updateRailwayAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRailwayAppConnection",
 }));
 
 export type UpdateRailwaySecretSyncError =
@@ -226288,6 +230876,8 @@ export const updateRailwaySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRailwaySecretSync",
 }));
 
 export type UpdateRedisAppConnectionError =
@@ -226308,6 +230898,8 @@ export const updateRedisAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRedisAppConnection",
 }));
 
 export type UpdateRedisCredentialsRotationError =
@@ -226328,6 +230920,8 @@ export const updateRedisCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRedisCredentialsRotation",
 }));
 
 export type UpdateRenderAppConnectionError =
@@ -226348,6 +230942,8 @@ export const updateRenderAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRenderAppConnection",
 }));
 
 export type UpdateRenderSecretSyncError =
@@ -226368,6 +230964,8 @@ export const updateRenderSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRenderSecretSync",
 }));
 
 export type UpdateRundeckAppConnectionError =
@@ -226388,6 +230986,8 @@ export const updateRundeckAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRundeckAppConnection",
 }));
 
 export type UpdateRundeckSecretSyncError =
@@ -226408,6 +231008,8 @@ export const updateRundeckSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRundeckSecretSync",
 }));
 
 export type UpdateSalesforceAppConnectionError =
@@ -226428,6 +231030,8 @@ export const updateSalesforceAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSalesforceAppConnection",
 }));
 
 export type UpdateSalesforceOAuthCredentialsRotationError =
@@ -226452,6 +231056,8 @@ export const updateSalesforceOAuthCredentialsRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSalesforceOAuthCredentialsRotation",
 }));
 
 export type UpdateSecretFolderError =
@@ -226472,6 +231078,8 @@ export const updateSecretFolder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretFolder",
 }));
 
 export type UpdateSecretFoldersBatchError =
@@ -226492,6 +231100,8 @@ export const updateSecretFoldersBatch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretFoldersBatch",
 }));
 
 export type UpdateSecretImportError =
@@ -226512,6 +231122,8 @@ export const updateSecretImport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretImport",
 }));
 
 export type UpdateSecretImport2Error =
@@ -226532,6 +231144,8 @@ export const updateSecretImport2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretImport2",
 }));
 
 export type UpdateSecretRotationsValidationRuleError =
@@ -226552,6 +231166,8 @@ export const updateSecretRotationsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretRotationsValidationRule",
 }));
 
 export type UpdateSecretTagError =
@@ -226571,6 +231187,8 @@ export const updateSecretTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretTag",
 }));
 
 export type UpdateSecretV4Error =
@@ -226591,6 +231209,8 @@ export const updateSecretV4: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretV4",
 }));
 
 export type UpdateSignerError =
@@ -226611,6 +231231,8 @@ export const updateSigner: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSigner",
 }));
 
 export type UpdateSignerApprovalPolicyError = InfisicalOpError;
@@ -226626,6 +231248,8 @@ export const updateSignerApprovalPolicy: API.OperationMethod<
   errors: [UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignerApprovalPolicy",
 }));
 
 export type UpdateSignerGroupRoleError =
@@ -226646,6 +231270,8 @@ export const updateSignerGroupRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignerGroupRole",
 }));
 
 export type UpdateSignerIdentityRoleError =
@@ -226666,6 +231292,8 @@ export const updateSignerIdentityRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignerIdentityRole",
 }));
 
 export type UpdateSignerStatusError =
@@ -226686,6 +231314,8 @@ export const updateSignerStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignerStatus",
 }));
 
 export type UpdateSignerUserRoleError =
@@ -226706,6 +231336,8 @@ export const updateSignerUserRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignerUserRole",
 }));
 
 export type UpdateSmbAppConnectionError =
@@ -226726,6 +231358,8 @@ export const updateSmbAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSmbAppConnection",
 }));
 
 export type UpdateSnowflakeAppConnectionError =
@@ -226746,6 +231380,8 @@ export const updateSnowflakeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnowflakeAppConnection",
 }));
 
 export type UpdateSnowflakeSecretSyncError =
@@ -226766,6 +231402,8 @@ export const updateSnowflakeSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnowflakeSecretSync",
 }));
 
 export type UpdateSnowflakeUserKeyPairRotationError =
@@ -226786,6 +231424,8 @@ export const updateSnowflakeUserKeyPairRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnowflakeUserKeyPairRotation",
 }));
 
 export type UpdateSpaceliftAppConnectionError =
@@ -226806,6 +231446,8 @@ export const updateSpaceliftAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpaceliftAppConnection",
 }));
 
 export type UpdateSpaceliftSecretSyncError =
@@ -226826,6 +231468,8 @@ export const updateSpaceliftSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpaceliftSecretSync",
 }));
 
 export type UpdateSpiffeAuthError =
@@ -226846,6 +231490,8 @@ export const updateSpiffeAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpiffeAuth",
 }));
 
 export type UpdateSshAppConnectionError =
@@ -226866,6 +231512,8 @@ export const updateSshAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSshAppConnection",
 }));
 
 export type UpdateSsoConfigError =
@@ -226886,6 +231534,8 @@ export const updateSsoConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSsoConfig",
 }));
 
 export type UpdateSsoOidcConfigError =
@@ -226906,6 +231556,8 @@ export const updateSsoOidcConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSsoOidcConfig",
 }));
 
 export type UpdateStaticSecretsValidationRuleError =
@@ -226926,6 +231578,8 @@ export const updateStaticSecretsValidationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStaticSecretsValidationRule",
 }));
 
 export type UpdateStripeAPIKeyRotationError =
@@ -226946,6 +231600,8 @@ export const updateStripeAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStripeAPIKeyRotation",
 }));
 
 export type UpdateStripeAppConnectionError =
@@ -226966,6 +231622,8 @@ export const updateStripeAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStripeAppConnection",
 }));
 
 export type UpdateSubOrganizationError =
@@ -226986,6 +231644,8 @@ export const updateSubOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubOrganization",
 }));
 
 export type UpdateSupabaseAPIKeyRotationError =
@@ -227006,6 +231666,8 @@ export const updateSupabaseAPIKeyRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSupabaseAPIKeyRotation",
 }));
 
 export type UpdateSupabaseAppConnectionError =
@@ -227026,6 +231688,8 @@ export const updateSupabaseAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSupabaseAppConnection",
 }));
 
 export type UpdateSupabaseSecretSyncError =
@@ -227046,6 +231710,8 @@ export const updateSupabaseSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSupabaseSecretSync",
 }));
 
 export type UpdateTeamcityAppConnectionError =
@@ -227066,6 +231732,8 @@ export const updateTeamcityAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamcityAppConnection",
 }));
 
 export type UpdateTeamcitySecretSyncError =
@@ -227086,6 +231754,8 @@ export const updateTeamcitySecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamcitySecretSync",
 }));
 
 export type UpdateTerraformCloudAppConnectionError =
@@ -227106,6 +231776,8 @@ export const updateTerraformCloudAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTerraformCloudAppConnection",
 }));
 
 export type UpdateTerraformCloudSecretSyncError =
@@ -227126,6 +231798,8 @@ export const updateTerraformCloudSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTerraformCloudSecretSync",
 }));
 
 export type UpdateTlsCertAuthError =
@@ -227146,6 +231820,8 @@ export const updateTlsCertAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTlsCertAuth",
 }));
 
 export type UpdateTokenAuthError =
@@ -227166,6 +231842,8 @@ export const updateTokenAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTokenAuth",
 }));
 
 export type UpdateTokenAuthTokenError =
@@ -227186,6 +231864,8 @@ export const updateTokenAuthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTokenAuthToken",
 }));
 
 export type UpdateTravisCIAppConnectionError =
@@ -227206,6 +231886,8 @@ export const updateTravisCIAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTravisCIAppConnection",
 }));
 
 export type UpdateTravisCISecretSyncError =
@@ -227226,6 +231908,8 @@ export const updateTravisCISecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTravisCISecretSync",
 }));
 
 export type UpdateTriggerDevAppConnectionError =
@@ -227246,6 +231930,8 @@ export const updateTriggerDevAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTriggerDevAppConnection",
 }));
 
 export type UpdateTriggerDevSecretSyncError =
@@ -227266,6 +231952,8 @@ export const updateTriggerDevSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTriggerDevSecretSync",
 }));
 
 export type UpdateUniversalAuthError =
@@ -227286,6 +231974,8 @@ export const updateUniversalAuth: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUniversalAuth",
 }));
 
 export type UpdateUnixLinuxLocalAccountRotationError =
@@ -227306,6 +231996,8 @@ export const updateUnixLinuxLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUnixLinuxLocalAccountRotation",
 }));
 
 export type UpdateVenafiAppConnectionError =
@@ -227326,6 +232018,8 @@ export const updateVenafiAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVenafiAppConnection",
 }));
 
 export type UpdateVenafiTppAppConnectionError =
@@ -227346,6 +232040,8 @@ export const updateVenafiTppAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVenafiTppAppConnection",
 }));
 
 export type UpdateVenafiTppCertificateAuthorityV1Error =
@@ -227365,6 +232061,8 @@ export const updateVenafiTppCertificateAuthorityV1: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVenafiTppCertificateAuthorityV1",
 }));
 
 export type UpdateVercelAppConnectionError =
@@ -227385,6 +232083,8 @@ export const updateVercelAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVercelAppConnection",
 }));
 
 export type UpdateVercelSecretSyncError =
@@ -227405,6 +232105,8 @@ export const updateVercelSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVercelSecretSync",
 }));
 
 export type UpdateWindmillAppConnectionError =
@@ -227425,6 +232127,8 @@ export const updateWindmillAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWindmillAppConnection",
 }));
 
 export type UpdateWindmillSecretSyncError =
@@ -227445,6 +232149,8 @@ export const updateWindmillSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWindmillSecretSync",
 }));
 
 export type UpdateWindowsLocalAccountRotationError =
@@ -227465,6 +232171,8 @@ export const updateWindowsLocalAccountRotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWindowsLocalAccountRotation",
 }));
 
 export type UpdateWindowsServerPkiSyncError =
@@ -227485,6 +232193,8 @@ export const updateWindowsServerPkiSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWindowsServerPkiSync",
 }));
 
 export type UpdateWinrmAppConnectionError =
@@ -227505,6 +232215,8 @@ export const updateWinrmAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWinrmAppConnection",
 }));
 
 export type UpdateWorkspaceError =
@@ -227525,6 +232237,8 @@ export const updateWorkspace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type UpdateWorkspaceEnvironmentError =
@@ -227545,6 +232259,8 @@ export const updateWorkspaceEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceEnvironment",
 }));
 
 export type UpdateWorkspaceGroupError =
@@ -227565,6 +232281,8 @@ export const updateWorkspaceGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceGroup",
 }));
 
 export type UpdateWorkspaceGroupByGroupIdError =
@@ -227585,6 +232303,8 @@ export const updateWorkspaceGroupByGroupId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceGroupByGroupId",
 }));
 
 export type UpdateWorkspaceIdentityMembershipError =
@@ -227605,6 +232325,8 @@ export const updateWorkspaceIdentityMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceIdentityMembership",
 }));
 
 export type UpdateWorkspaceIdentityMembershipByIdentityIdError =
@@ -227633,6 +232355,8 @@ export const updateWorkspaceIdentityMembershipByIdentityId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceIdentityMembershipByIdentityId",
 }));
 
 export type UpdateWorkspaceMembershipError =
@@ -227653,6 +232377,8 @@ export const updateWorkspaceMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceMembership",
 }));
 
 export type UpdateWorkspaceTagError =
@@ -227672,6 +232398,8 @@ export const updateWorkspaceTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceTag",
 }));
 
 export type UpdateZabbixAppConnectionError =
@@ -227692,6 +232420,8 @@ export const updateZabbixAppConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateZabbixAppConnection",
 }));
 
 export type UpdateZabbixSecretSyncError =
@@ -227712,6 +232442,8 @@ export const updateZabbixSecretSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateZabbixSecretSync",
 }));
 
 export type VerifyMacWithKmsKeyError =
@@ -227732,6 +232464,8 @@ export const verifyMacWithKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyMacWithKmsKey",
 }));
 
 export type VerifyWithKmsKeyError =
@@ -227752,6 +232486,8 @@ export const verifyWithKmsKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyWithKmsKey",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -227821,8 +232557,18 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientSecretKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateAzureAppConfigurationAppConnectionRequestCredentials" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           method: S.optional(S.String),
-          credentials: S.optional(__S(96, __c6, 0)),
+          credentials: S.optional(__S(64, __c4, 0)),
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           projectId: S.optional(S.String),
@@ -227839,7 +232585,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAzureAppConfigurationAppConnectionRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           appConnection: S.Unknown,
@@ -227863,17 +232609,6 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
-          tenantId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAzureAppConfigurationAppConnectionRequestCredentials" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           pkiSyncId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/v1/cert-manager/syncs/{pkiSyncId}", code: 200 }),
@@ -227881,13 +232616,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetPkiSyncRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -227914,8 +232649,8 @@ function __c9(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           destination: S.String,
           isAutoSyncEnabled: S.Boolean,
-          destinationConfig: __S(128, __c8, 0),
-          syncOptions: __S(128, __c8, 0),
+          destinationConfig: __S(112, __c7, 0),
+          syncOptions: __S(112, __c7, 0),
           applicationId: S.optional(S.NullOr(S.String)),
           subscriberId: S.optional(S.NullOr(S.String)),
           connectionId: S.String,
@@ -227938,7 +232673,7 @@ function __c9(j: number): any {
           lastRemovedAt: S.optional(S.NullOr(S.String)),
           appConnectionName: S.String,
           appConnectionApp: S.String,
-          connection: __S(144, __c9, 0),
+          connection: __S(128, __c8, 0),
           subscriber: S.optional(S.NullOr(__S(32416, __c2026, 0))),
           hasCertificate: S.optional(S.Boolean),
           filters: S.optional(S.NullOr(__S(44112, __c2757, 0))),
@@ -227946,7 +232681,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetPkiSyncResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -227962,7 +232697,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetPkiSyncAwsCertificateManagerRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -227978,7 +232713,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetPkiSyncAwsElasticLoadBalancerRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -227994,7 +232729,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetPkiSyncAwsSecretsManagerRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228010,7 +232745,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetPkiSyncAzureKeyVaultRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228020,7 +232755,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetPkiSyncByPkiSyncIdRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228048,8 +232783,8 @@ function __c15(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           destination: S.String,
           isAutoSyncEnabled: S.Boolean,
-          destinationConfig: __S(128, __c8, 0),
-          syncOptions: __S(128, __c8, 0),
+          destinationConfig: __S(112, __c7, 0),
+          syncOptions: __S(112, __c7, 0),
           projectId: S.String,
           applicationId: S.optional(S.NullOr(S.String)),
           subscriberId: S.optional(S.NullOr(S.String)),
@@ -228073,7 +232808,7 @@ function __c15(j: number): any {
           lastRemovedAt: S.optional(S.NullOr(S.String)),
           appConnectionName: S.String,
           appConnectionApp: S.String,
-          connection: __S(240, __c15, 0),
+          connection: __S(224, __c14, 0),
           subscriber: S.optional(S.NullOr(__S(32416, __c2026, 0))),
           hasCertificate: S.optional(S.Boolean),
           filters: S.optional(S.NullOr(__S(44112, __c2757, 0))),
@@ -228081,7 +232816,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetPkiSyncByPkiSyncIdResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228091,7 +232826,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetPkiSyncChefRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228107,7 +232842,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetPkiSyncCloudflareCustomCertificateRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228119,7 +232854,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetPkiSyncF5BigIpRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228135,7 +232870,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetPkiSyncGcpCertificateManagerRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228147,8 +232882,8 @@ function __c20(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
-          destinationConfig: __S(352, __c22, 0),
+          syncOptions: __S(320, __c20, 0),
+          destinationConfig: __S(336, __c21, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -228159,7 +232894,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateAzureAppConfigurationSecretSyncRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228172,7 +232907,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateAzureAppConfigurationSecretSyncRequestSyncOptions" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228206,27 +232941,27 @@ function __c22(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
           destination: S.String,
-          destinationConfig: __S(352, __c22, 0),
+          destinationConfig: __S(336, __c21, 0),
         }),
       ).annotate({ identifier: "CreateAzureAppConfigurationSecretSyncResponseSecretSync" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretSync: __S(353, __c22, 1),
+          secretSync: __S(337, __c21, 1),
         }),
       ).annotate({ identifier: "CreateAzureAppConfigurationSecretSyncResponse" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228242,7 +232977,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetPkiSyncKempLoadmasterRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228254,7 +232989,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetPkiSyncLinuxServerRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228266,7 +233001,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetPkiSyncNetscalerRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228282,7 +233017,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetPkiSyncNutanixPrismCentralRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228294,7 +233029,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetPkiSyncWindowsServerRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228310,7 +233045,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetPostgresAppConnectionRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228327,7 +233062,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetPostgresAppConnectionByNameRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228343,7 +233078,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetPostgreSQLCredentialsRotationRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228362,7 +233097,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetPostgreSQLCredentialsRotationByNameRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228378,7 +233113,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetPostgreSQLCredentialsRotationGeneratedCredentialsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228392,7 +233127,7 @@ function __c34(j: number): any {
           isAutoRotationEnabled: S.optional(S.Boolean),
           rotationInterval: S.Number,
           rotateAtUtc: S.optional(__S(40624, __c2539, 0)),
-          parameters: __S(560, __c35, 0),
+          parameters: __S(544, __c34, 0),
           secretsMapping: __S(43344, __c2709, 0),
         }).pipe(
           T.Http({
@@ -228404,7 +233139,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateAzureClientSecretRotationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228440,23 +233175,23 @@ function __c35(j: number): any {
           rotateAtUtc: __S(40624, __c2539, 0),
           lastRotationMessage: S.optional(S.NullOr(S.String)),
           type: S.String,
-          parameters: __S(560, __c35, 0),
+          parameters: __S(544, __c34, 0),
           secretsMapping: __S(43344, __c2709, 0),
         }),
       ).annotate({ identifier: "CreateAzureClientSecretRotationResponseSecretRotation" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretRotation: __S(561, __c35, 1),
+          secretRotation: __S(545, __c34, 1),
         }),
       ).annotate({ identifier: "CreateAzureClientSecretRotationResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228472,7 +233207,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetPowerdnsAppConnectionRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228489,7 +233224,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetPowerdnsAppConnectionByNameRequest" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228508,6 +233243,66 @@ function __c39(j: number): any {
           deletedBy: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "GetProjectResponseProjectDeletedEnvironmentsItem" });
+    case 2:
+      return S.Array(__S(609, __c38, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          type: S.String,
+          defaultProduct: S.optional(S.NullOr(S.String)),
+          slug: S.String,
+          autoCapitalization: S.optional(S.NullOr(S.Boolean)),
+          orgId: S.String,
+          createdAt: S.String,
+          updatedAt: S.String,
+          version: S.optional(S.Number),
+          upgradeStatus: S.optional(S.NullOr(S.String)),
+          pitVersionLimit: S.optional(S.Number),
+          kmsCertificateKeyId: S.optional(S.NullOr(S.String)),
+          kmsSecretManagerKeyId: S.optional(S.NullOr(S.String)),
+          auditLogsRetentionDays: S.optional(S.NullOr(S.Number)),
+          hasDeleteProtection: S.optional(S.NullOr(S.Boolean)),
+          secretSharing: S.optional(S.Boolean),
+          showSnapshotsLegacy: S.optional(S.Boolean),
+          secretDetectionIgnoreValues: S.optional(S.NullOr(__S(35584, __c2224, 0))),
+          enforceEncryptedSecretManagerSecretMetadata: S.optional(S.NullOr(S.Boolean)),
+          secretBlindIndexEnabled: S.optional(S.Boolean),
+          isLegacyAdditionalPrivilegesEnabled: S.optional(S.Boolean),
+          _id: S.String,
+          environments: __S(30064, __c1879, 0),
+          deletedEnvironments: __S(610, __c38, 2),
+        }),
+      ).annotate({ identifier: "GetProjectResponseProject" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.optional(__S(611, __c38, 3)),
+        }),
+      ).annotate({ identifier: "GetProjectResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/slug/{slug}", code: 200 })),
+      ).annotate({ identifier: "GetProjectBySlugRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          slug: S.String,
+          deleteAfter: S.String,
+          softDeletedAt: S.String,
+          deletedBy: S.NullOr(S.Unknown),
+        }),
+      ).annotate({ identifier: "GetProjectBySlugResponseDeletedEnvironmentsItem" });
     case 2:
       return S.Array(__S(625, __c39, 1));
     case 3:
@@ -228540,70 +233335,10 @@ function __c39(j: number): any {
           environments: __S(30064, __c1879, 0),
           deletedEnvironments: __S(626, __c39, 2),
         }),
-      ).annotate({ identifier: "GetProjectResponseProject" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.optional(__S(627, __c39, 3)),
-        }),
-      ).annotate({ identifier: "GetProjectResponse" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/slug/{slug}", code: 200 })),
-      ).annotate({ identifier: "GetProjectBySlugRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          slug: S.String,
-          deleteAfter: S.String,
-          softDeletedAt: S.String,
-          deletedBy: S.NullOr(S.Unknown),
-        }),
-      ).annotate({ identifier: "GetProjectBySlugResponseDeletedEnvironmentsItem" });
-    case 2:
-      return S.Array(__S(641, __c40, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.NullOr(S.String)),
-          type: S.String,
-          defaultProduct: S.optional(S.NullOr(S.String)),
-          slug: S.String,
-          autoCapitalization: S.optional(S.NullOr(S.Boolean)),
-          orgId: S.String,
-          createdAt: S.String,
-          updatedAt: S.String,
-          version: S.optional(S.Number),
-          upgradeStatus: S.optional(S.NullOr(S.String)),
-          pitVersionLimit: S.optional(S.Number),
-          kmsCertificateKeyId: S.optional(S.NullOr(S.String)),
-          kmsSecretManagerKeyId: S.optional(S.NullOr(S.String)),
-          auditLogsRetentionDays: S.optional(S.NullOr(S.Number)),
-          hasDeleteProtection: S.optional(S.NullOr(S.Boolean)),
-          secretSharing: S.optional(S.Boolean),
-          showSnapshotsLegacy: S.optional(S.Boolean),
-          secretDetectionIgnoreValues: S.optional(S.NullOr(__S(35584, __c2224, 0))),
-          enforceEncryptedSecretManagerSecretMetadata: S.optional(S.NullOr(S.Boolean)),
-          secretBlindIndexEnabled: S.optional(S.Boolean),
-          isLegacyAdditionalPrivilegesEnabled: S.optional(S.Boolean),
-          _id: S.String,
-          environments: __S(30064, __c1879, 0),
-          deletedEnvironments: __S(642, __c40, 2),
-        }),
       ).annotate({ identifier: "GetProjectBySlugResponse" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228620,7 +233355,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetProjectGroupMembershipRequest" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228645,19 +233380,19 @@ function __c42(j: number): any {
           roles: __S(32737, __c2046, 1),
           lastLoginAuthMethod: S.optional(S.NullOr(S.String)),
           lastLoginTime: S.optional(S.NullOr(S.String)),
-          identity: __S(704, __c44, 0),
-          project: __S(688, __c43, 0),
+          identity: __S(688, __c43, 0),
+          project: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipResponseIdentityMembership" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identityMembership: __S(673, __c42, 1),
+          identityMembership: __S(657, __c41, 1),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipResponse" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228668,7 +233403,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetProjectIdentityMembershipResponseIdentityMembershipProject" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228682,7 +233417,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetProjectIdentityMembershipResponseIdentityMembershipIdentity" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228719,18 +233454,18 @@ function __c45(j: number): any {
           roles: __S(32737, __c2046, 1),
           lastLoginAuthMethod: S.optional(S.NullOr(S.String)),
           lastLoginTime: S.optional(S.NullOr(S.String)),
-          identity: __S(721, __c45, 1),
+          identity: __S(705, __c44, 1),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipByIdResponseIdentityMembership" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          identityMembership: __S(722, __c45, 2),
+          identityMembership: __S(706, __c44, 2),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipByIdResponse" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228746,17 +233481,17 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetProjectIdentityMembershipByIdentityMembershipIdRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identityMembership: __S(769, __c48, 1),
+          identityMembership: __S(753, __c47, 1),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipByIdentityMembershipIdResponse" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228777,15 +233512,15 @@ function __c48(j: number): any {
           createdAt: S.String,
           updatedAt: S.String,
           roles: __S(32737, __c2046, 1),
-          identity: __S(768, __c48, 0),
-          project: __S(688, __c43, 0),
+          identity: __S(752, __c47, 0),
+          project: __S(672, __c42, 0),
         }),
       ).annotate({
         identifier: "GetProjectIdentityMembershipByIdentityMembershipIdResponseIdentityMembership",
       });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228802,7 +233537,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetProjectMachineIdentityByIdRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228819,16 +233554,9 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetProjectMembershipByUsernameRequest" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String,
-          tenantId: S.String,
-        }),
-      ).annotate({ identifier: "CreateAzureClientSecretsAppConnectionRequestCredentials" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
@@ -228849,12 +233577,28 @@ function __c51(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAzureClientSecretsAppConnectionRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           appConnection: S.Unknown,
         }),
       ).annotate({ identifier: "CreateAzureClientSecretsAppConnectionResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientSecretKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          certificateBody: S.optional(S.String),
+          privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateAzureClientSecretsAppConnectionRequestCredentials" });
   }
 }
 function __c52(j: number): any {
@@ -229187,9 +233931,13 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
-          tenantId: S.String,
-          orgName: S.String,
+          code: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          orgName: S.optional(S.String),
+          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientSecretKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateAzureDevopsAppConnectionRequestCredentials" });
     case 1:
@@ -229439,7 +234187,7 @@ function __c77(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(1248, __c78, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/azure-devops", code: 200 })),
       ).annotate({ identifier: "CreateAzureDevopsSecretSyncRequest" });
@@ -229479,7 +234227,7 @@ function __c78(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -230858,7 +235606,7 @@ function __c136(j: number): any {
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
-          credentials: S.optional(__S(96, __c6, 0)),
+          credentials: S.optional(__S(816, __c51, 0)),
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           projectId: S.optional(S.String),
@@ -231609,7 +236357,7 @@ function __c173(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -231665,7 +236413,7 @@ function __c174(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -231965,7 +236713,7 @@ function __c190(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(3056, __c191, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/bitbucket", code: 200 })),
       ).annotate({ identifier: "CreateBitbucketSecretSyncRequest" });
@@ -232006,7 +236754,7 @@ function __c191(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232349,7 +237097,7 @@ function __c211(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232405,7 +237153,7 @@ function __c212(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232495,7 +237243,7 @@ function __c217(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(3488, __c218, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/camunda", code: 200 })),
       ).annotate({ identifier: "CreateCamundaSecretSyncRequest" });
@@ -232535,7 +237283,7 @@ function __c218(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232926,7 +237674,7 @@ function __c241(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232982,7 +237730,7 @@ function __c242(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -233778,7 +238526,7 @@ function __c275(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -233834,7 +238582,7 @@ function __c276(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -233890,7 +238638,7 @@ function __c277(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -233997,7 +238745,7 @@ function __c281(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -234534,7 +239282,7 @@ function __c305(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -234624,7 +239372,7 @@ function __c308(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -234723,7 +239471,7 @@ function __c311(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -235991,7 +240739,7 @@ function __c374(j: number): any {
         ),
       ).annotate({ identifier: "ListAzureAppConfigurationSecretSyncsRequest" });
     case 1:
-      return S.Array(__S(353, __c22, 1));
+      return S.Array(__S(337, __c21, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -236030,7 +240778,7 @@ function __c376(j: number): any {
         ),
       ).annotate({ identifier: "ListAzureClientSecretRotationsRequest" });
     case 1:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(545, __c34, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -236205,7 +240953,7 @@ function __c386(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(6192, __c387, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/checkly", code: 200 })),
       ).annotate({ identifier: "CreateChecklySecretSyncRequest" });
@@ -236247,7 +240995,7 @@ function __c387(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -237154,7 +241902,7 @@ function __c431(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(6912, __c432, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/chef", code: 200 })),
       ).annotate({ identifier: "CreateChefSecretSyncRequest" });
@@ -237194,7 +241942,7 @@ function __c432(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -237671,7 +242419,7 @@ function __c460(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(7376, __c461, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/circleci", code: 200 })),
       ).annotate({ identifier: "CreateCircleciSecretSyncRequest" });
@@ -237712,7 +242460,7 @@ function __c461(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -238086,7 +242834,7 @@ function __c486(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(7792, __c487, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/cloud-66", code: 200 })),
       ).annotate({ identifier: "CreateCloud66SecretSyncRequest" });
@@ -238126,7 +242874,7 @@ function __c487(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -238637,7 +243385,7 @@ function __c516(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -238817,7 +243565,7 @@ function __c525(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -238898,7 +243646,7 @@ function __c528(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -239264,7 +244012,7 @@ function __c545(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(8736, __c546, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/secret-syncs/cloudflare-pages", code: 200 }),
@@ -239306,7 +244054,7 @@ function __c546(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -239675,7 +244423,7 @@ function __c564(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -240911,7 +245659,7 @@ function __c632(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(10128, __c633, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/databricks", code: 200 })),
       ).annotate({ identifier: "CreateDatabricksSecretSyncRequest" });
@@ -240950,7 +245698,7 @@ function __c633(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -241722,8 +246470,10 @@ function __c672(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          url: S.String,
-          token: S.String,
+          url: S.optional(S.String),
+          token: S.optional(S.String),
+          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          applicationKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDatadogAppConnectionRequestCredentials" });
     case 1:
@@ -242452,10 +247202,13 @@ function __c705(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          isDefault: S.optional(S.Boolean),
-          files: S.optional(__S(35584, __c2224, 0)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            isDefault: S.optional(S.Boolean),
+            files: S.optional(__S(35584, __c2224, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ListPkiSyncCertificatesResponseCertificatesItemSyncMetadata" });
     case 1:
       return S.suspend(() =>
@@ -242644,7 +247397,7 @@ function __c714(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/daytona", code: 200 })),
       ).annotate({ identifier: "CreateDaytonaSecretSyncRequest" });
@@ -242677,7 +247430,7 @@ function __c715(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -242790,7 +247543,7 @@ function __c722(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/cert-manager/syncs", code: 200 })),
       ).annotate({ identifier: "ListPkiSyncsRequest" });
     case 1:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(129, __c8, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -242809,7 +247562,7 @@ function __c723(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/pki/syncs", code: 200 })),
       ).annotate({ identifier: "ListPkiSyncsRequest2" });
     case 1:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(225, __c14, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -243101,8 +247854,8 @@ function __c739(j: number): any {
           createdAt: S.String,
           updatedAt: S.String,
           roles: __S(32737, __c2046, 1),
-          identity: __S(704, __c44, 0),
-          project: __S(688, __c43, 0),
+          identity: __S(688, __c43, 0),
+          project: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "ListProjectIdentityMembershipsResponseIdentityMembershipsItem" });
     case 2:
@@ -243889,7 +248642,7 @@ function __c775(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(12416, __c776, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/devin", code: 200 })),
       ).annotate({ identifier: "CreateDevinSecretSyncRequest" });
@@ -243928,7 +248681,7 @@ function __c776(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -245032,7 +249785,7 @@ function __c829(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(13280, __c830, 0),
         }).pipe(
           T.Http({
@@ -245082,7 +249835,7 @@ function __c831(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -245415,7 +250168,7 @@ function __c852(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -245707,7 +250460,7 @@ function __c869(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -246059,7 +250812,7 @@ function __c888(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceIdentityMembershipsRequest" });
     case 1:
-      return S.Array(__S(769, __c48, 1));
+      return S.Array(__S(753, __c47, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -246231,7 +250984,7 @@ function __c898(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -247138,7 +251891,7 @@ function __c950(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(15216, __c951, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/secret-syncs/external-infisical", code: 200 }),
@@ -247181,7 +251934,7 @@ function __c951(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -248400,7 +253153,7 @@ function __c1008(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -248455,7 +253208,7 @@ function __c1009(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -248510,7 +253263,7 @@ function __c1010(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -248613,7 +253366,7 @@ function __c1014(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -249577,7 +254330,7 @@ function __c1065(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -249706,7 +254459,7 @@ function __c1071(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -249793,7 +254546,7 @@ function __c1074(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -250234,7 +254987,7 @@ function __c1095(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/secret-syncs/gcp-secret-manager", code: 200 }),
@@ -250265,7 +255018,7 @@ function __c1095(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -250913,7 +255666,7 @@ function __c1132(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/github", code: 200 })),
       ).annotate({ identifier: "CreateGitHubSecretSyncRequest" });
@@ -250942,7 +255695,7 @@ function __c1132(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -251335,7 +256088,7 @@ function __c1154(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/gitlab", code: 200 })),
       ).annotate({ identifier: "CreateGitLabSecretSyncRequest" });
@@ -251364,7 +256117,7 @@ function __c1154(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -252135,9 +256888,11 @@ function __c1201(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instanceUrl: S.String,
+          instanceUrl: S.optional(S.String),
           namespace: S.optional(S.String),
-          accessToken: S.String.pipe(T.SensitiveValue({})),
+          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          roleId: S.optional(S.String),
+          secretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateHashicorpVaultAppConnectionRequestCredentials" });
     case 1:
@@ -252337,7 +257092,7 @@ function __c1212(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(19408, __c1213, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/hashicorp-vault", code: 200 })),
       ).annotate({ identifier: "CreateHashicorpVaultSecretSyncRequest" });
@@ -252377,7 +257132,7 @@ function __c1213(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -252850,7 +257605,7 @@ function __c1238(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(19824, __c1239, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/hasura-cloud", code: 200 })),
       ).annotate({ identifier: "CreateHasuraCloudSecretSyncRequest" });
@@ -252890,7 +257645,7 @@ function __c1239(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -253693,7 +258448,7 @@ function __c1265(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(20256, __c1266, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/heroku", code: 200 })),
       ).annotate({ identifier: "CreateHerokuSecretSyncRequest" });
@@ -253733,7 +258488,7 @@ function __c1266(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254646,7 +259401,7 @@ function __c1313(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254701,7 +259456,7 @@ function __c1314(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254756,7 +259511,7 @@ function __c1315(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254832,7 +259587,7 @@ function __c1319(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/humanitec", code: 200 })),
       ).annotate({ identifier: "CreateHumanitecSecretSyncRequest" });
@@ -254861,7 +259616,7 @@ function __c1319(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254916,7 +259671,7 @@ function __c1320(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -255714,7 +260469,7 @@ function __c1362(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -255801,7 +260556,7 @@ function __c1365(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -255946,7 +260701,7 @@ function __c1371(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -257047,8 +261802,8 @@ function __c1418(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
-          destinationConfig: S.optional(__S(352, __c22, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
+          destinationConfig: S.optional(__S(336, __c21, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -257114,7 +261869,7 @@ function __c1421(j: number): any {
           isAutoRotationEnabled: S.optional(S.Boolean),
           rotationInterval: S.optional(S.Number),
           rotateAtUtc: S.optional(__S(40624, __c2539, 0)),
-          parameters: S.optional(__S(560, __c35, 0)),
+          parameters: S.optional(__S(544, __c34, 0)),
           secretsMapping: S.optional(__S(43344, __c2709, 0)),
         }).pipe(
           T.Http({
@@ -257198,7 +261953,7 @@ function __c1424(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/azure-devops/{syncId}", code: 200 }),
@@ -257427,7 +262182,7 @@ function __c1431(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(22912, __c1432, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/laravel-forge", code: 200 })),
       ).annotate({ identifier: "CreateLaravelForgeSecretSyncRequest" });
@@ -257471,7 +262226,7 @@ function __c1432(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -257527,7 +262282,7 @@ function __c1435(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(3056, __c191, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/bitbucket/{syncId}", code: 200 }),
@@ -257589,7 +262344,7 @@ function __c1438(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(3488, __c218, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/camunda/{syncId}", code: 200 }),
@@ -258039,7 +262794,7 @@ function __c1456(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(6192, __c387, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/checkly/{syncId}", code: 200 }),
@@ -258149,7 +262904,7 @@ function __c1461(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(6912, __c432, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/chef/{syncId}", code: 200 })),
       ).annotate({ identifier: "UpdateChefSecretSyncRequest" });
@@ -258191,7 +262946,7 @@ function __c1463(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(7376, __c461, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/circleci/{syncId}", code: 200 }),
@@ -258235,7 +262990,7 @@ function __c1465(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(7792, __c487, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/cloud-66/{syncId}", code: 200 }),
@@ -258326,7 +263081,7 @@ function __c1469(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(8736, __c546, 0)),
         }).pipe(
           T.Http({
@@ -258560,7 +263315,7 @@ function __c1479(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(10128, __c633, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/databricks/{syncId}", code: 200 }),
@@ -258848,7 +263603,7 @@ function __c1492(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/daytona/{syncId}", code: 200 }),
@@ -258935,7 +263690,7 @@ function __c1496(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(12416, __c776, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/devin/{syncId}", code: 200 })),
       ).annotate({ identifier: "UpdateDevinSecretSyncRequest" });
@@ -259016,7 +263771,7 @@ function __c1500(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(13280, __c830, 0)),
         }).pipe(
           T.Http({
@@ -259275,7 +264030,7 @@ function __c1511(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(15216, __c951, 0)),
         }).pipe(
           T.Http({
@@ -259657,7 +264412,7 @@ function __c1529(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({
@@ -259692,7 +264447,7 @@ function __c1529(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -259823,7 +264578,7 @@ function __c1534(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/github/{syncId}", code: 200 }),
@@ -259854,7 +264609,7 @@ function __c1534(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -259912,7 +264667,7 @@ function __c1536(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/gitlab/{syncId}", code: 200 }),
@@ -259943,7 +264698,7 @@ function __c1536(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -260053,7 +264808,7 @@ function __c1541(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(19408, __c1213, 0)),
         }).pipe(
           T.Http({
@@ -260146,7 +264901,7 @@ function __c1545(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(19824, __c1239, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/hasura-cloud/{syncId}", code: 200 }),
@@ -260196,7 +264951,7 @@ function __c1547(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(20256, __c1266, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/heroku/{syncId}", code: 200 }),
@@ -260292,7 +265047,7 @@ function __c1551(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/humanitec/{syncId}", code: 200 }),
@@ -260323,7 +265078,7 @@ function __c1551(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -260764,7 +265519,7 @@ function __c1567(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(22912, __c1432, 0)),
         }).pipe(
           T.Http({
@@ -261380,7 +266135,7 @@ function __c1592(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(26528, __c1658, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/netlify/{syncId}", code: 200 }),
@@ -261549,7 +266304,7 @@ function __c1599(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(27344, __c1709, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/northflank/{syncId}", code: 200 }),
@@ -261665,7 +266420,7 @@ function __c1604(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(28192, __c1762, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/oci-vault/{syncId}", code: 200 }),
@@ -261709,7 +266464,7 @@ function __c1606(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(28481, __c1780, 1)),
         }).pipe(
           T.Http({
@@ -261913,7 +266668,7 @@ function __c1615(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(28608, __c1788, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/ona/{syncId}", code: 200 })),
       ).annotate({ identifier: "UpdateOnaSecretSyncRequest" });
@@ -261955,7 +266710,7 @@ function __c1617(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(28688, __c1793, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/1password/{syncId}", code: 200 }),
@@ -262289,7 +267044,7 @@ function __c1631(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(29072, __c1817, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/ovh/{syncId}", code: 200 })),
       ).annotate({ identifier: "UpdateOvhSecretSyncRequest" });
@@ -262828,7 +267583,7 @@ function __c1657(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(26528, __c1658, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/netlify", code: 200 })),
       ).annotate({ identifier: "CreateNetlifySecretSyncRequest" });
@@ -262871,7 +267626,7 @@ function __c1658(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -263443,7 +268198,7 @@ function __c1679(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(30368, __c1898, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/qovery/{syncId}", code: 200 }),
@@ -263487,7 +268242,7 @@ function __c1681(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(30432, __c1902, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/railway/{syncId}", code: 200 }),
@@ -263716,7 +268471,7 @@ function __c1690(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(30688, __c1918, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/rundeck/{syncId}", code: 200 }),
@@ -264034,7 +268789,7 @@ function __c1708(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(27344, __c1709, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/northflank", code: 200 })),
       ).annotate({ identifier: "CreateNorthflankSecretSyncRequest" });
@@ -264076,7 +268831,7 @@ function __c1709(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -264170,7 +268925,7 @@ function __c1714(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(31280, __c1955, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/snowflake/{syncId}", code: 200 }),
@@ -264392,11 +269147,13 @@ function __c1721(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hostname: S.String,
+          hostname: S.optional(S.String),
           port: S.optional(S.Number),
           sslRejectUnauthorized: S.optional(S.Boolean),
           sslCertificate: S.optional(S.String),
-          apiKey: S.String.pipe(T.SensitiveValue({})),
+          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateNutanixPrismCentralAppConnectionRequestCredentials" });
     case 1:
@@ -264611,7 +269368,7 @@ function __c1729(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(19824, __c1239, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/supabase/{syncId}", code: 200 }),
@@ -264655,7 +269412,7 @@ function __c1731(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(31936, __c1996, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/teamcity/{syncId}", code: 200 }),
@@ -264770,7 +269527,7 @@ function __c1736(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({
@@ -264805,7 +269562,7 @@ function __c1736(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -264914,7 +269671,7 @@ function __c1741(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(32080, __c2005, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/travis-ci/{syncId}", code: 200 }),
@@ -265259,7 +270016,7 @@ function __c1756(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/vercel/{syncId}", code: 200 }),
@@ -265290,7 +270047,7 @@ function __c1756(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -265342,7 +270099,7 @@ function __c1758(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(32480, __c2030, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/windmill/{syncId}", code: 200 }),
@@ -265410,7 +270167,7 @@ function __c1761(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(28192, __c1762, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/oci-vault", code: 200 })),
       ).annotate({ identifier: "CreateOciVaultSecretSyncRequest" });
@@ -265451,7 +270208,7 @@ function __c1762(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -265725,7 +270482,7 @@ function __c1776(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/zabbix/{syncId}", code: 200 }),
@@ -265756,7 +270513,7 @@ function __c1776(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -265826,7 +270583,7 @@ function __c1779(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(28481, __c1780, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/octopus-deploy", code: 200 })),
       ).annotate({ identifier: "CreateOctopusDeploySecretSyncRequest" });
@@ -265883,7 +270640,7 @@ function __c1780(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -265996,7 +270753,7 @@ function __c1787(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(28608, __c1788, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/ona", code: 200 })),
       ).annotate({ identifier: "CreateOnaSecretSyncRequest" });
@@ -266036,7 +270793,7 @@ function __c1788(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -266098,7 +270855,7 @@ function __c1792(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(28688, __c1793, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/1password", code: 200 })),
       ).annotate({ identifier: "CreateOnePasswordSecretSyncRequest" });
@@ -266138,7 +270895,7 @@ function __c1793(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -266658,7 +271415,7 @@ function __c1816(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(29072, __c1817, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/ovh", code: 200 })),
       ).annotate({ identifier: "CreateOvhSecretSyncRequest" });
@@ -266697,7 +271454,7 @@ function __c1817(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -268573,7 +273330,7 @@ function __c1897(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(30368, __c1898, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/qovery", code: 200 })),
       ).annotate({ identifier: "CreateQoverySecretSyncRequest" });
@@ -268618,7 +273375,7 @@ function __c1898(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -268669,7 +273426,7 @@ function __c1901(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(30432, __c1902, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/railway", code: 200 })),
       ).annotate({ identifier: "CreateRailwaySecretSyncRequest" });
@@ -268713,7 +273470,7 @@ function __c1902(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -269061,7 +273818,7 @@ function __c1917(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(30688, __c1918, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/rundeck", code: 200 })),
       ).annotate({ identifier: "CreateRundeckSecretSyncRequest" });
@@ -269101,7 +273858,7 @@ function __c1918(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -269863,7 +274620,7 @@ function __c1954(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(31280, __c1955, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/snowflake", code: 200 })),
       ).annotate({ identifier: "CreateSnowflakeSecretSyncRequest" });
@@ -269903,7 +274660,7 @@ function __c1955(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -270233,10 +274990,12 @@ function __c1968(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          host: S.String,
-          port: S.Number,
-          username: S.String,
-          password: S.String.pipe(T.SensitiveValue({})),
+          host: S.optional(S.String),
+          port: S.optional(S.Number),
+          username: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          passphrase: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSshAppConnectionRequestCredentials" });
     case 1:
@@ -270729,7 +275488,7 @@ function __c1992(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(19824, __c1239, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/supabase", code: 200 })),
       ).annotate({ identifier: "CreateSupabaseSecretSyncRequest" });
@@ -270777,7 +275536,7 @@ function __c1995(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(31936, __c1996, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/teamcity", code: 200 })),
       ).annotate({ identifier: "CreateTeamcitySecretSyncRequest" });
@@ -270817,7 +275576,7 @@ function __c1996(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -270870,7 +275629,7 @@ function __c1999(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/terraform-cloud", code: 200 })),
       ).annotate({ identifier: "CreateTerraformCloudSecretSyncRequest" });
@@ -270899,7 +275658,7 @@ function __c1999(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -271030,7 +275789,7 @@ function __c2004(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(32080, __c2005, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/travis-ci", code: 200 })),
       ).annotate({ identifier: "CreateTravisCISecretSyncRequest" });
@@ -271071,7 +275830,7 @@ function __c2005(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -271446,7 +276205,7 @@ function __c2024(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/vercel", code: 200 })),
       ).annotate({ identifier: "CreateVercelSecretSyncRequest" });
@@ -271475,7 +276234,7 @@ function __c2024(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -271579,7 +276338,7 @@ function __c2029(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(32480, __c2030, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/windmill", code: 200 })),
       ).annotate({ identifier: "CreateWindmillSecretSyncRequest" });
@@ -271619,7 +276378,7 @@ function __c2030(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -272074,7 +276833,7 @@ function __c2053(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/zabbix", code: 200 })),
       ).annotate({ identifier: "CreateZabbixSecretSyncRequest" });
@@ -272103,7 +276862,7 @@ function __c2053(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -274142,7 +278901,7 @@ function __c2167(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -274232,7 +278991,7 @@ function __c2170(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -274306,7 +279065,7 @@ function __c2172(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -274569,7 +279328,7 @@ function __c2186(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -277678,7 +282437,7 @@ function __c2346(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -277930,7 +282689,7 @@ function __c2360(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -278221,7 +282980,7 @@ function __c2376(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -282859,8 +287618,10 @@ function __c2616(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          roleArn: S.String,
+          roleArn: S.optional(S.String),
           stsEndpoint: S.optional(S.String),
+          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secretAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateAgentVaultAwsAppConnectionRequestCredentials" });
   }
@@ -283467,7 +288228,7 @@ function __c2646(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283523,7 +288284,7 @@ function __c2647(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283650,7 +288411,7 @@ function __c2652(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283747,7 +288508,7 @@ function __c2655(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283841,7 +288602,7 @@ function __c2658(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283897,7 +288658,7 @@ function __c2659(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -284454,7 +289215,7 @@ function __c2690(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -284510,7 +289271,7 @@ function __c2691(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),

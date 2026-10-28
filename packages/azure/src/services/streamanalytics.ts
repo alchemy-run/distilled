@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.StreamAnalytics" },
+  prefix: "Streamanalytics",
+  service: "Streamanalytics",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type ClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Specifies the SKU name of the cluster. Required on PUT (CreateOrUpdate) requests. */
@@ -1493,6 +1514,8 @@ export const ClustersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClustersCreateOrUpdate",
 }));
 
 export type DeleteClusterError = AzureOpError;
@@ -1508,6 +1531,8 @@ export const DeleteCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteFunctionError = AzureOpError;
@@ -1523,6 +1548,8 @@ export const DeleteFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFunction",
 }));
 
 export type DeleteInputError = AzureOpError;
@@ -1538,6 +1565,8 @@ export const DeleteInput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInput",
 }));
 
 export type DeleteOutputError = AzureOpError;
@@ -1553,6 +1582,8 @@ export const DeleteOutput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOutput",
 }));
 
 export type DeletePrivateEndpointError = AzureOpError;
@@ -1568,6 +1599,8 @@ export const DeletePrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpoint",
 }));
 
 export type DeleteStreamingJobError = AzureOpError;
@@ -1583,6 +1616,8 @@ export const DeleteStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStreamingJob",
 }));
 
 export type FunctionsCreateOrReplaceError = AzureOpError;
@@ -1598,6 +1633,8 @@ export const FunctionsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionsCreateOrReplace",
 }));
 
 export type GetClusterError = AzureOpError;
@@ -1613,6 +1650,8 @@ export const GetCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetFunctionError = AzureOpError;
@@ -1628,6 +1667,8 @@ export const GetFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunction",
 }));
 
 export type GetFunctionDefaultDefinitionError = AzureOpError;
@@ -1643,6 +1684,8 @@ export const GetFunctionDefaultDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunctionDefaultDefinition",
 }));
 
 export type GetInputError = AzureOpError;
@@ -1658,6 +1701,8 @@ export const GetInput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInput",
 }));
 
 export type GetOutputError = AzureOpError;
@@ -1673,6 +1718,8 @@ export const GetOutput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOutput",
 }));
 
 export type GetPrivateEndpointError = AzureOpError;
@@ -1688,6 +1735,8 @@ export const GetPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpoint",
 }));
 
 export type GetStreamingJobError = AzureOpError;
@@ -1703,6 +1752,8 @@ export const GetStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStreamingJob",
 }));
 
 export type GetTransformationError = AzureOpError;
@@ -1718,6 +1769,8 @@ export const GetTransformation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformation",
 }));
 
 export type InputsCreateOrReplaceError = AzureOpError;
@@ -1733,6 +1786,8 @@ export const InputsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InputsCreateOrReplace",
 }));
 
 export type ListClusterByResourceGroupError = AzureOpError;
@@ -1748,6 +1803,8 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterByResourceGroup",
 }));
 
 export type ListClusterBySubscriptionError = AzureOpError;
@@ -1763,6 +1820,8 @@ export const ListClusterBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterBySubscription",
 }));
 
 export type ListClusterStreamingJobsError = AzureOpError;
@@ -1778,6 +1837,8 @@ export const ListClusterStreamingJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterStreamingJobs",
 }));
 
 export type ListFunctionByStreamingJobError = AzureOpError;
@@ -1793,6 +1854,8 @@ export const ListFunctionByStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFunctionByStreamingJob",
 }));
 
 export type ListInputByStreamingJobError = AzureOpError;
@@ -1808,6 +1871,8 @@ export const ListInputByStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInputByStreamingJob",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1823,6 +1888,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListOutputByStreamingJobError = AzureOpError;
@@ -1838,6 +1905,8 @@ export const ListOutputByStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOutputByStreamingJob",
 }));
 
 export type ListPrivateEndpointByClusterError = AzureOpError;
@@ -1853,6 +1922,8 @@ export const ListPrivateEndpointByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointByCluster",
 }));
 
 export type ListStreamingJobByResourceGroupError = AzureOpError;
@@ -1868,6 +1939,8 @@ export const ListStreamingJobByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStreamingJobByResourceGroup",
 }));
 
 export type ListStreamingJobsError = AzureOpError;
@@ -1883,6 +1956,8 @@ export const ListStreamingJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStreamingJobs",
 }));
 
 export type ListSubscriptionQuotasError = AzureOpError;
@@ -1898,6 +1973,8 @@ export const ListSubscriptionQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionQuotas",
 }));
 
 export type OutputsCreateOrReplaceError = AzureOpError;
@@ -1913,6 +1990,8 @@ export const OutputsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OutputsCreateOrReplace",
 }));
 
 export type PrivateEndpointsCreateOrUpdateError = AzureOpError;
@@ -1928,6 +2007,8 @@ export const PrivateEndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointsCreateOrUpdate",
 }));
 
 export type ScaleStreamingJobError = AzureOpError;
@@ -1943,6 +2024,8 @@ export const ScaleStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScaleStreamingJob",
 }));
 
 export type StartStreamingJobError = AzureOpError;
@@ -1958,6 +2041,8 @@ export const StartStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartStreamingJob",
 }));
 
 export type StopStreamingJobError = AzureOpError;
@@ -1973,6 +2058,8 @@ export const StopStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopStreamingJob",
 }));
 
 export type StreamingJobsCreateOrReplaceError = AzureOpError;
@@ -1988,6 +2075,8 @@ export const StreamingJobsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamingJobsCreateOrReplace",
 }));
 
 export type TestFunctionError = AzureOpError;
@@ -2003,6 +2092,8 @@ export const TestFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestFunction",
 }));
 
 export type TestInputError = AzureOpError;
@@ -2018,6 +2109,8 @@ export const TestInput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestInput",
 }));
 
 export type TestOutputError = AzureOpError;
@@ -2033,6 +2126,8 @@ export const TestOutput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestOutput",
 }));
 
 export type TransformationsCreateOrReplaceError = AzureOpError;
@@ -2048,6 +2143,8 @@ export const TransformationsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransformationsCreateOrReplace",
 }));
 
 export type UpdateClusterError = AzureOpError;
@@ -2063,6 +2160,8 @@ export const UpdateCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateFunctionError = AzureOpError;
@@ -2078,6 +2177,8 @@ export const UpdateFunction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFunction",
 }));
 
 export type UpdateInputError = AzureOpError;
@@ -2093,6 +2194,8 @@ export const UpdateInput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInput",
 }));
 
 export type UpdateOutputError = AzureOpError;
@@ -2108,6 +2211,8 @@ export const UpdateOutput: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOutput",
 }));
 
 export type UpdateStreamingJobError = AzureOpError;
@@ -2123,6 +2228,8 @@ export const UpdateStreamingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStreamingJob",
 }));
 
 export type UpdateTransformationError = AzureOpError;
@@ -2138,6 +2245,8 @@ export const UpdateTransformation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransformation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

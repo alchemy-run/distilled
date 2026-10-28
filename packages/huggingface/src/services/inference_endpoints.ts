@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "InferenceEndpoints",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export type CheckEndpointAccessRequestPerms = "read" | "write" | "infer";
 export interface CheckEndpointAccessRequest {
   namespace: string;
@@ -71,6 +84,8 @@ export const checkEndpointAccess: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckEndpointAccess",
 }));
 
 export type CheckNamespaceAccessError = HuggingFaceOpError;
@@ -86,6 +101,8 @@ export const checkNamespaceAccess: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNamespaceAccess",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

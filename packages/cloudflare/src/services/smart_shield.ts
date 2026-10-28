@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "SmartShield",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface CacheReserveClearStatusRequest {
   /** Identifier. */
   zoneId: string;
@@ -887,6 +901,8 @@ export const cacheReserveClearStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CacheReserveClearStatus",
 }));
 
 export type ClearCacheReserveClearError = CloudflareOpError;
@@ -902,6 +918,8 @@ export const clearCacheReserveClear: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearCacheReserveClear",
 }));
 
 export type CreateHealthCheckError = CloudflareOpError;
@@ -917,6 +935,8 @@ export const createHealthCheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHealthCheck",
 }));
 
 export type DeleteHealthCheckError = CloudflareOpError;
@@ -932,6 +952,8 @@ export const deleteHealthCheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHealthCheck",
 }));
 
 export type EditHealthCheckError = CloudflareOpError;
@@ -947,6 +969,8 @@ export const editHealthCheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditHealthCheck",
 }));
 
 export type GetError = CloudflareOpError;
@@ -958,6 +982,8 @@ export const get: API.OperationMethod<GetRequest, GetResponse, GetError, Cloudfl
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetHealthCheckError = CloudflareOpError;
@@ -973,6 +999,8 @@ export const getHealthCheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealthCheck",
 }));
 
 export type ListHealthChecksError = CloudflareOpError;
@@ -988,6 +1016,8 @@ export const listHealthChecks: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHealthChecks",
 }));
 
 export type UpdateError = CloudflareOpError;
@@ -1003,6 +1033,8 @@ export const update: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Update",
 }));
 
 export type UpdateHealthCheckError = CloudflareOpError;
@@ -1018,6 +1050,8 @@ export const updateHealthCheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHealthCheck",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

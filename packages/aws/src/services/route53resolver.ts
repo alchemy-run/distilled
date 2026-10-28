@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -81,6 +82,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://route53resolver.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53Resolver",
+  service: "Route53Resolver",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -1326,6 +1342,8 @@ export const associateFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateFirewallRuleGroup",
 }));
 
 export type AssociateResolverEndpointIpAddressError =
@@ -1364,6 +1382,8 @@ export const associateResolverEndpointIpAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverEndpointIpAddress",
+  telemetry: TELEMETRY,
+  span: "AssociateResolverEndpointIpAddress",
 }));
 
 export type AssociateResolverQueryLogConfigError =
@@ -1407,6 +1427,8 @@ export const associateResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "AssociateResolverQueryLogConfig",
 }));
 
 export type AssociateResolverRuleError =
@@ -1446,6 +1468,8 @@ export const associateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverRule",
+  telemetry: TELEMETRY,
+  span: "AssociateResolverRule",
 }));
 
 export type BatchCreateFirewallRuleError =
@@ -1476,6 +1500,8 @@ export const batchCreateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchCreateFirewallRule",
 }));
 
 export type BatchDeleteFirewallRuleError =
@@ -1506,6 +1532,8 @@ export const batchDeleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteFirewallRule",
 }));
 
 export type BatchUpdateFirewallRuleError =
@@ -1536,6 +1564,8 @@ export const batchUpdateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateFirewallRule",
 }));
 
 export type CreateFirewallDomainListError =
@@ -1566,6 +1596,8 @@ export const createFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallDomainList",
 }));
 
 export type CreateFirewallRuleError =
@@ -1606,6 +1638,8 @@ export const createFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallRule",
 }));
 
 export type CreateFirewallRuleGroupError =
@@ -1637,6 +1671,8 @@ export const createFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallRuleGroup",
 }));
 
 export type CreateOutpostResolverError =
@@ -1672,6 +1708,8 @@ export const createOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutpostResolver",
+  telemetry: TELEMETRY,
+  span: "CreateOutpostResolver",
 }));
 
 export type CreateResolverEndpointError =
@@ -1714,6 +1752,8 @@ export const createResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateResolverEndpoint",
 }));
 
 export type CreateResolverQueryLogConfigError =
@@ -1758,6 +1798,8 @@ export const createResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "CreateResolverQueryLogConfig",
 }));
 
 export type CreateResolverRuleError =
@@ -1797,6 +1839,8 @@ export const createResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverRule",
+  telemetry: TELEMETRY,
+  span: "CreateResolverRule",
 }));
 
 export type DeleteFirewallDomainListError =
@@ -1827,6 +1871,8 @@ export const deleteFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallDomainList",
 }));
 
 export type DeleteFirewallRuleError =
@@ -1859,6 +1905,8 @@ export const deleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRule",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRule",
 }));
 
 export type DeleteFirewallRuleGroupError =
@@ -1891,6 +1939,8 @@ export const deleteFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRuleGroup",
 }));
 
 export type DeleteOutpostResolverError =
@@ -1927,6 +1977,8 @@ export const deleteOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutpostResolver",
+  telemetry: TELEMETRY,
+  span: "DeleteOutpostResolver",
 }));
 
 export type DeleteResolverEndpointError =
@@ -1963,6 +2015,8 @@ export const deleteResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteResolverEndpoint",
 }));
 
 export type DeleteResolverQueryLogConfigError =
@@ -2005,6 +2059,8 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteResolverQueryLogConfig",
 }));
 
 export type DeleteResolverRuleError =
@@ -2039,6 +2095,8 @@ export const deleteResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverRule",
+  telemetry: TELEMETRY,
+  span: "DeleteResolverRule",
 }));
 
 export type DisassociateFirewallRuleGroupError =
@@ -2071,6 +2129,8 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateFirewallRuleGroup",
 }));
 
 export type DisassociateResolverEndpointIpAddressError =
@@ -2107,6 +2167,8 @@ export const disassociateResolverEndpointIpAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverEndpointIpAddress",
+  telemetry: TELEMETRY,
+  span: "DisassociateResolverEndpointIpAddress",
 }));
 
 export type DisassociateResolverQueryLogConfigError =
@@ -2148,6 +2210,8 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "DisassociateResolverQueryLogConfig",
 }));
 
 export type DisassociateResolverRuleError =
@@ -2181,6 +2245,8 @@ export const disassociateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverRule",
+  telemetry: TELEMETRY,
+  span: "DisassociateResolverRule",
 }));
 
 export type GetFirewallConfigError =
@@ -2212,6 +2278,8 @@ export const getFirewallConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallConfig",
+  telemetry: TELEMETRY,
+  span: "GetFirewallConfig",
 }));
 
 export type GetFirewallDomainListError =
@@ -2240,6 +2308,8 @@ export const getFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "GetFirewallDomainList",
 }));
 
 export type GetFirewallRuleGroupError =
@@ -2268,6 +2338,8 @@ export const getFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroup",
+  telemetry: TELEMETRY,
+  span: "GetFirewallRuleGroup",
 }));
 
 export type GetFirewallRuleGroupAssociationError =
@@ -2296,6 +2368,8 @@ export const getFirewallRuleGroupAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroupAssociation",
+  telemetry: TELEMETRY,
+  span: "GetFirewallRuleGroupAssociation",
 }));
 
 export type GetFirewallRuleGroupPolicyError =
@@ -2327,6 +2401,8 @@ export const getFirewallRuleGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "GetFirewallRuleGroupPolicy",
 }));
 
 export type GetOutpostResolverError =
@@ -2358,6 +2434,8 @@ export const getOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpostResolver",
+  telemetry: TELEMETRY,
+  span: "GetOutpostResolver",
 }));
 
 export type GetResolverConfigError =
@@ -2391,6 +2469,8 @@ export const getResolverConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverConfig",
+  telemetry: TELEMETRY,
+  span: "GetResolverConfig",
 }));
 
 export type GetResolverDnssecConfigError =
@@ -2423,6 +2503,8 @@ export const getResolverDnssecConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverDnssecConfig",
+  telemetry: TELEMETRY,
+  span: "GetResolverDnssecConfig",
 }));
 
 export type GetResolverEndpointError =
@@ -2452,6 +2534,8 @@ export const getResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetResolverEndpoint",
 }));
 
 export type GetResolverQueryLogConfigError =
@@ -2485,6 +2569,8 @@ export const getResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfig",
+  telemetry: TELEMETRY,
+  span: "GetResolverQueryLogConfig",
 }));
 
 export type GetResolverQueryLogConfigAssociationError =
@@ -2518,6 +2604,8 @@ export const getResolverQueryLogConfigAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfigAssociation",
+  telemetry: TELEMETRY,
+  span: "GetResolverQueryLogConfigAssociation",
 }));
 
 export type GetResolverQueryLogConfigPolicyError =
@@ -2549,6 +2637,8 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfigPolicy",
+  telemetry: TELEMETRY,
+  span: "GetResolverQueryLogConfigPolicy",
 }));
 
 export type GetResolverRuleError =
@@ -2578,6 +2668,8 @@ export const getResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRule",
+  telemetry: TELEMETRY,
+  span: "GetResolverRule",
 }));
 
 export type GetResolverRuleAssociationError =
@@ -2607,6 +2699,8 @@ export const getResolverRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRuleAssociation",
+  telemetry: TELEMETRY,
+  span: "GetResolverRuleAssociation",
 }));
 
 export type GetResolverRulePolicyError =
@@ -2636,6 +2730,8 @@ export const getResolverRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRulePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResolverRulePolicy",
 }));
 
 export type ImportFirewallDomainsError =
@@ -2681,6 +2777,8 @@ export const importFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportFirewallDomains",
+  telemetry: TELEMETRY,
+  span: "ImportFirewallDomains",
 }));
 
 export type ListFirewallConfigsError =
@@ -2718,6 +2816,8 @@ export const listFirewallConfigs: API.PaginatedOperationMethod<
     items: "FirewallConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallConfigs",
 })) as any;
 
 export type ListFirewallDomainListsError =
@@ -2755,6 +2855,8 @@ export const listFirewallDomainLists: API.PaginatedOperationMethod<
     items: "FirewallDomainLists",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallDomainLists",
 })) as any;
 
 export type ListFirewallDomainsError =
@@ -2794,6 +2896,8 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallDomains",
 })) as any;
 
 export type ListFirewallRuleGroupAssociationsError =
@@ -2831,6 +2935,8 @@ export const listFirewallRuleGroupAssociations: API.PaginatedOperationMethod<
     items: "FirewallRuleGroupAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleGroupAssociations",
 })) as any;
 
 export type ListFirewallRuleGroupsError =
@@ -2868,6 +2974,8 @@ export const listFirewallRuleGroups: API.PaginatedOperationMethod<
     items: "FirewallRuleGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleGroups",
 })) as any;
 
 export type ListFirewallRulesError =
@@ -2909,6 +3017,8 @@ export const listFirewallRules: API.PaginatedOperationMethod<
     items: "FirewallRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRules",
 })) as any;
 
 export type ListFirewallRuleTypesError =
@@ -2946,6 +3056,8 @@ export const listFirewallRuleTypes: API.PaginatedOperationMethod<
     items: "FirewallRuleTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleTypes",
 })) as any;
 
 export type ListOutpostResolversError =
@@ -2983,6 +3095,8 @@ export const listOutpostResolvers: API.PaginatedOperationMethod<
     items: "OutpostResolvers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOutpostResolvers",
 })) as any;
 
 export type ListResolverConfigsError =
@@ -3025,6 +3139,8 @@ export const listResolverConfigs: API.PaginatedOperationMethod<
     items: "ResolverConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverConfigs",
 })) as any;
 
 export type ListResolverDnssecConfigsError =
@@ -3064,6 +3180,8 @@ export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
     items: "ResolverDnssecConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverDnssecConfigs",
 })) as any;
 
 export type ListResolverEndpointIpAddressesError =
@@ -3101,6 +3219,8 @@ export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
     items: "IpAddresses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverEndpointIpAddresses",
 })) as any;
 
 export type ListResolverEndpointsError =
@@ -3138,6 +3258,8 @@ export const listResolverEndpoints: API.PaginatedOperationMethod<
     items: "ResolverEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverEndpoints",
 })) as any;
 
 export type ListResolverQueryLogConfigAssociationsError =
@@ -3177,6 +3299,8 @@ export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMetho
     items: "ResolverQueryLogConfigAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverQueryLogConfigAssociations",
 })) as any;
 
 export type ListResolverQueryLogConfigsError =
@@ -3217,6 +3341,8 @@ export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
     items: "ResolverQueryLogConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverQueryLogConfigs",
 })) as any;
 
 export type ListResolverRuleAssociationsError =
@@ -3254,6 +3380,8 @@ export const listResolverRuleAssociations: API.PaginatedOperationMethod<
     items: "ResolverRuleAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverRuleAssociations",
 })) as any;
 
 export type ListResolverRulesError =
@@ -3291,6 +3419,8 @@ export const listResolverRules: API.PaginatedOperationMethod<
     items: "ResolverRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolverRules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3330,6 +3460,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PutFirewallRuleGroupPolicyError =
@@ -3362,6 +3494,8 @@ export const putFirewallRuleGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFirewallRuleGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "PutFirewallRuleGroupPolicy",
 }));
 
 export type PutResolverQueryLogConfigPolicyError =
@@ -3395,6 +3529,8 @@ export const putResolverQueryLogConfigPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResolverQueryLogConfigPolicy",
+  telemetry: TELEMETRY,
+  span: "PutResolverQueryLogConfigPolicy",
 }));
 
 export type PutResolverRulePolicyError =
@@ -3426,6 +3562,8 @@ export const putResolverRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResolverRulePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResolverRulePolicy",
 }));
 
 export type TagResourceError =
@@ -3460,6 +3598,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3490,6 +3630,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFirewallConfigError =
@@ -3521,6 +3663,8 @@ export const updateFirewallConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallConfig",
 }));
 
 export type UpdateFirewallDomainsError =
@@ -3555,6 +3699,8 @@ export const updateFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDomains",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallDomains",
 }));
 
 export type UpdateFirewallRuleError =
@@ -3587,6 +3733,8 @@ export const updateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallRule",
 }));
 
 export type UpdateFirewallRuleGroupAssociationError =
@@ -3619,6 +3767,8 @@ export const updateFirewallRuleGroupAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRuleGroupAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallRuleGroupAssociation",
 }));
 
 export type UpdateOutpostResolverError =
@@ -3656,6 +3806,8 @@ export const updateOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOutpostResolver",
+  telemetry: TELEMETRY,
+  span: "UpdateOutpostResolver",
 }));
 
 export type UpdateResolverConfigError =
@@ -3695,6 +3847,8 @@ export const updateResolverConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverConfig",
 }));
 
 export type UpdateResolverDnssecConfigError =
@@ -3727,6 +3881,8 @@ export const updateResolverDnssecConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverDnssecConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverDnssecConfig",
 }));
 
 export type UpdateResolverEndpointError =
@@ -3760,6 +3916,8 @@ export const updateResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverEndpoint",
 }));
 
 export type UpdateResolverRuleError =
@@ -3797,6 +3955,8 @@ export const updateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverRule",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "CertificateActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface GetCertificatesActionRequest {
   /** ID of the Action. */
   id: number;
@@ -266,6 +279,8 @@ export const getCertificatesAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatesAction",
 }));
 
 export type ListCertificateActionsError = HetznerOpError;
@@ -283,6 +298,8 @@ export const listCertificateActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCertificateActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -309,6 +326,8 @@ export const listCertificatesActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCertificatesActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -333,6 +352,8 @@ export const retryCertificate: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryCertificate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

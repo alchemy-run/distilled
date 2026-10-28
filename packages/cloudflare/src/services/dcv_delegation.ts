@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "DcvDelegation",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface GetDcvDelegationRequest {
   /** Identifier. */
   zoneId: string;
@@ -37,6 +51,8 @@ export const getDcvDelegation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDcvDelegation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

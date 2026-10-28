@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -74,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://discovery.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApplicationDiscoveryService",
+  service: "ApplicationDiscoveryService",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AuthorizationErrorException
   extends /*@__PURE__*/ S.TaggedError<AuthorizationErrorException>()(
@@ -712,6 +728,8 @@ export const associateConfigurationItemsToApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConfigurationItemsToApplication",
+  telemetry: TELEMETRY,
+  span: "AssociateConfigurationItemsToApplication",
 }));
 
 export type BatchDeleteAgentsError =
@@ -742,6 +760,8 @@ export const batchDeleteAgents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAgents",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteAgents",
 }));
 
 export type BatchDeleteImportDataError =
@@ -779,6 +799,8 @@ export const batchDeleteImportData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteImportData",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteImportData",
 }));
 
 export type CreateApplicationError =
@@ -809,6 +831,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateTagsError =
@@ -844,6 +868,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type DeleteApplicationsError =
@@ -875,6 +901,8 @@ export const deleteApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplications",
+  telemetry: TELEMETRY,
+  span: "DeleteApplications",
 }));
 
 export type DeleteTagsError =
@@ -908,6 +936,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DescribeAgentsError =
@@ -947,6 +977,8 @@ export const describeAgents: API.PaginatedOperationMethod<
     items: "agentsInfo",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAgents",
 })) as any;
 
 export type DescribeBatchDeleteConfigurationTaskError =
@@ -975,6 +1007,8 @@ export const describeBatchDeleteConfigurationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchDeleteConfigurationTask",
+  telemetry: TELEMETRY,
+  span: "DescribeBatchDeleteConfigurationTask",
 }));
 
 export type DescribeConfigurationsError =
@@ -1023,6 +1057,8 @@ export const describeConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurations",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurations",
 }));
 
 export type DescribeContinuousExportsError =
@@ -1066,6 +1102,8 @@ export const describeContinuousExports: API.PaginatedOperationMethod<
     items: "descriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeContinuousExports",
 })) as any;
 
 export type DescribeExportConfigurationsError =
@@ -1105,6 +1143,8 @@ export const describeExportConfigurations: API.PaginatedOperationMethod<
     items: "exportsInfo",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeExportConfigurations",
 })) as any;
 
 export type DescribeExportTasksError =
@@ -1143,6 +1183,8 @@ export const describeExportTasks: API.PaginatedOperationMethod<
     items: "exportsInfo",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeExportTasks",
 })) as any;
 
 export type DescribeImportTasksError =
@@ -1181,6 +1223,8 @@ export const describeImportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImportTasks",
 })) as any;
 
 export type DescribeTagsError =
@@ -1232,6 +1276,8 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 })) as any;
 
 export type DisassociateConfigurationItemsFromApplicationError =
@@ -1270,6 +1316,8 @@ export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConfigurationItemsFromApplication",
+  telemetry: TELEMETRY,
+  span: "DisassociateConfigurationItemsFromApplication",
 }));
 
 export type ExportConfigurationsError =
@@ -1308,6 +1356,8 @@ export const exportConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportConfigurations",
+  telemetry: TELEMETRY,
+  span: "ExportConfigurations",
 }));
 
 export type GetDiscoverySummaryError =
@@ -1341,6 +1391,8 @@ export const getDiscoverySummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiscoverySummary",
+  telemetry: TELEMETRY,
+  span: "GetDiscoverySummary",
 }));
 
 export type ListConfigurationsError =
@@ -1382,6 +1434,8 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "configurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 })) as any;
 
 export type ListServerNeighborsError =
@@ -1413,6 +1467,8 @@ export const listServerNeighbors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServerNeighbors",
+  telemetry: TELEMETRY,
+  span: "ListServerNeighbors",
 }));
 
 export type StartBatchDeleteConfigurationTaskError =
@@ -1448,6 +1504,8 @@ export const startBatchDeleteConfigurationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchDeleteConfigurationTask",
+  telemetry: TELEMETRY,
+  span: "StartBatchDeleteConfigurationTask",
 }));
 
 export type StartContinuousExportError =
@@ -1484,6 +1542,8 @@ export const startContinuousExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContinuousExport",
+  telemetry: TELEMETRY,
+  span: "StartContinuousExport",
 }));
 
 export type StartDataCollectionByAgentIdsError =
@@ -1514,6 +1574,8 @@ export const startDataCollectionByAgentIds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataCollectionByAgentIds",
+  telemetry: TELEMETRY,
+  span: "StartDataCollectionByAgentIds",
 }));
 
 export type StartExportTaskError =
@@ -1569,6 +1631,8 @@ export const startExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportTask",
+  telemetry: TELEMETRY,
+  span: "StartExportTask",
 }));
 
 export type StartImportTaskError =
@@ -1628,6 +1692,8 @@ export const startImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportTask",
+  telemetry: TELEMETRY,
+  span: "StartImportTask",
 }));
 
 export type StopContinuousExportError =
@@ -1664,6 +1730,8 @@ export const stopContinuousExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopContinuousExport",
+  telemetry: TELEMETRY,
+  span: "StopContinuousExport",
 }));
 
 export type StopDataCollectionByAgentIdsError =
@@ -1694,6 +1762,8 @@ export const stopDataCollectionByAgentIds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataCollectionByAgentIds",
+  telemetry: TELEMETRY,
+  span: "StopDataCollectionByAgentIds",
 }));
 
 export type UpdateApplicationError =
@@ -1724,6 +1794,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ContextLayer",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -293,6 +306,8 @@ export const contextLayerEnableCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContextLayerEnableCreate",
 }));
 
 export type ContextLayerExportRetrieveError = PosthogOpError;
@@ -308,6 +323,8 @@ export const contextLayerExportRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContextLayerExportRetrieve",
 }));
 
 export type ContextLayerProposalsApplyCreateError = BadRequest | Conflict | PosthogOpError;
@@ -323,6 +340,8 @@ export const contextLayerProposalsApplyCreate: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContextLayerProposalsApplyCreate",
 }));
 
 export type CreateContextLayerCommitError = BadRequest | Conflict | PosthogOpError;
@@ -338,6 +357,8 @@ export const createContextLayerCommit: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContextLayerCommit",
 }));
 
 export type GetContextLayerChannelPageError = NotFound | PosthogOpError;
@@ -353,6 +374,8 @@ export const getContextLayerChannelPage: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextLayerChannelPage",
 }));
 
 export type GetContextLayerDreamError = NotFound | PosthogOpError;
@@ -368,6 +391,8 @@ export const getContextLayerDream: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextLayerDream",
 }));
 
 export type GetContextLayerPageError = BadRequest | NotFound | Conflict | PosthogOpError;
@@ -383,6 +408,8 @@ export const getContextLayerPage: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextLayerPage",
 }));
 
 export type GetContextLayerStatusError = NotFound | PosthogOpError;
@@ -398,6 +425,8 @@ export const getContextLayerStatus: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextLayerStatus",
 }));
 
 export type GetContextLayerTreeError = NotFound | PosthogOpError;
@@ -413,6 +442,8 @@ export const getContextLayerTree: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextLayerTree",
 }));
 
 export type GetContextLayerWikiReportError = PosthogOpError;
@@ -428,6 +459,8 @@ export const getContextLayerWikiReport: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextLayerWikiReport",
 }));
 
 export type ListContextLayerDreamsError = NotFound | PosthogOpError;
@@ -443,6 +476,8 @@ export const listContextLayerDreams: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextLayerDreams",
 }));
 
 export type ListContextLayerProposalsError = PosthogOpError;
@@ -458,6 +493,8 @@ export const listContextLayerProposals: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextLayerProposals",
 }));
 
 export type UpdateContextLayerPageError = BadRequest | Forbidden | Conflict | PosthogOpError;
@@ -473,6 +510,8 @@ export const updateContextLayerPage: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContextLayerPage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

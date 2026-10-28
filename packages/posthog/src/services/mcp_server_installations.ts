@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "McpServerInstallations",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -331,6 +344,8 @@ export const createMcpServerInstallation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpServerInstallation",
 }));
 
 export type CreateMcpServerInstallationsCallToolError = Forbidden | NotFound | PosthogOpError;
@@ -346,6 +361,8 @@ export const createMcpServerInstallationsCallTool: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpServerInstallationsCallTool",
 }));
 
 export type CreateMcpServerInstallationsProxyError = PosthogOpError;
@@ -360,6 +377,8 @@ export const createMcpServerInstallationsProxy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpServerInstallationsProxy",
 }));
 
 export type CreateMcpServerInstallationsShareError = PosthogOpError;
@@ -375,6 +394,8 @@ export const createMcpServerInstallationsShare: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpServerInstallationsShare",
 }));
 
 export type GetMcpServerInstallationError = PosthogOpError;
@@ -389,6 +410,8 @@ export const getMcpServerInstallation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpServerInstallation",
 }));
 
 export type GetMcpServerInstallationsAvailableToolError = PosthogOpError;
@@ -404,6 +427,8 @@ export const getMcpServerInstallationsAvailableTool: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpServerInstallationsAvailableTool",
 }));
 
 export type GetMcpServerInstallationsToolError = PosthogOpError;
@@ -418,6 +443,8 @@ export const getMcpServerInstallationsTool: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpServerInstallationsTool",
 }));
 
 export type ListMcpServerInstallationsError = PosthogOpError;
@@ -432,6 +459,8 @@ export const listMcpServerInstallations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpServerInstallations",
 }));
 
 export type McpServerInstallationsAuthorizeRetrieveError = PosthogOpError;
@@ -447,6 +476,8 @@ export const mcpServerInstallationsAuthorizeRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpServerInstallationsAuthorizeRetrieve",
 }));
 
 export type McpServerInstallationsDestroyError = PosthogOpError;
@@ -461,6 +492,8 @@ export const mcpServerInstallationsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpServerInstallationsDestroy",
 }));
 
 export type McpServerInstallationsInstallCustomCreateError = PosthogOpError;
@@ -475,6 +508,8 @@ export const mcpServerInstallationsInstallCustomCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpServerInstallationsInstallCustomCreate",
 }));
 
 export type McpServerInstallationsInstallTemplateCreateError = PosthogOpError;
@@ -489,6 +524,8 @@ export const mcpServerInstallationsInstallTemplateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpServerInstallationsInstallTemplateCreate",
 }));
 
 export type McpServerInstallationsToolsRefreshCreateError = PosthogOpError;
@@ -503,6 +540,8 @@ export const mcpServerInstallationsToolsRefreshCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpServerInstallationsToolsRefreshCreate",
 }));
 
 export type McpServerInstallationsUnshareCreateError = PosthogOpError;
@@ -518,6 +557,8 @@ export const mcpServerInstallationsUnshareCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpServerInstallationsUnshareCreate",
 }));
 
 export type UpdateMcpServerInstallationError = PosthogOpError;
@@ -532,6 +573,8 @@ export const updateMcpServerInstallation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpServerInstallation",
 }));
 
 export type UpdateMcpServerInstallationsPartialError = PosthogOpError;
@@ -546,6 +589,8 @@ export const updateMcpServerInstallationsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpServerInstallationsPartial",
 }));
 
 export type UpdateMcpServerInstallationsToolsPartialError = PosthogOpError;
@@ -560,6 +605,8 @@ export const updateMcpServerInstallationsToolsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpServerInstallationsToolsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

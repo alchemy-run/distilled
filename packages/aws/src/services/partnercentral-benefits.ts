@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PartnerCentralBenefits",
+  service: "PartnerCentralBenefits",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -682,6 +697,8 @@ export const amendBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AmendBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "AmendBenefitApplication",
 }));
 
 export type AssociateBenefitApplicationResourceError =
@@ -714,6 +731,8 @@ export const associateBenefitApplicationResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBenefitApplicationResource",
+  telemetry: TELEMETRY,
+  span: "AssociateBenefitApplicationResource",
 }));
 
 export type CancelBenefitApplicationError =
@@ -746,6 +765,8 @@ export const cancelBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "CancelBenefitApplication",
 }));
 
 export type CreateBenefitApplicationError =
@@ -778,6 +799,8 @@ export const createBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "CreateBenefitApplication",
 }));
 
 export type DisassociateBenefitApplicationResourceError =
@@ -810,6 +833,8 @@ export const disassociateBenefitApplicationResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBenefitApplicationResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateBenefitApplicationResource",
 }));
 
 export type GetBenefitError =
@@ -840,6 +865,8 @@ export const getBenefit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefit",
+  telemetry: TELEMETRY,
+  span: "GetBenefit",
 }));
 
 export type GetBenefitAllocationError =
@@ -870,6 +897,8 @@ export const getBenefitAllocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefitAllocation",
+  telemetry: TELEMETRY,
+  span: "GetBenefitAllocation",
 }));
 
 export type GetBenefitApplicationError =
@@ -902,6 +931,8 @@ export const getBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "GetBenefitApplication",
 }));
 
 export type ListBenefitAllocationsError =
@@ -939,6 +970,8 @@ export const listBenefitAllocations: API.PaginatedOperationMethod<
     items: "BenefitAllocationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBenefitAllocations",
 })) as any;
 
 export type ListBenefitApplicationsError =
@@ -976,6 +1009,8 @@ export const listBenefitApplications: API.PaginatedOperationMethod<
     items: "BenefitApplicationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBenefitApplications",
 })) as any;
 
 export type ListBenefitsError =
@@ -1013,6 +1048,8 @@ export const listBenefits: API.PaginatedOperationMethod<
     items: "BenefitSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBenefits",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1043,6 +1080,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RecallBenefitApplicationError =
@@ -1075,6 +1114,8 @@ export const recallBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecallBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "RecallBenefitApplication",
 }));
 
 export type SubmitBenefitApplicationError =
@@ -1107,6 +1148,8 @@ export const submitBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "SubmitBenefitApplication",
 }));
 
 export type TagResourceError =
@@ -1141,6 +1184,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1175,6 +1220,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBenefitApplicationError =
@@ -1207,6 +1254,8 @@ export const updateBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBenefitApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateBenefitApplication",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

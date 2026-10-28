@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -67,6 +68,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApplicationSignals",
+  service: "ApplicationSignals",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1086,6 +1101,8 @@ export const batchDeleteInstrumentationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteInstrumentationConfigurations",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteInstrumentationConfigurations",
 }));
 
 export type BatchGetServiceLevelObjectiveBudgetReportError =
@@ -1113,6 +1130,8 @@ export const batchGetServiceLevelObjectiveBudgetReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetServiceLevelObjectiveBudgetReport",
+  telemetry: TELEMETRY,
+  span: "BatchGetServiceLevelObjectiveBudgetReport",
 }));
 
 export type BatchUpdateExclusionWindowsError =
@@ -1135,6 +1154,8 @@ export const batchUpdateExclusionWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateExclusionWindows",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateExclusionWindows",
 }));
 
 export type CreateInstrumentationConfigurationError =
@@ -1167,6 +1188,8 @@ export const createInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstrumentationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateInstrumentationConfiguration",
 }));
 
 export type CreateServiceLevelObjectiveError =
@@ -1239,6 +1262,8 @@ export const createServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLevelObjective",
+  telemetry: TELEMETRY,
+  span: "CreateServiceLevelObjective",
 }));
 
 export type DeleteGroupingConfigurationError =
@@ -1261,6 +1286,8 @@ export const deleteGroupingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteGroupingConfiguration",
 }));
 
 export type DeleteInstrumentationConfigurationError =
@@ -1283,6 +1310,8 @@ export const deleteInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstrumentationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteInstrumentationConfiguration",
 }));
 
 export type DeleteServiceLevelObjectiveError =
@@ -1305,6 +1334,8 @@ export const deleteServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLevelObjective",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceLevelObjective",
 }));
 
 export type GetInstrumentationConfigurationError =
@@ -1327,6 +1358,8 @@ export const getInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstrumentationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetInstrumentationConfiguration",
 }));
 
 export type GetInstrumentationConfigurationStatusError =
@@ -1358,6 +1391,8 @@ export const getInstrumentationConfigurationStatus: API.PaginatedOperationMethod
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInstrumentationConfigurationStatus",
 })) as any;
 
 export type GetServiceError = ThrottlingException | ValidationException | CommonErrors;
@@ -1376,6 +1411,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceLevelObjectiveError =
@@ -1398,6 +1435,8 @@ export const getServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLevelObjective",
+  telemetry: TELEMETRY,
+  span: "GetServiceLevelObjective",
 }));
 
 export type ListAuditFindingsError = ThrottlingException | ValidationException | CommonErrors;
@@ -1416,6 +1455,8 @@ export const listAuditFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAuditFindings",
+  telemetry: TELEMETRY,
+  span: "ListAuditFindings",
 }));
 
 export type ListEntityEventsError = ThrottlingException | ValidationException | CommonErrors;
@@ -1441,6 +1482,8 @@ export const listEntityEvents: API.PaginatedOperationMethod<
     items: "ChangeEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntityEvents",
 })) as any;
 
 export type ListGroupingAttributeDefinitionsError =
@@ -1463,6 +1506,8 @@ export const listGroupingAttributeDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupingAttributeDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListGroupingAttributeDefinitions",
 }));
 
 export type ListInstrumentationConfigurationsError =
@@ -1494,6 +1539,8 @@ export const listInstrumentationConfigurations: API.PaginatedOperationMethod<
     items: "LatestConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstrumentationConfigurations",
 })) as any;
 
 export type ListServiceDependenciesError = ThrottlingException | ValidationException | CommonErrors;
@@ -1519,6 +1566,8 @@ export const listServiceDependencies: API.PaginatedOperationMethod<
     items: "ServiceDependencies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceDependencies",
 })) as any;
 
 export type ListServiceDependentsError = ThrottlingException | ValidationException | CommonErrors;
@@ -1544,6 +1593,8 @@ export const listServiceDependents: API.PaginatedOperationMethod<
     items: "ServiceDependents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceDependents",
 })) as any;
 
 export type ListServiceLevelObjectiveExclusionWindowsError =
@@ -1573,6 +1624,8 @@ export const listServiceLevelObjectiveExclusionWindows: API.PaginatedOperationMe
     items: "ExclusionWindows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceLevelObjectiveExclusionWindows",
 })) as any;
 
 export type ListServiceLevelObjectivesError =
@@ -1601,6 +1654,8 @@ export const listServiceLevelObjectives: API.PaginatedOperationMethod<
     items: "SloSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceLevelObjectives",
 })) as any;
 
 export type ListServiceOperationsError = ThrottlingException | ValidationException | CommonErrors;
@@ -1626,6 +1681,8 @@ export const listServiceOperations: API.PaginatedOperationMethod<
     items: "ServiceOperations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceOperations",
 })) as any;
 
 export type ListServicesError = ThrottlingException | ValidationException | CommonErrors;
@@ -1651,6 +1708,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "ServiceSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListServiceStatesError = ThrottlingException | ValidationException | CommonErrors;
@@ -1676,6 +1735,8 @@ export const listServiceStates: API.PaginatedOperationMethod<
     items: "ServiceStates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceStates",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1697,6 +1758,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutGroupingConfigurationError =
@@ -1719,6 +1782,8 @@ export const putGroupingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutGroupingConfiguration",
 }));
 
 export type ReportInstrumentationConfigurationStatusError =
@@ -1742,6 +1807,8 @@ export const reportInstrumentationConfigurationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportInstrumentationConfigurationStatus",
+  telemetry: TELEMETRY,
+  span: "ReportInstrumentationConfigurationStatus",
 }));
 
 export type StartDiscoveryError =
@@ -1782,6 +1849,8 @@ export const startDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDiscovery",
+  telemetry: TELEMETRY,
+  span: "StartDiscovery",
 }));
 
 export type TagResourceError =
@@ -1812,6 +1881,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ThrottlingException | CommonErrors;
@@ -1830,6 +1901,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateServiceLevelObjectiveError =
@@ -1854,6 +1927,8 @@ export const updateServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceLevelObjective",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceLevelObjective",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

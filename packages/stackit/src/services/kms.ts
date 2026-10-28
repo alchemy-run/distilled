@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Kms",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -544,6 +557,8 @@ export const createKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type CreateKeyRingError = BadRequest | StackitOpError;
@@ -559,6 +574,8 @@ export const createKeyRing: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKeyRing",
 }));
 
 export type CreateWrappingKeyError = BadRequest | NotFound | StackitOpError;
@@ -574,6 +591,8 @@ export const createWrappingKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWrappingKey",
 }));
 
 export type DecryptError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -589,6 +608,8 @@ export const decrypt: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Decrypt",
 }));
 
 export type DeleteKeyError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -604,6 +625,8 @@ export const deleteKey: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeleteKeyRingError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -619,6 +642,8 @@ export const deleteKeyRing: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKeyRing",
 }));
 
 export type DeleteWrappingKeyError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -634,6 +659,8 @@ export const deleteWrappingKey: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWrappingKey",
 }));
 
 export type DestroyVersionError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -649,6 +676,8 @@ export const destroyVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestroyVersion",
 }));
 
 export type DisableVersionError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -664,6 +693,8 @@ export const disableVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableVersion",
 }));
 
 export type EnableVersionError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -679,6 +710,8 @@ export const enableVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableVersion",
 }));
 
 export type EncryptError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -694,6 +727,8 @@ export const encrypt: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Encrypt",
 }));
 
 export type GetKeyError = BadRequest | NotFound | StackitOpError;
@@ -705,6 +740,8 @@ export const getKey: API.OperationMethod<GetKeyRequest, Key, GetKeyError, Stacki
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetKey",
   }));
 
 export type GetKeyRingError = BadRequest | NotFound | StackitOpError;
@@ -720,6 +757,8 @@ export const getKeyRing: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyRing",
 }));
 
 export type GetVersionError = BadRequest | NotFound | StackitOpError;
@@ -735,6 +774,8 @@ export const getVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type GetWrappingKeyError = BadRequest | NotFound | StackitOpError;
@@ -750,6 +791,8 @@ export const getWrappingKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWrappingKey",
 }));
 
 export type ImportKeyError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -765,6 +808,8 @@ export const importKey: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportKey",
 }));
 
 export type ListKeyRingsError = BadRequest | StackitOpError;
@@ -780,6 +825,8 @@ export const listKeyRings: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKeyRings",
 }));
 
 export type ListKeysError = BadRequest | NotFound | StackitOpError;
@@ -795,6 +842,8 @@ export const listKeys: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKeys",
 }));
 
 export type ListVersionsError = BadRequest | NotFound | StackitOpError;
@@ -810,6 +859,8 @@ export const listVersions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 }));
 
 export type ListWrappingKeysError = BadRequest | NotFound | StackitOpError;
@@ -825,6 +876,8 @@ export const listWrappingKeys: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWrappingKeys",
 }));
 
 export type RestoreKeyError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -840,6 +893,8 @@ export const restoreKey: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreKey",
 }));
 
 export type RestoreVersionError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -855,6 +910,8 @@ export const restoreVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreVersion",
 }));
 
 export type RotateKeyError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -870,6 +927,8 @@ export const rotateKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateKey",
 }));
 
 export type SignError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -881,6 +940,8 @@ export const sign: API.OperationMethod<SignRequest, SignedData, SignError, Stack
     errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Sign",
   }));
 
 export type VerifyError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -896,6 +957,8 @@ export const verify: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Verify",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

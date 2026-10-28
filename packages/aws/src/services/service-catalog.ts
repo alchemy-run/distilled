@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -74,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://servicecatalog.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServiceCatalog",
+  service: "ServiceCatalog",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DuplicateResourceException
   extends /*@__PURE__*/ S.TaggedError<DuplicateResourceException>()("DuplicateResourceException", {
@@ -1703,6 +1719,8 @@ export const acceptPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPortfolioShare",
+  telemetry: TELEMETRY,
+  span: "AcceptPortfolioShare",
 }));
 
 export type AssociateBudgetWithResourceError =
@@ -1731,6 +1749,8 @@ export const associateBudgetWithResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBudgetWithResource",
+  telemetry: TELEMETRY,
+  span: "AssociateBudgetWithResource",
 }));
 
 export type AssociatePrincipalWithPortfolioError =
@@ -1769,6 +1789,8 @@ export const associatePrincipalWithPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePrincipalWithPortfolio",
+  telemetry: TELEMETRY,
+  span: "AssociatePrincipalWithPortfolio",
 }));
 
 export type AssociateProductWithPortfolioError =
@@ -1793,6 +1815,8 @@ export const associateProductWithPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProductWithPortfolio",
+  telemetry: TELEMETRY,
+  span: "AssociateProductWithPortfolio",
 }));
 
 export type AssociateServiceActionWithProvisioningArtifactError =
@@ -1825,6 +1849,8 @@ export const associateServiceActionWithProvisioningArtifact: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceActionWithProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "AssociateServiceActionWithProvisioningArtifact",
 }));
 
 export type AssociateTagOptionWithResourceError =
@@ -1857,6 +1883,8 @@ export const associateTagOptionWithResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTagOptionWithResource",
+  telemetry: TELEMETRY,
+  span: "AssociateTagOptionWithResource",
 }));
 
 export type BatchAssociateServiceActionWithProvisioningArtifactError =
@@ -1885,6 +1913,8 @@ export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateServiceActionWithProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateServiceActionWithProvisioningArtifact",
 }));
 
 export type BatchDisassociateServiceActionFromProvisioningArtifactError =
@@ -1913,6 +1943,8 @@ export const batchDisassociateServiceActionFromProvisioningArtifact: API.Operati
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateServiceActionFromProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateServiceActionFromProvisioningArtifact",
 }));
 
 export type CopyProductError =
@@ -1942,6 +1974,8 @@ export const copyProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyProduct",
+  telemetry: TELEMETRY,
+  span: "CopyProduct",
 }));
 
 export type CreateConstraintError =
@@ -1972,6 +2006,8 @@ export const createConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConstraint",
+  telemetry: TELEMETRY,
+  span: "CreateConstraint",
 }));
 
 export type CreatePortfolioError =
@@ -1996,6 +2032,8 @@ export const createPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortfolio",
+  telemetry: TELEMETRY,
+  span: "CreatePortfolio",
 }));
 
 export type CreatePortfolioShareError =
@@ -2046,6 +2084,8 @@ export const createPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortfolioShare",
+  telemetry: TELEMETRY,
+  span: "CreatePortfolioShare",
 }));
 
 export type CreateProductError =
@@ -2075,6 +2115,8 @@ export const createProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProduct",
+  telemetry: TELEMETRY,
+  span: "CreateProduct",
 }));
 
 export type CreateProvisionedProductPlanError =
@@ -2107,6 +2149,8 @@ export const createProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisionedProductPlan",
+  telemetry: TELEMETRY,
+  span: "CreateProvisionedProductPlan",
 }));
 
 export type CreateProvisioningArtifactError =
@@ -2135,6 +2179,8 @@ export const createProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "CreateProvisioningArtifact",
 }));
 
 export type CreateServiceActionError =
@@ -2156,6 +2202,8 @@ export const createServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceAction",
+  telemetry: TELEMETRY,
+  span: "CreateServiceAction",
 }));
 
 export type CreateTagOptionError =
@@ -2178,6 +2226,8 @@ export const createTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTagOption",
+  telemetry: TELEMETRY,
+  span: "CreateTagOption",
 }));
 
 export type DeleteConstraintError =
@@ -2201,6 +2251,8 @@ export const deleteConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConstraint",
+  telemetry: TELEMETRY,
+  span: "DeleteConstraint",
 }));
 
 export type DeletePortfolioError =
@@ -2234,6 +2286,8 @@ export const deletePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortfolio",
+  telemetry: TELEMETRY,
+  span: "DeletePortfolio",
 }));
 
 export type DeletePortfolioShareError =
@@ -2266,6 +2320,8 @@ export const deletePortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortfolioShare",
+  telemetry: TELEMETRY,
+  span: "DeletePortfolioShare",
 }));
 
 export type DeleteProductError =
@@ -2298,6 +2354,8 @@ export const deleteProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProduct",
+  telemetry: TELEMETRY,
+  span: "DeleteProduct",
 }));
 
 export type DeleteProvisionedProductPlanError =
@@ -2319,6 +2377,8 @@ export const deleteProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedProductPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteProvisionedProductPlan",
 }));
 
 export type DeleteProvisioningArtifactError =
@@ -2345,6 +2405,8 @@ export const deleteProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "DeleteProvisioningArtifact",
 }));
 
 export type DeleteServiceActionError =
@@ -2367,6 +2429,8 @@ export const deleteServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceAction",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAction",
 }));
 
 export type DeleteTagOptionError =
@@ -2391,6 +2455,8 @@ export const deleteTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTagOption",
+  telemetry: TELEMETRY,
+  span: "DeleteTagOption",
 }));
 
 export type DescribeConstraintError = ResourceNotFoundException | CommonErrors;
@@ -2409,6 +2475,8 @@ export const describeConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConstraint",
+  telemetry: TELEMETRY,
+  span: "DescribeConstraint",
 }));
 
 export type DescribeCopyProductStatusError = ResourceNotFoundException | CommonErrors;
@@ -2427,6 +2495,8 @@ export const describeCopyProductStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCopyProductStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeCopyProductStatus",
 }));
 
 export type DescribePortfolioError = ResourceNotFoundException | CommonErrors;
@@ -2447,6 +2517,8 @@ export const describePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolio",
+  telemetry: TELEMETRY,
+  span: "DescribePortfolio",
 }));
 
 export type DescribePortfolioSharesError =
@@ -2480,6 +2552,8 @@ export const describePortfolioShares: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePortfolioShares",
 })) as any;
 
 export type DescribePortfolioShareStatusError =
@@ -2503,6 +2577,8 @@ export const describePortfolioShareStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolioShareStatus",
+  telemetry: TELEMETRY,
+  span: "DescribePortfolioShareStatus",
 }));
 
 export type DescribeProductError =
@@ -2530,6 +2606,8 @@ export const describeProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProduct",
+  telemetry: TELEMETRY,
+  span: "DescribeProduct",
 }));
 
 export type DescribeProductAsAdminError =
@@ -2551,6 +2629,8 @@ export const describeProductAsAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductAsAdmin",
+  telemetry: TELEMETRY,
+  span: "DescribeProductAsAdmin",
 }));
 
 export type DescribeProductViewError =
@@ -2572,6 +2652,8 @@ export const describeProductView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductView",
+  telemetry: TELEMETRY,
+  span: "DescribeProductView",
 }));
 
 export type DescribeProvisionedProductError =
@@ -2593,6 +2675,8 @@ export const describeProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "DescribeProvisionedProduct",
 }));
 
 export type DescribeProvisionedProductPlanError =
@@ -2614,6 +2698,8 @@ export const describeProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisionedProductPlan",
+  telemetry: TELEMETRY,
+  span: "DescribeProvisionedProductPlan",
 }));
 
 export type DescribeProvisioningArtifactError =
@@ -2635,6 +2721,8 @@ export const describeProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "DescribeProvisioningArtifact",
 }));
 
 export type DescribeProvisioningParametersError =
@@ -2664,6 +2752,8 @@ export const describeProvisioningParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeProvisioningParameters",
 }));
 
 export type DescribeRecordError = ResourceNotFoundException | CommonErrors;
@@ -2689,6 +2779,8 @@ export const describeRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecord",
+  telemetry: TELEMETRY,
+  span: "DescribeRecord",
 }));
 
 export type DescribeServiceActionError = ResourceNotFoundException | CommonErrors;
@@ -2707,6 +2799,8 @@ export const describeServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceAction",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceAction",
 }));
 
 export type DescribeServiceActionExecutionParametersError =
@@ -2728,6 +2822,8 @@ export const describeServiceActionExecutionParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceActionExecutionParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceActionExecutionParameters",
 }));
 
 export type DescribeTagOptionError =
@@ -2749,6 +2845,8 @@ export const describeTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTagOption",
+  telemetry: TELEMETRY,
+  span: "DescribeTagOption",
 }));
 
 export type DisableAWSOrganizationsAccessError =
@@ -2784,6 +2882,8 @@ export const disableAWSOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAWSOrganizationsAccess",
+  telemetry: TELEMETRY,
+  span: "DisableAWSOrganizationsAccess",
 }));
 
 export type DisassociateBudgetFromResourceError = ResourceNotFoundException | CommonErrors;
@@ -2802,6 +2902,8 @@ export const disassociateBudgetFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBudgetFromResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateBudgetFromResource",
 }));
 
 export type DisassociatePrincipalFromPortfolioError =
@@ -2842,6 +2944,8 @@ export const disassociatePrincipalFromPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePrincipalFromPortfolio",
+  telemetry: TELEMETRY,
+  span: "DisassociatePrincipalFromPortfolio",
 }));
 
 export type DisassociateProductFromPortfolioError =
@@ -2866,6 +2970,8 @@ export const disassociateProductFromPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProductFromPortfolio",
+  telemetry: TELEMETRY,
+  span: "DisassociateProductFromPortfolio",
 }));
 
 export type DisassociateServiceActionFromProvisioningArtifactError =
@@ -2895,6 +3001,8 @@ export const disassociateServiceActionFromProvisioningArtifact: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceActionFromProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "DisassociateServiceActionFromProvisioningArtifact",
 }));
 
 export type DisassociateTagOptionFromResourceError =
@@ -2916,6 +3024,8 @@ export const disassociateTagOptionFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTagOptionFromResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateTagOptionFromResource",
 }));
 
 export type EnableAWSOrganizationsAccessError =
@@ -2951,6 +3061,8 @@ export const enableAWSOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAWSOrganizationsAccess",
+  telemetry: TELEMETRY,
+  span: "EnableAWSOrganizationsAccess",
 }));
 
 export type ExecuteProvisionedProductPlanError =
@@ -2973,6 +3085,8 @@ export const executeProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteProvisionedProductPlan",
+  telemetry: TELEMETRY,
+  span: "ExecuteProvisionedProductPlan",
 }));
 
 export type ExecuteProvisionedProductServiceActionError =
@@ -3001,6 +3115,8 @@ export const executeProvisionedProductServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteProvisionedProductServiceAction",
+  telemetry: TELEMETRY,
+  span: "ExecuteProvisionedProductServiceAction",
 }));
 
 export type GetAWSOrganizationsAccessStatusError =
@@ -3023,6 +3139,8 @@ export const getAWSOrganizationsAccessStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAWSOrganizationsAccessStatus",
+  telemetry: TELEMETRY,
+  span: "GetAWSOrganizationsAccessStatus",
 }));
 
 export type GetProvisionedProductOutputsError =
@@ -3050,6 +3168,8 @@ export const getProvisionedProductOutputs: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetProvisionedProductOutputs",
 })) as any;
 
 export type ImportAsProvisionedProductError =
@@ -3103,6 +3223,8 @@ export const importAsProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportAsProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "ImportAsProvisionedProduct",
 }));
 
 export type ListAcceptedPortfolioSharesError =
@@ -3132,6 +3254,8 @@ export const listAcceptedPortfolioShares: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAcceptedPortfolioShares",
 })) as any;
 
 export type ListBudgetsForResourceError =
@@ -3159,6 +3283,8 @@ export const listBudgetsForResource: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBudgetsForResource",
 })) as any;
 
 export type ListConstraintsForPortfolioError =
@@ -3186,6 +3312,8 @@ export const listConstraintsForPortfolio: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConstraintsForPortfolio",
 })) as any;
 
 export type ListLaunchPathsError =
@@ -3233,6 +3361,8 @@ export const listLaunchPaths: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLaunchPaths",
 })) as any;
 
 export type ListOrganizationPortfolioAccessError =
@@ -3265,6 +3395,8 @@ export const listOrganizationPortfolioAccess: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationPortfolioAccess",
 })) as any;
 
 export type ListPortfolioAccessError =
@@ -3294,6 +3426,8 @@ export const listPortfolioAccess: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortfolioAccess",
 })) as any;
 
 export type ListPortfoliosError = InvalidParametersException | CommonErrors;
@@ -3318,6 +3452,8 @@ export const listPortfolios: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortfolios",
 })) as any;
 
 export type ListPortfoliosForProductError =
@@ -3345,6 +3481,8 @@ export const listPortfoliosForProduct: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortfoliosForProduct",
 })) as any;
 
 export type ListPrincipalsForPortfolioError =
@@ -3372,6 +3510,8 @@ export const listPrincipalsForPortfolio: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrincipalsForPortfolio",
 })) as any;
 
 export type ListProvisionedProductPlansError =
@@ -3393,6 +3533,8 @@ export const listProvisionedProductPlans: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedProductPlans",
+  telemetry: TELEMETRY,
+  span: "ListProvisionedProductPlans",
 }));
 
 export type ListProvisioningArtifactsError =
@@ -3414,6 +3556,8 @@ export const listProvisioningArtifacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisioningArtifacts",
+  telemetry: TELEMETRY,
+  span: "ListProvisioningArtifacts",
 }));
 
 export type ListProvisioningArtifactsForServiceActionError =
@@ -3441,6 +3585,8 @@ export const listProvisioningArtifactsForServiceAction: API.PaginatedOperationMe
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProvisioningArtifactsForServiceAction",
 })) as any;
 
 export type ListRecordHistoryError = InvalidParametersException | CommonErrors;
@@ -3459,6 +3605,8 @@ export const listRecordHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecordHistory",
+  telemetry: TELEMETRY,
+  span: "ListRecordHistory",
 }));
 
 export type ListResourcesForTagOptionError =
@@ -3483,6 +3631,8 @@ export const listResourcesForTagOption: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListResourcesForTagOption",
   pagination: { inputToken: "PageToken", outputToken: "PageToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcesForTagOption",
 })) as any;
 
 export type ListServiceActionsError = InvalidParametersException | CommonErrors;
@@ -3507,6 +3657,8 @@ export const listServiceActions: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceActions",
 })) as any;
 
 export type ListServiceActionsForProvisioningArtifactError =
@@ -3534,6 +3686,8 @@ export const listServiceActionsForProvisioningArtifact: API.PaginatedOperationMe
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceActionsForProvisioningArtifact",
 })) as any;
 
 export type ListStackInstancesForProvisionedProductError =
@@ -3555,6 +3709,8 @@ export const listStackInstancesForProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackInstancesForProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "ListStackInstancesForProvisionedProduct",
 }));
 
 export type ListTagOptionsError =
@@ -3578,6 +3734,8 @@ export const listTagOptions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagOptions",
   pagination: { inputToken: "PageToken", outputToken: "PageToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagOptions",
 })) as any;
 
 export type NotifyProvisionProductEngineWorkflowResultError =
@@ -3600,6 +3758,8 @@ export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyProvisionProductEngineWorkflowResult",
+  telemetry: TELEMETRY,
+  span: "NotifyProvisionProductEngineWorkflowResult",
 }));
 
 export type NotifyTerminateProvisionedProductEngineWorkflowResultError =
@@ -3630,6 +3790,8 @@ export const notifyTerminateProvisionedProductEngineWorkflowResult: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyTerminateProvisionedProductEngineWorkflowResult",
+  telemetry: TELEMETRY,
+  span: "NotifyTerminateProvisionedProductEngineWorkflowResult",
 }));
 
 export type NotifyUpdateProvisionedProductEngineWorkflowResultError =
@@ -3660,6 +3822,8 @@ export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyUpdateProvisionedProductEngineWorkflowResult",
+  telemetry: TELEMETRY,
+  span: "NotifyUpdateProvisionedProductEngineWorkflowResult",
 }));
 
 export type ProvisionProductError =
@@ -3711,6 +3875,8 @@ export const provisionProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionProduct",
+  telemetry: TELEMETRY,
+  span: "ProvisionProduct",
 }));
 
 export type RejectPortfolioShareError = ResourceNotFoundException | CommonErrors;
@@ -3729,6 +3895,8 @@ export const rejectPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectPortfolioShare",
+  telemetry: TELEMETRY,
+  span: "RejectPortfolioShare",
 }));
 
 export type ScanProvisionedProductsError = InvalidParametersException | CommonErrors;
@@ -3749,6 +3917,8 @@ export const scanProvisionedProducts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScanProvisionedProducts",
+  telemetry: TELEMETRY,
+  span: "ScanProvisionedProducts",
 }));
 
 export type SearchProductsError = InvalidParametersException | CommonErrors;
@@ -3773,6 +3943,8 @@ export const searchProducts: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchProducts",
 })) as any;
 
 export type SearchProductsAsAdminError =
@@ -3800,6 +3972,8 @@ export const searchProductsAsAdmin: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchProductsAsAdmin",
 })) as any;
 
 export type SearchProvisionedProductsError = InvalidParametersException | CommonErrors;
@@ -3824,6 +3998,8 @@ export const searchProvisionedProducts: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchProvisionedProducts",
 })) as any;
 
 export type TerminateProvisionedProductError = ResourceNotFoundException | CommonErrors;
@@ -3846,6 +4022,8 @@ export const terminateProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "TerminateProvisionedProduct",
 }));
 
 export type UpdateConstraintError =
@@ -3867,6 +4045,8 @@ export const updateConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConstraint",
+  telemetry: TELEMETRY,
+  span: "UpdateConstraint",
 }));
 
 export type UpdatePortfolioError =
@@ -3897,6 +4077,8 @@ export const updatePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortfolio",
+  telemetry: TELEMETRY,
+  span: "UpdatePortfolio",
 }));
 
 export type UpdatePortfolioShareError =
@@ -3943,6 +4125,8 @@ export const updatePortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortfolioShare",
+  telemetry: TELEMETRY,
+  span: "UpdatePortfolioShare",
 }));
 
 export type UpdateProductError =
@@ -3965,6 +4149,8 @@ export const updateProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProduct",
+  telemetry: TELEMETRY,
+  span: "UpdateProduct",
 }));
 
 export type UpdateProvisionedProductError =
@@ -3992,6 +4178,8 @@ export const updateProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedProduct",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisionedProduct",
 }));
 
 export type UpdateProvisionedProductPropertiesError =
@@ -4014,6 +4202,8 @@ export const updateProvisionedProductProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedProductProperties",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisionedProductProperties",
 }));
 
 export type UpdateProvisioningArtifactError =
@@ -4037,6 +4227,8 @@ export const updateProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisioningArtifact",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisioningArtifact",
 }));
 
 export type UpdateServiceActionError =
@@ -4058,6 +4250,8 @@ export const updateServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAction",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAction",
 }));
 
 export type UpdateTagOptionError =
@@ -4086,6 +4280,8 @@ export const updateTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagOption",
+  telemetry: TELEMETRY,
+  span: "UpdateTagOption",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -42,7 +42,11 @@ import { PaymentRequired, UnknownWhopError, type DefaultErrors, WhopParseError }
  * WhopOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type WhopOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type WhopOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Whop operation. */
 export type WhopOpContext = Credentials | HttpClient.HttpClient;

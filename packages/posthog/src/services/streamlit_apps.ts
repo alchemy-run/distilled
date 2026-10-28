@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "StreamlitApps",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateStreamlitAppRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -240,6 +253,8 @@ export const createStreamlitApp: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStreamlitApp",
 }));
 
 export type GetStreamlitAppError = PosthogOpError;
@@ -255,6 +270,8 @@ export const getStreamlitApp: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStreamlitApp",
 }));
 
 export type GetStreamlitAppsStatusError = PosthogOpError;
@@ -270,6 +287,8 @@ export const getStreamlitAppsStatus: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStreamlitAppsStatus",
 }));
 
 export type GetStreamlitAppsVersionError = PosthogOpError;
@@ -285,6 +304,8 @@ export const getStreamlitAppsVersion: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStreamlitAppsVersion",
 }));
 
 export type ListStreamlitAppsError = PosthogOpError;
@@ -300,6 +321,8 @@ export const listStreamlitApps: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStreamlitApps",
 }));
 
 export type StreamlitAppsActivateVersionCreateError = PosthogOpError;
@@ -315,6 +338,8 @@ export const streamlitAppsActivateVersionCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamlitAppsActivateVersionCreate",
 }));
 
 export type StreamlitAppsConnectInfoRetrieveError = PosthogOpError;
@@ -330,6 +355,8 @@ export const streamlitAppsConnectInfoRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamlitAppsConnectInfoRetrieve",
 }));
 
 export type StreamlitAppsCreateVersionFromSourceCreateError = PosthogOpError;
@@ -345,6 +372,8 @@ export const streamlitAppsCreateVersionFromSourceCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamlitAppsCreateVersionFromSourceCreate",
 }));
 
 export type StreamlitAppsDestroyError = PosthogOpError;
@@ -360,6 +389,8 @@ export const streamlitAppsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamlitAppsDestroy",
 }));
 
 export type StreamlitAppsRestartCreateError = PosthogOpError;
@@ -375,6 +406,8 @@ export const streamlitAppsRestartCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamlitAppsRestartCreate",
 }));
 
 export type StreamlitAppsStartCreateError = PosthogOpError;
@@ -390,6 +423,8 @@ export const streamlitAppsStartCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamlitAppsStartCreate",
 }));
 
 export type StreamlitAppsStopCreateError = PosthogOpError;
@@ -405,6 +440,8 @@ export const streamlitAppsStopCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamlitAppsStopCreate",
 }));
 
 export type StreamlitAppsUploadVersionCreateError = PosthogOpError;
@@ -420,6 +457,8 @@ export const streamlitAppsUploadVersionCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamlitAppsUploadVersionCreate",
 }));
 
 export type UpdateStreamlitAppError = PosthogOpError;
@@ -435,6 +474,8 @@ export const updateStreamlitApp: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStreamlitApp",
 }));
 
 export type UpdateStreamlitAppsPartialError = PosthogOpError;
@@ -450,6 +491,8 @@ export const updateStreamlitAppsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStreamlitAppsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

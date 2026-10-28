@@ -12,7 +12,8 @@
     "tsBuildInfoFile": "./.test-types/tsconfig.test.tsbuildinfo",
     "rewriteRelativeImportExtensions": false,
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"]
+      "@distilled.cloud/core/*": ["../core/src/*"],
+      "@distilled.cloud/dev/*": ["../dev/src/*"]
     }
   },
   "references": [
@@ -21,6 +22,9 @@
     },
     {
       "path": "../core"
+    },
+    {
+      "path": "../dev"
     }
   ]
 }

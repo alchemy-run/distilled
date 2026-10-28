@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -93,6 +94,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cognito-idp.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CognitoIdentityProvider",
+  service: "CognitoIdentityProvider",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2573,6 +2589,8 @@ export const addCustomAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCustomAttributes",
+  telemetry: TELEMETRY,
+  span: "AddCustomAttributes",
 }));
 
 export type AddUserPoolClientSecretError =
@@ -2605,6 +2623,8 @@ export const addUserPoolClientSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddUserPoolClientSecret",
+  telemetry: TELEMETRY,
+  span: "AddUserPoolClientSecret",
 }));
 
 export type AdminAddUserToGroupError =
@@ -2651,6 +2671,8 @@ export const adminAddUserToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminAddUserToGroup",
+  telemetry: TELEMETRY,
+  span: "AdminAddUserToGroup",
 }));
 
 export type AdminConfirmSignUpError =
@@ -2713,6 +2735,8 @@ export const adminConfirmSignUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminConfirmSignUp",
+  telemetry: TELEMETRY,
+  span: "AdminConfirmSignUp",
 }));
 
 export type AdminCreateUserError =
@@ -2812,6 +2836,8 @@ export const adminCreateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminCreateUser",
+  telemetry: TELEMETRY,
+  span: "AdminCreateUser",
 }));
 
 export type AdminDeleteSoftwareTokenError =
@@ -2863,6 +2889,8 @@ export const adminDeleteSoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteSoftwareToken",
+  telemetry: TELEMETRY,
+  span: "AdminDeleteSoftwareToken",
 }));
 
 export type AdminDeleteUserError =
@@ -2907,6 +2935,8 @@ export const adminDeleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteUser",
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUser",
 }));
 
 export type AdminDeleteUserAttributesError =
@@ -2953,6 +2983,8 @@ export const adminDeleteUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteUserAttributes",
+  telemetry: TELEMETRY,
+  span: "AdminDeleteUserAttributes",
 }));
 
 export type AdminDisableProviderForUserError =
@@ -3025,6 +3057,8 @@ export const adminDisableProviderForUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDisableProviderForUser",
+  telemetry: TELEMETRY,
+  span: "AdminDisableProviderForUser",
 }));
 
 export type AdminDisableUserError =
@@ -3071,6 +3105,8 @@ export const adminDisableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDisableUser",
+  telemetry: TELEMETRY,
+  span: "AdminDisableUser",
 }));
 
 export type AdminEnableUserError =
@@ -3116,6 +3152,8 @@ export const adminEnableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminEnableUser",
+  telemetry: TELEMETRY,
+  span: "AdminEnableUser",
 }));
 
 export type AdminForgetDeviceError =
@@ -3164,6 +3202,8 @@ export const adminForgetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminForgetDevice",
+  telemetry: TELEMETRY,
+  span: "AdminForgetDevice",
 }));
 
 export type AdminGetDeviceError =
@@ -3209,6 +3249,8 @@ export const adminGetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetDevice",
+  telemetry: TELEMETRY,
+  span: "AdminGetDevice",
 }));
 
 export type AdminGetUserError =
@@ -3257,6 +3299,8 @@ export const adminGetUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetUser",
+  telemetry: TELEMETRY,
+  span: "AdminGetUser",
 }));
 
 export type AdminGetUserAuthFactorsError =
@@ -3307,6 +3351,8 @@ export const adminGetUserAuthFactors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetUserAuthFactors",
+  telemetry: TELEMETRY,
+  span: "AdminGetUserAuthFactors",
 }));
 
 export type AdminInitiateAuthError =
@@ -3396,6 +3442,8 @@ export const adminInitiateAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminInitiateAuth",
+  telemetry: TELEMETRY,
+  span: "AdminInitiateAuth",
 }));
 
 export type AdminLinkProviderForUserError =
@@ -3458,6 +3506,8 @@ export const adminLinkProviderForUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminLinkProviderForUser",
+  telemetry: TELEMETRY,
+  span: "AdminLinkProviderForUser",
 }));
 
 export type AdminListDevicesError =
@@ -3505,6 +3555,8 @@ export const adminListDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminListDevices",
+  telemetry: TELEMETRY,
+  span: "AdminListDevices",
 }));
 
 export type AdminListGroupsForUserError =
@@ -3558,6 +3610,8 @@ export const adminListGroupsForUser: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "AdminListGroupsForUser",
 })) as any;
 
 export type AdminListUserAuthEventsError =
@@ -3612,6 +3666,8 @@ export const adminListUserAuthEvents: API.PaginatedOperationMethod<
     items: "AuthEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "AdminListUserAuthEvents",
 })) as any;
 
 export type AdminRemoveUserFromGroupError =
@@ -3658,6 +3714,8 @@ export const adminRemoveUserFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminRemoveUserFromGroup",
+  telemetry: TELEMETRY,
+  span: "AdminRemoveUserFromGroup",
 }));
 
 export type AdminResetUserPasswordError =
@@ -3741,6 +3799,8 @@ export const adminResetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminResetUserPassword",
+  telemetry: TELEMETRY,
+  span: "AdminResetUserPassword",
 }));
 
 export type AdminRespondToAuthChallengeError =
@@ -3841,6 +3901,8 @@ export const adminRespondToAuthChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminRespondToAuthChallenge",
+  telemetry: TELEMETRY,
+  span: "AdminRespondToAuthChallenge",
 }));
 
 export type AdminSetUserMFAPreferenceError =
@@ -3891,6 +3953,8 @@ export const adminSetUserMFAPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserMFAPreference",
+  telemetry: TELEMETRY,
+  span: "AdminSetUserMFAPreference",
 }));
 
 export type AdminSetUserPasswordError =
@@ -3967,6 +4031,8 @@ export const adminSetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserPassword",
+  telemetry: TELEMETRY,
+  span: "AdminSetUserPassword",
 }));
 
 export type AdminSetUserSettingsError =
@@ -4011,6 +4077,8 @@ export const adminSetUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserSettings",
+  telemetry: TELEMETRY,
+  span: "AdminSetUserSettings",
 }));
 
 export type AdminUpdateAuthEventFeedbackError =
@@ -4067,6 +4135,8 @@ export const adminUpdateAuthEventFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateAuthEventFeedback",
+  telemetry: TELEMETRY,
+  span: "AdminUpdateAuthEventFeedback",
 }));
 
 export type AdminUpdateDeviceStatusError =
@@ -4118,6 +4188,8 @@ export const adminUpdateDeviceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateDeviceStatus",
+  telemetry: TELEMETRY,
+  span: "AdminUpdateDeviceStatus",
 }));
 
 export type AdminUpdateUserAttributesError =
@@ -4202,6 +4274,8 @@ export const adminUpdateUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateUserAttributes",
+  telemetry: TELEMETRY,
+  span: "AdminUpdateUserAttributes",
 }));
 
 export type AdminUserGlobalSignOutError =
@@ -4269,6 +4343,8 @@ export const adminUserGlobalSignOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUserGlobalSignOut",
+  telemetry: TELEMETRY,
+  span: "AdminUserGlobalSignOut",
 }));
 
 export type AssociateSoftwareTokenError =
@@ -4316,6 +4392,8 @@ export const associateSoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSoftwareToken",
+  telemetry: TELEMETRY,
+  span: "AssociateSoftwareToken",
 }));
 
 export type ChangePasswordError =
@@ -4369,6 +4447,8 @@ export const changePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangePassword",
+  telemetry: TELEMETRY,
+  span: "ChangePassword",
 }));
 
 export type CompleteWebAuthnRegistrationError =
@@ -4420,6 +4500,8 @@ export const completeWebAuthnRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteWebAuthnRegistration",
+  telemetry: TELEMETRY,
+  span: "CompleteWebAuthnRegistration",
 }));
 
 export type ConfirmDeviceError =
@@ -4480,6 +4562,8 @@ export const confirmDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmDevice",
+  telemetry: TELEMETRY,
+  span: "ConfirmDevice",
 }));
 
 export type ConfirmForgotPasswordError =
@@ -4542,6 +4626,8 @@ export const confirmForgotPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmForgotPassword",
+  telemetry: TELEMETRY,
+  span: "ConfirmForgotPassword",
 }));
 
 export type ConfirmSignUpError =
@@ -4608,6 +4694,8 @@ export const confirmSignUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmSignUp",
+  telemetry: TELEMETRY,
+  span: "ConfirmSignUp",
 }));
 
 export type CreateGroupError =
@@ -4655,6 +4743,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateIdentityProviderError =
@@ -4701,6 +4791,8 @@ export const createIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProvider",
 }));
 
 export type CreateManagedLoginBrandingError =
@@ -4764,6 +4856,8 @@ export const createManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedLoginBranding",
+  telemetry: TELEMETRY,
+  span: "CreateManagedLoginBranding",
 }));
 
 export type CreateResourceServerError =
@@ -4810,6 +4904,8 @@ export const createResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceServer",
+  telemetry: TELEMETRY,
+  span: "CreateResourceServer",
 }));
 
 export type CreateTermsError =
@@ -4871,6 +4967,8 @@ export const createTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTerms",
+  telemetry: TELEMETRY,
+  span: "CreateTerms",
 }));
 
 export type CreateUserImportJobError =
@@ -4918,6 +5016,8 @@ export const createUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateUserImportJob",
 }));
 
 export type CreateUserPoolError =
@@ -4990,6 +5090,8 @@ export const createUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPool",
+  telemetry: TELEMETRY,
+  span: "CreateUserPool",
 }));
 
 export type CreateUserPoolClientError =
@@ -5047,6 +5149,8 @@ export const createUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolClient",
+  telemetry: TELEMETRY,
+  span: "CreateUserPoolClient",
 }));
 
 export type CreateUserPoolDomainError =
@@ -5104,6 +5208,8 @@ export const createUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolDomain",
+  telemetry: TELEMETRY,
+  span: "CreateUserPoolDomain",
 }));
 
 export type CreateUserPoolReplicaError =
@@ -5154,6 +5260,8 @@ export const createUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolReplica",
+  telemetry: TELEMETRY,
+  span: "CreateUserPoolReplica",
 }));
 
 export type DeleteGroupError =
@@ -5200,6 +5308,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteIdentityProviderError =
@@ -5246,6 +5356,8 @@ export const deleteIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProvider",
 }));
 
 export type DeleteManagedLoginBrandingError =
@@ -5293,6 +5405,8 @@ export const deleteManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedLoginBranding",
+  telemetry: TELEMETRY,
+  span: "DeleteManagedLoginBranding",
 }));
 
 export type DeleteResourceServerError =
@@ -5339,6 +5453,8 @@ export const deleteResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceServer",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceServer",
 }));
 
 export type DeleteTermsError =
@@ -5383,6 +5499,8 @@ export const deleteTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTerms",
+  telemetry: TELEMETRY,
+  span: "DeleteTerms",
 }));
 
 export type DeleteUserError =
@@ -5431,6 +5549,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserAttributesError =
@@ -5480,6 +5600,8 @@ export const deleteUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserAttributes",
+  telemetry: TELEMETRY,
+  span: "DeleteUserAttributes",
 }));
 
 export type DeleteUserPoolError =
@@ -5524,6 +5646,8 @@ export const deleteUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPool",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPool",
 }));
 
 export type DeleteUserPoolClientError =
@@ -5559,6 +5683,8 @@ export const deleteUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolClient",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPoolClient",
 }));
 
 export type DeleteUserPoolClientSecretError =
@@ -5589,6 +5715,8 @@ export const deleteUserPoolClientSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolClientSecret",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPoolClientSecret",
 }));
 
 export type DeleteUserPoolDomainError =
@@ -5623,6 +5751,8 @@ export const deleteUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPoolDomain",
 }));
 
 export type DeleteUserPoolReplicaError =
@@ -5666,6 +5796,8 @@ export const deleteUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolReplica",
+  telemetry: TELEMETRY,
+  span: "DeleteUserPoolReplica",
 }));
 
 export type DeleteWebAuthnCredentialError =
@@ -5712,6 +5844,8 @@ export const deleteWebAuthnCredential: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebAuthnCredential",
+  telemetry: TELEMETRY,
+  span: "DeleteWebAuthnCredential",
 }));
 
 export type DescribeIdentityProviderError =
@@ -5743,6 +5877,8 @@ export const describeIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityProvider",
 }));
 
 export type DescribeManagedLoginBrandingError =
@@ -5776,6 +5912,8 @@ export const describeManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedLoginBranding",
+  telemetry: TELEMETRY,
+  span: "DescribeManagedLoginBranding",
 }));
 
 export type DescribeManagedLoginBrandingByClientError =
@@ -5809,6 +5947,8 @@ export const describeManagedLoginBrandingByClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedLoginBrandingByClient",
+  telemetry: TELEMETRY,
+  span: "DescribeManagedLoginBrandingByClient",
 }));
 
 export type DescribeResourceServerError =
@@ -5841,6 +5981,8 @@ export const describeResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceServer",
+  telemetry: TELEMETRY,
+  span: "DescribeResourceServer",
 }));
 
 export type DescribeRiskConfigurationError =
@@ -5878,6 +6020,8 @@ export const describeRiskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRiskConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeRiskConfiguration",
 }));
 
 export type DescribeTermsError =
@@ -5920,6 +6064,8 @@ export const describeTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTerms",
+  telemetry: TELEMETRY,
+  span: "DescribeTerms",
 }));
 
 export type DescribeTermsByClientError =
@@ -5969,6 +6115,8 @@ export const describeTermsByClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTermsByClient",
+  telemetry: TELEMETRY,
+  span: "DescribeTermsByClient",
 }));
 
 export type DescribeUserImportJobError =
@@ -6001,6 +6149,8 @@ export const describeUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserImportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeUserImportJob",
 }));
 
 export type DescribeUserPoolError =
@@ -6047,6 +6197,8 @@ export const describeUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPool",
+  telemetry: TELEMETRY,
+  span: "DescribeUserPool",
 }));
 
 export type DescribeUserPoolClientError =
@@ -6091,6 +6243,8 @@ export const describeUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPoolClient",
+  telemetry: TELEMETRY,
+  span: "DescribeUserPoolClient",
 }));
 
 export type DescribeUserPoolDomainError =
@@ -6137,6 +6291,8 @@ export const describeUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPoolDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeUserPoolDomain",
 }));
 
 export type ForgetDeviceError =
@@ -6187,6 +6343,8 @@ export const forgetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ForgetDevice",
+  telemetry: TELEMETRY,
+  span: "ForgetDevice",
 }));
 
 export type ForgotPasswordError =
@@ -6272,6 +6430,8 @@ export const forgotPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ForgotPassword",
+  telemetry: TELEMETRY,
+  span: "ForgotPassword",
 }));
 
 export type GetClientTokenError =
@@ -6319,6 +6479,8 @@ export const getClientToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClientToken",
+  telemetry: TELEMETRY,
+  span: "GetClientToken",
 }));
 
 export type GetCSVHeaderError =
@@ -6366,6 +6528,8 @@ export const getCSVHeader: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCSVHeader",
+  telemetry: TELEMETRY,
+  span: "GetCSVHeader",
 }));
 
 export type GetDeviceError =
@@ -6416,6 +6580,8 @@ export const getDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetGroupError =
@@ -6461,6 +6627,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetIdentityProviderByIdentifierError =
@@ -6493,6 +6661,8 @@ export const getIdentityProviderByIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityProviderByIdentifier",
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderByIdentifier",
 }));
 
 export type GetLogDeliveryConfigurationError =
@@ -6534,6 +6704,8 @@ export const getLogDeliveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogDeliveryConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLogDeliveryConfiguration",
 }));
 
 export type GetProvisionedLimitError =
@@ -6574,6 +6746,8 @@ export const getProvisionedLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedLimit",
+  telemetry: TELEMETRY,
+  span: "GetProvisionedLimit",
 }));
 
 export type GetSigningCertificateError =
@@ -6619,6 +6793,8 @@ export const getSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningCertificate",
+  telemetry: TELEMETRY,
+  span: "GetSigningCertificate",
 }));
 
 export type GetTokensFromRefreshTokenError =
@@ -6667,6 +6843,8 @@ export const getTokensFromRefreshToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokensFromRefreshToken",
+  telemetry: TELEMETRY,
+  span: "GetTokensFromRefreshToken",
 }));
 
 export type GetUICustomizationError =
@@ -6703,6 +6881,8 @@ export const getUICustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUICustomization",
+  telemetry: TELEMETRY,
+  span: "GetUICustomization",
 }));
 
 export type GetUserError =
@@ -6750,6 +6930,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserAttributeVerificationCodeError =
@@ -6831,6 +7013,8 @@ export const getUserAttributeVerificationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserAttributeVerificationCode",
+  telemetry: TELEMETRY,
+  span: "GetUserAttributeVerificationCode",
 }));
 
 export type GetUserAuthFactorsError =
@@ -6884,6 +7068,8 @@ export const getUserAuthFactors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserAuthFactors",
+  telemetry: TELEMETRY,
+  span: "GetUserAuthFactors",
 }));
 
 export type GetUserPoolMfaConfigError =
@@ -6936,6 +7122,8 @@ export const getUserPoolMfaConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserPoolMfaConfig",
+  telemetry: TELEMETRY,
+  span: "GetUserPoolMfaConfig",
 }));
 
 export type GlobalSignOutError =
@@ -7004,6 +7192,8 @@ export const globalSignOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GlobalSignOut",
+  telemetry: TELEMETRY,
+  span: "GlobalSignOut",
 }));
 
 export type InitiateAuthError =
@@ -7088,6 +7278,8 @@ export const initiateAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateAuth",
+  telemetry: TELEMETRY,
+  span: "InitiateAuth",
 }));
 
 export type ListDevicesError =
@@ -7138,6 +7330,8 @@ export const listDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevices",
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 }));
 
 export type ListGroupsError =
@@ -7187,6 +7381,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListIdentityProvidersError =
@@ -7235,6 +7431,8 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     items: "Providers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviders",
 })) as any;
 
 export type ListResourceServersError =
@@ -7285,6 +7483,8 @@ export const listResourceServers: API.PaginatedOperationMethod<
     items: "ResourceServers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceServers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -7319,6 +7519,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTermsError =
@@ -7361,6 +7563,8 @@ export const listTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTerms",
+  telemetry: TELEMETRY,
+  span: "ListTerms",
 }));
 
 export type ListUserImportJobsError =
@@ -7405,6 +7609,8 @@ export const listUserImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserImportJobs",
+  telemetry: TELEMETRY,
+  span: "ListUserImportJobs",
 }));
 
 export type ListUserPoolClientsError =
@@ -7455,6 +7661,8 @@ export const listUserPoolClients: API.PaginatedOperationMethod<
     items: "UserPoolClients",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserPoolClients",
 })) as any;
 
 export type ListUserPoolClientSecretsError =
@@ -7485,6 +7693,8 @@ export const listUserPoolClientSecrets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserPoolClientSecrets",
+  telemetry: TELEMETRY,
+  span: "ListUserPoolClientSecrets",
 }));
 
 export type ListUserPoolReplicasError =
@@ -7529,6 +7739,8 @@ export const listUserPoolReplicas: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserPoolReplicas",
+  telemetry: TELEMETRY,
+  span: "ListUserPoolReplicas",
 }));
 
 export type ListUserPoolsError =
@@ -7574,6 +7786,8 @@ export const listUserPools: API.PaginatedOperationMethod<
     items: "UserPools",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserPools",
 })) as any;
 
 export type ListUsersError =
@@ -7628,6 +7842,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type ListUsersInGroupError =
@@ -7678,6 +7894,8 @@ export const listUsersInGroup: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsersInGroup",
 })) as any;
 
 export type ListWebAuthnCredentialsError =
@@ -7722,6 +7940,8 @@ export const listWebAuthnCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebAuthnCredentials",
+  telemetry: TELEMETRY,
+  span: "ListWebAuthnCredentials",
 }));
 
 export type ResendConfirmationCodeError =
@@ -7800,6 +8020,8 @@ export const resendConfirmationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendConfirmationCode",
+  telemetry: TELEMETRY,
+  span: "ResendConfirmationCode",
 }));
 
 export type RespondToAuthChallengeError =
@@ -7897,6 +8119,8 @@ export const respondToAuthChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondToAuthChallenge",
+  telemetry: TELEMETRY,
+  span: "RespondToAuthChallenge",
 }));
 
 export type RevokeTokenError =
@@ -7940,6 +8164,8 @@ export const revokeToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeToken",
+  telemetry: TELEMETRY,
+  span: "RevokeToken",
 }));
 
 export type SetLogDeliveryConfigurationError =
@@ -7975,6 +8201,8 @@ export const setLogDeliveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLogDeliveryConfiguration",
+  telemetry: TELEMETRY,
+  span: "SetLogDeliveryConfiguration",
 }));
 
 export type SetRiskConfigurationError =
@@ -8037,6 +8265,8 @@ export const setRiskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRiskConfiguration",
+  telemetry: TELEMETRY,
+  span: "SetRiskConfiguration",
 }));
 
 export type SetUICustomizationError =
@@ -8085,6 +8315,8 @@ export const setUICustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUICustomization",
+  telemetry: TELEMETRY,
+  span: "SetUICustomization",
 }));
 
 export type SetUserMFAPreferenceError =
@@ -8138,6 +8370,8 @@ export const setUserMFAPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserMFAPreference",
+  telemetry: TELEMETRY,
+  span: "SetUserMFAPreference",
 }));
 
 export type SetUserPoolMfaConfigError =
@@ -8196,6 +8430,8 @@ export const setUserPoolMfaConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserPoolMfaConfig",
+  telemetry: TELEMETRY,
+  span: "SetUserPoolMfaConfig",
 }));
 
 export type SetUserSettingsError =
@@ -8243,6 +8479,8 @@ export const setUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserSettings",
+  telemetry: TELEMETRY,
+  span: "SetUserSettings",
 }));
 
 export type SignUpError =
@@ -8326,6 +8564,8 @@ export const signUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignUp",
+  telemetry: TELEMETRY,
+  span: "SignUp",
 }));
 
 export type StartUserImportJobError =
@@ -8362,6 +8602,8 @@ export const startUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUserImportJob",
+  telemetry: TELEMETRY,
+  span: "StartUserImportJob",
 }));
 
 export type StartWebAuthnRegistrationError =
@@ -8407,6 +8649,8 @@ export const startWebAuthnRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWebAuthnRegistration",
+  telemetry: TELEMETRY,
+  span: "StartWebAuthnRegistration",
 }));
 
 export type StopUserImportJobError =
@@ -8443,6 +8687,8 @@ export const stopUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopUserImportJob",
+  telemetry: TELEMETRY,
+  span: "StopUserImportJob",
 }));
 
 export type TagResourceError =
@@ -8491,6 +8737,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -8523,6 +8771,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAuthEventFeedbackError =
@@ -8577,6 +8827,8 @@ export const updateAuthEventFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthEventFeedback",
+  telemetry: TELEMETRY,
+  span: "UpdateAuthEventFeedback",
 }));
 
 export type UpdateDeviceStatusError =
@@ -8631,6 +8883,8 @@ export const updateDeviceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceStatus",
 }));
 
 export type UpdateGroupError =
@@ -8674,6 +8928,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateIdentityProviderError =
@@ -8721,6 +8977,8 @@ export const updateIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProvider",
 }));
 
 export type UpdateManagedLoginBrandingError =
@@ -8775,6 +9033,8 @@ export const updateManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedLoginBranding",
+  telemetry: TELEMETRY,
+  span: "UpdateManagedLoginBranding",
 }));
 
 export type UpdateProvisionedLimitError =
@@ -8822,6 +9082,8 @@ export const updateProvisionedLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedLimit",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisionedLimit",
 }));
 
 export type UpdateResourceServerError =
@@ -8868,6 +9130,8 @@ export const updateResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceServer",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceServer",
 }));
 
 export type UpdateTermsError =
@@ -8927,6 +9191,8 @@ export const updateTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTerms",
+  telemetry: TELEMETRY,
+  span: "UpdateTerms",
 }));
 
 export type UpdateUserAttributesError =
@@ -9015,6 +9281,8 @@ export const updateUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateUserAttributes",
 }));
 
 export type UpdateUserPoolError =
@@ -9099,6 +9367,8 @@ export const updateUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPool",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPool",
 }));
 
 export type UpdateUserPoolClientError =
@@ -9158,6 +9428,8 @@ export const updateUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolClient",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPoolClient",
 }));
 
 export type UpdateUserPoolDomainError =
@@ -9225,6 +9497,8 @@ export const updateUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPoolDomain",
 }));
 
 export type UpdateUserPoolReplicaError =
@@ -9269,6 +9543,8 @@ export const updateUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolReplica",
+  telemetry: TELEMETRY,
+  span: "UpdateUserPoolReplica",
 }));
 
 export type VerifySoftwareTokenError =
@@ -9325,6 +9601,8 @@ export const verifySoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySoftwareToken",
+  telemetry: TELEMETRY,
+  span: "VerifySoftwareToken",
 }));
 
 export type VerifyUserAttributeError =
@@ -9386,6 +9664,8 @@ export const verifyUserAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyUserAttribute",
+  telemetry: TELEMETRY,
+  span: "VerifyUserAttribute",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

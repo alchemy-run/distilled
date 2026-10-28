@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "firestore" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Firestore",
+  service: "firestore",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1827,6 +1846,8 @@ export const batchGetProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetProjectsDatabasesDocuments",
 }));
 
 export type BatchWriteProjectsDatabasesDocumentsError =
@@ -1847,6 +1868,8 @@ export const batchWriteProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchWriteProjectsDatabasesDocuments",
 }));
 
 export type BeginTransactionProjectsDatabasesDocumentsError =
@@ -1867,6 +1890,8 @@ export const beginTransactionProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BeginTransactionProjectsDatabasesDocuments",
 }));
 
 export type BulkDeleteDocumentsProjectsDatabasesError =
@@ -1887,6 +1912,8 @@ export const bulkDeleteDocumentsProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteDocumentsProjectsDatabases",
 }));
 
 export type CancelProjectsDatabasesOperationsError =
@@ -1907,6 +1934,8 @@ export const cancelProjectsDatabasesOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelProjectsDatabasesOperations",
 }));
 
 export type CloneProjectsDatabasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1922,6 +1951,8 @@ export const cloneProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneProjectsDatabases",
 }));
 
 export type CommitProjectsDatabasesDocumentsError =
@@ -1942,6 +1973,8 @@ export const commitProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitProjectsDatabasesDocuments",
 }));
 
 export type CreateDocumentProjectsDatabasesDocumentsError =
@@ -1963,6 +1996,8 @@ export const createDocumentProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, DatastoreModeDatabase, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDocumentProjectsDatabasesDocuments",
 }));
 
 export type CreateProjectsDatabasesError =
@@ -1983,6 +2018,8 @@ export const createProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDatabases",
 }));
 
 export type CreateProjectsDatabasesBackupSchedulesError =
@@ -2003,6 +2040,8 @@ export const createProjectsDatabasesBackupSchedules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDatabasesBackupSchedules",
 }));
 
 export type CreateProjectsDatabasesChangeStreamsError =
@@ -2023,6 +2062,8 @@ export const createProjectsDatabasesChangeStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDatabasesChangeStreams",
 }));
 
 export type CreateProjectsDatabasesCollectionGroupsIndexesError =
@@ -2047,6 +2088,8 @@ export const createProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDatabasesCollectionGroupsIndexes",
 }));
 
 export type CreateProjectsDatabasesUserCredsError =
@@ -2068,6 +2111,8 @@ export const createProjectsDatabasesUserCreds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, EnterpriseDatabaseRequired, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDatabasesUserCreds",
 }));
 
 export type DeleteProjectsDatabasesError =
@@ -2088,6 +2133,8 @@ export const deleteProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDatabases",
 }));
 
 export type DeleteProjectsDatabasesBackupSchedulesError =
@@ -2108,6 +2155,8 @@ export const deleteProjectsDatabasesBackupSchedules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDatabasesBackupSchedules",
 }));
 
 export type DeleteProjectsDatabasesChangeStreamsError =
@@ -2128,6 +2177,8 @@ export const deleteProjectsDatabasesChangeStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDatabasesChangeStreams",
 }));
 
 export type DeleteProjectsDatabasesCollectionGroupsIndexesError =
@@ -2152,6 +2203,8 @@ export const deleteProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDatabasesCollectionGroupsIndexes",
 }));
 
 export type DeleteProjectsDatabasesDocumentsError =
@@ -2173,6 +2226,8 @@ export const deleteProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, DatastoreModeDatabase, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDatabasesDocuments",
 }));
 
 export type DeleteProjectsDatabasesOperationsError =
@@ -2193,6 +2248,8 @@ export const deleteProjectsDatabasesOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDatabasesOperations",
 }));
 
 export type DeleteProjectsDatabasesUserCredsError =
@@ -2213,6 +2270,8 @@ export const deleteProjectsDatabasesUserCreds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDatabasesUserCreds",
 }));
 
 export type DeleteProjectsLocationsBackupsError =
@@ -2233,6 +2292,8 @@ export const deleteProjectsLocationsBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsBackups",
 }));
 
 export type DisableProjectsDatabasesUserCredsError =
@@ -2253,6 +2314,8 @@ export const disableProjectsDatabasesUserCreds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableProjectsDatabasesUserCreds",
 }));
 
 export type EnableProjectsDatabasesUserCredsError =
@@ -2273,6 +2336,8 @@ export const enableProjectsDatabasesUserCreds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableProjectsDatabasesUserCreds",
 }));
 
 export type ExecutePipelineProjectsDatabasesDocumentsError =
@@ -2293,6 +2358,8 @@ export const executePipelineProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecutePipelineProjectsDatabasesDocuments",
 }));
 
 export type ExportDocumentsProjectsDatabasesError =
@@ -2313,6 +2380,8 @@ export const exportDocumentsProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportDocumentsProjectsDatabases",
 }));
 
 export type GetProjectsDatabasesError = NotFound | Forbidden | GcpOpError;
@@ -2328,6 +2397,8 @@ export const getProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabases",
 }));
 
 export type GetProjectsDatabasesBackupSchedulesError = NotFound | Forbidden | GcpOpError;
@@ -2343,6 +2414,8 @@ export const getProjectsDatabasesBackupSchedules: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesBackupSchedules",
 }));
 
 export type GetProjectsDatabasesChangeStreamsError = NotFound | Forbidden | GcpOpError;
@@ -2358,6 +2431,8 @@ export const getProjectsDatabasesChangeStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesChangeStreams",
 }));
 
 export type GetProjectsDatabasesCollectionGroupsFieldsError = NotFound | Forbidden | GcpOpError;
@@ -2373,6 +2448,8 @@ export const getProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesCollectionGroupsFields",
 }));
 
 export type GetProjectsDatabasesCollectionGroupsIndexesError = NotFound | Forbidden | GcpOpError;
@@ -2388,6 +2465,8 @@ export const getProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesCollectionGroupsIndexes",
 }));
 
 export type GetProjectsDatabasesDocumentsError =
@@ -2407,6 +2486,8 @@ export const getProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, DatastoreModeDatabase, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesDocuments",
 }));
 
 export type GetProjectsDatabasesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2422,6 +2503,8 @@ export const getProjectsDatabasesOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesOperations",
 }));
 
 export type GetProjectsDatabasesUserCredsError = NotFound | Forbidden | GcpOpError;
@@ -2437,6 +2520,8 @@ export const getProjectsDatabasesUserCreds: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDatabasesUserCreds",
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2452,6 +2537,8 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocations",
 }));
 
 export type GetProjectsLocationsBackupsError = NotFound | Forbidden | GcpOpError;
@@ -2467,6 +2554,8 @@ export const getProjectsLocationsBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsBackups",
 }));
 
 export type ImportDocumentsProjectsDatabasesError =
@@ -2487,6 +2576,8 @@ export const importDocumentsProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDocumentsProjectsDatabases",
 }));
 
 export type ListCollectionIdsProjectsDatabasesDocumentsError =
@@ -2507,6 +2598,8 @@ export const listCollectionIdsProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollectionIdsProjectsDatabasesDocuments",
 }));
 
 export type ListDocumentsProjectsDatabasesDocumentsError = NotFound | Forbidden | GcpOpError;
@@ -2523,6 +2616,8 @@ export const listDocumentsProjectsDatabasesDocuments: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDocumentsProjectsDatabasesDocuments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2544,6 +2639,8 @@ export const listenProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListenProjectsDatabasesDocuments",
 }));
 
 export type ListProjectsDatabasesError = NotFound | Forbidden | GcpOpError;
@@ -2559,6 +2656,8 @@ export const listProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabases",
 }));
 
 export type ListProjectsDatabasesBackupSchedulesError = NotFound | Forbidden | GcpOpError;
@@ -2574,6 +2673,8 @@ export const listProjectsDatabasesBackupSchedules: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesBackupSchedules",
 }));
 
 export type ListProjectsDatabasesChangeStreamsError = NotFound | Forbidden | GcpOpError;
@@ -2589,6 +2690,8 @@ export const listProjectsDatabasesChangeStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesChangeStreams",
 }));
 
 export type ListProjectsDatabasesCollectionGroupsFieldsError = NotFound | Forbidden | GcpOpError;
@@ -2605,6 +2708,8 @@ export const listProjectsDatabasesCollectionGroupsFields: API.PaginatedOperation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesCollectionGroupsFields",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2622,6 +2727,8 @@ export const listProjectsDatabasesCollectionGroupsIndexes: API.PaginatedOperatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesCollectionGroupsIndexes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2643,6 +2750,8 @@ export const listProjectsDatabasesDocuments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, DatastoreModeDatabase, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesDocuments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2660,6 +2769,8 @@ export const listProjectsDatabasesOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2676,6 +2787,8 @@ export const listProjectsDatabasesUserCreds: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDatabasesUserCreds",
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2692,6 +2805,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2708,6 +2823,8 @@ export const listProjectsLocationsBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsBackups",
 }));
 
 export type PartitionQueryProjectsDatabasesDocumentsError =
@@ -2728,6 +2845,8 @@ export const partitionQueryProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartitionQueryProjectsDatabasesDocuments",
 }));
 
 export type PatchProjectsDatabasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2743,6 +2862,8 @@ export const patchProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsDatabases",
 }));
 
 export type PatchProjectsDatabasesBackupSchedulesError =
@@ -2763,6 +2884,8 @@ export const patchProjectsDatabasesBackupSchedules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsDatabasesBackupSchedules",
 }));
 
 export type PatchProjectsDatabasesCollectionGroupsFieldsError =
@@ -2783,6 +2906,8 @@ export const patchProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsDatabasesCollectionGroupsFields",
 }));
 
 export type PatchProjectsDatabasesDocumentsError =
@@ -2804,6 +2929,8 @@ export const patchProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, DatastoreModeDatabase, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsDatabasesDocuments",
 }));
 
 export type ResetPasswordProjectsDatabasesUserCredsError =
@@ -2824,6 +2951,8 @@ export const resetPasswordProjectsDatabasesUserCreds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetPasswordProjectsDatabasesUserCreds",
 }));
 
 export type RestoreProjectsDatabasesError =
@@ -2844,6 +2973,8 @@ export const restoreProjectsDatabases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreProjectsDatabases",
 }));
 
 export type RollbackProjectsDatabasesDocumentsError =
@@ -2864,6 +2995,8 @@ export const rollbackProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RollbackProjectsDatabasesDocuments",
 }));
 
 export type RunAggregationQueryProjectsDatabasesDocumentsError =
@@ -2888,6 +3021,8 @@ export const runAggregationQueryProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAggregationQueryProjectsDatabasesDocuments",
 }));
 
 export type RunQueryProjectsDatabasesDocumentsError =
@@ -2908,6 +3043,8 @@ export const runQueryProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunQueryProjectsDatabasesDocuments",
 }));
 
 export type WriteProjectsDatabasesDocumentsError =
@@ -2928,6 +3065,8 @@ export const writeProjectsDatabasesDocuments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WriteProjectsDatabasesDocuments",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

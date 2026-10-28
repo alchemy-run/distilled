@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -87,6 +88,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://mediaconvert.{R}.{D}","properties":{},"headers":{}}',
   ["cn-northwest-1"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaConvert",
+  service: "MediaConvert",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -4239,6 +4254,8 @@ export const associateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCertificate",
+  telemetry: TELEMETRY,
+  span: "AssociateCertificate",
 }));
 
 export type CancelJobError =
@@ -4273,6 +4290,8 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CreateJobError =
@@ -4307,6 +4326,8 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  telemetry: TELEMETRY,
+  span: "CreateJob",
 }));
 
 export type CreateJobTemplateError =
@@ -4341,6 +4362,8 @@ export const createJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateJobTemplate",
 }));
 
 export type CreatePresetError =
@@ -4375,6 +4398,8 @@ export const createPreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePreset",
+  telemetry: TELEMETRY,
+  span: "CreatePreset",
 }));
 
 export type CreateQueueError =
@@ -4409,6 +4434,8 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type CreateResourceShareError =
@@ -4443,6 +4470,8 @@ export const createResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceShare",
+  telemetry: TELEMETRY,
+  span: "CreateResourceShare",
 }));
 
 export type DeleteJobTemplateError =
@@ -4477,6 +4506,8 @@ export const deleteJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteJobTemplate",
 }));
 
 export type DeletePolicyError =
@@ -4511,6 +4542,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeletePresetError =
@@ -4545,6 +4578,8 @@ export const deletePreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePreset",
+  telemetry: TELEMETRY,
+  span: "DeletePreset",
 }));
 
 export type DeleteQueueError =
@@ -4579,6 +4614,8 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type DescribeEndpointsError =
@@ -4620,6 +4657,8 @@ export const describeEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoints",
 })) as any;
 
 export type DisassociateCertificateError =
@@ -4654,6 +4693,8 @@ export const disassociateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCertificate",
+  telemetry: TELEMETRY,
+  span: "DisassociateCertificate",
 }));
 
 export type GetJobError =
@@ -4688,6 +4729,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetJobsQueryResultsError =
@@ -4722,6 +4765,8 @@ export const getJobsQueryResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobsQueryResults",
+  telemetry: TELEMETRY,
+  span: "GetJobsQueryResults",
 }));
 
 export type GetJobTemplateError =
@@ -4756,6 +4801,8 @@ export const getJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobTemplate",
+  telemetry: TELEMETRY,
+  span: "GetJobTemplate",
 }));
 
 export type GetPolicyError =
@@ -4790,6 +4837,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetPresetError =
@@ -4824,6 +4873,8 @@ export const getPreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreset",
+  telemetry: TELEMETRY,
+  span: "GetPreset",
 }));
 
 export type GetQueueError =
@@ -4858,6 +4909,8 @@ export const getQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueue",
+  telemetry: TELEMETRY,
+  span: "GetQueue",
 }));
 
 export type ListJobsError =
@@ -4899,6 +4952,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListJobTemplatesError =
@@ -4940,6 +4995,8 @@ export const listJobTemplates: API.PaginatedOperationMethod<
     items: "JobTemplates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobTemplates",
 })) as any;
 
 export type ListPresetsError =
@@ -4981,6 +5038,8 @@ export const listPresets: API.PaginatedOperationMethod<
     items: "Presets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPresets",
 })) as any;
 
 export type ListQueuesError =
@@ -5022,6 +5081,8 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "Queues",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5056,6 +5117,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVersionsError =
@@ -5097,6 +5160,8 @@ export const listVersions: API.PaginatedOperationMethod<
     items: "Versions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 })) as any;
 
 export type ProbeError =
@@ -5133,6 +5198,8 @@ export const probe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Probe",
+  telemetry: TELEMETRY,
+  span: "Probe",
 }));
 
 export type PutPolicyError =
@@ -5167,6 +5234,8 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPolicy",
 }));
 
 export type SearchJobsError =
@@ -5208,6 +5277,8 @@ export const searchJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchJobs",
 })) as any;
 
 export type StartJobsQueryError =
@@ -5242,6 +5313,8 @@ export const startJobsQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobsQuery",
+  telemetry: TELEMETRY,
+  span: "StartJobsQuery",
 }));
 
 export type TagResourceError =
@@ -5276,6 +5349,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5310,6 +5385,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateJobTemplateError =
@@ -5344,6 +5421,8 @@ export const updateJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateJobTemplate",
 }));
 
 export type UpdatePresetError =
@@ -5378,6 +5457,8 @@ export const updatePreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreset",
+  telemetry: TELEMETRY,
+  span: "UpdatePreset",
 }));
 
 export type UpdateQueueError =
@@ -5412,6 +5493,8 @@ export const updateQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueue",
+  telemetry: TELEMETRY,
+  span: "UpdateQueue",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

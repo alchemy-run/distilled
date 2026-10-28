@@ -69,6 +69,9 @@ export const resolveProcessCredentials = (
       }),
     ),
     Effect.flatMap((data) => {
+      if (typeof data !== "object" || data === null) {
+        return Effect.fail(invalid("did not return a JSON object"));
+      }
       if (data.Version !== 1) {
         return Effect.fail(invalid("did not return Version 1"));
       }

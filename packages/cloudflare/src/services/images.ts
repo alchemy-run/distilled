@@ -23,6 +23,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Images",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class ImageAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ImageAlreadyExists>()("ImageAlreadyExists", {
@@ -528,6 +542,8 @@ export const createV1: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV1",
 }));
 
 export type CreateV1VariantError =
@@ -553,6 +569,8 @@ export const createV1Variant: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV1Variant",
 }));
 
 export type CreateV2DirectUploadError =
@@ -578,6 +596,8 @@ export const createV2DirectUpload: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2DirectUpload",
 }));
 
 export type DeleteV1Error = ImagesAccessNotEnabled | ImageNotFound | CloudflareOpError;
@@ -593,6 +613,8 @@ export const deleteV1: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, ImageNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV1",
 }));
 
 export type DeleteV1KeyError = ImagesAccessNotEnabled | KeyNotFound | CloudflareOpError;
@@ -608,6 +630,8 @@ export const deleteV1Key: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, KeyNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV1Key",
 }));
 
 export type DeleteV1VariantError =
@@ -633,6 +657,8 @@ export const deleteV1Variant: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV1Variant",
 }));
 
 export type GetV1Error = ImagesAccessNotEnabled | ImageNotFound | CloudflareOpError;
@@ -648,6 +674,8 @@ export const getV1: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, ImageNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1",
 }));
 
 export type GetV1BlobError = ImagesAccessNotEnabled | ImageNotFound | CloudflareOpError;
@@ -663,6 +691,8 @@ export const getV1Blob: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, ImageNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1Blob",
 }));
 
 export type GetV1StatError = ImagesAccessNotEnabled | CloudflareOpError;
@@ -678,6 +708,8 @@ export const getV1Stat: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1Stat",
 }));
 
 export type GetV1VariantError =
@@ -703,6 +735,8 @@ export const getV1Variant: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1Variant",
 }));
 
 export type ListV1KeysError = ImagesAccessNotEnabled | CloudflareOpError;
@@ -718,6 +752,8 @@ export const listV1Keys: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV1Keys",
 }));
 
 export type ListV1sError = ImagesAccessNotEnabled | CloudflareOpError;
@@ -733,6 +769,8 @@ export const listV1s: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV1s",
 }));
 
 export type ListV1VariantsError = ImagesAccessNotEnabled | CloudflareOpError;
@@ -748,6 +786,8 @@ export const listV1Variants: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV1Variants",
 }));
 
 export type ListV2sError = ImagesAccessNotEnabled | CloudflareOpError;
@@ -763,6 +803,8 @@ export const listV2s: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2s",
 }));
 
 export type PatchV1Error = ImagesAccessNotEnabled | ImageNotFound | CloudflareOpError;
@@ -778,6 +820,8 @@ export const patchV1: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, ImageNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1",
 }));
 
 export type PatchV1VariantError =
@@ -803,6 +847,8 @@ export const patchV1Variant: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1Variant",
 }));
 
 export type PutV1KeyError = ImagesAccessNotEnabled | CloudflareOpError;
@@ -818,6 +864,8 @@ export const putV1Key: API.OperationMethod<
   errors: [ImagesAccessNotEnabled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutV1Key",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

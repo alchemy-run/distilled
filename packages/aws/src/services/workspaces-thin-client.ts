@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://thinclient.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WorkSpacesThinClient",
+  service: "WorkSpacesThinClient",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -497,6 +512,8 @@ export const createEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEnvironment",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type DeleteDeviceError =
@@ -530,6 +547,8 @@ export const deleteDevice: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDevice",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteDevice",
 }));
 
 export type DeleteEnvironmentError =
@@ -563,6 +582,8 @@ export const deleteEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteEnvironment",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeregisterDeviceError =
@@ -596,6 +617,8 @@ export const deregisterDevice: API.OperationMethod<
   retry: Retry,
   operationName: "DeregisterDevice",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeregisterDevice",
 }));
 
 export type GetDeviceError =
@@ -627,6 +650,8 @@ export const getDevice: API.OperationMethod<
   retry: Retry,
   operationName: "GetDevice",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetEnvironmentError =
@@ -658,6 +683,8 @@ export const getEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "GetEnvironment",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetSoftwareSetError =
@@ -689,6 +716,8 @@ export const getSoftwareSet: API.OperationMethod<
   retry: Retry,
   operationName: "GetSoftwareSet",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetSoftwareSet",
 }));
 
 export type ListDevicesError =
@@ -725,6 +754,8 @@ export const listDevices: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 })) as any;
 
 export type ListEnvironmentsError =
@@ -761,6 +792,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListSoftwareSetsError =
@@ -797,6 +830,8 @@ export const listSoftwareSets: API.PaginatedOperationMethod<
     items: "softwareSets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSoftwareSets",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -828,6 +863,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -861,6 +898,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -894,6 +933,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeviceError =
@@ -925,6 +966,8 @@ export const updateDevice: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDevice",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateDevice",
 }));
 
 export type UpdateEnvironmentError =
@@ -958,6 +1001,8 @@ export const updateEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateEnvironment",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateSoftwareSetError =
@@ -989,6 +1034,8 @@ export const updateSoftwareSet: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSoftwareSet",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateSoftwareSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

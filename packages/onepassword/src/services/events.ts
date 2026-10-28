@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { OnepasswordOpError, EventsOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "onepassword-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "OnePassword",
+  service: "OnepasswordEvents",
+  propagate: "w3c",
+} as const;
+
 /** Cursor */
 export interface Cursor {
   /** Cursor to fetch more data if available or continue the polling process if required */
@@ -468,6 +480,8 @@ export const getAuditEvents: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: EventsProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuditEvents",
 }));
 
 export type GetAuditEventsV2Error = OnepasswordOpError;
@@ -483,6 +497,8 @@ export const getAuditEventsV2: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: EventsProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuditEventsV2",
 }));
 
 export type GetAuthIntrospectV2Error = OnepasswordOpError;
@@ -498,6 +514,8 @@ export const getAuthIntrospectV2: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: EventsProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthIntrospectV2",
 }));
 
 export type GetItemUsagesError = OnepasswordOpError;
@@ -513,6 +531,8 @@ export const getItemUsages: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: EventsProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItemUsages",
 }));
 
 export type GetItemUsagesV2Error = OnepasswordOpError;
@@ -528,6 +548,8 @@ export const getItemUsagesV2: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: EventsProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItemUsagesV2",
 }));
 
 export type GetSignInAttemptsError = OnepasswordOpError;
@@ -543,6 +565,8 @@ export const getSignInAttempts: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: EventsProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignInAttempts",
 }));
 
 export type GetSignInAttemptsV2Error = OnepasswordOpError;
@@ -558,6 +582,8 @@ export const getSignInAttemptsV2: API.OperationMethod<
   errors: [UnknownOnepasswordError],
   protocol: EventsProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignInAttemptsV2",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

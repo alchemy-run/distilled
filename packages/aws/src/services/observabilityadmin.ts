@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://observabilityadmin.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ObservabilityAdmin",
+  service: "ObservabilityAdmin",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -943,6 +958,8 @@ export const createCentralizationRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCentralizationRuleForOrganization",
+  telemetry: TELEMETRY,
+  span: "CreateCentralizationRuleForOrganization",
 }));
 
 export type CreateDatasetIntegrationError =
@@ -977,6 +994,8 @@ export const createDatasetIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetIntegration",
 }));
 
 export type CreateS3TableIntegrationError =
@@ -1009,6 +1028,8 @@ export const createS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateS3TableIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateS3TableIntegration",
 }));
 
 export type CreateTelemetryPipelineError =
@@ -1041,6 +1062,8 @@ export const createTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTelemetryPipeline",
+  telemetry: TELEMETRY,
+  span: "CreateTelemetryPipeline",
 }));
 
 export type CreateTelemetryRuleError =
@@ -1073,6 +1096,8 @@ export const createTelemetryRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTelemetryRule",
+  telemetry: TELEMETRY,
+  span: "CreateTelemetryRule",
 }));
 
 export type CreateTelemetryRuleForOrganizationError =
@@ -1105,6 +1130,8 @@ export const createTelemetryRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTelemetryRuleForOrganization",
+  telemetry: TELEMETRY,
+  span: "CreateTelemetryRuleForOrganization",
 }));
 
 export type DeleteCentralizationRuleForOrganizationError =
@@ -1135,6 +1162,8 @@ export const deleteCentralizationRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCentralizationRuleForOrganization",
+  telemetry: TELEMETRY,
+  span: "DeleteCentralizationRuleForOrganization",
 }));
 
 export type DeleteDatasetIntegrationError =
@@ -1165,6 +1194,8 @@ export const deleteDatasetIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetIntegration",
 }));
 
 export type DeleteS3TableIntegrationError =
@@ -1197,6 +1228,8 @@ export const deleteS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteS3TableIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteS3TableIntegration",
 }));
 
 export type DeleteTelemetryPipelineError =
@@ -1229,6 +1262,8 @@ export const deleteTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTelemetryPipeline",
+  telemetry: TELEMETRY,
+  span: "DeleteTelemetryPipeline",
 }));
 
 export type DeleteTelemetryRuleError =
@@ -1259,6 +1294,8 @@ export const deleteTelemetryRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTelemetryRule",
+  telemetry: TELEMETRY,
+  span: "DeleteTelemetryRule",
 }));
 
 export type DeleteTelemetryRuleForOrganizationError =
@@ -1289,6 +1326,8 @@ export const deleteTelemetryRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTelemetryRuleForOrganization",
+  telemetry: TELEMETRY,
+  span: "DeleteTelemetryRuleForOrganization",
 }));
 
 export type GetCentralizationRuleForOrganizationError =
@@ -1319,6 +1358,8 @@ export const getCentralizationRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCentralizationRuleForOrganization",
+  telemetry: TELEMETRY,
+  span: "GetCentralizationRuleForOrganization",
 }));
 
 export type GetDatasetIntegrationError =
@@ -1349,6 +1390,8 @@ export const getDatasetIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatasetIntegration",
+  telemetry: TELEMETRY,
+  span: "GetDatasetIntegration",
 }));
 
 export type GetS3TableIntegrationError =
@@ -1379,6 +1422,8 @@ export const getS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetS3TableIntegration",
+  telemetry: TELEMETRY,
+  span: "GetS3TableIntegration",
 }));
 
 export type GetTelemetryEnrichmentStatusError =
@@ -1407,6 +1452,8 @@ export const getTelemetryEnrichmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryEnrichmentStatus",
+  telemetry: TELEMETRY,
+  span: "GetTelemetryEnrichmentStatus",
 }));
 
 export type GetTelemetryEvaluationStatusError =
@@ -1429,6 +1476,8 @@ export const getTelemetryEvaluationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryEvaluationStatus",
+  telemetry: TELEMETRY,
+  span: "GetTelemetryEvaluationStatus",
 }));
 
 export type GetTelemetryEvaluationStatusForOrganizationError =
@@ -1457,6 +1506,8 @@ export const getTelemetryEvaluationStatusForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryEvaluationStatusForOrganization",
+  telemetry: TELEMETRY,
+  span: "GetTelemetryEvaluationStatusForOrganization",
 }));
 
 export type GetTelemetryPipelineError =
@@ -1487,6 +1538,8 @@ export const getTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryPipeline",
+  telemetry: TELEMETRY,
+  span: "GetTelemetryPipeline",
 }));
 
 export type GetTelemetryRuleError =
@@ -1517,6 +1570,8 @@ export const getTelemetryRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryRule",
+  telemetry: TELEMETRY,
+  span: "GetTelemetryRule",
 }));
 
 export type GetTelemetryRuleForOrganizationError =
@@ -1547,6 +1602,8 @@ export const getTelemetryRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryRuleForOrganization",
+  telemetry: TELEMETRY,
+  span: "GetTelemetryRuleForOrganization",
 }));
 
 export type ListCentralizationRulesForOrganizationError =
@@ -1582,6 +1639,8 @@ export const listCentralizationRulesForOrganization: API.PaginatedOperationMetho
     items: "CentralizationRuleSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCentralizationRulesForOrganization",
 })) as any;
 
 export type ListDatasetIntegrationsError =
@@ -1617,6 +1676,8 @@ export const listDatasetIntegrations: API.PaginatedOperationMethod<
     items: "DatasetIntegrationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetIntegrations",
 })) as any;
 
 export type ListResourceTelemetryError =
@@ -1652,6 +1713,8 @@ export const listResourceTelemetry: API.PaginatedOperationMethod<
     items: "TelemetryConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceTelemetry",
 })) as any;
 
 export type ListResourceTelemetryForOrganizationError =
@@ -1687,6 +1750,8 @@ export const listResourceTelemetryForOrganization: API.PaginatedOperationMethod<
     items: "TelemetryConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceTelemetryForOrganization",
 })) as any;
 
 export type ListS3TableIntegrationsError =
@@ -1722,6 +1787,8 @@ export const listS3TableIntegrations: API.PaginatedOperationMethod<
     items: "IntegrationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListS3TableIntegrations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1752,6 +1819,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTelemetryPipelinesError =
@@ -1787,6 +1856,8 @@ export const listTelemetryPipelines: API.PaginatedOperationMethod<
     items: "PipelineSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTelemetryPipelines",
 })) as any;
 
 export type ListTelemetryRulesError =
@@ -1822,6 +1893,8 @@ export const listTelemetryRules: API.PaginatedOperationMethod<
     items: "TelemetryRuleSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTelemetryRules",
 })) as any;
 
 export type ListTelemetryRulesForOrganizationError =
@@ -1857,6 +1930,8 @@ export const listTelemetryRulesForOrganization: API.PaginatedOperationMethod<
     items: "TelemetryRuleSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTelemetryRulesForOrganization",
 })) as any;
 
 export type StartTelemetryEnrichmentError =
@@ -1885,6 +1960,8 @@ export const startTelemetryEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTelemetryEnrichment",
+  telemetry: TELEMETRY,
+  span: "StartTelemetryEnrichment",
 }));
 
 export type StartTelemetryEvaluationError =
@@ -1913,6 +1990,8 @@ export const startTelemetryEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTelemetryEvaluation",
+  telemetry: TELEMETRY,
+  span: "StartTelemetryEvaluation",
 }));
 
 export type StartTelemetryEvaluationForOrganizationError =
@@ -1941,6 +2020,8 @@ export const startTelemetryEvaluationForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTelemetryEvaluationForOrganization",
+  telemetry: TELEMETRY,
+  span: "StartTelemetryEvaluationForOrganization",
 }));
 
 export type StopTelemetryEnrichmentError =
@@ -1969,6 +2050,8 @@ export const stopTelemetryEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTelemetryEnrichment",
+  telemetry: TELEMETRY,
+  span: "StopTelemetryEnrichment",
 }));
 
 export type StopTelemetryEvaluationError =
@@ -1997,6 +2080,8 @@ export const stopTelemetryEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTelemetryEvaluation",
+  telemetry: TELEMETRY,
+  span: "StopTelemetryEvaluation",
 }));
 
 export type StopTelemetryEvaluationForOrganizationError =
@@ -2025,6 +2110,8 @@ export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTelemetryEvaluationForOrganization",
+  telemetry: TELEMETRY,
+  span: "StopTelemetryEvaluationForOrganization",
 }));
 
 export type TagResourceError =
@@ -2057,6 +2144,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestTelemetryPipelineError =
@@ -2085,6 +2174,8 @@ export const testTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestTelemetryPipeline",
+  telemetry: TELEMETRY,
+  span: "TestTelemetryPipeline",
 }));
 
 export type UntagResourceError =
@@ -2115,6 +2206,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCentralizationRuleForOrganizationError =
@@ -2147,6 +2240,8 @@ export const updateCentralizationRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCentralizationRuleForOrganization",
+  telemetry: TELEMETRY,
+  span: "UpdateCentralizationRuleForOrganization",
 }));
 
 export type UpdateDatasetIntegrationError =
@@ -2177,6 +2272,8 @@ export const updateDatasetIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateDatasetIntegration",
 }));
 
 export type UpdateTelemetryPipelineError =
@@ -2255,6 +2352,8 @@ export const updateTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTelemetryPipeline",
+  telemetry: TELEMETRY,
+  span: "UpdateTelemetryPipeline",
 }));
 
 export type UpdateTelemetryRuleError =
@@ -2289,6 +2388,8 @@ export const updateTelemetryRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTelemetryRule",
+  telemetry: TELEMETRY,
+  span: "UpdateTelemetryRule",
 }));
 
 export type UpdateTelemetryRuleForOrganizationError =
@@ -2321,6 +2422,8 @@ export const updateTelemetryRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTelemetryRuleForOrganization",
+  telemetry: TELEMETRY,
+  span: "UpdateTelemetryRuleForOrganization",
 }));
 
 export type ValidateTelemetryPipelineConfigurationError =
@@ -2349,6 +2452,8 @@ export const validateTelemetryPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateTelemetryPipelineConfiguration",
+  telemetry: TELEMETRY,
+  span: "ValidateTelemetryPipelineConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "PosthogConnections",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `GET` - GET * `POST` - POST * `PUT` - PUT * `PATCH` - PATCH * `DELETE` - DELETE */
 export type PostHogConnectionForwardMethodEnum = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 /** Query parameters to send to the target. */
@@ -65,6 +78,8 @@ export const createPosthogConnectionsForward: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePosthogConnectionsForward",
 }));
 
 export type GetPosthogConnectionsTargetError = PosthogOpError;
@@ -80,6 +95,8 @@ export const getPosthogConnectionsTarget: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPosthogConnectionsTarget",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

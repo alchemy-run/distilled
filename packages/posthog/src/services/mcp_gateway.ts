@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "McpGateway",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateMcpGatewayConfigSetAllServersEnabledRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -697,6 +710,8 @@ export const createMcpGatewayConfigSetAllServersEnabled: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpGatewayConfigSetAllServersEnabled",
 }));
 
 export type CreateMcpGatewayMembersSetAccessError = PosthogOpError;
@@ -712,6 +727,8 @@ export const createMcpGatewayMembersSetAccess: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpGatewayMembersSetAccess",
 }));
 
 export type CreateMcpGatewayRuleError = PosthogOpError;
@@ -727,6 +744,8 @@ export const createMcpGatewayRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpGatewayRule",
 }));
 
 export type CreateMcpGatewayServersPolicyError = PosthogOpError;
@@ -742,6 +761,8 @@ export const createMcpGatewayServersPolicy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpGatewayServersPolicy",
 }));
 
 export type CreateMcpGatewayServersSetTemplateEnabledError = PosthogOpError;
@@ -757,6 +778,8 @@ export const createMcpGatewayServersSetTemplateEnabled: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpGatewayServersSetTemplateEnabled",
 }));
 
 export type CreateMcpGatewayServiceAccountsAccessError = PosthogOpError;
@@ -772,6 +795,8 @@ export const createMcpGatewayServiceAccountsAccess: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpGatewayServiceAccountsAccess",
 }));
 
 export type GetMcpGatewayAuditError = PosthogOpError;
@@ -787,6 +812,8 @@ export const getMcpGatewayAudit: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpGatewayAudit",
 }));
 
 export type GetMcpGatewayAuditCountError = PosthogOpError;
@@ -802,6 +829,8 @@ export const getMcpGatewayAuditCount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpGatewayAuditCount",
 }));
 
 export type GetMcpGatewayMemberError = PosthogOpError;
@@ -817,6 +846,8 @@ export const getMcpGatewayMember: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpGatewayMember",
 }));
 
 export type GetMcpGatewayRuleError = PosthogOpError;
@@ -832,6 +863,8 @@ export const getMcpGatewayRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpGatewayRule",
 }));
 
 export type GetMcpGatewayServerError = PosthogOpError;
@@ -847,6 +880,8 @@ export const getMcpGatewayServer: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpGatewayServer",
 }));
 
 export type GetMcpGatewayServersToolError = PosthogOpError;
@@ -862,6 +897,8 @@ export const getMcpGatewayServersTool: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpGatewayServersTool",
 }));
 
 export type GetMcpGatewayServiceAccountError = PosthogOpError;
@@ -877,6 +914,8 @@ export const getMcpGatewayServiceAccount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpGatewayServiceAccount",
 }));
 
 export type ListMcpGatewayAuditError = PosthogOpError;
@@ -892,6 +931,8 @@ export const listMcpGatewayAudit: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpGatewayAudit",
 }));
 
 export type ListMcpGatewayConfigError = PosthogOpError;
@@ -907,6 +948,8 @@ export const listMcpGatewayConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpGatewayConfig",
 }));
 
 export type ListMcpGatewayMembersError = PosthogOpError;
@@ -922,6 +965,8 @@ export const listMcpGatewayMembers: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpGatewayMembers",
 }));
 
 export type ListMcpGatewayRulesError = PosthogOpError;
@@ -937,6 +982,8 @@ export const listMcpGatewayRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpGatewayRules",
 }));
 
 export type ListMcpGatewayServersError = PosthogOpError;
@@ -952,6 +999,8 @@ export const listMcpGatewayServers: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpGatewayServers",
 }));
 
 export type ListMcpGatewayServiceAccountsError = PosthogOpError;
@@ -967,6 +1016,8 @@ export const listMcpGatewayServiceAccounts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpGatewayServiceAccounts",
 }));
 
 export type McpGatewayConfigApplyPresetCreateError = PosthogOpError;
@@ -982,6 +1033,8 @@ export const mcpGatewayConfigApplyPresetCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpGatewayConfigApplyPresetCreate",
 }));
 
 export type McpGatewayConfigUpdateSettingsCreateError = PosthogOpError;
@@ -997,6 +1050,8 @@ export const mcpGatewayConfigUpdateSettingsCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpGatewayConfigUpdateSettingsCreate",
 }));
 
 export type McpGatewayRulesDestroyError = PosthogOpError;
@@ -1012,6 +1067,8 @@ export const mcpGatewayRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpGatewayRulesDestroy",
 }));
 
 export type McpGatewayServersDestroyError = PosthogOpError;
@@ -1027,6 +1084,8 @@ export const mcpGatewayServersDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpGatewayServersDestroy",
 }));
 
 export type UpdateMcpGatewayRuleError = PosthogOpError;
@@ -1042,6 +1101,8 @@ export const updateMcpGatewayRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpGatewayRule",
 }));
 
 export type UpdateMcpGatewayRulesPartialError = PosthogOpError;
@@ -1057,6 +1118,8 @@ export const updateMcpGatewayRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpGatewayRulesPartial",
 }));
 
 export type UpdateMcpGatewayServerError = PosthogOpError;
@@ -1072,6 +1135,8 @@ export const updateMcpGatewayServer: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpGatewayServer",
 }));
 
 export type UpdateMcpGatewayServersPartialError = PosthogOpError;
@@ -1087,6 +1152,8 @@ export const updateMcpGatewayServersPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpGatewayServersPartial",
 }));
 
 export type UpdateMcpGatewayServiceAccountError = PosthogOpError;
@@ -1102,6 +1169,8 @@ export const updateMcpGatewayServiceAccount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpGatewayServiceAccount",
 }));
 
 export type UpdateMcpGatewayServiceAccountsPartialError = PosthogOpError;
@@ -1117,6 +1186,8 @@ export const updateMcpGatewayServiceAccountsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpGatewayServiceAccountsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

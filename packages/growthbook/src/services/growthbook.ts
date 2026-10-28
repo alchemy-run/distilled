@@ -17,6 +17,19 @@ const __s: any[] = [];
 
 export type { GrowthBookOpError, GrowthBookOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "growthbook-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "GrowthBook",
+  service: "GrowthBook",
+  labels: "growthbook",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -27195,6 +27208,8 @@ export const addContextualBanditLinkedFeature: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddContextualBanditLinkedFeature",
 }));
 
 export type AddTargetRampScheduleError = GrowthBookOpError;
@@ -27210,6 +27225,8 @@ export const addTargetRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTargetRampSchedule",
 }));
 
 export type AddTeamMembersError = GrowthBookOpError;
@@ -27225,6 +27242,8 @@ export const addTeamMembers: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTeamMembers",
 }));
 
 export type ApiAdvanceRampScheduleError = GrowthBookOpError;
@@ -27240,6 +27259,8 @@ export const apiAdvanceRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApiAdvanceRampSchedule",
 }));
 
 export type AppendAutoRunArtifactError = GrowthBookOpError;
@@ -27255,6 +27276,8 @@ export const appendAutoRunArtifact: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppendAutoRunArtifact",
 }));
 
 export type ApproveStepRampScheduleError = GrowthBookOpError;
@@ -27270,6 +27293,8 @@ export const approveStepRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveStepRampSchedule",
 }));
 
 export type ArchiveConfigError = GrowthBookOpError;
@@ -27285,6 +27310,8 @@ export const archiveConfig: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveConfig",
 }));
 
 export type ArchiveConstantError = GrowthBookOpError;
@@ -27300,6 +27327,8 @@ export const archiveConstant: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveConstant",
 }));
 
 export type ArchiveSavedGroupError = GrowthBookOpError;
@@ -27315,6 +27344,8 @@ export const archiveSavedGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveSavedGroup",
 }));
 
 export type BulkImportExperimentTemplatesError = GrowthBookOpError;
@@ -27330,6 +27361,8 @@ export const bulkImportExperimentTemplates: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkImportExperimentTemplates",
 }));
 
 export type CancelContextualBanditError = GrowthBookOpError;
@@ -27345,6 +27378,8 @@ export const cancelContextualBandit: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelContextualBandit",
 }));
 
 export type CompleteRampScheduleError = GrowthBookOpError;
@@ -27360,6 +27395,8 @@ export const completeRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteRampSchedule",
 }));
 
 export type CreateArchetypeError = GrowthBookOpError;
@@ -27375,6 +27412,8 @@ export const createArchetype: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArchetype",
 }));
 
 export type CreateAttributeError = GrowthBookOpError;
@@ -27390,6 +27429,8 @@ export const createAttribute: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAttribute",
 }));
 
 export type CreateAutoRunError = GrowthBookOpError;
@@ -27405,6 +27446,8 @@ export const createAutoRun: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoRun",
 }));
 
 export type CreateBulkImportFactError = GrowthBookOpError;
@@ -27420,6 +27463,8 @@ export const createBulkImportFact: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBulkImportFact",
 }));
 
 export type CreateCodeRefError = GrowthBookOpError;
@@ -27435,6 +27480,8 @@ export const createCodeRef: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCodeRef",
 }));
 
 export type CreateConfigError = GrowthBookOpError;
@@ -27450,6 +27497,8 @@ export const createConfig: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfig",
 }));
 
 export type CreateConfigRevisionDiscardError = GrowthBookOpError;
@@ -27465,6 +27514,8 @@ export const createConfigRevisionDiscard: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionDiscard",
 }));
 
 export type CreateConfigRevisionPublishError = GrowthBookOpError;
@@ -27480,6 +27531,8 @@ export const createConfigRevisionPublish: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionPublish",
 }));
 
 export type CreateConfigRevisionRebaseError = GrowthBookOpError;
@@ -27495,6 +27548,8 @@ export const createConfigRevisionRebase: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionRebase",
 }));
 
 export type CreateConfigRevisionRecallReviewError = GrowthBookOpError;
@@ -27510,6 +27565,8 @@ export const createConfigRevisionRecallReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionRecallReview",
 }));
 
 export type CreateConfigRevisionReopenError = GrowthBookOpError;
@@ -27525,6 +27582,8 @@ export const createConfigRevisionReopen: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionReopen",
 }));
 
 export type CreateConfigRevisionRequestReviewError = GrowthBookOpError;
@@ -27540,6 +27599,8 @@ export const createConfigRevisionRequestReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionRequestReview",
 }));
 
 export type CreateConfigRevisionRevertError = GrowthBookOpError;
@@ -27555,6 +27616,8 @@ export const createConfigRevisionRevert: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionRevert",
 }));
 
 export type CreateConfigRevisionSchedulePublishError = GrowthBookOpError;
@@ -27570,6 +27633,8 @@ export const createConfigRevisionSchedulePublish: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionSchedulePublish",
 }));
 
 export type CreateConfigRevisionSubmitReviewError = GrowthBookOpError;
@@ -27585,6 +27650,8 @@ export const createConfigRevisionSubmitReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionSubmitReview",
 }));
 
 export type CreateConfigRevisionUndoReviewError = GrowthBookOpError;
@@ -27600,6 +27667,8 @@ export const createConfigRevisionUndoReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigRevisionUndoReview",
 }));
 
 export type CreateConstantError = GrowthBookOpError;
@@ -27615,6 +27684,8 @@ export const createConstant: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstant",
 }));
 
 export type CreateConstantRevisionDiscardError = GrowthBookOpError;
@@ -27630,6 +27701,8 @@ export const createConstantRevisionDiscard: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionDiscard",
 }));
 
 export type CreateConstantRevisionPublishError = GrowthBookOpError;
@@ -27645,6 +27718,8 @@ export const createConstantRevisionPublish: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionPublish",
 }));
 
 export type CreateConstantRevisionRebaseError = GrowthBookOpError;
@@ -27660,6 +27735,8 @@ export const createConstantRevisionRebase: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionRebase",
 }));
 
 export type CreateConstantRevisionRecallReviewError = GrowthBookOpError;
@@ -27675,6 +27752,8 @@ export const createConstantRevisionRecallReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionRecallReview",
 }));
 
 export type CreateConstantRevisionReopenError = GrowthBookOpError;
@@ -27690,6 +27769,8 @@ export const createConstantRevisionReopen: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionReopen",
 }));
 
 export type CreateConstantRevisionRequestReviewError = GrowthBookOpError;
@@ -27705,6 +27786,8 @@ export const createConstantRevisionRequestReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionRequestReview",
 }));
 
 export type CreateConstantRevisionRevertError = GrowthBookOpError;
@@ -27720,6 +27803,8 @@ export const createConstantRevisionRevert: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionRevert",
 }));
 
 export type CreateConstantRevisionSchedulePublishError = GrowthBookOpError;
@@ -27735,6 +27820,8 @@ export const createConstantRevisionSchedulePublish: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionSchedulePublish",
 }));
 
 export type CreateConstantRevisionSubmitReviewError = GrowthBookOpError;
@@ -27750,6 +27837,8 @@ export const createConstantRevisionSubmitReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionSubmitReview",
 }));
 
 export type CreateConstantRevisionUndoReviewError = GrowthBookOpError;
@@ -27765,6 +27854,8 @@ export const createConstantRevisionUndoReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConstantRevisionUndoReview",
 }));
 
 export type CreateContextualBanditError = GrowthBookOpError;
@@ -27780,6 +27871,8 @@ export const createContextualBandit: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContextualBandit",
 }));
 
 export type CreateContextualBanditQueryError = GrowthBookOpError;
@@ -27795,6 +27888,8 @@ export const createContextualBanditQuery: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContextualBanditQuery",
 }));
 
 export type CreateCustomFieldError = GrowthBookOpError;
@@ -27810,6 +27905,8 @@ export const createCustomField: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomField",
 }));
 
 export type CreateCustomHookError = GrowthBookOpError;
@@ -27825,6 +27922,8 @@ export const createCustomHook: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomHook",
 }));
 
 export type CreateDashboardV2Error = GrowthBookOpError;
@@ -27840,6 +27939,8 @@ export const createDashboardV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardV2",
 }));
 
 export type CreateDimensionError = GrowthBookOpError;
@@ -27855,6 +27956,8 @@ export const createDimension: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDimension",
 }));
 
 export type CreateEnvironmentError = GrowthBookOpError;
@@ -27870,6 +27973,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateExperimentError = GrowthBookOpError;
@@ -27885,6 +27990,8 @@ export const createExperiment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperiment",
 }));
 
 export type CreateExperimentCommentError = GrowthBookOpError;
@@ -27900,6 +28007,8 @@ export const createExperimentComment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentComment",
 }));
 
 export type CreateExperimentModifyTemporaryRolloutError = Conflict | GrowthBookOpError;
@@ -27915,6 +28024,8 @@ export const createExperimentModifyTemporaryRollout: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentModifyTemporaryRollout",
 }));
 
 export type CreateExperimentSnapshotError = Conflict | GrowthBookOpError;
@@ -27930,6 +28041,8 @@ export const createExperimentSnapshot: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentSnapshot",
 }));
 
 export type CreateExperimentStartError = Conflict | GrowthBookOpError;
@@ -27945,6 +28058,8 @@ export const createExperimentStart: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentStart",
 }));
 
 export type CreateExperimentStartChecklistManualCompleteError = GrowthBookOpError;
@@ -27968,6 +28083,8 @@ export const createExperimentStartChecklistManualComplete: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentStartChecklistManualComplete",
 }));
 
 export type CreateExperimentStopError = Conflict | GrowthBookOpError;
@@ -27983,6 +28100,8 @@ export const createExperimentStop: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentStop",
 }));
 
 export type CreateExperimentTemplateError = GrowthBookOpError;
@@ -27998,6 +28117,8 @@ export const createExperimentTemplate: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentTemplate",
 }));
 
 export type CreateFactTableError = GrowthBookOpError;
@@ -28013,6 +28134,8 @@ export const createFactTable: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFactTable",
 }));
 
 export type CreateFactTableFilterError = GrowthBookOpError;
@@ -28028,6 +28151,8 @@ export const createFactTableFilter: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFactTableFilter",
 }));
 
 export type CreateFactTableVirtualColumnError = GrowthBookOpError;
@@ -28043,6 +28168,8 @@ export const createFactTableVirtualColumn: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFactTableVirtualColumn",
 }));
 
 export type CreateHoldoutError = GrowthBookOpError;
@@ -28058,6 +28185,8 @@ export const createHoldout: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHoldout",
 }));
 
 export type CreateLearningError = GrowthBookOpError;
@@ -28073,6 +28202,8 @@ export const createLearning: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLearning",
 }));
 
 export type CreateMetricGroupError = GrowthBookOpError;
@@ -28088,6 +28219,8 @@ export const createMetricGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricGroup",
 }));
 
 export type CreateNamespaceError = GrowthBookOpError;
@@ -28103,6 +28236,8 @@ export const createNamespace: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespace",
 }));
 
 export type CreateNamespaceRotateSeedError = GrowthBookOpError;
@@ -28118,6 +28253,8 @@ export const createNamespaceRotateSeed: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceRotateSeed",
 }));
 
 export type CreateOrganizationError = GrowthBookOpError;
@@ -28133,6 +28270,8 @@ export const createOrganization: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateProjectError = GrowthBookOpError;
@@ -28148,6 +28287,8 @@ export const createProject: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRampScheduleError = GrowthBookOpError;
@@ -28163,6 +28304,8 @@ export const createRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRampSchedule",
 }));
 
 export type CreateRampScheduleTemplateError = GrowthBookOpError;
@@ -28178,6 +28321,8 @@ export const createRampScheduleTemplate: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRampScheduleTemplate",
 }));
 
 export type CreateReleasePublishRevisionError = GrowthBookOpError;
@@ -28193,6 +28338,8 @@ export const createReleasePublishRevision: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReleasePublishRevision",
 }));
 
 export type CreateReportError = GrowthBookOpError;
@@ -28208,6 +28355,8 @@ export const createReport: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReport",
 }));
 
 export type CreateReportRefreshError = GrowthBookOpError;
@@ -28223,6 +28372,8 @@ export const createReportRefresh: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReportRefresh",
 }));
 
 export type CreateSavedGroupError = GrowthBookOpError;
@@ -28238,6 +28389,8 @@ export const createSavedGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroup",
 }));
 
 export type CreateSavedGroupRevisionDiscardError = GrowthBookOpError;
@@ -28253,6 +28406,8 @@ export const createSavedGroupRevisionDiscard: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionDiscard",
 }));
 
 export type CreateSavedGroupRevisionItemsAddError = GrowthBookOpError;
@@ -28268,6 +28423,8 @@ export const createSavedGroupRevisionItemsAdd: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionItemsAdd",
 }));
 
 export type CreateSavedGroupRevisionItemsRemoveError = GrowthBookOpError;
@@ -28283,6 +28440,8 @@ export const createSavedGroupRevisionItemsRemove: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionItemsRemove",
 }));
 
 export type CreateSavedGroupRevisionPublishError = GrowthBookOpError;
@@ -28298,6 +28457,8 @@ export const createSavedGroupRevisionPublish: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionPublish",
 }));
 
 export type CreateSavedGroupRevisionRebaseError = GrowthBookOpError;
@@ -28313,6 +28474,8 @@ export const createSavedGroupRevisionRebase: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionRebase",
 }));
 
 export type CreateSavedGroupRevisionRecallReviewError = GrowthBookOpError;
@@ -28328,6 +28491,8 @@ export const createSavedGroupRevisionRecallReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionRecallReview",
 }));
 
 export type CreateSavedGroupRevisionReopenError = GrowthBookOpError;
@@ -28343,6 +28508,8 @@ export const createSavedGroupRevisionReopen: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionReopen",
 }));
 
 export type CreateSavedGroupRevisionRequestReviewError = GrowthBookOpError;
@@ -28358,6 +28525,8 @@ export const createSavedGroupRevisionRequestReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionRequestReview",
 }));
 
 export type CreateSavedGroupRevisionRevertError = GrowthBookOpError;
@@ -28373,6 +28542,8 @@ export const createSavedGroupRevisionRevert: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionRevert",
 }));
 
 export type CreateSavedGroupRevisionSchedulePublishError = GrowthBookOpError;
@@ -28388,6 +28559,8 @@ export const createSavedGroupRevisionSchedulePublish: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionSchedulePublish",
 }));
 
 export type CreateSavedGroupRevisionSubmitReviewError = GrowthBookOpError;
@@ -28403,6 +28576,8 @@ export const createSavedGroupRevisionSubmitReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionSubmitReview",
 }));
 
 export type CreateSavedGroupRevisionUndoReviewError = GrowthBookOpError;
@@ -28418,6 +28593,8 @@ export const createSavedGroupRevisionUndoReview: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedGroupRevisionUndoReview",
 }));
 
 export type CreateSdkConnectionError = GrowthBookOpError;
@@ -28433,6 +28610,8 @@ export const createSdkConnection: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSdkConnection",
 }));
 
 export type CreateSegmentError = GrowthBookOpError;
@@ -28448,6 +28627,8 @@ export const createSegment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSegment",
 }));
 
 export type CreateTeamError = GrowthBookOpError;
@@ -28463,6 +28644,8 @@ export const createTeam: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeam",
 }));
 
 export type DeleteArchetypeError = GrowthBookOpError;
@@ -28478,6 +28661,8 @@ export const deleteArchetype: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteArchetype",
 }));
 
 export type DeleteAttributeError = GrowthBookOpError;
@@ -28493,6 +28678,8 @@ export const deleteAttribute: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttribute",
 }));
 
 export type DeleteConfigError = GrowthBookOpError;
@@ -28508,6 +28695,8 @@ export const deleteConfig: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfig",
 }));
 
 export type DeleteConfigRevisionProjectionError = GrowthBookOpError;
@@ -28523,6 +28712,8 @@ export const deleteConfigRevisionProjection: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigRevisionProjection",
 }));
 
 export type DeleteConfigRevisionPropertyError = GrowthBookOpError;
@@ -28538,6 +28729,8 @@ export const deleteConfigRevisionProperty: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigRevisionProperty",
 }));
 
 export type DeleteConstantError = GrowthBookOpError;
@@ -28553,6 +28746,8 @@ export const deleteConstant: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConstant",
 }));
 
 export type DeleteContextualBanditLinkedFeatureError = GrowthBookOpError;
@@ -28568,6 +28763,8 @@ export const deleteContextualBanditLinkedFeature: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContextualBanditLinkedFeature",
 }));
 
 export type DeleteContextualBanditQueryError = GrowthBookOpError;
@@ -28583,6 +28780,8 @@ export const deleteContextualBanditQuery: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContextualBanditQuery",
 }));
 
 export type DeleteCustomFieldError = GrowthBookOpError;
@@ -28598,6 +28797,8 @@ export const deleteCustomField: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomField",
 }));
 
 export type DeleteCustomHookError = GrowthBookOpError;
@@ -28613,6 +28814,8 @@ export const deleteCustomHook: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomHook",
 }));
 
 export type DeleteDashboardError = GrowthBookOpError;
@@ -28628,6 +28831,8 @@ export const deleteDashboard: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteDimensionError = GrowthBookOpError;
@@ -28643,6 +28848,8 @@ export const deleteDimension: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDimension",
 }));
 
 export type DeleteEnvironmentError = GrowthBookOpError;
@@ -28658,6 +28865,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteExperimentTemplateError = GrowthBookOpError;
@@ -28673,6 +28882,8 @@ export const deleteExperimentTemplate: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExperimentTemplate",
 }));
 
 export type DeleteFactMetricError = GrowthBookOpError;
@@ -28688,6 +28899,8 @@ export const deleteFactMetric: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFactMetric",
 }));
 
 export type DeleteFactTableError = GrowthBookOpError;
@@ -28703,6 +28916,8 @@ export const deleteFactTable: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFactTable",
 }));
 
 export type DeleteFactTableFilterError = GrowthBookOpError;
@@ -28718,6 +28933,8 @@ export const deleteFactTableFilter: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFactTableFilter",
 }));
 
 export type DeleteFactTableVirtualColumnError = GrowthBookOpError;
@@ -28733,6 +28950,8 @@ export const deleteFactTableVirtualColumn: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFactTableVirtualColumn",
 }));
 
 export type DeleteFeatureRevisionLogEntryV2Error = GrowthBookOpError;
@@ -28748,6 +28967,8 @@ export const deleteFeatureRevisionLogEntryV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFeatureRevisionLogEntryV2",
 }));
 
 export type DeleteFeatureRevisionRuleRampScheduleV2Error = GrowthBookOpError;
@@ -28763,6 +28984,8 @@ export const deleteFeatureRevisionRuleRampScheduleV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFeatureRevisionRuleRampScheduleV2",
 }));
 
 export type DeleteFeatureRevisionRuleV2Error = GrowthBookOpError;
@@ -28778,6 +29001,8 @@ export const deleteFeatureRevisionRuleV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFeatureRevisionRuleV2",
 }));
 
 export type DeleteFeatureV2Error = GrowthBookOpError;
@@ -28793,6 +29018,8 @@ export const deleteFeatureV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFeatureV2",
 }));
 
 export type DeleteLearningError = GrowthBookOpError;
@@ -28808,6 +29035,8 @@ export const deleteLearning: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLearning",
 }));
 
 export type DeleteMemberError = GrowthBookOpError;
@@ -28823,6 +29052,8 @@ export const deleteMember: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DeleteMetricError = GrowthBookOpError;
@@ -28838,6 +29069,8 @@ export const deleteMetric: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetric",
 }));
 
 export type DeleteMetricGroupError = GrowthBookOpError;
@@ -28853,6 +29086,8 @@ export const deleteMetricGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetricGroup",
 }));
 
 export type DeleteNamespaceError = GrowthBookOpError;
@@ -28868,6 +29103,8 @@ export const deleteNamespace: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteProjectError = GrowthBookOpError;
@@ -28883,6 +29120,8 @@ export const deleteProject: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteRampScheduleError = GrowthBookOpError;
@@ -28898,6 +29137,8 @@ export const deleteRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRampSchedule",
 }));
 
 export type DeleteRampScheduleTemplateError = GrowthBookOpError;
@@ -28913,6 +29154,8 @@ export const deleteRampScheduleTemplate: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRampScheduleTemplate",
 }));
 
 export type DeleteSavedGroupError = GrowthBookOpError;
@@ -28928,6 +29171,8 @@ export const deleteSavedGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSavedGroup",
 }));
 
 export type DeleteSdkConnectionError = GrowthBookOpError;
@@ -28943,6 +29188,8 @@ export const deleteSdkConnection: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSdkConnection",
 }));
 
 export type DeleteSegmentError = GrowthBookOpError;
@@ -28958,6 +29205,8 @@ export const deleteSegment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSegment",
 }));
 
 export type DeleteTeamError = GrowthBookOpError;
@@ -28973,6 +29222,8 @@ export const deleteTeam: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeam",
 }));
 
 export type DeleteVariationScreenshotError = GrowthBookOpError;
@@ -28988,6 +29239,8 @@ export const deleteVariationScreenshot: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVariationScreenshot",
 }));
 
 export type EjectTargetRampScheduleError = GrowthBookOpError;
@@ -29003,6 +29256,8 @@ export const ejectTargetRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EjectTargetRampSchedule",
 }));
 
 export type GetAggregatedFactTablesError = GrowthBookOpError;
@@ -29018,6 +29273,8 @@ export const getAggregatedFactTables: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAggregatedFactTables",
 }));
 
 export type GetAggregatedTableRunError = GrowthBookOpError;
@@ -29033,6 +29290,8 @@ export const getAggregatedTableRun: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAggregatedTableRun",
 }));
 
 export type GetArchetypeError = GrowthBookOpError;
@@ -29048,6 +29307,8 @@ export const getArchetype: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArchetype",
 }));
 
 export type GetAutoRunError = GrowthBookOpError;
@@ -29063,6 +29324,8 @@ export const getAutoRun: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoRun",
 }));
 
 export type GetCodeRefsError = GrowthBookOpError;
@@ -29078,6 +29341,8 @@ export const getCodeRefs: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodeRefs",
 }));
 
 export type GetConfigError = GrowthBookOpError;
@@ -29093,6 +29358,8 @@ export const getConfig: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type GetConfigKeyUsageError = GrowthBookOpError;
@@ -29108,6 +29375,8 @@ export const getConfigKeyUsage: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigKeyUsage",
 }));
 
 export type GetConfigLineageError = GrowthBookOpError;
@@ -29123,6 +29392,8 @@ export const getConfigLineage: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigLineage",
 }));
 
 export type GetConfigReferencesError = GrowthBookOpError;
@@ -29138,6 +29409,8 @@ export const getConfigReferences: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigReferences",
 }));
 
 export type GetConfigRevisionError = GrowthBookOpError;
@@ -29153,6 +29426,8 @@ export const getConfigRevision: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigRevision",
 }));
 
 export type GetConfigRevisionLatestError = GrowthBookOpError;
@@ -29168,6 +29443,8 @@ export const getConfigRevisionLatest: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigRevisionLatest",
 }));
 
 export type GetConfigRevisionMergeStatusError = GrowthBookOpError;
@@ -29183,6 +29460,8 @@ export const getConfigRevisionMergeStatus: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigRevisionMergeStatus",
 }));
 
 export type GetConfigRevisionsError = GrowthBookOpError;
@@ -29200,6 +29479,8 @@ export const getConfigRevisions: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetConfigRevisions",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -29224,6 +29505,8 @@ export const getConfigSchema: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigSchema",
 }));
 
 export type GetConstantError = GrowthBookOpError;
@@ -29239,6 +29522,8 @@ export const getConstant: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConstant",
 }));
 
 export type GetConstantReferencesError = GrowthBookOpError;
@@ -29254,6 +29539,8 @@ export const getConstantReferences: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConstantReferences",
 }));
 
 export type GetConstantRevisionError = GrowthBookOpError;
@@ -29269,6 +29556,8 @@ export const getConstantRevision: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConstantRevision",
 }));
 
 export type GetConstantRevisionLatestError = GrowthBookOpError;
@@ -29284,6 +29573,8 @@ export const getConstantRevisionLatest: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConstantRevisionLatest",
 }));
 
 export type GetConstantRevisionMergeStatusError = GrowthBookOpError;
@@ -29299,6 +29590,8 @@ export const getConstantRevisionMergeStatus: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConstantRevisionMergeStatus",
 }));
 
 export type GetConstantRevisionsError = GrowthBookOpError;
@@ -29316,6 +29609,8 @@ export const getConstantRevisions: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetConstantRevisions",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -29340,6 +29635,8 @@ export const getContextualBandit: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextualBandit",
 }));
 
 export type GetContextualBanditCurrentWeightsError = GrowthBookOpError;
@@ -29355,6 +29652,8 @@ export const getContextualBanditCurrentWeights: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextualBanditCurrentWeights",
 }));
 
 export type GetContextualBanditEventError = GrowthBookOpError;
@@ -29370,6 +29669,8 @@ export const getContextualBanditEvent: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextualBanditEvent",
 }));
 
 export type GetContextualBanditLinkedFeaturesError = GrowthBookOpError;
@@ -29385,6 +29686,8 @@ export const getContextualBanditLinkedFeatures: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextualBanditLinkedFeatures",
 }));
 
 export type GetContextualBanditQueryError = GrowthBookOpError;
@@ -29400,6 +29703,8 @@ export const getContextualBanditQuery: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextualBanditQuery",
 }));
 
 export type GetContextualBanditResultsError = GrowthBookOpError;
@@ -29415,6 +29720,8 @@ export const getContextualBanditResults: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextualBanditResults",
 }));
 
 export type GetContextualBanditSnapshotError = GrowthBookOpError;
@@ -29430,6 +29737,8 @@ export const getContextualBanditSnapshot: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextualBanditSnapshot",
 }));
 
 export type GetCustomFieldError = GrowthBookOpError;
@@ -29445,6 +29754,8 @@ export const getCustomField: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomField",
 }));
 
 export type GetCustomHookError = GrowthBookOpError;
@@ -29460,6 +29771,8 @@ export const getCustomHook: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomHook",
 }));
 
 export type GetDashboardError = GrowthBookOpError;
@@ -29475,6 +29788,8 @@ export const getDashboard: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetDashboardsForExperimentError = GrowthBookOpError;
@@ -29490,6 +29805,8 @@ export const getDashboardsForExperiment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardsForExperiment",
 }));
 
 export type GetDataSourceError = GrowthBookOpError;
@@ -29505,6 +29822,8 @@ export const getDataSource: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetDimensionError = GrowthBookOpError;
@@ -29520,6 +29839,8 @@ export const getDimension: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDimension",
 }));
 
 export type GetExperimentError = GrowthBookOpError;
@@ -29535,6 +29856,8 @@ export const getExperiment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetExperimentNamesError = GrowthBookOpError;
@@ -29550,6 +29873,8 @@ export const getExperimentNames: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentNames",
 }));
 
 export type GetExperimentResultsError = GrowthBookOpError;
@@ -29565,6 +29890,8 @@ export const getExperimentResults: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentResults",
 }));
 
 export type GetExperimentSnapshotError = GrowthBookOpError;
@@ -29580,6 +29907,8 @@ export const getExperimentSnapshot: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentSnapshot",
 }));
 
 export type GetExperimentStartChecklistError = GrowthBookOpError;
@@ -29595,6 +29924,8 @@ export const getExperimentStartChecklist: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentStartChecklist",
 }));
 
 export type GetExperimentTemplateError = GrowthBookOpError;
@@ -29610,6 +29941,8 @@ export const getExperimentTemplate: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentTemplate",
 }));
 
 export type GetFactMetricError = GrowthBookOpError;
@@ -29625,6 +29958,8 @@ export const getFactMetric: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactMetric",
 }));
 
 export type GetFactTableError = GrowthBookOpError;
@@ -29640,6 +29975,8 @@ export const getFactTable: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactTable",
 }));
 
 export type GetFactTableFilterError = GrowthBookOpError;
@@ -29655,6 +29992,8 @@ export const getFactTableFilter: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactTableFilter",
 }));
 
 export type GetFeatureKeysV2Error = GrowthBookOpError;
@@ -29670,6 +30009,8 @@ export const getFeatureKeysV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureKeysV2",
 }));
 
 export type GetFeatureRevisionDiffV2Error = GrowthBookOpError;
@@ -29685,6 +30026,8 @@ export const getFeatureRevisionDiffV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureRevisionDiffV2",
 }));
 
 export type GetFeatureRevisionLatestV2Error = GrowthBookOpError;
@@ -29700,6 +30043,8 @@ export const getFeatureRevisionLatestV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureRevisionLatestV2",
 }));
 
 export type GetFeatureRevisionLogV2Error = GrowthBookOpError;
@@ -29715,6 +30060,8 @@ export const getFeatureRevisionLogV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureRevisionLogV2",
 }));
 
 export type GetFeatureRevisionMergeStatusV2Error = GrowthBookOpError;
@@ -29730,6 +30077,8 @@ export const getFeatureRevisionMergeStatusV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureRevisionMergeStatusV2",
 }));
 
 export type GetFeatureRevisionsV2Error = GrowthBookOpError;
@@ -29747,6 +30096,8 @@ export const getFeatureRevisionsV2: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetFeatureRevisionsV2",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -29771,6 +30122,8 @@ export const getFeatureRevisionV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureRevisionV2",
 }));
 
 export type GetFeatureStaleV2Error = GrowthBookOpError;
@@ -29786,6 +30139,8 @@ export const getFeatureStaleV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureStaleV2",
 }));
 
 export type GetFeatureV2Error = GrowthBookOpError;
@@ -29801,6 +30156,8 @@ export const getFeatureV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureV2",
 }));
 
 export type GetHoldoutError = GrowthBookOpError;
@@ -29816,6 +30173,8 @@ export const getHoldout: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHoldout",
 }));
 
 export type GetInformationSchemaError = GrowthBookOpError;
@@ -29831,6 +30190,8 @@ export const getInformationSchema: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInformationSchema",
 }));
 
 export type GetInformationSchemaTableError = GrowthBookOpError;
@@ -29846,6 +30207,8 @@ export const getInformationSchemaTable: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInformationSchemaTable",
 }));
 
 export type GetLearningError = GrowthBookOpError;
@@ -29861,6 +30224,8 @@ export const getLearning: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLearning",
 }));
 
 export type GetMetricError = GrowthBookOpError;
@@ -29876,6 +30241,8 @@ export const getMetric: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetric",
 }));
 
 export type GetMetricGroupError = GrowthBookOpError;
@@ -29891,6 +30258,8 @@ export const getMetricGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricGroup",
 }));
 
 export type GetMetricUsageError = GrowthBookOpError;
@@ -29906,6 +30275,8 @@ export const getMetricUsage: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricUsage",
 }));
 
 export type GetNamespaceError = GrowthBookOpError;
@@ -29921,6 +30292,8 @@ export const getNamespace: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetNamespaceMembershipsError = GrowthBookOpError;
@@ -29938,6 +30311,8 @@ export const getNamespaceMemberships: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetNamespaceMemberships",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -29962,6 +30337,8 @@ export const getProductAnalyticsColumns: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductAnalyticsColumns",
 }));
 
 export type GetProductAnalyticsColumnValuesError = GrowthBookOpError;
@@ -29977,6 +30354,8 @@ export const getProductAnalyticsColumnValues: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductAnalyticsColumnValues",
 }));
 
 export type GetProductAnalyticsExplorationError = GrowthBookOpError;
@@ -29992,6 +30371,8 @@ export const getProductAnalyticsExploration: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductAnalyticsExploration",
 }));
 
 export type GetProjectError = GrowthBookOpError;
@@ -30007,6 +30388,8 @@ export const getProject: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetQueryError = GrowthBookOpError;
@@ -30022,6 +30405,8 @@ export const getQuery: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuery",
 }));
 
 export type GetRampScheduleError = GrowthBookOpError;
@@ -30037,6 +30422,8 @@ export const getRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRampSchedule",
 }));
 
 export type GetRampScheduleStatusError = GrowthBookOpError;
@@ -30052,6 +30439,8 @@ export const getRampScheduleStatus: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRampScheduleStatus",
 }));
 
 export type GetRampScheduleTemplateError = GrowthBookOpError;
@@ -30067,6 +30456,8 @@ export const getRampScheduleTemplate: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRampScheduleTemplate",
 }));
 
 export type GetReportError = GrowthBookOpError;
@@ -30082,6 +30473,8 @@ export const getReport: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetSavedGroupError = GrowthBookOpError;
@@ -30097,6 +30490,8 @@ export const getSavedGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedGroup",
 }));
 
 export type GetSavedGroupReferencesError = GrowthBookOpError;
@@ -30112,6 +30507,8 @@ export const getSavedGroupReferences: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedGroupReferences",
 }));
 
 export type GetSavedGroupRevisionError = GrowthBookOpError;
@@ -30127,6 +30524,8 @@ export const getSavedGroupRevision: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedGroupRevision",
 }));
 
 export type GetSavedGroupRevisionLatestError = GrowthBookOpError;
@@ -30142,6 +30541,8 @@ export const getSavedGroupRevisionLatest: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedGroupRevisionLatest",
 }));
 
 export type GetSavedGroupRevisionMergeStatusError = GrowthBookOpError;
@@ -30157,6 +30558,8 @@ export const getSavedGroupRevisionMergeStatus: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedGroupRevisionMergeStatus",
 }));
 
 export type GetSavedGroupRevisionsError = GrowthBookOpError;
@@ -30174,6 +30577,8 @@ export const getSavedGroupRevisions: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSavedGroupRevisions",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30198,6 +30603,8 @@ export const getSdkConnection: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSdkConnection",
 }));
 
 export type GetSdkPayloadError = GrowthBookOpError;
@@ -30213,6 +30620,8 @@ export const getSdkPayload: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSdkPayload",
 }));
 
 export type GetSegmentError = GrowthBookOpError;
@@ -30228,6 +30637,8 @@ export const getSegment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetSettingsError = GrowthBookOpError;
@@ -30243,6 +30654,8 @@ export const getSettings: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettings",
 }));
 
 export type GetTeamError = GrowthBookOpError;
@@ -30258,6 +30671,8 @@ export const getTeam: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeam",
 }));
 
 export type GetVersionError = GrowthBookOpError;
@@ -30273,6 +30688,8 @@ export const getVersion: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type GetVisualChangesetError = GrowthBookOpError;
@@ -30288,6 +30705,8 @@ export const getVisualChangeset: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualChangeset",
 }));
 
 export type GetWarehouseTableSchemaError = GrowthBookOpError;
@@ -30303,6 +30722,8 @@ export const getWarehouseTableSchema: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseTableSchema",
 }));
 
 export type JumpRampScheduleError = GrowthBookOpError;
@@ -30318,6 +30739,8 @@ export const jumpRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JumpRampSchedule",
 }));
 
 export type ListAggregatedTableRunsError = GrowthBookOpError;
@@ -30335,6 +30758,8 @@ export const listAggregatedTableRuns: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAggregatedTableRuns",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30359,6 +30784,8 @@ export const listArchetypes: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArchetypes",
 }));
 
 export type ListAttributesError = GrowthBookOpError;
@@ -30374,6 +30801,8 @@ export const listAttributes: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttributes",
 }));
 
 export type ListAutoRunsError = GrowthBookOpError;
@@ -30389,6 +30818,8 @@ export const listAutoRuns: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoRuns",
 }));
 
 export type ListCodeRefsError = GrowthBookOpError;
@@ -30406,6 +30837,8 @@ export const listCodeRefs: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCodeRefs",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30432,6 +30865,8 @@ export const listConfigRevisions: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConfigRevisions",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30458,6 +30893,8 @@ export const listConfigs: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConfigs",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30484,6 +30921,8 @@ export const listConstantRevisions: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConstantRevisions",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30510,6 +30949,8 @@ export const listConstants: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConstants",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30534,6 +30975,8 @@ export const listContextualBanditEvents: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextualBanditEvents",
 }));
 
 export type ListContextualBanditQueriesError = GrowthBookOpError;
@@ -30549,6 +30992,8 @@ export const listContextualBanditQueries: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextualBanditQueries",
 }));
 
 export type ListContextualBanditsError = GrowthBookOpError;
@@ -30564,6 +31009,8 @@ export const listContextualBandits: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextualBandits",
 }));
 
 export type ListContextualBanditSnapshotsError = GrowthBookOpError;
@@ -30579,6 +31026,8 @@ export const listContextualBanditSnapshots: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextualBanditSnapshots",
 }));
 
 export type ListCustomFieldsError = GrowthBookOpError;
@@ -30594,6 +31043,8 @@ export const listCustomFields: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomFields",
 }));
 
 export type ListCustomHookHistoryError = GrowthBookOpError;
@@ -30611,6 +31062,8 @@ export const listCustomHookHistory: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomHookHistory",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30637,6 +31090,8 @@ export const listCustomHooks: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomHooks",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30661,6 +31116,8 @@ export const listDashboards: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 }));
 
 export type ListDataSourcesError = GrowthBookOpError;
@@ -30678,6 +31135,8 @@ export const listDataSources: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDataSources",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30704,6 +31163,8 @@ export const listDimensions: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDimensions",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30728,6 +31189,8 @@ export const listEnvironments: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListExperimentResultsError = GrowthBookOpError;
@@ -30745,6 +31208,8 @@ export const listExperimentResults: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListExperimentResults",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30771,6 +31236,8 @@ export const listExperiments: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListExperiments",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30795,6 +31262,8 @@ export const listExperimentTemplates: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentTemplates",
 }));
 
 export type ListFactMetricsError = GrowthBookOpError;
@@ -30812,6 +31281,8 @@ export const listFactMetrics: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFactMetrics",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30838,6 +31309,8 @@ export const listFactTableFilters: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFactTableFilters",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30864,6 +31337,8 @@ export const listFactTables: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFactTables",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30890,6 +31365,8 @@ export const listFeaturesV2: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFeaturesV2",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30914,6 +31391,8 @@ export const listHoldouts: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHoldouts",
 }));
 
 export type ListLearningsError = GrowthBookOpError;
@@ -30929,6 +31408,8 @@ export const listLearnings: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLearnings",
 }));
 
 export type ListMembersError = GrowthBookOpError;
@@ -30946,6 +31427,8 @@ export const listMembers: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMembers",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30972,6 +31455,8 @@ export const listMetricExperiments: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMetricExperiments",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -30996,6 +31481,8 @@ export const listMetricGroups: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetricGroups",
 }));
 
 export type ListMetricsError = GrowthBookOpError;
@@ -31013,6 +31500,8 @@ export const listMetrics: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMetrics",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31039,6 +31528,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaces",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31065,6 +31556,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizations",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31091,6 +31584,8 @@ export const listProjects: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjects",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31117,6 +31612,8 @@ export const listRampSchedules: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRampSchedules",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31141,6 +31638,8 @@ export const listRampScheduleTemplates: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRampScheduleTemplates",
 }));
 
 export type ListReportsError = GrowthBookOpError;
@@ -31158,6 +31657,8 @@ export const listReports: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListReports",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31184,6 +31685,8 @@ export const listRevisionsV2: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRevisionsV2",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31210,6 +31713,8 @@ export const listSavedGroupRevisions: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSavedGroupRevisions",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31236,6 +31741,8 @@ export const listSavedGroups: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSavedGroups",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31262,6 +31769,8 @@ export const listSdkConnections: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSdkConnections",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31288,6 +31797,8 @@ export const listSegments: API.PaginatedOperationMethod<
     errors: [UnknownGrowthBookError],
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSegments",
     pagination: {
       mode: "token",
       inputToken: "offset",
@@ -31312,6 +31823,8 @@ export const listTeams: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeams",
 }));
 
 export type ListVisualChangesetsError = GrowthBookOpError;
@@ -31327,6 +31840,8 @@ export const listVisualChangesets: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualChangesets",
 }));
 
 export type LockConfigError = GrowthBookOpError;
@@ -31342,6 +31857,8 @@ export const lockConfig: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LockConfig",
 }));
 
 export type LookupSdkConnectionByKeyError = GrowthBookOpError;
@@ -31357,6 +31874,8 @@ export const lookupSdkConnectionByKey: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupSdkConnectionByKey",
 }));
 
 export type PauseRampScheduleError = GrowthBookOpError;
@@ -31372,6 +31891,8 @@ export const pauseRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseRampSchedule",
 }));
 
 export type PostCopyTransformError = GrowthBookOpError;
@@ -31386,6 +31907,8 @@ export const postCopyTransform: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCopyTransform",
 }));
 
 export type PostDataSourceExplorationError = GrowthBookOpError;
@@ -31401,6 +31924,8 @@ export const postDataSourceExploration: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDataSourceExploration",
 }));
 
 export type PostFactMetricError = GrowthBookOpError;
@@ -31416,6 +31941,8 @@ export const postFactMetric: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFactMetric",
 }));
 
 export type PostFactMetricAnalysisError = GrowthBookOpError;
@@ -31431,6 +31958,8 @@ export const postFactMetricAnalysis: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFactMetricAnalysis",
 }));
 
 export type PostFactTableExplorationError = GrowthBookOpError;
@@ -31446,6 +31975,8 @@ export const postFactTableExploration: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFactTableExploration",
 }));
 
 export type PostFeatureRevisionDiscardV2Error = GrowthBookOpError;
@@ -31461,6 +31992,8 @@ export const postFeatureRevisionDiscardV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionDiscardV2",
 }));
 
 export type PostFeatureRevisionPublishV2Error = GrowthBookOpError;
@@ -31476,6 +32009,8 @@ export const postFeatureRevisionPublishV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionPublishV2",
 }));
 
 export type PostFeatureRevisionRebasePreviewV2Error = GrowthBookOpError;
@@ -31491,6 +32026,8 @@ export const postFeatureRevisionRebasePreviewV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionRebasePreviewV2",
 }));
 
 export type PostFeatureRevisionRebaseV2Error = GrowthBookOpError;
@@ -31506,6 +32043,8 @@ export const postFeatureRevisionRebaseV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionRebaseV2",
 }));
 
 export type PostFeatureRevisionRecallReviewV2Error = GrowthBookOpError;
@@ -31521,6 +32060,8 @@ export const postFeatureRevisionRecallReviewV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionRecallReviewV2",
 }));
 
 export type PostFeatureRevisionReopenV2Error = GrowthBookOpError;
@@ -31536,6 +32077,8 @@ export const postFeatureRevisionReopenV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionReopenV2",
 }));
 
 export type PostFeatureRevisionRequestReviewV2Error = GrowthBookOpError;
@@ -31551,6 +32094,8 @@ export const postFeatureRevisionRequestReviewV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionRequestReviewV2",
 }));
 
 export type PostFeatureRevisionRevertV2Error = GrowthBookOpError;
@@ -31566,6 +32111,8 @@ export const postFeatureRevisionRevertV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionRevertV2",
 }));
 
 export type PostFeatureRevisionRuleAddV2Error = GrowthBookOpError;
@@ -31581,6 +32128,8 @@ export const postFeatureRevisionRuleAddV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionRuleAddV2",
 }));
 
 export type PostFeatureRevisionRulesReorderV2Error = GrowthBookOpError;
@@ -31596,6 +32145,8 @@ export const postFeatureRevisionRulesReorderV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionRulesReorderV2",
 }));
 
 export type PostFeatureRevisionSchedulePublishV2Error = GrowthBookOpError;
@@ -31611,6 +32162,8 @@ export const postFeatureRevisionSchedulePublishV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionSchedulePublishV2",
 }));
 
 export type PostFeatureRevisionSubmitReviewV2Error = GrowthBookOpError;
@@ -31626,6 +32179,8 @@ export const postFeatureRevisionSubmitReviewV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionSubmitReviewV2",
 }));
 
 export type PostFeatureRevisionToggleV2Error = GrowthBookOpError;
@@ -31641,6 +32196,8 @@ export const postFeatureRevisionToggleV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionToggleV2",
 }));
 
 export type PostFeatureRevisionUndoReviewV2Error = GrowthBookOpError;
@@ -31656,6 +32213,8 @@ export const postFeatureRevisionUndoReviewV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionUndoReviewV2",
 }));
 
 export type PostFeatureRevisionV2Error = GrowthBookOpError;
@@ -31671,6 +32230,8 @@ export const postFeatureRevisionV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureRevisionV2",
 }));
 
 export type PostFeatureV2Error = GrowthBookOpError;
@@ -31686,6 +32247,8 @@ export const postFeatureV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureV2",
 }));
 
 export type PostFunnelExplorationError = GrowthBookOpError;
@@ -31701,6 +32264,8 @@ export const postFunnelExploration: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFunnelExploration",
 }));
 
 export type PostJourneyExplorationError = GrowthBookOpError;
@@ -31716,6 +32281,8 @@ export const postJourneyExploration: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostJourneyExploration",
 }));
 
 export type PostMetricError = GrowthBookOpError;
@@ -31731,6 +32298,8 @@ export const postMetric: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostMetric",
 }));
 
 export type PostMetricExplorationError = GrowthBookOpError;
@@ -31746,6 +32315,8 @@ export const postMetricExploration: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostMetricExploration",
 }));
 
 export type PostSqlExplorationError = GrowthBookOpError;
@@ -31761,6 +32332,8 @@ export const postSqlExploration: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSqlExploration",
 }));
 
 export type PostVariationImageUploadError = GrowthBookOpError;
@@ -31776,6 +32349,8 @@ export const postVariationImageUpload: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostVariationImageUpload",
 }));
 
 export type PostVisualChangeError = GrowthBookOpError;
@@ -31791,6 +32366,8 @@ export const postVisualChange: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostVisualChange",
 }));
 
 export type PostVisualChangesetsError = GrowthBookOpError;
@@ -31806,6 +32383,8 @@ export const postVisualChangesets: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostVisualChangesets",
 }));
 
 export type PreviewWarehouseColumnValuesError = GrowthBookOpError;
@@ -31821,6 +32400,8 @@ export const previewWarehouseColumnValues: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewWarehouseColumnValues",
 }));
 
 export type PutApprovalSettingsError = GrowthBookOpError;
@@ -31836,6 +32417,8 @@ export const putApprovalSettings: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutApprovalSettings",
 }));
 
 export type PutArchetypeError = GrowthBookOpError;
@@ -31851,6 +32434,8 @@ export const putArchetype: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutArchetype",
 }));
 
 export type PutAttributeError = GrowthBookOpError;
@@ -31866,6 +32451,8 @@ export const putAttribute: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAttribute",
 }));
 
 export type PutConfigRevisionArchiveError = GrowthBookOpError;
@@ -31881,6 +32468,8 @@ export const putConfigRevisionArchive: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfigRevisionArchive",
 }));
 
 export type PutConfigRevisionMetadataError = GrowthBookOpError;
@@ -31896,6 +32485,8 @@ export const putConfigRevisionMetadata: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfigRevisionMetadata",
 }));
 
 export type PutConfigRevisionProjectionError = GrowthBookOpError;
@@ -31911,6 +32502,8 @@ export const putConfigRevisionProjection: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfigRevisionProjection",
 }));
 
 export type PutConfigRevisionPropertyError = GrowthBookOpError;
@@ -31926,6 +32519,8 @@ export const putConfigRevisionProperty: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfigRevisionProperty",
 }));
 
 export type PutConfigRevisionSchemaError = GrowthBookOpError;
@@ -31941,6 +32536,8 @@ export const putConfigRevisionSchema: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfigRevisionSchema",
 }));
 
 export type PutConfigRevisionValueError = GrowthBookOpError;
@@ -31956,6 +32553,8 @@ export const putConfigRevisionValue: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfigRevisionValue",
 }));
 
 export type PutConstantRevisionArchiveError = GrowthBookOpError;
@@ -31971,6 +32570,8 @@ export const putConstantRevisionArchive: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConstantRevisionArchive",
 }));
 
 export type PutConstantRevisionMetadataError = GrowthBookOpError;
@@ -31986,6 +32587,8 @@ export const putConstantRevisionMetadata: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConstantRevisionMetadata",
 }));
 
 export type PutConstantRevisionValueError = GrowthBookOpError;
@@ -32001,6 +32604,8 @@ export const putConstantRevisionValue: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConstantRevisionValue",
 }));
 
 export type PutEnvironmentError = GrowthBookOpError;
@@ -32016,6 +32621,8 @@ export const putEnvironment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEnvironment",
 }));
 
 export type PutExperimentScheduleError = Conflict | GrowthBookOpError;
@@ -32031,6 +32638,8 @@ export const putExperimentSchedule: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutExperimentSchedule",
 }));
 
 export type PutFeatureRevisionArchiveV2Error = GrowthBookOpError;
@@ -32046,6 +32655,8 @@ export const putFeatureRevisionArchiveV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFeatureRevisionArchiveV2",
 }));
 
 export type PutFeatureRevisionDefaultValueV2Error = GrowthBookOpError;
@@ -32061,6 +32672,8 @@ export const putFeatureRevisionDefaultValueV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFeatureRevisionDefaultValueV2",
 }));
 
 export type PutFeatureRevisionHoldoutV2Error = GrowthBookOpError;
@@ -32076,6 +32689,8 @@ export const putFeatureRevisionHoldoutV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFeatureRevisionHoldoutV2",
 }));
 
 export type PutFeatureRevisionLogCommentV2Error = GrowthBookOpError;
@@ -32091,6 +32706,8 @@ export const putFeatureRevisionLogCommentV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFeatureRevisionLogCommentV2",
 }));
 
 export type PutFeatureRevisionMetadataV2Error = GrowthBookOpError;
@@ -32106,6 +32723,8 @@ export const putFeatureRevisionMetadataV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFeatureRevisionMetadataV2",
 }));
 
 export type PutFeatureRevisionPrerequisitesV2Error = GrowthBookOpError;
@@ -32121,6 +32740,8 @@ export const putFeatureRevisionPrerequisitesV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFeatureRevisionPrerequisitesV2",
 }));
 
 export type PutFeatureRevisionRuleRampScheduleV2Error = GrowthBookOpError;
@@ -32136,6 +32757,8 @@ export const putFeatureRevisionRuleRampScheduleV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFeatureRevisionRuleRampScheduleV2",
 }));
 
 export type PutFeatureRevisionRuleV2Error = GrowthBookOpError;
@@ -32151,6 +32774,8 @@ export const putFeatureRevisionRuleV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFeatureRevisionRuleV2",
 }));
 
 export type PutMetricError = GrowthBookOpError;
@@ -32166,6 +32791,8 @@ export const putMetric: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMetric",
 }));
 
 export type PutNamespaceError = GrowthBookOpError;
@@ -32181,6 +32808,8 @@ export const putNamespace: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutNamespace",
 }));
 
 export type PutOrganizationError = GrowthBookOpError;
@@ -32196,6 +32825,8 @@ export const putOrganization: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOrganization",
 }));
 
 export type PutProjectError = GrowthBookOpError;
@@ -32211,6 +32842,8 @@ export const putProject: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutProject",
 }));
 
 export type PutReportMetadataError = GrowthBookOpError;
@@ -32226,6 +32859,8 @@ export const putReportMetadata: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutReportMetadata",
 }));
 
 export type PutReportSettingsError = GrowthBookOpError;
@@ -32241,6 +32876,8 @@ export const putReportSettings: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutReportSettings",
 }));
 
 export type PutSavedGroupRevisionArchiveError = GrowthBookOpError;
@@ -32256,6 +32893,8 @@ export const putSavedGroupRevisionArchive: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSavedGroupRevisionArchive",
 }));
 
 export type PutSavedGroupRevisionConditionError = GrowthBookOpError;
@@ -32271,6 +32910,8 @@ export const putSavedGroupRevisionCondition: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSavedGroupRevisionCondition",
 }));
 
 export type PutSavedGroupRevisionMetadataError = GrowthBookOpError;
@@ -32286,6 +32927,8 @@ export const putSavedGroupRevisionMetadata: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSavedGroupRevisionMetadata",
 }));
 
 export type PutSavedGroupRevisionValuesError = GrowthBookOpError;
@@ -32301,6 +32944,8 @@ export const putSavedGroupRevisionValues: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSavedGroupRevisionValues",
 }));
 
 export type PutSdkConnectionError = GrowthBookOpError;
@@ -32316,6 +32961,8 @@ export const putSdkConnection: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSdkConnection",
 }));
 
 export type PutVisualChangeError = GrowthBookOpError;
@@ -32331,6 +32978,8 @@ export const putVisualChange: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVisualChange",
 }));
 
 export type PutVisualChangesetError = GrowthBookOpError;
@@ -32346,6 +32995,8 @@ export const putVisualChangeset: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVisualChangeset",
 }));
 
 export type RefreshAggregatedFactTableError = GrowthBookOpError;
@@ -32361,6 +33012,8 @@ export const refreshAggregatedFactTable: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshAggregatedFactTable",
 }));
 
 export type RefreshContextualBanditError = GrowthBookOpError;
@@ -32376,6 +33029,8 @@ export const refreshContextualBandit: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshContextualBandit",
 }));
 
 export type RefreshMonitoringRampScheduleError = GrowthBookOpError;
@@ -32391,6 +33046,8 @@ export const refreshMonitoringRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshMonitoringRampSchedule",
 }));
 
 export type RemoveTeamMemberError = GrowthBookOpError;
@@ -32406,6 +33063,8 @@ export const removeTeamMember: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeamMember",
 }));
 
 export type RestartRampScheduleError = GrowthBookOpError;
@@ -32421,6 +33080,8 @@ export const restartRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartRampSchedule",
 }));
 
 export type ResumeRampScheduleError = GrowthBookOpError;
@@ -32436,6 +33097,8 @@ export const resumeRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeRampSchedule",
 }));
 
 export type RevertCustomHookError = GrowthBookOpError;
@@ -32451,6 +33114,8 @@ export const revertCustomHook: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertCustomHook",
 }));
 
 export type RevertFeatureV2Error = GrowthBookOpError;
@@ -32466,6 +33131,8 @@ export const revertFeatureV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertFeatureV2",
 }));
 
 export type RollbackRampScheduleError = GrowthBookOpError;
@@ -32481,6 +33148,8 @@ export const rollbackRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RollbackRampSchedule",
 }));
 
 export type RunSqlQueryError = GrowthBookOpError;
@@ -32496,6 +33165,8 @@ export const runSqlQuery: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunSqlQuery",
 }));
 
 export type SearchLearningsError = GrowthBookOpError;
@@ -32511,6 +33182,8 @@ export const searchLearnings: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchLearnings",
 }));
 
 export type SearchProductAnalyticsResourcesError = GrowthBookOpError;
@@ -32526,6 +33199,8 @@ export const searchProductAnalyticsResources: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchProductAnalyticsResources",
 }));
 
 export type SearchWarehouseTablesError = GrowthBookOpError;
@@ -32541,6 +33216,8 @@ export const searchWarehouseTables: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchWarehouseTables",
 }));
 
 export type SetAutoUpdateRampScheduleError = GrowthBookOpError;
@@ -32556,6 +33233,8 @@ export const setAutoUpdateRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAutoUpdateRampSchedule",
 }));
 
 export type SetMonitoringModeRampScheduleError = GrowthBookOpError;
@@ -32571,6 +33250,8 @@ export const setMonitoringModeRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetMonitoringModeRampSchedule",
 }));
 
 export type StartContextualBanditError = GrowthBookOpError;
@@ -32586,6 +33267,8 @@ export const startContextualBandit: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartContextualBandit",
 }));
 
 export type StartHoldoutError = Conflict | GrowthBookOpError;
@@ -32601,6 +33284,8 @@ export const startHoldout: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartHoldout",
 }));
 
 export type StartHoldoutAnalysisError = Conflict | GrowthBookOpError;
@@ -32616,6 +33301,8 @@ export const startHoldoutAnalysis: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartHoldoutAnalysis",
 }));
 
 export type StartRampScheduleError = GrowthBookOpError;
@@ -32631,6 +33318,8 @@ export const startRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartRampSchedule",
 }));
 
 export type StopContextualBanditError = GrowthBookOpError;
@@ -32646,6 +33335,8 @@ export const stopContextualBandit: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopContextualBandit",
 }));
 
 export type StopHoldoutError = Conflict | GrowthBookOpError;
@@ -32661,6 +33352,8 @@ export const stopHoldout: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopHoldout",
 }));
 
 export type TestCustomHookError = GrowthBookOpError;
@@ -32676,6 +33369,8 @@ export const testCustomHook: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestCustomHook",
 }));
 
 export type ToggleFeatureV2Error = GrowthBookOpError;
@@ -32691,6 +33386,8 @@ export const toggleFeatureV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleFeatureV2",
 }));
 
 export type UnarchiveConfigError = GrowthBookOpError;
@@ -32706,6 +33403,8 @@ export const unarchiveConfig: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveConfig",
 }));
 
 export type UnarchiveConstantError = GrowthBookOpError;
@@ -32721,6 +33420,8 @@ export const unarchiveConstant: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveConstant",
 }));
 
 export type UnarchiveSavedGroupError = GrowthBookOpError;
@@ -32736,6 +33437,8 @@ export const unarchiveSavedGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveSavedGroup",
 }));
 
 export type UnlockConfigError = GrowthBookOpError;
@@ -32751,6 +33454,8 @@ export const unlockConfig: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockConfig",
 }));
 
 export type UpdateAutoRunError = GrowthBookOpError;
@@ -32766,6 +33471,8 @@ export const updateAutoRun: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoRun",
 }));
 
 export type UpdateConfigError = GrowthBookOpError;
@@ -32781,6 +33488,8 @@ export const updateConfig: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfig",
 }));
 
 export type UpdateConfigRevisionError = GrowthBookOpError;
@@ -32796,6 +33505,8 @@ export const updateConfigRevision: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigRevision",
 }));
 
 export type UpdateConstantError = GrowthBookOpError;
@@ -32811,6 +33522,8 @@ export const updateConstant: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConstant",
 }));
 
 export type UpdateConstantRevisionError = GrowthBookOpError;
@@ -32826,6 +33539,8 @@ export const updateConstantRevision: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConstantRevision",
 }));
 
 export type UpdateContextualBanditError = GrowthBookOpError;
@@ -32841,6 +33556,8 @@ export const updateContextualBandit: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContextualBandit",
 }));
 
 export type UpdateContextualBanditLinkedFeatureError = GrowthBookOpError;
@@ -32856,6 +33573,8 @@ export const updateContextualBanditLinkedFeature: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContextualBanditLinkedFeature",
 }));
 
 export type UpdateContextualBanditQueryError = GrowthBookOpError;
@@ -32871,6 +33590,8 @@ export const updateContextualBanditQuery: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContextualBanditQuery",
 }));
 
 export type UpdateContextualBanditVariationsError = GrowthBookOpError;
@@ -32886,6 +33607,8 @@ export const updateContextualBanditVariations: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContextualBanditVariations",
 }));
 
 export type UpdateCustomFieldError = GrowthBookOpError;
@@ -32901,6 +33624,8 @@ export const updateCustomField: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomField",
 }));
 
 export type UpdateCustomHookError = GrowthBookOpError;
@@ -32916,6 +33641,8 @@ export const updateCustomHook: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomHook",
 }));
 
 export type UpdateDashboardError = GrowthBookOpError;
@@ -32931,6 +33658,8 @@ export const updateDashboard: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateDimensionError = GrowthBookOpError;
@@ -32946,6 +33675,8 @@ export const updateDimension: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDimension",
 }));
 
 export type UpdateExperimentError = Conflict | GrowthBookOpError;
@@ -32961,6 +33692,8 @@ export const updateExperiment: API.OperationMethod<
   errors: [Conflict, UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperiment",
 }));
 
 export type UpdateExperimentTemplateError = GrowthBookOpError;
@@ -32976,6 +33709,8 @@ export const updateExperimentTemplate: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentTemplate",
 }));
 
 export type UpdateFactMetricError = GrowthBookOpError;
@@ -32991,6 +33726,8 @@ export const updateFactMetric: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFactMetric",
 }));
 
 export type UpdateFactTableError = GrowthBookOpError;
@@ -33006,6 +33743,8 @@ export const updateFactTable: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFactTable",
 }));
 
 export type UpdateFactTableFilterError = GrowthBookOpError;
@@ -33021,6 +33760,8 @@ export const updateFactTableFilter: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFactTableFilter",
 }));
 
 export type UpdateFactTableVirtualColumnError = GrowthBookOpError;
@@ -33036,6 +33777,8 @@ export const updateFactTableVirtualColumn: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFactTableVirtualColumn",
 }));
 
 export type UpdateFeatureV2Error = GrowthBookOpError;
@@ -33051,6 +33794,8 @@ export const updateFeatureV2: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureV2",
 }));
 
 export type UpdateHoldoutError = GrowthBookOpError;
@@ -33066,6 +33811,8 @@ export const updateHoldout: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHoldout",
 }));
 
 export type UpdateLearningError = GrowthBookOpError;
@@ -33081,6 +33828,8 @@ export const updateLearning: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLearning",
 }));
 
 export type UpdateMemberRoleError = GrowthBookOpError;
@@ -33096,6 +33845,8 @@ export const updateMemberRole: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMemberRole",
 }));
 
 export type UpdateMetricGroupError = GrowthBookOpError;
@@ -33111,6 +33862,8 @@ export const updateMetricGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMetricGroup",
 }));
 
 export type UpdateRampScheduleError = GrowthBookOpError;
@@ -33126,6 +33879,8 @@ export const updateRampSchedule: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRampSchedule",
 }));
 
 export type UpdateRampScheduleLockdownError = GrowthBookOpError;
@@ -33141,6 +33896,8 @@ export const updateRampScheduleLockdown: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRampScheduleLockdown",
 }));
 
 export type UpdateRampScheduleMonitoringError = GrowthBookOpError;
@@ -33156,6 +33913,8 @@ export const updateRampScheduleMonitoring: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRampScheduleMonitoring",
 }));
 
 export type UpdateRampScheduleStepsError = GrowthBookOpError;
@@ -33171,6 +33930,8 @@ export const updateRampScheduleSteps: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRampScheduleSteps",
 }));
 
 export type UpdateRampScheduleTemplateError = GrowthBookOpError;
@@ -33186,6 +33947,8 @@ export const updateRampScheduleTemplate: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRampScheduleTemplate",
 }));
 
 export type UpdateSavedGroupError = GrowthBookOpError;
@@ -33201,6 +33964,8 @@ export const updateSavedGroup: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSavedGroup",
 }));
 
 export type UpdateSavedGroupRevisionError = GrowthBookOpError;
@@ -33216,6 +33981,8 @@ export const updateSavedGroupRevision: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSavedGroupRevision",
 }));
 
 export type UpdateSegmentError = GrowthBookOpError;
@@ -33231,6 +33998,8 @@ export const updateSegment: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSegment",
 }));
 
 export type UpdateTeamError = GrowthBookOpError;
@@ -33246,6 +34015,8 @@ export const updateTeam: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeam",
 }));
 
 export type VerifyConfigSchemaError = GrowthBookOpError;
@@ -33261,6 +34032,8 @@ export const verifyConfigSchema: API.OperationMethod<
   errors: [UnknownGrowthBookError],
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyConfigSchema",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

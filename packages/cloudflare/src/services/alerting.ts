@@ -69,6 +69,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   executionInterval: "execution_interval",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Alerting",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class FiltersRequired
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<FiltersRequired>()("FiltersRequired", {
@@ -1636,6 +1650,8 @@ export const createDestinationPagerduty: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDestinationPagerduty",
 }));
 
 export type CreateDestinationWebhookError = InvalidRoute | WebhookTestFailed | CloudflareOpError;
@@ -1651,6 +1667,8 @@ export const createDestinationWebhook: API.OperationMethod<
   errors: [InvalidRoute, WebhookTestFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDestinationWebhook",
 }));
 
 export type CreatePolicyError =
@@ -1680,6 +1698,8 @@ export const createPolicy: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type CreateSilenceError =
@@ -1705,6 +1725,8 @@ export const createSilence: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSilence",
 }));
 
 export type DeleteDestinationPagerdutyError = InvalidRoute | CloudflareOpError;
@@ -1720,6 +1742,8 @@ export const deleteDestinationPagerduty: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDestinationPagerduty",
 }));
 
 export type DeleteDestinationWebhookError = InvalidRoute | CloudflareOpError;
@@ -1735,6 +1759,8 @@ export const deleteDestinationWebhook: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDestinationWebhook",
 }));
 
 export type DeletePolicyError = InvalidRoute | PolicyNotFound | CloudflareOpError;
@@ -1750,6 +1776,8 @@ export const deletePolicy: API.OperationMethod<
   errors: [InvalidRoute, PolicyNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteSilenceError = InvalidRoute | SilenceNotFound | CloudflareOpError;
@@ -1765,6 +1793,8 @@ export const deleteSilence: API.OperationMethod<
   errors: [InvalidRoute, SilenceNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSilence",
 }));
 
 export type GetDestinationEligibleError = InvalidRoute | CloudflareOpError;
@@ -1780,6 +1810,8 @@ export const getDestinationEligible: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDestinationEligible",
 }));
 
 export type GetDestinationPagerdutyError = CloudflareOpError;
@@ -1797,6 +1829,8 @@ export const getDestinationPagerduty: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDestinationPagerduty",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1815,6 +1849,8 @@ export const getDestinationWebhook: API.OperationMethod<
   errors: [InvalidRoute, WebhookNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDestinationWebhook",
 }));
 
 export type GetPolicyError = InvalidRoute | PolicyNotFound | CloudflareOpError;
@@ -1830,6 +1866,8 @@ export const getPolicy: API.OperationMethod<
   errors: [InvalidRoute, PolicyNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetSilenceError = InvalidRoute | SilenceNotFound | CloudflareOpError;
@@ -1845,6 +1883,8 @@ export const getSilence: API.OperationMethod<
   errors: [InvalidRoute, SilenceNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSilence",
 }));
 
 export type LinkDestinationPagerdutyError = InvalidRoute | CloudflareOpError;
@@ -1860,6 +1900,8 @@ export const linkDestinationPagerduty: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkDestinationPagerduty",
 }));
 
 export type ListAvailableAlertsError = InvalidRoute | CloudflareOpError;
@@ -1875,6 +1917,8 @@ export const listAvailableAlerts: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableAlerts",
 }));
 
 export type ListDestinationWebhooksError = CloudflareOpError;
@@ -1892,6 +1936,8 @@ export const listDestinationWebhooks: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDestinationWebhooks",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1912,6 +1958,8 @@ export const listHistories: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListHistories",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1938,6 +1986,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPolicies",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1958,6 +2008,8 @@ export const listSilences: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSilences",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1986,6 +2038,8 @@ export const updateDestinationWebhook: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDestinationWebhook",
 }));
 
 export type UpdatePolicyError =
@@ -2017,6 +2071,8 @@ export const updatePolicy: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 export type UpdateSilenceError = SilenceNotFound | InvalidSilence | CloudflareOpError;
@@ -2034,6 +2090,8 @@ export const updateSilence: API.PaginatedOperationMethod<
     errors: [SilenceNotFound, InvalidSilence, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UpdateSilence",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

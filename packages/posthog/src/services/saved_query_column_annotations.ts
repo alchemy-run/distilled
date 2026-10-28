@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "SavedQueryColumnAnnotations",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateSavedQueryColumnAnnotationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -111,6 +124,8 @@ export const createSavedQueryColumnAnnotation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedQueryColumnAnnotation",
 }));
 
 export type GetSavedQueryColumnAnnotationError = PosthogOpError;
@@ -126,6 +141,8 @@ export const getSavedQueryColumnAnnotation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedQueryColumnAnnotation",
 }));
 
 export type ListSavedQueryColumnAnnotationsError = PosthogOpError;
@@ -141,6 +158,8 @@ export const listSavedQueryColumnAnnotations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavedQueryColumnAnnotations",
 }));
 
 export type SavedQueryColumnAnnotationsDestroyError = PosthogOpError;
@@ -156,6 +175,8 @@ export const savedQueryColumnAnnotationsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SavedQueryColumnAnnotationsDestroy",
 }));
 
 export type UpdateSavedQueryColumnAnnotationError = PosthogOpError;
@@ -171,6 +192,8 @@ export const updateSavedQueryColumnAnnotation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSavedQueryColumnAnnotation",
 }));
 
 export type UpdateSavedQueryColumnAnnotationsPartialError = PosthogOpError;
@@ -186,6 +209,8 @@ export const updateSavedQueryColumnAnnotationsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSavedQueryColumnAnnotationsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

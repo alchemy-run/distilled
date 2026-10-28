@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -83,6 +84,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://es.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElasticsearchService",
+  service: "ElasticsearchService",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1408,6 +1423,8 @@ export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "AcceptInboundCrossClusterSearchConnection",
 }));
 
 export type AddTagsError =
@@ -1432,6 +1449,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type AssociatePackageError =
@@ -1464,6 +1483,8 @@ export const associatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackage",
+  telemetry: TELEMETRY,
+  span: "AssociatePackage",
 }));
 
 export type AuthorizeVpcEndpointAccessError =
@@ -1496,6 +1517,8 @@ export const authorizeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "AuthorizeVpcEndpointAccess",
 }));
 
 export type CancelDomainConfigChangeError =
@@ -1526,6 +1549,8 @@ export const cancelDomainConfigChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDomainConfigChange",
+  telemetry: TELEMETRY,
+  span: "CancelDomainConfigChange",
 }));
 
 export type CancelElasticsearchServiceSoftwareUpdateError =
@@ -1549,6 +1574,8 @@ export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelElasticsearchServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "CancelElasticsearchServiceSoftwareUpdate",
 }));
 
 export type CreateElasticsearchDomainError =
@@ -1584,6 +1611,8 @@ export const createElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateElasticsearchDomain",
+  telemetry: TELEMETRY,
+  span: "CreateElasticsearchDomain",
 }));
 
 export type CreateOutboundCrossClusterSearchConnectionError =
@@ -1612,6 +1641,8 @@ export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "CreateOutboundCrossClusterSearchConnection",
 }));
 
 export type CreatePackageError =
@@ -1646,6 +1677,8 @@ export const createPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackage",
+  telemetry: TELEMETRY,
+  span: "CreatePackage",
 }));
 
 export type CreateVpcEndpointError =
@@ -1678,6 +1711,8 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateVpcEndpoint",
 }));
 
 export type DeleteElasticsearchDomainError =
@@ -1701,6 +1736,8 @@ export const deleteElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteElasticsearchDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteElasticsearchDomain",
 }));
 
 export type DeleteElasticsearchServiceRoleError =
@@ -1723,6 +1760,8 @@ export const deleteElasticsearchServiceRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteElasticsearchServiceRole",
+  telemetry: TELEMETRY,
+  span: "DeleteElasticsearchServiceRole",
 }));
 
 export type DeleteInboundCrossClusterSearchConnectionError =
@@ -1744,6 +1783,8 @@ export const deleteInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteInboundCrossClusterSearchConnection",
 }));
 
 export type DeleteOutboundCrossClusterSearchConnectionError =
@@ -1769,6 +1810,8 @@ export const deleteOutboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteOutboundCrossClusterSearchConnection",
 }));
 
 export type DeletePackageError =
@@ -1801,6 +1844,8 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
+  telemetry: TELEMETRY,
+  span: "DeletePackage",
 }));
 
 export type DeleteVpcEndpointError =
@@ -1824,6 +1869,8 @@ export const deleteVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcEndpoint",
 }));
 
 export type DescribeDomainAutoTunesError =
@@ -1853,6 +1900,8 @@ export const describeDomainAutoTunes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDomainAutoTunes",
 })) as any;
 
 export type DescribeDomainChangeProgressError =
@@ -1877,6 +1926,8 @@ export const describeDomainChangeProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainChangeProgress",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainChangeProgress",
 }));
 
 export type DescribeElasticsearchDomainError =
@@ -1900,6 +1951,8 @@ export const describeElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeElasticsearchDomain",
 }));
 
 export type DescribeElasticsearchDomainConfigError =
@@ -1923,6 +1976,8 @@ export const describeElasticsearchDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomainConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeElasticsearchDomainConfig",
 }));
 
 export type DescribeElasticsearchDomainsError =
@@ -1945,6 +2000,8 @@ export const describeElasticsearchDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomains",
+  telemetry: TELEMETRY,
+  span: "DescribeElasticsearchDomains",
 }));
 
 export type DescribeElasticsearchInstanceTypeLimitsError =
@@ -1982,6 +2039,8 @@ export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchInstanceTypeLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeElasticsearchInstanceTypeLimits",
 }));
 
 export type DescribeInboundCrossClusterSearchConnectionsError =
@@ -2017,6 +2076,8 @@ export const describeInboundCrossClusterSearchConnections: API.PaginatedOperatio
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInboundCrossClusterSearchConnections",
 })) as any;
 
 export type DescribeOutboundCrossClusterSearchConnectionsError =
@@ -2052,6 +2113,8 @@ export const describeOutboundCrossClusterSearchConnections: API.PaginatedOperati
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOutboundCrossClusterSearchConnections",
 })) as any;
 
 export type DescribePackagesError =
@@ -2088,6 +2151,8 @@ export const describePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePackages",
 })) as any;
 
 export type DescribeReservedElasticsearchInstanceOfferingsError =
@@ -2130,6 +2195,8 @@ export const describeReservedElasticsearchInstanceOfferings: API.PaginatedOperat
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedElasticsearchInstanceOfferings",
 })) as any;
 
 export type DescribeReservedElasticsearchInstancesError =
@@ -2164,6 +2231,8 @@ export const describeReservedElasticsearchInstances: API.PaginatedOperationMetho
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedElasticsearchInstances",
 })) as any;
 
 export type DescribeVpcEndpointsError =
@@ -2187,6 +2256,8 @@ export const describeVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpoints",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcEndpoints",
 }));
 
 export type DissociatePackageError =
@@ -2219,6 +2290,8 @@ export const dissociatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackage",
+  telemetry: TELEMETRY,
+  span: "DissociatePackage",
 }));
 
 export type GetCompatibleElasticsearchVersionsError =
@@ -2254,6 +2327,8 @@ export const getCompatibleElasticsearchVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleElasticsearchVersions",
+  telemetry: TELEMETRY,
+  span: "GetCompatibleElasticsearchVersions",
 }));
 
 export type GetPackageVersionHistoryError =
@@ -2290,6 +2365,8 @@ export const getPackageVersionHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionHistory",
 })) as any;
 
 export type GetUpgradeHistoryError =
@@ -2326,6 +2403,8 @@ export const getUpgradeHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUpgradeHistory",
 })) as any;
 
 export type GetUpgradeStatusError =
@@ -2356,6 +2435,8 @@ export const getUpgradeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpgradeStatus",
+  telemetry: TELEMETRY,
+  span: "GetUpgradeStatus",
 }));
 
 export type ListDomainNamesError = BaseException | ValidationException | CommonErrors;
@@ -2374,6 +2455,8 @@ export const listDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
+  telemetry: TELEMETRY,
+  span: "ListDomainNames",
 }));
 
 export type ListDomainsForPackageError =
@@ -2410,6 +2493,8 @@ export const listDomainsForPackage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainsForPackage",
 })) as any;
 
 export type ListElasticsearchInstanceTypesError =
@@ -2439,6 +2524,8 @@ export const listElasticsearchInstanceTypes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListElasticsearchInstanceTypes",
 })) as any;
 
 export type ListElasticsearchVersionsError =
@@ -2468,6 +2555,8 @@ export const listElasticsearchVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListElasticsearchVersions",
 })) as any;
 
 export type ListPackagesForDomainError =
@@ -2504,6 +2593,8 @@ export const listPackagesForDomain: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackagesForDomain",
 })) as any;
 
 export type ListTagsError =
@@ -2527,6 +2618,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListVpcEndpointAccessError =
@@ -2551,6 +2644,8 @@ export const listVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointAccess",
 }));
 
 export type ListVpcEndpointsError =
@@ -2573,6 +2668,8 @@ export const listVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpoints",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpoints",
 }));
 
 export type ListVpcEndpointsForDomainError =
@@ -2596,6 +2693,8 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointsForDomain",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointsForDomain",
 }));
 
 export type PurchaseReservedElasticsearchInstanceOfferingError =
@@ -2636,6 +2735,8 @@ export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedElasticsearchInstanceOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedElasticsearchInstanceOffering",
 }));
 
 export type RejectInboundCrossClusterSearchConnectionError =
@@ -2657,6 +2758,8 @@ export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInboundCrossClusterSearchConnection",
+  telemetry: TELEMETRY,
+  span: "RejectInboundCrossClusterSearchConnection",
 }));
 
 export type RemoveTagsError =
@@ -2679,6 +2782,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type RevokeVpcEndpointAccessError =
@@ -2710,6 +2815,8 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "RevokeVpcEndpointAccess",
 }));
 
 export type StartElasticsearchServiceSoftwareUpdateError =
@@ -2733,6 +2840,8 @@ export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartElasticsearchServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "StartElasticsearchServiceSoftwareUpdate",
 }));
 
 export type UpdateElasticsearchDomainConfigError =
@@ -2765,6 +2874,8 @@ export const updateElasticsearchDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateElasticsearchDomainConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateElasticsearchDomainConfig",
 }));
 
 export type UpdatePackageError =
@@ -2797,6 +2908,8 @@ export const updatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackage",
+  telemetry: TELEMETRY,
+  span: "UpdatePackage",
 }));
 
 export type UpdateVpcEndpointError =
@@ -2829,6 +2942,8 @@ export const updateVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcEndpoint",
 }));
 
 export type UpgradeElasticsearchDomainError =
@@ -2861,6 +2976,8 @@ export const upgradeElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeElasticsearchDomain",
+  telemetry: TELEMETRY,
+  span: "UpgradeElasticsearchDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

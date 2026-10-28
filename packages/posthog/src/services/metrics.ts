@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Metrics",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
 export type AggregationEnum =
   | "sum"
@@ -579,6 +592,8 @@ export const createMetricsCharacterize: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricsCharacterize",
 }));
 
 export type CreateMetricsExplainError = PosthogOpError;
@@ -594,6 +609,8 @@ export const createMetricsExplain: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricsExplain",
 }));
 
 export type CreateMetricsQueryError = PosthogOpError;
@@ -608,6 +625,8 @@ export const createMetricsQuery: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricsQuery",
 }));
 
 export type CreateMetricsSampleError = PosthogOpError;
@@ -623,6 +642,8 @@ export const createMetricsSample: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricsSample",
 }));
 
 export type CreateMetricsValueError = PosthogOpError;
@@ -638,6 +659,8 @@ export const createMetricsValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricsValue",
 }));
 
 export type GetMetricsAttributeError = PosthogOpError;
@@ -653,6 +676,8 @@ export const getMetricsAttribute: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsAttribute",
 }));
 
 export type GetMetricsAttributeValueError = PosthogOpError;
@@ -668,6 +693,8 @@ export const getMetricsAttributeValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsAttributeValue",
 }));
 
 export type GetMetricsErrorSpikeError = PosthogOpError;
@@ -683,6 +710,8 @@ export const getMetricsErrorSpike: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsErrorSpike",
 }));
 
 export type GetMetricsHasMetricsError = PosthogOpError;
@@ -697,6 +726,8 @@ export const getMetricsHasMetrics: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsHasMetrics",
 }));
 
 export type GetMetricsNameError = PosthogOpError;
@@ -712,6 +743,8 @@ export const getMetricsName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsName",
 }));
 
 export type GetMetricsOverviewError = PosthogOpError;
@@ -727,6 +760,8 @@ export const getMetricsOverview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsOverview",
 }));
 
 export type GetMetricsValueError = PosthogOpError;
@@ -742,6 +777,8 @@ export const getMetricsValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricsValue",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

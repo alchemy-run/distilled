@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.StoragePool" },
+  prefix: "Storagepool",
+  service: "Storagepool",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteDiskPoolRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -744,6 +765,8 @@ export const DeleteDiskPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDiskPool",
 }));
 
 export type DeleteIscsiTargetError = AzureOpError;
@@ -759,6 +782,8 @@ export const DeleteIscsiTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIscsiTarget",
 }));
 
 export type DiskPoolsCreateOrUpdateError = AzureOpError;
@@ -774,6 +799,8 @@ export const DiskPoolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiskPoolsCreateOrUpdate",
 }));
 
 export type DiskPoolsDeallocateError = AzureOpError;
@@ -789,6 +816,8 @@ export const DiskPoolsDeallocate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiskPoolsDeallocate",
 }));
 
 export type DiskPoolsUpgradeError = AzureOpError;
@@ -804,6 +833,8 @@ export const DiskPoolsUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiskPoolsUpgrade",
 }));
 
 export type GetDiskPoolError = AzureOpError;
@@ -819,6 +850,8 @@ export const GetDiskPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiskPool",
 }));
 
 export type GetIscsiTargetError = AzureOpError;
@@ -834,6 +867,8 @@ export const GetIscsiTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIscsiTarget",
 }));
 
 export type IscsiTargetsCreateOrUpdateError = AzureOpError;
@@ -849,6 +884,8 @@ export const IscsiTargetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IscsiTargetsCreateOrUpdate",
 }));
 
 export type ListDiskPoolByResourceGroupError = AzureOpError;
@@ -864,6 +901,8 @@ export const ListDiskPoolByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiskPoolByResourceGroup",
 }));
 
 export type ListDiskPoolBySubscriptionError = AzureOpError;
@@ -879,6 +918,8 @@ export const ListDiskPoolBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiskPoolBySubscription",
 }));
 
 export type ListDiskPoolOutboundNetworkDependenciesEndpointsError = AzureOpError;
@@ -898,6 +939,8 @@ export const ListDiskPoolOutboundNetworkDependenciesEndpoints: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiskPoolOutboundNetworkDependenciesEndpoints",
 }));
 
 export type ListDiskPoolZonesError = AzureOpError;
@@ -913,6 +956,8 @@ export const ListDiskPoolZones: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiskPoolZones",
 }));
 
 export type ListIscsiTargetByDiskPoolError = AzureOpError;
@@ -928,6 +973,8 @@ export const ListIscsiTargetByDiskPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIscsiTargetByDiskPool",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -943,6 +990,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListResourceSkusError = AzureOpError;
@@ -958,6 +1007,8 @@ export const ListResourceSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceSkus",
 }));
 
 export type StartDiskPoolError = AzureOpError;
@@ -973,6 +1024,8 @@ export const StartDiskPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartDiskPool",
 }));
 
 export type UpdateDiskPoolError = AzureOpError;
@@ -988,6 +1041,8 @@ export const UpdateDiskPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDiskPool",
 }));
 
 export type UpdateIscsiTargetError = AzureOpError;
@@ -1003,6 +1058,8 @@ export const UpdateIscsiTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIscsiTarget",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

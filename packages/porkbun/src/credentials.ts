@@ -22,7 +22,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "PorkbunCredentials",
   ) {}
 
@@ -68,5 +68,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       secretApiKey: Redacted.make(secretApiKey),
       apiBaseUrl: process.env.PORKBUN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

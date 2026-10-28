@@ -216,6 +216,13 @@ const fits = (n: Node, v: unknown, wire: boolean): boolean => {
   }
 };
 
+/**
+ * Whether a wire value has the shape of `n` (for a union, of one of its
+ * members): the members it requires are present. Event-stream decoding uses
+ * it to tell a modeled event that does not match from an unmodeled one.
+ */
+export const fitsWire = (n: Node, v: unknown): boolean => fits(n, v, true);
+
 const expected = (n: Node): string =>
   n._tag === "Literal" ? JSON.stringify(n.literal) : n._tag.toLowerCase();
 

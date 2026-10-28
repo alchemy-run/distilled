@@ -16,6 +16,7 @@
 import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
 import type { Request } from "../client/request.ts";
+import { EndpointError } from "../errors.ts";
 import {
   type EndpointResolverHelpers,
   getContextParam,
@@ -127,9 +128,9 @@ export const makeEndpointResolver = (operation: Operation) => {
 
   /**
    * The endpoint for `resolverInput`, with the request path adjusted, or
-   * the `Error` the rule set ends in when no endpoint matches.
+   * the {@link EndpointError} the rule set ends in when no endpoint matches.
    */
-  return (resolverInput: EndpointResolverInput): EndpointResolverOutput | Error => {
+  return (resolverInput: EndpointResolverInput): EndpointResolverOutput | EndpointError => {
     const { input, region, request } = resolverInput;
     const payloadObj = input as Record<string, RulesValue>;
 
@@ -172,7 +173,7 @@ export const makeEndpointResolver = (operation: Operation) => {
         const result = resolver(endpointParams as Record<string, unknown>, endpointResolverHelpers);
 
         if (result.type === "error") {
-          return new Error(result.message);
+          return new EndpointError({ message: result.message });
         }
 
         endpoint = {

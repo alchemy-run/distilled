@@ -25,6 +25,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   usernameExpressions: "username_expressions",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Fraud",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -160,6 +174,8 @@ export const getFraud: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFraud",
 }));
 
 export type PutFraudError = Forbidden | FraudDetectionNotEntitled | CloudflareOpError;
@@ -175,6 +191,8 @@ export const putFraud: API.OperationMethod<
   errors: [Forbidden, FraudDetectionNotEntitled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFraud",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

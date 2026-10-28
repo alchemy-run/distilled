@@ -28,6 +28,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   slotId: "slot_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "NetworkInterconnects",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -427,6 +441,8 @@ export const createCni: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCni",
 }));
 
 export type CreateInterconnectError = CloudflareOpError;
@@ -442,6 +458,8 @@ export const createInterconnect: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInterconnect",
 }));
 
 export type DeleteCniError = CloudflareOpError;
@@ -457,6 +475,8 @@ export const deleteCni: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCni",
 }));
 
 export type DeleteInterconnectError = CloudflareOpError;
@@ -472,6 +492,8 @@ export const deleteInterconnect: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInterconnect",
 }));
 
 export type GetCniError = CloudflareOpError;
@@ -487,6 +509,8 @@ export const getCni: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCni",
 }));
 
 export type GetInterconnectError = CloudflareOpError;
@@ -502,6 +526,8 @@ export const getInterconnect: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInterconnect",
 }));
 
 export type GetSettingError = Forbidden | CloudflareOpError;
@@ -517,6 +543,8 @@ export const getSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetting",
 }));
 
 export type GetSlotError = CloudflareOpError;
@@ -532,6 +560,8 @@ export const getSlot: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSlot",
 }));
 
 export type ListCnisError = CloudflareOpError;
@@ -547,6 +577,8 @@ export const listCnis: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCnis",
 }));
 
 export type ListInterconnectsError = CloudflareOpError;
@@ -562,6 +594,8 @@ export const listInterconnects: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInterconnects",
 }));
 
 export type ListSlotsError = CloudflareOpError;
@@ -577,6 +611,8 @@ export const listSlots: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSlots",
 }));
 
 export type LoaInterconnectError = CloudflareOpError;
@@ -592,6 +628,8 @@ export const loaInterconnect: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoaInterconnect",
 }));
 
 export type PutSettingError = Forbidden | CloudflareOpError;
@@ -607,6 +645,8 @@ export const putSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSetting",
 }));
 
 export type StatusInterconnectError = CloudflareOpError;
@@ -622,6 +662,8 @@ export const statusInterconnect: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StatusInterconnect",
 }));
 
 export type UpdateCniError = CloudflareOpError;
@@ -637,6 +679,8 @@ export const updateCni: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCni",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

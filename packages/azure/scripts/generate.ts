@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the per-service Smithy JSON models in .generated-specs
  * into the Azure Effect SDK.
@@ -8,7 +8,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/<service>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Azure's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Azure's provider spec.
  *
  * v0 parity notes:
  *   • operation exports keep the ARM operationId casing
@@ -23,7 +23,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *   • the operation's `T.Http` trait carries the baked `apiVersion`
  *     (folded in by convert.ts); the protocol appends `?api-version=`
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -105,6 +105,7 @@ const markScopeLabelsGreedy = (model: any): void => {
 
 runGeneratorCli({
   description: "Generate the Azure Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/<service>/*.json apply in convert (finalizeConvert), so the
   // models here are already patched.

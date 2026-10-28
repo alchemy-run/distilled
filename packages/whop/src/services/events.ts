@@ -12,6 +12,18 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Events",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -631,6 +643,8 @@ export const createEvent: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvent",
 }));
 
 export type GetPulseError = BadRequest | WhopOpError;
@@ -648,6 +662,8 @@ export const getPulse: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPulse",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -675,6 +691,8 @@ export const listEvents: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEvents",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -700,6 +718,8 @@ export const validatePixel: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidatePixel",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

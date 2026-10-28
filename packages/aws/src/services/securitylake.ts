@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://securitylake.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SecurityLake",
+  service: "SecurityLake",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -576,6 +591,8 @@ export const createAwsLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAwsLogSource",
+  telemetry: TELEMETRY,
+  span: "CreateAwsLogSource",
 }));
 
 export type CreateCustomLogSourceError =
@@ -616,6 +633,8 @@ export const createCustomLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomLogSource",
+  telemetry: TELEMETRY,
+  span: "CreateCustomLogSource",
 }));
 
 export type CreateDataLakeError =
@@ -664,6 +683,8 @@ export const createDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLake",
+  telemetry: TELEMETRY,
+  span: "CreateDataLake",
 }));
 
 export type CreateDataLakeExceptionSubscriptionError =
@@ -699,6 +720,8 @@ export const createDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeExceptionSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateDataLakeExceptionSubscription",
 }));
 
 export type CreateDataLakeOrganizationConfigurationError =
@@ -735,6 +758,8 @@ export const createDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateDataLakeOrganizationConfiguration",
 }));
 
 export type CreateSubscriberError =
@@ -770,6 +795,8 @@ export const createSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriber",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriber",
 }));
 
 export type CreateSubscriberNotificationError =
@@ -806,6 +833,8 @@ export const createSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriberNotification",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriberNotification",
 }));
 
 export type DeleteAwsLogSourceError =
@@ -847,6 +876,8 @@ export const deleteAwsLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAwsLogSource",
+  telemetry: TELEMETRY,
+  span: "DeleteAwsLogSource",
 }));
 
 export type DeleteCustomLogSourceError =
@@ -882,6 +913,8 @@ export const deleteCustomLogSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomLogSource",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomLogSource",
 }));
 
 export type DeleteDataLakeError =
@@ -924,6 +957,8 @@ export const deleteDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLake",
+  telemetry: TELEMETRY,
+  span: "DeleteDataLake",
 }));
 
 export type DeleteDataLakeExceptionSubscriptionError =
@@ -959,6 +994,8 @@ export const deleteDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeExceptionSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteDataLakeExceptionSubscription",
 }));
 
 export type DeleteDataLakeOrganizationConfigurationError =
@@ -993,6 +1030,8 @@ export const deleteDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteDataLakeOrganizationConfiguration",
 }));
 
 export type DeleteSubscriberError =
@@ -1030,6 +1069,8 @@ export const deleteSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriber",
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriber",
 }));
 
 export type DeleteSubscriberNotificationError =
@@ -1065,6 +1106,8 @@ export const deleteSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriberNotification",
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriberNotification",
 }));
 
 export type DeregisterDataLakeDelegatedAdministratorError =
@@ -1099,6 +1142,8 @@ export const deregisterDataLakeDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDataLakeDelegatedAdministrator",
+  telemetry: TELEMETRY,
+  span: "DeregisterDataLakeDelegatedAdministrator",
 }));
 
 export type GetDataLakeExceptionSubscriptionError =
@@ -1133,6 +1178,8 @@ export const getDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeExceptionSubscription",
+  telemetry: TELEMETRY,
+  span: "GetDataLakeExceptionSubscription",
 }));
 
 export type GetDataLakeOrganizationConfigurationError =
@@ -1167,6 +1214,8 @@ export const getDataLakeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetDataLakeOrganizationConfiguration",
 }));
 
 export type GetDataLakeSourcesError =
@@ -1209,6 +1258,8 @@ export const getDataLakeSources: API.PaginatedOperationMethod<
     items: "dataLakeSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDataLakeSources",
 })) as any;
 
 export type GetSubscriberError =
@@ -1244,6 +1295,8 @@ export const getSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriber",
+  telemetry: TELEMETRY,
+  span: "GetSubscriber",
 }));
 
 export type ListDataLakeExceptionsError =
@@ -1286,6 +1339,8 @@ export const listDataLakeExceptions: API.PaginatedOperationMethod<
     items: "exceptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataLakeExceptions",
 })) as any;
 
 export type ListDataLakesError =
@@ -1321,6 +1376,8 @@ export const listDataLakes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataLakes",
+  telemetry: TELEMETRY,
+  span: "ListDataLakes",
 }));
 
 export type ListLogSourcesError =
@@ -1362,6 +1419,8 @@ export const listLogSources: API.PaginatedOperationMethod<
     items: "sources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLogSources",
 })) as any;
 
 export type ListSubscribersError =
@@ -1404,6 +1463,8 @@ export const listSubscribers: API.PaginatedOperationMethod<
     items: "subscribers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscribers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1439,6 +1500,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterDataLakeDelegatedAdministratorError =
@@ -1473,6 +1536,8 @@ export const registerDataLakeDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDataLakeDelegatedAdministrator",
+  telemetry: TELEMETRY,
+  span: "RegisterDataLakeDelegatedAdministrator",
 }));
 
 export type TagResourceError =
@@ -1514,6 +1579,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1549,6 +1616,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDataLakeError =
@@ -1595,6 +1664,8 @@ export const updateDataLake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLake",
+  telemetry: TELEMETRY,
+  span: "UpdateDataLake",
 }));
 
 export type UpdateDataLakeExceptionSubscriptionError =
@@ -1630,6 +1701,8 @@ export const updateDataLakeExceptionSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeExceptionSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateDataLakeExceptionSubscription",
 }));
 
 export type UpdateSubscriberError =
@@ -1665,6 +1738,8 @@ export const updateSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriber",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriber",
 }));
 
 export type UpdateSubscriberNotificationError =
@@ -1700,6 +1775,8 @@ export const updateSubscriberNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriberNotification",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriberNotification",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

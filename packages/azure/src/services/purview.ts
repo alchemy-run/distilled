@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Purview" },
+  prefix: "Purview",
+  service: "Purview",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Identity Type */
 export type IdentityInputType = "None" | "SystemAssigned" | "UserAssigned";
 /** Uses client ID and Principal ID */
@@ -950,6 +971,8 @@ export const AccountsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsCreateOrUpdate",
 }));
 
 export type AddAccountRootCollectionAdminError = AzureOpError;
@@ -965,6 +988,8 @@ export const AddAccountRootCollectionAdmin: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAccountRootCollectionAdmin",
 }));
 
 export type CheckAccountNameAvailabilityError = AzureOpError;
@@ -980,6 +1005,8 @@ export const CheckAccountNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAccountNameAvailability",
 }));
 
 export type DeleteAccountError = AzureOpError;
@@ -995,6 +1022,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteKafkaConfigurationError = AzureOpError;
@@ -1010,6 +1039,8 @@ export const DeleteKafkaConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKafkaConfiguration",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1025,6 +1056,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type GetAccountError = AzureOpError;
@@ -1040,6 +1073,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetDefaultAccountError = AzureOpError;
@@ -1055,6 +1090,8 @@ export const GetDefaultAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultAccount",
 }));
 
 export type GetFeaturesAccountError = AzureOpError;
@@ -1070,6 +1107,8 @@ export const GetFeaturesAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeaturesAccount",
 }));
 
 export type GetFeaturesSubscriptionError = AzureOpError;
@@ -1085,6 +1124,8 @@ export const GetFeaturesSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeaturesSubscription",
 }));
 
 export type GetKafkaConfigurationError = AzureOpError;
@@ -1100,6 +1141,8 @@ export const GetKafkaConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKafkaConfiguration",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1115,6 +1158,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceByGroupIdError = AzureOpError;
@@ -1130,6 +1175,8 @@ export const GetPrivateLinkResourceByGroupId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResourceByGroupId",
 }));
 
 export type GetUsageError = AzureOpError;
@@ -1145,6 +1192,8 @@ export const GetUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsage",
 }));
 
 export type KafkaConfigurationsCreateOrUpdateError = AzureOpError;
@@ -1160,6 +1209,8 @@ export const KafkaConfigurationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KafkaConfigurationsCreateOrUpdate",
 }));
 
 export type ListAccountByResourceGroupError = AzureOpError;
@@ -1175,6 +1226,8 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountByResourceGroup",
 }));
 
 export type ListAccountBySubscriptionError = AzureOpError;
@@ -1190,6 +1243,8 @@ export const ListAccountBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountBySubscription",
 }));
 
 export type ListAccountKeysError = AzureOpError;
@@ -1205,6 +1260,8 @@ export const ListAccountKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountKeys",
 }));
 
 export type ListKafkaConfigurationByAccountError = AzureOpError;
@@ -1220,6 +1277,8 @@ export const ListKafkaConfigurationByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKafkaConfigurationByAccount",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1235,6 +1294,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByAccountError = AzureOpError;
@@ -1250,6 +1311,8 @@ export const ListPrivateEndpointConnectionByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByAccount",
 }));
 
 export type ListPrivateLinkResourceByAccountError = AzureOpError;
@@ -1265,6 +1328,8 @@ export const ListPrivateLinkResourceByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByAccount",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -1280,6 +1345,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type RemoveDefaultAccountError = AzureOpError;
@@ -1295,6 +1362,8 @@ export const RemoveDefaultAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDefaultAccount",
 }));
 
 export type SetDefaultAccountError = AzureOpError;
@@ -1310,6 +1379,8 @@ export const SetDefaultAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultAccount",
 }));
 
 export type UpdateAccountError = AzureOpError;
@@ -1325,6 +1396,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

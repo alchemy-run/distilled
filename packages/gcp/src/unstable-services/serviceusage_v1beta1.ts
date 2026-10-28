@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "serviceusage" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Serviceusage",
+  service: "serviceusage",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -824,6 +843,8 @@ export const batchEnableServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchEnableServices",
 }));
 
 export type CreateServicesConsumerQuotaMetricsLimitsAdminOverridesError =
@@ -848,6 +869,8 @@ export const createServicesConsumerQuotaMetricsLimitsAdminOverrides: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServicesConsumerQuotaMetricsLimitsAdminOverrides",
 }));
 
 export type CreateServicesConsumerQuotaMetricsLimitsConsumerOverridesError =
@@ -872,6 +895,8 @@ export const createServicesConsumerQuotaMetricsLimitsConsumerOverrides: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServicesConsumerQuotaMetricsLimitsConsumerOverrides",
 }));
 
 export type DeleteServicesConsumerQuotaMetricsLimitsAdminOverridesError =
@@ -896,6 +921,8 @@ export const deleteServicesConsumerQuotaMetricsLimitsAdminOverrides: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServicesConsumerQuotaMetricsLimitsAdminOverrides",
 }));
 
 export type DeleteServicesConsumerQuotaMetricsLimitsConsumerOverridesError =
@@ -920,6 +947,8 @@ export const deleteServicesConsumerQuotaMetricsLimitsConsumerOverrides: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServicesConsumerQuotaMetricsLimitsConsumerOverrides",
 }));
 
 export type DisableServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -935,6 +964,8 @@ export const disableServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableServices",
 }));
 
 export type EnableServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -950,6 +981,8 @@ export const enableServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableServices",
 }));
 
 export type GenerateServiceIdentityServicesError =
@@ -970,6 +1003,8 @@ export const generateServiceIdentityServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateServiceIdentityServices",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -985,6 +1020,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetServicesError = NotFound | Forbidden | GcpOpError;
@@ -1000,6 +1037,8 @@ export const getServices: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServices",
 }));
 
 export type GetServicesConsumerQuotaMetricsError = NotFound | Forbidden | GcpOpError;
@@ -1015,6 +1054,8 @@ export const getServicesConsumerQuotaMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServicesConsumerQuotaMetrics",
 }));
 
 export type GetServicesConsumerQuotaMetricsLimitsError = NotFound | Forbidden | GcpOpError;
@@ -1030,6 +1071,8 @@ export const getServicesConsumerQuotaMetricsLimits: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServicesConsumerQuotaMetricsLimits",
 }));
 
 export type ImportAdminOverridesServicesConsumerQuotaMetricsError =
@@ -1054,6 +1097,8 @@ export const importAdminOverridesServicesConsumerQuotaMetrics: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAdminOverridesServicesConsumerQuotaMetrics",
 }));
 
 export type ImportConsumerOverridesServicesConsumerQuotaMetricsError =
@@ -1078,6 +1123,8 @@ export const importConsumerOverridesServicesConsumerQuotaMetrics: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportConsumerOverridesServicesConsumerQuotaMetrics",
 }));
 
 export type ListOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1094,6 +1141,8 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1111,6 +1160,8 @@ export const listServices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1128,6 +1179,8 @@ export const listServicesConsumerQuotaMetrics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesConsumerQuotaMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1152,6 +1205,8 @@ export const listServicesConsumerQuotaMetricsLimitsAdminOverrides: API.Paginated
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesConsumerQuotaMetricsLimitsAdminOverrides",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1176,6 +1231,8 @@ export const listServicesConsumerQuotaMetricsLimitsConsumerOverrides: API.Pagina
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicesConsumerQuotaMetricsLimitsConsumerOverrides",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1201,6 +1258,8 @@ export const patchServicesConsumerQuotaMetricsLimitsAdminOverrides: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchServicesConsumerQuotaMetricsLimitsAdminOverrides",
 }));
 
 export type PatchServicesConsumerQuotaMetricsLimitsConsumerOverridesError =
@@ -1225,6 +1284,8 @@ export const patchServicesConsumerQuotaMetricsLimitsConsumerOverrides: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchServicesConsumerQuotaMetricsLimitsConsumerOverrides",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
