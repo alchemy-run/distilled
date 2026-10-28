@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Apiextensions",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -852,6 +865,8 @@ export const createApiextensionsV1CustomResourceDefinition: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiextensionsV1CustomResourceDefinition",
 }));
 
 export type DeleteApiextensionsV1CollectionCustomResourceDefinitionError = KubernetesOpError;
@@ -871,6 +886,8 @@ export const deleteApiextensionsV1CollectionCustomResourceDefinition: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiextensionsV1CollectionCustomResourceDefinition",
 }));
 
 export type DeleteApiextensionsV1CustomResourceDefinitionError =
@@ -893,6 +910,8 @@ export const deleteApiextensionsV1CustomResourceDefinition: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiextensionsV1CustomResourceDefinition",
 }));
 
 export type GetApiextensionsAPIGroupError = KubernetesOpError;
@@ -908,6 +927,8 @@ export const getApiextensionsAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiextensionsAPIGroup",
 }));
 
 export type GetApiextensionsV1APIResourcesError = KubernetesOpError;
@@ -923,6 +944,8 @@ export const getApiextensionsV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiextensionsV1APIResources",
 }));
 
 export type ListApiextensionsV1CustomResourceDefinitionError = KubernetesOpError;
@@ -942,6 +965,8 @@ export const listApiextensionsV1CustomResourceDefinition: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiextensionsV1CustomResourceDefinition",
 }));
 
 export type PatchApiextensionsV1CustomResourceDefinitionError =
@@ -965,6 +990,8 @@ export const patchApiextensionsV1CustomResourceDefinition: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApiextensionsV1CustomResourceDefinition",
 }));
 
 export type PatchApiextensionsV1CustomResourceDefinitionStatusError =
@@ -992,6 +1019,8 @@ export const patchApiextensionsV1CustomResourceDefinitionStatus: API.OperationMe
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApiextensionsV1CustomResourceDefinitionStatus",
 }));
 
 export type ReadApiextensionsV1CustomResourceDefinitionError = NotFound | KubernetesOpError;
@@ -1011,6 +1040,8 @@ export const readApiextensionsV1CustomResourceDefinition: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadApiextensionsV1CustomResourceDefinition",
 }));
 
 export type ReadApiextensionsV1CustomResourceDefinitionStatusError = NotFound | KubernetesOpError;
@@ -1034,6 +1065,8 @@ export const readApiextensionsV1CustomResourceDefinitionStatus: API.OperationMet
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadApiextensionsV1CustomResourceDefinitionStatus",
 }));
 
 export type ReplaceApiextensionsV1CustomResourceDefinitionError =
@@ -1057,6 +1090,8 @@ export const replaceApiextensionsV1CustomResourceDefinition: API.OperationMethod
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceApiextensionsV1CustomResourceDefinition",
 }));
 
 export type ReplaceApiextensionsV1CustomResourceDefinitionStatusError =
@@ -1084,6 +1119,8 @@ export const replaceApiextensionsV1CustomResourceDefinitionStatus: API.Operation
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceApiextensionsV1CustomResourceDefinitionStatus",
 }));
 
 export type WatchApiextensionsV1CustomResourceDefinitionError = KubernetesOpError;
@@ -1099,6 +1136,8 @@ export const watchApiextensionsV1CustomResourceDefinition: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchApiextensionsV1CustomResourceDefinition",
 }));
 
 export type WatchApiextensionsV1CustomResourceDefinitionListError = KubernetesOpError;
@@ -1118,6 +1157,8 @@ export const watchApiextensionsV1CustomResourceDefinitionList: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchApiextensionsV1CustomResourceDefinitionList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

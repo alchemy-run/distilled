@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -162,6 +163,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GeoPlaces",
+  service: "GeoPlaces",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1042,6 +1057,8 @@ export const autocomplete: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Autocomplete",
+  telemetry: TELEMETRY,
+  span: "Autocomplete",
 }));
 
 export type GeocodeError =
@@ -1072,6 +1089,8 @@ export const geocode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Geocode",
+  telemetry: TELEMETRY,
+  span: "Geocode",
 }));
 
 export type GetPlaceError =
@@ -1102,6 +1121,8 @@ export const getPlace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlace",
+  telemetry: TELEMETRY,
+  span: "GetPlace",
 }));
 
 export type ReverseGeocodeError =
@@ -1132,6 +1153,8 @@ export const reverseGeocode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReverseGeocode",
+  telemetry: TELEMETRY,
+  span: "ReverseGeocode",
 }));
 
 export type SearchNearbyError =
@@ -1162,6 +1185,8 @@ export const searchNearby: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchNearby",
+  telemetry: TELEMETRY,
+  span: "SearchNearby",
 }));
 
 export type SearchTextError =
@@ -1192,6 +1217,8 @@ export const searchText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchText",
+  telemetry: TELEMETRY,
+  span: "SearchText",
 }));
 
 export type SuggestError =
@@ -1222,6 +1249,8 @@ export const suggest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Suggest",
+  telemetry: TELEMETRY,
+  span: "Suggest",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -24,4 +24,5 @@ export * as Crypto from "./crypto.ts";
 export * as ResponseValidation from "./response-validation.ts";
 export * as Retry from "./retry.ts";
 export * as RetryAfter from "./retry-after.ts";
+export * as Telemetry from "./telemetry.ts";
 export * as Trait from "./trait.ts";

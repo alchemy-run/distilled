@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "admin" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Admin",
+  service: "admin",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2638,6 +2657,8 @@ export const actionChromeosdevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActionChromeosdevices",
 }));
 
 export type ActionMobiledevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2653,6 +2674,8 @@ export const actionMobiledevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActionMobiledevices",
 }));
 
 export type BatchChangeStatusCustomerDevicesChromeosError =
@@ -2673,6 +2696,8 @@ export const batchChangeStatusCustomerDevicesChromeos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchChangeStatusCustomerDevicesChromeos",
 }));
 
 export type BatchCreatePrintersCustomersChromePrintersError =
@@ -2693,6 +2718,8 @@ export const batchCreatePrintersCustomersChromePrinters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreatePrintersCustomersChromePrinters",
 }));
 
 export type BatchCreatePrintServersCustomersChromePrintServersError =
@@ -2717,6 +2744,8 @@ export const batchCreatePrintServersCustomersChromePrintServers: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreatePrintServersCustomersChromePrintServers",
 }));
 
 export type BatchDeletePrintersCustomersChromePrintersError =
@@ -2737,6 +2766,8 @@ export const batchDeletePrintersCustomersChromePrinters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeletePrintersCustomersChromePrinters",
 }));
 
 export type BatchDeletePrintServersCustomersChromePrintServersError =
@@ -2761,6 +2792,8 @@ export const batchDeletePrintServersCustomersChromePrintServers: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeletePrintServersCustomersChromePrintServers",
 }));
 
 export type CountChromeOsDevicesCustomerDevicesChromeosError = NotFound | Forbidden | GcpOpError;
@@ -2776,6 +2809,8 @@ export const countChromeOsDevicesCustomerDevicesChromeos: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountChromeOsDevicesCustomerDevicesChromeos",
 }));
 
 export type CreateCustomersChromePrintersError =
@@ -2796,6 +2831,8 @@ export const createCustomersChromePrinters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersChromePrinters",
 }));
 
 export type CreateCustomersChromePrintServersError =
@@ -2816,6 +2853,8 @@ export const createCustomersChromePrintServers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersChromePrintServers",
 }));
 
 export type CreateGuestUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2831,6 +2870,8 @@ export const createGuestUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuestUsers",
 }));
 
 export type DeleteAspsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2846,6 +2887,8 @@ export const deleteAsps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAsps",
 }));
 
 export type DeleteCustomersChromePrintersError =
@@ -2866,6 +2909,8 @@ export const deleteCustomersChromePrinters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomersChromePrinters",
 }));
 
 export type DeleteCustomersChromePrintServersError =
@@ -2886,6 +2931,8 @@ export const deleteCustomersChromePrintServers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomersChromePrintServers",
 }));
 
 export type DeleteDomainAliasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2901,6 +2948,8 @@ export const deleteDomainAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainAliases",
 }));
 
 export type DeleteDomainsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2916,6 +2965,8 @@ export const deleteDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomains",
 }));
 
 export type DeleteGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2931,6 +2982,8 @@ export const deleteGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroups",
 }));
 
 export type DeleteGroupsAliasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2946,6 +2999,8 @@ export const deleteGroupsAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupsAliases",
 }));
 
 export type DeleteMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2961,6 +3016,8 @@ export const deleteMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMembers",
 }));
 
 export type DeleteMobiledevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2976,6 +3033,8 @@ export const deleteMobiledevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMobiledevices",
 }));
 
 export type DeleteOrgunitsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2991,6 +3050,8 @@ export const deleteOrgunits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgunits",
 }));
 
 export type DeleteResourcesBuildingsError =
@@ -3011,6 +3072,8 @@ export const deleteResourcesBuildings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourcesBuildings",
 }));
 
 export type DeleteResourcesCalendarsError =
@@ -3031,6 +3094,8 @@ export const deleteResourcesCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourcesCalendars",
 }));
 
 export type DeleteResourcesFeaturesError =
@@ -3051,6 +3116,8 @@ export const deleteResourcesFeatures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourcesFeatures",
 }));
 
 export type DeleteRoleAssignmentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3066,6 +3133,8 @@ export const deleteRoleAssignments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoleAssignments",
 }));
 
 export type DeleteRolesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3081,6 +3150,8 @@ export const deleteRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoles",
 }));
 
 export type DeleteSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3096,6 +3167,8 @@ export const deleteSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchemas",
 }));
 
 export type DeleteTokensError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3111,6 +3184,8 @@ export const deleteTokens: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTokens",
 }));
 
 export type DeleteUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3126,6 +3201,8 @@ export const deleteUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsers",
 }));
 
 export type DeleteUsersAliasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3141,6 +3218,8 @@ export const deleteUsersAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersAliases",
 }));
 
 export type DeleteUsersPhotosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3156,6 +3235,8 @@ export const deleteUsersPhotos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersPhotos",
 }));
 
 export type GenerateVerificationCodesError =
@@ -3176,6 +3257,8 @@ export const generateVerificationCodes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateVerificationCodes",
 }));
 
 export type GetAspsError = NotFound | Forbidden | GcpOpError;
@@ -3187,6 +3270,8 @@ export const getAsps: API.OperationMethod<GetAspsRequest, Asp, GetAspsError, Gcp
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAsps",
   }));
 
 export type GetChromeosdevicesError = NotFound | Forbidden | GcpOpError;
@@ -3202,6 +3287,8 @@ export const getChromeosdevices: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChromeosdevices",
 }));
 
 export type GetCustomerDevicesChromeosCommandsError = NotFound | Forbidden | GcpOpError;
@@ -3217,6 +3304,8 @@ export const getCustomerDevicesChromeosCommands: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerDevicesChromeosCommands",
 }));
 
 export type GetCustomersError = NotFound | Forbidden | GcpOpError;
@@ -3232,6 +3321,8 @@ export const getCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomers",
 }));
 
 export type GetCustomersChromePrintersError = NotFound | Forbidden | GcpOpError;
@@ -3247,6 +3338,8 @@ export const getCustomersChromePrinters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersChromePrinters",
 }));
 
 export type GetCustomersChromePrintServersError = NotFound | Forbidden | GcpOpError;
@@ -3262,6 +3355,8 @@ export const getCustomersChromePrintServers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersChromePrintServers",
 }));
 
 export type GetDomainAliasesError = NotFound | Forbidden | GcpOpError;
@@ -3277,6 +3372,8 @@ export const getDomainAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainAliases",
 }));
 
 export type GetDomainsError = NotFound | Forbidden | GcpOpError;
@@ -3292,6 +3389,8 @@ export const getDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomains",
 }));
 
 export type GetGroupsError = NotFound | Forbidden | GcpOpError;
@@ -3303,6 +3402,8 @@ export const getGroups: API.OperationMethod<GetGroupsRequest, Group, GetGroupsEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetGroups",
   }));
 
 export type GetMembersError = NotFound | Forbidden | GcpOpError;
@@ -3318,6 +3419,8 @@ export const getMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembers",
 }));
 
 export type GetMobiledevicesError = NotFound | Forbidden | GcpOpError;
@@ -3333,6 +3436,8 @@ export const getMobiledevices: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMobiledevices",
 }));
 
 export type GetOrgunitsError = NotFound | Forbidden | GcpOpError;
@@ -3348,6 +3453,8 @@ export const getOrgunits: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgunits",
 }));
 
 export type GetResourcesBuildingsError = NotFound | Forbidden | GcpOpError;
@@ -3363,6 +3470,8 @@ export const getResourcesBuildings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcesBuildings",
 }));
 
 export type GetResourcesCalendarsError = NotFound | Forbidden | GcpOpError;
@@ -3378,6 +3487,8 @@ export const getResourcesCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcesCalendars",
 }));
 
 export type GetResourcesFeaturesError = NotFound | Forbidden | GcpOpError;
@@ -3393,6 +3504,8 @@ export const getResourcesFeatures: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcesFeatures",
 }));
 
 export type GetRoleAssignmentsError = NotFound | Forbidden | GcpOpError;
@@ -3408,6 +3521,8 @@ export const getRoleAssignments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleAssignments",
 }));
 
 export type GetRolesError = NotFound | Forbidden | GcpOpError;
@@ -3419,6 +3534,8 @@ export const getRoles: API.OperationMethod<GetRolesRequest, Role, GetRolesError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetRoles",
   }));
 
 export type GetSchemasError = NotFound | Forbidden | GcpOpError;
@@ -3434,6 +3551,8 @@ export const getSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchemas",
 }));
 
 export type GetTokensError = NotFound | Forbidden | GcpOpError;
@@ -3445,6 +3564,8 @@ export const getTokens: API.OperationMethod<GetTokensRequest, Token, GetTokensEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTokens",
   }));
 
 export type GetUsersError = NotFound | Forbidden | GcpOpError;
@@ -3456,6 +3577,8 @@ export const getUsers: API.OperationMethod<GetUsersRequest, User, GetUsersError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUsers",
   }));
 
 export type GetUsersPhotosError = NotFound | Forbidden | GcpOpError;
@@ -3471,6 +3594,8 @@ export const getUsersPhotos: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersPhotos",
 }));
 
 export type HasMemberMembersError = NotFound | Forbidden | GcpOpError;
@@ -3486,6 +3611,8 @@ export const hasMemberMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HasMemberMembers",
 }));
 
 export type InsertDomainAliasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3501,6 +3628,8 @@ export const insertDomainAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDomainAliases",
 }));
 
 export type InsertDomainsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3516,6 +3645,8 @@ export const insertDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDomains",
 }));
 
 export type InsertGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3531,6 +3662,8 @@ export const insertGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertGroups",
 }));
 
 export type InsertGroupsAliasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3546,6 +3679,8 @@ export const insertGroupsAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertGroupsAliases",
 }));
 
 export type InsertMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3561,6 +3696,8 @@ export const insertMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertMembers",
 }));
 
 export type InsertOrgunitsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3576,6 +3713,8 @@ export const insertOrgunits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertOrgunits",
 }));
 
 export type InsertResourcesBuildingsError =
@@ -3596,6 +3735,8 @@ export const insertResourcesBuildings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertResourcesBuildings",
 }));
 
 export type InsertResourcesCalendarsError =
@@ -3616,6 +3757,8 @@ export const insertResourcesCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertResourcesCalendars",
 }));
 
 export type InsertResourcesFeaturesError =
@@ -3636,6 +3779,8 @@ export const insertResourcesFeatures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertResourcesFeatures",
 }));
 
 export type InsertRoleAssignmentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3651,6 +3796,8 @@ export const insertRoleAssignments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertRoleAssignments",
 }));
 
 export type InsertRolesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3666,6 +3813,8 @@ export const insertRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertRoles",
 }));
 
 export type InsertSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3681,6 +3830,8 @@ export const insertSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertSchemas",
 }));
 
 export type InsertUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3696,6 +3847,8 @@ export const insertUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertUsers",
 }));
 
 export type InsertUsersAliasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3711,6 +3864,8 @@ export const insertUsersAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertUsersAliases",
 }));
 
 export type InvalidateVerificationCodesError =
@@ -3731,6 +3886,8 @@ export const invalidateVerificationCodes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateVerificationCodes",
 }));
 
 export type IssueCommandCustomerDevicesChromeosError =
@@ -3751,6 +3908,8 @@ export const issueCommandCustomerDevicesChromeos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueCommandCustomerDevicesChromeos",
 }));
 
 export type ListAspsError = NotFound | Forbidden | GcpOpError;
@@ -3762,6 +3921,8 @@ export const listAsps: API.OperationMethod<ListAspsRequest, Asps, ListAspsError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAsps",
   }));
 
 export type ListChromeosdevicesError = NotFound | Forbidden | GcpOpError;
@@ -3778,6 +3939,8 @@ export const listChromeosdevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChromeosdevices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3795,6 +3958,8 @@ export const listCustomersChromePrinters: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersChromePrinters",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3812,6 +3977,8 @@ export const listCustomersChromePrintServers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersChromePrintServers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3828,6 +3995,8 @@ export const listDomainAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainAliases",
 }));
 
 export type ListDomainsError = NotFound | Forbidden | GcpOpError;
@@ -3843,6 +4012,8 @@ export const listDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 }));
 
 export type ListGroupsError = NotFound | Forbidden | GcpOpError;
@@ -3859,6 +4030,8 @@ export const listGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3875,6 +4048,8 @@ export const listGroupsAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupsAliases",
 }));
 
 export type ListMembersError = NotFound | Forbidden | GcpOpError;
@@ -3891,6 +4066,8 @@ export const listMembers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3908,6 +4085,8 @@ export const listMobiledevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMobiledevices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3924,6 +4103,8 @@ export const listOrgunits: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgunits",
 }));
 
 export type ListPrinterModelsCustomersChromePrintersError = NotFound | Forbidden | GcpOpError;
@@ -3940,6 +4121,8 @@ export const listPrinterModelsCustomersChromePrinters: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrinterModelsCustomersChromePrinters",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3956,6 +4139,8 @@ export const listPrivileges: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivileges",
 }));
 
 export type ListResourcesBuildingsError = NotFound | Forbidden | GcpOpError;
@@ -3972,6 +4157,8 @@ export const listResourcesBuildings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourcesBuildings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3989,6 +4176,8 @@ export const listResourcesCalendars: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourcesCalendars",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -4006,6 +4195,8 @@ export const listResourcesFeatures: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourcesFeatures",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4023,6 +4214,8 @@ export const listRoleAssignments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoleAssignments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -4040,6 +4233,8 @@ export const listRoles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -4056,6 +4251,8 @@ export const listSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchemas",
 }));
 
 export type ListTokensError = NotFound | Forbidden | GcpOpError;
@@ -4071,6 +4268,8 @@ export const listTokens: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTokens",
 }));
 
 export type ListUsersError = NotFound | Forbidden | GcpOpError;
@@ -4087,6 +4286,8 @@ export const listUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4103,6 +4304,8 @@ export const listUsersAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersAliases",
 }));
 
 export type ListVerificationCodesError = NotFound | Forbidden | GcpOpError;
@@ -4118,6 +4321,8 @@ export const listVerificationCodes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVerificationCodes",
 }));
 
 export type MakeAdminUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4133,6 +4338,8 @@ export const makeAdminUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MakeAdminUsers",
 }));
 
 export type MoveDevicesToOuChromeosdevicesError =
@@ -4153,6 +4360,8 @@ export const moveDevicesToOuChromeosdevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveDevicesToOuChromeosdevices",
 }));
 
 export type PatchChromeosdevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4168,6 +4377,8 @@ export const patchChromeosdevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchChromeosdevices",
 }));
 
 export type PatchCustomersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4183,6 +4394,8 @@ export const patchCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomers",
 }));
 
 export type PatchCustomersChromePrintersError =
@@ -4203,6 +4416,8 @@ export const patchCustomersChromePrinters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomersChromePrinters",
 }));
 
 export type PatchCustomersChromePrintServersError =
@@ -4223,6 +4438,8 @@ export const patchCustomersChromePrintServers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomersChromePrintServers",
 }));
 
 export type PatchGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4238,6 +4455,8 @@ export const patchGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGroups",
 }));
 
 export type PatchMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4253,6 +4472,8 @@ export const patchMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMembers",
 }));
 
 export type PatchOrgunitsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4268,6 +4489,8 @@ export const patchOrgunits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrgunits",
 }));
 
 export type PatchResourcesBuildingsError =
@@ -4288,6 +4511,8 @@ export const patchResourcesBuildings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourcesBuildings",
 }));
 
 export type PatchResourcesCalendarsError =
@@ -4308,6 +4533,8 @@ export const patchResourcesCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourcesCalendars",
 }));
 
 export type PatchResourcesFeaturesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4323,6 +4550,8 @@ export const patchResourcesFeatures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourcesFeatures",
 }));
 
 export type PatchRolesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4338,6 +4567,8 @@ export const patchRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRoles",
 }));
 
 export type PatchSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4353,6 +4584,8 @@ export const patchSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchemas",
 }));
 
 export type PatchUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4368,6 +4601,8 @@ export const patchUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsers",
 }));
 
 export type PatchUsersPhotosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4383,6 +4618,8 @@ export const patchUsersPhotos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersPhotos",
 }));
 
 export type RenameResourcesFeaturesError =
@@ -4403,6 +4640,8 @@ export const renameResourcesFeatures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameResourcesFeatures",
 }));
 
 export type SignOutUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4418,6 +4657,8 @@ export const signOutUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignOutUsers",
 }));
 
 export type StopChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4433,6 +4674,8 @@ export const stopChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopChannels",
 }));
 
 export type TurnOffTwoStepVerificationError =
@@ -4453,6 +4696,8 @@ export const turnOffTwoStepVerification: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TurnOffTwoStepVerification",
 }));
 
 export type UndeleteUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4468,6 +4713,8 @@ export const undeleteUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteUsers",
 }));
 
 export type UpdateChromeosdevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4483,6 +4730,8 @@ export const updateChromeosdevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChromeosdevices",
 }));
 
 export type UpdateCustomersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4498,6 +4747,8 @@ export const updateCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomers",
 }));
 
 export type UpdateGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4513,6 +4764,8 @@ export const updateGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroups",
 }));
 
 export type UpdateMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4528,6 +4781,8 @@ export const updateMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMembers",
 }));
 
 export type UpdateOrgunitsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4543,6 +4798,8 @@ export const updateOrgunits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgunits",
 }));
 
 export type UpdateResourcesBuildingsError =
@@ -4563,6 +4820,8 @@ export const updateResourcesBuildings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourcesBuildings",
 }));
 
 export type UpdateResourcesCalendarsError =
@@ -4583,6 +4842,8 @@ export const updateResourcesCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourcesCalendars",
 }));
 
 export type UpdateResourcesFeaturesError =
@@ -4603,6 +4864,8 @@ export const updateResourcesFeatures: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourcesFeatures",
 }));
 
 export type UpdateRolesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4618,6 +4881,8 @@ export const updateRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRoles",
 }));
 
 export type UpdateSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4633,6 +4898,8 @@ export const updateSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSchemas",
 }));
 
 export type UpdateUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4648,6 +4915,8 @@ export const updateUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsers",
 }));
 
 export type UpdateUsersPhotosError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4663,6 +4932,8 @@ export const updateUsersPhotos: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersPhotos",
 }));
 
 export type WatchUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4678,6 +4949,8 @@ export const watchUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchUsers",
 }));
 
 export type WatchUsersAliasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4693,6 +4966,8 @@ export const watchUsersAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchUsersAliases",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

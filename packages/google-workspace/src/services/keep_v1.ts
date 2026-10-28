@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Keep",
+  service: "keep",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -245,6 +258,8 @@ export const batchCreateNotesPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchCreateNotesPermissions",
 }));
 
 export type BatchDeleteNotesPermissionsError =
@@ -265,6 +280,8 @@ export const batchDeleteNotesPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteNotesPermissions",
 }));
 
 export type CreateNotesError =
@@ -285,6 +302,8 @@ export const createNotes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotes",
 }));
 
 export type DeleteNotesError =
@@ -305,6 +324,8 @@ export const deleteNotes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotes",
 }));
 
 export type DownloadMediaError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -320,6 +341,8 @@ export const downloadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadMedia",
 }));
 
 export type GetNotesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -335,6 +358,8 @@ export const getNotes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotes",
 }));
 
 export type ListNotesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -351,6 +376,8 @@ export const listNotes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

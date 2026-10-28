@@ -107,6 +107,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Notion Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // RFC-6902 patches apply to the Smithy models via finalizeConvert in
   // scripts/convert.ts — never here.

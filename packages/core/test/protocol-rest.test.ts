@@ -8,6 +8,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
+import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import {
@@ -586,6 +587,51 @@ describe("makeRestProtocol success decoding", () => {
   });
 });
 
+describe("makeRestProtocol body read failures", () => {
+  // A body that errors mid-read, like a connection reset after the headers.
+  const brokenBody = (status: number) =>
+    new Response(
+      new ReadableStream({
+        start: (controller) => controller.error(new Error("socket reset")),
+      }),
+      { status, headers: { "content-type": "application/json" } },
+    );
+
+  test.each([200, 500])("a %i body read failure fails with HttpClientError", async (status) => {
+    const error = await failOn(() => brokenBody(status));
+    expect(error._tag).toBe("HttpClientError");
+    expect(error.reason._tag).toBe("DecodeError");
+  });
+
+  test("a BinaryResponse body read failure fails with HttpClientError", async () => {
+    const binaryOp = API.make(() => ({
+      input: ThingInput,
+      output: S.Unknown.pipe(BinaryResponse()),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const error = await failOn(() => brokenBody(200), binaryOp);
+    expect(error._tag).toBe("HttpClientError");
+    expect(error.reason._tag).toBe("DecodeError");
+  });
+});
+
+describe("makeRestProtocol label refusals", () => {
+  test("a `..` label fails with InvalidInput and sends nothing", async () => {
+    let sent = 0;
+    const error = await failWith(
+      createThingWithErrors({ id: ".." }),
+      fakeClient(() => {
+        sent++;
+        return json({});
+      }),
+      creds(),
+    );
+    expect(error._tag).toBe("InvalidInput");
+    expect(error.member).toBe("id");
+    expect(sent).toBe(0);
+  });
+});
+
 // =============================================================================
 // Error responses
 // =============================================================================
@@ -766,5 +812,78 @@ describe("makeRestProtocol errorEnvelope and statusMap options", () => {
     const error = await failOn(() => json({ err: { text: "boom" } }, 500), customOp);
     expect(error).toBeInstanceOf(InternalServerError);
     expect(error.message).toBe("boom");
+  });
+});
+
+describe("Link-header pagination", () => {
+  const listThings = API.makePaginated(() => ({
+    input: S.Struct({
+      state: S.optional(S.String).pipe(T.Query("state")),
+      page: S.optional(S.Number).pipe(T.Query("page")),
+      per_page: S.optional(S.Number).pipe(T.Query("per_page")),
+    }).pipe(T.Http({ method: "GET", uri: "/things" })),
+    output: S.Array(S.Struct({ id: S.String })).pipe(RawResponseRoot()),
+    protocol: DefaultProtocol,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" },
+  })) as unknown as {
+    items: (input: Record<string, unknown>) => Stream.Stream<{ id: string }, any, any>;
+    pages: (input: Record<string, unknown>) => Stream.Stream<unknown, any, any>;
+  };
+
+  // Three pages of two; each page but the last links to the next, keeping
+  // the request's other query parameters, the way GitHub does.
+  const server = (recorded: Recorded) =>
+    fakeClient((request) => {
+      const url = new URL(request.url);
+      const page = Number(url.searchParams.get("page") ?? "1");
+      const link = (n: number, rel: string) => {
+        const next = new URL(url);
+        next.searchParams.set("page", String(n));
+        return `<${next}>; rel="${rel}"`;
+      };
+      const links = [
+        ...(page < 3 ? [link(page + 1, "next")] : []),
+        link(3, "last"),
+        link(1, "first"),
+      ];
+      return json([{ id: `${page}a` }, { id: `${page}b` }], 200, { link: links.join(", ") });
+    }, recorded);
+
+  test("items follow rel=next across bare-array pages", async () => {
+    const recorded: Recorded = { requests: [] };
+    const items = await succeed(
+      Stream.runCollect(listThings.items({ state: "open", per_page: 2 })),
+      server(recorded),
+      creds(),
+    );
+    expect(items.map((i: { id: string }) => i.id)).toEqual(["1a", "1b", "2a", "2b", "3a", "3b"]);
+    expect(recorded.requests.map((r) => new URL(r.url).search)).toEqual([
+      "?state=open&per_page=2",
+      "?state=open&page=2&per_page=2",
+      "?state=open&page=3&per_page=2",
+    ]);
+  });
+
+  test("pages are the bare arrays", async () => {
+    const pages = await succeed(
+      Stream.runCollect(listThings.pages({ page: 2, per_page: 2 })),
+      server({ requests: [] }),
+      creds(),
+    );
+    expect(pages).toEqual([
+      [{ id: "2a" }, { id: "2b" }],
+      [{ id: "3a" }, { id: "3b" }],
+    ]);
+  });
+
+  test("a response without a Link header is the only page", async () => {
+    const recorded: Recorded = { requests: [] };
+    const items = await succeed(
+      Stream.runCollect(listThings.items({})),
+      fakeClient(() => json([{ id: "x" }]), recorded),
+      creds(),
+    );
+    expect(items).toEqual([{ id: "x" }]);
+    expect(recorded.requests).toHaveLength(1);
   });
 });

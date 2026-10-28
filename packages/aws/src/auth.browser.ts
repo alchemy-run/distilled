@@ -1,7 +1,11 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
-import type { CredentialsError, ResolvedCredentials } from "./credentials-service.ts";
+import {
+  AwsCredentialProviderError,
+  type CredentialsError,
+  type ResolvedCredentials,
+} from "./credentials-service.ts";
 
 export class Auth
   extends /*@__PURE__*/ Context.Service<
@@ -14,9 +18,25 @@ export class Auth
     }
   >()("distilled-aws/AWS/Auth") {}
 
-// This doesn't do anything - it's here so that when building for the browser, you don't get a warning about `Auth.Default` not being exported.
+const noProfiles = (): Effect.Effect<never, AwsCredentialProviderError> =>
+  Effect.fail(
+    new AwsCredentialProviderError({
+      message:
+        "AWS profiles (the shared config and credentials files) cannot be read in a browser.",
+      provider: "Auth",
+      hints: ["Provide credentials explicitly with a Credentials layer."],
+    }),
+  );
+
+/**
+ * The browser twin of `Auth.Default`: the provided `Auth`, or one whose
+ * profile reads fail with {@link AwsCredentialProviderError}, since a browser
+ * has no profile files.
+ */
 export const Default = /*@__PURE__*/ Effect.serviceOption(Auth).pipe(
-  /*@__PURE__*/ Effect.map(Option.getOrThrow),
+  /*@__PURE__*/ Effect.map(
+    Option.getOrElse(() => ({ loadProfile: noProfiles, loadProfileCredentials: noProfiles })),
+  ),
 );
 
 export interface AwsProfileConfig {

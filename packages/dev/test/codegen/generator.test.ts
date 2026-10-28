@@ -136,6 +136,105 @@ describe("primitive union generation", () => {
   });
 });
 
+describe("models without operations", () => {
+  const typesOnly = {
+    smithy: "2.0",
+    shapes: {
+      "com.example.hooks#PingEvent": {
+        type: "structure",
+        members: { zen: { target: "smithy.api#String" } },
+      },
+    },
+  };
+
+  test("emit nothing by default", () => {
+    expect(generateService(typesOnly, spec).code).toBe("");
+  });
+
+  test("emit the shapes extraRoots names", () => {
+    const { code, operations } = generateService(typesOnly, {
+      ...spec,
+      extraRoots: () => ["com.example.hooks#PingEvent"],
+    });
+    expect(operations).toBe(0);
+    expect(code).toContain("export interface PingEvent {");
+  });
+});
+
+describe("operation type annotation overrides", () => {
+  test("replace the annotation and cast the value to it", () => {
+    const { code } = generateService(primitiveUnionModel("enum", false), {
+      ...spec,
+      operationDecl: {
+        ...spec.operationDecl!,
+        overrides: () => ({ typeAnnotation: "API.OperationMethod<A, B, C, D> & Overload" }),
+      },
+    });
+    expect(code).toContain("export const getValue: API.OperationMethod<A, B, C, D> & Overload =");
+    expect(code).toMatch(/\}\)\) as any;/);
+  });
+});
+
+describe("pagination over a bare-array response", () => {
+  const model = {
+    smithy: "2.0",
+    shapes: {
+      "ns#Example": { type: "service", version: "1", operations: [{ target: "ns#ListThings" }] },
+      "ns#ListThings": {
+        type: "operation",
+        input: { target: "ns#ListThingsRequest" },
+        output: { target: "ns#ListThingsResponse" },
+        traits: {
+          "smithy.api#http": { method: "GET", uri: "/things" },
+          "smithy.api#paginated": {
+            mode: "link",
+            inputToken: "page",
+            pageSize: "per_page",
+            items: "body",
+          },
+        },
+      },
+      "ns#ListThingsRequest": {
+        type: "structure",
+        traits: { "smithy.api#input": {} },
+        members: {
+          page: { target: "smithy.api#Integer", traits: { "smithy.api#httpQuery": "page" } },
+          per_page: {
+            target: "smithy.api#Integer",
+            traits: { "smithy.api#httpQuery": "per_page" },
+          },
+        },
+      },
+      "ns#ListThingsResponse": {
+        type: "structure",
+        members: { body: { target: "ns#ThingList", traits: { "ns#raw": {} } } },
+      },
+      "ns#ThingList": { type: "list", member: { target: "ns#Thing" } },
+      "ns#Thing": { type: "structure", members: { id: { target: "smithy.api#String" } } },
+    },
+  };
+  const pageSpec: SdkSpec = {
+    ...spec,
+    extraBindings: [
+      {
+        trait: "ns#raw",
+        binding: "rawResponse",
+        pipe: "T.RawResponse()",
+        rootPipe: "T.RawResponseRoot()",
+      },
+    ],
+    paginationProfiles: { link: { strategy: "paginateLink", itemsFallback: "" } },
+  };
+
+  test("items naming the sole member keeps the response the array and types items as its element", () => {
+    const { code } = generateService(model, pageSpec);
+    expect(code).toContain("export type ListThingsResponse = ThingList;");
+    expect(code).toMatch(
+      /PaginatedOperationMethod<\s*ListThingsRequest,\s*ListThingsResponse,\s*ListThingsError,\s*ExampleContext,\s*Thing\s*>/,
+    );
+  });
+});
+
 describe("whole-body responses", () => {
   test("a nullable response body becomes a `| null` output type", () => {
     const { code } = generateService(

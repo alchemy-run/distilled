@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -120,6 +121,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://health.{R}.{D}","properties":{},"headers":{}}',
   ["aws-global", "aws-cn-global", "eusc-de-east-1"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Health",
+  service: "Health",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -558,6 +574,8 @@ export const describeAffectedAccountsForOrganization: API.PaginatedOperationMeth
     items: "affectedAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAffectedAccountsForOrganization",
 })) as any;
 
 export type DescribeAffectedEntitiesError =
@@ -597,6 +615,8 @@ export const describeAffectedEntities: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAffectedEntities",
 })) as any;
 
 export type DescribeAffectedEntitiesForOrganizationError =
@@ -639,6 +659,8 @@ export const describeAffectedEntitiesForOrganization: API.PaginatedOperationMeth
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAffectedEntitiesForOrganization",
 })) as any;
 
 export type DescribeEntityAggregatesError = CommonErrors;
@@ -657,6 +679,8 @@ export const describeEntityAggregates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityAggregates",
+  telemetry: TELEMETRY,
+  span: "DescribeEntityAggregates",
 }));
 
 export type DescribeEntityAggregatesForOrganizationError = CommonErrors;
@@ -675,6 +699,8 @@ export const describeEntityAggregatesForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityAggregatesForOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeEntityAggregatesForOrganization",
 }));
 
 export type DescribeEventAggregatesError = InvalidPaginationToken | CommonErrors;
@@ -704,6 +730,8 @@ export const describeEventAggregates: API.PaginatedOperationMethod<
     items: "eventAggregates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventAggregates",
 })) as any;
 
 export type DescribeEventDetailsError = UnsupportedLocale | CommonErrors;
@@ -731,6 +759,8 @@ export const describeEventDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventDetails",
+  telemetry: TELEMETRY,
+  span: "DescribeEventDetails",
 }));
 
 export type DescribeEventDetailsForOrganizationError = UnsupportedLocale | CommonErrors;
@@ -776,6 +806,8 @@ export const describeEventDetailsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventDetailsForOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeEventDetailsForOrganization",
 }));
 
 export type DescribeEventsError = InvalidPaginationToken | UnsupportedLocale | CommonErrors;
@@ -818,6 +850,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeEventsForOrganizationError =
@@ -868,6 +902,8 @@ export const describeEventsForOrganization: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventsForOrganization",
 })) as any;
 
 export type DescribeEventTypesError = InvalidPaginationToken | UnsupportedLocale | CommonErrors;
@@ -899,6 +935,8 @@ export const describeEventTypes: API.PaginatedOperationMethod<
     items: "eventTypes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventTypes",
 })) as any;
 
 export type DescribeHealthServiceStatusForOrganizationError = CommonErrors;
@@ -919,6 +957,8 @@ export const describeHealthServiceStatusForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHealthServiceStatusForOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeHealthServiceStatusForOrganization",
 }));
 
 export type DescribeServiceLifecycleError = InvalidPaginationToken | CommonErrors;
@@ -944,6 +984,8 @@ export const describeServiceLifecycle: API.PaginatedOperationMethod<
     items: "serviceLifecycles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServiceLifecycle",
 })) as any;
 
 export type DisableHealthServiceAccessForOrganizationError =
@@ -977,6 +1019,8 @@ export const disableHealthServiceAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableHealthServiceAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "DisableHealthServiceAccessForOrganization",
 }));
 
 export type EnableHealthServiceAccessForOrganizationError =
@@ -1016,6 +1060,8 @@ export const enableHealthServiceAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableHealthServiceAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "EnableHealthServiceAccessForOrganization",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mail-manager.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MailManager",
+  service: "MailManager",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1534,6 +1550,8 @@ export const createAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddonInstance",
+  telemetry: TELEMETRY,
+  span: "CreateAddonInstance",
 }));
 
 export type CreateAddonSubscriptionError =
@@ -1562,6 +1580,8 @@ export const createAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddonSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateAddonSubscription",
 }));
 
 export type CreateAddressListError =
@@ -1592,6 +1612,8 @@ export const createAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddressList",
+  telemetry: TELEMETRY,
+  span: "CreateAddressList",
 }));
 
 export type CreateAddressListImportJobError =
@@ -1620,6 +1642,8 @@ export const createAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddressListImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateAddressListImportJob",
 }));
 
 export type CreateArchiveError =
@@ -1650,6 +1674,8 @@ export const createArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchive",
+  telemetry: TELEMETRY,
+  span: "CreateArchive",
 }));
 
 export type CreateIngressPointError =
@@ -1672,6 +1698,8 @@ export const createIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngressPoint",
+  telemetry: TELEMETRY,
+  span: "CreateIngressPoint",
 }));
 
 export type CreateRelayError =
@@ -1694,6 +1722,8 @@ export const createRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelay",
+  telemetry: TELEMETRY,
+  span: "CreateRelay",
 }));
 
 export type CreateRuleSetError =
@@ -1716,6 +1746,8 @@ export const createRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleSet",
+  telemetry: TELEMETRY,
+  span: "CreateRuleSet",
 }));
 
 export type CreateTrafficPolicyError =
@@ -1738,6 +1770,8 @@ export const createTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateTrafficPolicy",
 }));
 
 export type DeleteAddonInstanceError = ConflictException | ValidationException | CommonErrors;
@@ -1756,6 +1790,8 @@ export const deleteAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddonInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteAddonInstance",
 }));
 
 export type DeleteAddonSubscriptionError = ConflictException | ValidationException | CommonErrors;
@@ -1774,6 +1810,8 @@ export const deleteAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddonSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteAddonSubscription",
 }));
 
 export type DeleteAddressListError =
@@ -1797,6 +1835,8 @@ export const deleteAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddressList",
+  telemetry: TELEMETRY,
+  span: "DeleteAddressList",
 }));
 
 export type DeleteArchiveError =
@@ -1820,6 +1860,8 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
+  telemetry: TELEMETRY,
+  span: "DeleteArchive",
 }));
 
 export type DeleteIngressPointError =
@@ -1842,6 +1884,8 @@ export const deleteIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngressPoint",
+  telemetry: TELEMETRY,
+  span: "DeleteIngressPoint",
 }));
 
 export type DeleteRelayError =
@@ -1864,6 +1908,8 @@ export const deleteRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelay",
+  telemetry: TELEMETRY,
+  span: "DeleteRelay",
 }));
 
 export type DeleteRuleSetError = ConflictException | ValidationException | CommonErrors;
@@ -1882,6 +1928,8 @@ export const deleteRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleSet",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleSet",
 }));
 
 export type DeleteTrafficPolicyError =
@@ -1904,6 +1952,8 @@ export const deleteTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficPolicy",
 }));
 
 export type DeregisterMemberFromAddressListError =
@@ -1934,6 +1984,8 @@ export const deregisterMemberFromAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterMemberFromAddressList",
+  telemetry: TELEMETRY,
+  span: "DeregisterMemberFromAddressList",
 }));
 
 export type GetAddonInstanceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1952,6 +2004,8 @@ export const getAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddonInstance",
+  telemetry: TELEMETRY,
+  span: "GetAddonInstance",
 }));
 
 export type GetAddonSubscriptionError =
@@ -1973,6 +2027,8 @@ export const getAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddonSubscription",
+  telemetry: TELEMETRY,
+  span: "GetAddonSubscription",
 }));
 
 export type GetAddressListError =
@@ -2001,6 +2057,8 @@ export const getAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddressList",
+  telemetry: TELEMETRY,
+  span: "GetAddressList",
 }));
 
 export type GetAddressListImportJobError =
@@ -2029,6 +2087,8 @@ export const getAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddressListImportJob",
+  telemetry: TELEMETRY,
+  span: "GetAddressListImportJob",
 }));
 
 export type GetArchiveError =
@@ -2057,6 +2117,8 @@ export const getArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchive",
+  telemetry: TELEMETRY,
+  span: "GetArchive",
 }));
 
 export type GetArchiveExportError =
@@ -2079,6 +2141,8 @@ export const getArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveExport",
+  telemetry: TELEMETRY,
+  span: "GetArchiveExport",
 }));
 
 export type GetArchiveMessageError =
@@ -2101,6 +2165,8 @@ export const getArchiveMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveMessage",
+  telemetry: TELEMETRY,
+  span: "GetArchiveMessage",
 }));
 
 export type GetArchiveMessageContentError =
@@ -2123,6 +2189,8 @@ export const getArchiveMessageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveMessageContent",
+  telemetry: TELEMETRY,
+  span: "GetArchiveMessageContent",
 }));
 
 export type GetArchiveSearchError =
@@ -2145,6 +2213,8 @@ export const getArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveSearch",
+  telemetry: TELEMETRY,
+  span: "GetArchiveSearch",
 }));
 
 export type GetArchiveSearchResultsError =
@@ -2168,6 +2238,8 @@ export const getArchiveSearchResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveSearchResults",
+  telemetry: TELEMETRY,
+  span: "GetArchiveSearchResults",
 }));
 
 export type GetIngressPointError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2186,6 +2258,8 @@ export const getIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngressPoint",
+  telemetry: TELEMETRY,
+  span: "GetIngressPoint",
 }));
 
 export type GetMemberOfAddressListError =
@@ -2214,6 +2288,8 @@ export const getMemberOfAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemberOfAddressList",
+  telemetry: TELEMETRY,
+  span: "GetMemberOfAddressList",
 }));
 
 export type GetRelayError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2232,6 +2308,8 @@ export const getRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelay",
+  telemetry: TELEMETRY,
+  span: "GetRelay",
 }));
 
 export type GetRuleSetError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2250,6 +2328,8 @@ export const getRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleSet",
+  telemetry: TELEMETRY,
+  span: "GetRuleSet",
 }));
 
 export type GetTrafficPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2268,6 +2348,8 @@ export const getTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "GetTrafficPolicy",
 }));
 
 export type ListAddonInstancesError = ValidationException | CommonErrors;
@@ -2293,6 +2375,8 @@ export const listAddonInstances: API.PaginatedOperationMethod<
     items: "AddonInstances",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddonInstances",
 })) as any;
 
 export type ListAddonSubscriptionsError = ValidationException | CommonErrors;
@@ -2318,6 +2402,8 @@ export const listAddonSubscriptions: API.PaginatedOperationMethod<
     items: "AddonSubscriptions",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddonSubscriptions",
 })) as any;
 
 export type ListAddressListImportJobsError =
@@ -2353,6 +2439,8 @@ export const listAddressListImportJobs: API.PaginatedOperationMethod<
     items: "ImportJobs",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddressListImportJobs",
 })) as any;
 
 export type ListAddressListsError =
@@ -2382,6 +2470,8 @@ export const listAddressLists: API.PaginatedOperationMethod<
     items: "AddressLists",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddressLists",
 })) as any;
 
 export type ListArchiveExportsError =
@@ -2417,6 +2507,8 @@ export const listArchiveExports: API.PaginatedOperationMethod<
     items: "Exports",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArchiveExports",
 })) as any;
 
 export type ListArchivesError =
@@ -2446,6 +2538,8 @@ export const listArchives: API.PaginatedOperationMethod<
     items: "Archives",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArchives",
 })) as any;
 
 export type ListArchiveSearchesError =
@@ -2481,6 +2575,8 @@ export const listArchiveSearches: API.PaginatedOperationMethod<
     items: "Searches",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArchiveSearches",
 })) as any;
 
 export type ListIngressPointsError = ValidationException | CommonErrors;
@@ -2506,6 +2602,8 @@ export const listIngressPoints: API.PaginatedOperationMethod<
     items: "IngressPoints",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngressPoints",
 })) as any;
 
 export type ListMembersOfAddressListError =
@@ -2541,6 +2639,8 @@ export const listMembersOfAddressList: API.PaginatedOperationMethod<
     items: "Addresses",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembersOfAddressList",
 })) as any;
 
 export type ListRelaysError = ValidationException | CommonErrors;
@@ -2566,6 +2666,8 @@ export const listRelays: API.PaginatedOperationMethod<
     items: "Relays",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRelays",
 })) as any;
 
 export type ListRuleSetsError = ValidationException | CommonErrors;
@@ -2591,6 +2693,8 @@ export const listRuleSets: API.PaginatedOperationMethod<
     items: "RuleSets",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleSets",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2612,6 +2716,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTrafficPoliciesError = ValidationException | CommonErrors;
@@ -2637,6 +2743,8 @@ export const listTrafficPolicies: API.PaginatedOperationMethod<
     items: "TrafficPolicies",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrafficPolicies",
 })) as any;
 
 export type RegisterMemberToAddressListError =
@@ -2669,6 +2777,8 @@ export const registerMemberToAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterMemberToAddressList",
+  telemetry: TELEMETRY,
+  span: "RegisterMemberToAddressList",
 }));
 
 export type StartAddressListImportJobError =
@@ -2701,6 +2811,8 @@ export const startAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAddressListImportJob",
+  telemetry: TELEMETRY,
+  span: "StartAddressListImportJob",
 }));
 
 export type StartArchiveExportError =
@@ -2731,6 +2843,8 @@ export const startArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartArchiveExport",
+  telemetry: TELEMETRY,
+  span: "StartArchiveExport",
 }));
 
 export type StartArchiveSearchError =
@@ -2763,6 +2877,8 @@ export const startArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartArchiveSearch",
+  telemetry: TELEMETRY,
+  span: "StartArchiveSearch",
 }));
 
 export type StopAddressListImportJobError =
@@ -2793,6 +2909,8 @@ export const stopAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAddressListImportJob",
+  telemetry: TELEMETRY,
+  span: "StopAddressListImportJob",
 }));
 
 export type StopArchiveExportError =
@@ -2815,6 +2933,8 @@ export const stopArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopArchiveExport",
+  telemetry: TELEMETRY,
+  span: "StopArchiveExport",
 }));
 
 export type StopArchiveSearchError =
@@ -2837,6 +2957,8 @@ export const stopArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopArchiveSearch",
+  telemetry: TELEMETRY,
+  span: "StopArchiveSearch",
 }));
 
 export type TagResourceError =
@@ -2865,6 +2987,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2887,6 +3011,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateArchiveError =
@@ -2919,6 +3045,8 @@ export const updateArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchive",
+  telemetry: TELEMETRY,
+  span: "UpdateArchive",
 }));
 
 export type UpdateIngressPointError =
@@ -2941,6 +3069,8 @@ export const updateIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngressPoint",
+  telemetry: TELEMETRY,
+  span: "UpdateIngressPoint",
 }));
 
 export type UpdateRelayError =
@@ -2963,6 +3093,8 @@ export const updateRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelay",
+  telemetry: TELEMETRY,
+  span: "UpdateRelay",
 }));
 
 export type UpdateRuleSetError =
@@ -2985,6 +3117,8 @@ export const updateRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleSet",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleSet",
 }));
 
 export type UpdateTrafficPolicyError =
@@ -3007,6 +3141,8 @@ export const updateTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateTrafficPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

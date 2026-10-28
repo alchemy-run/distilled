@@ -3,6 +3,7 @@ import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type ConfigError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -88,7 +89,8 @@ export type FlyIoOpError =
   | DefaultErrors
   | ConfigError
   | CreateExtensionTosAgreementNotAuthorized
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by Machines / MPG / GraphQL operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
@@ -243,11 +245,10 @@ const isMintOp = (http: HttpTrait | undefined): boolean =>
 
 const SPRITES_NOT_ENABLED = /sprites not enabled/i;
 
-const readResponseText = (response: HttpClientResponse.HttpClientResponse): Effect.Effect<string> =>
-  response.text.pipe(
-    Effect.orDie,
-    Effect.map((text) => text ?? ""),
-  );
+const readResponseText = (
+  response: HttpClientResponse.HttpClientResponse,
+): Effect.Effect<string, HttpClientError.HttpClientError> =>
+  response.text.pipe(Effect.map((text) => text ?? ""));
 
 const parseJson = (text: string): unknown => {
   if (text.trim().length === 0) return undefined;
@@ -475,7 +476,7 @@ const encodeSpritesRequest = ({
       const token = yield* mintSpritesToken(fly);
       authorization = `Bearer ${Redacted.value(token)}`;
     }
-    return buildRequest({
+    return yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: DEFAULT_SPRITES_API_BASE_URL,
@@ -716,7 +717,7 @@ const graphqlDecode = ({
   readonly errors: ReadonlyArray<unknown>;
 }) =>
   Effect.gen(function* () {
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 

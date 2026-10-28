@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Usergroups",
+  propagate: "w3c",
+} as const;
+
 /** A comma separated string of encoded channel IDs for which the User Group uses as a default. */
 export type CreateUsergroupRequestChannelsList = Array<string>;
 /** A comma separated string of encoded channel IDs for which the User Group can custom add usergroup members too. */
@@ -163,6 +176,8 @@ export const createUsergroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsergroup",
 }));
 
 export type DisableUsergroupError = SlackOpError;
@@ -178,6 +193,8 @@ export const disableUsergroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableUsergroup",
 }));
 
 export type EnableUsergroupError = SlackOpError;
@@ -193,6 +210,8 @@ export const enableUsergroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableUsergroup",
 }));
 
 export type ListUsergroupsError = SlackOpError;
@@ -208,6 +227,8 @@ export const listUsergroups: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsergroups",
 }));
 
 export type ListUsersError = SlackOpError;
@@ -223,6 +244,8 @@ export const listUsers: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type UpdateUserError = SlackOpError;
@@ -238,6 +261,8 @@ export const updateUser: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUsergroupError = SlackOpError;
@@ -253,6 +278,8 @@ export const updateUsergroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsergroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

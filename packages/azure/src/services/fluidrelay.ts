@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.FluidRelay" },
+  prefix: "Fluidrelay",
+  service: "Fluidrelay",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteFluidRelayContainerRequest {
   /** The subscription id (GUID) for this resource. */
   subscriptionId: string;
@@ -594,6 +614,8 @@ export const DeleteFluidRelayContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFluidRelayContainer",
 }));
 
 export type DeleteFluidRelayServerError = AzureOpError;
@@ -609,6 +631,8 @@ export const DeleteFluidRelayServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFluidRelayServer",
 }));
 
 export type FluidRelayServersCreateOrUpdateError = AzureOpError;
@@ -624,6 +648,8 @@ export const FluidRelayServersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FluidRelayServersCreateOrUpdate",
 }));
 
 export type GetFluidRelayContainerError = AzureOpError;
@@ -639,6 +665,8 @@ export const GetFluidRelayContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFluidRelayContainer",
 }));
 
 export type GetFluidRelayServerError = AzureOpError;
@@ -654,6 +682,8 @@ export const GetFluidRelayServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFluidRelayServer",
 }));
 
 export type ListFluidRelayContainerByFluidRelayServersError = AzureOpError;
@@ -669,6 +699,8 @@ export const ListFluidRelayContainerByFluidRelayServers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFluidRelayContainerByFluidRelayServers",
 }));
 
 export type ListFluidRelayOperationsError = AzureOpError;
@@ -684,6 +716,8 @@ export const ListFluidRelayOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFluidRelayOperations",
 }));
 
 export type ListFluidRelayServerByResourceGroupError = AzureOpError;
@@ -699,6 +733,8 @@ export const ListFluidRelayServerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFluidRelayServerByResourceGroup",
 }));
 
 export type ListFluidRelayServerBySubscriptionError = AzureOpError;
@@ -714,6 +750,8 @@ export const ListFluidRelayServerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFluidRelayServerBySubscription",
 }));
 
 export type ListFluidRelayServerKeysError = AzureOpError;
@@ -729,6 +767,8 @@ export const ListFluidRelayServerKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFluidRelayServerKeys",
 }));
 
 export type RegenerateFluidRelayServerKeyError = AzureOpError;
@@ -744,6 +784,8 @@ export const RegenerateFluidRelayServerKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateFluidRelayServerKey",
 }));
 
 export type UpdateFluidRelayServerError = AzureOpError;
@@ -759,6 +801,8 @@ export const UpdateFluidRelayServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFluidRelayServer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

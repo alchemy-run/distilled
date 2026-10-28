@@ -123,11 +123,11 @@ underneath you, beyond the patches:
 
 ## Step 5 — commit and PR
 
-Stage explicit paths — the gitlink, `.generated-specs/`, `patches/`,
-`src/services/`, and `README.md` if an example changed:
+Stage explicit paths — the gitlink, `patches/`, `src/services/`, and
+`README.md` if an example changed:
 
 ```sh
-git add -- packages/<pkg>/specs/spec-mirror-<pkg> packages/<pkg>/.generated-specs \
+git add -- packages/<pkg>/specs/spec-mirror-<pkg> \
   packages/<pkg>/patches packages/<pkg>/src/services
 git commit -m "feat(<pkg>): regenerate from the <YYYY-MM-DD> spec"
 ```
@@ -169,8 +169,8 @@ package that also patch this one.
 Read each body and its `patches/` diff. If the user excludes a PR or an API,
 leave it untouched: no push, no comment, no close.
 
-**Judge each against the regenerated model** (`.generated-specs/`, not the
-TypeScript):
+**Judge each against the regenerated model** (a `pnpm convert` dump in
+`.generated-specs/`, not the TypeScript):
 
 | Finding | Do |
 | --- | --- |
@@ -180,8 +180,9 @@ TypeScript):
 | None of it is in the spec | update and merge as is |
 | The spec has it, but the converter generates it wrong | fix the converter in its own PR, merge it, then close |
 
-Usually reading the regenerated model answers it: search
-`.generated-specs/` for the operations, members or shapes the PR adds. When
+Usually reading the regenerated model answers it: run `pnpm convert` in the
+package and search `.generated-specs/` for the operations, members or
+shapes the PR adds. When
 it does not, merge `main` into the PR's branch and run `pnpm generate
 <pkg>`: a stale target means the spec moved underneath the patch, and the
 generated diff against `main` shows what the patch still adds. Reach for
@@ -202,8 +203,8 @@ pnpm vitest run packages/<pkg>/src/<their>.test.ts
 git push https://github.com/<owner>/<repo>.git pr-<n>:<headRefName>
 ```
 
-- Conflicts in `.generated-specs/` or `src/services/` are not edits to
-  resolve by hand: take either side and regenerate. Conflicts in `patches/`
+- Conflicts in `src/services/` are not edits to resolve by hand: take
+  either side and regenerate. Conflicts in `patches/`
   are real; read both sides. Two PRs adding the same shape merge into
   duplicate ops or duplicate JSON keys without a textual conflict, so check
   the patch parses with no repeated keys.

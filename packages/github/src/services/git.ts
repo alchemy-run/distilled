@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Git",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -368,6 +386,8 @@ export const createBlob: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBlob",
 }));
 
 export type CreateCommitError = NotFound | Conflict | UnprocessableEntity | GithubOpError;
@@ -383,6 +403,8 @@ export const createCommit: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommit",
 }));
 
 export type CreateRefError = Conflict | UnprocessableEntity | GithubOpError;
@@ -398,6 +420,8 @@ export const createRef: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRef",
 }));
 
 export type CreateTagError = Conflict | UnprocessableEntity | GithubOpError;
@@ -413,6 +437,8 @@ export const createTag: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTag",
 }));
 
 export type CreateTreeError = Forbidden | NotFound | Conflict | UnprocessableEntity | GithubOpError;
@@ -428,6 +454,8 @@ export const createTree: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTree",
 }));
 
 export type DeleteRefError = Conflict | UnprocessableEntity | GithubOpError;
@@ -443,6 +471,8 @@ export const deleteRef: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRef",
 }));
 
 export type GetBlobError = Forbidden | NotFound | Conflict | UnprocessableEntity | GithubOpError;
@@ -454,6 +484,8 @@ export const getBlob: API.OperationMethod<GetBlobRequest, Blob, GetBlobError, Gi
     errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetBlob",
   }));
 
 export type GetCommitError = NotFound | Conflict | GithubOpError;
@@ -469,6 +501,8 @@ export const getCommit: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommit",
 }));
 
 export type GetRefError = NotFound | Conflict | GithubOpError;
@@ -480,6 +514,8 @@ export const getRef: API.OperationMethod<GetRefRequest, GitRef, GetRefError, Git
     errors: [NotFound, Conflict],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetRef",
   }));
 
 export type GetTagError = NotFound | Conflict | GithubOpError;
@@ -491,6 +527,8 @@ export const getTag: API.OperationMethod<GetTagRequest, GitTag, GetTagError, Git
     errors: [NotFound, Conflict],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTag",
   }));
 
 export type GetTreeError = NotFound | Conflict | UnprocessableEntity | GithubOpError;
@@ -502,6 +540,8 @@ export const getTree: API.OperationMethod<GetTreeRequest, GitTree, GetTreeError,
     errors: [NotFound, Conflict, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTree",
   }));
 
 export type ListMatchingRefsError = Conflict | GithubOpError;
@@ -517,6 +557,8 @@ export const listMatchingRefs: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMatchingRefs",
 }));
 
 export type UpdateRefError = Conflict | UnprocessableEntity | GithubOpError;
@@ -532,6 +574,8 @@ export const updateRef: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRef",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

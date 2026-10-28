@@ -162,6 +162,8 @@ const makeCfSpec = (
 
 runGeneratorCli({
   description: "Generate the Cloudflare Effect SDK from the Smithy models",
+  convert: ({ resource }) =>
+    import("./spec-to-smithy.ts").then(({ convert }) => convert({ resource })),
   root: `${import.meta.dirname}/..`,
   excludeModel: (f) => f === "cloudflare.protocols.json",
   manualSpecsDir: "manual-specs",

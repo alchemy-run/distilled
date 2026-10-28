@@ -1,3 +1,4 @@
+import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -8,7 +9,14 @@ import * as SigV4 from "./sigv4.ts";
 import { encodeGreedyLabel } from "./util/serialize-input.ts";
 
 /** Errors returned when resolving credentials or signing a URL. */
-export type PresignError = Credentials.CredentialsError | SigV4.SigningError;
+export type PresignError = Credentials.CredentialsError | SourceError | SigV4.SigningError;
+
+/** `url` parsed, or the `InvalidSigningUrl` the signer would fail it with. */
+const parseUrl = (url: string): Effect.Effect<URL, SigV4.InvalidSigningUrl> =>
+  Effect.try({
+    try: () => new URL(url),
+    catch: (cause) => new SigV4.InvalidSigningUrl({ url, cause }),
+  });
 
 /** Services required by the presigning helpers. */
 export type PresignContext = Credentials.Credentials | Region.Region;
@@ -69,7 +77,7 @@ export const presignUrl: (
     const credentials = yield* yield* Credentials.Credentials;
     const region = options.region ?? (yield* yield* Region.Region);
 
-    const url = new URL(options.url);
+    const url = yield* parseUrl(options.url);
     url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
 
     const signed = yield* SigV4.sign({
@@ -165,7 +173,7 @@ export const presignS3Url: (
     );
 
     const encodedKey = encodeGreedyLabel(options.key);
-    const url = new URL(
+    const url = yield* parseUrl(
       customEndpoint
         ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`
         : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lambda.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LambdaCore",
+  service: "LambdaCore",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
@@ -366,6 +381,8 @@ export const createNetworkConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkConnector",
+  telemetry: TELEMETRY,
+  span: "CreateNetworkConnector",
 }));
 
 export type DeleteNetworkConnectorError =
@@ -400,6 +417,8 @@ export const deleteNetworkConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkConnector",
 }));
 
 export type GetNetworkConnectorError =
@@ -430,6 +449,8 @@ export const getNetworkConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkConnector",
+  telemetry: TELEMETRY,
+  span: "GetNetworkConnector",
 }));
 
 export type ListNetworkConnectorsError =
@@ -461,6 +482,8 @@ export const listNetworkConnectors: API.PaginatedOperationMethod<
     items: "NetworkConnectors",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkConnectors",
 })) as any;
 
 export type ListNetworkConnectorVersionsError =
@@ -498,6 +521,8 @@ export const listNetworkConnectorVersions: API.PaginatedOperationMethod<
     items: "NetworkConnectorVersions",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkConnectorVersions",
 })) as any;
 
 export type UpdateNetworkConnectorError =
@@ -536,6 +561,8 @@ export const updateNetworkConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkConnector",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

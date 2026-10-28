@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { WorkosOpError, WorkosOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "workos-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "WorkOS",
+  service: "Workos",
+  labels: "workos",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -8999,6 +9012,8 @@ export const AcceptUserlandUserInvitesController: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptUserlandUserInvitesController",
 }));
 
 export type AddAuthorizationOrganizationRolePermissionsControllerPermissionError =
@@ -9027,6 +9042,8 @@ export const AddAuthorizationOrganizationRolePermissionsControllerPermission: AP
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAuthorizationOrganizationRolePermissionsControllerPermission",
 }));
 
 export type AddAuthorizationRolePermissionsControllerPermissionError =
@@ -9055,6 +9072,8 @@ export const AddAuthorizationRolePermissionsControllerPermission: API.OperationM
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAuthorizationRolePermissionsControllerPermission",
 }));
 
 export type AddGroupMembershipsControllerMemberError =
@@ -9075,6 +9094,8 @@ export const AddGroupMembershipsControllerMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGroupMembershipsControllerMember",
 }));
 
 export type AgentAdminControllerLinkClaimAttemptToExternalUserError =
@@ -9098,6 +9119,8 @@ export const AgentAdminControllerLinkClaimAttemptToExternalUser: API.OperationMe
   errors: [BadRequest, Forbidden, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgentAdminControllerLinkClaimAttemptToExternalUser",
 }));
 
 export type AgentBlueprintsTokenControllerMintTokenError =
@@ -9117,6 +9140,8 @@ export const AgentBlueprintsTokenControllerMintToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgentBlueprintsTokenControllerMintToken",
 }));
 
 export type ApiKeysControllerExpireError =
@@ -9136,6 +9161,8 @@ export const ApiKeysControllerExpire: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApiKeysControllerExpire",
 }));
 
 export type ApplicationsControllerFindError = NotFound | WorkosOpError;
@@ -9151,6 +9178,8 @@ export const ApplicationsControllerFind: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationsControllerFind",
 }));
 
 export type ApproveWaitlistEntriesControllerError = NotFound | UnprocessableEntity | WorkosOpError;
@@ -9166,6 +9195,8 @@ export const ApproveWaitlistEntriesController: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveWaitlistEntriesController",
 }));
 
 export type AssignAuthorizationRoleAssignmentsControllerRoleError =
@@ -9189,6 +9220,8 @@ export const AssignAuthorizationRoleAssignmentsControllerRole: API.OperationMeth
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAuthorizationRoleAssignmentsControllerRole",
 }));
 
 export type AuditLogExportsControllerExportsError = BadRequest | NotFound | WorkosOpError;
@@ -9204,6 +9237,8 @@ export const AuditLogExportsControllerExports: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuditLogExportsControllerExports",
 }));
 
 export type AuditLogsRetentionControllerAuditLogsRetentionError = NotFound | WorkosOpError;
@@ -9223,6 +9258,8 @@ export const AuditLogsRetentionControllerAuditLogsRetention: API.OperationMethod
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuditLogsRetentionControllerAuditLogsRetention",
 }));
 
 export type AuditLogValidatorVersionsControllerSchemasError =
@@ -9245,6 +9282,8 @@ export const AuditLogValidatorVersionsControllerSchemas: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuditLogValidatorVersionsControllerSchemas",
 }));
 
 export type AuthenticationFactorsControllerChallengeError =
@@ -9263,6 +9302,8 @@ export const AuthenticationFactorsControllerChallenge: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthenticationFactorsControllerChallenge",
 }));
 
 export type AuthorizationPermissionsControllerFindError = NotFound | WorkosOpError;
@@ -9278,6 +9319,8 @@ export const AuthorizationPermissionsControllerFind: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizationPermissionsControllerFind",
 }));
 
 export type AuthorizationResourcesControllerFindByIdError =
@@ -9297,6 +9340,8 @@ export const AuthorizationResourcesControllerFindById: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizationResourcesControllerFindById",
 }));
 
 export type AuthorizeSsoControllerError = WorkosOpError;
@@ -9312,6 +9357,8 @@ export const AuthorizeSsoController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeSsoController",
 }));
 
 export type AuthorizeUserlandSsoControllerError = WorkosOpError;
@@ -9327,6 +9374,8 @@ export const AuthorizeUserlandSsoController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeUserlandSsoController",
 }));
 
 export type CheckAuthorizationControllerError =
@@ -9346,6 +9395,8 @@ export const CheckAuthorizationController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAuthorizationController",
 }));
 
 export type ClientApiTokenControllerIssueClientApiTokenError =
@@ -9369,6 +9420,8 @@ export const ClientApiTokenControllerIssueClientApiToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClientApiTokenControllerIssueClientApiToken",
 }));
 
 export type CompleteExternalAuthControllerLoginError =
@@ -9388,6 +9441,8 @@ export const CompleteExternalAuthControllerLogin: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteExternalAuthControllerLogin",
 }));
 
 export type ConfirmUserlandUsersControllerEmailChangeError =
@@ -9412,6 +9467,8 @@ export const ConfirmUserlandUsersControllerEmailChange: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmUserlandUsersControllerEmailChange",
 }));
 
 export type ConnectionsControllerFindError = Forbidden | NotFound | WorkosOpError;
@@ -9427,6 +9484,8 @@ export const ConnectionsControllerFind: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectionsControllerFind",
 }));
 
 export type CreateAgentBlueprintsControllerError =
@@ -9446,6 +9505,8 @@ export const CreateAgentBlueprintsController: API.OperationMethod<
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentBlueprintsController",
 }));
 
 export type CreateApplicationCredentialsControllerError =
@@ -9464,6 +9525,8 @@ export const CreateApplicationCredentialsController: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationCredentialsController",
 }));
 
 export type CreateApplicationsControllerError = NotFound | UnprocessableEntity | WorkosOpError;
@@ -9479,6 +9542,8 @@ export const CreateApplicationsController: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationsController",
 }));
 
 export type CreateAuditLogEventsControllerError =
@@ -9498,6 +9563,8 @@ export const CreateAuditLogEventsController: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuditLogEventsController",
 }));
 
 export type CreateAuditLogValidatorVersionsControllerError = UnprocessableEntity | WorkosOpError;
@@ -9513,6 +9580,8 @@ export const CreateAuditLogValidatorVersionsController: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuditLogValidatorVersionsController",
 }));
 
 export type CreateAuthenticationFactorsControllerError = UnprocessableEntity | WorkosOpError;
@@ -9528,6 +9597,8 @@ export const CreateAuthenticationFactorsController: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthenticationFactorsController",
 }));
 
 export type CreateAuthkitOauthResourcesControllerError = UnprocessableEntity | WorkosOpError;
@@ -9543,6 +9614,8 @@ export const CreateAuthkitOauthResourcesController: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthkitOauthResourcesController",
 }));
 
 export type CreateAuthorizationGroupRoleAssignmentsControllerError =
@@ -9567,6 +9640,8 @@ export const CreateAuthorizationGroupRoleAssignmentsController: API.OperationMet
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationGroupRoleAssignmentsController",
 }));
 
 export type CreateAuthorizationOrganizationRolesControllerError =
@@ -9596,6 +9671,8 @@ export const CreateAuthorizationOrganizationRolesController: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationOrganizationRolesController",
 }));
 
 export type CreateAuthorizationPermissionsControllerError =
@@ -9616,6 +9693,8 @@ export const CreateAuthorizationPermissionsController: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationPermissionsController",
 }));
 
 export type CreateAuthorizationResourcesControllerError =
@@ -9637,6 +9716,8 @@ export const CreateAuthorizationResourcesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationResourcesController",
 }));
 
 export type CreateAuthorizationRolesControllerError =
@@ -9658,6 +9739,8 @@ export const CreateAuthorizationRolesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationRolesController",
 }));
 
 export type CreateConnectionsControllerError =
@@ -9679,6 +9762,8 @@ export const CreateConnectionsController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnectionsController",
 }));
 
 export type CreateCorsOriginsControllerCorsOriginError =
@@ -9697,6 +9782,8 @@ export const CreateCorsOriginsControllerCorsOrigin: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCorsOriginsControllerCorsOrigin",
 }));
 
 export type CreateDataIntegrationsControllerApiKeyConnectionError =
@@ -9721,6 +9808,8 @@ export const CreateDataIntegrationsControllerApiKeyConnection: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegrationsControllerApiKeyConnection",
 }));
 
 export type CreateDataIntegrationsControllerClientCredentialsConnectionError =
@@ -9745,6 +9834,8 @@ export const CreateDataIntegrationsControllerClientCredentialsConnection: API.Op
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegrationsControllerClientCredentialsConnection",
 }));
 
 export type CreateDataIntegrationsManagementControllerDataIntegrationError =
@@ -9770,6 +9861,8 @@ export const CreateDataIntegrationsManagementControllerDataIntegration: API.Oper
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegrationsManagementControllerDataIntegration",
 }));
 
 export type CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationError =
@@ -9794,6 +9887,8 @@ export const CreateDataIntegrationsOrganizationControllerOrganizationDataInstall
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegrationsOrganizationControllerOrganizationDataInstallation",
 }));
 
 export type CreateDataIntegrationsUserManagementControllerUserDataInstallationError =
@@ -9817,6 +9912,8 @@ export const CreateDataIntegrationsUserManagementControllerUserDataInstallation:
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegrationsUserManagementControllerUserDataInstallation",
 }));
 
 export type CreateFlagTargetsControllerTargetError =
@@ -9836,6 +9933,8 @@ export const CreateFlagTargetsControllerTarget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlagTargetsControllerTarget",
 }));
 
 export type CreateGroupsControllerError =
@@ -9856,6 +9955,8 @@ export const CreateGroupsController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupsController",
 }));
 
 export type CreateItContactsControllerError =
@@ -9876,6 +9977,8 @@ export const CreateItContactsController: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateItContactsController",
 }));
 
 export type CreateJumpWireWebDataVaultControllerError =
@@ -9895,6 +9998,8 @@ export const CreateJumpWireWebDataVaultController: API.OperationMethod<
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJumpWireWebDataVaultController",
 }));
 
 export type CreateOrganizationApiKeysControllerError =
@@ -9913,6 +10018,8 @@ export const CreateOrganizationApiKeysController: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationApiKeysController",
 }));
 
 export type CreateOrganizationDomainsControllerError = Conflict | WorkosOpError;
@@ -9928,6 +10035,8 @@ export const CreateOrganizationDomainsController: API.OperationMethod<
   errors: [Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationDomainsController",
 }));
 
 export type CreateOrganizationsControllerError =
@@ -9947,6 +10056,8 @@ export const CreateOrganizationsController: API.OperationMethod<
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsController",
 }));
 
 export type CreatePortalSessionsControllerError =
@@ -9967,6 +10078,8 @@ export const CreatePortalSessionsController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePortalSessionsController",
 }));
 
 export type CreateRedirectUrisControllerError = BadRequest | UnprocessableEntity | WorkosOpError;
@@ -9982,6 +10095,8 @@ export const CreateRedirectUrisController: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRedirectUrisController",
 }));
 
 export type CreateSamlIdpSigningCertificatesControllerError =
@@ -10002,6 +10117,8 @@ export const CreateSamlIdpSigningCertificatesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSamlIdpSigningCertificatesController",
 }));
 
 export type CreateSamlSpEncryptionCertificatesControllerError =
@@ -10026,6 +10143,8 @@ export const CreateSamlSpEncryptionCertificatesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSamlSpEncryptionCertificatesController",
 }));
 
 export type CreateSamlSpSigningCertificatesControllerError =
@@ -10046,6 +10165,8 @@ export const CreateSamlSpSigningCertificatesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSamlSpSigningCertificatesController",
 }));
 
 export type CreateTeamsControllerTeamError = Conflict | UnprocessableEntity | WorkosOpError;
@@ -10061,6 +10182,8 @@ export const CreateTeamsControllerTeam: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamsControllerTeam",
 }));
 
 export type CreateUserApiKeysControllerError =
@@ -10080,6 +10203,8 @@ export const CreateUserApiKeysController: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserApiKeysController",
 }));
 
 export type CreateUserlandUserInvitesControllerError =
@@ -10099,6 +10224,8 @@ export const CreateUserlandUserInvitesController: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserlandUserInvitesController",
 }));
 
 export type CreateUserlandUserOrganizationMembershipsControllerError =
@@ -10126,6 +10253,8 @@ export const CreateUserlandUserOrganizationMembershipsController: API.OperationM
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserlandUserOrganizationMembershipsController",
 }));
 
 export type CreateWaitlistsControllerEntryError = NotFound | UnprocessableEntity | WorkosOpError;
@@ -10141,6 +10270,8 @@ export const CreateWaitlistsControllerEntry: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWaitlistsControllerEntry",
 }));
 
 export type CreateWebhookEndpointsControllerError = Conflict | UnprocessableEntity | WorkosOpError;
@@ -10156,6 +10287,8 @@ export const CreateWebhookEndpointsController: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhookEndpointsController",
 }));
 
 export type DataIntegrationsControllerGetDataIntegrationAuthorizeUrlError =
@@ -10181,6 +10314,8 @@ export const DataIntegrationsControllerGetDataIntegrationAuthorizeUrl: API.Opera
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataIntegrationsControllerGetDataIntegrationAuthorizeUrl",
 }));
 
 export type DataIntegrationsControllerVendCredentialsError =
@@ -10206,6 +10341,8 @@ export const DataIntegrationsControllerVendCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataIntegrationsControllerVendCredentials",
 }));
 
 export type DeactivateUserlandUserOrganizationMembershipsControllerError =
@@ -10233,6 +10370,8 @@ export const DeactivateUserlandUserOrganizationMembershipsController: API.Operat
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateUserlandUserOrganizationMembershipsController",
 }));
 
 export type DecryptJumpWireWebKeyControllerError = BadRequest | WorkosOpError;
@@ -10248,6 +10387,8 @@ export const DecryptJumpWireWebKeyController: API.OperationMethod<
   errors: [BadRequest, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DecryptJumpWireWebKeyController",
 }));
 
 export type DeleteAgentBlueprintsControllerError = NotFound | WorkosOpError;
@@ -10263,6 +10404,8 @@ export const DeleteAgentBlueprintsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentBlueprintsController",
 }));
 
 export type DeleteAgentInstancesControllerError = NotFound | WorkosOpError;
@@ -10278,6 +10421,8 @@ export const DeleteAgentInstancesController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentInstancesController",
 }));
 
 export type DeleteApiKeysControllerError = NotFound | WorkosOpError;
@@ -10293,6 +10438,8 @@ export const DeleteApiKeysController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiKeysController",
 }));
 
 export type DeleteApplicationCredentialsControllerError = NotFound | WorkosOpError;
@@ -10308,6 +10455,8 @@ export const DeleteApplicationCredentialsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationCredentialsController",
 }));
 
 export type DeleteApplicationsControllerError = NotFound | WorkosOpError;
@@ -10323,6 +10472,8 @@ export const DeleteApplicationsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationsController",
 }));
 
 export type DeleteAuthenticationFactorsControllerError = NotFound | WorkosOpError;
@@ -10338,6 +10489,8 @@ export const DeleteAuthenticationFactorsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthenticationFactorsController",
 }));
 
 export type DeleteAuthkitOauthResourcesControllerError = NotFound | WorkosOpError;
@@ -10353,6 +10506,8 @@ export const DeleteAuthkitOauthResourcesController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthkitOauthResourcesController",
 }));
 
 export type DeleteAuthorizationOrganizationRolesControllerError =
@@ -10381,6 +10536,8 @@ export const DeleteAuthorizationOrganizationRolesController: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizationOrganizationRolesController",
 }));
 
 export type DeleteAuthorizationPermissionsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -10396,6 +10553,8 @@ export const DeleteAuthorizationPermissionsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizationPermissionsController",
 }));
 
 export type DeleteAuthorizationResourcesByExternalIdControllerByExternalIdError =
@@ -10424,6 +10583,8 @@ export const DeleteAuthorizationResourcesByExternalIdControllerByExternalId: API
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizationResourcesByExternalIdControllerByExternalId",
 }));
 
 export type DeleteAuthorizationResourcesControllerError =
@@ -10444,6 +10605,8 @@ export const DeleteAuthorizationResourcesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizationResourcesController",
 }));
 
 export type DeleteAuthorizedApplicationsControllerError = NotFound | WorkosOpError;
@@ -10459,6 +10622,8 @@ export const DeleteAuthorizedApplicationsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizedApplicationsController",
 }));
 
 export type DeleteConnectionsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -10474,6 +10639,8 @@ export const DeleteConnectionsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnectionsController",
 }));
 
 export type DeleteDataIntegrationsManagementControllerDataIntegrationError =
@@ -10499,6 +10666,8 @@ export const DeleteDataIntegrationsManagementControllerDataIntegration: API.Oper
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataIntegrationsManagementControllerDataIntegration",
 }));
 
 export type DeleteDataIntegrationsManagementControllerOrganizationDataIntegrationError =
@@ -10524,6 +10693,8 @@ export const DeleteDataIntegrationsManagementControllerOrganizationDataIntegrati
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataIntegrationsManagementControllerOrganizationDataIntegration",
 }));
 
 export type DeleteDataIntegrationsOrganizationControllerOrganizationDataInstallationError =
@@ -10551,6 +10722,8 @@ export const DeleteDataIntegrationsOrganizationControllerOrganizationDataInstall
   errors: [BadRequest, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataIntegrationsOrganizationControllerOrganizationDataInstallation",
 }));
 
 export type DeleteDataIntegrationsUserManagementControllerUserDataInstallationError =
@@ -10578,6 +10751,8 @@ export const DeleteDataIntegrationsUserManagementControllerUserDataInstallation:
   errors: [BadRequest, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataIntegrationsUserManagementControllerUserDataInstallation",
 }));
 
 export type DeleteDirectoriesControllerDirectoryError = Forbidden | NotFound | WorkosOpError;
@@ -10593,6 +10768,8 @@ export const DeleteDirectoriesControllerDirectory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDirectoriesControllerDirectory",
 }));
 
 export type DeleteFlagTargetsControllerTargetError =
@@ -10612,6 +10789,8 @@ export const DeleteFlagTargetsControllerTarget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlagTargetsControllerTarget",
 }));
 
 export type DeleteGroupsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -10627,6 +10806,8 @@ export const DeleteGroupsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupsController",
 }));
 
 export type DeleteItContactsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -10642,6 +10823,8 @@ export const DeleteItContactsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteItContactsController",
 }));
 
 export type DeleteJumpWireWebDataVaultControllerError = NotFound | Conflict | WorkosOpError;
@@ -10657,6 +10840,8 @@ export const DeleteJumpWireWebDataVaultController: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJumpWireWebDataVaultController",
 }));
 
 export type DeleteOrganizationDomainsControllerError = NotFound | WorkosOpError;
@@ -10672,6 +10857,8 @@ export const DeleteOrganizationDomainsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationDomainsController",
 }));
 
 export type DeleteOrganizationsControllerOrganizationError = Forbidden | NotFound | WorkosOpError;
@@ -10691,6 +10878,8 @@ export const DeleteOrganizationsControllerOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsControllerOrganization",
 }));
 
 export type DeleteRedirectUrisControllerError = NotFound | Conflict | WorkosOpError;
@@ -10706,6 +10895,8 @@ export const DeleteRedirectUrisController: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRedirectUrisController",
 }));
 
 export type DeleteSamlIdpSigningCertificatesControllerError =
@@ -10733,6 +10924,8 @@ export const DeleteSamlIdpSigningCertificatesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSamlIdpSigningCertificatesController",
 }));
 
 export type DeleteSamlSpEncryptionCertificatesControllerError =
@@ -10759,6 +10952,8 @@ export const DeleteSamlSpEncryptionCertificatesController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSamlSpEncryptionCertificatesController",
 }));
 
 export type DeleteSamlSpSigningCertificatesControllerError = Forbidden | NotFound | WorkosOpError;
@@ -10778,6 +10973,8 @@ export const DeleteSamlSpSigningCertificatesController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSamlSpSigningCertificatesController",
 }));
 
 export type DeleteUserlandUserOrganizationMembershipsControllerError =
@@ -10804,6 +11001,8 @@ export const DeleteUserlandUserOrganizationMembershipsController: API.OperationM
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserlandUserOrganizationMembershipsController",
 }));
 
 export type DeleteWaitlistEntriesControllerError = NotFound | WorkosOpError;
@@ -10819,6 +11018,8 @@ export const DeleteWaitlistEntriesController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWaitlistEntriesController",
 }));
 
 export type DeleteWebhookEndpointsControllerError = NotFound | WorkosOpError;
@@ -10834,6 +11035,8 @@ export const DeleteWebhookEndpointsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookEndpointsController",
 }));
 
 export type DescribeJumpWireWebDataVaultControllerError = BadRequest | NotFound | WorkosOpError;
@@ -10849,6 +11052,8 @@ export const DescribeJumpWireWebDataVaultController: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeJumpWireWebDataVaultController",
 }));
 
 export type DirectoriesControllerFindError = Forbidden | NotFound | WorkosOpError;
@@ -10864,6 +11069,8 @@ export const DirectoriesControllerFind: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DirectoriesControllerFind",
 }));
 
 export type DirectoryGroupsControllerFindError = Forbidden | NotFound | WorkosOpError;
@@ -10879,6 +11086,8 @@ export const DirectoryGroupsControllerFind: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DirectoryGroupsControllerFind",
 }));
 
 export type DirectoryUsersControllerFindError = Forbidden | NotFound | WorkosOpError;
@@ -10894,6 +11103,8 @@ export const DirectoryUsersControllerFind: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DirectoryUsersControllerFind",
 }));
 
 export type DisableFeatureFlagsControllerFlagError = NotFound | WorkosOpError;
@@ -10909,6 +11120,8 @@ export const DisableFeatureFlagsControllerFlag: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableFeatureFlagsControllerFlag",
 }));
 
 export type EnableFeatureFlagsControllerFlagError = NotFound | WorkosOpError;
@@ -10924,6 +11137,8 @@ export const EnableFeatureFlagsControllerFlag: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableFeatureFlagsControllerFlag",
 }));
 
 export type ExportAuditLogExportsControllerError = NotFound | WorkosOpError;
@@ -10939,6 +11154,8 @@ export const ExportAuditLogExportsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAuditLogExportsController",
 }));
 
 export type FeatureFlagsControllerFindBySlugError = NotFound | WorkosOpError;
@@ -10954,6 +11171,8 @@ export const FeatureFlagsControllerFindBySlug: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsControllerFindBySlug",
 }));
 
 export type GetAgentAdminControllerRegistrationError = NotFound | WorkosOpError;
@@ -10969,6 +11188,8 @@ export const GetAgentAdminControllerRegistration: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentAdminControllerRegistration",
 }));
 
 export type GetAgentBlueprintsControllerError = NotFound | WorkosOpError;
@@ -10984,6 +11205,8 @@ export const GetAgentBlueprintsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentBlueprintsController",
 }));
 
 export type GetAgentInstancesControllerError = NotFound | WorkosOpError;
@@ -10999,6 +11222,8 @@ export const GetAgentInstancesController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentInstancesController",
 }));
 
 export type GetAgentInstanceSessionsControllerError = NotFound | WorkosOpError;
@@ -11014,6 +11239,8 @@ export const GetAgentInstanceSessionsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentInstanceSessionsController",
 }));
 
 export type GetAuthenticationFactorsControllerError = NotFound | WorkosOpError;
@@ -11029,6 +11256,8 @@ export const GetAuthenticationFactorsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticationFactorsController",
 }));
 
 export type GetAuthorizationGroupRoleAssignmentsControllerError =
@@ -11051,6 +11280,8 @@ export const GetAuthorizationGroupRoleAssignmentsController: API.OperationMethod
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationGroupRoleAssignmentsController",
 }));
 
 export type GetAuthorizationOrganizationRolesControllerError = Forbidden | NotFound | WorkosOpError;
@@ -11070,6 +11301,8 @@ export const GetAuthorizationOrganizationRolesController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationOrganizationRolesController",
 }));
 
 export type GetAuthorizationResourcesByExternalIdControllerByExternalIdError =
@@ -11092,6 +11325,8 @@ export const GetAuthorizationResourcesByExternalIdControllerByExternalId: API.Op
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationResourcesByExternalIdControllerByExternalId",
 }));
 
 export type GetAuthorizationRolesControllerError = Forbidden | NotFound | WorkosOpError;
@@ -11107,6 +11342,8 @@ export const GetAuthorizationRolesController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationRolesController",
 }));
 
 export type GetDataIntegrationsControllerUserlandUserTokenError =
@@ -11136,6 +11373,8 @@ export const GetDataIntegrationsControllerUserlandUserToken: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationsControllerUserlandUserToken",
 }));
 
 export type GetDataIntegrationsManagementControllerDataIntegrationError = NotFound | WorkosOpError;
@@ -11155,6 +11394,8 @@ export const GetDataIntegrationsManagementControllerDataIntegration: API.Operati
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationsManagementControllerDataIntegration",
 }));
 
 export type GetDataIntegrationsManagementControllerOrganizationDataIntegrationError =
@@ -11176,6 +11417,8 @@ export const GetDataIntegrationsManagementControllerOrganizationDataIntegration:
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationsManagementControllerOrganizationDataIntegration",
 }));
 
 export type GetDataIntegrationsOrganizationControllerOrganizationDataInstallationError =
@@ -11199,6 +11442,8 @@ export const GetDataIntegrationsOrganizationControllerOrganizationDataInstallati
   errors: [BadRequest, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationsOrganizationControllerOrganizationDataInstallation",
 }));
 
 export type GetDataIntegrationsOrganizationControllerOrganizationDataIntegrationsError =
@@ -11220,6 +11465,8 @@ export const GetDataIntegrationsOrganizationControllerOrganizationDataIntegratio
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationsOrganizationControllerOrganizationDataIntegrations",
 }));
 
 export type GetDataIntegrationsUserManagementControllerUserDataInstallationError =
@@ -11243,6 +11490,8 @@ export const GetDataIntegrationsUserManagementControllerUserDataInstallation: AP
   errors: [BadRequest, NotFound, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationsUserManagementControllerUserDataInstallation",
 }));
 
 export type GetDataIntegrationsUserManagementControllerUserDataIntegrationsError =
@@ -11264,6 +11513,8 @@ export const GetDataIntegrationsUserManagementControllerUserDataIntegrations: AP
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationsUserManagementControllerUserDataIntegrations",
 }));
 
 export type GetGroupsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -11279,6 +11530,8 @@ export const GetGroupsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupsController",
 }));
 
 export type GetJwtTemplatesControllerJwtTemplateError = NotFound | WorkosOpError;
@@ -11294,6 +11547,8 @@ export const GetJwtTemplatesControllerJwtTemplate: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJwtTemplatesControllerJwtTemplate",
 }));
 
 export type GetOrganizationDomainsControllerError = NotFound | WorkosOpError;
@@ -11309,6 +11564,8 @@ export const GetOrganizationDomainsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationDomainsController",
 }));
 
 export type GetOrganizationsControllerAuditLogConfigurationError = NotFound | WorkosOpError;
@@ -11328,6 +11585,8 @@ export const GetOrganizationsControllerAuditLogConfiguration: API.OperationMetho
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsControllerAuditLogConfiguration",
 }));
 
 export type GetOrganizationsControllerByExternalIdError = NotFound | WorkosOpError;
@@ -11343,6 +11602,8 @@ export const GetOrganizationsControllerByExternalId: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsControllerByExternalId",
 }));
 
 export type GetPublicRadarChallengesControllerError = NotFound | WorkosOpError;
@@ -11358,6 +11619,8 @@ export const GetPublicRadarChallengesController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicRadarChallengesController",
 }));
 
 export type GetSamlSpSigningCertificatesControllerError =
@@ -11377,6 +11640,8 @@ export const GetSamlSpSigningCertificatesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSamlSpSigningCertificatesController",
 }));
 
 export type GetSsoControllerProfileError = NotFound | WorkosOpError;
@@ -11392,6 +11657,8 @@ export const GetSsoControllerProfile: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSsoControllerProfile",
 }));
 
 export type GetTeamsControllerTeamError = NotFound | WorkosOpError;
@@ -11407,6 +11674,8 @@ export const GetTeamsControllerTeam: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamsControllerTeam",
 }));
 
 export type GetUserlandMagicAuthControllerError = NotFound | WorkosOpError;
@@ -11422,6 +11691,8 @@ export const GetUserlandMagicAuthController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserlandMagicAuthController",
 }));
 
 export type GetUserlandUserIdentitiesControllerError = NotFound | WorkosOpError;
@@ -11437,6 +11708,8 @@ export const GetUserlandUserIdentitiesController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserlandUserIdentitiesController",
 }));
 
 export type GetUserlandUserInvitesControllerError = NotFound | WorkosOpError;
@@ -11452,6 +11725,8 @@ export const GetUserlandUserInvitesController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserlandUserInvitesController",
 }));
 
 export type GetUserlandUserInvitesControllerByTokenError = NotFound | WorkosOpError;
@@ -11467,6 +11742,8 @@ export const GetUserlandUserInvitesControllerByToken: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserlandUserInvitesControllerByToken",
 }));
 
 export type GetUserlandUserOrganizationMembershipsControllerError = NotFound | WorkosOpError;
@@ -11486,6 +11763,8 @@ export const GetUserlandUserOrganizationMembershipsController: API.OperationMeth
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserlandUserOrganizationMembershipsController",
 }));
 
 export type GetUserlandUsersControllerByExternalIdError = NotFound | WorkosOpError;
@@ -11501,6 +11780,8 @@ export const GetUserlandUsersControllerByExternalId: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserlandUsersControllerByExternalId",
 }));
 
 export type GetUserlandUsersControllerEmailVerificationError = NotFound | WorkosOpError;
@@ -11516,6 +11797,8 @@ export const GetUserlandUsersControllerEmailVerification: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserlandUsersControllerEmailVerification",
 }));
 
 export type InviteItContactsControllerError =
@@ -11536,6 +11819,8 @@ export const InviteItContactsController: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteItContactsController",
 }));
 
 export type JumpWireWebDataVaultControllerIndexError = BadRequest | WorkosOpError;
@@ -11551,6 +11836,8 @@ export const JumpWireWebDataVaultControllerIndex: API.OperationMethod<
   errors: [BadRequest, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JumpWireWebDataVaultControllerIndex",
 }));
 
 export type JumpWireWebDataVaultControllerShowByIdError = BadRequest | NotFound | WorkosOpError;
@@ -11566,6 +11853,8 @@ export const JumpWireWebDataVaultControllerShowById: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JumpWireWebDataVaultControllerShowById",
 }));
 
 export type JumpWireWebDataVaultControllerShowByNameError = BadRequest | NotFound | WorkosOpError;
@@ -11581,6 +11870,8 @@ export const JumpWireWebDataVaultControllerShowByName: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JumpWireWebDataVaultControllerShowByName",
 }));
 
 export type JumpWireWebDataVaultControllerVersionsError = BadRequest | NotFound | WorkosOpError;
@@ -11596,6 +11887,8 @@ export const JumpWireWebDataVaultControllerVersions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JumpWireWebDataVaultControllerVersions",
 }));
 
 export type JumpWireWebKeyControllerCreateDataKeyError =
@@ -11614,6 +11907,8 @@ export const JumpWireWebKeyControllerCreateDataKey: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JumpWireWebKeyControllerCreateDataKey",
 }));
 
 export type JumpWireWebKeyControllerRekeyError = BadRequest | UnprocessableEntity | WorkosOpError;
@@ -11629,6 +11924,8 @@ export const JumpWireWebKeyControllerRekey: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JumpWireWebKeyControllerRekey",
 }));
 
 export type ListAgentBlueprintsControllerError = WorkosOpError;
@@ -11644,6 +11941,8 @@ export const ListAgentBlueprintsController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentBlueprintsController",
 }));
 
 export type ListAgentInstancesControllerError = WorkosOpError;
@@ -11659,6 +11958,8 @@ export const ListAgentInstancesController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentInstancesController",
 }));
 
 export type ListAgentInstanceSessionsControllerError = UnprocessableEntity | WorkosOpError;
@@ -11674,6 +11975,8 @@ export const ListAgentInstanceSessionsController: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentInstanceSessionsController",
 }));
 
 export type ListApplicationCredentialsControllerError = NotFound | WorkosOpError;
@@ -11689,6 +11992,8 @@ export const ListApplicationCredentialsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationCredentialsController",
 }));
 
 export type ListApplicationsControllerError = UnprocessableEntity | WorkosOpError;
@@ -11704,6 +12009,8 @@ export const ListApplicationsController: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationsController",
 }));
 
 export type ListAuditLogValidatorsControllerError = NotFound | UnprocessableEntity | WorkosOpError;
@@ -11719,6 +12026,8 @@ export const ListAuditLogValidatorsController: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuditLogValidatorsController",
 }));
 
 export type ListAuthkitOauthResourcesControllerError = WorkosOpError;
@@ -11734,6 +12043,8 @@ export const ListAuthkitOauthResourcesController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthkitOauthResourcesController",
 }));
 
 export type ListAuthorizationControllerEffectivePermissionsError =
@@ -11757,6 +12068,8 @@ export const ListAuthorizationControllerEffectivePermissions: API.OperationMetho
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationControllerEffectivePermissions",
 }));
 
 export type ListAuthorizationControllerEffectivePermissionsByExternalIdError =
@@ -11780,6 +12093,8 @@ export const ListAuthorizationControllerEffectivePermissionsByExternalId: API.Op
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationControllerEffectivePermissionsByExternalId",
 }));
 
 export type ListAuthorizationControllerResourcesForMembershipError =
@@ -11804,6 +12119,8 @@ export const ListAuthorizationControllerResourcesForMembership: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationControllerResourcesForMembership",
 }));
 
 export type ListAuthorizationGroupRoleAssignmentsControllerError =
@@ -11826,6 +12143,8 @@ export const ListAuthorizationGroupRoleAssignmentsController: API.OperationMetho
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationGroupRoleAssignmentsController",
 }));
 
 export type ListAuthorizationOrganizationRolesControllerError =
@@ -11848,6 +12167,8 @@ export const ListAuthorizationOrganizationRolesController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationOrganizationRolesController",
 }));
 
 export type ListAuthorizationPermissionsControllerError = NotFound | WorkosOpError;
@@ -11863,6 +12184,8 @@ export const ListAuthorizationPermissionsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationPermissionsController",
 }));
 
 export type ListAuthorizationResourcesByExternalIdControllerOrganizationMembershipsForResourceByExternalIdError =
@@ -11891,6 +12214,8 @@ export const ListAuthorizationResourcesByExternalIdControllerOrganizationMembers
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationResourcesByExternalIdControllerOrganizationMembershipsForResourceByExternalId",
 }));
 
 export type ListAuthorizationResourcesControllerError =
@@ -11910,6 +12235,8 @@ export const ListAuthorizationResourcesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationResourcesController",
 }));
 
 export type ListAuthorizationResourcesControllerOrganizationMembershipsForResourceError =
@@ -11938,6 +12265,8 @@ export const ListAuthorizationResourcesControllerOrganizationMembershipsForResou
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationResourcesControllerOrganizationMembershipsForResource",
 }));
 
 export type ListAuthorizationRoleAssignmentsControllerRoleAssignmentsError =
@@ -11960,6 +12289,8 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignments: API.Oper
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationRoleAssignmentsControllerRoleAssignments",
 }));
 
 export type ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourceError =
@@ -11982,6 +12313,8 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourc
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResource",
 }));
 
 export type ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourceByExternalIdError =
@@ -12004,6 +12337,8 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourc
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourceByExternalId",
 }));
 
 export type ListAuthorizationRolesControllerError = Forbidden | WorkosOpError;
@@ -12019,6 +12354,8 @@ export const ListAuthorizationRolesController: API.OperationMethod<
   errors: [Forbidden, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationRolesController",
 }));
 
 export type ListAuthorizedApplicationsControllerError =
@@ -12037,6 +12374,8 @@ export const ListAuthorizedApplicationsController: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizedApplicationsController",
 }));
 
 export type ListConnectionsControllerError = Forbidden | UnprocessableEntity | WorkosOpError;
@@ -12052,6 +12391,8 @@ export const ListConnectionsController: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectionsController",
 }));
 
 export type ListCorsOriginsControllerError = WorkosOpError;
@@ -12067,6 +12408,8 @@ export const ListCorsOriginsController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCorsOriginsController",
 }));
 
 export type ListDataIntegrationsManagementControllerDataIntegrationsError =
@@ -12089,6 +12432,8 @@ export const ListDataIntegrationsManagementControllerDataIntegrations: API.Opera
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataIntegrationsManagementControllerDataIntegrations",
 }));
 
 export type ListDirectoriesControllerError = Forbidden | UnprocessableEntity | WorkosOpError;
@@ -12104,6 +12449,8 @@ export const ListDirectoriesController: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDirectoriesController",
 }));
 
 export type ListDirectoryGroupsControllerError =
@@ -12123,6 +12470,8 @@ export const ListDirectoryGroupsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDirectoryGroupsController",
 }));
 
 export type ListDirectoryUsersControllerError =
@@ -12142,6 +12491,8 @@ export const ListDirectoryUsersController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDirectoryUsersController",
 }));
 
 export type ListEventsControllerError = BadRequest | UnprocessableEntity | WorkosOpError;
@@ -12157,6 +12508,8 @@ export const ListEventsController: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventsController",
 }));
 
 export type ListFeatureFlagsControllerError =
@@ -12176,6 +12529,8 @@ export const ListFeatureFlagsController: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureFlagsController",
 }));
 
 export type ListGroupMembershipsControllerMembersError = Forbidden | NotFound | WorkosOpError;
@@ -12191,6 +12546,8 @@ export const ListGroupMembershipsControllerMembers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupMembershipsControllerMembers",
 }));
 
 export type ListGroupsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -12206,6 +12563,8 @@ export const ListGroupsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupsController",
 }));
 
 export type ListItContactsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -12221,6 +12580,8 @@ export const ListItContactsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItContactsController",
 }));
 
 export type ListOrganizationApiKeysControllerError = NotFound | WorkosOpError;
@@ -12236,6 +12597,8 @@ export const ListOrganizationApiKeysController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationApiKeysController",
 }));
 
 export type ListOrganizationAuthorizedApplicationsControllerError =
@@ -12258,6 +12621,8 @@ export const ListOrganizationAuthorizedApplicationsController: API.OperationMeth
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAuthorizedApplicationsController",
 }));
 
 export type ListOrganizationFeatureFlagsControllerError = NotFound | WorkosOpError;
@@ -12273,6 +12638,8 @@ export const ListOrganizationFeatureFlagsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationFeatureFlagsController",
 }));
 
 export type ListOrganizationMembershipGroupsControllerGroupsError = NotFound | WorkosOpError;
@@ -12292,6 +12659,8 @@ export const ListOrganizationMembershipGroupsControllerGroups: API.OperationMeth
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMembershipGroupsControllerGroups",
 }));
 
 export type ListOrganizationsControllerError = UnprocessableEntity | WorkosOpError;
@@ -12307,6 +12676,8 @@ export const ListOrganizationsController: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsController",
 }));
 
 export type ListProviderControllerForOrganizationError = NotFound | WorkosOpError;
@@ -12322,6 +12693,8 @@ export const ListProviderControllerForOrganization: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderControllerForOrganization",
 }));
 
 export type ListRedirectUrisControllerError = WorkosOpError;
@@ -12337,6 +12710,8 @@ export const ListRedirectUrisController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedirectUrisController",
 }));
 
 export type ListSamlIdpSigningCertificatesControllerError =
@@ -12356,6 +12731,8 @@ export const ListSamlIdpSigningCertificatesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSamlIdpSigningCertificatesController",
 }));
 
 export type ListSamlSpEncryptionCertificatesControllerError =
@@ -12375,6 +12752,8 @@ export const ListSamlSpEncryptionCertificatesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSamlSpEncryptionCertificatesController",
 }));
 
 export type ListUserApiKeysControllerError = NotFound | WorkosOpError;
@@ -12390,6 +12769,8 @@ export const ListUserApiKeysController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserApiKeysController",
 }));
 
 export type ListUserlandUserFeatureFlagsControllerError = NotFound | WorkosOpError;
@@ -12405,6 +12786,8 @@ export const ListUserlandUserFeatureFlagsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserlandUserFeatureFlagsController",
 }));
 
 export type ListUserlandUserInvitesControllerError = UnprocessableEntity | WorkosOpError;
@@ -12420,6 +12803,8 @@ export const ListUserlandUserInvitesController: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserlandUserInvitesController",
 }));
 
 export type ListUserlandUserOrganizationMembershipsControllerError =
@@ -12443,6 +12828,8 @@ export const ListUserlandUserOrganizationMembershipsController: API.OperationMet
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserlandUserOrganizationMembershipsController",
 }));
 
 export type ListUserlandUserSessionsControllerError =
@@ -12461,6 +12848,8 @@ export const ListUserlandUserSessionsController: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserlandUserSessionsController",
 }));
 
 export type ListWaitlistsControllerError = WorkosOpError;
@@ -12476,6 +12865,8 @@ export const ListWaitlistsController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWaitlistsController",
 }));
 
 export type ListWaitlistsControllerEntriesError = NotFound | UnprocessableEntity | WorkosOpError;
@@ -12491,6 +12882,8 @@ export const ListWaitlistsControllerEntries: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWaitlistsControllerEntries",
 }));
 
 export type ListWebhookEndpointsControllerError = WorkosOpError;
@@ -12506,6 +12899,8 @@ export const ListWebhookEndpointsController: API.OperationMethod<
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhookEndpointsController",
 }));
 
 export type LogoutSsoControllerError = NotFound | WorkosOpError;
@@ -12521,6 +12916,8 @@ export const LogoutSsoController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogoutSsoController",
 }));
 
 export type LogoutUserlandSessionsControllerError = UnprocessableEntity | WorkosOpError;
@@ -12536,6 +12933,8 @@ export const LogoutUserlandSessionsController: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogoutUserlandSessionsController",
 }));
 
 export type OrganizationsControllerFindError = NotFound | WorkosOpError;
@@ -12551,6 +12950,8 @@ export const OrganizationsControllerFind: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsControllerFind",
 }));
 
 export type PatchConnectionsControllerError =
@@ -12572,6 +12973,8 @@ export const PatchConnectionsController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchConnectionsController",
 }));
 
 export type ProviderControllerConfigureError =
@@ -12591,6 +12994,8 @@ export const ProviderControllerConfigure: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProviderControllerConfigure",
 }));
 
 export type RadarStandaloneControllerAssessError = BadRequest | WorkosOpError;
@@ -12606,6 +13011,8 @@ export const RadarStandaloneControllerAssess: API.OperationMethod<
   errors: [BadRequest, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RadarStandaloneControllerAssess",
 }));
 
 export type RadarStandaloneControllerDeleteRadarListEntryError =
@@ -12632,6 +13039,8 @@ export const RadarStandaloneControllerDeleteRadarListEntry: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RadarStandaloneControllerDeleteRadarListEntry",
 }));
 
 export type RadarStandaloneControllerUpdateRadarListError = BadRequest | WorkosOpError;
@@ -12647,6 +13056,8 @@ export const RadarStandaloneControllerUpdateRadarList: API.OperationMethod<
   errors: [BadRequest, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RadarStandaloneControllerUpdateRadarList",
 }));
 
 export type RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentError =
@@ -12673,6 +13084,8 @@ export const RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmen
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignment",
 }));
 
 export type RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsError =
@@ -12700,6 +13113,8 @@ export const RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmen
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignments",
 }));
 
 export type RemoveAuthorizationOrganizationRolePermissionsControllerPermissionError =
@@ -12722,6 +13137,8 @@ export const RemoveAuthorizationOrganizationRolePermissionsControllerPermission:
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAuthorizationOrganizationRolePermissionsControllerPermission",
 }));
 
 export type RemoveAuthorizationRoleAssignmentsControllerRoleByCriteriaError =
@@ -12749,6 +13166,8 @@ export const RemoveAuthorizationRoleAssignmentsControllerRoleByCriteria: API.Ope
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAuthorizationRoleAssignmentsControllerRoleByCriteria",
 }));
 
 export type RemoveAuthorizationRoleAssignmentsControllerRoleByIdError =
@@ -12775,6 +13194,8 @@ export const RemoveAuthorizationRoleAssignmentsControllerRoleById: API.Operation
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAuthorizationRoleAssignmentsControllerRoleById",
 }));
 
 export type RemoveGroupMembershipsControllerMemberError = Forbidden | NotFound | WorkosOpError;
@@ -12790,6 +13211,8 @@ export const RemoveGroupMembershipsControllerMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGroupMembershipsControllerMember",
 }));
 
 export type ReplaceAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsError =
@@ -12813,6 +13236,8 @@ export const ReplaceAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignme
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignments",
 }));
 
 export type ResendUserlandUserInvitesControllerError =
@@ -12832,6 +13257,8 @@ export const ResendUserlandUserInvitesController: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendUserlandUserInvitesController",
 }));
 
 export type ResetUserlandUsersControllerPassword0Error =
@@ -12852,6 +13279,8 @@ export const ResetUserlandUsersControllerPassword0: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetUserlandUsersControllerPassword0",
 }));
 
 export type RevokeAgentInstanceSessionsControllerError = NotFound | WorkosOpError;
@@ -12867,6 +13296,8 @@ export const RevokeAgentInstanceSessionsController: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAgentInstanceSessionsController",
 }));
 
 export type RevokeItContactsControllerError = Forbidden | NotFound | WorkosOpError;
@@ -12882,6 +13313,8 @@ export const RevokeItContactsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeItContactsController",
 }));
 
 export type RevokeUserlandSessionsControllerSessionError = BadRequest | WorkosOpError;
@@ -12897,6 +13330,8 @@ export const RevokeUserlandSessionsControllerSession: API.OperationMethod<
   errors: [BadRequest, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUserlandSessionsControllerSession",
 }));
 
 export type RevokeUserlandUserInvitesControllerError = BadRequest | WorkosOpError;
@@ -12912,6 +13347,8 @@ export const RevokeUserlandUserInvitesController: API.OperationMethod<
   errors: [BadRequest, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUserlandUserInvitesController",
 }));
 
 export type SendPublicRadarChallengesControllerRadarSmsChallengeError = WorkosOpError;
@@ -12931,6 +13368,8 @@ export const SendPublicRadarChallengesControllerRadarSmsChallenge: API.Operation
   errors: [UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendPublicRadarChallengesControllerRadarSmsChallenge",
 }));
 
 export type SendUserlandUsersControllerEmailChangeError =
@@ -12950,6 +13389,8 @@ export const SendUserlandUsersControllerEmailChange: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUserlandUsersControllerEmailChange",
 }));
 
 export type SendUserlandUsersControllerVerificationEmail0Error =
@@ -12972,6 +13413,8 @@ export const SendUserlandUsersControllerVerificationEmail0: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUserlandUsersControllerVerificationEmail0",
 }));
 
 export type SetAuthorizationOrganizationRolePermissionsControllerPermissionsError =
@@ -12999,6 +13442,8 @@ export const SetAuthorizationOrganizationRolePermissionsControllerPermissions: A
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAuthorizationOrganizationRolePermissionsControllerPermissions",
 }));
 
 export type SetAuthorizationRolePermissionsControllerPermissionsError =
@@ -13027,6 +13472,8 @@ export const SetAuthorizationRolePermissionsControllerPermissions: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAuthorizationRolePermissionsControllerPermissions",
 }));
 
 export type SsoControllerJsonWebKeySetError = NotFound | WorkosOpError;
@@ -13042,6 +13489,8 @@ export const SsoControllerJsonWebKeySet: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SsoControllerJsonWebKeySet",
 }));
 
 export type SsoControllerLogoutAuthorizeError = BadRequest | NotFound | WorkosOpError;
@@ -13057,6 +13506,8 @@ export const SsoControllerLogoutAuthorize: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SsoControllerLogoutAuthorize",
 }));
 
 export type SsoControllerTokenError = BadRequest | NotFound | UnprocessableEntity | WorkosOpError;
@@ -13072,6 +13523,8 @@ export const SsoControllerToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SsoControllerToken",
 }));
 
 export type SyncDirectoriesControllerDirectoryError =
@@ -13092,6 +13545,8 @@ export const SyncDirectoriesControllerDirectory: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncDirectoriesControllerDirectory",
 }));
 
 export type UpdateAgentBlueprintsControllerError =
@@ -13112,6 +13567,8 @@ export const UpdateAgentBlueprintsController: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentBlueprintsController",
 }));
 
 export type UpdateApplicationsControllerError = NotFound | UnprocessableEntity | WorkosOpError;
@@ -13127,6 +13584,8 @@ export const UpdateApplicationsController: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationsController",
 }));
 
 export type UpdateAuditLogsRetentionControllerAuditLogsRetentionError =
@@ -13149,6 +13608,8 @@ export const UpdateAuditLogsRetentionControllerAuditLogsRetention: API.Operation
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuditLogsRetentionControllerAuditLogsRetention",
 }));
 
 export type UpdateAuthorizationOrganizationRolesControllerError =
@@ -13177,6 +13638,8 @@ export const UpdateAuthorizationOrganizationRolesController: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuthorizationOrganizationRolesController",
 }));
 
 export type UpdateAuthorizationPermissionsControllerError =
@@ -13196,6 +13659,8 @@ export const UpdateAuthorizationPermissionsController: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuthorizationPermissionsController",
 }));
 
 export type UpdateAuthorizationResourcesByExternalIdControllerByExternalIdError =
@@ -13225,6 +13690,8 @@ export const UpdateAuthorizationResourcesByExternalIdControllerByExternalId: API
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuthorizationResourcesByExternalIdControllerByExternalId",
 }));
 
 export type UpdateAuthorizationResourcesControllerError =
@@ -13246,6 +13713,8 @@ export const UpdateAuthorizationResourcesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuthorizationResourcesController",
 }));
 
 export type UpdateAuthorizationRolesControllerError =
@@ -13266,6 +13735,8 @@ export const UpdateAuthorizationRolesController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuthorizationRolesController",
 }));
 
 export type UpdateDataIntegrationsManagementControllerDataIntegrationError =
@@ -13291,6 +13762,8 @@ export const UpdateDataIntegrationsManagementControllerDataIntegration: API.Oper
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegrationsManagementControllerDataIntegration",
 }));
 
 export type UpdateDataIntegrationsManagementControllerOrganizationDataIntegrationError =
@@ -13316,6 +13789,8 @@ export const UpdateDataIntegrationsManagementControllerOrganizationDataIntegrati
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegrationsManagementControllerOrganizationDataIntegration",
 }));
 
 export type UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationError =
@@ -13341,6 +13816,8 @@ export const UpdateDataIntegrationsOrganizationControllerOrganizationDataInstall
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallation",
 }));
 
 export type UpdateDataIntegrationsUserManagementControllerUserDataInstallationError =
@@ -13365,6 +13842,8 @@ export const UpdateDataIntegrationsUserManagementControllerUserDataInstallation:
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegrationsUserManagementControllerUserDataInstallation",
 }));
 
 export type UpdateGroupsControllerError =
@@ -13385,6 +13864,8 @@ export const UpdateGroupsController: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupsController",
 }));
 
 export type UpdateJumpWireWebDataVaultControllerError = BadRequest | Conflict | WorkosOpError;
@@ -13400,6 +13881,8 @@ export const UpdateJumpWireWebDataVaultController: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJumpWireWebDataVaultController",
 }));
 
 export type UpdateJwtTemplatesControllerJwtTemplateError = UnprocessableEntity | WorkosOpError;
@@ -13415,6 +13898,8 @@ export const UpdateJwtTemplatesControllerJwtTemplate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJwtTemplatesControllerJwtTemplate",
 }));
 
 export type UpdateOrganizationsControllerOrganizationError =
@@ -13436,6 +13921,8 @@ export const UpdateOrganizationsControllerOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsControllerOrganization",
 }));
 
 export type UpdateRadarStandaloneControllerRadarAttemptError =
@@ -13462,6 +13949,8 @@ export const UpdateRadarStandaloneControllerRadarAttempt: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRadarStandaloneControllerRadarAttempt",
 }));
 
 export type UpdateUserlandUserOrganizationMembershipsControllerError =
@@ -13484,6 +13973,8 @@ export const UpdateUserlandUserOrganizationMembershipsController: API.OperationM
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserlandUserOrganizationMembershipsController",
 }));
 
 export type UpdateWebhookEndpointsControllerError =
@@ -13503,6 +13994,8 @@ export const UpdateWebhookEndpointsController: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookEndpointsController",
 }));
 
 export type UpsertDataIntegrationsControllerApiKeyError =
@@ -13524,6 +14017,8 @@ export const UpsertDataIntegrationsControllerApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertDataIntegrationsControllerApiKey",
 }));
 
 export type UpsertDataIntegrationsControllerClientCredentialsError =
@@ -13549,6 +14044,8 @@ export const UpsertDataIntegrationsControllerClientCredentials: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertDataIntegrationsControllerClientCredentials",
 }));
 
 export type UserlandMagicAuthControllerSendMagicAuthCodeAndReturnError =
@@ -13575,6 +14072,8 @@ export const UserlandMagicAuthControllerSendMagicAuthCodeAndReturn: API.Operatio
   errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandMagicAuthControllerSendMagicAuthCodeAndReturn",
 }));
 
 export type UserlandSessionsControllerAuthenticate0Error =
@@ -13595,6 +14094,8 @@ export const UserlandSessionsControllerAuthenticate0: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandSessionsControllerAuthenticate0",
 }));
 
 export type UserlandSsoControllerDeviceAuthorizationError = BadRequest | Forbidden | WorkosOpError;
@@ -13610,6 +14111,8 @@ export const UserlandSsoControllerDeviceAuthorization: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandSsoControllerDeviceAuthorization",
 }));
 
 export type UserlandUserAuthenticationFactorsControllerCreate0Error =
@@ -13631,6 +14134,8 @@ export const UserlandUserAuthenticationFactorsControllerCreate0: API.OperationMe
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUserAuthenticationFactorsControllerCreate0",
 }));
 
 export type UserlandUserAuthenticationFactorsControllerList0Error =
@@ -13652,6 +14157,8 @@ export const UserlandUserAuthenticationFactorsControllerList0: API.OperationMeth
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUserAuthenticationFactorsControllerList0",
 }));
 
 export type UserlandUserOrganizationMembershipsControllerReactivateError =
@@ -13675,6 +14182,8 @@ export const UserlandUserOrganizationMembershipsControllerReactivate: API.Operat
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUserOrganizationMembershipsControllerReactivate",
 }));
 
 export type UserlandUsersControllerCreate0Error =
@@ -13694,6 +14203,8 @@ export const UserlandUsersControllerCreate0: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUsersControllerCreate0",
 }));
 
 export type UserlandUsersControllerCreatePasswordResetTokenError =
@@ -13717,6 +14228,8 @@ export const UserlandUsersControllerCreatePasswordResetToken: API.OperationMetho
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUsersControllerCreatePasswordResetToken",
 }));
 
 export type UserlandUsersControllerDelete0Error = NotFound | WorkosOpError;
@@ -13732,6 +14245,8 @@ export const UserlandUsersControllerDelete0: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUsersControllerDelete0",
 }));
 
 export type UserlandUsersControllerEmailVerification0Error =
@@ -13751,6 +14266,8 @@ export const UserlandUsersControllerEmailVerification0: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUsersControllerEmailVerification0",
 }));
 
 export type UserlandUsersControllerGet0Error = NotFound | WorkosOpError;
@@ -13766,6 +14283,8 @@ export const UserlandUsersControllerGet0: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUsersControllerGet0",
 }));
 
 export type UserlandUsersControllerGetPasswordResetError = NotFound | WorkosOpError;
@@ -13781,6 +14300,8 @@ export const UserlandUsersControllerGetPasswordReset: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUsersControllerGetPasswordReset",
 }));
 
 export type UserlandUsersControllerList0Error = UnprocessableEntity | WorkosOpError;
@@ -13796,6 +14317,8 @@ export const UserlandUsersControllerList0: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUsersControllerList0",
 }));
 
 export type UserlandUsersControllerUpdate0Error = BadRequest | UnprocessableEntity | WorkosOpError;
@@ -13811,6 +14334,8 @@ export const UserlandUsersControllerUpdate0: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserlandUsersControllerUpdate0",
 }));
 
 export type ValidateAgentAdminControllerCredentialError = BadRequest | WorkosOpError;
@@ -13826,6 +14351,8 @@ export const ValidateAgentAdminControllerCredential: API.OperationMethod<
   errors: [BadRequest, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAgentAdminControllerCredential",
 }));
 
 export type ValidateAgentBlueprintsTokenControllerTokenError =
@@ -13848,6 +14375,8 @@ export const ValidateAgentBlueprintsTokenControllerToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAgentBlueprintsTokenControllerToken",
 }));
 
 export type ValidateApiKeysControllerApiKeyError = UnprocessableEntity | WorkosOpError;
@@ -13863,6 +14392,8 @@ export const ValidateApiKeysControllerApiKey: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateApiKeysControllerApiKey",
 }));
 
 export type VerifyAuthenticationChallengesControllerError =
@@ -13882,6 +14413,8 @@ export const VerifyAuthenticationChallengesController: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyAuthenticationChallengesController",
 }));
 
 export type VerifyOrganizationDomainsControllerError = BadRequest | WorkosOpError;
@@ -13897,6 +14430,8 @@ export const VerifyOrganizationDomainsController: API.OperationMethod<
   errors: [BadRequest, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyOrganizationDomainsController",
 }));
 
 export type WaitlistEntriesControllerDenyError = NotFound | UnprocessableEntity | WorkosOpError;
@@ -13912,6 +14447,8 @@ export const WaitlistEntriesControllerDeny: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitlistEntriesControllerDeny",
 }));
 
 export type WaitlistsControllerFindError = NotFound | WorkosOpError;
@@ -13927,6 +14464,8 @@ export const WaitlistsControllerFind: API.OperationMethod<
   errors: [NotFound, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitlistsControllerFind",
 }));
 
 export type WidgetsPublicControllerIssueWidgetSessionTokenError =
@@ -13950,6 +14489,8 @@ export const WidgetsPublicControllerIssueWidgetSessionToken: API.OperationMethod
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
   protocol: WorkosProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WidgetsPublicControllerIssueWidgetSessionToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

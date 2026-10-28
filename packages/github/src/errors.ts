@@ -23,7 +23,11 @@ export {
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import type {
+  DefaultErrors as CoreDefaultErrors,
+  Forbidden,
+  NotFound,
+} from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -60,8 +64,15 @@ export class GithubParseError
 /**
  * Errors any GitHub operation may surface in addition to the per-operation
  * typed status errors.
+ *
+ * `NotFound` and `Forbidden` are here because GitHub answers them on every
+ * endpoint, declared or not: a resource the token cannot see is a 404 (GitHub
+ * hides private resources rather than refusing them), and a token missing a
+ * scope or permission is a 403. The protocol's status map already decodes
+ * both to these classes; listing them keeps the type honest for the many
+ * operations whose spec entry omits them (most DELETEs never declare 404).
  */
-export type ClientErrors = UnknownGithubError | GithubParseError | Gone;
+export type ClientErrors = UnknownGithubError | GithubParseError | Gone | NotFound | Forbidden;
 
 /**
  * Default GitHub operation errors: the shared HTTP status errors from core

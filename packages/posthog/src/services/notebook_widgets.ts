@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "NotebookWidgets",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -450,6 +463,8 @@ export const generateReusableWidget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateReusableWidget",
 }));
 
 export type GetReusableWidgetError = NotFound | PosthogOpError;
@@ -464,6 +479,8 @@ export const getReusableWidget: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReusableWidget",
 }));
 
 export type ListReusableWidgetsError = PosthogOpError;
@@ -478,6 +495,8 @@ export const listReusableWidgets: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReusableWidgets",
 }));
 
 export type RestoreReusableWidgetError = BadRequest | NotFound | Conflict | PosthogOpError;
@@ -492,6 +511,8 @@ export const restoreReusableWidget: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreReusableWidget",
 }));
 
 export type ReusableWidgetsDemoFrameError = NotFound | PosthogOpError;
@@ -506,6 +527,8 @@ export const reusableWidgetsDemoFrame: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReusableWidgetsDemoFrame",
 }));
 
 export type ReusableWidgetsDiscardVersionError = NotFound | Conflict | PosthogOpError;
@@ -520,6 +543,8 @@ export const reusableWidgetsDiscardVersion: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReusableWidgetsDiscardVersion",
 }));
 
 export type ReusableWidgetsSaveVersionError = BadRequest | NotFound | Conflict | PosthogOpError;
@@ -534,6 +559,8 @@ export const reusableWidgetsSaveVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReusableWidgetsSaveVersion",
 }));
 
 export type ReusableWidgetsSourceError = BadRequest | NotFound | PosthogOpError;
@@ -548,6 +575,8 @@ export const reusableWidgetsSource: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReusableWidgetsSource",
 }));
 
 export type ReusableWidgetsStatusError = NotFound | Conflict | PosthogOpError;
@@ -562,6 +591,8 @@ export const reusableWidgetsStatus: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReusableWidgetsStatus",
 }));
 
 export type ReusableWidgetsVersionsError = BadRequest | NotFound | PosthogOpError;
@@ -576,6 +607,8 @@ export const reusableWidgetsVersions: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReusableWidgetsVersions",
 }));
 
 export type UpdateReusableWidgetDemoDataError = BadRequest | NotFound | Conflict | PosthogOpError;
@@ -590,6 +623,8 @@ export const updateReusableWidgetDemoData: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReusableWidgetDemoData",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

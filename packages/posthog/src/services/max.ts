@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Max",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -360,6 +373,8 @@ export const conversationsCancelPartialUpdate: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsCancelPartialUpdate",
 }));
 
 export type ConversationsDestroyError = PosthogOpError;
@@ -375,6 +390,8 @@ export const conversationsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsDestroy",
 }));
 
 export type ConversationsQueueDestroyError = PosthogOpError;
@@ -389,6 +406,8 @@ export const conversationsQueueDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsQueueDestroy",
 }));
 
 export type CreateConversationError = PosthogOpError;
@@ -404,6 +423,8 @@ export const createConversation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversation",
 }));
 
 export type CreateConversationsAppendMessageError = PosthogOpError;
@@ -419,6 +440,8 @@ export const createConversationsAppendMessage: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsAppendMessage",
 }));
 
 export type CreateConversationsOpenError = BadRequest | PosthogOpError;
@@ -434,6 +457,8 @@ export const createConversationsOpen: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsOpen",
 }));
 
 export type CreateConversationsQueueError = PosthogOpError;
@@ -448,6 +473,8 @@ export const createConversationsQueue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsQueue",
 }));
 
 export type CreateConversationsQueueClearError = PosthogOpError;
@@ -462,6 +489,8 @@ export const createConversationsQueueClear: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationsQueueClear",
 }));
 
 export type GetConversationError = PosthogOpError;
@@ -476,6 +505,8 @@ export const getConversation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversation",
 }));
 
 export type GetConversationsQueueError = PosthogOpError;
@@ -490,6 +521,8 @@ export const getConversationsQueue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationsQueue",
 }));
 
 export type ListConversationsError = PosthogOpError;
@@ -504,6 +537,8 @@ export const listConversations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConversations",
 }));
 
 export type UpdateConversationsQueuePartialError = PosthogOpError;
@@ -518,6 +553,8 @@ export const updateConversationsQueuePartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationsQueuePartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Trades",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -346,6 +359,8 @@ export const cancelTrade: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTrade",
 }));
 
 export type CreateTradeError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -361,6 +376,8 @@ export const createTrade: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrade",
 }));
 
 export type GetTradeError = Forbidden | NotFound | WhopOpError;
@@ -372,6 +389,8 @@ export const getTrade: API.OperationMethod<GetTradeRequest, Trade, GetTradeError
     errors: [Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTrade",
   }));
 
 export type ListTradesError = BadRequest | Forbidden | WhopOpError;
@@ -389,6 +408,8 @@ export const listTrades: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTrades",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -414,6 +435,8 @@ export const updateTradeLeverage: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTradeLeverage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

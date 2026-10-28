@@ -24,7 +24,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "IntercomCredentials",
   ) {}
 
@@ -63,5 +63,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl: process.env.INTERCOM_API_BASE_URL ?? DEFAULT_API_BASE_URL,
       apiVersion: process.env.INTERCOM_API_VERSION ?? DEFAULT_API_VERSION,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

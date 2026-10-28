@@ -28,6 +28,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalPages: "total_pages",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "EmailRouting",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class DestinationNotVerified
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DestinationNotVerified>()("DestinationNotVerified", {
@@ -1060,6 +1074,8 @@ export const accountRulesListForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountRulesListForAccount",
 }));
 
 export type AccountRulesListForZoneError = CloudflareOpError;
@@ -1075,6 +1091,8 @@ export const accountRulesListForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountRulesListForZone",
 }));
 
 export type CreateAddressError = CloudflareOpError;
@@ -1090,6 +1108,8 @@ export const createAddress: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAddress",
 }));
 
 export type CreateDnsError = CloudflareOpError;
@@ -1105,6 +1125,8 @@ export const createDns: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDns",
 }));
 
 export type CreateRuleError = WorkerScriptNotFound | CloudflareOpError;
@@ -1120,6 +1142,8 @@ export const createRule: API.OperationMethod<
   errors: [WorkerScriptNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type DeleteAddressError =
@@ -1143,6 +1167,8 @@ export const deleteAddress: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddress",
 }));
 
 export type DeleteDnsError = CloudflareOpError;
@@ -1158,6 +1184,8 @@ export const deleteDns: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDns",
 }));
 
 export type DeleteRuleError = EmailRoutingRuleNotFound | CloudflareOpError;
@@ -1173,6 +1201,8 @@ export const deleteRule: API.OperationMethod<
   errors: [EmailRoutingRuleNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DisableEmailRoutingError = Forbidden | CloudflareOpError;
@@ -1188,6 +1218,8 @@ export const disableEmailRouting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableEmailRouting",
 }));
 
 export type EditError = CloudflareOpError;
@@ -1199,6 +1231,8 @@ export const edit: API.OperationMethod<EditRequest, EditResponse, EditError, Clo
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Edit",
   }));
 
 export type EditAddressError = CloudflareOpError;
@@ -1214,6 +1248,8 @@ export const editAddress: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditAddress",
 }));
 
 export type EnableEmailRoutingError = Forbidden | CloudflareOpError;
@@ -1229,6 +1265,8 @@ export const enableEmailRouting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableEmailRouting",
 }));
 
 export type GetAddressError = CloudflareOpError;
@@ -1244,6 +1282,8 @@ export const getAddress: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddress",
 }));
 
 export type GetDnsError = CloudflareOpError;
@@ -1259,6 +1299,8 @@ export const getDns: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDns",
 }));
 
 export type GetEmailRoutingError = Forbidden | CloudflareOpError;
@@ -1274,6 +1316,8 @@ export const getEmailRouting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailRouting",
 }));
 
 export type GetRuleError = Forbidden | EmailRoutingRuleNotFound | CloudflareOpError;
@@ -1289,6 +1333,8 @@ export const getRule: API.OperationMethod<
   errors: [Forbidden, EmailRoutingRuleNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetRuleCatchAllError = Forbidden | CloudflareOpError;
@@ -1304,6 +1350,8 @@ export const getRuleCatchAll: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRuleCatchAll",
 }));
 
 export type ListAddressesError = CloudflareOpError;
@@ -1321,6 +1369,8 @@ export const listAddresses: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAddresses",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1347,6 +1397,8 @@ export const listRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRules",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1371,6 +1423,8 @@ export const patchDns: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDns",
 }));
 
 export type PutRuleCatchAllError =
@@ -1396,6 +1450,8 @@ export const putRuleCatchAll: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutRuleCatchAll",
 }));
 
 export type RulesListForAccountError = CloudflareOpError;
@@ -1411,6 +1467,8 @@ export const rulesListForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RulesListForAccount",
 }));
 
 export type RulesListForZoneError = CloudflareOpError;
@@ -1426,6 +1484,8 @@ export const rulesListForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RulesListForZone",
 }));
 
 export type UnlockError = CloudflareOpError;
@@ -1441,6 +1501,8 @@ export const unlock: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Unlock",
 }));
 
 export type UpdateError = CloudflareOpError;
@@ -1456,6 +1518,8 @@ export const update: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Update",
 }));
 
 export type UpdateRuleError = WorkerScriptNotFound | CloudflareOpError;
@@ -1471,6 +1535,8 @@ export const updateRule: API.OperationMethod<
   errors: [WorkerScriptNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

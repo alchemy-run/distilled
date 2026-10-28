@@ -22,6 +22,7 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
@@ -69,8 +70,7 @@ for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(f
 }
 
 // ---- 4. Convert each bucket ------------------------------------------------
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
@@ -102,7 +102,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   }
   const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket — mirror v0's pruning
-  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += opCount;
 }

@@ -2,10 +2,10 @@
 import { readFileSync } from "node:fs";
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
- * generate — turn the Smithy JSON model in .generated-specs into the Iceberg
- * REST Catalog Effect SDK.
+ * generate — turn the Smithy JSON model scripts/convert.ts converts into the
+ * Iceberg REST Catalog Effect SDK.
  *
- * Input:  .generated-specs/catalog.json  (written by scripts/convert.ts)
+ * Input:  the `catalog` model scripts/convert.ts converts (in memory)
  * Output: src/services/catalog.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
@@ -30,9 +30,8 @@ const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 const root = `${import.meta.dirname}/..`;
 
-/** `{ tsName: wireName }` for every member whose wire name differs. */
-const keyDictionary = (): Record<string, string> => {
-  const model = JSON.parse(readFileSync(`${root}/.generated-specs/catalog.json`, "utf8"));
+/** `{ tsName: wireName }` for every member of `model` whose wire name differs. */
+const keyDictionary = (model: any): Record<string, string> => {
   const dict: Record<string, string> = {};
   for (const [id, shape] of Object.entries<any>(model.shapes)) {
     for (const [name, member] of Object.entries<any>(shape.members ?? {})) {
@@ -48,7 +47,7 @@ const keyDictionary = (): Record<string, string> => {
 };
 
 /** Iceberg's provider spec for the shared smithy→SDK compiler. */
-const spec: SdkSpec = {
+const spec = (model: any): SdkSpec => ({
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
 
@@ -101,7 +100,7 @@ const spec: SdkSpec = {
   // exactly; Iceberg's property keys are dotted kebab-case
   // (`write.format.default`), so none do.
   rootKeyDictionary: {
-    dict: keyDictionary(),
+    dict: keyDictionary(model),
     doc: "TS member name → Iceberg wire name, for opaque union payloads.",
   },
 
@@ -126,13 +125,14 @@ const spec: SdkSpec = {
         )
       : withoutEmptyImport;
   },
-};
+});
 
 runGeneratorCli({
   description: "Generate the Iceberg REST Catalog Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root,
   // Smithy patches under patches/catalog/ apply via finalizeConvert in
   // scripts/convert.ts — never here.
   patchesDir: false,
-  spec: () => spec,
+  spec,
 });

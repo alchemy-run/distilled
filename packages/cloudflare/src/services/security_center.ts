@@ -40,6 +40,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneTag: "zone_tag",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "SecurityCenter",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface DismissInsightForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
@@ -484,6 +498,8 @@ export const dismissInsightForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissInsightForAccount",
 }));
 
 export type DismissInsightForZoneError = CloudflareOpError;
@@ -499,6 +515,8 @@ export const dismissInsightForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissInsightForZone",
 }));
 
 export type GetInsightClassForAccountError = CloudflareOpError;
@@ -514,6 +532,8 @@ export const getInsightClassForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightClassForAccount",
 }));
 
 export type GetInsightClassForZoneError = CloudflareOpError;
@@ -529,6 +549,8 @@ export const getInsightClassForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightClassForZone",
 }));
 
 export type GetInsightContextError = CloudflareOpError;
@@ -544,6 +566,8 @@ export const getInsightContext: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightContext",
 }));
 
 export type GetInsightSeverityForAccountError = CloudflareOpError;
@@ -559,6 +583,8 @@ export const getInsightSeverityForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightSeverityForAccount",
 }));
 
 export type GetInsightSeverityForZoneError = CloudflareOpError;
@@ -574,6 +600,8 @@ export const getInsightSeverityForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightSeverityForZone",
 }));
 
 export type GetInsightTypeForAccountError = CloudflareOpError;
@@ -589,6 +617,8 @@ export const getInsightTypeForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightTypeForAccount",
 }));
 
 export type GetInsightTypeForZoneError = CloudflareOpError;
@@ -604,6 +634,8 @@ export const getInsightTypeForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightTypeForZone",
 }));
 
 export type ListByInsightInsightAuditLogForAccountError = CloudflareOpError;
@@ -621,6 +653,8 @@ export const listByInsightInsightAuditLogForAccount: API.PaginatedOperationMetho
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListByInsightInsightAuditLogForAccount",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -647,6 +681,8 @@ export const listByInsightInsightAuditLogForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListByInsightInsightAuditLogForZone",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -673,6 +709,8 @@ export const listInsightAuditLogsForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInsightAuditLogsForAccount",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -699,6 +737,8 @@ export const listInsightAuditLogsForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInsightAuditLogsForZone",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -723,6 +763,8 @@ export const listInsightsForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightsForAccount",
 }));
 
 export type ListInsightsForZoneError = CloudflareOpError;
@@ -738,6 +780,8 @@ export const listInsightsForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightsForZone",
 }));
 
 export type PatchInsightClassificationForAccountError = CloudflareOpError;
@@ -753,6 +797,8 @@ export const patchInsightClassificationForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInsightClassificationForAccount",
 }));
 
 export type PatchInsightClassificationForZoneError = CloudflareOpError;
@@ -768,6 +814,8 @@ export const patchInsightClassificationForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInsightClassificationForZone",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

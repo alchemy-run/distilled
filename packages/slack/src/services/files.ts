@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Files",
+  propagate: "w3c",
+} as const;
+
 export interface AddRemoteRequest {
   /** Creator defined GUID for the file. */
   external_id: string;
@@ -383,6 +396,8 @@ export const addRemote: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRemote",
 }));
 
 export type CompleteUploadExternalError = SlackOpError;
@@ -398,6 +413,8 @@ export const completeUploadExternal: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteUploadExternal",
 }));
 
 export type DeleteCommentError = SlackOpError;
@@ -413,6 +430,8 @@ export const deleteComment: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComment",
 }));
 
 export type DeleteFileError = SlackOpError;
@@ -428,6 +447,8 @@ export const deleteFile: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFile",
 }));
 
 export type FilesInfoError = SlackOpError;
@@ -445,6 +466,8 @@ export const filesInfo: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "FilesInfo",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -469,6 +492,8 @@ export const getUploadURLExternal: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUploadURLExternal",
 }));
 
 export type ListFilesError = SlackOpError;
@@ -484,6 +509,8 @@ export const listFiles: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFiles",
 }));
 
 export type ListRemoteError = SlackOpError;
@@ -501,6 +528,8 @@ export const listRemote: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRemote",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -525,6 +554,8 @@ export const remoteInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoteInfo",
 }));
 
 export type RemoveRemoteError = SlackOpError;
@@ -540,6 +571,8 @@ export const removeRemote: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRemote",
 }));
 
 export type RevokePublicURLError = SlackOpError;
@@ -555,6 +588,8 @@ export const revokePublicURL: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokePublicURL",
 }));
 
 export type SharedPublicURLError = SlackOpError;
@@ -570,6 +605,8 @@ export const sharedPublicURL: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedPublicURL",
 }));
 
 export type ShareRemoteError = SlackOpError;
@@ -585,6 +622,8 @@ export const shareRemote: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareRemote",
 }));
 
 export type UpdateRemoteError = SlackOpError;
@@ -600,6 +639,8 @@ export const updateRemote: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRemote",
 }));
 
 export type UploadFileError = SlackOpError;
@@ -615,6 +656,8 @@ export const uploadFile: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadFile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

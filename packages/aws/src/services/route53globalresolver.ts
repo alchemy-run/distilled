@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53GlobalResolver",
+  service: "Route53GlobalResolver",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1159,6 +1174,8 @@ export const associateHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateHostedZone",
+  telemetry: TELEMETRY,
+  span: "AssociateHostedZone",
 }));
 
 export type BatchCreateFirewallRuleError =
@@ -1189,6 +1206,8 @@ export const batchCreateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchCreateFirewallRule",
 }));
 
 export type BatchDeleteFirewallRuleError =
@@ -1219,6 +1238,8 @@ export const batchDeleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteFirewallRule",
 }));
 
 export type BatchUpdateFirewallRuleError =
@@ -1249,6 +1270,8 @@ export const batchUpdateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateFirewallRule",
 }));
 
 export type CreateAccessSourceError =
@@ -1285,6 +1308,8 @@ export const createAccessSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessSource",
+  telemetry: TELEMETRY,
+  span: "CreateAccessSource",
 }));
 
 export type CreateAccessTokenError =
@@ -1321,6 +1346,8 @@ export const createAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessToken",
+  telemetry: TELEMETRY,
+  span: "CreateAccessToken",
 }));
 
 export type CreateDNSViewError =
@@ -1357,6 +1384,8 @@ export const createDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDNSView",
+  telemetry: TELEMETRY,
+  span: "CreateDNSView",
 }));
 
 export type CreateFirewallDomainListError =
@@ -1393,6 +1422,8 @@ export const createFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallDomainList",
 }));
 
 export type CreateFirewallRuleError =
@@ -1429,6 +1460,8 @@ export const createFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "CreateFirewallRule",
 }));
 
 export type CreateGlobalResolverError =
@@ -1463,6 +1496,8 @@ export const createGlobalResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalResolver",
+  telemetry: TELEMETRY,
+  span: "CreateGlobalResolver",
 }));
 
 export type DeleteAccessSourceError =
@@ -1497,6 +1532,8 @@ export const deleteAccessSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessSource",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessSource",
 }));
 
 export type DeleteAccessTokenError =
@@ -1531,6 +1568,8 @@ export const deleteAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessToken",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessToken",
 }));
 
 export type DeleteDNSViewError =
@@ -1565,6 +1604,8 @@ export const deleteDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDNSView",
+  telemetry: TELEMETRY,
+  span: "DeleteDNSView",
 }));
 
 export type DeleteFirewallDomainListError =
@@ -1599,6 +1640,8 @@ export const deleteFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallDomainList",
 }));
 
 export type DeleteFirewallRuleError =
@@ -1633,6 +1676,8 @@ export const deleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRule",
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRule",
 }));
 
 export type DeleteGlobalResolverError =
@@ -1667,6 +1712,8 @@ export const deleteGlobalResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalResolver",
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalResolver",
 }));
 
 export type DisableDNSViewError =
@@ -1703,6 +1750,8 @@ export const disableDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDNSView",
+  telemetry: TELEMETRY,
+  span: "DisableDNSView",
 }));
 
 export type DisassociateHostedZoneError =
@@ -1737,6 +1786,8 @@ export const disassociateHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateHostedZone",
+  telemetry: TELEMETRY,
+  span: "DisassociateHostedZone",
 }));
 
 export type EnableDNSViewError =
@@ -1773,6 +1824,8 @@ export const enableDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDNSView",
+  telemetry: TELEMETRY,
+  span: "EnableDNSView",
 }));
 
 export type GetAccessSourceError =
@@ -1805,6 +1858,8 @@ export const getAccessSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessSource",
+  telemetry: TELEMETRY,
+  span: "GetAccessSource",
 }));
 
 export type GetAccessTokenError =
@@ -1837,6 +1892,8 @@ export const getAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
+  telemetry: TELEMETRY,
+  span: "GetAccessToken",
 }));
 
 export type GetDNSViewError =
@@ -1869,6 +1926,8 @@ export const getDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDNSView",
+  telemetry: TELEMETRY,
+  span: "GetDNSView",
 }));
 
 export type GetFirewallDomainListError =
@@ -1901,6 +1960,8 @@ export const getFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "GetFirewallDomainList",
 }));
 
 export type GetFirewallRuleError =
@@ -1933,6 +1994,8 @@ export const getFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRule",
+  telemetry: TELEMETRY,
+  span: "GetFirewallRule",
 }));
 
 export type GetGlobalResolverError =
@@ -1965,6 +2028,8 @@ export const getGlobalResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalResolver",
+  telemetry: TELEMETRY,
+  span: "GetGlobalResolver",
 }));
 
 export type GetHostedZoneAssociationError =
@@ -1997,6 +2062,8 @@ export const getHostedZoneAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedZoneAssociation",
+  telemetry: TELEMETRY,
+  span: "GetHostedZoneAssociation",
 }));
 
 export type GetManagedFirewallDomainListError =
@@ -2029,6 +2096,8 @@ export const getManagedFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedFirewallDomainList",
+  telemetry: TELEMETRY,
+  span: "GetManagedFirewallDomainList",
 }));
 
 export type ImportFirewallDomainsError =
@@ -2065,6 +2134,8 @@ export const importFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportFirewallDomains",
+  telemetry: TELEMETRY,
+  span: "ImportFirewallDomains",
 }));
 
 export type ListAccessSourcesError =
@@ -2102,6 +2173,8 @@ export const listAccessSources: API.PaginatedOperationMethod<
     items: "accessSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessSources",
 })) as any;
 
 export type ListAccessTokensError =
@@ -2141,6 +2214,8 @@ export const listAccessTokens: API.PaginatedOperationMethod<
     items: "accessTokens",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessTokens",
 })) as any;
 
 export type ListDNSViewsError =
@@ -2180,6 +2255,8 @@ export const listDNSViews: API.PaginatedOperationMethod<
     items: "dnsViews",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDNSViews",
 })) as any;
 
 export type ListFirewallDomainListsError =
@@ -2219,6 +2296,8 @@ export const listFirewallDomainLists: API.PaginatedOperationMethod<
     items: "firewallDomainLists",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallDomainLists",
 })) as any;
 
 export type ListFirewallDomainsError =
@@ -2258,6 +2337,8 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
     items: "domains",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallDomains",
 })) as any;
 
 export type ListFirewallRulesError =
@@ -2297,6 +2378,8 @@ export const listFirewallRules: API.PaginatedOperationMethod<
     items: "firewallRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRules",
 })) as any;
 
 export type ListGlobalResolversError =
@@ -2334,6 +2417,8 @@ export const listGlobalResolvers: API.PaginatedOperationMethod<
     items: "globalResolvers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGlobalResolvers",
 })) as any;
 
 export type ListHostedZoneAssociationsError =
@@ -2373,6 +2458,8 @@ export const listHostedZoneAssociations: API.PaginatedOperationMethod<
     items: "hostedZoneAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHostedZoneAssociations",
 })) as any;
 
 export type ListManagedFirewallDomainListsError =
@@ -2410,6 +2497,8 @@ export const listManagedFirewallDomainLists: API.PaginatedOperationMethod<
     items: "managedFirewallDomainLists",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedFirewallDomainLists",
 })) as any;
 
 export type ListSharedDNSViewsError =
@@ -2447,6 +2536,8 @@ export const listSharedDNSViews: API.PaginatedOperationMethod<
     items: "dnsViews",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSharedDNSViews",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -2467,6 +2558,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -2491,6 +2584,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2511,6 +2606,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessSourceError =
@@ -2547,6 +2644,8 @@ export const updateAccessSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessSource",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessSource",
 }));
 
 export type UpdateAccessTokenError =
@@ -2583,6 +2682,8 @@ export const updateAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessToken",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessToken",
 }));
 
 export type UpdateDNSViewError =
@@ -2619,6 +2720,8 @@ export const updateDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDNSView",
+  telemetry: TELEMETRY,
+  span: "UpdateDNSView",
 }));
 
 export type UpdateFirewallDomainsError =
@@ -2655,6 +2758,8 @@ export const updateFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDomains",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallDomains",
 }));
 
 export type UpdateFirewallRuleError =
@@ -2691,6 +2796,8 @@ export const updateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRule",
+  telemetry: TELEMETRY,
+  span: "UpdateFirewallRule",
 }));
 
 export type UpdateGlobalResolverError =
@@ -2727,6 +2834,8 @@ export const updateGlobalResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalResolver",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalResolver",
 }));
 
 export type UpdateHostedZoneAssociationError =
@@ -2763,6 +2872,8 @@ export const updateHostedZoneAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHostedZoneAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateHostedZoneAssociation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

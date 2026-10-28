@@ -119,6 +119,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Forgejo Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 chain in patches/<service>/<op>.json applies to the
   // Swagger document in scripts/convert.ts — never to the Smithy models.

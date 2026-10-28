@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -313,6 +314,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   ],
 );
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Signin",
+  service: "Signin",
+  propagate: TxXray.propagate,
+} as const;
+
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
     error: /*@__PURE__*/ S.suspend(() => S.String).annotate({ identifier: "OAuth2ErrorCode" }),
@@ -601,6 +616,8 @@ export const createOAuth2Token: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2Token",
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2Token",
 }));
 
 export type CreateOAuth2TokenWithIAMError =
@@ -630,6 +647,8 @@ export const createOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuth2TokenWithIAM",
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2TokenWithIAM",
 }));
 
 export type DeleteConsoleAuthorizationConfigurationError =
@@ -660,6 +679,8 @@ export const deleteConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsoleAuthorizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteConsoleAuthorizationConfiguration",
 }));
 
 export type DeleteResourcePermissionStatementError =
@@ -690,6 +711,8 @@ export const deleteResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePermissionStatement",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePermissionStatement",
 }));
 
 export type GetConsoleAuthorizationConfigurationError =
@@ -720,6 +743,8 @@ export const getConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsoleAuthorizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetConsoleAuthorizationConfiguration",
 }));
 
 export type GetResourcePolicyError =
@@ -748,6 +773,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type IntrospectOAuth2TokenWithIAMError =
@@ -786,6 +813,8 @@ export const introspectOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IntrospectOAuth2TokenWithIAM",
+  telemetry: TELEMETRY,
+  span: "IntrospectOAuth2TokenWithIAM",
 }));
 
 export type ListResourcePermissionStatementsError =
@@ -823,6 +852,8 @@ export const listResourcePermissionStatements: API.PaginatedOperationMethod<
     items: "permissionStatements",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcePermissionStatements",
 })) as any;
 
 export type PutConsoleAuthorizationConfigurationError =
@@ -855,6 +886,8 @@ export const putConsoleAuthorizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConsoleAuthorizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutConsoleAuthorizationConfiguration",
 }));
 
 export type PutResourcePermissionStatementError =
@@ -887,6 +920,8 @@ export const putResourcePermissionStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePermissionStatement",
+  telemetry: TELEMETRY,
+  span: "PutResourcePermissionStatement",
 }));
 
 export type RevokeOAuth2TokenWithIAMError =
@@ -921,6 +956,8 @@ export const revokeOAuth2TokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeOAuth2TokenWithIAM",
+  telemetry: TELEMETRY,
+  span: "RevokeOAuth2TokenWithIAM",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

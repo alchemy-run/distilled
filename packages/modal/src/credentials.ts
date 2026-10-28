@@ -27,7 +27,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("ModalCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "ModalCredentials",
+  ) {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   tokenId: /*@__PURE__*/ EffectConfig.Redacted("MODAL_TOKEN_ID"),
@@ -48,7 +50,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
           message: "MODAL_TOKEN_ID and MODAL_TOKEN_SECRET environment variables are required",
         }),
     ),
-    Effect.orDie,
   ),
 );
 

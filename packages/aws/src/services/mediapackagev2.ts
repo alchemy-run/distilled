@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediapackagev2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaPackageV2",
+  service: "MediaPackageV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1223,6 +1238,8 @@ export const cancelHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelHarvestJob",
+  telemetry: TELEMETRY,
+  span: "CancelHarvestJob",
 }));
 
 export type CreateChannelError =
@@ -1257,6 +1274,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateChannelGroupError =
@@ -1291,6 +1310,8 @@ export const createChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelGroup",
+  telemetry: TELEMETRY,
+  span: "CreateChannelGroup",
 }));
 
 export type CreateHarvestJobError =
@@ -1325,6 +1346,8 @@ export const createHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarvestJob",
+  telemetry: TELEMETRY,
+  span: "CreateHarvestJob",
 }));
 
 export type CreateOriginEndpointError =
@@ -1359,6 +1382,8 @@ export const createOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateOriginEndpoint",
 }));
 
 export type DeleteChannelError =
@@ -1389,6 +1414,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteChannelGroupError =
@@ -1419,6 +1446,8 @@ export const deleteChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelGroup",
 }));
 
 export type DeleteChannelPolicyError =
@@ -1449,6 +1478,8 @@ export const deleteChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelPolicy",
 }));
 
 export type DeleteOriginEndpointError =
@@ -1477,6 +1508,8 @@ export const deleteOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginEndpoint",
 }));
 
 export type DeleteOriginEndpointPolicyError =
@@ -1507,6 +1540,8 @@ export const deleteOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpointPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginEndpointPolicy",
 }));
 
 export type GetChannelError =
@@ -1537,6 +1572,8 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetChannelGroupError =
@@ -1567,6 +1604,8 @@ export const getChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelGroup",
+  telemetry: TELEMETRY,
+  span: "GetChannelGroup",
 }));
 
 export type GetChannelPolicyError =
@@ -1597,6 +1636,8 @@ export const getChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "GetChannelPolicy",
 }));
 
 export type GetHarvestJobError =
@@ -1627,6 +1668,8 @@ export const getHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarvestJob",
+  telemetry: TELEMETRY,
+  span: "GetHarvestJob",
 }));
 
 export type GetOriginEndpointError =
@@ -1657,6 +1700,8 @@ export const getOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetOriginEndpoint",
 }));
 
 export type GetOriginEndpointPolicyError =
@@ -1687,6 +1732,8 @@ export const getOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginEndpointPolicy",
+  telemetry: TELEMETRY,
+  span: "GetOriginEndpointPolicy",
 }));
 
 export type ListChannelGroupsError =
@@ -1722,6 +1769,8 @@ export const listChannelGroups: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelGroups",
 })) as any;
 
 export type ListChannelsError =
@@ -1759,6 +1808,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListHarvestJobsError =
@@ -1796,6 +1847,8 @@ export const listHarvestJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHarvestJobs",
 })) as any;
 
 export type ListOriginEndpointsError =
@@ -1833,6 +1886,8 @@ export const listOriginEndpoints: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOriginEndpoints",
 })) as any;
 
 export type ListTagsForResourceError = ValidationException | CommonErrors;
@@ -1851,6 +1906,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutChannelPolicyError =
@@ -1883,6 +1940,8 @@ export const putChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "PutChannelPolicy",
 }));
 
 export type PutOriginEndpointPolicyError =
@@ -1915,6 +1974,8 @@ export const putOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOriginEndpointPolicy",
+  telemetry: TELEMETRY,
+  span: "PutOriginEndpointPolicy",
 }));
 
 export type ResetChannelStateError =
@@ -1949,6 +2010,8 @@ export const resetChannelState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetChannelState",
+  telemetry: TELEMETRY,
+  span: "ResetChannelState",
 }));
 
 export type ResetOriginEndpointStateError =
@@ -1983,6 +2046,8 @@ export const resetOriginEndpointState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetOriginEndpointState",
+  telemetry: TELEMETRY,
+  span: "ResetOriginEndpointState",
 }));
 
 export type TagResourceError = ValidationException | CommonErrors;
@@ -2003,6 +2068,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ValidationException | CommonErrors;
@@ -2021,6 +2088,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError =
@@ -2055,6 +2124,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateChannelGroupError =
@@ -2089,6 +2160,8 @@ export const updateChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelGroup",
 }));
 
 export type UpdateOriginEndpointError =
@@ -2125,6 +2198,8 @@ export const updateOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateOriginEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

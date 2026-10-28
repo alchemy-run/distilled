@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "books" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Books",
+  service: "books",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1795,6 +1814,8 @@ export const acceptPromooffer: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptPromooffer",
 }));
 
 export type AddBookCloudloadingError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1810,6 +1831,8 @@ export const addBookCloudloading: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddBookCloudloading",
 }));
 
 export type AddVolumeMylibraryBookshelvesError =
@@ -1830,6 +1853,8 @@ export const addVolumeMylibraryBookshelves: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddVolumeMylibraryBookshelves",
 }));
 
 export type ClearVolumesMylibraryBookshelvesError =
@@ -1850,6 +1875,8 @@ export const clearVolumesMylibraryBookshelves: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearVolumesMylibraryBookshelves",
 }));
 
 export type DeleteBookCloudloadingError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1865,6 +1892,8 @@ export const deleteBookCloudloading: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBookCloudloading",
 }));
 
 export type DeleteMylibraryAnnotationsError =
@@ -1885,6 +1914,8 @@ export const deleteMylibraryAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMylibraryAnnotations",
 }));
 
 export type DismissPromoofferError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1900,6 +1931,8 @@ export const dismissPromooffer: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissPromooffer",
 }));
 
 export type GetBookshelvesError = NotFound | Forbidden | GcpOpError;
@@ -1915,6 +1948,8 @@ export const getBookshelves: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBookshelves",
 }));
 
 export type GetFamilyInfoFamilysharingError = NotFound | Forbidden | GcpOpError;
@@ -1930,6 +1965,8 @@ export const getFamilyInfoFamilysharing: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFamilyInfoFamilysharing",
 }));
 
 export type GetLayersError = NotFound | Forbidden | GcpOpError;
@@ -1945,6 +1982,8 @@ export const getLayers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLayers",
 }));
 
 export type GetLayersAnnotationDataError = NotFound | Forbidden | GcpOpError;
@@ -1960,6 +1999,8 @@ export const getLayersAnnotationData: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLayersAnnotationData",
 }));
 
 export type GetLayersVolumeAnnotationsError = NotFound | Forbidden | GcpOpError;
@@ -1975,6 +2016,8 @@ export const getLayersVolumeAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLayersVolumeAnnotations",
 }));
 
 export type GetMylibraryBookshelvesError = NotFound | Forbidden | GcpOpError;
@@ -1990,6 +2033,8 @@ export const getMylibraryBookshelves: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMylibraryBookshelves",
 }));
 
 export type GetMylibraryReadingpositionsError = NotFound | Forbidden | GcpOpError;
@@ -2005,6 +2050,8 @@ export const getMylibraryReadingpositions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMylibraryReadingpositions",
 }));
 
 export type GetNotificationError = NotFound | Forbidden | GcpOpError;
@@ -2020,6 +2067,8 @@ export const getNotification: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotification",
 }));
 
 export type GetPersonalizedstreamError = NotFound | Forbidden | GcpOpError;
@@ -2035,6 +2084,8 @@ export const getPersonalizedstream: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonalizedstream",
 }));
 
 export type GetPromoofferError = NotFound | Forbidden | GcpOpError;
@@ -2050,6 +2101,8 @@ export const getPromooffer: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPromooffer",
 }));
 
 export type GetSeriesError = NotFound | Forbidden | GcpOpError;
@@ -2065,6 +2118,8 @@ export const getSeries: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSeries",
 }));
 
 export type GetSeriesMembershipError = NotFound | Forbidden | GcpOpError;
@@ -2080,6 +2135,8 @@ export const getSeriesMembership: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSeriesMembership",
 }));
 
 export type GetUserSettingsMyconfigError = NotFound | Forbidden | GcpOpError;
@@ -2095,6 +2152,8 @@ export const getUserSettingsMyconfig: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserSettingsMyconfig",
 }));
 
 export type GetVolumesError = NotFound | Forbidden | GcpOpError;
@@ -2110,6 +2169,8 @@ export const getVolumes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumes",
 }));
 
 export type InsertMylibraryAnnotationsError =
@@ -2130,6 +2191,8 @@ export const insertMylibraryAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertMylibraryAnnotations",
 }));
 
 export type ListBookshelvesError = NotFound | Forbidden | GcpOpError;
@@ -2145,6 +2208,8 @@ export const listBookshelves: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookshelves",
 }));
 
 export type ListBookshelvesVolumesError = NotFound | Forbidden | GcpOpError;
@@ -2160,6 +2225,8 @@ export const listBookshelvesVolumes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookshelvesVolumes",
 }));
 
 export type ListCategoriesOnboardingError = NotFound | Forbidden | GcpOpError;
@@ -2175,6 +2242,8 @@ export const listCategoriesOnboarding: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCategoriesOnboarding",
 }));
 
 export type ListCategoryVolumesOnboardingError = NotFound | Forbidden | GcpOpError;
@@ -2191,6 +2260,8 @@ export const listCategoryVolumesOnboarding: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCategoryVolumesOnboarding",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -2207,6 +2278,8 @@ export const listLayers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLayers",
 }));
 
 export type ListLayersAnnotationDataError = NotFound | Forbidden | GcpOpError;
@@ -2223,6 +2296,8 @@ export const listLayersAnnotationData: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLayersAnnotationData",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -2240,6 +2315,8 @@ export const listLayersVolumeAnnotations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLayersVolumeAnnotations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -2257,6 +2334,8 @@ export const listMylibraryAnnotations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMylibraryAnnotations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -2273,6 +2352,8 @@ export const listMylibraryBookshelves: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMylibraryBookshelves",
 }));
 
 export type ListMylibraryBookshelvesVolumesError = NotFound | Forbidden | GcpOpError;
@@ -2288,6 +2369,8 @@ export const listMylibraryBookshelvesVolumes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMylibraryBookshelvesVolumes",
 }));
 
 export type ListOfflineMetadataDictionaryError = NotFound | Forbidden | GcpOpError;
@@ -2303,6 +2386,8 @@ export const listOfflineMetadataDictionary: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfflineMetadataDictionary",
 }));
 
 export type ListVolumesError = NotFound | Forbidden | GcpOpError;
@@ -2318,6 +2403,8 @@ export const listVolumes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 }));
 
 export type ListVolumesAssociatedError = NotFound | Forbidden | GcpOpError;
@@ -2333,6 +2420,8 @@ export const listVolumesAssociated: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumesAssociated",
 }));
 
 export type ListVolumesMybooksError = NotFound | Forbidden | GcpOpError;
@@ -2348,6 +2437,8 @@ export const listVolumesMybooks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumesMybooks",
 }));
 
 export type ListVolumesRecommendedError = NotFound | Forbidden | GcpOpError;
@@ -2363,6 +2454,8 @@ export const listVolumesRecommended: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumesRecommended",
 }));
 
 export type ListVolumesUseruploadedError = NotFound | Forbidden | GcpOpError;
@@ -2378,6 +2471,8 @@ export const listVolumesUseruploaded: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumesUseruploaded",
 }));
 
 export type MoveVolumeMylibraryBookshelvesError =
@@ -2398,6 +2493,8 @@ export const moveVolumeMylibraryBookshelves: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveVolumeMylibraryBookshelves",
 }));
 
 export type RateVolumesRecommendedError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2413,6 +2510,8 @@ export const rateVolumesRecommended: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RateVolumesRecommended",
 }));
 
 export type ReleaseDownloadAccessMyconfigError =
@@ -2433,6 +2532,8 @@ export const releaseDownloadAccessMyconfig: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReleaseDownloadAccessMyconfig",
 }));
 
 export type RemoveVolumeMylibraryBookshelvesError =
@@ -2453,6 +2554,8 @@ export const removeVolumeMylibraryBookshelves: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveVolumeMylibraryBookshelves",
 }));
 
 export type RequestAccessMyconfigError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2468,6 +2571,8 @@ export const requestAccessMyconfig: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestAccessMyconfig",
 }));
 
 export type SetPositionMylibraryReadingpositionsError =
@@ -2488,6 +2593,8 @@ export const setPositionMylibraryReadingpositions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPositionMylibraryReadingpositions",
 }));
 
 export type ShareFamilysharingError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2503,6 +2610,8 @@ export const shareFamilysharing: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareFamilysharing",
 }));
 
 export type SummaryMylibraryAnnotationsError =
@@ -2523,6 +2632,8 @@ export const summaryMylibraryAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SummaryMylibraryAnnotations",
 }));
 
 export type SyncVolumeLicensesMyconfigError =
@@ -2543,6 +2654,8 @@ export const syncVolumeLicensesMyconfig: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncVolumeLicensesMyconfig",
 }));
 
 export type UnshareFamilysharingError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2558,6 +2671,8 @@ export const unshareFamilysharing: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnshareFamilysharing",
 }));
 
 export type UpdateBookCloudloadingError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2573,6 +2688,8 @@ export const updateBookCloudloading: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBookCloudloading",
 }));
 
 export type UpdateMylibraryAnnotationsError =
@@ -2593,6 +2710,8 @@ export const updateMylibraryAnnotations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMylibraryAnnotations",
 }));
 
 export type UpdateUserSettingsMyconfigError =
@@ -2613,6 +2732,8 @@ export const updateUserSettingsMyconfig: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserSettingsMyconfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

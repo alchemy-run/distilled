@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "ProjectRoutes",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1769,6 +1783,8 @@ export const addRoute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRoute",
 }));
 
 export type DeleteRoutesError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -1784,6 +1800,8 @@ export const deleteRoutes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoutes",
 }));
 
 export type EditRouteError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -1799,6 +1817,8 @@ export const editRoute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditRoute",
 }));
 
 export type GenerateRouteError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1814,6 +1834,8 @@ export const generateRoute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateRoute",
 }));
 
 export type GetRoutesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1829,6 +1851,8 @@ export const getRoutes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoutes",
 }));
 
 export type GetRouteVersionsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1844,6 +1868,8 @@ export const getRouteVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRouteVersions",
 }));
 
 export type StageRoutesError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -1859,6 +1885,8 @@ export const stageRoutes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StageRoutes",
 }));
 
 export type UpdateRouteVersionsError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -1874,6 +1902,8 @@ export const updateRouteVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRouteVersions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

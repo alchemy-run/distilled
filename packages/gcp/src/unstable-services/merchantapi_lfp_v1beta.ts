@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "merchantapi" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Merchantapi",
+  service: "merchantapi",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -303,6 +322,8 @@ export const deleteAccountsLfpStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsLfpStores",
 }));
 
 export type GetAccountsLfpMerchantStatesError = NotFound | Forbidden | GcpOpError;
@@ -318,6 +339,8 @@ export const getAccountsLfpMerchantStates: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsLfpMerchantStates",
 }));
 
 export type GetAccountsLfpStoresError = NotFound | Forbidden | GcpOpError;
@@ -333,6 +356,8 @@ export const getAccountsLfpStores: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsLfpStores",
 }));
 
 export type InsertAccountsLfpInventoriesError =
@@ -353,6 +378,8 @@ export const insertAccountsLfpInventories: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAccountsLfpInventories",
 }));
 
 export type InsertAccountsLfpSalesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -368,6 +395,8 @@ export const insertAccountsLfpSales: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAccountsLfpSales",
 }));
 
 export type InsertAccountsLfpStoresError =
@@ -388,6 +417,8 @@ export const insertAccountsLfpStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAccountsLfpStores",
 }));
 
 export type ListAccountsLfpStoresError = NotFound | Forbidden | GcpOpError;
@@ -404,6 +435,8 @@ export const listAccountsLfpStores: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsLfpStores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

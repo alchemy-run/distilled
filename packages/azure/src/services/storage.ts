@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Storage" },
+  prefix: "Storage",
+  service: "Storage",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface AbortStorageAccountHierarchicalNamespaceMigrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -6296,6 +6317,8 @@ export const AbortStorageAccountHierarchicalNamespaceMigration: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AbortStorageAccountHierarchicalNamespaceMigration",
 }));
 
 export type AdvancedPlatformMetricsCreateOrUpdateError = AzureOpError;
@@ -6311,6 +6334,8 @@ export const AdvancedPlatformMetricsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdvancedPlatformMetricsCreateOrUpdate",
 }));
 
 export type BlobContainersCreateOrUpdateImmutabilityPolicyError = AzureOpError;
@@ -6334,6 +6359,8 @@ export const BlobContainersCreateOrUpdateImmutabilityPolicy: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlobContainersCreateOrUpdateImmutabilityPolicy",
 }));
 
 export type BlobContainersLeaseError = AzureOpError;
@@ -6349,6 +6376,8 @@ export const BlobContainersLease: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlobContainersLease",
 }));
 
 export type BlobContainersObjectLevelWormError = AzureOpError;
@@ -6364,6 +6393,8 @@ export const BlobContainersObjectLevelWorm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlobContainersObjectLevelWorm",
 }));
 
 export type BlobInventoryPoliciesCreateOrUpdateError = AzureOpError;
@@ -6379,6 +6410,8 @@ export const BlobInventoryPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlobInventoryPoliciesCreateOrUpdate",
 }));
 
 export type CheckContextCachNameAvailabilityError = AzureOpError;
@@ -6394,6 +6427,8 @@ export const CheckContextCachNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckContextCachNameAvailability",
 }));
 
 export type CheckStorageAccountNameAvailabilityError = AzureOpError;
@@ -6409,6 +6444,8 @@ export const CheckStorageAccountNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckStorageAccountNameAvailability",
 }));
 
 export type ClearBlobContainerLegalHoldError = AzureOpError;
@@ -6424,6 +6461,8 @@ export const ClearBlobContainerLegalHold: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearBlobContainerLegalHold",
 }));
 
 export type ContextCacheContainersCreateOrUpdateError = AzureOpError;
@@ -6439,6 +6478,8 @@ export const ContextCacheContainersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContextCacheContainersCreateOrUpdate",
 }));
 
 export type ContextCachesCreateOrUpdateError = AzureOpError;
@@ -6454,6 +6495,8 @@ export const ContextCachesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContextCachesCreateOrUpdate",
 }));
 
 export type CreateBlobAccessPointConfigurationError = AzureOpError;
@@ -6469,6 +6512,8 @@ export const CreateBlobAccessPointConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBlobAccessPointConfiguration",
 }));
 
 export type CreateBlobContainerError = AzureOpError;
@@ -6484,6 +6529,8 @@ export const CreateBlobContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBlobContainer",
 }));
 
 export type CreateConnectorError = AzureOpError;
@@ -6499,6 +6546,8 @@ export const CreateConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateDataShareError = AzureOpError;
@@ -6514,6 +6563,8 @@ export const CreateDataShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataShare",
 }));
 
 export type CreateFileShareError = AzureOpError;
@@ -6529,6 +6580,8 @@ export const CreateFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFileShare",
 }));
 
 export type CreateQueueError = AzureOpError;
@@ -6544,6 +6597,8 @@ export const CreateQueue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type CreateStorageAccountError = AzureOpError;
@@ -6559,6 +6614,8 @@ export const CreateStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageAccount",
 }));
 
 export type CreateStorageTaskAssignmentError = AzureOpError;
@@ -6574,6 +6631,8 @@ export const CreateStorageTaskAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageTaskAssignment",
 }));
 
 export type CreateTableError = AzureOpError;
@@ -6589,6 +6648,8 @@ export const CreateTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTable",
 }));
 
 export type DeleteAdvancedPlatformMetricsError = AzureOpError;
@@ -6604,6 +6665,8 @@ export const DeleteAdvancedPlatformMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvancedPlatformMetrics",
 }));
 
 export type DeleteBlobAccessPointConfigurationError = AzureOpError;
@@ -6619,6 +6682,8 @@ export const DeleteBlobAccessPointConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBlobAccessPointConfiguration",
 }));
 
 export type DeleteBlobContainerError = AzureOpError;
@@ -6634,6 +6699,8 @@ export const DeleteBlobContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBlobContainer",
 }));
 
 export type DeleteBlobContainerImmutabilityPolicyError = AzureOpError;
@@ -6649,6 +6716,8 @@ export const DeleteBlobContainerImmutabilityPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBlobContainerImmutabilityPolicy",
 }));
 
 export type DeleteBlobInventoryPolicyError = AzureOpError;
@@ -6664,6 +6733,8 @@ export const DeleteBlobInventoryPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBlobInventoryPolicy",
 }));
 
 export type DeleteConnectorError = AzureOpError;
@@ -6679,6 +6750,8 @@ export const DeleteConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteContextCachError = AzureOpError;
@@ -6694,6 +6767,8 @@ export const DeleteContextCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContextCach",
 }));
 
 export type DeleteContextCacheContainerError = AzureOpError;
@@ -6709,6 +6784,8 @@ export const DeleteContextCacheContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContextCacheContainer",
 }));
 
 export type DeleteDataShareError = AzureOpError;
@@ -6724,6 +6801,8 @@ export const DeleteDataShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataShare",
 }));
 
 export type DeleteFileShareError = AzureOpError;
@@ -6739,6 +6818,8 @@ export const DeleteFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFileShare",
 }));
 
 export type DeleteLocalUserError = AzureOpError;
@@ -6754,6 +6835,8 @@ export const DeleteLocalUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLocalUser",
 }));
 
 export type DeleteManagementPolicyError = AzureOpError;
@@ -6769,6 +6852,8 @@ export const DeleteManagementPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagementPolicy",
 }));
 
 export type DeleteObjectReplicationPolicyError = AzureOpError;
@@ -6784,6 +6869,8 @@ export const DeleteObjectReplicationPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteObjectReplicationPolicy",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -6799,6 +6886,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteQueueError = AzureOpError;
@@ -6814,6 +6903,8 @@ export const DeleteQueue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type DeleteStorageAccountError = AzureOpError;
@@ -6829,6 +6920,8 @@ export const DeleteStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageAccount",
 }));
 
 export type DeleteStorageTaskAssignmentError = AzureOpError;
@@ -6844,6 +6937,8 @@ export const DeleteStorageTaskAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageTaskAssignment",
 }));
 
 export type DeleteTableError = AzureOpError;
@@ -6859,6 +6954,8 @@ export const DeleteTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTable",
 }));
 
 export type ExtendBlobContainerImmutabilityPolicyError = AzureOpError;
@@ -6874,6 +6971,8 @@ export const ExtendBlobContainerImmutabilityPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendBlobContainerImmutabilityPolicy",
 }));
 
 export type FileSharesLeaseError = AzureOpError;
@@ -6889,6 +6988,8 @@ export const FileSharesLease: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileSharesLease",
 }));
 
 export type GetAdvancedPlatformMetricsError = AzureOpError;
@@ -6904,6 +7005,8 @@ export const GetAdvancedPlatformMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvancedPlatformMetrics",
 }));
 
 export type GetBlobAccessPointConfigurationError = AzureOpError;
@@ -6919,6 +7022,8 @@ export const GetBlobAccessPointConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlobAccessPointConfiguration",
 }));
 
 export type GetBlobContainerError = AzureOpError;
@@ -6934,6 +7039,8 @@ export const GetBlobContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlobContainer",
 }));
 
 export type GetBlobContainerImmutabilityPolicyError = AzureOpError;
@@ -6949,6 +7056,8 @@ export const GetBlobContainerImmutabilityPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlobContainerImmutabilityPolicy",
 }));
 
 export type GetBlobInventoryPolicyError = AzureOpError;
@@ -6964,6 +7073,8 @@ export const GetBlobInventoryPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlobInventoryPolicy",
 }));
 
 export type GetBlobServiceServicePropertiesError = AzureOpError;
@@ -6979,6 +7090,8 @@ export const GetBlobServiceServiceProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlobServiceServiceProperties",
 }));
 
 export type GetConnectorError = AzureOpError;
@@ -6994,6 +7107,8 @@ export const GetConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetContextCachError = AzureOpError;
@@ -7009,6 +7124,8 @@ export const GetContextCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextCach",
 }));
 
 export type GetContextCacheContainerError = AzureOpError;
@@ -7024,6 +7141,8 @@ export const GetContextCacheContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextCacheContainer",
 }));
 
 export type GetDataShareError = AzureOpError;
@@ -7039,6 +7158,8 @@ export const GetDataShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataShare",
 }));
 
 export type GetDeletedAccountError = AzureOpError;
@@ -7054,6 +7175,8 @@ export const GetDeletedAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeletedAccount",
 }));
 
 export type GetEncryptionScopeError = AzureOpError;
@@ -7069,6 +7192,8 @@ export const GetEncryptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEncryptionScope",
 }));
 
 export type GetFileServiceServicePropertiesError = AzureOpError;
@@ -7084,6 +7209,8 @@ export const GetFileServiceServiceProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileServiceServiceProperties",
 }));
 
 export type GetFileServiceServiceUsageError = AzureOpError;
@@ -7099,6 +7226,8 @@ export const GetFileServiceServiceUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileServiceServiceUsage",
 }));
 
 export type GetFileShareError = AzureOpError;
@@ -7114,6 +7243,8 @@ export const GetFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileShare",
 }));
 
 export type GetLocalUserError = AzureOpError;
@@ -7129,6 +7260,8 @@ export const GetLocalUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocalUser",
 }));
 
 export type GetManagementPolicyError = AzureOpError;
@@ -7144,6 +7277,8 @@ export const GetManagementPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagementPolicy",
 }));
 
 export type GetNetworkSecurityPerimeterConfigurationError = AzureOpError;
@@ -7163,6 +7298,8 @@ export const GetNetworkSecurityPerimeterConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkSecurityPerimeterConfiguration",
 }));
 
 export type GetObjectReplicationPolicyError = AzureOpError;
@@ -7178,6 +7315,8 @@ export const GetObjectReplicationPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectReplicationPolicy",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -7193,6 +7332,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetQueueError = AzureOpError;
@@ -7208,6 +7349,8 @@ export const GetQueue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueue",
 }));
 
 export type GetQueueServiceServicePropertiesError = AzureOpError;
@@ -7223,6 +7366,8 @@ export const GetQueueServiceServiceProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueueServiceServiceProperties",
 }));
 
 export type GetStorageAccountCustomerInitiatedMigrationError = AzureOpError;
@@ -7246,6 +7391,8 @@ export const GetStorageAccountCustomerInitiatedMigration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageAccountCustomerInitiatedMigration",
 }));
 
 export type GetStorageAccountPropertiesError = AzureOpError;
@@ -7261,6 +7408,8 @@ export const GetStorageAccountProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageAccountProperties",
 }));
 
 export type GetStorageTaskAssignmentError = AzureOpError;
@@ -7276,6 +7425,8 @@ export const GetStorageTaskAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageTaskAssignment",
 }));
 
 export type GetTableError = AzureOpError;
@@ -7291,6 +7442,8 @@ export const GetTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type GetTableServiceServicePropertiesError = AzureOpError;
@@ -7306,6 +7459,8 @@ export const GetTableServiceServiceProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTableServiceServiceProperties",
 }));
 
 export type ListAdvancedPlatformMetricsError = AzureOpError;
@@ -7321,6 +7476,8 @@ export const ListAdvancedPlatformMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvancedPlatformMetrics",
 }));
 
 export type ListBlobAccessPointConfigurationByStorageAccountError = AzureOpError;
@@ -7340,6 +7497,8 @@ export const ListBlobAccessPointConfigurationByStorageAccount: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlobAccessPointConfigurationByStorageAccount",
 }));
 
 export type ListBlobContainersError = AzureOpError;
@@ -7355,6 +7514,8 @@ export const ListBlobContainers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlobContainers",
 }));
 
 export type ListBlobInventoryPoliciesError = AzureOpError;
@@ -7370,6 +7531,8 @@ export const ListBlobInventoryPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlobInventoryPolicies",
 }));
 
 export type ListBlobServicesError = AzureOpError;
@@ -7385,6 +7548,8 @@ export const ListBlobServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlobServices",
 }));
 
 export type ListConnectorByStorageAccountError = AzureOpError;
@@ -7400,6 +7565,8 @@ export const ListConnectorByStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectorByStorageAccount",
 }));
 
 export type ListContextCachByResourceGroupError = AzureOpError;
@@ -7415,6 +7582,8 @@ export const ListContextCachByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextCachByResourceGroup",
 }));
 
 export type ListContextCachBySubscriptionError = AzureOpError;
@@ -7430,6 +7599,8 @@ export const ListContextCachBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextCachBySubscription",
 }));
 
 export type ListContextCacheContainerByContextCacheError = AzureOpError;
@@ -7445,6 +7616,8 @@ export const ListContextCacheContainerByContextCache: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContextCacheContainerByContextCache",
 }));
 
 export type ListDataShareByStorageAccountError = AzureOpError;
@@ -7460,6 +7633,8 @@ export const ListDataShareByStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataShareByStorageAccount",
 }));
 
 export type ListDeletedAccountsError = AzureOpError;
@@ -7475,6 +7650,8 @@ export const ListDeletedAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletedAccounts",
 }));
 
 export type ListEncryptionScopesError = AzureOpError;
@@ -7490,6 +7667,8 @@ export const ListEncryptionScopes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEncryptionScopes",
 }));
 
 export type ListFileServicesError = AzureOpError;
@@ -7505,6 +7684,8 @@ export const ListFileServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileServices",
 }));
 
 export type ListFileServiceServiceUsagesError = AzureOpError;
@@ -7520,6 +7701,8 @@ export const ListFileServiceServiceUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileServiceServiceUsages",
 }));
 
 export type ListFileSharesError = AzureOpError;
@@ -7535,6 +7718,8 @@ export const ListFileShares: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileShares",
 }));
 
 export type ListLocalUserKeysError = AzureOpError;
@@ -7550,6 +7735,8 @@ export const ListLocalUserKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocalUserKeys",
 }));
 
 export type ListLocalUsersError = AzureOpError;
@@ -7565,6 +7752,8 @@ export const ListLocalUsers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocalUsers",
 }));
 
 export type ListNetworkSecurityPerimeterConfigurationsError = AzureOpError;
@@ -7580,6 +7769,8 @@ export const ListNetworkSecurityPerimeterConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkSecurityPerimeterConfigurations",
 }));
 
 export type ListObjectReplicationPoliciesError = AzureOpError;
@@ -7595,6 +7786,8 @@ export const ListObjectReplicationPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListObjectReplicationPolicies",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -7610,6 +7803,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -7625,6 +7820,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourceByStorageAccountError = AzureOpError;
@@ -7640,6 +7837,8 @@ export const ListPrivateLinkResourceByStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByStorageAccount",
 }));
 
 export type ListQueue2Error = AzureOpError;
@@ -7655,6 +7854,8 @@ export const ListQueue2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueue2",
 }));
 
 export type ListQueueServices2Error = AzureOpError;
@@ -7670,6 +7871,8 @@ export const ListQueueServices2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueueServices2",
 }));
 
 export type ListSkusError = AzureOpError;
@@ -7685,6 +7888,8 @@ export const ListSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkus",
 }));
 
 export type ListStorageAccountAccountSASError = AzureOpError;
@@ -7700,6 +7905,8 @@ export const ListStorageAccountAccountSAS: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAccountAccountSAS",
 }));
 
 export type ListStorageAccountByResourceGroupError = AzureOpError;
@@ -7715,6 +7922,8 @@ export const ListStorageAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAccountByResourceGroup",
 }));
 
 export type ListStorageAccountKeysError = AzureOpError;
@@ -7730,6 +7939,8 @@ export const ListStorageAccountKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAccountKeys",
 }));
 
 export type ListStorageAccountsError = AzureOpError;
@@ -7745,6 +7956,8 @@ export const ListStorageAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAccounts",
 }));
 
 export type ListStorageAccountServiceSASError = AzureOpError;
@@ -7760,6 +7973,8 @@ export const ListStorageAccountServiceSAS: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageAccountServiceSAS",
 }));
 
 export type ListStorageTaskAssignmentInstancesReportError = AzureOpError;
@@ -7775,6 +7990,8 @@ export const ListStorageTaskAssignmentInstancesReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageTaskAssignmentInstancesReport",
 }));
 
 export type ListStorageTaskAssignmentsError = AzureOpError;
@@ -7790,6 +8007,8 @@ export const ListStorageTaskAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageTaskAssignments",
 }));
 
 export type ListStorageTaskAssignmentsInstancesReportError = AzureOpError;
@@ -7805,6 +8024,8 @@ export const ListStorageTaskAssignmentsInstancesReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageTaskAssignmentsInstancesReport",
 }));
 
 export type ListTableError = AzureOpError;
@@ -7820,6 +8041,8 @@ export const ListTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTable",
 }));
 
 export type ListTableServices2Error = AzureOpError;
@@ -7835,6 +8058,8 @@ export const ListTableServices2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTableServices2",
 }));
 
 export type ListUsageByLocationError = AzureOpError;
@@ -7850,6 +8075,8 @@ export const ListUsageByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsageByLocation",
 }));
 
 export type LocalUsersCreateOrUpdateError = AzureOpError;
@@ -7865,6 +8092,8 @@ export const LocalUsersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LocalUsersCreateOrUpdate",
 }));
 
 export type LockBlobContainerImmutabilityPolicyError = AzureOpError;
@@ -7880,6 +8109,8 @@ export const LockBlobContainerImmutabilityPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LockBlobContainerImmutabilityPolicy",
 }));
 
 export type ManagementPoliciesCreateOrUpdateError = AzureOpError;
@@ -7895,6 +8126,8 @@ export const ManagementPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManagementPoliciesCreateOrUpdate",
 }));
 
 export type NetworkSecurityPerimeterConfigurationsReconcileError = AzureOpError;
@@ -7918,6 +8151,8 @@ export const NetworkSecurityPerimeterConfigurationsReconcile: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkSecurityPerimeterConfigurationsReconcile",
 }));
 
 export type ObjectReplicationPoliciesCreateOrUpdateError = AzureOpError;
@@ -7933,6 +8168,8 @@ export const ObjectReplicationPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ObjectReplicationPoliciesCreateOrUpdate",
 }));
 
 export type PatchEncryptionScopeError = AzureOpError;
@@ -7948,6 +8185,8 @@ export const PatchEncryptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEncryptionScope",
 }));
 
 export type PutEncryptionScopeError = AzureOpError;
@@ -7963,6 +8202,8 @@ export const PutEncryptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEncryptionScope",
 }));
 
 export type PutPrivateEndpointConnectionError = AzureOpError;
@@ -7978,6 +8219,8 @@ export const PutPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPrivateEndpointConnection",
 }));
 
 export type RegenerateLocalUserPasswordError = AzureOpError;
@@ -7993,6 +8236,8 @@ export const RegenerateLocalUserPassword: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateLocalUserPassword",
 }));
 
 export type RegenerateStorageAccountKeyError = AzureOpError;
@@ -8008,6 +8253,8 @@ export const RegenerateStorageAccountKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateStorageAccountKey",
 }));
 
 export type RestoreFileShareError = AzureOpError;
@@ -8023,6 +8270,8 @@ export const RestoreFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreFileShare",
 }));
 
 export type RestoreStorageAccountBlobRangesError = AzureOpError;
@@ -8038,6 +8287,8 @@ export const RestoreStorageAccountBlobRanges: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreStorageAccountBlobRanges",
 }));
 
 export type RevokeStorageAccountUserDelegationKeysError = AzureOpError;
@@ -8053,6 +8304,8 @@ export const RevokeStorageAccountUserDelegationKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeStorageAccountUserDelegationKeys",
 }));
 
 export type SetBlobContainerLegalHoldError = AzureOpError;
@@ -8068,6 +8321,8 @@ export const SetBlobContainerLegalHold: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetBlobContainerLegalHold",
 }));
 
 export type SetBlobServiceServicePropertiesError = AzureOpError;
@@ -8083,6 +8338,8 @@ export const SetBlobServiceServiceProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetBlobServiceServiceProperties",
 }));
 
 export type SetFileServiceServicePropertiesError = AzureOpError;
@@ -8098,6 +8355,8 @@ export const SetFileServiceServiceProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFileServiceServiceProperties",
 }));
 
 export type SetQueueServiceServicePropertiesError = AzureOpError;
@@ -8113,6 +8372,8 @@ export const SetQueueServiceServiceProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetQueueServiceServiceProperties",
 }));
 
 export type SetTableServiceServicePropertiesError = AzureOpError;
@@ -8128,6 +8389,8 @@ export const SetTableServiceServiceProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTableServiceServiceProperties",
 }));
 
 export type StopStorageTaskAssignmentAssignmentError = AzureOpError;
@@ -8143,6 +8406,8 @@ export const StopStorageTaskAssignmentAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopStorageTaskAssignmentAssignment",
 }));
 
 export type StorageAccountsCustomerInitiatedMigrationError = AzureOpError;
@@ -8158,6 +8423,8 @@ export const StorageAccountsCustomerInitiatedMigration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageAccountsCustomerInitiatedMigration",
 }));
 
 export type StorageAccountsFailoverError = AzureOpError;
@@ -8173,6 +8440,8 @@ export const StorageAccountsFailover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageAccountsFailover",
 }));
 
 export type StorageAccountsHierarchicalNamespaceMigrationError = AzureOpError;
@@ -8196,6 +8465,8 @@ export const StorageAccountsHierarchicalNamespaceMigration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageAccountsHierarchicalNamespaceMigration",
 }));
 
 export type TestBlobAccessPointConfigurationExistingConnectionError = AzureOpError;
@@ -8215,6 +8486,8 @@ export const TestBlobAccessPointConfigurationExistingConnection: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestBlobAccessPointConfigurationExistingConnection",
 }));
 
 export type TestBlobAccessPointConnectionTestProposedConnectionError = AzureOpError;
@@ -8234,6 +8507,8 @@ export const TestBlobAccessPointConnectionTestProposedConnection: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestBlobAccessPointConnectionTestProposedConnection",
 }));
 
 export type TestConnectorExistingConnectionError = AzureOpError;
@@ -8249,6 +8524,8 @@ export const TestConnectorExistingConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestConnectorExistingConnection",
 }));
 
 export type UpdateBlobAccessPointConfigurationError = AzureOpError;
@@ -8264,6 +8541,8 @@ export const UpdateBlobAccessPointConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBlobAccessPointConfiguration",
 }));
 
 export type UpdateBlobContainerError = AzureOpError;
@@ -8279,6 +8558,8 @@ export const UpdateBlobContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBlobContainer",
 }));
 
 export type UpdateConnectorError = AzureOpError;
@@ -8294,6 +8575,8 @@ export const UpdateConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 export type UpdateContextCachError = AzureOpError;
@@ -8309,6 +8592,8 @@ export const UpdateContextCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContextCach",
 }));
 
 export type UpdateContextCacheContainerError = AzureOpError;
@@ -8324,6 +8609,8 @@ export const UpdateContextCacheContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContextCacheContainer",
 }));
 
 export type UpdateDataShareError = AzureOpError;
@@ -8339,6 +8626,8 @@ export const UpdateDataShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataShare",
 }));
 
 export type UpdateFileShareError = AzureOpError;
@@ -8354,6 +8643,8 @@ export const UpdateFileShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFileShare",
 }));
 
 export type UpdateQueueError = AzureOpError;
@@ -8369,6 +8660,8 @@ export const UpdateQueue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateQueue",
 }));
 
 export type UpdateStorageAccountError = AzureOpError;
@@ -8384,6 +8677,8 @@ export const UpdateStorageAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageAccount",
 }));
 
 export type UpdateStorageTaskAssignmentError = AzureOpError;
@@ -8399,6 +8694,8 @@ export const UpdateStorageTaskAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageTaskAssignment",
 }));
 
 export type UpdateTableError = AzureOpError;
@@ -8414,6 +8711,8 @@ export const UpdateTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

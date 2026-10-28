@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
@@ -740,6 +741,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesis.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Kinesis",
+  service: "Kinesis",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -1728,6 +1744,14 @@ export const addTagsToStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "AddTagsToStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type CreateChannelError =
@@ -1782,6 +1806,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateStreamError =
@@ -1848,6 +1874,8 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
+  telemetry: TELEMETRY,
+  span: { op: "CreateStream", input: { StreamName: [{ name: "aws.kinesis.stream_name" }] } },
 }));
 
 export type DecreaseStreamRetentionPeriodError =
@@ -1888,6 +1916,14 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseStreamRetentionPeriod",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DecreaseStreamRetentionPeriod",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type DeleteChannelError =
@@ -1922,6 +1958,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1956,6 +1994,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteStreamError =
@@ -2011,6 +2051,14 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type DeregisterStreamConsumerError =
@@ -2041,6 +2089,11 @@ export const deregisterStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterStreamConsumer",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeregisterStreamConsumer",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type DescribeAccountSettingsError = LimitExceededException | CommonErrors;
@@ -2061,6 +2114,8 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountSettings",
 }));
 
 export type DescribeChannelError =
@@ -2095,6 +2150,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeLimitsError = LimitExceededException | CommonErrors;
@@ -2118,6 +2175,8 @@ export const describeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeLimits",
 }));
 
 export type DescribeStreamError =
@@ -2172,6 +2231,14 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type DescribeStreamConsumerError =
@@ -2204,6 +2271,11 @@ export const describeStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamConsumer",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeStreamConsumer",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type DescribeStreamSummaryError =
@@ -2244,6 +2316,14 @@ export const describeStreamSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamSummary",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeStreamSummary",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type DisableEnhancedMonitoringError =
@@ -2278,6 +2358,14 @@ export const disableEnhancedMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableEnhancedMonitoring",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DisableEnhancedMonitoring",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type EnableEnhancedMonitoringError =
@@ -2312,6 +2400,14 @@ export const enableEnhancedMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableEnhancedMonitoring",
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnableEnhancedMonitoring",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type GetRecordsError =
@@ -2419,6 +2515,11 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRecords",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type GetResourcePolicyError =
@@ -2453,6 +2554,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetShardIteratorError =
@@ -2527,6 +2630,14 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetShardIterator",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type IncreaseStreamRetentionPeriodError =
@@ -2570,6 +2681,14 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseStreamRetentionPeriod",
+  telemetry: TELEMETRY,
+  span: {
+    op: "IncreaseStreamRetentionPeriod",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type ListChannelsError =
@@ -2611,6 +2730,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "ChannelSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListShardsError =
@@ -2657,6 +2778,14 @@ export const listShards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListShards",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListShards",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type ListStreamConsumersError =
@@ -2696,6 +2825,11 @@ export const listStreamConsumers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListStreamConsumers",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 })) as any;
 
 export type ListStreamsError =
@@ -2737,6 +2871,8 @@ export const listStreams: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStreams",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2769,6 +2905,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTagsForStreamError =
@@ -2802,6 +2940,14 @@ export const listTagsForStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListTagsForStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type MergeShardsError =
@@ -2878,6 +3024,14 @@ export const mergeShards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeShards",
+  telemetry: TELEMETRY,
+  span: {
+    op: "MergeShards",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type PutRecordError =
@@ -2967,6 +3121,14 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutRecord",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type PutRecordsError =
@@ -3079,6 +3241,14 @@ export const putRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecords",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutRecords",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type PutResourcePolicyError =
@@ -3121,6 +3291,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterStreamConsumerError =
@@ -3167,6 +3339,11 @@ export const registerStreamConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterStreamConsumer",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RegisterStreamConsumer",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type RemoveTagsFromStreamError =
@@ -3207,6 +3384,14 @@ export const removeTagsFromStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RemoveTagsFromStream",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type SplitShardError =
@@ -3289,6 +3474,14 @@ export const splitShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SplitShard",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SplitShard",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type StartStreamEncryptionError =
@@ -3353,6 +3546,14 @@ export const startStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamEncryption",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartStreamEncryption",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type StopStreamEncryptionError =
@@ -3404,6 +3605,14 @@ export const stopStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStreamEncryption",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StopStreamEncryption",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type SubscribeToShardError =
@@ -3462,6 +3671,8 @@ export const subscribeToShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToShard",
+  telemetry: TELEMETRY,
+  span: "SubscribeToShard",
 }));
 
 export type TagResourceError =
@@ -3492,6 +3703,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3522,6 +3735,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountSettingsError =
@@ -3552,6 +3767,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateChannelError =
@@ -3588,6 +3805,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateMaxRecordSizeError =
@@ -3620,6 +3839,11 @@ export const updateMaxRecordSize: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaxRecordSize",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateMaxRecordSize",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type UpdateShardCountError =
@@ -3698,6 +3922,14 @@ export const updateShardCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateShardCount",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateShardCount",
+    input: {
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+    },
+  },
 }));
 
 export type UpdateStreamModeError =
@@ -3732,6 +3964,11 @@ export const updateStreamMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamMode",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateStreamMode",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type UpdateStreamRecordDistributionStrategyError =
@@ -3791,6 +4028,11 @@ export const updateStreamRecordDistributionStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamRecordDistributionStrategy",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateStreamRecordDistributionStrategy",
+    input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
+  },
 }));
 
 export type UpdateStreamWarmThroughputError =
@@ -3840,6 +4082,14 @@ export const updateStreamWarmThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamWarmThroughput",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateStreamWarmThroughput",
+    input: {
+      StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
+      StreamName: [{ name: "aws.kinesis.stream_name" }],
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { DockerOpError, DockerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "docker-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Docker",
+  service: "Docker",
+  labels: "docker",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4498,6 +4511,8 @@ export const archiveContainer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveContainer",
 }));
 
 export type AttachContainerError = BadRequest | NotFound | DockerOpError;
@@ -4513,6 +4528,8 @@ export const attachContainer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachContainer",
 }));
 
 export type BuildPruneError = DockerOpError;
@@ -4528,6 +4545,8 @@ export const buildPrune: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BuildPrune",
 }));
 
 export type CommitImageError = NotFound | DockerOpError;
@@ -4543,6 +4562,8 @@ export const commitImage: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitImage",
 }));
 
 export type ConfigInspectError = NotFound | DockerOpError;
@@ -4558,6 +4579,8 @@ export const configInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigInspect",
 }));
 
 export type ConnectNetworkError = BadRequest | Forbidden | NotFound | DockerOpError;
@@ -4573,6 +4596,8 @@ export const connectNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectNetwork",
 }));
 
 export type ContainerAttachWebsocketError = BadRequest | NotFound | DockerOpError;
@@ -4588,6 +4613,8 @@ export const containerAttachWebsocket: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerAttachWebsocket",
 }));
 
 export type ContainerChangesError = NotFound | DockerOpError;
@@ -4603,6 +4630,8 @@ export const containerChanges: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerChanges",
 }));
 
 export type ContainerInspectError = NotFound | DockerOpError;
@@ -4618,6 +4647,8 @@ export const containerInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerInspect",
 }));
 
 export type ContainerLogsError = NotFound | DockerOpError;
@@ -4633,6 +4664,8 @@ export const containerLogs: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerLogs",
 }));
 
 export type ContainerPruneError = DockerOpError;
@@ -4648,6 +4681,8 @@ export const containerPrune: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerPrune",
 }));
 
 export type ContainerStatsError = NotFound | DockerOpError;
@@ -4663,6 +4698,8 @@ export const containerStats: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerStats",
 }));
 
 export type ContainerTopError = NotFound | DockerOpError;
@@ -4678,6 +4715,8 @@ export const containerTop: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerTop",
 }));
 
 export type CreateConfigError = Conflict | DockerOpError;
@@ -4693,6 +4732,8 @@ export const createConfig: API.OperationMethod<
   errors: [Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfig",
 }));
 
 export type CreateContainerError = BadRequest | NotFound | Conflict | DockerOpError;
@@ -4708,6 +4749,8 @@ export const createContainer: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContainer",
 }));
 
 export type CreateImageError = NotFound | DockerOpError;
@@ -4723,6 +4766,8 @@ export const createImage: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateImage",
 }));
 
 export type CreateNetworkError = BadRequest | Forbidden | NotFound | DockerOpError;
@@ -4738,6 +4783,8 @@ export const createNetwork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type CreatePluginError = DockerOpError;
@@ -4753,6 +4800,8 @@ export const createPlugin: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlugin",
 }));
 
 export type CreateSecretError = Conflict | DockerOpError;
@@ -4768,6 +4817,8 @@ export const createSecret: API.OperationMethod<
   errors: [Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecret",
 }));
 
 export type CreateServiceError = BadRequest | Forbidden | Conflict | DockerOpError;
@@ -4783,6 +4834,8 @@ export const createService: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateVolumeError = DockerOpError;
@@ -4798,6 +4851,8 @@ export const createVolume: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type DeleteConfigError = NotFound | DockerOpError;
@@ -4813,6 +4868,8 @@ export const deleteConfig: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfig",
 }));
 
 export type DeleteContainerError = BadRequest | NotFound | Conflict | DockerOpError;
@@ -4828,6 +4885,8 @@ export const deleteContainer: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContainer",
 }));
 
 export type DeleteImageError = NotFound | Conflict | DockerOpError;
@@ -4843,6 +4902,8 @@ export const deleteImage: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteNetworkError = Forbidden | NotFound | DockerOpError;
@@ -4858,6 +4919,8 @@ export const deleteNetwork: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetwork",
 }));
 
 export type DeleteNodeError = NotFound | DockerOpError;
@@ -4873,6 +4936,8 @@ export const deleteNode: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNode",
 }));
 
 export type DeletePluginError = NotFound | DockerOpError;
@@ -4888,6 +4953,8 @@ export const deletePlugin: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlugin",
 }));
 
 export type DeleteSecretError = NotFound | DockerOpError;
@@ -4903,6 +4970,8 @@ export const deleteSecret: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecret",
 }));
 
 export type DeleteServiceError = NotFound | DockerOpError;
@@ -4918,6 +4987,8 @@ export const deleteService: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteVolumeError = NotFound | Conflict | DockerOpError;
@@ -4933,6 +5004,8 @@ export const deleteVolume: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DisablePluginError = NotFound | DockerOpError;
@@ -4948,6 +5021,8 @@ export const disablePlugin: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisablePlugin",
 }));
 
 export type DisconnectNetworkError = Forbidden | NotFound | DockerOpError;
@@ -4963,6 +5038,8 @@ export const disconnectNetwork: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectNetwork",
 }));
 
 export type DistributionInspect2Error = DockerOpError;
@@ -4978,6 +5055,8 @@ export const distributionInspect2: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DistributionInspect2",
 }));
 
 export type EnablePluginError = NotFound | DockerOpError;
@@ -4993,6 +5072,8 @@ export const enablePlugin: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnablePlugin",
 }));
 
 export type ExecContainerError = NotFound | Conflict | DockerOpError;
@@ -5008,6 +5089,8 @@ export const execContainer: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecContainer",
 }));
 
 export type ExecInspectError = NotFound | DockerOpError;
@@ -5023,6 +5106,8 @@ export const execInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecInspect",
 }));
 
 export type ExecResizeError = BadRequest | NotFound | DockerOpError;
@@ -5038,6 +5123,8 @@ export const execResize: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecResize",
 }));
 
 export type ExecStartError = NotFound | Conflict | DockerOpError;
@@ -5053,6 +5140,8 @@ export const execStart: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecStart",
 }));
 
 export type ExportContainerError = NotFound | DockerOpError;
@@ -5068,6 +5157,8 @@ export const exportContainer: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportContainer",
 }));
 
 export type GetImageError = DockerOpError;
@@ -5083,6 +5174,8 @@ export const getImage: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetPluginPrivilegesError = DockerOpError;
@@ -5098,6 +5191,8 @@ export const getPluginPrivileges: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPluginPrivileges",
 }));
 
 export type ImageAttestationsError = BadRequest | NotFound | DockerOpError;
@@ -5113,6 +5208,8 @@ export const imageAttestations: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageAttestations",
 }));
 
 export type ImageBuildError = BadRequest | DockerOpError;
@@ -5128,6 +5225,8 @@ export const imageBuild: API.OperationMethod<
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageBuild",
 }));
 
 export type ImageGetAllError = DockerOpError;
@@ -5143,6 +5242,8 @@ export const imageGetAll: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageGetAll",
 }));
 
 export type ImageHistoryError = NotFound | DockerOpError;
@@ -5158,6 +5259,8 @@ export const imageHistory: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageHistory",
 }));
 
 export type ImageInspect2Error = NotFound | DockerOpError;
@@ -5173,6 +5276,8 @@ export const imageInspect2: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageInspect2",
 }));
 
 export type ImageLoadError = DockerOpError;
@@ -5188,6 +5293,8 @@ export const imageLoad: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageLoad",
 }));
 
 export type ImagePruneError = DockerOpError;
@@ -5203,6 +5310,8 @@ export const imagePrune: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImagePrune",
 }));
 
 export type ImagePushError = NotFound | DockerOpError;
@@ -5218,6 +5327,8 @@ export const imagePush: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImagePush",
 }));
 
 export type ImageTagError = BadRequest | NotFound | Conflict | DockerOpError;
@@ -5233,6 +5344,8 @@ export const imageTag: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageTag",
 }));
 
 export type JoinSwarmError = BadRequest | DockerOpError;
@@ -5248,6 +5361,8 @@ export const joinSwarm: API.OperationMethod<
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JoinSwarm",
 }));
 
 export type KillContainerError = NotFound | Conflict | DockerOpError;
@@ -5263,6 +5378,8 @@ export const killContainer: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KillContainer",
 }));
 
 export type LeaveSwarmError = DockerOpError;
@@ -5278,6 +5395,8 @@ export const leaveSwarm: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LeaveSwarm",
 }));
 
 export type ListConfigError = DockerOpError;
@@ -5293,6 +5412,8 @@ export const listConfig: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfig",
 }));
 
 export type ListContainerError = BadRequest | DockerOpError;
@@ -5308,6 +5429,8 @@ export const listContainer: API.OperationMethod<
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContainer",
 }));
 
 export type ListImageError = DockerOpError;
@@ -5323,6 +5446,8 @@ export const listImage: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImage",
 }));
 
 export type ListNetworkError = DockerOpError;
@@ -5338,6 +5463,8 @@ export const listNetwork: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetwork",
 }));
 
 export type ListNodeError = DockerOpError;
@@ -5353,6 +5480,8 @@ export const listNode: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNode",
 }));
 
 export type ListPluginError = DockerOpError;
@@ -5368,6 +5497,8 @@ export const listPlugin: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlugin",
 }));
 
 export type ListSecretError = DockerOpError;
@@ -5383,6 +5514,8 @@ export const listSecret: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecret",
 }));
 
 export type ListServiceError = DockerOpError;
@@ -5398,6 +5531,8 @@ export const listService: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListService",
 }));
 
 export type ListTaskError = DockerOpError;
@@ -5413,6 +5548,8 @@ export const listTask: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTask",
 }));
 
 export type ListVolumeError = DockerOpError;
@@ -5428,6 +5565,8 @@ export const listVolume: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolume",
 }));
 
 export type NetworkInspectError = NotFound | DockerOpError;
@@ -5443,6 +5582,8 @@ export const networkInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkInspect",
 }));
 
 export type NetworkPruneError = DockerOpError;
@@ -5458,6 +5599,8 @@ export const networkPrune: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkPrune",
 }));
 
 export type NodeInspectError = NotFound | DockerOpError;
@@ -5473,6 +5616,8 @@ export const nodeInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NodeInspect",
 }));
 
 export type PauseContainerError = NotFound | DockerOpError;
@@ -5488,6 +5633,8 @@ export const pauseContainer: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseContainer",
 }));
 
 export type PingSystemError = DockerOpError;
@@ -5503,6 +5650,8 @@ export const pingSystem: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PingSystem",
 }));
 
 export type PluginInspectError = NotFound | DockerOpError;
@@ -5518,6 +5667,8 @@ export const pluginInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PluginInspect",
 }));
 
 export type PluginPullError = DockerOpError;
@@ -5533,6 +5684,8 @@ export const pluginPull: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PluginPull",
 }));
 
 export type PluginPushError = NotFound | DockerOpError;
@@ -5548,6 +5701,8 @@ export const pluginPush: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PluginPush",
 }));
 
 export type PluginUpgradeError = NotFound | DockerOpError;
@@ -5563,6 +5718,8 @@ export const pluginUpgrade: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PluginUpgrade",
 }));
 
 export type PutContainerArchiveError = BadRequest | Forbidden | NotFound | DockerOpError;
@@ -5578,6 +5735,8 @@ export const putContainerArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutContainerArchive",
 }));
 
 export type RenameContainerError = NotFound | Conflict | DockerOpError;
@@ -5593,6 +5752,8 @@ export const renameContainer: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameContainer",
 }));
 
 export type ResizeContainerError = NotFound | DockerOpError;
@@ -5608,6 +5769,8 @@ export const resizeContainer: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResizeContainer",
 }));
 
 export type RestartContainerError = NotFound | DockerOpError;
@@ -5623,6 +5786,8 @@ export const restartContainer: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartContainer",
 }));
 
 export type SearchImageError = DockerOpError;
@@ -5638,6 +5803,8 @@ export const searchImage: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchImage",
 }));
 
 export type SecretInspectError = NotFound | DockerOpError;
@@ -5653,6 +5820,8 @@ export const secretInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecretInspect",
 }));
 
 export type ServiceInspectError = NotFound | DockerOpError;
@@ -5668,6 +5837,8 @@ export const serviceInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceInspect",
 }));
 
 export type ServiceLogsError = NotFound | DockerOpError;
@@ -5683,6 +5854,8 @@ export const serviceLogs: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceLogs",
 }));
 
 export type SessionError = BadRequest | DockerOpError;
@@ -5698,6 +5871,8 @@ export const session: API.OperationMethod<
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Session",
 }));
 
 export type SetPluginError = NotFound | DockerOpError;
@@ -5713,6 +5888,8 @@ export const setPlugin: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPlugin",
 }));
 
 export type StartContainerError = BadRequest | NotFound | DockerOpError;
@@ -5728,6 +5905,8 @@ export const startContainer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartContainer",
 }));
 
 export type StopContainerError = NotFound | DockerOpError;
@@ -5743,6 +5922,8 @@ export const stopContainer: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopContainer",
 }));
 
 export type SwarmInitError = BadRequest | DockerOpError;
@@ -5758,6 +5939,8 @@ export const swarmInit: API.OperationMethod<
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwarmInit",
 }));
 
 export type SwarmInspectError = NotFound | DockerOpError;
@@ -5773,6 +5956,8 @@ export const swarmInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwarmInspect",
 }));
 
 export type SwarmUnlockkeyError = DockerOpError;
@@ -5788,6 +5973,8 @@ export const swarmUnlockkey: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SwarmUnlockkey",
 }));
 
 export type SystemAuthError = DockerOpError;
@@ -5803,6 +5990,8 @@ export const systemAuth: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SystemAuth",
 }));
 
 export type SystemDataUsageError = DockerOpError;
@@ -5818,6 +6007,8 @@ export const systemDataUsage: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SystemDataUsage",
 }));
 
 export type SystemEventsError = BadRequest | DockerOpError;
@@ -5833,6 +6024,8 @@ export const systemEvents: API.OperationMethod<
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SystemEvents",
 }));
 
 export type SystemInfo2Error = DockerOpError;
@@ -5848,6 +6041,8 @@ export const systemInfo2: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SystemInfo2",
 }));
 
 export type SystemVersion2Error = DockerOpError;
@@ -5863,6 +6058,8 @@ export const systemVersion2: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SystemVersion2",
 }));
 
 export type TaskInspectError = NotFound | DockerOpError;
@@ -5878,6 +6075,8 @@ export const taskInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskInspect",
 }));
 
 export type TaskLogsError = NotFound | DockerOpError;
@@ -5893,6 +6092,8 @@ export const taskLogs: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskLogs",
 }));
 
 export type UnlockSwarmError = DockerOpError;
@@ -5908,6 +6109,8 @@ export const unlockSwarm: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockSwarm",
 }));
 
 export type UnpauseContainerError = NotFound | DockerOpError;
@@ -5923,6 +6126,8 @@ export const unpauseContainer: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpauseContainer",
 }));
 
 export type UpdateConfigError = BadRequest | NotFound | DockerOpError;
@@ -5938,6 +6143,8 @@ export const updateConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfig",
 }));
 
 export type UpdateContainerError = NotFound | DockerOpError;
@@ -5953,6 +6160,8 @@ export const updateContainer: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContainer",
 }));
 
 export type UpdateNodeError = BadRequest | NotFound | DockerOpError;
@@ -5968,6 +6177,8 @@ export const updateNode: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNode",
 }));
 
 export type UpdateSecretError = BadRequest | NotFound | DockerOpError;
@@ -5983,6 +6194,8 @@ export const updateSecret: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecret",
 }));
 
 export type UpdateServiceError = BadRequest | NotFound | DockerOpError;
@@ -5998,6 +6211,8 @@ export const updateService: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateSwarmError = BadRequest | DockerOpError;
@@ -6013,6 +6228,8 @@ export const updateSwarm: API.OperationMethod<
   errors: [BadRequest, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSwarm",
 }));
 
 export type UpdateVolumeError = BadRequest | NotFound | DockerOpError;
@@ -6028,6 +6245,8 @@ export const updateVolume: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVolume",
 }));
 
 export type VolumeInspectError = NotFound | DockerOpError;
@@ -6043,6 +6262,8 @@ export const volumeInspect: API.OperationMethod<
   errors: [NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumeInspect",
 }));
 
 export type VolumePruneError = DockerOpError;
@@ -6058,6 +6279,8 @@ export const volumePrune: API.OperationMethod<
   errors: [UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VolumePrune",
 }));
 
 export type WaitContainerError = BadRequest | NotFound | DockerOpError;
@@ -6073,6 +6296,8 @@ export const waitContainer: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDockerError],
   protocol: DockerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitContainer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

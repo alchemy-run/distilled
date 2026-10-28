@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Replay",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -364,6 +377,8 @@ export const createSessionRecordingPlaylist: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionRecordingPlaylist",
 }));
 
 export type CreateSessionRecordingPlaylistsRecordingError =
@@ -382,6 +397,8 @@ export const createSessionRecordingPlaylistsRecording: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionRecordingPlaylistsRecording",
 }));
 
 export type GetSessionRecordingError = Forbidden | NotFound | PosthogOpError;
@@ -396,6 +413,8 @@ export const getSessionRecording: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionRecording",
 }));
 
 export type GetSessionRecordingPlaylistError = Forbidden | NotFound | PosthogOpError;
@@ -410,6 +429,8 @@ export const getSessionRecordingPlaylist: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionRecordingPlaylist",
 }));
 
 export type GetSessionRecordingPlaylistsRecordingError = Forbidden | NotFound | PosthogOpError;
@@ -424,6 +445,8 @@ export const getSessionRecordingPlaylistsRecording: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionRecordingPlaylistsRecording",
 }));
 
 export type ListSessionRecordingPlaylistsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -439,6 +462,8 @@ export const listSessionRecordingPlaylists: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessionRecordingPlaylists",
 }));
 
 export type ListSessionRecordingsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -453,6 +478,8 @@ export const listSessionRecordings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessionRecordings",
 }));
 
 export type SessionRecordingPlaylistsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -468,6 +495,8 @@ export const sessionRecordingPlaylistsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionRecordingPlaylistsDestroy",
 }));
 
 export type SessionRecordingPlaylistsRecordingsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -482,6 +511,8 @@ export const sessionRecordingPlaylistsRecordingsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionRecordingPlaylistsRecordingsDestroy",
 }));
 
 export type SessionRecordingsBulkDeleteCreateError = PosthogOpError;
@@ -497,6 +528,8 @@ export const sessionRecordingsBulkDeleteCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionRecordingsBulkDeleteCreate",
 }));
 
 export type SessionRecordingsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -511,6 +544,8 @@ export const sessionRecordingsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SessionRecordingsDestroy",
 }));
 
 export type UpdateSessionRecordingError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -525,6 +560,8 @@ export const updateSessionRecording: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSessionRecording",
 }));
 
 export type UpdateSessionRecordingPlaylistError =
@@ -543,6 +580,8 @@ export const updateSessionRecordingPlaylist: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSessionRecordingPlaylist",
 }));
 
 export type UpdateSessionRecordingPlaylistsPartialError =
@@ -561,6 +600,8 @@ export const updateSessionRecordingPlaylistsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSessionRecordingPlaylistsPartial",
 }));
 
 export type UpdateSessionRecordingsPartialError =
@@ -579,6 +620,8 @@ export const updateSessionRecordingsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSessionRecordingsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

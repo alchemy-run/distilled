@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://medialive.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaLive",
+  service: "MediaLive",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadGatewayException
   extends /*@__PURE__*/ S.TaggedError<BadGatewayException>()(
@@ -8339,6 +8354,8 @@ export const acceptInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInputDeviceTransfer",
+  telemetry: TELEMETRY,
+  span: "AcceptInputDeviceTransfer",
 }));
 
 export type BatchDeleteError =
@@ -8375,6 +8392,8 @@ export const batchDelete: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDelete",
+  telemetry: TELEMETRY,
+  span: "BatchDelete",
 }));
 
 export type BatchStartError =
@@ -8411,6 +8430,8 @@ export const batchStart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStart",
+  telemetry: TELEMETRY,
+  span: "BatchStart",
 }));
 
 export type BatchStopError =
@@ -8447,6 +8468,8 @@ export const batchStop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStop",
+  telemetry: TELEMETRY,
+  span: "BatchStop",
 }));
 
 export type BatchUpdateScheduleError =
@@ -8483,6 +8506,8 @@ export const batchUpdateSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateSchedule",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateSchedule",
 }));
 
 export type CancelInputDeviceTransferError =
@@ -8521,6 +8546,8 @@ export const cancelInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelInputDeviceTransfer",
+  telemetry: TELEMETRY,
+  span: "CancelInputDeviceTransfer",
 }));
 
 export type ClaimDeviceError =
@@ -8557,6 +8584,8 @@ export const claimDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClaimDevice",
+  telemetry: TELEMETRY,
+  span: "ClaimDevice",
 }));
 
 export type CreateChannelError =
@@ -8595,6 +8624,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateChannelPlacementGroupError =
@@ -8629,6 +8660,8 @@ export const createChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelPlacementGroup",
+  telemetry: TELEMETRY,
+  span: "CreateChannelPlacementGroup",
 }));
 
 export type CreateCloudWatchAlarmTemplateError =
@@ -8661,6 +8694,8 @@ export const createCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudWatchAlarmTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateCloudWatchAlarmTemplate",
 }));
 
 export type CreateCloudWatchAlarmTemplateGroupError =
@@ -8693,6 +8728,8 @@ export const createCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudWatchAlarmTemplateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCloudWatchAlarmTemplateGroup",
 }));
 
 export type CreateClusterError =
@@ -8727,6 +8764,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateEventBridgeRuleTemplateError =
@@ -8759,6 +8798,8 @@ export const createEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBridgeRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateEventBridgeRuleTemplate",
 }));
 
 export type CreateEventBridgeRuleTemplateGroupError =
@@ -8791,6 +8832,8 @@ export const createEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBridgeRuleTemplateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateEventBridgeRuleTemplateGroup",
 }));
 
 export type CreateInputError =
@@ -8823,6 +8866,8 @@ export const createInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInput",
+  telemetry: TELEMETRY,
+  span: "CreateInput",
 }));
 
 export type CreateInputSecurityGroupError =
@@ -8855,6 +8900,8 @@ export const createInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInputSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "CreateInputSecurityGroup",
 }));
 
 export type CreateMultiplexError =
@@ -8891,6 +8938,8 @@ export const createMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiplex",
+  telemetry: TELEMETRY,
+  span: "CreateMultiplex",
 }));
 
 export type CreateMultiplexProgramError =
@@ -8927,6 +8976,8 @@ export const createMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiplexProgram",
+  telemetry: TELEMETRY,
+  span: "CreateMultiplexProgram",
 }));
 
 export type CreateNetworkError =
@@ -8961,6 +9012,8 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type CreateNodeError =
@@ -8995,6 +9048,8 @@ export const createNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNode",
+  telemetry: TELEMETRY,
+  span: "CreateNode",
 }));
 
 export type CreateNodeRegistrationScriptError =
@@ -9029,6 +9084,8 @@ export const createNodeRegistrationScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNodeRegistrationScript",
+  telemetry: TELEMETRY,
+  span: "CreateNodeRegistrationScript",
 }));
 
 export type CreatePartnerInputError =
@@ -9061,6 +9118,8 @@ export const createPartnerInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerInput",
+  telemetry: TELEMETRY,
+  span: "CreatePartnerInput",
 }));
 
 export type CreateSdiSourceError =
@@ -9095,6 +9154,8 @@ export const createSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSdiSource",
+  telemetry: TELEMETRY,
+  span: "CreateSdiSource",
 }));
 
 export type CreateSignalMapError =
@@ -9127,6 +9188,8 @@ export const createSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalMap",
+  telemetry: TELEMETRY,
+  span: "CreateSignalMap",
 }));
 
 export type CreateTagsError =
@@ -9155,6 +9218,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type DeleteChannelError =
@@ -9191,6 +9256,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteChannelPlacementGroupError =
@@ -9227,6 +9294,8 @@ export const deleteChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPlacementGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelPlacementGroup",
 }));
 
 export type DeleteCloudWatchAlarmTemplateError =
@@ -9259,6 +9328,8 @@ export const deleteCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudWatchAlarmTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudWatchAlarmTemplate",
 }));
 
 export type DeleteCloudWatchAlarmTemplateGroupError =
@@ -9291,6 +9362,8 @@ export const deleteCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudWatchAlarmTemplateGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudWatchAlarmTemplateGroup",
 }));
 
 export type DeleteClusterError =
@@ -9327,6 +9400,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteEventBridgeRuleTemplateError =
@@ -9359,6 +9434,8 @@ export const deleteEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBridgeRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteEventBridgeRuleTemplate",
 }));
 
 export type DeleteEventBridgeRuleTemplateGroupError =
@@ -9391,6 +9468,8 @@ export const deleteEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBridgeRuleTemplateGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteEventBridgeRuleTemplateGroup",
 }));
 
 export type DeleteInputError =
@@ -9427,6 +9506,8 @@ export const deleteInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInput",
+  telemetry: TELEMETRY,
+  span: "DeleteInput",
 }));
 
 export type DeleteInputSecurityGroupError =
@@ -9461,6 +9542,8 @@ export const deleteInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInputSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteInputSecurityGroup",
 }));
 
 export type DeleteMultiplexError =
@@ -9497,6 +9580,8 @@ export const deleteMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiplex",
+  telemetry: TELEMETRY,
+  span: "DeleteMultiplex",
 }));
 
 export type DeleteMultiplexProgramError =
@@ -9533,6 +9618,8 @@ export const deleteMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiplexProgram",
+  telemetry: TELEMETRY,
+  span: "DeleteMultiplexProgram",
 }));
 
 export type DeleteNetworkError =
@@ -9569,6 +9656,8 @@ export const deleteNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteNetwork",
 }));
 
 export type DeleteNodeError =
@@ -9605,6 +9694,8 @@ export const deleteNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNode",
+  telemetry: TELEMETRY,
+  span: "DeleteNode",
 }));
 
 export type DeleteReservationError =
@@ -9641,6 +9732,8 @@ export const deleteReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReservation",
+  telemetry: TELEMETRY,
+  span: "DeleteReservation",
 }));
 
 export type DeleteScheduleError =
@@ -9675,6 +9768,8 @@ export const deleteSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteSchedule",
 }));
 
 export type DeleteSdiSourceError =
@@ -9711,6 +9806,8 @@ export const deleteSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSdiSource",
+  telemetry: TELEMETRY,
+  span: "DeleteSdiSource",
 }));
 
 export type DeleteSignalMapError =
@@ -9743,6 +9840,8 @@ export const deleteSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalMap",
+  telemetry: TELEMETRY,
+  span: "DeleteSignalMap",
 }));
 
 export type DeleteTagsError =
@@ -9771,6 +9870,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DescribeAccountConfigurationError =
@@ -9803,6 +9904,8 @@ export const describeAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountConfiguration",
 }));
 
 export type DescribeChannelError =
@@ -9837,6 +9940,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeChannelPlacementGroupError =
@@ -9871,6 +9976,8 @@ export const describeChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelPlacementGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelPlacementGroup",
 }));
 
 export type DescribeClusterError =
@@ -9905,6 +10012,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeInputError =
@@ -9939,6 +10048,8 @@ export const describeInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInput",
+  telemetry: TELEMETRY,
+  span: "DescribeInput",
 }));
 
 export type DescribeInputDeviceError =
@@ -9973,6 +10084,8 @@ export const describeInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputDevice",
+  telemetry: TELEMETRY,
+  span: "DescribeInputDevice",
 }));
 
 export type DescribeInputDeviceThumbnailError =
@@ -10007,6 +10120,8 @@ export const describeInputDeviceThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputDeviceThumbnail",
+  telemetry: TELEMETRY,
+  span: "DescribeInputDeviceThumbnail",
 }));
 
 export type DescribeInputSecurityGroupError =
@@ -10041,6 +10156,8 @@ export const describeInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeInputSecurityGroup",
 }));
 
 export type DescribeMultiplexError =
@@ -10075,6 +10192,8 @@ export const describeMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiplex",
+  telemetry: TELEMETRY,
+  span: "DescribeMultiplex",
 }));
 
 export type DescribeMultiplexProgramError =
@@ -10109,6 +10228,8 @@ export const describeMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiplexProgram",
+  telemetry: TELEMETRY,
+  span: "DescribeMultiplexProgram",
 }));
 
 export type DescribeNetworkError =
@@ -10143,6 +10264,8 @@ export const describeNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNetwork",
+  telemetry: TELEMETRY,
+  span: "DescribeNetwork",
 }));
 
 export type DescribeNodeError =
@@ -10177,6 +10300,8 @@ export const describeNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNode",
+  telemetry: TELEMETRY,
+  span: "DescribeNode",
 }));
 
 export type DescribeOfferingError =
@@ -10211,6 +10336,8 @@ export const describeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOffering",
+  telemetry: TELEMETRY,
+  span: "DescribeOffering",
 }));
 
 export type DescribeReservationError =
@@ -10245,6 +10372,8 @@ export const describeReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservation",
+  telemetry: TELEMETRY,
+  span: "DescribeReservation",
 }));
 
 export type DescribeScheduleError =
@@ -10286,6 +10415,8 @@ export const describeSchedule: API.PaginatedOperationMethod<
     items: "ScheduleActions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSchedule",
 })) as any;
 
 export type DescribeSdiSourceError =
@@ -10320,6 +10451,8 @@ export const describeSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSdiSource",
+  telemetry: TELEMETRY,
+  span: "DescribeSdiSource",
 }));
 
 export type DescribeThumbnailsError =
@@ -10356,6 +10489,8 @@ export const describeThumbnails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThumbnails",
+  telemetry: TELEMETRY,
+  span: "DescribeThumbnails",
 }));
 
 export type GetCloudWatchAlarmTemplateError =
@@ -10386,6 +10521,8 @@ export const getCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudWatchAlarmTemplate",
+  telemetry: TELEMETRY,
+  span: "GetCloudWatchAlarmTemplate",
 }));
 
 export type GetCloudWatchAlarmTemplateGroupError =
@@ -10416,6 +10553,8 @@ export const getCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudWatchAlarmTemplateGroup",
+  telemetry: TELEMETRY,
+  span: "GetCloudWatchAlarmTemplateGroup",
 }));
 
 export type GetEventBridgeRuleTemplateError =
@@ -10446,6 +10585,8 @@ export const getEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventBridgeRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "GetEventBridgeRuleTemplate",
 }));
 
 export type GetEventBridgeRuleTemplateGroupError =
@@ -10476,6 +10617,8 @@ export const getEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventBridgeRuleTemplateGroup",
+  telemetry: TELEMETRY,
+  span: "GetEventBridgeRuleTemplateGroup",
 }));
 
 export type GetSignalMapError =
@@ -10506,6 +10649,8 @@ export const getSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalMap",
+  telemetry: TELEMETRY,
+  span: "GetSignalMap",
 }));
 
 export type ListAlertsError =
@@ -10547,6 +10692,8 @@ export const listAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAlerts",
 })) as any;
 
 export type ListChannelPlacementGroupsError =
@@ -10586,6 +10733,8 @@ export const listChannelPlacementGroups: API.PaginatedOperationMethod<
     items: "ChannelPlacementGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelPlacementGroups",
 })) as any;
 
 export type ListChannelsError =
@@ -10625,6 +10774,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Channels",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListCloudWatchAlarmTemplateGroupsError =
@@ -10662,6 +10813,8 @@ export const listCloudWatchAlarmTemplateGroups: API.PaginatedOperationMethod<
     items: "CloudWatchAlarmTemplateGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudWatchAlarmTemplateGroups",
 })) as any;
 
 export type ListCloudWatchAlarmTemplatesError =
@@ -10699,6 +10852,8 @@ export const listCloudWatchAlarmTemplates: API.PaginatedOperationMethod<
     items: "CloudWatchAlarmTemplates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudWatchAlarmTemplates",
 })) as any;
 
 export type ListClusterAlertsError =
@@ -10740,6 +10895,8 @@ export const listClusterAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterAlerts",
 })) as any;
 
 export type ListClustersError =
@@ -10779,6 +10936,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListEventBridgeRuleTemplateGroupsError =
@@ -10816,6 +10975,8 @@ export const listEventBridgeRuleTemplateGroups: API.PaginatedOperationMethod<
     items: "EventBridgeRuleTemplateGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventBridgeRuleTemplateGroups",
 })) as any;
 
 export type ListEventBridgeRuleTemplatesError =
@@ -10853,6 +11014,8 @@ export const listEventBridgeRuleTemplates: API.PaginatedOperationMethod<
     items: "EventBridgeRuleTemplates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventBridgeRuleTemplates",
 })) as any;
 
 export type ListInputDevicesError =
@@ -10892,6 +11055,8 @@ export const listInputDevices: API.PaginatedOperationMethod<
     items: "InputDevices",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInputDevices",
 })) as any;
 
 export type ListInputDeviceTransfersError =
@@ -10933,6 +11098,8 @@ export const listInputDeviceTransfers: API.PaginatedOperationMethod<
     items: "InputDeviceTransfers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInputDeviceTransfers",
 })) as any;
 
 export type ListInputsError =
@@ -10972,6 +11139,8 @@ export const listInputs: API.PaginatedOperationMethod<
     items: "Inputs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInputs",
 })) as any;
 
 export type ListInputSecurityGroupsError =
@@ -11011,6 +11180,8 @@ export const listInputSecurityGroups: API.PaginatedOperationMethod<
     items: "InputSecurityGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInputSecurityGroups",
 })) as any;
 
 export type ListMultiplexAlertsError =
@@ -11052,6 +11223,8 @@ export const listMultiplexAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMultiplexAlerts",
 })) as any;
 
 export type ListMultiplexesError =
@@ -11091,6 +11264,8 @@ export const listMultiplexes: API.PaginatedOperationMethod<
     items: "Multiplexes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMultiplexes",
 })) as any;
 
 export type ListMultiplexProgramsError =
@@ -11132,6 +11307,8 @@ export const listMultiplexPrograms: API.PaginatedOperationMethod<
     items: "MultiplexPrograms",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMultiplexPrograms",
 })) as any;
 
 export type ListNetworksError =
@@ -11171,6 +11348,8 @@ export const listNetworks: API.PaginatedOperationMethod<
     items: "Networks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworks",
 })) as any;
 
 export type ListNodesError =
@@ -11210,6 +11389,8 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "Nodes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodes",
 })) as any;
 
 export type ListOfferingsError =
@@ -11249,6 +11430,8 @@ export const listOfferings: API.PaginatedOperationMethod<
     items: "Offerings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferings",
 })) as any;
 
 export type ListReservationsError =
@@ -11288,6 +11471,8 @@ export const listReservations: API.PaginatedOperationMethod<
     items: "Reservations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReservations",
 })) as any;
 
 export type ListSdiSourcesError =
@@ -11327,6 +11512,8 @@ export const listSdiSources: API.PaginatedOperationMethod<
     items: "SdiSources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSdiSources",
 })) as any;
 
 export type ListSignalMapsError =
@@ -11364,6 +11551,8 @@ export const listSignalMaps: API.PaginatedOperationMethod<
     items: "SignalMaps",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSignalMaps",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -11392,6 +11581,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVersionsError =
@@ -11428,6 +11619,8 @@ export const listVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVersions",
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 }));
 
 export type PurchaseOfferingError =
@@ -11464,6 +11657,8 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseOffering",
 }));
 
 export type RebootInputDeviceError =
@@ -11500,6 +11695,8 @@ export const rebootInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootInputDevice",
+  telemetry: TELEMETRY,
+  span: "RebootInputDevice",
 }));
 
 export type RejectInputDeviceTransferError =
@@ -11538,6 +11735,8 @@ export const rejectInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInputDeviceTransfer",
+  telemetry: TELEMETRY,
+  span: "RejectInputDeviceTransfer",
 }));
 
 export type RestartChannelPipelinesError =
@@ -11574,6 +11773,8 @@ export const restartChannelPipelines: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartChannelPipelines",
+  telemetry: TELEMETRY,
+  span: "RestartChannelPipelines",
 }));
 
 export type StartChannelError =
@@ -11610,6 +11811,8 @@ export const startChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChannel",
+  telemetry: TELEMETRY,
+  span: "StartChannel",
 }));
 
 export type StartDeleteMonitorDeploymentError =
@@ -11642,6 +11845,8 @@ export const startDeleteMonitorDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeleteMonitorDeployment",
+  telemetry: TELEMETRY,
+  span: "StartDeleteMonitorDeployment",
 }));
 
 export type StartInputDeviceError =
@@ -11678,6 +11883,8 @@ export const startInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInputDevice",
+  telemetry: TELEMETRY,
+  span: "StartInputDevice",
 }));
 
 export type StartInputDeviceMaintenanceWindowError =
@@ -11714,6 +11921,8 @@ export const startInputDeviceMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInputDeviceMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "StartInputDeviceMaintenanceWindow",
 }));
 
 export type StartMonitorDeploymentError =
@@ -11746,6 +11955,8 @@ export const startMonitorDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitorDeployment",
+  telemetry: TELEMETRY,
+  span: "StartMonitorDeployment",
 }));
 
 export type StartMultiplexError =
@@ -11782,6 +11993,8 @@ export const startMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMultiplex",
+  telemetry: TELEMETRY,
+  span: "StartMultiplex",
 }));
 
 export type StartUpdateSignalMapError =
@@ -11814,6 +12027,8 @@ export const startUpdateSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUpdateSignalMap",
+  telemetry: TELEMETRY,
+  span: "StartUpdateSignalMap",
 }));
 
 export type StopChannelError =
@@ -11850,6 +12065,8 @@ export const stopChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopChannel",
+  telemetry: TELEMETRY,
+  span: "StopChannel",
 }));
 
 export type StopInputDeviceError =
@@ -11886,6 +12103,8 @@ export const stopInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInputDevice",
+  telemetry: TELEMETRY,
+  span: "StopInputDevice",
 }));
 
 export type StopMultiplexError =
@@ -11922,6 +12141,8 @@ export const stopMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMultiplex",
+  telemetry: TELEMETRY,
+  span: "StopMultiplex",
 }));
 
 export type TransferInputDeviceError =
@@ -11960,6 +12181,8 @@ export const transferInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferInputDevice",
+  telemetry: TELEMETRY,
+  span: "TransferInputDevice",
 }));
 
 export type UpdateAccountConfigurationError =
@@ -11994,6 +12217,8 @@ export const updateAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountConfiguration",
 }));
 
 export type UpdateChannelError =
@@ -12028,6 +12253,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateChannelClassError =
@@ -12066,6 +12293,8 @@ export const updateChannelClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelClass",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelClass",
 }));
 
 export type UpdateChannelPlacementGroupError =
@@ -12102,6 +12331,8 @@ export const updateChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelPlacementGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelPlacementGroup",
 }));
 
 export type UpdateCloudWatchAlarmTemplateError =
@@ -12134,6 +12365,8 @@ export const updateCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudWatchAlarmTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudWatchAlarmTemplate",
 }));
 
 export type UpdateCloudWatchAlarmTemplateGroupError =
@@ -12166,6 +12399,8 @@ export const updateCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudWatchAlarmTemplateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudWatchAlarmTemplateGroup",
 }));
 
 export type UpdateClusterError =
@@ -12200,6 +12435,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateEventBridgeRuleTemplateError =
@@ -12232,6 +12469,8 @@ export const updateEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventBridgeRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateEventBridgeRuleTemplate",
 }));
 
 export type UpdateEventBridgeRuleTemplateGroupError =
@@ -12264,6 +12503,8 @@ export const updateEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventBridgeRuleTemplateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateEventBridgeRuleTemplateGroup",
 }));
 
 export type UpdateInputError =
@@ -12298,6 +12539,8 @@ export const updateInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInput",
+  telemetry: TELEMETRY,
+  span: "UpdateInput",
 }));
 
 export type UpdateInputDeviceError =
@@ -12334,6 +12577,8 @@ export const updateInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInputDevice",
+  telemetry: TELEMETRY,
+  span: "UpdateInputDevice",
 }));
 
 export type UpdateInputSecurityGroupError =
@@ -12368,6 +12613,8 @@ export const updateInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInputSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateInputSecurityGroup",
 }));
 
 export type UpdateMultiplexError =
@@ -12404,6 +12651,8 @@ export const updateMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiplex",
+  telemetry: TELEMETRY,
+  span: "UpdateMultiplex",
 }));
 
 export type UpdateMultiplexProgramError =
@@ -12440,6 +12689,8 @@ export const updateMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiplexProgram",
+  telemetry: TELEMETRY,
+  span: "UpdateMultiplexProgram",
 }));
 
 export type UpdateNetworkError =
@@ -12474,6 +12725,8 @@ export const updateNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateNetwork",
 }));
 
 export type UpdateNodeError =
@@ -12508,6 +12761,8 @@ export const updateNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNode",
+  telemetry: TELEMETRY,
+  span: "UpdateNode",
 }));
 
 export type UpdateNodeStateError =
@@ -12544,6 +12799,8 @@ export const updateNodeState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNodeState",
+  telemetry: TELEMETRY,
+  span: "UpdateNodeState",
 }));
 
 export type UpdateReservationError =
@@ -12580,6 +12837,8 @@ export const updateReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReservation",
+  telemetry: TELEMETRY,
+  span: "UpdateReservation",
 }));
 
 export type UpdateSdiSourceError =
@@ -12614,6 +12873,8 @@ export const updateSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSdiSource",
+  telemetry: TELEMETRY,
+  span: "UpdateSdiSource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

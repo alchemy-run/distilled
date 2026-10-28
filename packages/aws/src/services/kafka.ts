@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -129,6 +130,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kafka.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Kafka",
+  service: "Kafka",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -2132,6 +2147,8 @@ export const batchAssociateScramSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateScramSecret",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateScramSecret",
 }));
 
 export type BatchDisassociateScramSecretError =
@@ -2166,6 +2183,8 @@ export const batchDisassociateScramSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateScramSecret",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateScramSecret",
 }));
 
 export type CreateChannelError =
@@ -2202,6 +2221,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateClusterError =
@@ -2236,6 +2257,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateClusterV2Error =
@@ -2270,6 +2293,8 @@ export const createClusterV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterV2",
+  telemetry: TELEMETRY,
+  span: "CreateClusterV2",
 }));
 
 export type CreateConfigurationError =
@@ -2304,6 +2329,8 @@ export const createConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguration",
 }));
 
 export type CreateReplicatorError =
@@ -2340,6 +2367,8 @@ export const createReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicator",
+  telemetry: TELEMETRY,
+  span: "CreateReplicator",
 }));
 
 export type CreateTopicError =
@@ -2394,6 +2423,8 @@ export const createTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopic",
+  telemetry: TELEMETRY,
+  span: "CreateTopic",
 }));
 
 export type CreateVpcConnectionError =
@@ -2426,6 +2457,8 @@ export const createVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcConnection",
+  telemetry: TELEMETRY,
+  span: "CreateVpcConnection",
 }));
 
 export type DeleteChannelError =
@@ -2460,6 +2493,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteClusterError =
@@ -2488,6 +2523,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterPolicyError =
@@ -2516,6 +2553,8 @@ export const deleteClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterPolicy",
 }));
 
 export type DeleteConfigurationError =
@@ -2544,6 +2583,8 @@ export const deleteConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type DeleteReplicatorError =
@@ -2578,6 +2619,8 @@ export const deleteReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicator",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicator",
 }));
 
 export type DeleteTopicError =
@@ -2624,6 +2667,8 @@ export const deleteTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopic",
+  telemetry: TELEMETRY,
+  span: "DeleteTopic",
 }));
 
 export type DeleteVpcConnectionError =
@@ -2652,6 +2697,8 @@ export const deleteVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcConnection",
 }));
 
 export type DescribeChannelError =
@@ -2686,6 +2733,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeClusterError =
@@ -2716,6 +2765,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeClusterOperationError =
@@ -2746,6 +2797,8 @@ export const describeClusterOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterOperation",
 }));
 
 export type DescribeClusterOperationV2Error =
@@ -2780,6 +2833,8 @@ export const describeClusterOperationV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterOperationV2",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterOperationV2",
 }));
 
 export type DescribeClusterV2Error =
@@ -2810,6 +2865,8 @@ export const describeClusterV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterV2",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterV2",
 }));
 
 export type DescribeConfigurationError =
@@ -2842,6 +2899,8 @@ export const describeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeConfiguration",
 }));
 
 export type DescribeConfigurationRevisionError =
@@ -2874,6 +2933,8 @@ export const describeConfigurationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRevision",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRevision",
 }));
 
 export type DescribeReplicatorError =
@@ -2908,6 +2969,8 @@ export const describeReplicator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReplicator",
+  telemetry: TELEMETRY,
+  span: "DescribeReplicator",
 }));
 
 export type DescribeTopicError =
@@ -2940,6 +3003,8 @@ export const describeTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopic",
+  telemetry: TELEMETRY,
+  span: "DescribeTopic",
 }));
 
 export type DescribeTopicPartitionsError =
@@ -2977,6 +3042,8 @@ export const describeTopicPartitions: API.PaginatedOperationMethod<
     items: "Partitions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTopicPartitions",
 })) as any;
 
 export type DescribeVpcConnectionError =
@@ -3009,6 +3076,8 @@ export const describeVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcConnection",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcConnection",
 }));
 
 export type GetBootstrapBrokersError =
@@ -3041,6 +3110,8 @@ export const getBootstrapBrokers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBootstrapBrokers",
+  telemetry: TELEMETRY,
+  span: "GetBootstrapBrokers",
 }));
 
 export type GetClusterPolicyError =
@@ -3069,6 +3140,8 @@ export const getClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "GetClusterPolicy",
 }));
 
 export type GetCompatibleKafkaVersionsError =
@@ -3103,6 +3176,8 @@ export const getCompatibleKafkaVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleKafkaVersions",
+  telemetry: TELEMETRY,
+  span: "GetCompatibleKafkaVersions",
 }));
 
 export type ListChannelsError =
@@ -3137,6 +3212,8 @@ export const listChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListChannels",
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 }));
 
 export type ListClientVpcConnectionsError =
@@ -3174,6 +3251,8 @@ export const listClientVpcConnections: API.PaginatedOperationMethod<
     items: "ClientVpcConnections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClientVpcConnections",
 })) as any;
 
 export type ListClusterOperationsError =
@@ -3209,6 +3288,8 @@ export const listClusterOperations: API.PaginatedOperationMethod<
     items: "ClusterOperationInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterOperations",
 })) as any;
 
 export type ListClusterOperationsV2Error =
@@ -3250,6 +3331,8 @@ export const listClusterOperationsV2: API.PaginatedOperationMethod<
     items: "ClusterOperationInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterOperationsV2",
 })) as any;
 
 export type ListClustersError =
@@ -3285,6 +3368,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "ClusterInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListClustersV2Error =
@@ -3320,6 +3405,8 @@ export const listClustersV2: API.PaginatedOperationMethod<
     items: "ClusterInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClustersV2",
 })) as any;
 
 export type ListConfigurationRevisionsError =
@@ -3359,6 +3446,8 @@ export const listConfigurationRevisions: API.PaginatedOperationMethod<
     items: "Revisions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationRevisions",
 })) as any;
 
 export type ListConfigurationsError =
@@ -3396,6 +3485,8 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "Configurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 })) as any;
 
 export type ListKafkaVersionsError =
@@ -3431,6 +3522,8 @@ export const listKafkaVersions: API.PaginatedOperationMethod<
     items: "KafkaVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKafkaVersions",
 })) as any;
 
 export type ListNodesError =
@@ -3466,6 +3559,8 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "NodeInfoList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodes",
 })) as any;
 
 export type ListReplicatorsError =
@@ -3507,6 +3602,8 @@ export const listReplicators: API.PaginatedOperationMethod<
     items: "Replicators",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReplicators",
 })) as any;
 
 export type ListScramSecretsError =
@@ -3548,6 +3645,8 @@ export const listScramSecrets: API.PaginatedOperationMethod<
     items: "SecretArnList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScramSecrets",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3570,6 +3669,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTopicsError =
@@ -3611,6 +3712,8 @@ export const listTopics: API.PaginatedOperationMethod<
     items: "Topics",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTopics",
 })) as any;
 
 export type ListVpcConnectionsError =
@@ -3648,6 +3751,8 @@ export const listVpcConnections: API.PaginatedOperationMethod<
     items: "VpcConnections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcConnections",
 })) as any;
 
 export type PutClusterPolicyError =
@@ -3670,6 +3775,8 @@ export const putClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterPolicy",
+  telemetry: TELEMETRY,
+  span: "PutClusterPolicy",
 }));
 
 export type RebootBrokerError =
@@ -3704,6 +3811,8 @@ export const rebootBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootBroker",
+  telemetry: TELEMETRY,
+  span: "RebootBroker",
 }));
 
 export type RejectClientVpcConnectionError =
@@ -3734,6 +3843,8 @@ export const rejectClientVpcConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectClientVpcConnection",
+  telemetry: TELEMETRY,
+  span: "RejectClientVpcConnection",
 }));
 
 export type TagResourceError =
@@ -3756,6 +3867,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3778,6 +3891,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBrokerCountError =
@@ -3808,6 +3923,8 @@ export const updateBrokerCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerCount",
+  telemetry: TELEMETRY,
+  span: "UpdateBrokerCount",
 }));
 
 export type UpdateBrokerStorageError =
@@ -3838,6 +3955,8 @@ export const updateBrokerStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerStorage",
+  telemetry: TELEMETRY,
+  span: "UpdateBrokerStorage",
 }));
 
 export type UpdateBrokerTypeError =
@@ -3872,6 +3991,8 @@ export const updateBrokerType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrokerType",
+  telemetry: TELEMETRY,
+  span: "UpdateBrokerType",
 }));
 
 export type UpdateChannelError =
@@ -3906,6 +4027,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateClusterConfigurationError =
@@ -3938,6 +4061,8 @@ export const updateClusterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterConfiguration",
 }));
 
 export type UpdateClusterKafkaVersionError =
@@ -3972,6 +4097,8 @@ export const updateClusterKafkaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterKafkaVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterKafkaVersion",
 }));
 
 export type UpdateConfigurationError =
@@ -4004,6 +4131,8 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateConnectivityError =
@@ -4036,6 +4165,8 @@ export const updateConnectivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivity",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectivity",
 }));
 
 export type UpdateMonitoringError =
@@ -4066,6 +4197,8 @@ export const updateMonitoring: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitoring",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoring",
 }));
 
 export type UpdateRebalancingError =
@@ -4100,6 +4233,8 @@ export const updateRebalancing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRebalancing",
+  telemetry: TELEMETRY,
+  span: "UpdateRebalancing",
 }));
 
 export type UpdateReplicationInfoError =
@@ -4134,6 +4269,8 @@ export const updateReplicationInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationInfo",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationInfo",
 }));
 
 export type UpdateSecurityError =
@@ -4168,6 +4305,8 @@ export const updateSecurity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurity",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurity",
 }));
 
 export type UpdateStorageError =
@@ -4202,6 +4341,8 @@ export const updateStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStorage",
+  telemetry: TELEMETRY,
+  span: "UpdateStorage",
 }));
 
 export type UpdateTopicError =
@@ -4252,6 +4393,8 @@ export const updateTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopic",
+  telemetry: TELEMETRY,
+  span: "UpdateTopic",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

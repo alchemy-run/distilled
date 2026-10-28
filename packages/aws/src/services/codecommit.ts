@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -76,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codecommit.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeCommit",
+  service: "CodeCommit",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ActorDoesNotExistException
   extends /*@__PURE__*/ S.TaggedError<ActorDoesNotExistException>()("ActorDoesNotExistException", {
@@ -2349,6 +2365,8 @@ export const associateApprovalRuleTemplateWithRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApprovalRuleTemplateWithRepository",
+  telemetry: TELEMETRY,
+  span: "AssociateApprovalRuleTemplateWithRepository",
 }));
 
 export type BatchAssociateApprovalRuleTemplateWithRepositoriesError =
@@ -2397,6 +2415,8 @@ export const batchAssociateApprovalRuleTemplateWithRepositories: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateApprovalRuleTemplateWithRepositories",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateApprovalRuleTemplateWithRepositories",
 }));
 
 export type BatchDescribeMergeConflictsError =
@@ -2459,6 +2479,8 @@ export const batchDescribeMergeConflicts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeMergeConflicts",
+  telemetry: TELEMETRY,
+  span: "BatchDescribeMergeConflicts",
 }));
 
 export type BatchDisassociateApprovalRuleTemplateFromRepositoriesError =
@@ -2507,6 +2529,8 @@ export const batchDisassociateApprovalRuleTemplateFromRepositories: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateApprovalRuleTemplateFromRepositories",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateApprovalRuleTemplateFromRepositories",
 }));
 
 export type BatchGetCommitsError =
@@ -2547,6 +2571,8 @@ export const batchGetCommits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCommits",
+  telemetry: TELEMETRY,
+  span: "BatchGetCommits",
 }));
 
 export type BatchGetRepositoriesError =
@@ -2589,6 +2615,8 @@ export const batchGetRepositories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRepositories",
+  telemetry: TELEMETRY,
+  span: "BatchGetRepositories",
 }));
 
 export type CreateApprovalRuleTemplateError =
@@ -2627,6 +2655,8 @@ export const createApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApprovalRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateApprovalRuleTemplate",
 }));
 
 export type CreateBranchError =
@@ -2677,6 +2707,8 @@ export const createBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBranch",
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type CreateCommitError =
@@ -2773,6 +2805,8 @@ export const createCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCommit",
+  telemetry: TELEMETRY,
+  span: "CreateCommit",
 }));
 
 export type CreatePullRequestError =
@@ -2843,6 +2877,8 @@ export const createPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePullRequest",
+  telemetry: TELEMETRY,
+  span: "CreatePullRequest",
 }));
 
 export type CreatePullRequestApprovalRuleError =
@@ -2893,6 +2929,8 @@ export const createPullRequestApprovalRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePullRequestApprovalRule",
+  telemetry: TELEMETRY,
+  span: "CreatePullRequestApprovalRule",
 }));
 
 export type CreateRepositoryError =
@@ -2947,6 +2985,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type CreateUnreferencedMergeCommitError =
@@ -3045,6 +3085,8 @@ export const createUnreferencedMergeCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUnreferencedMergeCommit",
+  telemetry: TELEMETRY,
+  span: "CreateUnreferencedMergeCommit",
 }));
 
 export type DeleteApprovalRuleTemplateError =
@@ -3071,6 +3113,8 @@ export const deleteApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApprovalRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteApprovalRuleTemplate",
 }));
 
 export type DeleteBranchError =
@@ -3113,6 +3157,8 @@ export const deleteBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBranch",
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteCommentContentError =
@@ -3141,6 +3187,8 @@ export const deleteCommentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCommentContent",
+  telemetry: TELEMETRY,
+  span: "DeleteCommentContent",
 }));
 
 export type DeleteFileError =
@@ -3207,6 +3255,8 @@ export const deleteFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFile",
+  telemetry: TELEMETRY,
+  span: "DeleteFile",
 }));
 
 export type DeletePullRequestApprovalRuleError =
@@ -3253,6 +3303,8 @@ export const deletePullRequestApprovalRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePullRequestApprovalRule",
+  telemetry: TELEMETRY,
+  span: "DeletePullRequestApprovalRule",
 }));
 
 export type DeleteRepositoryError =
@@ -3291,6 +3343,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DescribeMergeConflictsError =
@@ -3365,6 +3419,8 @@ export const describeMergeConflicts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxMergeHunks",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMergeConflicts",
 })) as any;
 
 export type DescribePullRequestEventsError =
@@ -3417,6 +3473,8 @@ export const describePullRequestEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePullRequestEvents",
 })) as any;
 
 export type DisassociateApprovalRuleTemplateFromRepositoryError =
@@ -3466,6 +3524,8 @@ export const disassociateApprovalRuleTemplateFromRepository: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApprovalRuleTemplateFromRepository",
+  telemetry: TELEMETRY,
+  span: "DisassociateApprovalRuleTemplateFromRepository",
 }));
 
 export type EvaluatePullRequestApprovalRulesError =
@@ -3508,6 +3568,8 @@ export const evaluatePullRequestApprovalRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluatePullRequestApprovalRules",
+  telemetry: TELEMETRY,
+  span: "EvaluatePullRequestApprovalRules",
 }));
 
 export type GetApprovalRuleTemplateError =
@@ -3534,6 +3596,8 @@ export const getApprovalRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApprovalRuleTemplate",
+  telemetry: TELEMETRY,
+  span: "GetApprovalRuleTemplate",
 }));
 
 export type GetBlobError =
@@ -3578,6 +3642,8 @@ export const getBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlob",
+  telemetry: TELEMETRY,
+  span: "GetBlob",
 }));
 
 export type GetBlobDifferencesError =
@@ -3642,6 +3708,8 @@ export const getBlobDifferences: API.PaginatedOperationMethod<
     items: "hunks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBlobDifferences",
 })) as any;
 
 export type GetBranchError =
@@ -3684,6 +3752,8 @@ export const getBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBranch",
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetCommentError =
@@ -3725,6 +3795,8 @@ export const getComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComment",
+  telemetry: TELEMETRY,
+  span: "GetComment",
 }));
 
 export type GetCommentReactionsError =
@@ -3765,6 +3837,8 @@ export const getCommentReactions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCommentReactions",
 })) as any;
 
 export type GetCommentsForComparedCommitError =
@@ -3820,6 +3894,8 @@ export const getCommentsForComparedCommit: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCommentsForComparedCommit",
 })) as any;
 
 export type GetCommentsForPullRequestError =
@@ -3883,6 +3959,8 @@ export const getCommentsForPullRequest: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCommentsForPullRequest",
 })) as any;
 
 export type GetCommitError =
@@ -3925,6 +4003,8 @@ export const getCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommit",
+  telemetry: TELEMETRY,
+  span: "GetCommit",
 }));
 
 export type GetDifferencesError =
@@ -3988,6 +4068,8 @@ export const getDifferences: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDifferences",
 })) as any;
 
 export type GetFileError =
@@ -4036,6 +4118,8 @@ export const getFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFile",
+  telemetry: TELEMETRY,
+  span: "GetFile",
 }));
 
 export type GetFolderError =
@@ -4082,6 +4166,8 @@ export const getFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolder",
+  telemetry: TELEMETRY,
+  span: "GetFolder",
 }));
 
 export type GetMergeCommitError =
@@ -4128,6 +4214,8 @@ export const getMergeCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMergeCommit",
+  telemetry: TELEMETRY,
+  span: "GetMergeCommit",
 }));
 
 export type GetMergeConflictsError =
@@ -4198,6 +4286,8 @@ export const getMergeConflicts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxConflictFiles",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetMergeConflicts",
 })) as any;
 
 export type GetMergeOptionsError =
@@ -4252,6 +4342,8 @@ export const getMergeOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMergeOptions",
+  telemetry: TELEMETRY,
+  span: "GetMergeOptions",
 }));
 
 export type GetPullRequestError =
@@ -4288,6 +4380,8 @@ export const getPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequest",
+  telemetry: TELEMETRY,
+  span: "GetPullRequest",
 }));
 
 export type GetPullRequestApprovalStatesError =
@@ -4329,6 +4423,8 @@ export const getPullRequestApprovalStates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequestApprovalStates",
+  telemetry: TELEMETRY,
+  span: "GetPullRequestApprovalStates",
 }));
 
 export type GetPullRequestOverrideStateError =
@@ -4370,6 +4466,8 @@ export const getPullRequestOverrideState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPullRequestOverrideState",
+  telemetry: TELEMETRY,
+  span: "GetPullRequestOverrideState",
 }));
 
 export type GetRepositoryError =
@@ -4412,6 +4510,8 @@ export const getRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepository",
+  telemetry: TELEMETRY,
+  span: "GetRepository",
 }));
 
 export type GetRepositoryTriggersError =
@@ -4448,6 +4548,8 @@ export const getRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryTriggers",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryTriggers",
 }));
 
 export type ListApprovalRuleTemplatesError =
@@ -4476,6 +4578,8 @@ export const listApprovalRuleTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApprovalRuleTemplates",
 })) as any;
 
 export type ListAssociatedApprovalRuleTemplatesForRepositoryError =
@@ -4530,6 +4634,8 @@ export const listAssociatedApprovalRuleTemplatesForRepository: API.PaginatedOper
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedApprovalRuleTemplatesForRepository",
 })) as any;
 
 export type ListBranchesError =
@@ -4570,6 +4676,8 @@ export const listBranches: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBranches",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "branches" } as const,
+  telemetry: TELEMETRY,
+  span: "ListBranches",
 })) as any;
 
 export type ListFileCommitHistoryError =
@@ -4624,6 +4732,8 @@ export const listFileCommitHistory: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFileCommitHistory",
 })) as any;
 
 export type ListPullRequestsError =
@@ -4677,6 +4787,8 @@ export const listPullRequests: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPullRequests",
 })) as any;
 
 export type ListRepositoriesError =
@@ -4701,6 +4813,8 @@ export const listRepositories: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListRepositories",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "repositories" } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositories",
 })) as any;
 
 export type ListRepositoriesForApprovalRuleTemplateError =
@@ -4747,6 +4861,8 @@ export const listRepositoriesForApprovalRuleTemplate: API.PaginatedOperationMeth
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositoriesForApprovalRuleTemplate",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4776,6 +4892,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type MergeBranchesByFastForwardError =
@@ -4834,6 +4952,8 @@ export const mergeBranchesByFastForward: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesByFastForward",
+  telemetry: TELEMETRY,
+  span: "MergeBranchesByFastForward",
 }));
 
 export type MergeBranchesBySquashError =
@@ -4932,6 +5052,8 @@ export const mergeBranchesBySquash: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesBySquash",
+  telemetry: TELEMETRY,
+  span: "MergeBranchesBySquash",
 }));
 
 export type MergeBranchesByThreeWayError =
@@ -5030,6 +5152,8 @@ export const mergeBranchesByThreeWay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeBranchesByThreeWay",
+  telemetry: TELEMETRY,
+  span: "MergeBranchesByThreeWay",
 }));
 
 export type MergePullRequestByFastForwardError =
@@ -5089,6 +5213,8 @@ export const mergePullRequestByFastForward: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestByFastForward",
+  telemetry: TELEMETRY,
+  span: "MergePullRequestByFastForward",
 }));
 
 export type MergePullRequestBySquashError =
@@ -5186,6 +5312,8 @@ export const mergePullRequestBySquash: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestBySquash",
+  telemetry: TELEMETRY,
+  span: "MergePullRequestBySquash",
 }));
 
 export type MergePullRequestByThreeWayError =
@@ -5283,6 +5411,8 @@ export const mergePullRequestByThreeWay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergePullRequestByThreeWay",
+  telemetry: TELEMETRY,
+  span: "MergePullRequestByThreeWay",
 }));
 
 export type OverridePullRequestApprovalRulesError =
@@ -5333,6 +5463,8 @@ export const overridePullRequestApprovalRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OverridePullRequestApprovalRules",
+  telemetry: TELEMETRY,
+  span: "OverridePullRequestApprovalRules",
 }));
 
 export type PostCommentForComparedCommitError =
@@ -5399,6 +5531,8 @@ export const postCommentForComparedCommit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentForComparedCommit",
+  telemetry: TELEMETRY,
+  span: "PostCommentForComparedCommit",
 }));
 
 export type PostCommentForPullRequestError =
@@ -5473,6 +5607,8 @@ export const postCommentForPullRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentForPullRequest",
+  telemetry: TELEMETRY,
+  span: "PostCommentForPullRequest",
 }));
 
 export type PostCommentReplyError =
@@ -5509,6 +5645,8 @@ export const postCommentReply: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostCommentReply",
+  telemetry: TELEMETRY,
+  span: "PostCommentReply",
 }));
 
 export type PutCommentReactionError =
@@ -5544,6 +5682,8 @@ export const putCommentReaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCommentReaction",
+  telemetry: TELEMETRY,
+  span: "PutCommentReaction",
 }));
 
 export type PutFileError =
@@ -5624,6 +5764,8 @@ export const putFile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFile",
+  telemetry: TELEMETRY,
+  span: "PutFile",
 }));
 
 export type PutRepositoryTriggersError =
@@ -5686,6 +5828,8 @@ export const putRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryTriggers",
+  telemetry: TELEMETRY,
+  span: "PutRepositoryTriggers",
 }));
 
 export type TagResourceError =
@@ -5726,6 +5870,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestRepositoryTriggersError =
@@ -5790,6 +5936,8 @@ export const testRepositoryTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestRepositoryTriggers",
+  telemetry: TELEMETRY,
+  span: "TestRepositoryTriggers",
 }));
 
 export type UntagResourceError =
@@ -5829,6 +5977,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApprovalRuleTemplateContentError =
@@ -5863,6 +6013,8 @@ export const updateApprovalRuleTemplateContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateContent",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalRuleTemplateContent",
 }));
 
 export type UpdateApprovalRuleTemplateDescriptionError =
@@ -5891,6 +6043,8 @@ export const updateApprovalRuleTemplateDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateDescription",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalRuleTemplateDescription",
 }));
 
 export type UpdateApprovalRuleTemplateNameError =
@@ -5919,6 +6073,8 @@ export const updateApprovalRuleTemplateName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalRuleTemplateName",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalRuleTemplateName",
 }));
 
 export type UpdateCommentError =
@@ -5953,6 +6109,8 @@ export const updateComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComment",
+  telemetry: TELEMETRY,
+  span: "UpdateComment",
 }));
 
 export type UpdateDefaultBranchError =
@@ -5997,6 +6155,8 @@ export const updateDefaultBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultBranch",
+  telemetry: TELEMETRY,
+  span: "UpdateDefaultBranch",
 }));
 
 export type UpdatePullRequestApprovalRuleContentError =
@@ -6050,6 +6210,8 @@ export const updatePullRequestApprovalRuleContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestApprovalRuleContent",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestApprovalRuleContent",
 }));
 
 export type UpdatePullRequestApprovalStateError =
@@ -6102,6 +6264,8 @@ export const updatePullRequestApprovalState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestApprovalState",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestApprovalState",
 }));
 
 export type UpdatePullRequestDescriptionError =
@@ -6132,6 +6296,8 @@ export const updatePullRequestDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestDescription",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestDescription",
 }));
 
 export type UpdatePullRequestStatusError =
@@ -6174,6 +6340,8 @@ export const updatePullRequestStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestStatus",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestStatus",
 }));
 
 export type UpdatePullRequestTitleError =
@@ -6206,6 +6374,8 @@ export const updatePullRequestTitle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullRequestTitle",
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestTitle",
 }));
 
 export type UpdateRepositoryDescriptionError =
@@ -6250,6 +6420,8 @@ export const updateRepositoryDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryDescription",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryDescription",
 }));
 
 export type UpdateRepositoryEncryptionKeyError =
@@ -6292,6 +6464,8 @@ export const updateRepositoryEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryEncryptionKey",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryEncryptionKey",
 }));
 
 export type UpdateRepositoryNameError =
@@ -6324,6 +6498,8 @@ export const updateRepositoryName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryName",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryName",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -98,6 +98,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Discord Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   spec: () => spec,
 });

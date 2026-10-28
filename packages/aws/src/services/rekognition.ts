@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rekognition.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Rekognition",
+  service: "Rekognition",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -2182,6 +2198,8 @@ export const associateFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFaces",
+  telemetry: TELEMETRY,
+  span: "AssociateFaces",
 }));
 
 export type CompareFacesError =
@@ -2273,6 +2291,8 @@ export const compareFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompareFaces",
+  telemetry: TELEMETRY,
+  span: "CompareFaces",
 }));
 
 export type CopyProjectVersionError =
@@ -2336,6 +2356,8 @@ export const copyProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyProjectVersion",
+  telemetry: TELEMETRY,
+  span: "CopyProjectVersion",
 }));
 
 export type CreateCollectionError =
@@ -2386,6 +2408,8 @@ export const createCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollection",
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type CreateDatasetError =
@@ -2447,6 +2471,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateFaceLivenessSessionError =
@@ -2495,6 +2521,8 @@ export const createFaceLivenessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFaceLivenessSession",
+  telemetry: TELEMETRY,
+  span: "CreateFaceLivenessSession",
 }));
 
 export type CreateProjectError =
@@ -2534,6 +2562,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateProjectVersionError =
@@ -2600,6 +2630,8 @@ export const createProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectVersion",
+  telemetry: TELEMETRY,
+  span: "CreateProjectVersion",
 }));
 
 export type CreateStreamProcessorError =
@@ -2669,6 +2701,8 @@ export const createStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "CreateStreamProcessor",
 }));
 
 export type CreateUserError =
@@ -2715,6 +2749,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteCollectionError =
@@ -2752,6 +2788,8 @@ export const deleteCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollection",
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteDatasetError =
@@ -2799,6 +2837,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteFacesError =
@@ -2835,6 +2875,8 @@ export const deleteFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFaces",
+  telemetry: TELEMETRY,
+  span: "DeleteFaces",
 }));
 
 export type DeleteProjectError =
@@ -2878,6 +2920,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectPolicyError =
@@ -2918,6 +2962,8 @@ export const deleteProjectPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteProjectPolicy",
 }));
 
 export type DeleteProjectVersionError =
@@ -2960,6 +3006,8 @@ export const deleteProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteProjectVersion",
 }));
 
 export type DeleteStreamProcessorError =
@@ -3000,6 +3048,8 @@ export const deleteStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "DeleteStreamProcessor",
 }));
 
 export type DeleteUserError =
@@ -3040,6 +3090,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeCollectionError =
@@ -3077,6 +3129,8 @@ export const describeCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCollection",
+  telemetry: TELEMETRY,
+  span: "DescribeCollection",
 }));
 
 export type DescribeDatasetError =
@@ -3114,6 +3168,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeProjectsError =
@@ -3155,6 +3211,8 @@ export const describeProjects: API.PaginatedOperationMethod<
     items: "ProjectDescriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeProjects",
 })) as any;
 
 export type DescribeProjectVersionsError =
@@ -3201,6 +3259,8 @@ export const describeProjectVersions: API.PaginatedOperationMethod<
     items: "ProjectVersionDescriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeProjectVersions",
 })) as any;
 
 export type DescribeStreamProcessorError =
@@ -3239,6 +3299,8 @@ export const describeStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "DescribeStreamProcessor",
 }));
 
 export type DetectCustomLabelsError =
@@ -3322,6 +3384,8 @@ export const detectCustomLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectCustomLabels",
+  telemetry: TELEMETRY,
+  span: "DetectCustomLabels",
 }));
 
 export type DetectFacesError =
@@ -3378,6 +3442,8 @@ export const detectFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectFaces",
+  telemetry: TELEMETRY,
+  span: "DetectFaces",
 }));
 
 export type DetectLabelsError =
@@ -3517,6 +3583,8 @@ export const detectLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectLabels",
+  telemetry: TELEMETRY,
+  span: "DetectLabels",
 }));
 
 export type DetectModerationLabelsError =
@@ -3577,6 +3645,8 @@ export const detectModerationLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectModerationLabels",
+  telemetry: TELEMETRY,
+  span: "DetectModerationLabels",
 }));
 
 export type DetectProtectiveEquipmentError =
@@ -3644,6 +3714,8 @@ export const detectProtectiveEquipment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectProtectiveEquipment",
+  telemetry: TELEMETRY,
+  span: "DetectProtectiveEquipment",
 }));
 
 export type DetectTextError =
@@ -3709,6 +3781,8 @@ export const detectText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectText",
+  telemetry: TELEMETRY,
+  span: "DetectText",
 }));
 
 export type DisassociateFacesError =
@@ -3752,6 +3826,8 @@ export const disassociateFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFaces",
+  telemetry: TELEMETRY,
+  span: "DisassociateFaces",
 }));
 
 export type DistributeDatasetEntriesError =
@@ -3800,6 +3876,8 @@ export const distributeDatasetEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DistributeDatasetEntries",
+  telemetry: TELEMETRY,
+  span: "DistributeDatasetEntries",
 }));
 
 export type GetCelebrityInfoError =
@@ -3840,6 +3918,8 @@ export const getCelebrityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCelebrityInfo",
+  telemetry: TELEMETRY,
+  span: "GetCelebrityInfo",
 }));
 
 export type GetCelebrityRecognitionError =
@@ -3923,6 +4003,8 @@ export const getCelebrityRecognition: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCelebrityRecognition",
 })) as any;
 
 export type GetContentModerationError =
@@ -3993,6 +4075,8 @@ export const getContentModeration: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetContentModeration",
 })) as any;
 
 export type GetFaceDetectionError =
@@ -4050,6 +4134,8 @@ export const getFaceDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFaceDetection",
 })) as any;
 
 export type GetFaceLivenessSessionResultsError =
@@ -4095,6 +4181,8 @@ export const getFaceLivenessSessionResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFaceLivenessSessionResults",
+  telemetry: TELEMETRY,
+  span: "GetFaceLivenessSessionResults",
 }));
 
 export type GetFaceSearchError =
@@ -4165,6 +4253,8 @@ export const getFaceSearch: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFaceSearch",
 })) as any;
 
 export type GetLabelDetectionError =
@@ -4270,6 +4360,8 @@ export const getLabelDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLabelDetection",
 })) as any;
 
 export type GetMediaAnalysisJobError =
@@ -4308,6 +4400,8 @@ export const getMediaAnalysisJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaAnalysisJob",
+  telemetry: TELEMETRY,
+  span: "GetMediaAnalysisJob",
 }));
 
 export type GetPersonTrackingError =
@@ -4380,6 +4474,8 @@ export const getPersonTracking: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPersonTracking",
 })) as any;
 
 export type GetSegmentDetectionError =
@@ -4445,6 +4541,8 @@ export const getSegmentDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSegmentDetection",
 })) as any;
 
 export type GetTextDetectionError =
@@ -4506,6 +4604,8 @@ export const getTextDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTextDetection",
 })) as any;
 
 export type IndexFacesError =
@@ -4637,6 +4737,8 @@ export const indexFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IndexFaces",
+  telemetry: TELEMETRY,
+  span: "IndexFaces",
 }));
 
 export type ListCollectionsError =
@@ -4686,6 +4788,8 @@ export const listCollections: API.PaginatedOperationMethod<
     items: "CollectionIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollections",
 })) as any;
 
 export type ListDatasetEntriesError =
@@ -4746,6 +4850,8 @@ export const listDatasetEntries: API.PaginatedOperationMethod<
     items: "DatasetEntries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetEntries",
 })) as any;
 
 export type ListDatasetLabelsError =
@@ -4797,6 +4903,8 @@ export const listDatasetLabels: API.PaginatedOperationMethod<
     items: "DatasetLabelDescriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetLabels",
 })) as any;
 
 export type ListFacesError =
@@ -4844,6 +4952,8 @@ export const listFaces: API.PaginatedOperationMethod<
     items: "Faces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFaces",
 })) as any;
 
 export type ListMediaAnalysisJobsError =
@@ -4887,6 +4997,8 @@ export const listMediaAnalysisJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMediaAnalysisJobs",
 })) as any;
 
 export type ListProjectPoliciesError =
@@ -4934,6 +5046,8 @@ export const listProjectPolicies: API.PaginatedOperationMethod<
     items: "ProjectPolicies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjectPolicies",
 })) as any;
 
 export type ListStreamProcessorsError =
@@ -4977,6 +5091,8 @@ export const listStreamProcessors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamProcessors",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5013,6 +5129,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListUsersError =
@@ -5058,6 +5176,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type PutProjectPolicyError =
@@ -5120,6 +5240,8 @@ export const putProjectPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProjectPolicy",
+  telemetry: TELEMETRY,
+  span: "PutProjectPolicy",
 }));
 
 export type RecognizeCelebritiesError =
@@ -5187,6 +5309,8 @@ export const recognizeCelebrities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecognizeCelebrities",
+  telemetry: TELEMETRY,
+  span: "RecognizeCelebrities",
 }));
 
 export type SearchFacesError =
@@ -5236,6 +5360,8 @@ export const searchFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchFaces",
+  telemetry: TELEMETRY,
+  span: "SearchFaces",
 }));
 
 export type SearchFacesByImageError =
@@ -5315,6 +5441,8 @@ export const searchFacesByImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchFacesByImage",
+  telemetry: TELEMETRY,
+  span: "SearchFacesByImage",
 }));
 
 export type SearchUsersError =
@@ -5352,6 +5480,8 @@ export const searchUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchUsers",
+  telemetry: TELEMETRY,
+  span: "SearchUsers",
 }));
 
 export type SearchUsersByImageError =
@@ -5400,6 +5530,8 @@ export const searchUsersByImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchUsersByImage",
+  telemetry: TELEMETRY,
+  span: "SearchUsersByImage",
 }));
 
 export type StartCelebrityRecognitionError =
@@ -5450,6 +5582,8 @@ export const startCelebrityRecognition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCelebrityRecognition",
+  telemetry: TELEMETRY,
+  span: "StartCelebrityRecognition",
 }));
 
 export type StartContentModerationError =
@@ -5501,6 +5635,8 @@ export const startContentModeration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentModeration",
+  telemetry: TELEMETRY,
+  span: "StartContentModeration",
 }));
 
 export type StartFaceDetectionError =
@@ -5552,6 +5688,8 @@ export const startFaceDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFaceDetection",
+  telemetry: TELEMETRY,
+  span: "StartFaceDetection",
 }));
 
 export type StartFaceSearchError =
@@ -5602,6 +5740,8 @@ export const startFaceSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFaceSearch",
+  telemetry: TELEMETRY,
+  span: "StartFaceSearch",
 }));
 
 export type StartLabelDetectionError =
@@ -5667,6 +5807,8 @@ export const startLabelDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLabelDetection",
+  telemetry: TELEMETRY,
+  span: "StartLabelDetection",
 }));
 
 export type StartMediaAnalysisJobError =
@@ -5715,6 +5857,8 @@ export const startMediaAnalysisJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMediaAnalysisJob",
+  telemetry: TELEMETRY,
+  span: "StartMediaAnalysisJob",
 }));
 
 export type StartPersonTrackingError =
@@ -5768,6 +5912,8 @@ export const startPersonTracking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPersonTracking",
+  telemetry: TELEMETRY,
+  span: "StartPersonTracking",
 }));
 
 export type StartProjectVersionError =
@@ -5816,6 +5962,8 @@ export const startProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProjectVersion",
+  telemetry: TELEMETRY,
+  span: "StartProjectVersion",
 }));
 
 export type StartSegmentDetectionError =
@@ -5871,6 +6019,8 @@ export const startSegmentDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSegmentDetection",
+  telemetry: TELEMETRY,
+  span: "StartSegmentDetection",
 }));
 
 export type StartStreamProcessorError =
@@ -5914,6 +6064,8 @@ export const startStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "StartStreamProcessor",
 }));
 
 export type StartTextDetectionError =
@@ -5961,6 +6113,8 @@ export const startTextDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTextDetection",
+  telemetry: TELEMETRY,
+  span: "StartTextDetection",
 }));
 
 export type StopProjectVersionError =
@@ -6001,6 +6155,8 @@ export const stopProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopProjectVersion",
+  telemetry: TELEMETRY,
+  span: "StopProjectVersion",
 }));
 
 export type StopStreamProcessorError =
@@ -6040,6 +6196,8 @@ export const stopStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "StopStreamProcessor",
 }));
 
 export type TagResourceError =
@@ -6079,6 +6237,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6115,6 +6275,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatasetEntriesError =
@@ -6177,6 +6339,8 @@ export const updateDatasetEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetEntries",
+  telemetry: TELEMETRY,
+  span: "UpdateDatasetEntries",
 }));
 
 export type UpdateStreamProcessorError =
@@ -6216,6 +6380,8 @@ export const updateStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamProcessor",
+  telemetry: TELEMETRY,
+  span: "UpdateStreamProcessor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

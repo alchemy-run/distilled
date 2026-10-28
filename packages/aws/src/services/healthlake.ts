@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -74,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://healthlake.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "HealthLake",
+  service: "HealthLake",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -823,6 +839,11 @@ export const createDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile" },
+  },
 }));
 
 export type CreateFHIRDatastoreError =
@@ -851,6 +872,8 @@ export const createFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "CreateFHIRDatastore",
 }));
 
 export type DeleteDataTransformationProfileError =
@@ -882,6 +905,11 @@ export const deleteDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}" },
+  },
 }));
 
 export type DeleteFHIRDatastoreError =
@@ -914,6 +942,8 @@ export const deleteFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "DeleteFHIRDatastore",
 }));
 
 export type DescribeDataTransformationJobError =
@@ -945,6 +975,11 @@ export const describeDataTransformationJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDataTransformationJob",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeDataTransformationJob",
+    attributes: { "url.template": "/data-transformation-job/{JobId}" },
+  },
 }));
 
 export type DescribeFHIRDatastoreError =
@@ -973,6 +1008,8 @@ export const describeFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "DescribeFHIRDatastore",
 }));
 
 export type DescribeFHIRExportJobError =
@@ -1001,6 +1038,8 @@ export const describeFHIRExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRExportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeFHIRExportJob",
 }));
 
 export type DescribeFHIRImportJobError =
@@ -1029,6 +1068,8 @@ export const describeFHIRImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRImportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeFHIRImportJob",
 }));
 
 export type GetDataTransformationProfileError =
@@ -1060,6 +1101,11 @@ export const getDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "GetDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}" },
+  },
 }));
 
 export type ListDataTransformationJobsError =
@@ -1096,6 +1142,11 @@ export const listDataTransformationJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDataTransformationJobs",
+    attributes: { "url.template": "/data-transformation-jobs" },
+  },
 })) as any;
 
 export type ListDataTransformationProfilesError =
@@ -1132,6 +1183,11 @@ export const listDataTransformationProfiles: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDataTransformationProfiles",
+    attributes: { "url.template": "/data-transformation-profile" },
+  },
 })) as any;
 
 export type ListDataTransformationProfileVersionsError =
@@ -1170,6 +1226,11 @@ export const listDataTransformationProfileVersions: API.PaginatedOperationMethod
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDataTransformationProfileVersions",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}/versions" },
+  },
 })) as any;
 
 export type ListFHIRDatastoresError =
@@ -1198,6 +1259,8 @@ export const listFHIRDatastores: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFHIRDatastores",
 })) as any;
 
 export type ListFHIRExportJobsError =
@@ -1234,6 +1297,8 @@ export const listFHIRExportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFHIRExportJobs",
 })) as any;
 
 export type ListFHIRImportJobsError =
@@ -1270,6 +1335,8 @@ export const listFHIRImportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFHIRImportJobs",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1291,6 +1358,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PublishDataTransformationProfileError =
@@ -1324,6 +1393,11 @@ export const publishDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "PublishDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PublishDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}/publish" },
+  },
 }));
 
 export type RestoreFHIRDatastoreError =
@@ -1356,6 +1430,8 @@ export const restoreFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "RestoreFHIRDatastore",
 }));
 
 export type StartDataTransformationJobError =
@@ -1387,6 +1463,11 @@ export const startDataTransformationJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartDataTransformationJob",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartDataTransformationJob",
+    attributes: { "url.template": "/data-transformation-job" },
+  },
 }));
 
 export type StartFHIRExportJobError =
@@ -1419,6 +1500,8 @@ export const startFHIRExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFHIRExportJob",
+  telemetry: TELEMETRY,
+  span: "StartFHIRExportJob",
 }));
 
 export type StartFHIRImportJobError =
@@ -1451,6 +1534,8 @@ export const startFHIRImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFHIRImportJob",
+  telemetry: TELEMETRY,
+  span: "StartFHIRImportJob",
 }));
 
 export type TagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1469,6 +1554,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1487,6 +1574,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDataTransformationProfileError =
@@ -1518,6 +1607,11 @@ export const updateDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateDataTransformationProfile",
+    attributes: { "url.template": "/data-transformation-profile/{ProfileId}" },
+  },
 }));
 
 export type UpdateFHIRDatastoreError =
@@ -1550,6 +1644,8 @@ export const updateFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFHIRDatastore",
+  telemetry: TELEMETRY,
+  span: "UpdateFHIRDatastore",
 }));
 
 export type UpdateProfileWithAgentError =
@@ -1591,6 +1687,11 @@ export const updateProfileWithAgent: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateProfileWithAgent",
   endpointHostPrefix: "datatransformation.",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateProfileWithAgent",
+    attributes: { "url.template": "/update-profile-with-agent" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

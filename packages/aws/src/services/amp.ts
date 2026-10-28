@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -71,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://aps.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "amp",
+  service: "amp",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -836,6 +851,8 @@ export const createAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlertManagerDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateAlertManagerDefinition",
 }));
 
 export type CreateAnomalyDetectorError =
@@ -868,6 +885,8 @@ export const createAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "CreateAnomalyDetector",
 }));
 
 export type CreateLoggingConfigurationError =
@@ -900,6 +919,8 @@ export const createLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLoggingConfiguration",
 }));
 
 export type CreateQueryLoggingConfigurationError =
@@ -930,6 +951,8 @@ export const createQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueryLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateQueryLoggingConfiguration",
 }));
 
 export type CreateRuleGroupsNamespaceError =
@@ -968,6 +991,8 @@ export const createRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroupsNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateRuleGroupsNamespace",
 }));
 
 export type CreateScraperError =
@@ -1010,6 +1035,8 @@ export const createScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScraper",
+  telemetry: TELEMETRY,
+  span: "CreateScraper",
 }));
 
 export type CreateWorkspaceError =
@@ -1042,6 +1069,8 @@ export const createWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspace",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type DeleteAlertManagerDefinitionError =
@@ -1074,6 +1103,8 @@ export const deleteAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlertManagerDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteAlertManagerDefinition",
 }));
 
 export type DeleteAnomalyDetectorError =
@@ -1106,6 +1137,8 @@ export const deleteAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "DeleteAnomalyDetector",
 }));
 
 export type DeleteLoggingConfigurationError =
@@ -1138,6 +1171,8 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLoggingConfiguration",
 }));
 
 export type DeleteQueryLoggingConfigurationError =
@@ -1168,6 +1203,8 @@ export const deleteQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueryLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteQueryLoggingConfiguration",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1200,6 +1237,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRuleGroupsNamespaceError =
@@ -1232,6 +1271,8 @@ export const deleteRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroupsNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleGroupsNamespace",
 }));
 
 export type DeleteScraperError =
@@ -1264,6 +1305,8 @@ export const deleteScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScraper",
+  telemetry: TELEMETRY,
+  span: "DeleteScraper",
 }));
 
 export type DeleteScraperLoggingConfigurationError =
@@ -1294,6 +1337,8 @@ export const deleteScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScraperLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteScraperLoggingConfiguration",
 }));
 
 export type DeleteWorkspaceError =
@@ -1328,6 +1373,8 @@ export const deleteWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspace",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DescribeAlertManagerDefinitionError =
@@ -1358,6 +1405,8 @@ export const describeAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlertManagerDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeAlertManagerDefinition",
 }));
 
 export type DescribeAnomalyDetectorError =
@@ -1388,6 +1437,8 @@ export const describeAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "DescribeAnomalyDetector",
 }));
 
 export type DescribeLoggingConfigurationError =
@@ -1418,6 +1469,8 @@ export const describeLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeLoggingConfiguration",
 }));
 
 export type DescribeQueryLoggingConfigurationError =
@@ -1446,6 +1499,8 @@ export const describeQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueryLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeQueryLoggingConfiguration",
 }));
 
 export type DescribeResourcePolicyError =
@@ -1476,6 +1531,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeRuleGroupsNamespaceError =
@@ -1506,6 +1563,8 @@ export const describeRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupsNamespace",
+  telemetry: TELEMETRY,
+  span: "DescribeRuleGroupsNamespace",
 }));
 
 export type DescribeScraperError =
@@ -1536,6 +1595,8 @@ export const describeScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScraper",
+  telemetry: TELEMETRY,
+  span: "DescribeScraper",
 }));
 
 export type DescribeScraperLoggingConfigurationError =
@@ -1564,6 +1625,8 @@ export const describeScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScraperLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeScraperLoggingConfiguration",
 }));
 
 export type DescribeWorkspaceError =
@@ -1594,6 +1657,8 @@ export const describeWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspace",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspace",
 }));
 
 export type DescribeWorkspaceConfigurationError =
@@ -1624,6 +1689,8 @@ export const describeWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspaceConfiguration",
 }));
 
 export type GetDefaultScraperConfigurationError =
@@ -1646,6 +1713,8 @@ export const getDefaultScraperConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultScraperConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetDefaultScraperConfiguration",
 }));
 
 export type ListAnomalyDetectorsError =
@@ -1683,6 +1752,8 @@ export const listAnomalyDetectors: API.PaginatedOperationMethod<
     items: "anomalyDetectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnomalyDetectors",
 })) as any;
 
 export type ListRuleGroupsNamespacesError =
@@ -1720,6 +1791,8 @@ export const listRuleGroupsNamespaces: API.PaginatedOperationMethod<
     items: "ruleGroupsNamespaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleGroupsNamespaces",
 })) as any;
 
 export type ListScrapersError =
@@ -1755,6 +1828,8 @@ export const listScrapers: API.PaginatedOperationMethod<
     items: "scrapers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScrapers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1785,6 +1860,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkspacesError =
@@ -1820,6 +1897,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 })) as any;
 
 export type PutAlertManagerDefinitionError =
@@ -1854,6 +1933,8 @@ export const putAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlertManagerDefinition",
+  telemetry: TELEMETRY,
+  span: "PutAlertManagerDefinition",
 }));
 
 export type PutAnomalyDetectorError =
@@ -1886,6 +1967,8 @@ export const putAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "PutAnomalyDetector",
 }));
 
 export type PutResourcePolicyError =
@@ -1924,6 +2007,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type PutRuleGroupsNamespaceError =
@@ -1964,6 +2049,8 @@ export const putRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRuleGroupsNamespace",
+  telemetry: TELEMETRY,
+  span: "PutRuleGroupsNamespace",
 }));
 
 export type TagResourceError =
@@ -1996,6 +2083,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2026,6 +2115,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLoggingConfigurationError =
@@ -2058,6 +2149,8 @@ export const updateLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLoggingConfiguration",
 }));
 
 export type UpdateQueryLoggingConfigurationError =
@@ -2088,6 +2181,8 @@ export const updateQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueryLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateQueryLoggingConfiguration",
 }));
 
 export type UpdateScraperError =
@@ -2124,6 +2219,8 @@ export const updateScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScraper",
+  telemetry: TELEMETRY,
+  span: "UpdateScraper",
 }));
 
 export type UpdateScraperLoggingConfigurationError =
@@ -2154,6 +2251,8 @@ export const updateScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScraperLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateScraperLoggingConfiguration",
 }));
 
 export type UpdateWorkspaceAliasError =
@@ -2188,6 +2287,8 @@ export const updateWorkspaceAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceAlias",
 }));
 
 export type UpdateWorkspaceConfigurationError =
@@ -2224,6 +2325,8 @@ export const updateWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

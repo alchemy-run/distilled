@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://finspace.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "finspace",
+  service: "finspace",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1300,6 +1315,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateKxChangesetError =
@@ -1334,6 +1351,8 @@ export const createKxChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxChangeset",
+  telemetry: TELEMETRY,
+  span: "CreateKxChangeset",
 }));
 
 export type CreateKxClusterError =
@@ -1368,6 +1387,8 @@ export const createKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxCluster",
+  telemetry: TELEMETRY,
+  span: "CreateKxCluster",
 }));
 
 export type CreateKxDatabaseError =
@@ -1404,6 +1425,8 @@ export const createKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxDatabase",
+  telemetry: TELEMETRY,
+  span: "CreateKxDatabase",
 }));
 
 export type CreateKxDataviewError =
@@ -1440,6 +1463,8 @@ export const createKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxDataview",
+  telemetry: TELEMETRY,
+  span: "CreateKxDataview",
 }));
 
 export type CreateKxEnvironmentError =
@@ -1474,6 +1499,8 @@ export const createKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateKxEnvironment",
 }));
 
 export type CreateKxScalingGroupError =
@@ -1508,6 +1535,8 @@ export const createKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxScalingGroup",
+  telemetry: TELEMETRY,
+  span: "CreateKxScalingGroup",
 }));
 
 export type CreateKxUserError =
@@ -1544,6 +1573,8 @@ export const createKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxUser",
+  telemetry: TELEMETRY,
+  span: "CreateKxUser",
 }));
 
 export type CreateKxVolumeError =
@@ -1580,6 +1611,8 @@ export const createKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxVolume",
+  telemetry: TELEMETRY,
+  span: "CreateKxVolume",
 }));
 
 export type DeleteEnvironmentError =
@@ -1610,6 +1643,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteKxClusterError =
@@ -1644,6 +1679,8 @@ export const deleteKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteKxCluster",
 }));
 
 export type DeleteKxClusterNodeError =
@@ -1674,6 +1711,8 @@ export const deleteKxClusterNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxClusterNode",
+  telemetry: TELEMETRY,
+  span: "DeleteKxClusterNode",
 }));
 
 export type DeleteKxDatabaseError =
@@ -1706,6 +1745,8 @@ export const deleteKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxDatabase",
+  telemetry: TELEMETRY,
+  span: "DeleteKxDatabase",
 }));
 
 export type DeleteKxDataviewError =
@@ -1738,6 +1779,8 @@ export const deleteKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxDataview",
+  telemetry: TELEMETRY,
+  span: "DeleteKxDataview",
 }));
 
 export type DeleteKxEnvironmentError =
@@ -1770,6 +1813,8 @@ export const deleteKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteKxEnvironment",
 }));
 
 export type DeleteKxScalingGroupError =
@@ -1804,6 +1849,8 @@ export const deleteKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxScalingGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteKxScalingGroup",
 }));
 
 export type DeleteKxUserError =
@@ -1836,6 +1883,8 @@ export const deleteKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxUser",
+  telemetry: TELEMETRY,
+  span: "DeleteKxUser",
 }));
 
 export type DeleteKxVolumeError =
@@ -1870,6 +1919,8 @@ export const deleteKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxVolume",
+  telemetry: TELEMETRY,
+  span: "DeleteKxVolume",
 }));
 
 export type GetEnvironmentError =
@@ -1898,6 +1949,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetKxChangesetError =
@@ -1928,6 +1981,8 @@ export const getKxChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxChangeset",
+  telemetry: TELEMETRY,
+  span: "GetKxChangeset",
 }));
 
 export type GetKxClusterError =
@@ -1962,6 +2017,8 @@ export const getKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxCluster",
+  telemetry: TELEMETRY,
+  span: "GetKxCluster",
 }));
 
 export type GetKxConnectionStringError =
@@ -1992,6 +2049,8 @@ export const getKxConnectionString: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxConnectionString",
+  telemetry: TELEMETRY,
+  span: "GetKxConnectionString",
 }));
 
 export type GetKxDatabaseError =
@@ -2022,6 +2081,8 @@ export const getKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxDatabase",
+  telemetry: TELEMETRY,
+  span: "GetKxDatabase",
 }));
 
 export type GetKxDataviewError =
@@ -2052,6 +2113,8 @@ export const getKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxDataview",
+  telemetry: TELEMETRY,
+  span: "GetKxDataview",
 }));
 
 export type GetKxEnvironmentError =
@@ -2082,6 +2145,8 @@ export const getKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetKxEnvironment",
 }));
 
 export type GetKxScalingGroupError =
@@ -2116,6 +2181,8 @@ export const getKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxScalingGroup",
+  telemetry: TELEMETRY,
+  span: "GetKxScalingGroup",
 }));
 
 export type GetKxUserError =
@@ -2146,6 +2213,8 @@ export const getKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxUser",
+  telemetry: TELEMETRY,
+  span: "GetKxUser",
 }));
 
 export type GetKxVolumeError =
@@ -2180,6 +2249,8 @@ export const getKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxVolume",
+  telemetry: TELEMETRY,
+  span: "GetKxVolume",
 }));
 
 export type ListEnvironmentsError =
@@ -2202,6 +2273,8 @@ export const listEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironments",
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListKxChangesetsError =
@@ -2238,6 +2311,8 @@ export const listKxChangesets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxChangesets",
 })) as any;
 
 export type ListKxClusterNodesError =
@@ -2276,6 +2351,8 @@ export const listKxClusterNodes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxClusterNodes",
 })) as any;
 
 export type ListKxClustersError =
@@ -2310,6 +2387,8 @@ export const listKxClusters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxClusters",
+  telemetry: TELEMETRY,
+  span: "ListKxClusters",
 }));
 
 export type ListKxDatabasesError =
@@ -2346,6 +2425,8 @@ export const listKxDatabases: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxDatabases",
 })) as any;
 
 export type ListKxDataviewsError =
@@ -2382,6 +2463,8 @@ export const listKxDataviews: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxDataviews",
 })) as any;
 
 export type ListKxEnvironmentsError =
@@ -2411,6 +2494,8 @@ export const listKxEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxEnvironments",
 })) as any;
 
 export type ListKxScalingGroupsError =
@@ -2451,6 +2536,8 @@ export const listKxScalingGroups: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKxScalingGroups",
 })) as any;
 
 export type ListKxUsersError =
@@ -2481,6 +2568,8 @@ export const listKxUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxUsers",
+  telemetry: TELEMETRY,
+  span: "ListKxUsers",
 }));
 
 export type ListKxVolumesError =
@@ -2515,6 +2604,8 @@ export const listKxVolumes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxVolumes",
+  telemetry: TELEMETRY,
+  span: "ListKxVolumes",
 }));
 
 export type ListTagsForResourceError =
@@ -2537,6 +2628,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -2559,6 +2652,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2581,6 +2676,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEnvironmentError =
@@ -2611,6 +2708,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateKxClusterCodeConfigurationError =
@@ -2646,6 +2745,8 @@ export const updateKxClusterCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxClusterCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateKxClusterCodeConfiguration",
 }));
 
 export type UpdateKxClusterDatabasesError =
@@ -2682,6 +2783,8 @@ export const updateKxClusterDatabases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxClusterDatabases",
+  telemetry: TELEMETRY,
+  span: "UpdateKxClusterDatabases",
 }));
 
 export type UpdateKxDatabaseError =
@@ -2714,6 +2817,8 @@ export const updateKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxDatabase",
+  telemetry: TELEMETRY,
+  span: "UpdateKxDatabase",
 }));
 
 export type UpdateKxDataviewError =
@@ -2748,6 +2853,8 @@ export const updateKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxDataview",
+  telemetry: TELEMETRY,
+  span: "UpdateKxDataview",
 }));
 
 export type UpdateKxEnvironmentError =
@@ -2780,6 +2887,8 @@ export const updateKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateKxEnvironment",
 }));
 
 export type UpdateKxEnvironmentNetworkError =
@@ -2814,6 +2923,8 @@ export const updateKxEnvironmentNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxEnvironmentNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateKxEnvironmentNetwork",
 }));
 
 export type UpdateKxUserError =
@@ -2848,6 +2959,8 @@ export const updateKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxUser",
+  telemetry: TELEMETRY,
+  span: "UpdateKxUser",
 }));
 
 export type UpdateKxVolumeError =
@@ -2883,6 +2996,8 @@ export const updateKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxVolume",
+  telemetry: TELEMETRY,
+  span: "UpdateKxVolume",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

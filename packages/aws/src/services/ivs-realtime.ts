@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ivsrealtime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IVSRealTime",
+  service: "IVSRealTime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1082,6 +1097,8 @@ export const createEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEncoderConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateEncoderConfiguration",
 }));
 
 export type CreateIngestConfigurationError =
@@ -1110,6 +1127,8 @@ export const createIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateIngestConfiguration",
 }));
 
 export type CreateParticipantTokenError =
@@ -1142,6 +1161,8 @@ export const createParticipantToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParticipantToken",
+  telemetry: TELEMETRY,
+  span: "CreateParticipantToken",
 }));
 
 export type CreateStageError =
@@ -1172,6 +1193,8 @@ export const createStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
+  telemetry: TELEMETRY,
+  span: "CreateStage",
 }));
 
 export type CreateStorageConfigurationError =
@@ -1206,6 +1229,8 @@ export const createStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateStorageConfiguration",
 }));
 
 export type DeleteEncoderConfigurationError =
@@ -1238,6 +1263,8 @@ export const deleteEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEncoderConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEncoderConfiguration",
 }));
 
 export type DeleteIngestConfigurationError =
@@ -1268,6 +1295,8 @@ export const deleteIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteIngestConfiguration",
 }));
 
 export type DeletePublicKeyError =
@@ -1298,6 +1327,8 @@ export const deletePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
+  telemetry: TELEMETRY,
+  span: "DeletePublicKey",
 }));
 
 export type DeleteStageError =
@@ -1330,6 +1361,8 @@ export const deleteStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStage",
+  telemetry: TELEMETRY,
+  span: "DeleteStage",
 }));
 
 export type DeleteStorageConfigurationError =
@@ -1364,6 +1397,8 @@ export const deleteStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteStorageConfiguration",
 }));
 
 export type DisconnectParticipantError =
@@ -1392,6 +1427,8 @@ export const disconnectParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectParticipant",
+  telemetry: TELEMETRY,
+  span: "DisconnectParticipant",
 }));
 
 export type GetCompositionError =
@@ -1424,6 +1461,8 @@ export const getComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComposition",
+  telemetry: TELEMETRY,
+  span: "GetComposition",
 }));
 
 export type GetEncoderConfigurationError =
@@ -1456,6 +1495,8 @@ export const getEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncoderConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEncoderConfiguration",
 }));
 
 export type GetIngestConfigurationError =
@@ -1478,6 +1519,8 @@ export const getIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetIngestConfiguration",
 }));
 
 export type GetParticipantError =
@@ -1500,6 +1543,8 @@ export const getParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParticipant",
+  telemetry: TELEMETRY,
+  span: "GetParticipant",
 }));
 
 export type GetPublicKeyError =
@@ -1522,6 +1567,8 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
+  telemetry: TELEMETRY,
+  span: "GetPublicKey",
 }));
 
 export type GetStageError =
@@ -1550,6 +1597,8 @@ export const getStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStage",
+  telemetry: TELEMETRY,
+  span: "GetStage",
 }));
 
 export type GetStageSessionError =
@@ -1572,6 +1621,8 @@ export const getStageSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStageSession",
+  telemetry: TELEMETRY,
+  span: "GetStageSession",
 }));
 
 export type GetStorageConfigurationError =
@@ -1604,6 +1655,8 @@ export const getStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetStorageConfiguration",
 }));
 
 export type ImportPublicKeyError =
@@ -1634,6 +1687,8 @@ export const importPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPublicKey",
+  telemetry: TELEMETRY,
+  span: "ImportPublicKey",
 }));
 
 export type ListCompositionsError =
@@ -1670,6 +1725,8 @@ export const listCompositions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCompositions",
 })) as any;
 
 export type ListEncoderConfigurationsError =
@@ -1706,6 +1763,8 @@ export const listEncoderConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEncoderConfigurations",
 })) as any;
 
 export type ListIngestConfigurationsError =
@@ -1734,6 +1793,8 @@ export const listIngestConfigurations: API.PaginatedOperationMethod<
     items: "ingestConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestConfigurations",
 })) as any;
 
 export type ListParticipantEventsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1758,6 +1819,8 @@ export const listParticipantEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParticipantEvents",
 })) as any;
 
 export type ListParticipantReplicasError =
@@ -1786,6 +1849,8 @@ export const listParticipantReplicas: API.PaginatedOperationMethod<
     items: "replicas",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParticipantReplicas",
 })) as any;
 
 export type ListParticipantsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1810,6 +1875,8 @@ export const listParticipants: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParticipants",
 })) as any;
 
 export type ListPublicKeysError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1835,6 +1902,8 @@ export const listPublicKeys: API.PaginatedOperationMethod<
     items: "publicKeys",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPublicKeys",
 })) as any;
 
 export type ListStagesError =
@@ -1864,6 +1933,8 @@ export const listStages: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStages",
 })) as any;
 
 export type ListStageSessionsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -1888,6 +1959,8 @@ export const listStageSessions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStageSessions",
 })) as any;
 
 export type ListStorageConfigurationsError =
@@ -1924,6 +1997,8 @@ export const listStorageConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStorageConfigurations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1952,6 +2027,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartCompositionError =
@@ -1998,6 +2075,8 @@ export const startComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartComposition",
+  telemetry: TELEMETRY,
+  span: "StartComposition",
 }));
 
 export type StartParticipantReplicationError =
@@ -2032,6 +2111,8 @@ export const startParticipantReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartParticipantReplication",
+  telemetry: TELEMETRY,
+  span: "StartParticipantReplication",
 }));
 
 export type StopCompositionError =
@@ -2064,6 +2145,8 @@ export const stopComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopComposition",
+  telemetry: TELEMETRY,
+  span: "StopComposition",
 }));
 
 export type StopParticipantReplicationError =
@@ -2092,6 +2175,8 @@ export const stopParticipantReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopParticipantReplication",
+  telemetry: TELEMETRY,
+  span: "StopParticipantReplication",
 }));
 
 export type TagResourceError =
@@ -2120,6 +2205,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2148,6 +2235,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIngestConfigurationError =
@@ -2178,6 +2267,8 @@ export const updateIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngestConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateIngestConfiguration",
 }));
 
 export type UpdateStageError =
@@ -2212,6 +2303,8 @@ export const updateStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",
+  telemetry: TELEMETRY,
+  span: "UpdateStage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

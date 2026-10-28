@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "bigquery" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Bigquery",
+  service: "bigquery",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4598,6 +4617,8 @@ export const batchDeleteRowAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteRowAccessPolicies",
 }));
 
 export type CancelJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4613,6 +4634,8 @@ export const cancelJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelJobs",
 }));
 
 export type DeleteDatasetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4628,6 +4651,8 @@ export const deleteDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatasets",
 }));
 
 export type DeleteJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4643,6 +4668,8 @@ export const deleteJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJobs",
 }));
 
 export type DeleteModelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4658,6 +4685,8 @@ export const deleteModels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteModels",
 }));
 
 export type DeleteRoutinesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4673,6 +4702,8 @@ export const deleteRoutines: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoutines",
 }));
 
 export type DeleteRowAccessPoliciesError =
@@ -4693,6 +4724,8 @@ export const deleteRowAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRowAccessPolicies",
 }));
 
 export type DeleteTablesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4708,6 +4741,8 @@ export const deleteTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTables",
 }));
 
 export type GetDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -4723,6 +4758,8 @@ export const getDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasets",
 }));
 
 export type GetIamPolicyRoutinesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4738,6 +4775,8 @@ export const getIamPolicyRoutines: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyRoutines",
 }));
 
 export type GetIamPolicyRowAccessPoliciesError =
@@ -4758,6 +4797,8 @@ export const getIamPolicyRowAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyRowAccessPolicies",
 }));
 
 export type GetIamPolicyTablesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4773,6 +4814,8 @@ export const getIamPolicyTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyTables",
 }));
 
 export type GetJobsError = NotFound | Forbidden | GcpOpError;
@@ -4784,6 +4827,8 @@ export const getJobs: API.OperationMethod<GetJobsRequest, Job, GetJobsError, Gcp
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetJobs",
   }));
 
 export type GetModelsError = NotFound | Forbidden | GcpOpError;
@@ -4795,6 +4840,8 @@ export const getModels: API.OperationMethod<GetModelsRequest, Model, GetModelsEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetModels",
   }));
 
 export type GetQueryResultsJobsError = NotFound | Forbidden | GcpOpError;
@@ -4810,6 +4857,8 @@ export const getQueryResultsJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryResultsJobs",
 }));
 
 export type GetRoutinesError = NotFound | Forbidden | GcpOpError;
@@ -4825,6 +4874,8 @@ export const getRoutines: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoutines",
 }));
 
 export type GetRowAccessPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -4840,6 +4891,8 @@ export const getRowAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRowAccessPolicies",
 }));
 
 export type GetServiceAccountProjectsError = NotFound | Forbidden | GcpOpError;
@@ -4855,6 +4908,8 @@ export const getServiceAccountProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountProjects",
 }));
 
 export type GetTablesError = NotFound | Forbidden | GcpOpError;
@@ -4866,6 +4921,8 @@ export const getTables: API.OperationMethod<GetTablesRequest, Table, GetTablesEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTables",
   }));
 
 export type InsertAllTabledataError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4881,6 +4938,8 @@ export const insertAllTabledata: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAllTabledata",
 }));
 
 export type InsertDatasetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4896,6 +4955,8 @@ export const insertDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDatasets",
 }));
 
 export type InsertJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4911,6 +4972,8 @@ export const insertJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertJobs",
 }));
 
 export type InsertRoutinesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4926,6 +4989,8 @@ export const insertRoutines: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertRoutines",
 }));
 
 export type InsertRowAccessPoliciesError =
@@ -4946,6 +5011,8 @@ export const insertRowAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertRowAccessPolicies",
 }));
 
 export type InsertTablesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4961,6 +5028,8 @@ export const insertTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertTables",
 }));
 
 export type ListDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -4977,6 +5046,8 @@ export const listDatasets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4994,6 +5065,8 @@ export const listJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5011,6 +5084,8 @@ export const listModels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5028,6 +5103,8 @@ export const listProjects: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5045,6 +5122,8 @@ export const listRoutines: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoutines",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5062,6 +5141,8 @@ export const listRowAccessPolicies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRowAccessPolicies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5078,6 +5159,8 @@ export const listTabledata: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTabledata",
 }));
 
 export type ListTablesError = NotFound | Forbidden | GcpOpError;
@@ -5094,6 +5177,8 @@ export const listTables: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTables",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5110,6 +5195,8 @@ export const patchDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDatasets",
 }));
 
 export type PatchModelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5125,6 +5212,8 @@ export const patchModels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchModels",
 }));
 
 export type PatchTablesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5140,6 +5229,8 @@ export const patchTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTables",
 }));
 
 export type QueryJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5155,6 +5246,8 @@ export const queryJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryJobs",
 }));
 
 export type SetIamPolicyRoutinesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5170,6 +5263,8 @@ export const setIamPolicyRoutines: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyRoutines",
 }));
 
 export type SetIamPolicyTablesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5185,6 +5280,8 @@ export const setIamPolicyTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyTables",
 }));
 
 export type TestIamPermissionsRoutinesError =
@@ -5205,6 +5302,8 @@ export const testIamPermissionsRoutines: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsRoutines",
 }));
 
 export type TestIamPermissionsRowAccessPoliciesError =
@@ -5225,6 +5324,8 @@ export const testIamPermissionsRowAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsRowAccessPolicies",
 }));
 
 export type TestIamPermissionsTablesError =
@@ -5245,6 +5346,8 @@ export const testIamPermissionsTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsTables",
 }));
 
 export type UndeleteDatasetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5260,6 +5363,8 @@ export const undeleteDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteDatasets",
 }));
 
 export type UpdateDatasetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5275,6 +5380,8 @@ export const updateDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatasets",
 }));
 
 export type UpdateRoutinesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5290,6 +5397,8 @@ export const updateRoutines: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRoutines",
 }));
 
 export type UpdateRowAccessPoliciesError =
@@ -5310,6 +5419,8 @@ export const updateRowAccessPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRowAccessPolicies",
 }));
 
 export type UpdateTablesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5325,6 +5436,8 @@ export const updateTables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTables",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

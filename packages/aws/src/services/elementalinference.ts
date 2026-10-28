@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elemental-inference.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElementalInference",
+  service: "ElementalInference",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -534,6 +549,8 @@ export const associateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFeed",
+  telemetry: TELEMETRY,
+  span: "AssociateFeed",
 }));
 
 export type CreateDictionaryError =
@@ -566,6 +583,8 @@ export const createDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDictionary",
+  telemetry: TELEMETRY,
+  span: "CreateDictionary",
 }));
 
 export type CreateFeedError =
@@ -600,6 +619,8 @@ export const createFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFeed",
+  telemetry: TELEMETRY,
+  span: "CreateFeed",
 }));
 
 export type DeleteDictionaryError =
@@ -632,6 +653,8 @@ export const deleteDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDictionary",
+  telemetry: TELEMETRY,
+  span: "DeleteDictionary",
 }));
 
 export type DeleteFeedError =
@@ -664,6 +687,8 @@ export const deleteFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeed",
+  telemetry: TELEMETRY,
+  span: "DeleteFeed",
 }));
 
 export type DeleteFeedPolicyError =
@@ -694,6 +719,8 @@ export const deleteFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeedPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteFeedPolicy",
 }));
 
 export type DisassociateFeedError =
@@ -726,6 +753,8 @@ export const disassociateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFeed",
+  telemetry: TELEMETRY,
+  span: "DisassociateFeed",
 }));
 
 export type ExportDictionaryEntriesError =
@@ -756,6 +785,8 @@ export const exportDictionaryEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportDictionaryEntries",
+  telemetry: TELEMETRY,
+  span: "ExportDictionaryEntries",
 }));
 
 export type GetDictionaryError =
@@ -786,6 +817,8 @@ export const getDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDictionary",
+  telemetry: TELEMETRY,
+  span: "GetDictionary",
 }));
 
 export type GetFeedError =
@@ -814,6 +847,8 @@ export const getFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeed",
+  telemetry: TELEMETRY,
+  span: "GetFeed",
 }));
 
 export type GetFeedPolicyError =
@@ -844,6 +879,8 @@ export const getFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeedPolicy",
+  telemetry: TELEMETRY,
+  span: "GetFeedPolicy",
 }));
 
 export type GetFixtureError =
@@ -878,6 +915,8 @@ export const getFixture: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFixture",
+  telemetry: TELEMETRY,
+  span: "GetFixture",
 }));
 
 export type ListDictionariesError =
@@ -913,6 +952,8 @@ export const listDictionaries: API.PaginatedOperationMethod<
     items: "dictionaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDictionaries",
 })) as any;
 
 export type ListFeedsError =
@@ -950,6 +991,8 @@ export const listFeeds: API.PaginatedOperationMethod<
     items: "feeds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFeeds",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -980,6 +1023,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutFeedPolicyError =
@@ -1012,6 +1057,8 @@ export const putFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedPolicy",
+  telemetry: TELEMETRY,
+  span: "PutFeedPolicy",
 }));
 
 export type SearchFixturesError =
@@ -1051,6 +1098,8 @@ export const searchFixtures: API.PaginatedOperationMethod<
     items: "fixtures",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFixtures",
 })) as any;
 
 export type TagResourceError =
@@ -1083,6 +1132,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1115,6 +1166,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDictionaryError =
@@ -1147,6 +1200,8 @@ export const updateDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDictionary",
+  telemetry: TELEMETRY,
+  span: "UpdateDictionary",
 }));
 
 export type UpdateFeedError =
@@ -1187,6 +1242,8 @@ export const updateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeed",
+  telemetry: TELEMETRY,
+  span: "UpdateFeed",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

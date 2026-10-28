@@ -4,6 +4,7 @@ import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type ConfigError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -57,7 +58,8 @@ export type StackitOpError =
   | UnknownStackitError
   | StackitParseError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated STACKIT operation. */
 export type StackitOpContext = Credentials | HttpClient.HttpClient;
@@ -125,7 +127,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
       Effect.gen(function* () {
         const resolve = yield* Credentials;
         const creds = yield* resolve;
-        return buildRequest({
+        return yield* buildRequest({
           input: unwrapRedactedDeep(input),
           inputAst,
           baseUrl: baseUrlFor(creds, inputAst),
@@ -144,7 +146,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
       readonly errors: ReadonlyArray<unknown>;
     }) =>
       Effect.gen(function* () {
-        const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
         if (debugHttp()) {
           console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
         }

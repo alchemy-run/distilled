@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ImportExport" },
+  prefix: "Storageimportexport",
+  service: "Storageimportexport",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Specifies the return address information for the job. */
 export interface ReturnAddress {
   /** The name of the recipient who will receive the hard drives when they are returned. */
@@ -505,6 +526,8 @@ export const CreateJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJob",
 }));
 
 export type DeleteJobError = AzureOpError;
@@ -520,6 +543,8 @@ export const DeleteJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type GetJobError = AzureOpError;
@@ -531,6 +556,8 @@ export const GetJob: API.OperationMethod<GetJobRequest, JobResponse, GetJobError
     errors: [UnknownAzureError],
     protocol: AzureProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetJob",
   }));
 
 export type GetLocationError = AzureOpError;
@@ -546,6 +573,8 @@ export const GetLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocation",
 }));
 
 export type ListBitLockerKeysError = AzureOpError;
@@ -561,6 +590,8 @@ export const ListBitLockerKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBitLockerKeys",
 }));
 
 export type ListJobByResourceGroupError = AzureOpError;
@@ -576,6 +607,8 @@ export const ListJobByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobByResourceGroup",
 }));
 
 export type ListJobBySubscriptionError = AzureOpError;
@@ -591,6 +624,8 @@ export const ListJobBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobBySubscription",
 }));
 
 export type ListLocationsError = AzureOpError;
@@ -606,6 +641,8 @@ export const ListLocations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocations",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -621,6 +658,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateJobError = AzureOpError;
@@ -636,6 +675,8 @@ export const UpdateJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJob",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

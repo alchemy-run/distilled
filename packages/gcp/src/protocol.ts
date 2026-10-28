@@ -1,6 +1,6 @@
 import * as API from "@distilled.cloud/core/api";
 import { debugHttp } from "@distilled.cloud/core/debug";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { ConfigError, HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import type { DefaultErrors } from "@distilled.cloud/core/errors";
 import {
   getAnn,
@@ -45,6 +45,7 @@ import {
  *             are populated at catch sites. Unmatched statuses ->
  *             `UnknownGCPError`.
  */
+import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
@@ -71,6 +72,8 @@ export type GcpOpError =
   | UnknownGCPError
   | GCPParseError
   | GCPCredentialsError
+  | ConfigError
+  | SourceError
   | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated GCP operation. */
@@ -213,6 +216,11 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     // never listed in an operation's requirements.
     const endpointOverride = yield* Effect.serviceOption(Endpoint.Endpoint);
     const override = Option.isSome(endpointOverride) ? yield* endpointOverride.value : undefined;
+    if (override !== undefined && !URL.canParse(override)) {
+      return yield* new ConfigError({
+        message: `GCP endpoint override must be an absolute URL (e.g. http://localhost:8085), got ${JSON.stringify(override)}`,
+      });
+    }
     const mode = Option.getOrElse(
       yield* Effect.serviceOption(Region.RegionalEndpoints),
       () => "required" as const,
@@ -255,7 +263,7 @@ const decode = ({
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- some error responses (proxies,
     // HTML error pages) carry non-JSON bodies.
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
     if (debugHttp()) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
     }

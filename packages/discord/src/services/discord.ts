@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { DiscordOpError, DiscordOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "discord-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Discord",
+  service: "Discord",
+  labels: "discord",
+  propagate: "w3c",
+} as const;
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -6871,6 +6884,8 @@ export const addGroupDmUser: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGroupDmUser",
 }));
 
 export type AddGuildMemberError = DiscordOpError;
@@ -6885,6 +6900,8 @@ export const addGuildMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGuildMember",
 }));
 
 export type AddGuildMemberRoleError = DiscordOpError;
@@ -6899,6 +6916,8 @@ export const addGuildMemberRole: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGuildMemberRole",
 }));
 
 export type AddInviteTargetUserError = DiscordOpError;
@@ -6914,6 +6933,8 @@ export const addInviteTargetUser: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddInviteTargetUser",
 }));
 
 export type AddLobbyMemberError = DiscordOpError;
@@ -6928,6 +6949,8 @@ export const addLobbyMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddLobbyMember",
 }));
 
 export type AddMyMessageReactionError = DiscordOpError;
@@ -6942,6 +6965,8 @@ export const addMyMessageReaction: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddMyMessageReaction",
 }));
 
 export type AddThreadMemberError = DiscordOpError;
@@ -6956,6 +6981,8 @@ export const addThreadMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddThreadMember",
 }));
 
 export type BanUserFromGuildError = DiscordOpError;
@@ -6970,6 +6997,8 @@ export const banUserFromGuild: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BanUserFromGuild",
 }));
 
 export type BotPartnerSdkTokenError = DiscordOpError;
@@ -6984,6 +7013,8 @@ export const botPartnerSdkToken: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BotPartnerSdkToken",
 }));
 
 export type BotPartnerSdkUnmergeProvisionalAccountError = DiscordOpError;
@@ -6998,6 +7029,8 @@ export const botPartnerSdkUnmergeProvisionalAccount: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BotPartnerSdkUnmergeProvisionalAccount",
 }));
 
 export type BulkAddInviteTargetUsersError = DiscordOpError;
@@ -7013,6 +7046,8 @@ export const bulkAddInviteTargetUsers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkAddInviteTargetUsers",
 }));
 
 export type BulkBanUsersFromGuildError = DiscordOpError;
@@ -7027,6 +7062,8 @@ export const bulkBanUsersFromGuild: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkBanUsersFromGuild",
 }));
 
 export type BulkDeleteMessagesError = DiscordOpError;
@@ -7041,6 +7078,8 @@ export const bulkDeleteMessages: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteMessages",
 }));
 
 export type BulkRemoveInviteTargetUsersError = DiscordOpError;
@@ -7056,6 +7095,8 @@ export const bulkRemoveInviteTargetUsers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkRemoveInviteTargetUsers",
 }));
 
 export type BulkSetApplicationCommandsError = DiscordOpError;
@@ -7070,6 +7111,8 @@ export const bulkSetApplicationCommands: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkSetApplicationCommands",
 }));
 
 export type BulkSetGuildApplicationCommandsError = DiscordOpError;
@@ -7084,6 +7127,8 @@ export const bulkSetGuildApplicationCommands: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkSetGuildApplicationCommands",
 }));
 
 export type BulkUpdateGuildChannelsError = DiscordOpError;
@@ -7098,6 +7143,8 @@ export const bulkUpdateGuildChannels: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateGuildChannels",
 }));
 
 export type BulkUpdateGuildRolesError = DiscordOpError;
@@ -7112,6 +7159,8 @@ export const bulkUpdateGuildRoles: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateGuildRoles",
 }));
 
 export type BulkUpdateLobbyMembersError = DiscordOpError;
@@ -7126,6 +7175,8 @@ export const bulkUpdateLobbyMembers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateLobbyMembers",
 }));
 
 export type ConsumeEntitlementError = DiscordOpError;
@@ -7140,6 +7191,8 @@ export const consumeEntitlement: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConsumeEntitlement",
 }));
 
 export type CountGuildScheduledEventUsersError = DiscordOpError;
@@ -7155,6 +7208,8 @@ export const countGuildScheduledEventUsers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountGuildScheduledEventUsers",
 }));
 
 export type CreateApplicationCommandError = DiscordOpError;
@@ -7169,6 +7224,8 @@ export const createApplicationCommand: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationCommand",
 }));
 
 export type CreateApplicationEmojiError = DiscordOpError;
@@ -7183,6 +7240,8 @@ export const createApplicationEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationEmoji",
 }));
 
 export type CreateAutoModerationRuleError = DiscordOpError;
@@ -7197,6 +7256,8 @@ export const createAutoModerationRule: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoModerationRule",
 }));
 
 export type CreateChannelInviteError = DiscordOpError;
@@ -7211,6 +7272,8 @@ export const createChannelInvite: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChannelInvite",
 }));
 
 export type CreateDeprecatedPinError = DiscordOpError;
@@ -7225,6 +7288,8 @@ export const createDeprecatedPin: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeprecatedPin",
 }));
 
 export type CreateDmError = DiscordOpError;
@@ -7239,6 +7304,8 @@ export const createDm: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDm",
 }));
 
 export type CreateEntitlementError = DiscordOpError;
@@ -7253,6 +7320,8 @@ export const createEntitlement: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEntitlement",
 }));
 
 export type CreateGuildApplicationCommandError = DiscordOpError;
@@ -7267,6 +7336,8 @@ export const createGuildApplicationCommand: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildApplicationCommand",
 }));
 
 export type CreateGuildChannelError = DiscordOpError;
@@ -7281,6 +7352,8 @@ export const createGuildChannel: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildChannel",
 }));
 
 export type CreateGuildEmojiError = DiscordOpError;
@@ -7295,6 +7368,8 @@ export const createGuildEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildEmoji",
 }));
 
 export type CreateGuildRoleError = DiscordOpError;
@@ -7309,6 +7384,8 @@ export const createGuildRole: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildRole",
 }));
 
 export type CreateGuildScheduledEventError = DiscordOpError;
@@ -7323,6 +7400,8 @@ export const createGuildScheduledEvent: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildScheduledEvent",
 }));
 
 export type CreateGuildScheduledEventExceptionError = DiscordOpError;
@@ -7338,6 +7417,8 @@ export const createGuildScheduledEventException: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildScheduledEventException",
 }));
 
 export type CreateGuildSoundboardSoundError = DiscordOpError;
@@ -7352,6 +7433,8 @@ export const createGuildSoundboardSound: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildSoundboardSound",
 }));
 
 export type CreateGuildStickerError = DiscordOpError;
@@ -7366,6 +7449,8 @@ export const createGuildSticker: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildSticker",
 }));
 
 export type CreateGuildTemplateError = DiscordOpError;
@@ -7380,6 +7465,8 @@ export const createGuildTemplate: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuildTemplate",
 }));
 
 export type CreateInteractionResponseError = DiscordOpError;
@@ -7394,6 +7481,8 @@ export const createInteractionResponse: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInteractionResponse",
 }));
 
 export type CreateLinkedLobbyGuildInviteForSelfError = DiscordOpError;
@@ -7408,6 +7497,8 @@ export const createLinkedLobbyGuildInviteForSelf: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLinkedLobbyGuildInviteForSelf",
 }));
 
 export type CreateLinkedLobbyGuildInviteForUserError = DiscordOpError;
@@ -7422,6 +7513,8 @@ export const createLinkedLobbyGuildInviteForUser: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLinkedLobbyGuildInviteForUser",
 }));
 
 export type CreateLobbyError = DiscordOpError;
@@ -7436,6 +7529,8 @@ export const createLobby: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLobby",
 }));
 
 export type CreateLobbyMessageError = DiscordOpError;
@@ -7450,6 +7545,8 @@ export const createLobbyMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLobbyMessage",
 }));
 
 export type CreateMessageError = DiscordOpError;
@@ -7464,6 +7561,8 @@ export const createMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMessage",
 }));
 
 export type CreateOrJoinLobbyError = DiscordOpError;
@@ -7478,6 +7577,8 @@ export const createOrJoinLobby: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrJoinLobby",
 }));
 
 export type CreatePinError = DiscordOpError;
@@ -7492,6 +7593,8 @@ export const createPin: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePin",
 }));
 
 export type CreateStageInstanceError = DiscordOpError;
@@ -7506,6 +7609,8 @@ export const createStageInstance: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStageInstance",
 }));
 
 export type CreateThreadError = DiscordOpError;
@@ -7520,6 +7625,8 @@ export const createThread: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateThread",
 }));
 
 export type CreateThreadFromMessageError = DiscordOpError;
@@ -7534,6 +7641,8 @@ export const createThreadFromMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateThreadFromMessage",
 }));
 
 export type CreateWebhookError = DiscordOpError;
@@ -7548,6 +7657,8 @@ export const createWebhook: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type CrosspostMessageError = DiscordOpError;
@@ -7562,6 +7673,8 @@ export const crosspostMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CrosspostMessage",
 }));
 
 export type DeleteAllMessageReactionsError = DiscordOpError;
@@ -7576,6 +7689,8 @@ export const deleteAllMessageReactions: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllMessageReactions",
 }));
 
 export type DeleteAllMessageReactionsByEmojiError = DiscordOpError;
@@ -7590,6 +7705,8 @@ export const deleteAllMessageReactionsByEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllMessageReactionsByEmoji",
 }));
 
 export type DeleteApplicationCommandError = DiscordOpError;
@@ -7604,6 +7721,8 @@ export const deleteApplicationCommand: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationCommand",
 }));
 
 export type DeleteApplicationEmojiError = DiscordOpError;
@@ -7618,6 +7737,8 @@ export const deleteApplicationEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationEmoji",
 }));
 
 export type DeleteApplicationUserRoleConnectionError = DiscordOpError;
@@ -7632,6 +7753,8 @@ export const deleteApplicationUserRoleConnection: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationUserRoleConnection",
 }));
 
 export type DeleteAutoModerationRuleError = DiscordOpError;
@@ -7646,6 +7769,8 @@ export const deleteAutoModerationRule: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoModerationRule",
 }));
 
 export type DeleteChannelError = DiscordOpError;
@@ -7660,6 +7785,8 @@ export const deleteChannel: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteChannelPermissionOverwriteError = DiscordOpError;
@@ -7674,6 +7801,8 @@ export const deleteChannelPermissionOverwrite: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChannelPermissionOverwrite",
 }));
 
 export type DeleteDeprecatedPinError = DiscordOpError;
@@ -7688,6 +7817,8 @@ export const deleteDeprecatedPin: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeprecatedPin",
 }));
 
 export type DeleteEntitlementError = DiscordOpError;
@@ -7702,6 +7833,8 @@ export const deleteEntitlement: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEntitlement",
 }));
 
 export type DeleteGroupDmUserError = DiscordOpError;
@@ -7716,6 +7849,8 @@ export const deleteGroupDmUser: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupDmUser",
 }));
 
 export type DeleteGuildApplicationCommandError = DiscordOpError;
@@ -7730,6 +7865,8 @@ export const deleteGuildApplicationCommand: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildApplicationCommand",
 }));
 
 export type DeleteGuildEmojiError = DiscordOpError;
@@ -7744,6 +7881,8 @@ export const deleteGuildEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildEmoji",
 }));
 
 export type DeleteGuildIntegrationError = DiscordOpError;
@@ -7758,6 +7897,8 @@ export const deleteGuildIntegration: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildIntegration",
 }));
 
 export type DeleteGuildMemberError = DiscordOpError;
@@ -7772,6 +7913,8 @@ export const deleteGuildMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildMember",
 }));
 
 export type DeleteGuildMemberRoleError = DiscordOpError;
@@ -7786,6 +7929,8 @@ export const deleteGuildMemberRole: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildMemberRole",
 }));
 
 export type DeleteGuildRoleError = DiscordOpError;
@@ -7800,6 +7945,8 @@ export const deleteGuildRole: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildRole",
 }));
 
 export type DeleteGuildScheduledEventError = DiscordOpError;
@@ -7814,6 +7961,8 @@ export const deleteGuildScheduledEvent: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildScheduledEvent",
 }));
 
 export type DeleteGuildScheduledEventExceptionError = DiscordOpError;
@@ -7829,6 +7978,8 @@ export const deleteGuildScheduledEventException: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildScheduledEventException",
 }));
 
 export type DeleteGuildSoundboardSoundError = DiscordOpError;
@@ -7843,6 +7994,8 @@ export const deleteGuildSoundboardSound: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildSoundboardSound",
 }));
 
 export type DeleteGuildStickerError = DiscordOpError;
@@ -7857,6 +8010,8 @@ export const deleteGuildSticker: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildSticker",
 }));
 
 export type DeleteGuildTemplateError = DiscordOpError;
@@ -7871,6 +8026,8 @@ export const deleteGuildTemplate: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuildTemplate",
 }));
 
 export type DeleteLobbyError = DiscordOpError;
@@ -7886,6 +8043,8 @@ export const deleteLobby: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLobby",
 }));
 
 export type DeleteLobbyMemberError = DiscordOpError;
@@ -7900,6 +8059,8 @@ export const deleteLobbyMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLobbyMember",
 }));
 
 export type DeleteMessageError = DiscordOpError;
@@ -7914,6 +8075,8 @@ export const deleteMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMessage",
 }));
 
 export type DeleteMyMessageReactionError = DiscordOpError;
@@ -7928,6 +8091,8 @@ export const deleteMyMessageReaction: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMyMessageReaction",
 }));
 
 export type DeleteOriginalWebhookMessageError = DiscordOpError;
@@ -7942,6 +8107,8 @@ export const deleteOriginalWebhookMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOriginalWebhookMessage",
 }));
 
 export type DeletePinError = DiscordOpError;
@@ -7956,6 +8123,8 @@ export const deletePin: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePin",
 }));
 
 export type DeleteStageInstanceError = DiscordOpError;
@@ -7970,6 +8139,8 @@ export const deleteStageInstance: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStageInstance",
 }));
 
 export type DeleteThreadMemberError = DiscordOpError;
@@ -7984,6 +8155,8 @@ export const deleteThreadMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteThreadMember",
 }));
 
 export type DeleteUserMessageReactionError = DiscordOpError;
@@ -7998,6 +8171,8 @@ export const deleteUserMessageReaction: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserMessageReaction",
 }));
 
 export type DeleteWebhookError = DiscordOpError;
@@ -8012,6 +8187,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DeleteWebhookByTokenError = DiscordOpError;
@@ -8026,6 +8203,8 @@ export const deleteWebhookByToken: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookByToken",
 }));
 
 export type DeleteWebhookMessageError = DiscordOpError;
@@ -8040,6 +8219,8 @@ export const deleteWebhookMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookMessage",
 }));
 
 export type EditLobbyError = DiscordOpError;
@@ -8054,6 +8235,8 @@ export const editLobby: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditLobby",
 }));
 
 export type EditLobbyChannelLinkError = DiscordOpError;
@@ -8068,6 +8251,8 @@ export const editLobbyChannelLink: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditLobbyChannelLink",
 }));
 
 export type ExecuteGithubCompatibleWebhookError = DiscordOpError;
@@ -8082,6 +8267,8 @@ export const executeGithubCompatibleWebhook: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteGithubCompatibleWebhook",
 }));
 
 export type ExecuteSlackCompatibleWebhookError = DiscordOpError;
@@ -8096,6 +8283,8 @@ export const executeSlackCompatibleWebhook: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteSlackCompatibleWebhook",
 }));
 
 export type ExecuteWebhookError = DiscordOpError;
@@ -8110,6 +8299,8 @@ export const executeWebhook: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteWebhook",
 }));
 
 export type FollowChannelError = DiscordOpError;
@@ -8124,6 +8315,8 @@ export const followChannel: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FollowChannel",
 }));
 
 export type GetActiveGuildThreadsError = DiscordOpError;
@@ -8138,6 +8331,8 @@ export const getActiveGuildThreads: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveGuildThreads",
 }));
 
 export type GetAnswerVotersError = DiscordOpError;
@@ -8152,6 +8347,8 @@ export const getAnswerVoters: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnswerVoters",
 }));
 
 export type GetApplicationError = DiscordOpError;
@@ -8166,6 +8363,8 @@ export const getApplication: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationActivityInstanceError = DiscordOpError;
@@ -8180,6 +8379,8 @@ export const getApplicationActivityInstance: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationActivityInstance",
 }));
 
 export type GetApplicationCommandError = DiscordOpError;
@@ -8194,6 +8395,8 @@ export const getApplicationCommand: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationCommand",
 }));
 
 export type GetApplicationEmojiError = DiscordOpError;
@@ -8208,6 +8411,8 @@ export const getApplicationEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationEmoji",
 }));
 
 export type GetApplicationRoleConnectionsMetadataError = DiscordOpError;
@@ -8222,6 +8427,8 @@ export const getApplicationRoleConnectionsMetadata: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationRoleConnectionsMetadata",
 }));
 
 export type GetApplicationUserRoleConnectionError = DiscordOpError;
@@ -8236,6 +8443,8 @@ export const getApplicationUserRoleConnection: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationUserRoleConnection",
 }));
 
 export type GetAutoModerationRuleError = DiscordOpError;
@@ -8250,6 +8459,8 @@ export const getAutoModerationRule: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoModerationRule",
 }));
 
 export type GetBotGatewayError = DiscordOpError;
@@ -8264,6 +8475,8 @@ export const getBotGateway: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBotGateway",
 }));
 
 export type GetChannelError = NotFound | DiscordOpError;
@@ -8278,6 +8491,8 @@ export const getChannel: API.OperationMethod<
   errors: [NotFound, UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetCurrentUserApplicationEntitlementsError = DiscordOpError;
@@ -8292,6 +8507,8 @@ export const getCurrentUserApplicationEntitlements: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUserApplicationEntitlements",
 }));
 
 export type GetEntitlementError = DiscordOpError;
@@ -8306,6 +8523,8 @@ export const getEntitlement: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitlement",
 }));
 
 export type GetEntitlementsError = DiscordOpError;
@@ -8320,6 +8539,8 @@ export const getEntitlements: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitlements",
 }));
 
 export type GetGatewayError = DiscordOpError;
@@ -8334,6 +8555,8 @@ export const getGateway: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGateway",
 }));
 
 export type GetGuildError = NotFound | DiscordOpError;
@@ -8348,6 +8571,8 @@ export const getGuild: API.OperationMethod<
   errors: [NotFound, UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuild",
 }));
 
 export type GetGuildApplicationCommandError = DiscordOpError;
@@ -8362,6 +8587,8 @@ export const getGuildApplicationCommand: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildApplicationCommand",
 }));
 
 export type GetGuildApplicationCommandPermissionsError = DiscordOpError;
@@ -8376,6 +8603,8 @@ export const getGuildApplicationCommandPermissions: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildApplicationCommandPermissions",
 }));
 
 export type GetGuildBanError = DiscordOpError;
@@ -8390,6 +8619,8 @@ export const getGuildBan: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildBan",
 }));
 
 export type GetGuildEmojiError = DiscordOpError;
@@ -8404,6 +8635,8 @@ export const getGuildEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildEmoji",
 }));
 
 export type GetGuildJoinRequestsError = DiscordOpError;
@@ -8419,6 +8652,8 @@ export const getGuildJoinRequests: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildJoinRequests",
 }));
 
 export type GetGuildMemberError = DiscordOpError;
@@ -8433,6 +8668,8 @@ export const getGuildMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildMember",
 }));
 
 export type GetGuildNewMemberWelcomeError = DiscordOpError;
@@ -8447,6 +8684,8 @@ export const getGuildNewMemberWelcome: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildNewMemberWelcome",
 }));
 
 export type GetGuildPreviewError = DiscordOpError;
@@ -8461,6 +8700,8 @@ export const getGuildPreview: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildPreview",
 }));
 
 export type GetGuildRoleError = DiscordOpError;
@@ -8475,6 +8716,8 @@ export const getGuildRole: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildRole",
 }));
 
 export type GetGuildScheduledEventError = DiscordOpError;
@@ -8489,6 +8732,8 @@ export const getGuildScheduledEvent: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildScheduledEvent",
 }));
 
 export type GetGuildsOnboardingError = DiscordOpError;
@@ -8503,6 +8748,8 @@ export const getGuildsOnboarding: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildsOnboarding",
 }));
 
 export type GetGuildSoundboardSoundError = DiscordOpError;
@@ -8517,6 +8764,8 @@ export const getGuildSoundboardSound: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildSoundboardSound",
 }));
 
 export type GetGuildStickerError = DiscordOpError;
@@ -8531,6 +8780,8 @@ export const getGuildSticker: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildSticker",
 }));
 
 export type GetGuildTemplateError = DiscordOpError;
@@ -8545,6 +8796,8 @@ export const getGuildTemplate: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildTemplate",
 }));
 
 export type GetGuildVanityUrlError = DiscordOpError;
@@ -8559,6 +8812,8 @@ export const getGuildVanityUrl: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildVanityUrl",
 }));
 
 export type GetGuildWebhooksError = DiscordOpError;
@@ -8573,6 +8828,8 @@ export const getGuildWebhooks: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildWebhooks",
 }));
 
 export type GetGuildWelcomeScreenError = DiscordOpError;
@@ -8587,6 +8844,8 @@ export const getGuildWelcomeScreen: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildWelcomeScreen",
 }));
 
 export type GetGuildWidgetError = DiscordOpError;
@@ -8601,6 +8860,8 @@ export const getGuildWidget: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildWidget",
 }));
 
 export type GetGuildWidgetPngError = DiscordOpError;
@@ -8615,6 +8876,8 @@ export const getGuildWidgetPng: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildWidgetPng",
 }));
 
 export type GetGuildWidgetSettingsError = DiscordOpError;
@@ -8629,6 +8892,8 @@ export const getGuildWidgetSettings: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildWidgetSettings",
 }));
 
 export type GetInviteTargetUsersError = DiscordOpError;
@@ -8644,6 +8909,8 @@ export const getInviteTargetUsers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInviteTargetUsers",
 }));
 
 export type GetInviteTargetUsersJobStatusError = DiscordOpError;
@@ -8659,6 +8926,8 @@ export const getInviteTargetUsersJobStatus: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInviteTargetUsersJobStatus",
 }));
 
 export type GetLobbyError = DiscordOpError;
@@ -8673,6 +8942,8 @@ export const getLobby: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLobby",
 }));
 
 export type GetLobbyMessagesError = DiscordOpError;
@@ -8687,6 +8958,8 @@ export const getLobbyMessages: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLobbyMessages",
 }));
 
 export type GetMessageError = DiscordOpError;
@@ -8701,6 +8974,8 @@ export const getMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMessage",
 }));
 
 export type GetMyApplicationError = DiscordOpError;
@@ -8715,6 +8990,8 @@ export const getMyApplication: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMyApplication",
 }));
 
 export type GetMyGuildMemberError = DiscordOpError;
@@ -8729,6 +9006,8 @@ export const getMyGuildMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMyGuildMember",
 }));
 
 export type GetMyOauth2ApplicationError = DiscordOpError;
@@ -8743,6 +9022,8 @@ export const getMyOauth2Application: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMyOauth2Application",
 }));
 
 export type GetMyOauth2AuthorizationError = DiscordOpError;
@@ -8757,6 +9038,8 @@ export const getMyOauth2Authorization: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMyOauth2Authorization",
 }));
 
 export type GetMyUserError = DiscordOpError;
@@ -8771,6 +9054,8 @@ export const getMyUser: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMyUser",
 }));
 
 export type GetOpenidConnectUserinfoError = DiscordOpError;
@@ -8785,6 +9070,8 @@ export const getOpenidConnectUserinfo: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenidConnectUserinfo",
 }));
 
 export type GetOriginalWebhookMessageError = DiscordOpError;
@@ -8799,6 +9086,8 @@ export const getOriginalWebhookMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOriginalWebhookMessage",
 }));
 
 export type GetPublicKeysError = DiscordOpError;
@@ -8813,6 +9102,8 @@ export const getPublicKeys: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicKeys",
 }));
 
 export type GetSelfVoiceStateError = DiscordOpError;
@@ -8827,6 +9118,8 @@ export const getSelfVoiceState: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSelfVoiceState",
 }));
 
 export type GetSkuSubscriptionError = DiscordOpError;
@@ -8842,6 +9135,8 @@ export const getSkuSubscription: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkuSubscription",
 }));
 
 export type GetSkuSubscriptionsError = DiscordOpError;
@@ -8857,6 +9152,8 @@ export const getSkuSubscriptions: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkuSubscriptions",
 }));
 
 export type GetSoundboardDefaultSoundsError = DiscordOpError;
@@ -8871,6 +9168,8 @@ export const getSoundboardDefaultSounds: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSoundboardDefaultSounds",
 }));
 
 export type GetStageInstanceError = DiscordOpError;
@@ -8885,6 +9184,8 @@ export const getStageInstance: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStageInstance",
 }));
 
 export type GetStickerError = DiscordOpError;
@@ -8899,6 +9200,8 @@ export const getSticker: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSticker",
 }));
 
 export type GetStickerPackError = DiscordOpError;
@@ -8913,6 +9216,8 @@ export const getStickerPack: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStickerPack",
 }));
 
 export type GetThreadMemberError = DiscordOpError;
@@ -8927,6 +9232,8 @@ export const getThreadMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThreadMember",
 }));
 
 export type GetUserError = DiscordOpError;
@@ -8941,6 +9248,8 @@ export const getUser: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetVoiceStateError = DiscordOpError;
@@ -8955,6 +9264,8 @@ export const getVoiceState: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVoiceState",
 }));
 
 export type GetWebhookError = DiscordOpError;
@@ -8969,6 +9280,8 @@ export const getWebhook: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWebhookByTokenError = DiscordOpError;
@@ -8983,6 +9296,8 @@ export const getWebhookByToken: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookByToken",
 }));
 
 export type GetWebhookMessageError = DiscordOpError;
@@ -8997,6 +9312,8 @@ export const getWebhookMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookMessage",
 }));
 
 export type GuildRoleMemberCountsError = DiscordOpError;
@@ -9011,6 +9328,8 @@ export const guildRoleMemberCounts: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GuildRoleMemberCounts",
 }));
 
 export type InviteResolveError = DiscordOpError;
@@ -9025,6 +9344,8 @@ export const inviteResolve: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteResolve",
 }));
 
 export type JoinActionGuildRequestError = DiscordOpError;
@@ -9040,6 +9361,8 @@ export const joinActionGuildRequest: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JoinActionGuildRequest",
 }));
 
 export type JoinThreadError = DiscordOpError;
@@ -9054,6 +9377,8 @@ export const joinThread: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JoinThread",
 }));
 
 export type LeaveGuildError = DiscordOpError;
@@ -9068,6 +9393,8 @@ export const leaveGuild: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LeaveGuild",
 }));
 
 export type LeaveLobbyError = DiscordOpError;
@@ -9082,6 +9409,8 @@ export const leaveLobby: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LeaveLobby",
 }));
 
 export type LeaveThreadError = DiscordOpError;
@@ -9096,6 +9425,8 @@ export const leaveThread: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LeaveThread",
 }));
 
 export type ListApplicationCommandsError = DiscordOpError;
@@ -9110,6 +9441,8 @@ export const listApplicationCommands: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationCommands",
 }));
 
 export type ListApplicationEmojisError = DiscordOpError;
@@ -9124,6 +9457,8 @@ export const listApplicationEmojis: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationEmojis",
 }));
 
 export type ListAutoModerationRulesError = DiscordOpError;
@@ -9138,6 +9473,8 @@ export const listAutoModerationRules: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoModerationRules",
 }));
 
 export type ListChannelInvitesError = DiscordOpError;
@@ -9152,6 +9489,8 @@ export const listChannelInvites: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChannelInvites",
 }));
 
 export type ListChannelWebhooksError = DiscordOpError;
@@ -9166,6 +9505,8 @@ export const listChannelWebhooks: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChannelWebhooks",
 }));
 
 export type ListDeprecatedPinsError = DiscordOpError;
@@ -9180,6 +9521,8 @@ export const listDeprecatedPins: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeprecatedPins",
 }));
 
 export type ListGuildApplicationCommandPermissionsError = DiscordOpError;
@@ -9194,6 +9537,8 @@ export const listGuildApplicationCommandPermissions: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildApplicationCommandPermissions",
 }));
 
 export type ListGuildApplicationCommandsError = DiscordOpError;
@@ -9208,6 +9553,8 @@ export const listGuildApplicationCommands: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildApplicationCommands",
 }));
 
 export type ListGuildAuditLogEntriesError = DiscordOpError;
@@ -9222,6 +9569,8 @@ export const listGuildAuditLogEntries: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildAuditLogEntries",
 }));
 
 export type ListGuildBansError = DiscordOpError;
@@ -9236,6 +9585,8 @@ export const listGuildBans: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildBans",
 }));
 
 export type ListGuildChannelsError = DiscordOpError;
@@ -9250,6 +9601,8 @@ export const listGuildChannels: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildChannels",
 }));
 
 export type ListGuildEmojisError = DiscordOpError;
@@ -9264,6 +9617,8 @@ export const listGuildEmojis: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildEmojis",
 }));
 
 export type ListGuildIntegrationsError = DiscordOpError;
@@ -9278,6 +9633,8 @@ export const listGuildIntegrations: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildIntegrations",
 }));
 
 export type ListGuildInvitesError = DiscordOpError;
@@ -9292,6 +9649,8 @@ export const listGuildInvites: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildInvites",
 }));
 
 export type ListGuildMembersError = DiscordOpError;
@@ -9306,6 +9665,8 @@ export const listGuildMembers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildMembers",
 }));
 
 export type ListGuildRolesError = DiscordOpError;
@@ -9320,6 +9681,8 @@ export const listGuildRoles: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildRoles",
 }));
 
 export type ListGuildScheduledEventExceptionUsersError = DiscordOpError;
@@ -9335,6 +9698,8 @@ export const listGuildScheduledEventExceptionUsers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildScheduledEventExceptionUsers",
 }));
 
 export type ListGuildScheduledEventsError = DiscordOpError;
@@ -9349,6 +9714,8 @@ export const listGuildScheduledEvents: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildScheduledEvents",
 }));
 
 export type ListGuildScheduledEventUsersError = DiscordOpError;
@@ -9363,6 +9730,8 @@ export const listGuildScheduledEventUsers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildScheduledEventUsers",
 }));
 
 export type ListGuildSoundboardSoundsError = DiscordOpError;
@@ -9377,6 +9746,8 @@ export const listGuildSoundboardSounds: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildSoundboardSounds",
 }));
 
 export type ListGuildStickersError = DiscordOpError;
@@ -9391,6 +9762,8 @@ export const listGuildStickers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildStickers",
 }));
 
 export type ListGuildTemplatesError = DiscordOpError;
@@ -9405,6 +9778,8 @@ export const listGuildTemplates: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildTemplates",
 }));
 
 export type ListGuildVoiceRegionsError = DiscordOpError;
@@ -9419,6 +9794,8 @@ export const listGuildVoiceRegions: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuildVoiceRegions",
 }));
 
 export type ListMessageReactionsByEmojiError = DiscordOpError;
@@ -9433,6 +9810,8 @@ export const listMessageReactionsByEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMessageReactionsByEmoji",
 }));
 
 export type ListMessagesError = DiscordOpError;
@@ -9447,6 +9826,8 @@ export const listMessages: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMessages",
 }));
 
 export type ListMyConnectionsError = DiscordOpError;
@@ -9461,6 +9842,8 @@ export const listMyConnections: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMyConnections",
 }));
 
 export type ListMyGuildsError = DiscordOpError;
@@ -9475,6 +9858,8 @@ export const listMyGuilds: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMyGuilds",
 }));
 
 export type ListMyPrivateArchivedThreadsError = DiscordOpError;
@@ -9489,6 +9874,8 @@ export const listMyPrivateArchivedThreads: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMyPrivateArchivedThreads",
 }));
 
 export type ListPinsError = DiscordOpError;
@@ -9503,6 +9890,8 @@ export const listPins: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPins",
 }));
 
 export type ListPrivateArchivedThreadsError = DiscordOpError;
@@ -9517,6 +9906,8 @@ export const listPrivateArchivedThreads: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateArchivedThreads",
 }));
 
 export type ListPublicArchivedThreadsError = DiscordOpError;
@@ -9531,6 +9922,8 @@ export const listPublicArchivedThreads: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicArchivedThreads",
 }));
 
 export type ListStickerPacksError = DiscordOpError;
@@ -9545,6 +9938,8 @@ export const listStickerPacks: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStickerPacks",
 }));
 
 export type ListThreadMembersError = DiscordOpError;
@@ -9559,6 +9954,8 @@ export const listThreadMembers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListThreadMembers",
 }));
 
 export type ListVoiceRegionsError = DiscordOpError;
@@ -9573,6 +9970,8 @@ export const listVoiceRegions: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVoiceRegions",
 }));
 
 export type PartnerSdkTokenError = DiscordOpError;
@@ -9587,6 +9986,8 @@ export const partnerSdkToken: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartnerSdkToken",
 }));
 
 export type PartnerSdkUnmergeProvisionalAccountError = DiscordOpError;
@@ -9601,6 +10002,8 @@ export const partnerSdkUnmergeProvisionalAccount: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartnerSdkUnmergeProvisionalAccount",
 }));
 
 export type PollExpireError = DiscordOpError;
@@ -9615,6 +10018,8 @@ export const pollExpire: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PollExpire",
 }));
 
 export type PreviewPruneGuildError = DiscordOpError;
@@ -9629,6 +10034,8 @@ export const previewPruneGuild: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewPruneGuild",
 }));
 
 export type PruneGuildError = DiscordOpError;
@@ -9643,6 +10050,8 @@ export const pruneGuild: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PruneGuild",
 }));
 
 export type PutGuildsOnboardingError = DiscordOpError;
@@ -9657,6 +10066,8 @@ export const putGuildsOnboarding: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutGuildsOnboarding",
 }));
 
 export type RemoveInviteTargetUserError = DiscordOpError;
@@ -9672,6 +10083,8 @@ export const removeInviteTargetUser: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveInviteTargetUser",
 }));
 
 export type RevokeInviteError = DiscordOpError;
@@ -9686,6 +10099,8 @@ export const revokeInvite: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeInvite",
 }));
 
 export type SearchGuildError = DiscordOpError;
@@ -9700,6 +10115,8 @@ export const searchGuild: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchGuild",
 }));
 
 export type SearchGuildMembersError = DiscordOpError;
@@ -9714,6 +10131,8 @@ export const searchGuildMembers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchGuildMembers",
 }));
 
 export type SearchThreadError = DiscordOpError;
@@ -9728,6 +10147,8 @@ export const searchThread: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchThread",
 }));
 
 export type SendSoundboardSoundError = DiscordOpError;
@@ -9742,6 +10163,8 @@ export const sendSoundboardSound: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendSoundboardSound",
 }));
 
 export type SetChannelPermissionOverwriteError = DiscordOpError;
@@ -9756,6 +10179,8 @@ export const setChannelPermissionOverwrite: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetChannelPermissionOverwrite",
 }));
 
 export type SetGuildApplicationCommandPermissionsError = DiscordOpError;
@@ -9770,6 +10195,8 @@ export const setGuildApplicationCommandPermissions: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGuildApplicationCommandPermissions",
 }));
 
 export type SyncGuildTemplateError = DiscordOpError;
@@ -9784,6 +10211,8 @@ export const syncGuildTemplate: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncGuildTemplate",
 }));
 
 export type TriggerTypingIndicatorError = DiscordOpError;
@@ -9798,6 +10227,8 @@ export const triggerTypingIndicator: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerTypingIndicator",
 }));
 
 export type UnbanUserFromGuildError = DiscordOpError;
@@ -9812,6 +10243,8 @@ export const unbanUserFromGuild: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnbanUserFromGuild",
 }));
 
 export type UpdateApplicationError = DiscordOpError;
@@ -9826,6 +10259,8 @@ export const updateApplication: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateApplicationCommandError = DiscordOpError;
@@ -9840,6 +10275,8 @@ export const updateApplicationCommand: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationCommand",
 }));
 
 export type UpdateApplicationEmojiError = DiscordOpError;
@@ -9854,6 +10291,8 @@ export const updateApplicationEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationEmoji",
 }));
 
 export type UpdateApplicationRoleConnectionsMetadataError = DiscordOpError;
@@ -9872,6 +10311,8 @@ export const updateApplicationRoleConnectionsMetadata: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationRoleConnectionsMetadata",
 }));
 
 export type UpdateApplicationUserRoleConnectionError = DiscordOpError;
@@ -9886,6 +10327,8 @@ export const updateApplicationUserRoleConnection: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationUserRoleConnection",
 }));
 
 export type UpdateAutoModerationRuleError = DiscordOpError;
@@ -9900,6 +10343,8 @@ export const updateAutoModerationRule: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoModerationRule",
 }));
 
 export type UpdateChannelError = DiscordOpError;
@@ -9914,6 +10359,8 @@ export const updateChannel: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateGuildError = DiscordOpError;
@@ -9928,6 +10375,8 @@ export const updateGuild: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuild",
 }));
 
 export type UpdateGuildApplicationCommandError = DiscordOpError;
@@ -9942,6 +10391,8 @@ export const updateGuildApplicationCommand: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildApplicationCommand",
 }));
 
 export type UpdateGuildEmojiError = DiscordOpError;
@@ -9956,6 +10407,8 @@ export const updateGuildEmoji: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildEmoji",
 }));
 
 export type UpdateGuildIncidentActionsError = DiscordOpError;
@@ -9971,6 +10424,8 @@ export const updateGuildIncidentActions: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildIncidentActions",
 }));
 
 export type UpdateGuildMemberError = DiscordOpError;
@@ -9985,6 +10440,8 @@ export const updateGuildMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildMember",
 }));
 
 export type UpdateGuildRoleError = DiscordOpError;
@@ -9999,6 +10456,8 @@ export const updateGuildRole: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildRole",
 }));
 
 export type UpdateGuildScheduledEventError = DiscordOpError;
@@ -10013,6 +10472,8 @@ export const updateGuildScheduledEvent: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildScheduledEvent",
 }));
 
 export type UpdateGuildScheduledEventExceptionError = DiscordOpError;
@@ -10028,6 +10489,8 @@ export const updateGuildScheduledEventException: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildScheduledEventException",
 }));
 
 export type UpdateGuildSoundboardSoundError = DiscordOpError;
@@ -10042,6 +10505,8 @@ export const updateGuildSoundboardSound: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildSoundboardSound",
 }));
 
 export type UpdateGuildStickerError = DiscordOpError;
@@ -10056,6 +10521,8 @@ export const updateGuildSticker: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildSticker",
 }));
 
 export type UpdateGuildTemplateError = DiscordOpError;
@@ -10070,6 +10537,8 @@ export const updateGuildTemplate: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildTemplate",
 }));
 
 export type UpdateGuildWelcomeScreenError = DiscordOpError;
@@ -10084,6 +10553,8 @@ export const updateGuildWelcomeScreen: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildWelcomeScreen",
 }));
 
 export type UpdateGuildWidgetSettingsError = DiscordOpError;
@@ -10098,6 +10569,8 @@ export const updateGuildWidgetSettings: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGuildWidgetSettings",
 }));
 
 export type UpdateInviteTargetUsersError = DiscordOpError;
@@ -10113,6 +10586,8 @@ export const updateInviteTargetUsers: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInviteTargetUsers",
 }));
 
 export type UpdateLobbyMessageExternalModerationMetadataError = DiscordOpError;
@@ -10136,6 +10611,8 @@ export const updateLobbyMessageExternalModerationMetadata: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLobbyMessageExternalModerationMetadata",
 }));
 
 export type UpdateMessageError = DiscordOpError;
@@ -10150,6 +10627,8 @@ export const updateMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMessage",
 }));
 
 export type UpdateMyApplicationError = DiscordOpError;
@@ -10164,6 +10643,8 @@ export const updateMyApplication: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMyApplication",
 }));
 
 export type UpdateMyGuildMemberError = DiscordOpError;
@@ -10178,6 +10659,8 @@ export const updateMyGuildMember: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMyGuildMember",
 }));
 
 export type UpdateMyUserError = DiscordOpError;
@@ -10192,6 +10675,8 @@ export const updateMyUser: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMyUser",
 }));
 
 export type UpdateOriginalWebhookMessageError = DiscordOpError;
@@ -10206,6 +10691,8 @@ export const updateOriginalWebhookMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOriginalWebhookMessage",
 }));
 
 export type UpdateSelfVoiceStateError = DiscordOpError;
@@ -10220,6 +10707,8 @@ export const updateSelfVoiceState: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSelfVoiceState",
 }));
 
 export type UpdateStageInstanceError = DiscordOpError;
@@ -10234,6 +10723,8 @@ export const updateStageInstance: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStageInstance",
 }));
 
 export type UpdateUserMessageExternalModerationMetadataError = DiscordOpError;
@@ -10257,6 +10748,8 @@ export const updateUserMessageExternalModerationMetadata: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserMessageExternalModerationMetadata",
 }));
 
 export type UpdateVoiceChannelStatusError = DiscordOpError;
@@ -10272,6 +10765,8 @@ export const updateVoiceChannelStatus: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceChannelStatus",
 }));
 
 export type UpdateVoiceStateError = DiscordOpError;
@@ -10286,6 +10781,8 @@ export const updateVoiceState: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceState",
 }));
 
 export type UpdateWebhookError = DiscordOpError;
@@ -10300,6 +10797,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type UpdateWebhookByTokenError = DiscordOpError;
@@ -10314,6 +10813,8 @@ export const updateWebhookByToken: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookByToken",
 }));
 
 export type UpdateWebhookMessageError = DiscordOpError;
@@ -10328,6 +10829,8 @@ export const updateWebhookMessage: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookMessage",
 }));
 
 export type UploadApplicationAttachmentError = DiscordOpError;
@@ -10342,6 +10845,8 @@ export const uploadApplicationAttachment: API.OperationMethod<
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadApplicationAttachment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

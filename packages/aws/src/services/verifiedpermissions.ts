@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://verifiedpermissions.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "VerifiedPermissions",
+  service: "VerifiedPermissions",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1226,6 +1242,8 @@ export const batchGetPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPolicy",
+  telemetry: TELEMETRY,
+  span: "BatchGetPolicy",
 }));
 
 export type BatchIsAuthorizedError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1250,6 +1268,8 @@ export const batchIsAuthorized: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorized",
+  telemetry: TELEMETRY,
+  span: "BatchIsAuthorized",
 }));
 
 export type BatchIsAuthorizedWithTokenError =
@@ -1277,6 +1297,8 @@ export const batchIsAuthorizedWithToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorizedWithToken",
+  telemetry: TELEMETRY,
+  span: "BatchIsAuthorizedWithToken",
 }));
 
 export type CreateIdentitySourceError =
@@ -1317,6 +1339,8 @@ export const createIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentitySource",
+  telemetry: TELEMETRY,
+  span: "CreateIdentitySource",
 }));
 
 export type CreatePolicyError =
@@ -1353,6 +1377,8 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type CreatePolicyStoreError =
@@ -1379,6 +1405,8 @@ export const createPolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStore",
+  telemetry: TELEMETRY,
+  span: "CreatePolicyStore",
 }));
 
 export type CreatePolicyStoreAliasError =
@@ -1411,6 +1439,8 @@ export const createPolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStoreAlias",
+  telemetry: TELEMETRY,
+  span: "CreatePolicyStoreAlias",
 }));
 
 export type CreatePolicyTemplateError =
@@ -1441,6 +1471,8 @@ export const createPolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyTemplate",
+  telemetry: TELEMETRY,
+  span: "CreatePolicyTemplate",
 }));
 
 export type DeleteIdentitySourceError =
@@ -1462,6 +1494,8 @@ export const deleteIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentitySource",
 }));
 
 export type DeletePolicyError = ConflictException | ResourceNotFoundException | CommonErrors;
@@ -1482,6 +1516,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeletePolicyStoreError = InvalidStateException | CommonErrors;
@@ -1502,6 +1538,8 @@ export const deletePolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStore",
+  telemetry: TELEMETRY,
+  span: "DeletePolicyStore",
 }));
 
 export type DeletePolicyStoreAliasError =
@@ -1532,6 +1570,8 @@ export const deletePolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStoreAlias",
+  telemetry: TELEMETRY,
+  span: "DeletePolicyStoreAlias",
 }));
 
 export type DeletePolicyTemplateError =
@@ -1555,6 +1595,8 @@ export const deletePolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyTemplate",
+  telemetry: TELEMETRY,
+  span: "DeletePolicyTemplate",
 }));
 
 export type GetIdentitySourceError = ResourceNotFoundException | CommonErrors;
@@ -1573,6 +1615,8 @@ export const getIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
+  telemetry: TELEMETRY,
+  span: "GetIdentitySource",
 }));
 
 export type GetPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1591,6 +1635,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetPolicyStoreError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1609,6 +1655,8 @@ export const getPolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStore",
+  telemetry: TELEMETRY,
+  span: "GetPolicyStore",
 }));
 
 export type GetPolicyStoreAliasError = ResourceNotFoundException | CommonErrors;
@@ -1627,6 +1675,8 @@ export const getPolicyStoreAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStoreAlias",
+  telemetry: TELEMETRY,
+  span: "GetPolicyStoreAlias",
 }));
 
 export type GetPolicyTemplateError = ResourceNotFoundException | CommonErrors;
@@ -1645,6 +1695,8 @@ export const getPolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyTemplate",
+  telemetry: TELEMETRY,
+  span: "GetPolicyTemplate",
 }));
 
 export type GetSchemaError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1663,6 +1715,8 @@ export const getSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
+  telemetry: TELEMETRY,
+  span: "GetSchema",
 }));
 
 export type IsAuthorizedError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1681,6 +1735,8 @@ export const isAuthorized: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorized",
+  telemetry: TELEMETRY,
+  span: "IsAuthorized",
 }));
 
 export type IsAuthorizedWithTokenError =
@@ -1706,6 +1762,8 @@ export const isAuthorizedWithToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorizedWithToken",
+  telemetry: TELEMETRY,
+  span: "IsAuthorizedWithToken",
 }));
 
 export type ListIdentitySourcesError = ResourceNotFoundException | CommonErrors;
@@ -1731,6 +1789,8 @@ export const listIdentitySources: API.PaginatedOperationMethod<
     items: "identitySources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentitySources",
 })) as any;
 
 export type ListPoliciesError = ResourceNotFoundException | CommonErrors;
@@ -1756,6 +1816,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 })) as any;
 
 export type ListPolicyStoreAliasesError = CommonErrors;
@@ -1781,6 +1843,8 @@ export const listPolicyStoreAliases: API.PaginatedOperationMethod<
     items: "policyStoreAliases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStoreAliases",
 })) as any;
 
 export type ListPolicyStoresError = CommonErrors;
@@ -1806,6 +1870,8 @@ export const listPolicyStores: API.PaginatedOperationMethod<
     items: "policyStores",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStores",
 })) as any;
 
 export type ListPolicyTemplatesError = ResourceNotFoundException | CommonErrors;
@@ -1831,6 +1897,8 @@ export const listPolicyTemplates: API.PaginatedOperationMethod<
     items: "policyTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyTemplates",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1859,6 +1927,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutSchemaError =
@@ -1889,6 +1959,8 @@ export const putSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSchema",
+  telemetry: TELEMETRY,
+  span: "PutSchema",
 }));
 
 export type TagResourceError =
@@ -1925,6 +1997,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1953,6 +2027,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIdentitySourceError =
@@ -1977,6 +2053,8 @@ export const updateIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentitySource",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentitySource",
 }));
 
 export type UpdatePolicyError =
@@ -2027,6 +2105,8 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 export type UpdatePolicyStoreError =
@@ -2051,6 +2131,8 @@ export const updatePolicyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyStore",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicyStore",
 }));
 
 export type UpdatePolicyTemplateError =
@@ -2077,6 +2159,8 @@ export const updatePolicyTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdatePolicyTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

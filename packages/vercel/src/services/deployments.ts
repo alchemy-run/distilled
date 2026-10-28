@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Deployments",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -9937,6 +9951,8 @@ export const cancelDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDeployment",
 }));
 
 export type CreateDeploymentError =
@@ -9958,6 +9974,8 @@ export const createDeployment: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type DeleteDeploymentError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -9973,6 +9991,8 @@ export const deleteDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type GetDeploymentError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -9988,6 +10008,8 @@ export const getDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentEventsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -10003,6 +10025,8 @@ export const getDeploymentEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentEvents",
 }));
 
 export type GetDeploymentFileContentsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -10018,6 +10042,8 @@ export const getDeploymentFileContents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentFileContents",
 }));
 
 export type GetDeploymentsError =
@@ -10038,6 +10064,8 @@ export const getDeployments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployments",
 }));
 
 export type ListDeploymentFilesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -10053,6 +10081,8 @@ export const listDeploymentFiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentFiles",
 }));
 
 export type UpdateIntegrationDeploymentActionError =
@@ -10072,6 +10102,8 @@ export const updateIntegrationDeploymentAction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationDeploymentAction",
 }));
 
 export type UploadFileError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -10087,6 +10119,8 @@ export const uploadFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadFile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

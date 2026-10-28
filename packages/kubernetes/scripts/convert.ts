@@ -32,6 +32,7 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
 import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 
@@ -221,7 +222,6 @@ for (const [rawPath, pathItem] of Object.entries<any>(spec.paths ?? {})) {
 }
 
 // ---- Convert + write (one model per group, sorted for determinism) ----
-await fs.mkdir(outDir, { recursive: true });
 
 let totalOps = 0;
 for (const group of [...groupPaths.keys()].sort()) {
@@ -244,7 +244,7 @@ for (const group of [...groupPaths.keys()].sort()) {
   const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   totalOps += opCount;
   const outPath = path.join(outDir, `${group}.json`);
-  await fs.writeFile(outPath, JSON.stringify(model, null, 2) + "\n");
+  writeModel(outPath, model);
   console.log(`   ✅ ${group}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes`);
 }
 

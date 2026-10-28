@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -76,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://firehose.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Firehose",
+  service: "Firehose",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -1341,6 +1357,8 @@ export const createDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "CreateDeliveryStream",
 }));
 
 export type DeleteDeliveryStreamError =
@@ -1377,6 +1395,8 @@ export const deleteDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "DeleteDeliveryStream",
 }));
 
 export type DescribeDeliveryStreamError = ResourceNotFoundException | CommonErrors;
@@ -1402,6 +1422,8 @@ export const describeDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "DescribeDeliveryStream",
 }));
 
 export type ListDeliveryStreamsError = CommonErrors;
@@ -1428,6 +1450,8 @@ export const listDeliveryStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeliveryStreams",
+  telemetry: TELEMETRY,
+  span: "ListDeliveryStreams",
 }));
 
 export type ListTagsForDeliveryStreamError =
@@ -1451,6 +1475,8 @@ export const listTagsForDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "ListTagsForDeliveryStream",
 }));
 
 export type PutRecordError =
@@ -1529,6 +1555,8 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
+  telemetry: TELEMETRY,
+  span: "PutRecord",
 }));
 
 export type PutRecordBatchError =
@@ -1628,6 +1656,8 @@ export const putRecordBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecordBatch",
+  telemetry: TELEMETRY,
+  span: "PutRecordBatch",
 }));
 
 export type StartDeliveryStreamEncryptionError =
@@ -1703,6 +1733,8 @@ export const startDeliveryStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeliveryStreamEncryption",
+  telemetry: TELEMETRY,
+  span: "StartDeliveryStreamEncryption",
 }));
 
 export type StopDeliveryStreamEncryptionError =
@@ -1753,6 +1785,8 @@ export const stopDeliveryStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeliveryStreamEncryption",
+  telemetry: TELEMETRY,
+  span: "StopDeliveryStreamEncryption",
 }));
 
 export type TagDeliveryStreamError =
@@ -1792,6 +1826,8 @@ export const tagDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "TagDeliveryStream",
 }));
 
 export type UntagDeliveryStreamError =
@@ -1825,6 +1861,8 @@ export const untagDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagDeliveryStream",
+  telemetry: TELEMETRY,
+  span: "UntagDeliveryStream",
 }));
 
 export type UpdateDestinationError =
@@ -1880,6 +1918,8 @@ export const updateDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateDestination",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

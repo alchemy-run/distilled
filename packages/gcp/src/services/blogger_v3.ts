@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "blogger" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Blogger",
+  service: "blogger",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -714,6 +733,8 @@ export const approveComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveComments",
 }));
 
 export type DeleteCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -729,6 +750,8 @@ export const deleteComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComments",
 }));
 
 export type DeletePagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -744,6 +767,8 @@ export const deletePages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePages",
 }));
 
 export type DeletePostsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -759,6 +784,8 @@ export const deletePosts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePosts",
 }));
 
 export type GetBlogsError = NotFound | Forbidden | GcpOpError;
@@ -770,6 +797,8 @@ export const getBlogs: API.OperationMethod<GetBlogsRequest, Blog, GetBlogsError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetBlogs",
   }));
 
 export type GetBlogUserInfosError = NotFound | Forbidden | GcpOpError;
@@ -785,6 +814,8 @@ export const getBlogUserInfos: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlogUserInfos",
 }));
 
 export type GetByPathPostsError = NotFound | Forbidden | GcpOpError;
@@ -800,6 +831,8 @@ export const getByPathPosts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetByPathPosts",
 }));
 
 export type GetByUrlBlogsError = NotFound | Forbidden | GcpOpError;
@@ -815,6 +848,8 @@ export const getByUrlBlogs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetByUrlBlogs",
 }));
 
 export type GetCommentsError = NotFound | Forbidden | GcpOpError;
@@ -830,6 +865,8 @@ export const getComments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComments",
 }));
 
 export type GetPagesError = NotFound | Forbidden | GcpOpError;
@@ -841,6 +878,8 @@ export const getPages: API.OperationMethod<GetPagesRequest, Page, GetPagesError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPages",
   }));
 
 export type GetPageViewsError = NotFound | Forbidden | GcpOpError;
@@ -856,6 +895,8 @@ export const getPageViews: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPageViews",
 }));
 
 export type GetPostsError = NotFound | Forbidden | GcpOpError;
@@ -867,6 +908,8 @@ export const getPosts: API.OperationMethod<GetPostsRequest, Post, GetPostsError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPosts",
   }));
 
 export type GetPostUserInfosError = NotFound | Forbidden | GcpOpError;
@@ -882,6 +925,8 @@ export const getPostUserInfos: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostUserInfos",
 }));
 
 export type GetUsersError = NotFound | Forbidden | GcpOpError;
@@ -893,6 +938,8 @@ export const getUsers: API.OperationMethod<GetUsersRequest, User, GetUsersError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUsers",
   }));
 
 export type InsertPagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -908,6 +955,8 @@ export const insertPages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertPages",
 }));
 
 export type InsertPostsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -923,6 +972,8 @@ export const insertPosts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertPosts",
 }));
 
 export type ListByBlogCommentsError = NotFound | Forbidden | GcpOpError;
@@ -939,6 +990,8 @@ export const listByBlogComments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListByBlogComments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -955,6 +1008,8 @@ export const listByUserBlogs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListByUserBlogs",
 }));
 
 export type ListCommentsError = NotFound | Forbidden | GcpOpError;
@@ -971,6 +1026,8 @@ export const listComments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -988,6 +1045,8 @@ export const listPages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1005,6 +1064,8 @@ export const listPosts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPosts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1022,6 +1083,8 @@ export const listPostUserInfos: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostUserInfos",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1038,6 +1101,8 @@ export const markAsSpamComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkAsSpamComments",
 }));
 
 export type PatchPagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1053,6 +1118,8 @@ export const patchPages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPages",
 }));
 
 export type PatchPostsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1068,6 +1135,8 @@ export const patchPosts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPosts",
 }));
 
 export type PublishPagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1083,6 +1152,8 @@ export const publishPages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishPages",
 }));
 
 export type PublishPostsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1098,6 +1169,8 @@ export const publishPosts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishPosts",
 }));
 
 export type RemoveContentCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1113,6 +1186,8 @@ export const removeContentComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveContentComments",
 }));
 
 export type RevertPagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1128,6 +1203,8 @@ export const revertPages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertPages",
 }));
 
 export type RevertPostsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1143,6 +1220,8 @@ export const revertPosts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertPosts",
 }));
 
 export type SearchPostsError = NotFound | Forbidden | GcpOpError;
@@ -1158,6 +1237,8 @@ export const searchPosts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPosts",
 }));
 
 export type UpdatePagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1173,6 +1254,8 @@ export const updatePages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePages",
 }));
 
 export type UpdatePostsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1188,6 +1271,8 @@ export const updatePosts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePosts",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

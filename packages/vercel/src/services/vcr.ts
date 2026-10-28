@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Vcr",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -700,6 +714,8 @@ export const addRepositoryPermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRepositoryPermission",
 }));
 
 export type ClearRepositoryPermissionsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -715,6 +731,8 @@ export const clearRepositoryPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearRepositoryPermissions",
 }));
 
 export type CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsError =
@@ -743,6 +761,8 @@ export const createByTeamSlugByProjectSlugByRepositoryNameBlobsUploads: API.Oper
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploads",
 }));
 
 export type CreateRepositoryError =
@@ -764,6 +784,8 @@ export const createRepository: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type DeleteBlobError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -779,6 +801,8 @@ export const deleteBlob: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBlob",
 }));
 
 export type DeleteBlobsUploadError =
@@ -799,6 +823,8 @@ export const deleteBlobsUpload: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBlobsUpload",
 }));
 
 export type DeleteManifestError =
@@ -819,6 +845,8 @@ export const deleteManifest: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManifest",
 }));
 
 export type DeleteRepositoryError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -834,6 +862,8 @@ export const deleteRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteRepositoryImageError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -849,6 +879,8 @@ export const deleteRepositoryImage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryImage",
 }));
 
 export type GetBlobError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -864,6 +896,8 @@ export const getBlob: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlob",
 }));
 
 export type GetBlobsUploadError =
@@ -884,6 +918,8 @@ export const getBlobsUpload: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlobsUpload",
 }));
 
 export type GetManifestError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -899,6 +935,8 @@ export const getManifest: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManifest",
 }));
 
 export type GetRepositoryError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -914,6 +952,8 @@ export const getRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepository",
 }));
 
 export type GetRepositoryImageError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -929,6 +969,8 @@ export const getRepositoryImage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoryImage",
 }));
 
 export type GetRepositoryTagError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -944,6 +986,8 @@ export const getRepositoryTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoryTag",
 }));
 
 export type GetRootError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -959,6 +1003,8 @@ export const getRoot: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoot",
 }));
 
 export type GetTagsListError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -974,6 +1020,8 @@ export const getTagsList: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagsList",
 }));
 
 export type HeadBlobError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -989,6 +1037,8 @@ export const headBlob: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HeadBlob",
 }));
 
 export type HeadManifestError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -1004,6 +1054,8 @@ export const headManifest: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HeadManifest",
 }));
 
 export type ListRepositoriesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1019,6 +1071,8 @@ export const listRepositories: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositories",
 }));
 
 export type ListRepositoryImagesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1034,6 +1088,8 @@ export const listRepositoryImages: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryImages",
 }));
 
 export type ListRepositoryPermissionsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1049,6 +1105,8 @@ export const listRepositoryPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryPermissions",
 }));
 
 export type ListRepositoryTagsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1064,6 +1122,8 @@ export const listRepositoryTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryTags",
 }));
 
 export type RemoveRepositoryPermissionError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1079,6 +1139,8 @@ export const removeRepositoryPermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRepositoryPermission",
 }));
 
 export type ReplaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidError =
@@ -1107,6 +1169,8 @@ export const replaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid: A
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid",
 }));
 
 export type ReplaceByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceError =
@@ -1135,6 +1199,8 @@ export const replaceByTeamSlugByProjectSlugByRepositoryNameManifestsByReference:
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceByTeamSlugByProjectSlugByRepositoryNameManifestsByReference",
 }));
 
 export type UpdateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidError =
@@ -1163,6 +1229,8 @@ export const updateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid: AP
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

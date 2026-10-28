@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://proton.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Proton",
+  service: "Proton",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1514,6 +1530,8 @@ export const acceptEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "AcceptEnvironmentAccountConnection",
 }));
 
 export type CancelComponentDeploymentError =
@@ -1550,6 +1568,8 @@ export const cancelComponentDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelComponentDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelComponentDeployment",
 }));
 
 export type CancelEnvironmentDeploymentError =
@@ -1593,6 +1613,8 @@ export const cancelEnvironmentDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelEnvironmentDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelEnvironmentDeployment",
 }));
 
 export type CancelServiceInstanceDeploymentError =
@@ -1639,6 +1661,8 @@ export const cancelServiceInstanceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServiceInstanceDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelServiceInstanceDeployment",
 }));
 
 export type CancelServicePipelineDeploymentError =
@@ -1685,6 +1709,8 @@ export const cancelServicePipelineDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServicePipelineDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelServicePipelineDeployment",
 }));
 
 export type CreateComponentError =
@@ -1723,6 +1749,8 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateEnvironmentError =
@@ -1768,6 +1796,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateEnvironmentAccountConnectionError =
@@ -1805,6 +1835,8 @@ export const createEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentAccountConnection",
 }));
 
 export type CreateEnvironmentTemplateError =
@@ -1848,6 +1880,8 @@ export const createEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentTemplate",
 }));
 
 export type CreateEnvironmentTemplateVersionError =
@@ -1884,6 +1918,8 @@ export const createEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentTemplateVersion",
 }));
 
 export type CreateRepositoryError =
@@ -1922,6 +1958,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type CreateServiceError =
@@ -1959,6 +1997,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateServiceInstanceError =
@@ -1991,6 +2031,8 @@ export const createServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceInstance",
+  telemetry: TELEMETRY,
+  span: "CreateServiceInstance",
 }));
 
 export type CreateServiceSyncConfigError =
@@ -2023,6 +2065,8 @@ export const createServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceSyncConfig",
+  telemetry: TELEMETRY,
+  span: "CreateServiceSyncConfig",
 }));
 
 export type CreateServiceTemplateError =
@@ -2060,6 +2104,8 @@ export const createServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateServiceTemplate",
 }));
 
 export type CreateServiceTemplateVersionError =
@@ -2096,6 +2142,8 @@ export const createServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "CreateServiceTemplateVersion",
 }));
 
 export type CreateTemplateSyncConfigError =
@@ -2133,6 +2181,8 @@ export const createTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateSyncConfig",
+  telemetry: TELEMETRY,
+  span: "CreateTemplateSyncConfig",
 }));
 
 export type DeleteComponentError =
@@ -2169,6 +2219,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteDeploymentError =
@@ -2199,6 +2251,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DeleteEnvironmentError =
@@ -2231,6 +2285,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEnvironmentAccountConnectionError =
@@ -2270,6 +2326,8 @@ export const deleteEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentAccountConnection",
 }));
 
 export type DeleteEnvironmentTemplateError =
@@ -2302,6 +2360,8 @@ export const deleteEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentTemplate",
 }));
 
 export type DeleteEnvironmentTemplateVersionError =
@@ -2340,6 +2400,8 @@ export const deleteEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentTemplateVersion",
 }));
 
 export type DeleteRepositoryError =
@@ -2372,6 +2434,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteServiceError =
@@ -2411,6 +2475,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteServiceSyncConfigError =
@@ -2443,6 +2509,8 @@ export const deleteServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceSyncConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceSyncConfig",
 }));
 
 export type DeleteServiceTemplateError =
@@ -2476,6 +2544,8 @@ export const deleteServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceTemplate",
 }));
 
 export type DeleteServiceTemplateVersionError =
@@ -2517,6 +2587,8 @@ export const deleteServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceTemplateVersion",
 }));
 
 export type DeleteTemplateSyncConfigError =
@@ -2549,6 +2621,8 @@ export const deleteTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateSyncConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplateSyncConfig",
 }));
 
 export type GetAccountSettingsError =
@@ -2579,6 +2653,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetComponentError =
@@ -2613,6 +2689,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetDeploymentError =
@@ -2643,6 +2721,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetEnvironmentError =
@@ -2673,6 +2753,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetEnvironmentAccountConnectionError =
@@ -2706,6 +2788,8 @@ export const getEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentAccountConnection",
 }));
 
 export type GetEnvironmentTemplateError =
@@ -2736,6 +2820,8 @@ export const getEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentTemplate",
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentTemplate",
 }));
 
 export type GetEnvironmentTemplateVersionError =
@@ -2766,6 +2852,8 @@ export const getEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentTemplateVersion",
 }));
 
 export type GetRepositoryError =
@@ -2796,6 +2884,8 @@ export const getRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepository",
+  telemetry: TELEMETRY,
+  span: "GetRepository",
 }));
 
 export type GetRepositorySyncStatusError =
@@ -2833,6 +2923,8 @@ export const getRepositorySyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetRepositorySyncStatus",
 }));
 
 export type GetResourcesSummaryError =
@@ -2874,6 +2966,8 @@ export const getResourcesSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcesSummary",
+  telemetry: TELEMETRY,
+  span: "GetResourcesSummary",
 }));
 
 export type GetServiceError =
@@ -2904,6 +2998,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceInstanceError =
@@ -2935,6 +3031,8 @@ export const getServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceInstance",
+  telemetry: TELEMETRY,
+  span: "GetServiceInstance",
 }));
 
 export type GetServiceInstanceSyncStatusError =
@@ -2965,6 +3063,8 @@ export const getServiceInstanceSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceInstanceSyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetServiceInstanceSyncStatus",
 }));
 
 export type GetServiceSyncBlockerSummaryError =
@@ -2995,6 +3095,8 @@ export const getServiceSyncBlockerSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSyncBlockerSummary",
+  telemetry: TELEMETRY,
+  span: "GetServiceSyncBlockerSummary",
 }));
 
 export type GetServiceSyncConfigError =
@@ -3025,6 +3127,8 @@ export const getServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSyncConfig",
+  telemetry: TELEMETRY,
+  span: "GetServiceSyncConfig",
 }));
 
 export type GetServiceTemplateError =
@@ -3055,6 +3159,8 @@ export const getServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceTemplate",
+  telemetry: TELEMETRY,
+  span: "GetServiceTemplate",
 }));
 
 export type GetServiceTemplateVersionError =
@@ -3085,6 +3191,8 @@ export const getServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "GetServiceTemplateVersion",
 }));
 
 export type GetTemplateSyncConfigError =
@@ -3115,6 +3223,8 @@ export const getTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateSyncConfig",
+  telemetry: TELEMETRY,
+  span: "GetTemplateSyncConfig",
 }));
 
 export type GetTemplateSyncStatusError =
@@ -3145,6 +3255,8 @@ export const getTemplateSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateSyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetTemplateSyncStatus",
 }));
 
 export type ListComponentOutputsError =
@@ -3181,6 +3293,8 @@ export const listComponentOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListComponentOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentOutputs",
 })) as any;
 
 export type ListComponentProvisionedResourcesError =
@@ -3221,6 +3335,8 @@ export const listComponentProvisionedResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentProvisionedResources",
 })) as any;
 
 export type ListComponentsError =
@@ -3260,6 +3376,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "components",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListDeploymentsError =
@@ -3297,6 +3415,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListEnvironmentAccountConnectionsError =
@@ -3335,6 +3455,8 @@ export const listEnvironmentAccountConnections: API.PaginatedOperationMethod<
     items: "environmentAccountConnections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentAccountConnections",
 })) as any;
 
 export type ListEnvironmentOutputsError =
@@ -3367,6 +3489,8 @@ export const listEnvironmentOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEnvironmentOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentOutputs",
 })) as any;
 
 export type ListEnvironmentProvisionedResourcesError =
@@ -3403,6 +3527,8 @@ export const listEnvironmentProvisionedResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentProvisionedResources",
 })) as any;
 
 export type ListEnvironmentsError =
@@ -3440,6 +3566,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListEnvironmentTemplatesError =
@@ -3475,6 +3603,8 @@ export const listEnvironmentTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentTemplates",
 })) as any;
 
 export type ListEnvironmentTemplateVersionsError =
@@ -3512,6 +3642,8 @@ export const listEnvironmentTemplateVersions: API.PaginatedOperationMethod<
     items: "templateVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentTemplateVersions",
 })) as any;
 
 export type ListRepositoriesError =
@@ -3549,6 +3681,8 @@ export const listRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositories",
 })) as any;
 
 export type ListRepositorySyncDefinitionsError =
@@ -3583,6 +3717,8 @@ export const listRepositorySyncDefinitions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "syncDefinitions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositorySyncDefinitions",
 })) as any;
 
 export type ListServiceInstanceOutputsError =
@@ -3615,6 +3751,8 @@ export const listServiceInstanceOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListServiceInstanceOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceInstanceOutputs",
 })) as any;
 
 export type ListServiceInstanceProvisionedResourcesError =
@@ -3651,6 +3789,8 @@ export const listServiceInstanceProvisionedResources: API.PaginatedOperationMeth
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceInstanceProvisionedResources",
 })) as any;
 
 export type ListServiceInstancesError =
@@ -3689,6 +3829,8 @@ export const listServiceInstances: API.PaginatedOperationMethod<
     items: "serviceInstances",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceInstances",
 })) as any;
 
 export type ListServicePipelineOutputsError =
@@ -3721,6 +3863,8 @@ export const listServicePipelineOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListServicePipelineOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicePipelineOutputs",
 })) as any;
 
 export type ListServicePipelineProvisionedResourcesError =
@@ -3757,6 +3901,8 @@ export const listServicePipelineProvisionedResources: API.PaginatedOperationMeth
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicePipelineProvisionedResources",
 })) as any;
 
 export type ListServicesError =
@@ -3792,6 +3938,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "services",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListServiceTemplatesError =
@@ -3827,6 +3975,8 @@ export const listServiceTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceTemplates",
 })) as any;
 
 export type ListServiceTemplateVersionsError =
@@ -3864,6 +4014,8 @@ export const listServiceTemplateVersions: API.PaginatedOperationMethod<
     items: "templateVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceTemplateVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3902,6 +4054,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type NotifyResourceDeploymentStatusChangeError =
@@ -3938,6 +4092,8 @@ export const notifyResourceDeploymentStatusChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyResourceDeploymentStatusChange",
+  telemetry: TELEMETRY,
+  span: "NotifyResourceDeploymentStatusChange",
 }));
 
 export type RejectEnvironmentAccountConnectionError =
@@ -3978,6 +4134,8 @@ export const rejectEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "RejectEnvironmentAccountConnection",
 }));
 
 export type TagResourceError =
@@ -4013,6 +4171,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4048,6 +4208,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountSettingsError =
@@ -4078,6 +4240,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateComponentError =
@@ -4121,6 +4285,8 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateComponent",
 }));
 
 export type UpdateEnvironmentError =
@@ -4195,6 +4361,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateEnvironmentAccountConnectionError =
@@ -4230,6 +4398,8 @@ export const updateEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentAccountConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentAccountConnection",
 }));
 
 export type UpdateEnvironmentTemplateError =
@@ -4262,6 +4432,8 @@ export const updateEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentTemplate",
 }));
 
 export type UpdateEnvironmentTemplateVersionError =
@@ -4294,6 +4466,8 @@ export const updateEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentTemplateVersion",
 }));
 
 export type UpdateServiceError =
@@ -4342,6 +4516,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateServiceInstanceError =
@@ -4384,6 +4560,8 @@ export const updateServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceInstance",
 }));
 
 export type UpdateServicePipelineError =
@@ -4443,6 +4621,8 @@ export const updateServicePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServicePipeline",
+  telemetry: TELEMETRY,
+  span: "UpdateServicePipeline",
 }));
 
 export type UpdateServiceSyncBlockerError =
@@ -4475,6 +4655,8 @@ export const updateServiceSyncBlocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSyncBlocker",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSyncBlocker",
 }));
 
 export type UpdateServiceSyncConfigError =
@@ -4507,6 +4689,8 @@ export const updateServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSyncConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSyncConfig",
 }));
 
 export type UpdateServiceTemplateError =
@@ -4539,6 +4723,8 @@ export const updateServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceTemplate",
 }));
 
 export type UpdateServiceTemplateVersionError =
@@ -4571,6 +4757,8 @@ export const updateServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceTemplateVersion",
 }));
 
 export type UpdateTemplateSyncConfigError =
@@ -4605,6 +4793,8 @@ export const updateTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateSyncConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplateSyncConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

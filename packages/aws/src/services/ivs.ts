@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ivs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ivs",
+  service: "ivs",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1102,6 +1117,8 @@ export const batchGetChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetChannel",
+  telemetry: TELEMETRY,
+  span: "BatchGetChannel",
 }));
 
 export type BatchGetStreamKeyError =
@@ -1124,6 +1141,8 @@ export const batchGetStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetStreamKey",
+  telemetry: TELEMETRY,
+  span: "BatchGetStreamKey",
 }));
 
 export type BatchStartViewerSessionRevocationError =
@@ -1147,6 +1166,8 @@ export const batchStartViewerSessionRevocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStartViewerSessionRevocation",
+  telemetry: TELEMETRY,
+  span: "BatchStartViewerSessionRevocation",
 }));
 
 export type CreateAdConfigurationError =
@@ -1183,6 +1204,8 @@ export const createAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateAdConfiguration",
 }));
 
 export type CreateChannelError =
@@ -1215,6 +1238,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreatePlaybackRestrictionPolicyError =
@@ -1245,6 +1270,8 @@ export const createPlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlaybackRestrictionPolicy",
+  telemetry: TELEMETRY,
+  span: "CreatePlaybackRestrictionPolicy",
 }));
 
 export type CreateRecordingConfigurationError =
@@ -1283,6 +1310,8 @@ export const createRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecordingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateRecordingConfiguration",
 }));
 
 export type CreateStreamKeyError =
@@ -1317,6 +1346,8 @@ export const createStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamKey",
+  telemetry: TELEMETRY,
+  span: "CreateStreamKey",
 }));
 
 export type DeleteAdConfigurationError =
@@ -1349,6 +1380,8 @@ export const deleteAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteAdConfiguration",
 }));
 
 export type DeleteChannelError =
@@ -1383,6 +1416,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeletePlaybackKeyPairError =
@@ -1415,6 +1450,8 @@ export const deletePlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlaybackKeyPair",
+  telemetry: TELEMETRY,
+  span: "DeletePlaybackKeyPair",
 }));
 
 export type DeletePlaybackRestrictionPolicyError =
@@ -1447,6 +1484,8 @@ export const deletePlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlaybackRestrictionPolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePlaybackRestrictionPolicy",
 }));
 
 export type DeleteRecordingConfigurationError =
@@ -1481,6 +1520,8 @@ export const deleteRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecordingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteRecordingConfiguration",
 }));
 
 export type DeleteStreamKeyError =
@@ -1511,6 +1552,8 @@ export const deleteStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamKey",
+  telemetry: TELEMETRY,
+  span: "DeleteStreamKey",
 }));
 
 export type GetAdConfigurationError =
@@ -1541,6 +1584,8 @@ export const getAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAdConfiguration",
 }));
 
 export type GetChannelError =
@@ -1569,6 +1614,8 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetPlaybackKeyPairError =
@@ -1597,6 +1644,8 @@ export const getPlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlaybackKeyPair",
+  telemetry: TELEMETRY,
+  span: "GetPlaybackKeyPair",
 }));
 
 export type GetPlaybackRestrictionPolicyError =
@@ -1627,6 +1676,8 @@ export const getPlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlaybackRestrictionPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPlaybackRestrictionPolicy",
 }));
 
 export type GetRecordingConfigurationError =
@@ -1657,6 +1708,8 @@ export const getRecordingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecordingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetRecordingConfiguration",
 }));
 
 export type GetStreamError =
@@ -1687,6 +1740,8 @@ export const getStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStream",
+  telemetry: TELEMETRY,
+  span: "GetStream",
 }));
 
 export type GetStreamKeyError =
@@ -1715,6 +1770,8 @@ export const getStreamKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamKey",
+  telemetry: TELEMETRY,
+  span: "GetStreamKey",
 }));
 
 export type GetStreamSessionError =
@@ -1743,6 +1800,8 @@ export const getStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamSession",
+  telemetry: TELEMETRY,
+  span: "GetStreamSession",
 }));
 
 export type ImportPlaybackKeyPairError =
@@ -1775,6 +1834,8 @@ export const importPlaybackKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPlaybackKeyPair",
+  telemetry: TELEMETRY,
+  span: "ImportPlaybackKeyPair",
 }));
 
 export type InsertAdBreakError =
@@ -1811,6 +1872,8 @@ export const insertAdBreak: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InsertAdBreak",
+  telemetry: TELEMETRY,
+  span: "InsertAdBreak",
 }));
 
 export type ListAdConfigurationsError =
@@ -1846,6 +1909,8 @@ export const listAdConfigurations: API.PaginatedOperationMethod<
     items: "adConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAdConfigurations",
 })) as any;
 
 export type ListChannelsError =
@@ -1875,6 +1940,8 @@ export const listChannels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListPlaybackKeyPairsError =
@@ -1903,6 +1970,8 @@ export const listPlaybackKeyPairs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlaybackKeyPairs",
 })) as any;
 
 export type ListPlaybackRestrictionPoliciesError =
@@ -1939,6 +2008,8 @@ export const listPlaybackRestrictionPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlaybackRestrictionPolicies",
 })) as any;
 
 export type ListRecordingConfigurationsError =
@@ -1973,6 +2044,8 @@ export const listRecordingConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecordingConfigurations",
 })) as any;
 
 export type ListStreamKeysError =
@@ -2007,6 +2080,8 @@ export const listStreamKeys: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamKeys",
 })) as any;
 
 export type ListStreamsError =
@@ -2035,6 +2110,8 @@ export const listStreams: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreams",
 })) as any;
 
 export type ListStreamSessionsError =
@@ -2069,6 +2146,8 @@ export const listStreamSessions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamSessions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2097,6 +2176,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutMetadataError =
@@ -2127,6 +2208,8 @@ export const putMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetadata",
+  telemetry: TELEMETRY,
+  span: "PutMetadata",
 }));
 
 export type StartViewerSessionRevocationError =
@@ -2159,6 +2242,8 @@ export const startViewerSessionRevocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartViewerSessionRevocation",
+  telemetry: TELEMETRY,
+  span: "StartViewerSessionRevocation",
 }));
 
 export type StopStreamError =
@@ -2193,6 +2278,8 @@ export const stopStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStream",
+  telemetry: TELEMETRY,
+  span: "StopStream",
 }));
 
 export type TagResourceError =
@@ -2221,6 +2308,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2249,6 +2338,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAdConfigurationError =
@@ -2285,6 +2376,8 @@ export const updateAdConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAdConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateAdConfiguration",
 }));
 
 export type UpdateChannelError =
@@ -2317,6 +2410,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdatePlaybackRestrictionPolicyError =
@@ -2347,6 +2442,8 @@ export const updatePlaybackRestrictionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlaybackRestrictionPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdatePlaybackRestrictionPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

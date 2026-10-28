@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "EventDefinitions",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -313,6 +326,8 @@ export const createEventDefinition: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEventDefinition",
 }));
 
 export type EventDefinitionsBulkUpdateVerifiedCreateError = PosthogOpError;
@@ -328,6 +343,8 @@ export const eventDefinitionsBulkUpdateVerifiedCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventDefinitionsBulkUpdateVerifiedCreate",
 }));
 
 export type EventDefinitionsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -342,6 +359,8 @@ export const eventDefinitionsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventDefinitionsDestroy",
 }));
 
 export type GetEventDefinitionError = Forbidden | NotFound | PosthogOpError;
@@ -356,6 +375,8 @@ export const getEventDefinition: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventDefinition",
 }));
 
 export type GetEventDefinitionsByNameError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -371,6 +392,8 @@ export const getEventDefinitionsByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventDefinitionsByName",
 }));
 
 export type GetEventDefinitionsGolangError = Forbidden | NotFound | PosthogOpError;
@@ -385,6 +408,8 @@ export const getEventDefinitionsGolang: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventDefinitionsGolang",
 }));
 
 export type GetEventDefinitionsPrimaryPropertyError = PosthogOpError;
@@ -400,6 +425,8 @@ export const getEventDefinitionsPrimaryProperty: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventDefinitionsPrimaryProperty",
 }));
 
 export type GetEventDefinitionsPythonError = Forbidden | NotFound | PosthogOpError;
@@ -414,6 +441,8 @@ export const getEventDefinitionsPython: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventDefinitionsPython",
 }));
 
 export type GetEventDefinitionsTypescriptError = Forbidden | NotFound | PosthogOpError;
@@ -428,6 +457,8 @@ export const getEventDefinitionsTypescript: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventDefinitionsTypescript",
 }));
 
 export type ListEventDefinitionsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -443,6 +474,8 @@ export const listEventDefinitions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventDefinitions",
 }));
 
 export type UpdateEventDefinitionError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -457,6 +490,8 @@ export const updateEventDefinition: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventDefinition",
 }));
 
 export type UpdateEventDefinitionsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -471,6 +506,8 @@ export const updateEventDefinitionsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventDefinitionsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

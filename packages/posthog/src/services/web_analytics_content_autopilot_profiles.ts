@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WebAnalyticsContentAutopilotProfiles",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** Public sitemap and factual source URLs used to build the site profile. */
 export type CreateWebAnalyticsContentAutopilotProfileRequestSourceUrlsList = Array<string>;
 /** Same-origin URL path prefixes allowed for research. */
@@ -121,6 +134,8 @@ export const createWebAnalyticsContentAutopilotProfile: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebAnalyticsContentAutopilotProfile",
 }));
 
 export type GetWebAnalyticsContentAutopilotProfileError = PosthogOpError;
@@ -135,6 +150,8 @@ export const getWebAnalyticsContentAutopilotProfile: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebAnalyticsContentAutopilotProfile",
 }));
 
 export type ListWebAnalyticsContentAutopilotProfilesError = PosthogOpError;
@@ -149,6 +166,8 @@ export const listWebAnalyticsContentAutopilotProfiles: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebAnalyticsContentAutopilotProfiles",
 }));
 
 export type UpdateWebAnalyticsContentAutopilotProfilesPartialError = PosthogOpError;
@@ -167,6 +186,8 @@ export const updateWebAnalyticsContentAutopilotProfilesPartial: API.OperationMet
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebAnalyticsContentAutopilotProfilesPartial",
 }));
 
 export type WebAnalyticsContentAutopilotProfilesDestroyError = PosthogOpError;
@@ -181,6 +202,8 @@ export const webAnalyticsContentAutopilotProfilesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsContentAutopilotProfilesDestroy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
