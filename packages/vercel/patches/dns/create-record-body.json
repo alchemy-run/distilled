@@ -1,0 +1,138 @@
+{
+  "description": "The createRecord request body is an anyOf of one object per record type (A, AAAA, ALIAS, CAA, CNAME, MX, SRV, TXT, NS, HTTPS). Convert keeps only the members declared outside the union, so the generated request sends `type` alone and drops `name`, `value`, `ttl`, `mxPriority`, `srv`, `https` and `comment`. This adds the union's members to the input as optional fields: each variant requires a different subset (`value` for A, AAAA, ALIAS, CAA, MX and TXT; `mxPriority` for MX; `srv` and `https` for their own types). Vercel's Terraform provider sends exactly these fields to this endpoint (https://github.com/vercel/terraform-provider-vercel/blob/152fffc2d661ac6b1583496635804d5107b45037/client/dns_record.go, CreateDNSRecordRequest). A live probe (2026-10-28) could not confirm the success path: the probe team has no Vercel-hosted DNS zone, and Vercel checks the zone (`... is not a DNS zone`) before it validates the body.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequestSrv",
+      "value": {
+        "type": "structure",
+        "members": {
+          "priority": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#required": {},
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "weight": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#required": {},
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "port": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#required": {},
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "target": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequestHttps",
+      "value": {
+        "type": "structure",
+        "members": {
+          "priority": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#required": {},
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "target": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "params": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequest/members/name",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "A subdomain name or an empty string for the root domain."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequest/members/value",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The record value. Required for A, AAAA, ALIAS, CAA, MX and TXT records."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequest/members/ttl",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The TTL value. Must be a number between 60 and 2147483647. Default value is 60."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequest/members/mxPriority",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The MX priority value. Required for MX records."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequest/members/srv",
+      "value": {
+        "target": "com.vercel.dns#CreateRecordRequestSrv",
+        "traits": {
+          "smithy.api#documentation": "Required for SRV records."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequest/members/https",
+      "value": {
+        "target": "com.vercel.dns#CreateRecordRequestHttps",
+        "traits": {
+          "smithy.api#documentation": "Required for HTTPS records."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#CreateRecordRequest/members/comment",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "A comment to add context on what this DNS record is for"
+        }
+      }
+    }
+  ]
+}

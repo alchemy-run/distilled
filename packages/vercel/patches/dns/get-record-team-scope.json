@@ -1,0 +1,27 @@
+{
+  "description": "GET /domains/records/{recordId} declares only the recordId path parameter, but like every other DNS operation it is scoped by the teamId and slug query parameters; without them a record on a team-owned domain cannot be read. Vercel's Terraform provider passes `?teamId=` on this endpoint (https://github.com/vercel/terraform-provider-vercel/blob/152fffc2d661ac6b1583496635804d5107b45037/client/dns_record.go, GetDNSRecord).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#GetDomainsRecordsByRecordIdRequest/members/teamId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "teamId",
+          "smithy.api#documentation": "The Team identifier to perform the request on behalf of."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.dns#GetDomainsRecordsByRecordIdRequest/members/slug",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "slug",
+          "smithy.api#documentation": "The Team slug to perform the request on behalf of."
+        }
+      }
+    }
+  ]
+}
