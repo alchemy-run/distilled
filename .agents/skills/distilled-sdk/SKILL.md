@@ -20,9 +20,10 @@ description: Build or update a distilled SDK for an API provider — sourcing it
     │
     │  packages/<pkg>/scripts/convert.ts       spec dialect → Smithy
     ▼
-  packages/<pkg>/.generated-specs/*.json       Smithy 2.0 models      (committed)
+  Smithy 2.0 models                            in memory (never committed)
     │
     │  packages/<pkg>/scripts/generate.ts      Smithy → Effect SDK
+    │                                          (runs convert in-process)
     ▼
   packages/<pkg>/src/services/*.ts                                   (committed)
 ```
@@ -117,7 +118,7 @@ Create `packages/<pkg>/` from the closest existing package. In `convert.ts`,
 declare the **production** spec path and resolve it:
 
 ```ts
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const specPath = resolveSpecPath(root, "specs/spec-mirror-<pkg>/specs/openapi.json");
 ```
@@ -127,6 +128,10 @@ OpenAPI package gets it for free — just declare the mirror path.
 
 Then register the package: `pnpm-workspace.yaml` needs nothing (it globs
 `packages/*`), but add both tsconfig references to the root `tsconfig.json`.
+The generator is the unpublished `@distilled.cloud/dev` package: the new
+package lists it in `devDependencies` (`"workspace:*"`) and its
+`tsconfig.scripts.json` references `../dev`. Copying an existing package
+carries both.
 
 Public surface: re-export the generated barrel at the package root
 (`export * from "./services/index.ts"`) so callers write `Pkg.vms.createVm`,
@@ -219,7 +224,8 @@ a new enum member, and in `strict` an undocumented field) as a
 default.
 
 Do not add tests to a generated SDK. Generated code is tested once, through
-the generator and the protocols in `packages/core`. `packages/core/test/sdks.test.ts`
+the generator in `packages/dev` and the protocols in `packages/core`.
+`packages/core/test/sdks.test.ts`
 runs against every package and checks the glue a new SDK hand-writes: its
 `<Pkg>OpError` union reaches `<Pkg>ParseError` (so `catchTag` on a strict
 call typechecks), something outside `src/services/` constructs it, and
@@ -257,26 +263,32 @@ for a real one, and it lives in one command's environment — **never** in a
 file. Without it the same command reads the submodule, which is what you want
 once the mirror exists.
 
-Iterate on `convert.ts` (spec → Smithy) and `generate.ts` (Smithy → TS)
-separately: `pnpm --filter @distilled.cloud/<pkg> run convert` stops after the
-Smithy models, which is usually where the interesting bugs are.
+`pnpm --filter @distilled.cloud/<pkg> run generate` runs the package's
+convert in-process and compiles its models straight from memory; the models
+are never written to disk or committed. To read them (writing a patch,
+debugging a converter), run `pnpm --filter @distilled.cloud/<pkg> run
+convert`: the same convert, writing the models to the gitignored
+`.generated-specs/`. That is usually where the interesting bugs are. Every
+convert writes models through `@distilled.cloud/core/codegen/models`
+(`writeModel`, `readModel`, `clearModels`, …), never `node:fs`, and awaits
+every step at the top level, so one script serves both.
 
 Patches go in `packages/<pkg>/patches/` as RFC-6902 `*.json` and apply in
 **convert** (`finalizeConvert` at the end of every dialect — OpenAPI,
-GraphQL, discovery, proto, Cloudflare markdown), so `.generated-specs` is
-the patched Smithy model. Every op targets the Smithy model (`/shapes`,
+GraphQL, discovery, proto, Cloudflare markdown), so the models generate
+compiles are patched. Every op targets the Smithy model (`/shapes`,
 `/metadata`) and names shapes the way the spec does: the pipeline is
-convert (upstream names) → patches → verbNoun rename → `.generated-specs`.
+convert (upstream names) → patches → verbNoun rename → generate.
 A new OpenAPI convert passes `deferNaming: true` to
 `convertOpenApiToSmithy` (`runOpenApiConvert` does) so the rename waits for
 the patches. finalizeConvert rejects an op on the spec. generate does not
-patch — it only compiles the committed models.
+patch — it only compiles the models convert hands it.
 
 `finalizeConvert` is **not idempotent** — `move` patches and model transforms
 only make sense on freshly converted models — so it stamps
 `metadata["distilled.finalized"]` and refuses to run over a model that
 already carries it. To re-apply patches or naming, re-run the package's
-`convert`; never post-process a committed `.generated-specs` file. It also
+`convert`; never post-process a dumped `.generated-specs` file. It also
 fails if any `target` in a model points at a shape that does not exist.
 **Stale patch pointers fail the run** (they used to warn-and-skip, which is
 how Fly's whole chain vanished after the spec-mirror prefixed paths with
@@ -291,7 +303,7 @@ leaves anything already verb-first or ambiguous (`WatchPodList`,
 `AppGetOrCreate`, `accountById`) unchanged. Irregulars go in
 `operationNames` (lookup by `"METHOD path"`, then operationId) — PUT vs
 PATCH that share an upstream id need the path key. Cases live in
-`packages/core/test/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
+`packages/dev/test/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
 one before changing the heuristic. Do not rename operations with a patch.
 Patch the model, not the generated TypeScript. Writing and checking a
 patch is the `distilled-sdk-patch` skill
@@ -521,7 +533,7 @@ does not have, and `resolveSpecPath` says so rather than failing later.
 
 `aws` convert reads the spec-mirror Smithy models, applies the typed
 `patches/{sdkId}.json` config (`applyAwsSpecPatches`), copies
-`partitions.json`, and writes `.generated-specs/<sdkId>.json`. generate
+`partitions.json`, and writes the `<sdkId>.json` models. generate
 compiles those and reads the patch file only for `errorCategories`. `cloudflare`
 takes its spec root as a `--specs` flag whose default is the mirror path, and
 resolves it through `resolveSpecPath` like everything else.

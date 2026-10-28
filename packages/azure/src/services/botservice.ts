@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.BotService" },
+  prefix: "Botservice",
+  service: "Botservice",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Contains resource tags defined as key/value pairs. */
 export type CreateBotRequestTagsMap = { [key: string]: string | undefined };
 /** The name of SKU. */
@@ -1463,6 +1484,8 @@ export const CreateBot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBot",
 }));
 
 export type CreateBotConnectionError = AzureOpError;
@@ -1478,6 +1501,8 @@ export const CreateBotConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBotConnection",
 }));
 
 export type CreateChannelError = AzureOpError;
@@ -1493,6 +1518,8 @@ export const CreateChannel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -1508,6 +1535,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type DeleteBotError = AzureOpError;
@@ -1523,6 +1552,8 @@ export const DeleteBot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBot",
 }));
 
 export type DeleteBotConnectionError = AzureOpError;
@@ -1538,6 +1569,8 @@ export const DeleteBotConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBotConnection",
 }));
 
 export type DeleteChannelError = AzureOpError;
@@ -1553,6 +1586,8 @@ export const DeleteChannel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1568,6 +1603,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type EmailCreateSignInUrlError = AzureOpError;
@@ -1583,6 +1620,8 @@ export const EmailCreateSignInUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailCreateSignInUrl",
 }));
 
 export type GetBotError = AzureOpError;
@@ -1598,6 +1637,8 @@ export const GetBot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBot",
 }));
 
 export type GetBotCheckNameAvailabilityError = AzureOpError;
@@ -1613,6 +1654,8 @@ export const GetBotCheckNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBotCheckNameAvailability",
 }));
 
 export type GetBotConnectionError = AzureOpError;
@@ -1628,6 +1671,8 @@ export const GetBotConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBotConnection",
 }));
 
 export type GetChannelError = AzureOpError;
@@ -1643,6 +1688,8 @@ export const GetChannel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetHostSettingsError = AzureOpError;
@@ -1658,6 +1705,8 @@ export const GetHostSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostSettings",
 }));
 
 export type GetOperationResultError = AzureOpError;
@@ -1673,6 +1722,8 @@ export const GetOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationResult",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1688,6 +1739,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetQnAMakerEndpointKeyError = AzureOpError;
@@ -1703,6 +1756,8 @@ export const GetQnAMakerEndpointKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQnAMakerEndpointKey",
 }));
 
 export type ListBotByResourceGroupError = AzureOpError;
@@ -1718,6 +1773,8 @@ export const ListBotByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBotByResourceGroup",
 }));
 
 export type ListBotConnectionByBotServiceError = AzureOpError;
@@ -1733,6 +1790,8 @@ export const ListBotConnectionByBotService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBotConnectionByBotService",
 }));
 
 export type ListBotConnectionServiceProvidersError = AzureOpError;
@@ -1748,6 +1807,8 @@ export const ListBotConnectionServiceProviders: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBotConnectionServiceProviders",
 }));
 
 export type ListBotConnectionWithSecretsError = AzureOpError;
@@ -1763,6 +1824,8 @@ export const ListBotConnectionWithSecrets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBotConnectionWithSecrets",
 }));
 
 export type ListBotsError = AzureOpError;
@@ -1778,6 +1841,8 @@ export const ListBots: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBots",
 }));
 
 export type ListChannelByResourceGroupError = AzureOpError;
@@ -1793,6 +1858,8 @@ export const ListChannelByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChannelByResourceGroup",
 }));
 
 export type ListChannelWithKeysError = AzureOpError;
@@ -1808,6 +1875,8 @@ export const ListChannelWithKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChannelWithKeys",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1823,6 +1892,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -1838,6 +1909,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourceByBotResourceError = AzureOpError;
@@ -1853,6 +1926,8 @@ export const ListPrivateLinkResourceByBotResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByBotResource",
 }));
 
 export type RegenerateDirectLineKeysError = AzureOpError;
@@ -1868,6 +1943,8 @@ export const RegenerateDirectLineKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateDirectLineKeys",
 }));
 
 export type UpdateBotError = AzureOpError;
@@ -1883,6 +1960,8 @@ export const UpdateBot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBot",
 }));
 
 export type UpdateBotConnectionError = AzureOpError;
@@ -1898,6 +1977,8 @@ export const UpdateBotConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBotConnection",
 }));
 
 export type UpdateChannelError = AzureOpError;
@@ -1913,6 +1994,8 @@ export const UpdateChannel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

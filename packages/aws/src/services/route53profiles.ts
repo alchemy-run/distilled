@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://route53profiles.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53Profiles",
+  service: "Route53Profiles",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -345,6 +360,8 @@ export const associateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProfile",
+  telemetry: TELEMETRY,
+  span: "AssociateProfile",
 }));
 
 export type AssociateResourceToProfileError =
@@ -381,6 +398,8 @@ export const associateResourceToProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceToProfile",
+  telemetry: TELEMETRY,
+  span: "AssociateResourceToProfile",
 }));
 
 export type CreateProfileError =
@@ -411,6 +430,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type DeleteProfileError =
@@ -441,6 +462,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DisassociateProfileError =
@@ -473,6 +496,8 @@ export const disassociateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProfile",
+  telemetry: TELEMETRY,
+  span: "DisassociateProfile",
 }));
 
 export type DisassociateResourceFromProfileError =
@@ -509,6 +534,8 @@ export const disassociateResourceFromProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceFromProfile",
+  telemetry: TELEMETRY,
+  span: "DisassociateResourceFromProfile",
 }));
 
 export type GetProfileError =
@@ -537,6 +564,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetProfileAssociationError =
@@ -565,6 +594,8 @@ export const getProfileAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileAssociation",
+  telemetry: TELEMETRY,
+  span: "GetProfileAssociation",
 }));
 
 export type GetProfileResourceAssociationError =
@@ -595,6 +626,8 @@ export const getProfileResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "GetProfileResourceAssociation",
 }));
 
 export type ListProfileAssociationsError =
@@ -632,6 +665,8 @@ export const listProfileAssociations: API.PaginatedOperationMethod<
     items: "ProfileAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileAssociations",
 })) as any;
 
 export type ListProfileResourceAssociationsError =
@@ -673,6 +708,8 @@ export const listProfileResourceAssociations: API.PaginatedOperationMethod<
     items: "ProfileResourceAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileResourceAssociations",
 })) as any;
 
 export type ListProfilesError =
@@ -710,6 +747,8 @@ export const listProfiles: API.PaginatedOperationMethod<
     items: "ProfileSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfiles",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -740,6 +779,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -768,6 +809,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -798,6 +841,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateProfileResourceAssociationError =
@@ -834,6 +879,8 @@ export const updateProfileResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfileResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateProfileResourceAssociation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -31,6 +31,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneTag: "zone_tag",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Rum",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -448,6 +462,8 @@ export const bulkCreateRules: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkCreateRules",
 }));
 
 export type CreateRuleError = Forbidden | RulesetNotFound | MaxRulesExceeded | CloudflareOpError;
@@ -463,6 +479,8 @@ export const createRule: API.OperationMethod<
   errors: [Forbidden, RulesetNotFound, MaxRulesExceeded, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateSiteInfoError = Forbidden | RumSiteQuotaExceeded | CloudflareOpError;
@@ -478,6 +496,8 @@ export const createSiteInfo: API.OperationMethod<
   errors: [Forbidden, RumSiteQuotaExceeded, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSiteInfo",
 }));
 
 export type DeleteRuleError = Forbidden | RulesetNotFound | RuleNotFound | CloudflareOpError;
@@ -493,6 +513,8 @@ export const deleteRule: API.OperationMethod<
   errors: [Forbidden, RulesetNotFound, RuleNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteSiteInfoError = SiteNotFound | Forbidden | CloudflareOpError;
@@ -508,6 +530,8 @@ export const deleteSiteInfo: API.OperationMethod<
   errors: [SiteNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSiteInfo",
 }));
 
 export type GetSiteInfoError = SiteNotFound | Forbidden | CloudflareOpError;
@@ -523,6 +547,8 @@ export const getSiteInfo: API.OperationMethod<
   errors: [SiteNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSiteInfo",
 }));
 
 export type ListRulesError = Forbidden | RulesetNotFound | CloudflareOpError;
@@ -538,6 +564,8 @@ export const listRules: API.OperationMethod<
   errors: [Forbidden, RulesetNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 }));
 
 export type ListSiteInfosError = Forbidden | CloudflareOpError;
@@ -555,6 +583,8 @@ export const listSiteInfos: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSiteInfos",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -579,6 +609,8 @@ export const updateRule: API.OperationMethod<
   errors: [Forbidden, RulesetNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateSiteInfoError = SiteNotFound | Forbidden | CloudflareOpError;
@@ -594,6 +626,8 @@ export const updateSiteInfo: API.OperationMethod<
   errors: [SiteNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSiteInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://iottwinmaker.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTTwinMaker",
+  service: "IoTTwinMaker",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1149,6 +1164,8 @@ export const batchPutPropertyValues: API.OperationMethod<
   retry: Retry,
   operationName: "BatchPutPropertyValues",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "BatchPutPropertyValues",
 }));
 
 export type CancelMetadataTransferJobError =
@@ -1182,6 +1199,8 @@ export const cancelMetadataTransferJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelMetadataTransferJob",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CancelMetadataTransferJob",
 }));
 
 export type CreateComponentTypeError =
@@ -1215,6 +1234,8 @@ export const createComponentType: API.OperationMethod<
   retry: Retry,
   operationName: "CreateComponentType",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateComponentType",
 }));
 
 export type CreateEntityError =
@@ -1248,6 +1269,8 @@ export const createEntity: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEntity",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateEntity",
 }));
 
 export type CreateMetadataTransferJobError =
@@ -1283,6 +1306,8 @@ export const createMetadataTransferJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMetadataTransferJob",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateMetadataTransferJob",
 }));
 
 export type CreateSceneError =
@@ -1316,6 +1341,8 @@ export const createScene: API.OperationMethod<
   retry: Retry,
   operationName: "CreateScene",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateScene",
 }));
 
 export type CreateSyncJobError =
@@ -1349,6 +1376,8 @@ export const createSyncJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateSyncJob",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateSyncJob",
 }));
 
 export type CreateWorkspaceError =
@@ -1382,6 +1411,8 @@ export const createWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type DeleteComponentTypeError =
@@ -1413,6 +1444,8 @@ export const deleteComponentType: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteComponentType",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteComponentType",
 }));
 
 export type DeleteEntityError =
@@ -1444,6 +1477,8 @@ export const deleteEntity: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteEntity",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteEntity",
 }));
 
 export type DeleteSceneError =
@@ -1475,6 +1510,8 @@ export const deleteScene: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteScene",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteScene",
 }));
 
 export type DeleteSyncJobError =
@@ -1508,6 +1545,8 @@ export const deleteSyncJob: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteSyncJob",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteSyncJob",
 }));
 
 export type DeleteWorkspaceError =
@@ -1539,6 +1578,8 @@ export const deleteWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type ExecuteQueryError =
@@ -1582,6 +1623,8 @@ export const executeQuery: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ExecuteQuery",
 })) as any;
 
 export type GetComponentTypeError =
@@ -1613,6 +1656,8 @@ export const getComponentType: API.OperationMethod<
   retry: Retry,
   operationName: "GetComponentType",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetComponentType",
 }));
 
 export type GetEntityError =
@@ -1644,6 +1689,8 @@ export const getEntity: API.OperationMethod<
   retry: Retry,
   operationName: "GetEntity",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetEntity",
 }));
 
 export type GetMetadataTransferJobError =
@@ -1675,6 +1722,8 @@ export const getMetadataTransferJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetMetadataTransferJob",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetMetadataTransferJob",
 }));
 
 export type GetPricingPlanError =
@@ -1704,6 +1753,8 @@ export const getPricingPlan: API.OperationMethod<
   retry: Retry,
   operationName: "GetPricingPlan",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetPricingPlan",
 }));
 
 export type GetPropertyValueError =
@@ -1748,6 +1799,8 @@ export const getPropertyValue: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPropertyValue",
 })) as any;
 
 export type GetPropertyValueHistoryError =
@@ -1794,6 +1847,8 @@ export const getPropertyValueHistory: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPropertyValueHistory",
 })) as any;
 
 export type GetSceneError =
@@ -1825,6 +1880,8 @@ export const getScene: API.OperationMethod<
   retry: Retry,
   operationName: "GetScene",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetScene",
 }));
 
 export type GetSyncJobError =
@@ -1858,6 +1915,8 @@ export const getSyncJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetSyncJob",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetSyncJob",
 }));
 
 export type GetWorkspaceError =
@@ -1889,6 +1948,8 @@ export const getWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type ListComponentsError =
@@ -1926,6 +1987,8 @@ export const listComponents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListComponentTypesError =
@@ -1961,6 +2024,8 @@ export const listComponentTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentTypes",
 })) as any;
 
 export type ListEntitiesError =
@@ -1996,6 +2061,8 @@ export const listEntities: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntities",
 })) as any;
 
 export type ListMetadataTransferJobsError =
@@ -2031,6 +2098,8 @@ export const listMetadataTransferJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetadataTransferJobs",
 })) as any;
 
 export type ListPropertiesError =
@@ -2068,6 +2137,8 @@ export const listProperties: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProperties",
 })) as any;
 
 export type ListScenesError =
@@ -2103,6 +2174,8 @@ export const listScenes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScenes",
 })) as any;
 
 export type ListSyncJobsError =
@@ -2140,6 +2213,8 @@ export const listSyncJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSyncJobs",
 })) as any;
 
 export type ListSyncResourcesError =
@@ -2177,6 +2252,8 @@ export const listSyncResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSyncResources",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2199,6 +2276,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkspacesError =
@@ -2234,6 +2313,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 })) as any;
 
 export type TagResourceError =
@@ -2257,6 +2338,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -2276,6 +2359,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateComponentTypeError =
@@ -2309,6 +2394,8 @@ export const updateComponentType: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateComponentType",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateComponentType",
 }));
 
 export type UpdateEntityError =
@@ -2344,6 +2431,8 @@ export const updateEntity: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateEntity",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateEntity",
 }));
 
 export type UpdatePricingPlanError =
@@ -2373,6 +2462,8 @@ export const updatePricingPlan: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePricingPlan",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdatePricingPlan",
 }));
 
 export type UpdateSceneError =
@@ -2404,6 +2495,8 @@ export const updateScene: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateScene",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateScene",
 }));
 
 export type UpdateWorkspaceError =
@@ -2437,6 +2530,8 @@ export const updateWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

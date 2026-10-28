@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -67,6 +68,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MWAAServerless",
+  service: "MWAAServerless",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -517,6 +532,8 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type DeleteWorkflowError =
@@ -549,6 +566,8 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type GetTaskInstanceError =
@@ -581,6 +600,8 @@ export const getTaskInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaskInstance",
+  telemetry: TELEMETRY,
+  span: "GetTaskInstance",
 }));
 
 export type GetWorkflowError =
@@ -613,6 +634,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowRunError =
@@ -645,6 +668,8 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRun",
 }));
 
 export type ListTagsForResourceError =
@@ -677,6 +702,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTaskInstancesError =
@@ -714,6 +741,8 @@ export const listTaskInstances: API.PaginatedOperationMethod<
     items: "TaskInstances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTaskInstances",
 })) as any;
 
 export type ListWorkflowRunsError =
@@ -751,6 +780,8 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "WorkflowRuns",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRuns",
 })) as any;
 
 export type ListWorkflowsError =
@@ -788,6 +819,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "Workflows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type ListWorkflowVersionsError =
@@ -825,6 +858,8 @@ export const listWorkflowVersions: API.PaginatedOperationMethod<
     items: "WorkflowVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowVersions",
 })) as any;
 
 export type StartWorkflowRunError =
@@ -861,6 +896,8 @@ export const startWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "StartWorkflowRun",
 }));
 
 export type StopWorkflowRunError =
@@ -893,6 +930,8 @@ export const stopWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "StopWorkflowRun",
 }));
 
 export type TagResourceError =
@@ -925,6 +964,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -957,6 +998,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateWorkflowError =
@@ -993,6 +1036,8 @@ export const updateWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflow",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflow",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

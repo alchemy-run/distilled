@@ -139,13 +139,20 @@ export class GatewayTimeout
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
   }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
+// Defined with the config readers (core's `base` bundle group, which every
+// program loads) so they can fail with it without importing this module.
+export { ConfigError } from "./config.ts";
+
 /**
- * Configuration error - missing or invalid configuration.
+ * The input cannot be sent: a path label whose value would address another
+ * resource (`.` or `..`, which the URL parser resolves to the parent path).
+ * Raised before anything is sent.
  */
-export class ConfigError
-  extends /*@__PURE__*/ Schema.TaggedError<ConfigError>()("ConfigError", {
+export class InvalidInput
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
+    member: Schema.String,
     message: Schema.String,
-  }).pipe(Category.withConfigurationError) {}
+  }).pipe(Category.withBadRequestError) {}
 
 // ============================================================================
 // Error Maps

@@ -1,21 +1,27 @@
 #!/usr/bin/env node
 /**
- * Mirrors the GitHub API spec into ../specs/.
+ * Mirrors the GitHub API specs into ../specs/.
  *
- * Only the 1 file the distilled github generator actually reads
- * is downloaded, straight from raw.githubusercontent.com — the upstream
- * repository is never cloned, so the mirror stays exactly as large as the
- * spec itself.
+ * Only the files the distilled github generator actually reads are
+ * downloaded — the upstream repository is never cloned, so the mirror stays
+ * exactly as large as the specs themselves.
+ *
+ * - The REST description, straight from raw.githubusercontent.com.
+ * - The GraphQL schema GitHub publishes for github.com (SDL), converted to
+ *   the introspection JSON the generator reads. Introspecting
+ *   api.github.com/graphql directly would need a token.
  *
  * Usage:
  *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/api.github.com.json
+ *   ../specs/graphql.json
  */
 
 import { mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
+import { buildSchema, introspectionFromSchema } from "graphql";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "github/rest-api-description";
@@ -35,6 +41,9 @@ const FILES: SpecFile[] = [
     output: "api.github.com.json",
   },
 ];
+
+/** GitHub's public GraphQL schema for github.com (Free, Pro and Team). */
+const GRAPHQL_SCHEMA_URL = "https://docs.github.com/public/fpt/schema.docs.graphql";
 
 const SPECS_DIR = "../specs";
 
@@ -65,6 +74,17 @@ async function main() {
     console.log(`Writing ${outputPath}...`);
     await writeFile(outputPath, new Uint8Array(await response.arrayBuffer()));
   }
+
+  console.log(`Fetching ${GRAPHQL_SCHEMA_URL}...`);
+  const response = await fetch(GRAPHQL_SCHEMA_URL);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch ${GRAPHQL_SCHEMA_URL}: ${response.status} ${response.statusText}`,
+    );
+  }
+  const introspection = introspectionFromSchema(buildSchema(await response.text()));
+  console.log(`Writing ${SPECS_DIR}/graphql.json...`);
+  await writeFile(`${SPECS_DIR}/graphql.json`, JSON.stringify(introspection, null, 2));
 
   console.log("Done!");
 }

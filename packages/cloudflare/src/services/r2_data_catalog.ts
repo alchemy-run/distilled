@@ -33,6 +33,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   updatedAt: "updated_at",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "R2DataCatalog",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -574,6 +588,11 @@ export const createCredential: API.OperationMethod<
   errors: [InvalidRoute, InvalidCredential, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateCredential",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type DeleteError = CloudflareOpError;
@@ -589,6 +608,11 @@ export const Delete: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "Delete",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type DisableR2DataCatalogError =
@@ -616,6 +640,11 @@ export const disableR2DataCatalog: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DisableR2DataCatalog",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type EnableR2DataCatalogError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -631,6 +660,11 @@ export const enableR2DataCatalog: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnableR2DataCatalog",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetMaintenanceConfigError =
@@ -656,6 +690,11 @@ export const getMaintenanceConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetMaintenanceConfig",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetNamespaceTableMaintenanceConfigError =
@@ -675,6 +714,11 @@ export const getNamespaceTableMaintenanceConfig: API.OperationMethod<
   errors: [TableNotFound, InvalidRoute, WarehouseInactive, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetNamespaceTableMaintenanceConfig",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetR2DataCatalogError =
@@ -702,6 +746,11 @@ export const getR2DataCatalog: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetR2DataCatalog",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type ListNamespacesError =
@@ -727,6 +776,11 @@ export const listNamespaces: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListNamespaces",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type ListNamespaceTablesError = InvalidRoute | WarehouseInactive | CloudflareOpError;
@@ -742,6 +796,11 @@ export const listNamespaceTables: API.OperationMethod<
   errors: [InvalidRoute, WarehouseInactive, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListNamespaceTables",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type ListR2DataCatalogsError = InvalidRoute | CloudflareOpError;
@@ -757,6 +816,8 @@ export const listR2DataCatalogs: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListR2DataCatalogs",
 }));
 
 export type UpdateMaintenanceConfigError = InvalidRoute | WarehouseInactive | CloudflareOpError;
@@ -772,6 +833,11 @@ export const updateMaintenanceConfig: API.OperationMethod<
   errors: [InvalidRoute, WarehouseInactive, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateMaintenanceConfig",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type UpdateNamespaceTableMaintenanceConfigError =
@@ -791,6 +857,11 @@ export const updateNamespaceTableMaintenanceConfig: API.OperationMethod<
   errors: [TableNotFound, InvalidRoute, WarehouseInactive, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateNamespaceTableMaintenanceConfig",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

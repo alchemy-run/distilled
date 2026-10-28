@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudchannel" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudchannel",
+  service: "cloudchannel",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1818,6 +1837,8 @@ export const activateAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateAccountsCustomersEntitlements",
 }));
 
 export type CancelAccountsCustomersEntitlementsError =
@@ -1838,6 +1859,8 @@ export const cancelAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAccountsCustomersEntitlements",
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1853,6 +1876,8 @@ export const cancelOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOperations",
 }));
 
 export type ChangeOfferAccountsCustomersEntitlementsError =
@@ -1873,6 +1898,8 @@ export const changeOfferAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeOfferAccountsCustomersEntitlements",
 }));
 
 export type ChangeParametersAccountsCustomersEntitlementsError =
@@ -1897,6 +1924,8 @@ export const changeParametersAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeParametersAccountsCustomersEntitlements",
 }));
 
 export type ChangeRenewalSettingsAccountsCustomersEntitlementsError =
@@ -1921,6 +1950,8 @@ export const changeRenewalSettingsAccountsCustomersEntitlements: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeRenewalSettingsAccountsCustomersEntitlements",
 }));
 
 export type CheckCloudIdentityAccountsExistAccountsError =
@@ -1945,6 +1976,8 @@ export const checkCloudIdentityAccountsExistAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCloudIdentityAccountsExistAccounts",
 }));
 
 export type CreateAccountsChannelPartnerLinksError =
@@ -1965,6 +1998,8 @@ export const createAccountsChannelPartnerLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsChannelPartnerLinks",
 }));
 
 export type CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
@@ -1989,6 +2024,8 @@ export const createAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: AP
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigs",
 }));
 
 export type CreateAccountsChannelPartnerLinksCustomersError =
@@ -2009,6 +2046,8 @@ export const createAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsChannelPartnerLinksCustomers",
 }));
 
 export type CreateAccountsCustomersError =
@@ -2029,6 +2068,8 @@ export const createAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsCustomers",
 }));
 
 export type CreateAccountsCustomersCustomerRepricingConfigsError =
@@ -2053,6 +2094,8 @@ export const createAccountsCustomersCustomerRepricingConfigs: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsCustomersCustomerRepricingConfigs",
 }));
 
 export type CreateAccountsCustomersEntitlementsError =
@@ -2073,6 +2116,8 @@ export const createAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsCustomersEntitlements",
 }));
 
 export type DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
@@ -2097,6 +2142,8 @@ export const deleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: AP
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigs",
 }));
 
 export type DeleteAccountsChannelPartnerLinksCustomersError =
@@ -2117,6 +2164,8 @@ export const deleteAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsChannelPartnerLinksCustomers",
 }));
 
 export type DeleteAccountsCustomersError =
@@ -2137,6 +2186,8 @@ export const deleteAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsCustomers",
 }));
 
 export type DeleteAccountsCustomersCustomerRepricingConfigsError =
@@ -2161,6 +2212,8 @@ export const deleteAccountsCustomersCustomerRepricingConfigs: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsCustomersCustomerRepricingConfigs",
 }));
 
 export type DeleteOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2176,6 +2229,8 @@ export const deleteOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOperations",
 }));
 
 export type FetchReportResultsAccountsReportJobsError =
@@ -2196,6 +2251,8 @@ export const fetchReportResultsAccountsReportJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchReportResultsAccountsReportJobs",
 }));
 
 export type GetAccountsChannelPartnerLinksError = NotFound | Forbidden | GcpOpError;
@@ -2211,6 +2268,8 @@ export const getAccountsChannelPartnerLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsChannelPartnerLinks",
 }));
 
 export type GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
@@ -2233,6 +2292,8 @@ export const getAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.O
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigs",
 }));
 
 export type GetAccountsChannelPartnerLinksCustomersError = NotFound | Forbidden | GcpOpError;
@@ -2248,6 +2309,8 @@ export const getAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsChannelPartnerLinksCustomers",
 }));
 
 export type GetAccountsCustomersError = NotFound | Forbidden | GcpOpError;
@@ -2263,6 +2326,8 @@ export const getAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsCustomers",
 }));
 
 export type GetAccountsCustomersCustomerRepricingConfigsError = NotFound | Forbidden | GcpOpError;
@@ -2278,6 +2343,8 @@ export const getAccountsCustomersCustomerRepricingConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsCustomersCustomerRepricingConfigs",
 }));
 
 export type GetAccountsCustomersEntitlementsError = NotFound | Forbidden | GcpOpError;
@@ -2293,6 +2360,8 @@ export const getAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsCustomersEntitlements",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2308,6 +2377,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type ImportAccountsChannelPartnerLinksCustomersError =
@@ -2328,6 +2399,8 @@ export const importAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAccountsChannelPartnerLinksCustomers",
 }));
 
 export type ImportAccountsCustomersError =
@@ -2348,6 +2421,8 @@ export const importAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAccountsCustomers",
 }));
 
 export type ListAccountsChannelPartnerLinksError = NotFound | Forbidden | GcpOpError;
@@ -2368,6 +2443,8 @@ export const listAccountsChannelPartnerLinks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsChannelPartnerLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2396,6 +2473,8 @@ export const listAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2413,6 +2492,8 @@ export const listAccountsChannelPartnerLinksCustomers: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsChannelPartnerLinksCustomers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2430,6 +2511,8 @@ export const listAccountsCustomers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsCustomers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2455,6 +2538,8 @@ export const listAccountsCustomersCustomerRepricingConfigs: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsCustomersCustomerRepricingConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2472,6 +2557,8 @@ export const listAccountsCustomersEntitlements: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsCustomersEntitlements",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2489,6 +2576,8 @@ export const listAccountsOffers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsOffers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2506,6 +2595,8 @@ export const listAccountsReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2523,6 +2614,8 @@ export const listAccountsSkuGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsSkuGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2544,6 +2637,8 @@ export const listAccountsSkuGroupsBillableSkus: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsSkuGroupsBillableSkus",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2568,6 +2663,8 @@ export const listEntitlementChangesAccountsCustomersEntitlements: API.PaginatedO
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEntitlementChangesAccountsCustomersEntitlements",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2585,6 +2682,8 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2602,6 +2701,8 @@ export const listProducts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProducts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2619,6 +2720,8 @@ export const listProductsSkus: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductsSkus",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2636,6 +2739,8 @@ export const listPurchasableOffersAccountsCustomers: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPurchasableOffersAccountsCustomers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2653,6 +2758,8 @@ export const listPurchasableSkusAccountsCustomers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPurchasableSkusAccountsCustomers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2670,6 +2777,8 @@ export const listSubscribersAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscribersAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2687,6 +2796,8 @@ export const listSubscribersIntegrators: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscribersIntegrators",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2712,6 +2823,8 @@ export const listTransferableOffersAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferableOffersAccounts",
 }));
 
 export type ListTransferableSkusAccountsError =
@@ -2732,6 +2845,8 @@ export const listTransferableSkusAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferableSkusAccounts",
 }));
 
 export type LookupOfferAccountsCustomersEntitlementsError = NotFound | Forbidden | GcpOpError;
@@ -2747,6 +2862,8 @@ export const lookupOfferAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupOfferAccountsCustomersEntitlements",
 }));
 
 export type PatchAccountsChannelPartnerLinksError =
@@ -2767,6 +2884,8 @@ export const patchAccountsChannelPartnerLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsChannelPartnerLinks",
 }));
 
 export type PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
@@ -2791,6 +2910,8 @@ export const patchAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigs",
 }));
 
 export type PatchAccountsChannelPartnerLinksCustomersError =
@@ -2811,6 +2932,8 @@ export const patchAccountsChannelPartnerLinksCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsChannelPartnerLinksCustomers",
 }));
 
 export type PatchAccountsCustomersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2826,6 +2949,8 @@ export const patchAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsCustomers",
 }));
 
 export type PatchAccountsCustomersCustomerRepricingConfigsError =
@@ -2850,6 +2975,8 @@ export const patchAccountsCustomersCustomerRepricingConfigs: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountsCustomersCustomerRepricingConfigs",
 }));
 
 export type ProvisionCloudIdentityAccountsCustomersError =
@@ -2870,6 +2997,8 @@ export const provisionCloudIdentityAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionCloudIdentityAccountsCustomers",
 }));
 
 export type QueryEligibleBillingAccountsAccountsCustomersError = NotFound | Forbidden | GcpOpError;
@@ -2893,6 +3022,8 @@ export const queryEligibleBillingAccountsAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryEligibleBillingAccountsAccountsCustomers",
 }));
 
 export type RegisterAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2908,6 +3039,8 @@ export const registerAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterAccounts",
 }));
 
 export type RegisterSubscriberIntegratorsError =
@@ -2928,6 +3061,8 @@ export const registerSubscriberIntegrators: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterSubscriberIntegrators",
 }));
 
 export type RunAccountsReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2943,6 +3078,8 @@ export const runAccountsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAccountsReports",
 }));
 
 export type StartPaidServiceAccountsCustomersEntitlementsError =
@@ -2967,6 +3104,8 @@ export const startPaidServiceAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartPaidServiceAccountsCustomersEntitlements",
 }));
 
 export type SuspendAccountsCustomersEntitlementsError =
@@ -2987,6 +3126,8 @@ export const suspendAccountsCustomersEntitlements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendAccountsCustomersEntitlements",
 }));
 
 export type TransferEntitlementsAccountsCustomersError =
@@ -3007,6 +3148,8 @@ export const transferEntitlementsAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferEntitlementsAccountsCustomers",
 }));
 
 export type TransferEntitlementsToGoogleAccountsCustomersError =
@@ -3031,6 +3174,8 @@ export const transferEntitlementsToGoogleAccountsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferEntitlementsToGoogleAccountsCustomers",
 }));
 
 export type UnregisterAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3046,6 +3191,8 @@ export const unregisterAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnregisterAccounts",
 }));
 
 export type UnregisterSubscriberIntegratorsError =
@@ -3066,6 +3213,8 @@ export const unregisterSubscriberIntegrators: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnregisterSubscriberIntegrators",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -42,3 +42,4 @@ export * as secretScanning from "./secret_scanning.ts";
 export * as securityAdvisories from "./security_advisories.ts";
 export * as teams from "./teams.ts";
 export * as users from "./users.ts";
+export * as webhooks from "./webhooks.ts";

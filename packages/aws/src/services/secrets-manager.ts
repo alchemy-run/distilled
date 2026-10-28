@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -92,6 +93,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://secretsmanager.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SecretsManager",
+  service: "SecretsManager",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DecryptionFailure
   extends /*@__PURE__*/ S.TaggedError<DecryptionFailure>()("DecryptionFailure", {
@@ -608,6 +624,8 @@ export const batchGetSecretValue: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetSecretValue",
 })) as any;
 
 export type CancelRotateSecretError =
@@ -655,6 +673,12 @@ export const cancelRotateSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRotateSecret",
+  telemetry: TELEMETRY,
+  span: {
+    op: "CancelRotateSecret",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type CreateSecretError =
@@ -749,6 +773,11 @@ export const createSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecret",
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateSecret",
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type DeleteResourcePolicyError =
@@ -786,6 +815,12 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteResourcePolicy",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type DeleteSecretError =
@@ -851,6 +886,12 @@ export const deleteSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecret",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteSecret",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type DescribeSecretError =
@@ -882,6 +923,12 @@ export const describeSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecret",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeSecret",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type GetRandomPasswordError =
@@ -917,6 +964,8 @@ export const getRandomPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRandomPassword",
+  telemetry: TELEMETRY,
+  span: "GetRandomPassword",
 }));
 
 export type GetResourcePolicyError =
@@ -954,6 +1003,12 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetResourcePolicy",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type GetSecretValueError =
@@ -1005,6 +1060,12 @@ export const getSecretValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecretValue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSecretValue",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type ListSecretsError =
@@ -1061,6 +1122,8 @@ export const listSecrets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecrets",
 })) as any;
 
 export type ListSecretVersionIdsError =
@@ -1107,6 +1170,12 @@ export const listSecretVersionIds: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSecretVersionIds",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 })) as any;
 
 export type PutResourcePolicyError =
@@ -1150,6 +1219,12 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutResourcePolicy",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type PutSecretValueError =
@@ -1223,6 +1298,12 @@ export const putSecretValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSecretValue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutSecretValue",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type RemoveRegionsFromReplicationError =
@@ -1261,6 +1342,12 @@ export const removeRegionsFromReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRegionsFromReplication",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RemoveRegionsFromReplication",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type ReplicateSecretToRegionsError =
@@ -1302,6 +1389,12 @@ export const replicateSecretToRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplicateSecretToRegions",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ReplicateSecretToRegions",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type RestoreSecretError =
@@ -1339,6 +1432,12 @@ export const restoreSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreSecret",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RestoreSecret",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type RotateSecretError =
@@ -1392,6 +1491,12 @@ export const rotateSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateSecret",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RotateSecret",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type StopReplicationToReplicaError =
@@ -1432,6 +1537,12 @@ export const stopReplicationToReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplicationToReplica",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StopReplicationToReplica",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type TagResourceError =
@@ -1478,6 +1589,11 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: {
+    op: "TagResource",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type UntagResourceError =
@@ -1522,6 +1638,11 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UntagResource",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type UpdateSecretError =
@@ -1606,6 +1727,12 @@ export const updateSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecret",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateSecret",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type UpdateSecretVersionStageError =
@@ -1663,6 +1790,12 @@ export const updateSecretVersionStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecretVersionStage",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateSecretVersionStage",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+    output: { ARN: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 export type ValidateResourcePolicyError =
@@ -1713,6 +1846,11 @@ export const validateResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateResourcePolicy",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateResourcePolicy",
+    input: { SecretId: [{ name: "aws.secretsmanager.secret.arn", transform: "arn" }] },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

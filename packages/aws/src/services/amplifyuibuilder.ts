@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://amplifyuibuilder.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AmplifyUIBuilder",
+  service: "AmplifyUIBuilder",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -924,6 +939,8 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateFormError =
@@ -952,6 +969,8 @@ export const createForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateForm",
+  telemetry: TELEMETRY,
+  span: "CreateForm",
 }));
 
 export type CreateThemeError =
@@ -980,6 +999,8 @@ export const createTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTheme",
+  telemetry: TELEMETRY,
+  span: "CreateTheme",
 }));
 
 export type DeleteComponentError =
@@ -1002,6 +1023,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteFormError =
@@ -1024,6 +1047,8 @@ export const deleteForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForm",
+  telemetry: TELEMETRY,
+  span: "DeleteForm",
 }));
 
 export type DeleteThemeError =
@@ -1046,6 +1071,8 @@ export const deleteTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTheme",
+  telemetry: TELEMETRY,
+  span: "DeleteTheme",
 }));
 
 export type ExchangeCodeForTokenError = InvalidParameterException | CommonErrors;
@@ -1066,6 +1093,8 @@ export const exchangeCodeForToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExchangeCodeForToken",
+  telemetry: TELEMETRY,
+  span: "ExchangeCodeForToken",
 }));
 
 export type ExportComponentsError =
@@ -1089,6 +1118,8 @@ export const exportComponents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportComponents",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  telemetry: TELEMETRY,
+  span: "ExportComponents",
 })) as any;
 
 export type ExportFormsError = InternalServerException | InvalidParameterException | CommonErrors;
@@ -1109,6 +1140,8 @@ export const exportForms: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportForms",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  telemetry: TELEMETRY,
+  span: "ExportForms",
 })) as any;
 
 export type ExportThemesError = InternalServerException | InvalidParameterException | CommonErrors;
@@ -1129,6 +1162,8 @@ export const exportThemes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportThemes",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  telemetry: TELEMETRY,
+  span: "ExportThemes",
 })) as any;
 
 export type GetCodegenJobError =
@@ -1157,6 +1192,8 @@ export const getCodegenJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodegenJob",
+  telemetry: TELEMETRY,
+  span: "GetCodegenJob",
 }));
 
 export type GetComponentError =
@@ -1179,6 +1216,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetFormError =
@@ -1201,6 +1240,8 @@ export const getForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetForm",
+  telemetry: TELEMETRY,
+  span: "GetForm",
 }));
 
 export type GetMetadataError = InvalidParameterException | UnauthorizedException | CommonErrors;
@@ -1219,6 +1260,8 @@ export const getMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetadata",
+  telemetry: TELEMETRY,
+  span: "GetMetadata",
 }));
 
 export type GetThemeError =
@@ -1241,6 +1284,8 @@ export const getTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTheme",
+  telemetry: TELEMETRY,
+  span: "GetTheme",
 }));
 
 export type ListCodegenJobsError =
@@ -1270,6 +1315,8 @@ export const listCodegenJobs: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodegenJobs",
 })) as any;
 
 export type ListComponentsError =
@@ -1299,6 +1346,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListFormsError = InternalServerException | InvalidParameterException | CommonErrors;
@@ -1324,6 +1373,8 @@ export const listForms: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListForms",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1354,6 +1405,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListThemesError = InternalServerException | InvalidParameterException | CommonErrors;
@@ -1380,6 +1433,8 @@ export const listThemes: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThemes",
 })) as any;
 
 export type PutMetadataFlagError = InvalidParameterException | UnauthorizedException | CommonErrors;
@@ -1398,6 +1453,8 @@ export const putMetadataFlag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetadataFlag",
+  telemetry: TELEMETRY,
+  span: "PutMetadataFlag",
 }));
 
 export type RefreshTokenError = InvalidParameterException | CommonErrors;
@@ -1418,6 +1475,8 @@ export const refreshToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshToken",
+  telemetry: TELEMETRY,
+  span: "RefreshToken",
 }));
 
 export type StartCodegenJobError =
@@ -1440,6 +1499,8 @@ export const startCodegenJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodegenJob",
+  telemetry: TELEMETRY,
+  span: "StartCodegenJob",
 }));
 
 export type TagResourceError =
@@ -1470,6 +1531,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1500,6 +1563,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateComponentError =
@@ -1522,6 +1587,8 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateComponent",
 }));
 
 export type UpdateFormError =
@@ -1544,6 +1611,8 @@ export const updateForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateForm",
+  telemetry: TELEMETRY,
+  span: "UpdateForm",
 }));
 
 export type UpdateThemeError =
@@ -1566,6 +1635,8 @@ export const updateTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTheme",
+  telemetry: TELEMETRY,
+  span: "UpdateTheme",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

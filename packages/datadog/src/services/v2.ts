@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { DatadogOpError, DatadogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "datadog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Datadog",
+  service: "DatadogV2",
+  labels: "datadog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -66888,6 +66901,8 @@ export const acknowledgeOnCallPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgeOnCallPage",
 }));
 
 export type ActivateContentPackError = Forbidden | NotFound | DatadogOpError;
@@ -66903,6 +66918,8 @@ export const activateContentPack: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateContentPack",
 }));
 
 export type ActivateIntegrationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -66918,6 +66935,8 @@ export const activateIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateIntegration",
 }));
 
 export type AddCaseInsightsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -66933,6 +66952,8 @@ export const addCaseInsights: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCaseInsights",
 }));
 
 export type AddPermissionToRoleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -66948,6 +66969,8 @@ export const addPermissionToRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPermissionToRole",
 }));
 
 export type AddReadRoleToArchiveError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -66963,6 +66986,8 @@ export const addReadRoleToArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddReadRoleToArchive",
 }));
 
 export type AddRoleToRestrictionQueryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -66978,6 +67003,8 @@ export const addRoleToRestrictionQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRoleToRestrictionQuery",
 }));
 
 export type AddRumReplaySessionToPlaylistError = DatadogOpError;
@@ -66993,6 +67020,8 @@ export const addRumReplaySessionToPlaylist: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRumReplaySessionToPlaylist",
 }));
 
 export type AddSTIXThreatIntelError = BadRequest | Forbidden | DatadogOpError;
@@ -67008,6 +67037,8 @@ export const addSTIXThreatIntel: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSTIXThreatIntel",
 }));
 
 export type AddTeamHierarchyLinkError = Forbidden | Conflict | DatadogOpError;
@@ -67023,6 +67054,8 @@ export const addTeamHierarchyLink: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTeamHierarchyLink",
 }));
 
 export type AddTestToSyntheticsDowntimeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67038,6 +67071,8 @@ export const addTestToSyntheticsDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTestToSyntheticsDowntime",
 }));
 
 export type AddUserToRoleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67053,6 +67088,8 @@ export const addUserToRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddUserToRole",
 }));
 
 export type AggregateCasesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67068,6 +67105,8 @@ export const aggregateCases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateCases",
 }));
 
 export type AggregateCIAppPipelineEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -67083,6 +67122,8 @@ export const aggregateCIAppPipelineEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateCIAppPipelineEvents",
 }));
 
 export type AggregateCIAppTestEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -67098,6 +67139,8 @@ export const aggregateCIAppTestEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateCIAppTestEvents",
 }));
 
 export type AggregateLLMObsExperimentationError = BadRequest | Forbidden | DatadogOpError;
@@ -67113,6 +67156,8 @@ export const aggregateLLMObsExperimentation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateLLMObsExperimentation",
 }));
 
 export type AggregateLogsError = BadRequest | Forbidden | DatadogOpError;
@@ -67128,6 +67173,8 @@ export const aggregateLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateLogs",
 }));
 
 export type AggregateRUMEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -67143,6 +67190,8 @@ export const aggregateRUMEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateRUMEvents",
 }));
 
 export type AggregateSpansError = BadRequest | Forbidden | DatadogOpError;
@@ -67158,6 +67207,8 @@ export const aggregateSpans: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AggregateSpans",
 }));
 
 export type AnonymizeUsersError = BadRequest | Forbidden | DatadogOpError;
@@ -67173,6 +67224,8 @@ export const anonymizeUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnonymizeUsers",
 }));
 
 export type ArchiveCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67188,6 +67241,8 @@ export const archiveCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveCase",
 }));
 
 export type ArchiveExposureSQLModelError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67203,6 +67258,8 @@ export const archiveExposureSQLModel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveExposureSQLModel",
 }));
 
 export type ArchiveFeatureFlagError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67218,6 +67275,8 @@ export const archiveFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveFeatureFlag",
 }));
 
 export type AssignCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67233,6 +67292,8 @@ export const assignCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignCase",
 }));
 
 export type AssignSeatsUserError = BadRequest | UnprocessableEntity | DatadogOpError;
@@ -67248,6 +67309,8 @@ export const assignSeatsUser: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignSeatsUser",
 }));
 
 export type AttachCaseError = BadRequest | NotFound | DatadogOpError;
@@ -67263,6 +67326,8 @@ export const attachCase: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachCase",
 }));
 
 export type AttachJiraIssueError = BadRequest | NotFound | DatadogOpError;
@@ -67278,6 +67343,8 @@ export const attachJiraIssue: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachJiraIssue",
 }));
 
 export type AttachLinearIssueError = BadRequest | NotFound | DatadogOpError;
@@ -67293,6 +67360,8 @@ export const attachLinearIssue: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachLinearIssue",
 }));
 
 export type AttachServiceNowTicketError = BadRequest | NotFound | DatadogOpError;
@@ -67308,6 +67377,8 @@ export const attachServiceNowTicket: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachServiceNowTicket",
 }));
 
 export type BatchGetJourneysByTestSuiteIDsError = BadRequest | NotFound | DatadogOpError;
@@ -67323,6 +67394,8 @@ export const batchGetJourneysByTestSuiteIDs: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetJourneysByTestSuiteIDs",
 }));
 
 export type BatchGetSecurityMonitoringDatasetDependenciesError =
@@ -67345,6 +67418,8 @@ export const batchGetSecurityMonitoringDatasetDependencies: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetSecurityMonitoringDatasetDependencies",
 }));
 
 export type BatchRowsQueryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67360,6 +67435,8 @@ export const batchRowsQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchRowsQuery",
 }));
 
 export type BatchUpdateLLMObsDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67375,6 +67452,8 @@ export const batchUpdateLLMObsDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateLLMObsDataset",
 }));
 
 export type BulkConvertExistingSecurityMonitoringRulesError =
@@ -67402,6 +67481,8 @@ export const bulkConvertExistingSecurityMonitoringRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkConvertExistingSecurityMonitoringRules",
 }));
 
 export type BulkCreateSampleLogGenerationSubscriptionsError =
@@ -67424,6 +67505,8 @@ export const bulkCreateSampleLogGenerationSubscriptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkCreateSampleLogGenerationSubscriptions",
 }));
 
 export type BulkDeleteDatastoreItemsError = BadRequest | NotFound | DatadogOpError;
@@ -67439,6 +67522,8 @@ export const bulkDeleteDatastoreItems: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteDatastoreItems",
 }));
 
 export type BulkDeleteSecurityMonitoringRulesError =
@@ -67458,6 +67543,8 @@ export const bulkDeleteSecurityMonitoringRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteSecurityMonitoringRules",
 }));
 
 export type BulkEditSecurityMonitoringSignalsError = BadRequest | Forbidden | DatadogOpError;
@@ -67477,6 +67564,8 @@ export const bulkEditSecurityMonitoringSignals: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditSecurityMonitoringSignals",
 }));
 
 export type BulkEditSecurityMonitoringSignalsAssigneeError =
@@ -67503,6 +67592,8 @@ export const bulkEditSecurityMonitoringSignalsAssignee: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditSecurityMonitoringSignalsAssignee",
 }));
 
 export type BulkEditSecurityMonitoringSignalsStateError = BadRequest | Forbidden | DatadogOpError;
@@ -67522,6 +67613,8 @@ export const bulkEditSecurityMonitoringSignalsState: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkEditSecurityMonitoringSignalsState",
 }));
 
 export type BulkExportSecurityMonitoringRulesError =
@@ -67541,6 +67634,8 @@ export const bulkExportSecurityMonitoringRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkExportSecurityMonitoringRules",
 }));
 
 export type BulkExportSecurityMonitoringTerraformResourcesError =
@@ -67568,6 +67663,8 @@ export const bulkExportSecurityMonitoringTerraformResources: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkExportSecurityMonitoringTerraformResources",
 }));
 
 export type BulkRemoveRumReplayPlaylistSessionsError = DatadogOpError;
@@ -67583,6 +67680,8 @@ export const bulkRemoveRumReplayPlaylistSessions: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkRemoveRumReplayPlaylistSessions",
 }));
 
 export type BulkUpdateCasesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67598,6 +67697,8 @@ export const bulkUpdateCases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateCases",
 }));
 
 export type BulkUpdateOrgGroupMembershipsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67613,6 +67714,8 @@ export const bulkUpdateOrgGroupMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateOrgGroupMemberships",
 }));
 
 export type BulkWriteDatastoreItemsError = BadRequest | NotFound | DatadogOpError;
@@ -67628,6 +67731,8 @@ export const bulkWriteDatastoreItems: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkWriteDatastoreItems",
 }));
 
 export type CancelDataDeletionRequestError = BadRequest | Forbidden | DatadogOpError;
@@ -67643,6 +67748,8 @@ export const cancelDataDeletionRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDataDeletionRequest",
 }));
 
 export type CancelDowntimeError = Forbidden | NotFound | DatadogOpError;
@@ -67658,6 +67765,8 @@ export const cancelDowntime: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDowntime",
 }));
 
 export type CancelExperimentError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -67673,6 +67782,8 @@ export const cancelExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelExperiment",
 }));
 
 export type CancelFleetDeploymentV2Error = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67688,6 +67799,8 @@ export const cancelFleetDeploymentV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelFleetDeploymentV2",
 }));
 
 export type CancelHistoricalJobError =
@@ -67708,6 +67821,8 @@ export const cancelHistoricalJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelHistoricalJob",
 }));
 
 export type CancelWorkflowInstanceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67723,6 +67838,8 @@ export const cancelWorkflowInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelWorkflowInstance",
 }));
 
 export type CloneFormError = BadRequest | NotFound | DatadogOpError;
@@ -67738,6 +67855,8 @@ export const cloneForm: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneForm",
 }));
 
 export type CloneLLMObsDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67753,6 +67872,8 @@ export const cloneLLMObsDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneLLMObsDataset",
 }));
 
 export type CloneRoleError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -67768,6 +67889,8 @@ export const cloneRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneRole",
 }));
 
 export type CommentCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67783,6 +67906,8 @@ export const commentCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommentCase",
 }));
 
 export type ConcludeExperimentError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -67798,6 +67923,8 @@ export const concludeExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConcludeExperiment",
 }));
 
 export type ConvertExistingSecurityMonitoringRuleError =
@@ -67817,6 +67944,8 @@ export const convertExistingSecurityMonitoringRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertExistingSecurityMonitoringRule",
 }));
 
 export type ConvertJobResultToSignalError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67832,6 +67961,8 @@ export const convertJobResultToSignal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertJobResultToSignal",
 }));
 
 export type ConvertSecurityMonitoringRuleFromJSONToTerraformError =
@@ -67855,6 +67986,8 @@ export const convertSecurityMonitoringRuleFromJSONToTerraform: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertSecurityMonitoringRuleFromJSONToTerraform",
 }));
 
 export type ConvertSecurityMonitoringTerraformResourceError =
@@ -67877,6 +68010,8 @@ export const convertSecurityMonitoringTerraformResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertSecurityMonitoringTerraformResource",
 }));
 
 export type CountCasesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -67892,6 +68027,8 @@ export const countCases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountCases",
 }));
 
 export type CreateActionConnectionError = BadRequest | Forbidden | DatadogOpError;
@@ -67907,6 +68044,8 @@ export const createActionConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActionConnection",
 }));
 
 export type CreateAiCustomRuleError = BadRequest | Conflict | DatadogOpError;
@@ -67922,6 +68061,8 @@ export const createAiCustomRule: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiCustomRule",
 }));
 
 export type CreateAiCustomRuleRevisionError = BadRequest | NotFound | DatadogOpError;
@@ -67937,6 +68078,8 @@ export const createAiCustomRuleRevision: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiCustomRuleRevision",
 }));
 
 export type CreateAiCustomRulesetError = BadRequest | Conflict | DatadogOpError;
@@ -67952,6 +68095,8 @@ export const createAiCustomRuleset: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiCustomRuleset",
 }));
 
 export type CreateAiMemoryViolationResultError = BadRequest | NotFound | DatadogOpError;
@@ -67967,6 +68112,8 @@ export const createAiMemoryViolationResult: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiMemoryViolationResult",
 }));
 
 export type CreateAllocationsForFeatureFlagInEnvironmentError =
@@ -67991,6 +68138,8 @@ export const createAllocationsForFeatureFlagInEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAllocationsForFeatureFlagInEnvironment",
 }));
 
 export type CreateAndPublishFormError = BadRequest | DatadogOpError;
@@ -68006,6 +68155,8 @@ export const createAndPublishForm: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAndPublishForm",
 }));
 
 export type CreateAnnotationError = BadRequest | Forbidden | DatadogOpError;
@@ -68021,6 +68172,8 @@ export const createAnnotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnnotation",
 }));
 
 export type CreateAPIKeyError = BadRequest | Forbidden | DatadogOpError;
@@ -68036,6 +68189,8 @@ export const createAPIKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAPIKey",
 }));
 
 export type CreateApmRetentionFilterError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -68051,6 +68206,8 @@ export const createApmRetentionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApmRetentionFilter",
 }));
 
 export type CreateAppError = BadRequest | Forbidden | DatadogOpError;
@@ -68066,6 +68223,8 @@ export const createApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateApplicationSecurityWafCustomRuleError =
@@ -68085,6 +68244,8 @@ export const createApplicationSecurityWafCustomRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationSecurityWafCustomRule",
 }));
 
 export type CreateApplicationSecurityWafExclusionFilterError =
@@ -68108,6 +68269,8 @@ export const createApplicationSecurityWafExclusionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationSecurityWafExclusionFilter",
 }));
 
 export type CreateApplicationSecurityWafPolicyError =
@@ -68127,6 +68290,8 @@ export const createApplicationSecurityWafPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationSecurityWafPolicy",
 }));
 
 export type CreateArchiveSearchError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68142,6 +68307,8 @@ export const createArchiveSearch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArchiveSearch",
 }));
 
 export type CreateAuthNMappingError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68157,6 +68324,8 @@ export const createAuthNMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthNMapping",
 }));
 
 export type CreateAWSAccountError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -68172,6 +68341,8 @@ export const createAWSAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAWSAccount",
 }));
 
 export type CreateAWSAccountCCMConfigError = Forbidden | NotFound | Conflict | DatadogOpError;
@@ -68187,6 +68358,8 @@ export const createAWSAccountCCMConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAWSAccountCCMConfig",
 }));
 
 export type CreateAWSCloudAuthPersonaMappingError =
@@ -68206,6 +68379,8 @@ export const createAWSCloudAuthPersonaMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAWSCloudAuthPersonaMapping",
 }));
 
 export type CreateAWSEventBridgeSourceError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -68221,6 +68396,8 @@ export const createAWSEventBridgeSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAWSEventBridgeSource",
 }));
 
 export type CreateAwsOnDemandTaskError = BadRequest | Forbidden | DatadogOpError;
@@ -68236,6 +68413,8 @@ export const createAwsOnDemandTask: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsOnDemandTask",
 }));
 
 export type CreateAwsScanOptionsError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -68251,6 +68430,8 @@ export const createAwsScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAwsScanOptions",
 }));
 
 export type CreateAzureScanOptionsError = DatadogOpError;
@@ -68266,6 +68447,8 @@ export const createAzureScanOptions: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureScanOptions",
 }));
 
 export type CreateBackfilledDegradationError = DatadogOpError;
@@ -68281,6 +68464,8 @@ export const createBackfilledDegradation: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackfilledDegradation",
 }));
 
 export type CreateBackfilledMaintenanceError = DatadogOpError;
@@ -68296,6 +68481,8 @@ export const createBackfilledMaintenance: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackfilledMaintenance",
 }));
 
 export type CreateCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68311,6 +68498,8 @@ export const createCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCase",
 }));
 
 export type CreateCaseAutomationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68326,6 +68515,8 @@ export const createCaseAutomationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaseAutomationRule",
 }));
 
 export type CreateCaseJiraIssueError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68341,6 +68532,8 @@ export const createCaseJiraIssue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaseJiraIssue",
 }));
 
 export type CreateCaseLinkError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68356,6 +68549,8 @@ export const createCaseLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaseLink",
 }));
 
 export type CreateCaseNotebookError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68371,6 +68566,8 @@ export const createCaseNotebook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaseNotebook",
 }));
 
 export type CreateCasesError = BadRequest | NotFound | DatadogOpError;
@@ -68386,6 +68583,8 @@ export const createCases: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCases",
 }));
 
 export type CreateCaseServiceNowTicketError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68401,6 +68600,8 @@ export const createCaseServiceNowTicket: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaseServiceNowTicket",
 }));
 
 export type CreateCaseTypeError = BadRequest | Forbidden | DatadogOpError;
@@ -68416,6 +68617,8 @@ export const createCaseType: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaseType",
 }));
 
 export type CreateCaseViewError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68431,6 +68634,8 @@ export const createCaseView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaseView",
 }));
 
 export type CreateChangeRequestError = BadRequest | Forbidden | DatadogOpError;
@@ -68446,6 +68651,8 @@ export const createChangeRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChangeRequest",
 }));
 
 export type CreateChangeRequestBranchError = BadRequest | NotFound | DatadogOpError;
@@ -68461,6 +68668,8 @@ export const createChangeRequestBranch: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChangeRequestBranch",
 }));
 
 export type CreateCIAppPipelineEventError = BadRequest | Forbidden | DatadogOpError;
@@ -68476,6 +68685,8 @@ export const createCIAppPipelineEvent: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCIAppPipelineEvent",
 }));
 
 export type CreateCloudflareAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68491,6 +68702,8 @@ export const createCloudflareAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudflareAccount",
 }));
 
 export type CreateCloudWorkloadSecurityAgentRuleError =
@@ -68510,6 +68723,8 @@ export const createCloudWorkloadSecurityAgentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudWorkloadSecurityAgentRule",
 }));
 
 export type CreateComponentError = DatadogOpError;
@@ -68525,6 +68740,8 @@ export const createComponent: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateConfluentAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68540,6 +68757,8 @@ export const createConfluentAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfluentAccount",
 }));
 
 export type CreateConfluentResourceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68555,6 +68774,8 @@ export const createConfluentResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfluentResource",
 }));
 
 export type CreateConnectionError = DatadogOpError;
@@ -68570,6 +68791,8 @@ export const createConnection: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateCostAWSCURConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -68585,6 +68808,8 @@ export const createCostAWSCURConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCostAWSCURConfig",
 }));
 
 export type CreateCostAzureUCConfigsError = BadRequest | Forbidden | DatadogOpError;
@@ -68600,6 +68825,8 @@ export const createCostAzureUCConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCostAzureUCConfigs",
 }));
 
 export type CreateCostGCPUsageCostConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -68615,6 +68842,8 @@ export const createCostGCPUsageCostConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCostGCPUsageCostConfig",
 }));
 
 export type CreateCSMThreatsAgentPolicyError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -68630,6 +68859,8 @@ export const createCSMThreatsAgentPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCSMThreatsAgentPolicy",
 }));
 
 export type CreateCSMThreatsAgentRuleError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -68645,6 +68876,8 @@ export const createCSMThreatsAgentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCSMThreatsAgentRule",
 }));
 
 export type CreateCurrentUserApplicationKeyError = BadRequest | Forbidden | DatadogOpError;
@@ -68660,6 +68893,8 @@ export const createCurrentUserApplicationKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCurrentUserApplicationKey",
 }));
 
 export type CreateCustomAllocationRuleError = DatadogOpError;
@@ -68675,6 +68910,8 @@ export const createCustomAllocationRule: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomAllocationRule",
 }));
 
 export type CreateCustomAttributeConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68690,6 +68927,8 @@ export const createCustomAttributeConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomAttributeConfig",
 }));
 
 export type CreateCustomFrameworkError = BadRequest | Conflict | DatadogOpError;
@@ -68705,6 +68944,8 @@ export const createCustomFramework: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomFramework",
 }));
 
 export type CreateCustomRuleError = BadRequest | Conflict | DatadogOpError;
@@ -68720,6 +68961,8 @@ export const createCustomRule: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomRule",
 }));
 
 export type CreateCustomRuleRevisionError = BadRequest | NotFound | DatadogOpError;
@@ -68735,6 +68978,8 @@ export const createCustomRuleRevision: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomRuleRevision",
 }));
 
 export type CreateCustomRulesetError = BadRequest | Conflict | DatadogOpError;
@@ -68750,6 +68995,8 @@ export const createCustomRuleset: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomRuleset",
 }));
 
 export type CreateDashboardListItemsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -68765,6 +69012,8 @@ export const createDashboardListItems: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardListItems",
 }));
 
 export type CreateDashboardSecureEmbedError = Forbidden | NotFound | Conflict | DatadogOpError;
@@ -68780,6 +69029,8 @@ export const createDashboardSecureEmbed: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboardSecureEmbed",
 }));
 
 export type CreateDatabricksIntegrationAccountError =
@@ -68800,6 +69051,8 @@ export const createDatabricksIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabricksIntegrationAccount",
 }));
 
 export type CreateDataDeletionRequestError = BadRequest | Forbidden | DatadogOpError;
@@ -68815,6 +69068,8 @@ export const createDataDeletionRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataDeletionRequest",
 }));
 
 export type CreateDatasetError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -68830,6 +69085,8 @@ export const createDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatastoreError = BadRequest | DatadogOpError;
@@ -68845,6 +69102,8 @@ export const createDatastore: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatastore",
 }));
 
 export type CreateDegradationError = DatadogOpError;
@@ -68860,6 +69119,8 @@ export const createDegradation: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDegradation",
 }));
 
 export type CreateDegradationTemplateError = DatadogOpError;
@@ -68875,6 +69136,8 @@ export const createDegradationTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDegradationTemplate",
 }));
 
 export type CreateDeploymentGateError = BadRequest | Forbidden | DatadogOpError;
@@ -68890,6 +69153,8 @@ export const createDeploymentGate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentGate",
 }));
 
 export type CreateDeploymentRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -68905,6 +69170,8 @@ export const createDeploymentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentRule",
 }));
 
 export type CreateDORADeploymentError = BadRequest | Forbidden | DatadogOpError;
@@ -68920,6 +69187,8 @@ export const createDORADeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDORADeployment",
 }));
 
 export type CreateDORAFailureError = BadRequest | Forbidden | DatadogOpError;
@@ -68935,6 +69204,8 @@ export const createDORAFailure: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDORAFailure",
 }));
 
 export type CreateDowntimeError = BadRequest | Forbidden | DatadogOpError;
@@ -68950,6 +69221,8 @@ export const createDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDowntime",
 }));
 
 export type CreateElasticCloudIntegrationAccountError =
@@ -68970,6 +69243,8 @@ export const createElasticCloudIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateElasticCloudIntegrationAccount",
 }));
 
 export type CreateEventError = BadRequest | Forbidden | DatadogOpError;
@@ -68985,6 +69260,8 @@ export const createEvent: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvent",
 }));
 
 export type CreateExclusionFilterError = BadRequest | Forbidden | DatadogOpError;
@@ -69000,6 +69277,8 @@ export const createExclusionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExclusionFilter",
 }));
 
 export type CreateExecutionPolicyError = BadRequest | Forbidden | DatadogOpError;
@@ -69015,6 +69294,8 @@ export const createExecutionPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExecutionPolicy",
 }));
 
 export type CreateExperimentError =
@@ -69036,6 +69317,8 @@ export const createExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperiment",
 }));
 
 export type CreateExperimentMetricGroupError =
@@ -69056,6 +69339,8 @@ export const createExperimentMetricGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentMetricGroup",
 }));
 
 export type CreateExperimentMetricGroupFromCollectionError =
@@ -69076,6 +69361,8 @@ export const createExperimentMetricGroupFromCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentMetricGroupFromCollection",
 }));
 
 export type CreateExposureSQLModelError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69091,6 +69378,8 @@ export const createExposureSQLModel: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExposureSQLModel",
 }));
 
 export type CreateFastlyAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69106,6 +69395,8 @@ export const createFastlyAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFastlyAccount",
 }));
 
 export type CreateFastlyServiceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69121,6 +69412,8 @@ export const createFastlyService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFastlyService",
 }));
 
 export type CreateFeatureFlagError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69136,6 +69429,8 @@ export const createFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlag",
 }));
 
 export type CreateFeatureFlagsEnvironmentError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69151,6 +69446,8 @@ export const createFeatureFlagsEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlagsEnvironment",
 }));
 
 export type CreateFleetDeploymentConfigureV2Error = BadRequest | Forbidden | DatadogOpError;
@@ -69166,6 +69463,8 @@ export const createFleetDeploymentConfigureV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFleetDeploymentConfigureV2",
 }));
 
 export type CreateFleetDeploymentUpgradeV2Error =
@@ -69185,6 +69484,8 @@ export const createFleetDeploymentUpgradeV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFleetDeploymentUpgradeV2",
 }));
 
 export type CreateFleetScheduleError = BadRequest | Forbidden | DatadogOpError;
@@ -69200,6 +69501,8 @@ export const createFleetSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFleetSchedule",
 }));
 
 export type CreateFormError = BadRequest | DatadogOpError;
@@ -69215,6 +69518,8 @@ export const createForm: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForm",
 }));
 
 export type CreateGcpScanOptionsError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69230,6 +69535,8 @@ export const createGcpScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGcpScanOptions",
 }));
 
 export type CreateGCPSTSAccountError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69245,6 +69552,8 @@ export const createGCPSTSAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGCPSTSAccount",
 }));
 
 export type CreateGlobalIncidentHandleError = BadRequest | DatadogOpError;
@@ -69260,6 +69569,8 @@ export const createGlobalIncidentHandle: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGlobalIncidentHandle",
 }));
 
 export type CreateGoogleChatTargetAudienceError =
@@ -69280,6 +69591,8 @@ export const createGoogleChatTargetAudience: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGoogleChatTargetAudience",
 }));
 
 export type CreateHamrOrgConnectionError = BadRequest | Forbidden | DatadogOpError;
@@ -69295,6 +69608,8 @@ export const createHamrOrgConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHamrOrgConnection",
 }));
 
 export type CreateHistoricalMetricsConfigurationError =
@@ -69314,6 +69629,8 @@ export const createHistoricalMetricsConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHistoricalMetricsConfiguration",
 }));
 
 export type CreateIncidentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69329,6 +69646,8 @@ export const createIncident: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncident",
 }));
 
 export type CreateIncidentAttachmentError = BadRequest | Forbidden | DatadogOpError;
@@ -69344,6 +69663,8 @@ export const createIncidentAttachment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentAttachment",
 }));
 
 export type CreateIncidentConfigurationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69359,6 +69680,8 @@ export const createIncidentConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentConfiguration",
 }));
 
 export type CreateIncidentGoogleChatConfigurationError = BadRequest | Forbidden | DatadogOpError;
@@ -69374,6 +69697,8 @@ export const createIncidentGoogleChatConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentGoogleChatConfiguration",
 }));
 
 export type CreateIncidentGoogleMeetConfigurationError = BadRequest | Forbidden | DatadogOpError;
@@ -69389,6 +69714,8 @@ export const createIncidentGoogleMeetConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentGoogleMeetConfiguration",
 }));
 
 export type CreateIncidentImpactError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69404,6 +69731,8 @@ export const createIncidentImpact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentImpact",
 }));
 
 export type CreateIncidentImpactFieldError = BadRequest | Forbidden | DatadogOpError;
@@ -69419,6 +69748,8 @@ export const createIncidentImpactField: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentImpactField",
 }));
 
 export type CreateIncidentIntegrationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69434,6 +69765,8 @@ export const createIncidentIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentIntegration",
 }));
 
 export type CreateIncidentNotificationRuleError =
@@ -69453,6 +69786,8 @@ export const createIncidentNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentNotificationRule",
 }));
 
 export type CreateIncidentNotificationTemplateError =
@@ -69472,6 +69807,8 @@ export const createIncidentNotificationTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentNotificationTemplate",
 }));
 
 export type CreateIncidentPostmortemAttachmentError = BadRequest | DatadogOpError;
@@ -69487,6 +69824,8 @@ export const createIncidentPostmortemAttachment: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentPostmortemAttachment",
 }));
 
 export type CreateIncidentPostmortemTemplateError = BadRequest | Forbidden | DatadogOpError;
@@ -69502,6 +69841,8 @@ export const createIncidentPostmortemTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentPostmortemTemplate",
 }));
 
 export type CreateIncidentResponderError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69517,6 +69858,8 @@ export const createIncidentResponder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentResponder",
 }));
 
 export type CreateIncidentRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -69532,6 +69875,8 @@ export const createIncidentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentRule",
 }));
 
 export type CreateIncidentServiceNowRecordError =
@@ -69551,6 +69896,8 @@ export const createIncidentServiceNowRecord: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentServiceNowRecord",
 }));
 
 export type CreateIncidentTemplateError =
@@ -69571,6 +69918,8 @@ export const createIncidentTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentTemplate",
 }));
 
 export type CreateIncidentTodoError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69586,6 +69935,8 @@ export const createIncidentTodo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentTodo",
 }));
 
 export type CreateIncidentTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69601,6 +69952,8 @@ export const createIncidentType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentType",
 }));
 
 export type CreateIncidentUserDefinedFieldError =
@@ -69620,6 +69973,8 @@ export const createIncidentUserDefinedField: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentUserDefinedField",
 }));
 
 export type CreateIncidentUserDefinedRoleError = BadRequest | Forbidden | DatadogOpError;
@@ -69635,6 +69990,8 @@ export const createIncidentUserDefinedRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncidentUserDefinedRole",
 }));
 
 export type CreateIoCTriageStateError = BadRequest | Forbidden | DatadogOpError;
@@ -69650,6 +70007,8 @@ export const createIoCTriageState: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIoCTriageState",
 }));
 
 export type CreateJiraIssuesError = BadRequest | NotFound | DatadogOpError;
@@ -69665,6 +70024,8 @@ export const createJiraIssues: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJiraIssues",
 }));
 
 export type CreateJiraIssueTemplateError = BadRequest | DatadogOpError;
@@ -69680,6 +70041,8 @@ export const createJiraIssueTemplate: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJiraIssueTemplate",
 }));
 
 export type CreateJourneyError = DatadogOpError;
@@ -69695,6 +70058,8 @@ export const createJourney: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJourney",
 }));
 
 export type CreateJourneyVariantError = BadRequest | NotFound | DatadogOpError;
@@ -69710,6 +70075,8 @@ export const createJourneyVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJourneyVariant",
 }));
 
 export type CreateLinearIssuesError = BadRequest | NotFound | DatadogOpError;
@@ -69725,6 +70092,8 @@ export const createLinearIssues: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLinearIssues",
 }));
 
 export type CreateLLMObsAnnotationQueueError = BadRequest | Forbidden | DatadogOpError;
@@ -69740,6 +70109,8 @@ export const createLLMObsAnnotationQueue: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsAnnotationQueue",
 }));
 
 export type CreateLLMObsAnnotationQueueInteractionsError =
@@ -69759,6 +70130,8 @@ export const createLLMObsAnnotationQueueInteractions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsAnnotationQueueInteractions",
 }));
 
 export type CreateLLMObsDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69774,6 +70147,8 @@ export const createLLMObsDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsDataset",
 }));
 
 export type CreateLLMObsDatasetRecordsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69789,6 +70164,8 @@ export const createLLMObsDatasetRecords: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsDatasetRecords",
 }));
 
 export type CreateLLMObsExperimentError = BadRequest | Forbidden | DatadogOpError;
@@ -69804,6 +70181,8 @@ export const createLLMObsExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsExperiment",
 }));
 
 export type CreateLLMObsExperimentEventsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69819,6 +70198,8 @@ export const createLLMObsExperimentEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsExperimentEvents",
 }));
 
 export type CreateLLMObsIntegrationInferenceError = BadRequest | Forbidden | DatadogOpError;
@@ -69834,6 +70215,8 @@ export const createLLMObsIntegrationInference: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsIntegrationInference",
 }));
 
 export type CreateLLMObsProjectError = BadRequest | Forbidden | DatadogOpError;
@@ -69849,6 +70232,8 @@ export const createLLMObsProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsProject",
 }));
 
 export type CreateLLMObsPromptError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69864,6 +70249,8 @@ export const createLLMObsPrompt: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsPrompt",
 }));
 
 export type CreateLLMObsPromptVersionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69879,6 +70266,8 @@ export const createLLMObsPromptVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLLMObsPromptVersion",
 }));
 
 export type CreateLogsArchiveError = BadRequest | Forbidden | DatadogOpError;
@@ -69894,6 +70283,8 @@ export const createLogsArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsArchive",
 }));
 
 export type CreateLogsCustomDestinationError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69909,6 +70300,8 @@ export const createLogsCustomDestination: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsCustomDestination",
 }));
 
 export type CreateLogsMetricError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69924,6 +70317,8 @@ export const createLogsMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogsMetric",
 }));
 
 export type CreateMaintenanceError = DatadogOpError;
@@ -69939,6 +70334,8 @@ export const createMaintenance: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMaintenance",
 }));
 
 export type CreateMaintenanceTemplateError = DatadogOpError;
@@ -69954,6 +70351,8 @@ export const createMaintenanceTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMaintenanceTemplate",
 }));
 
 export type CreateMaintenanceWindowError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -69969,6 +70368,8 @@ export const createMaintenanceWindow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMaintenanceWindow",
 }));
 
 export type CreateMetricError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69984,6 +70385,8 @@ export const createMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetric",
 }));
 
 export type CreateMetricCollectionError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -69999,6 +70402,8 @@ export const createMetricCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricCollection",
 }));
 
 export type CreateMetricSQLModelError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70014,6 +70419,8 @@ export const createMetricSQLModel: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricSQLModel",
 }));
 
 export type CreateMonitorConfigPolicyError = BadRequest | Forbidden | DatadogOpError;
@@ -70029,6 +70436,8 @@ export const createMonitorConfigPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitorConfigPolicy",
 }));
 
 export type CreateMonitorNotificationRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -70044,6 +70453,8 @@ export const createMonitorNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitorNotificationRule",
 }));
 
 export type CreateMonitorUserTemplateError = BadRequest | DatadogOpError;
@@ -70059,6 +70470,8 @@ export const createMonitorUserTemplate: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitorUserTemplate",
 }));
 
 export type CreateNewAWSExternalIDError = Forbidden | DatadogOpError;
@@ -70074,6 +70487,8 @@ export const createNewAWSExternalID: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNewAWSExternalID",
 }));
 
 export type CreateOAuth2ClientCredentialsError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70089,6 +70504,8 @@ export const createOAuth2ClientCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2ClientCredentials",
 }));
 
 export type CreateOktaAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -70104,6 +70521,8 @@ export const createOktaAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOktaAccount",
 }));
 
 export type CreateOnCallEscalationPolicyError = BadRequest | Forbidden | DatadogOpError;
@@ -70119,6 +70538,8 @@ export const createOnCallEscalationPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnCallEscalationPolicy",
 }));
 
 export type CreateOnCallPageError = DatadogOpError;
@@ -70134,6 +70555,8 @@ export const createOnCallPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnCallPage",
 }));
 
 export type CreateOnCallPageFromIncidentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -70149,6 +70572,8 @@ export const createOnCallPageFromIncident: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnCallPageFromIncident",
 }));
 
 export type CreateOnCallScheduleError = BadRequest | Forbidden | DatadogOpError;
@@ -70164,6 +70589,8 @@ export const createOnCallSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnCallSchedule",
 }));
 
 export type CreateOpsgenieAccountError = BadRequest | Forbidden | DatadogOpError;
@@ -70179,6 +70606,8 @@ export const createOpsgenieAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOpsgenieAccount",
 }));
 
 export type CreateOpsgenieServiceError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70194,6 +70623,8 @@ export const createOpsgenieService: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOpsgenieService",
 }));
 
 export type CreateOrganizationHandleError =
@@ -70214,6 +70645,8 @@ export const createOrganizationHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationHandle",
 }));
 
 export type CreateOrgConnectionsError =
@@ -70234,6 +70667,8 @@ export const createOrgConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgConnections",
 }));
 
 export type CreateOrgGroupError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70249,6 +70684,8 @@ export const createOrgGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgGroup",
 }));
 
 export type CreateOrgGroupPolicyError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70264,6 +70701,8 @@ export const createOrgGroupPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgGroupPolicy",
 }));
 
 export type CreateOrgGroupPolicyOverrideError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70279,6 +70718,8 @@ export const createOrgGroupPolicyOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgGroupPolicyOverride",
 }));
 
 export type CreateOrUpdateServiceDefinitionsError =
@@ -70298,6 +70739,8 @@ export const createOrUpdateServiceDefinitions: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateServiceDefinitions",
 }));
 
 export type CreateOwnershipFeedbackError = BadRequest | NotFound | Conflict | DatadogOpError;
@@ -70313,6 +70756,8 @@ export const createOwnershipFeedback: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOwnershipFeedback",
 }));
 
 export type CreatePersonalAccessTokenError = BadRequest | Forbidden | DatadogOpError;
@@ -70328,6 +70773,8 @@ export const createPersonalAccessToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePersonalAccessToken",
 }));
 
 export type CreatePipelineError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70343,6 +70790,8 @@ export const createPipeline: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type CreatePowerpackError = BadRequest | DatadogOpError;
@@ -70358,6 +70807,8 @@ export const createPowerpack: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePowerpack",
 }));
 
 export type CreateProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -70373,6 +70824,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateProjectNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -70388,6 +70841,8 @@ export const createProjectNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectNotificationRule",
 }));
 
 export type CreatePublishRequestError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -70403,6 +70858,8 @@ export const createPublishRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublishRequest",
 }));
 
 export type CreateQuotasError = BadRequest | Forbidden | DatadogOpError;
@@ -70418,6 +70875,8 @@ export const createQuotas: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuotas",
 }));
 
 export type CreateReferenceTableError = BadRequest | Forbidden | DatadogOpError;
@@ -70433,6 +70892,8 @@ export const createReferenceTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReferenceTable",
 }));
 
 export type CreateReferenceTableUploadError = BadRequest | Forbidden | DatadogOpError;
@@ -70448,6 +70909,8 @@ export const createReferenceTableUpload: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReferenceTableUpload",
 }));
 
 export type CreateReplayHeatmapSnapshotError = DatadogOpError;
@@ -70463,6 +70926,8 @@ export const createReplayHeatmapSnapshot: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReplayHeatmapSnapshot",
 }));
 
 export type CreateReportScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -70478,6 +70943,8 @@ export const createReportSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReportSchedule",
 }));
 
 export type CreateRestrictionQueryError = BadRequest | Forbidden | DatadogOpError;
@@ -70493,6 +70960,8 @@ export const createRestrictionQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRestrictionQuery",
 }));
 
 export type CreateRetentionFilterError = BadRequest | Forbidden | DatadogOpError;
@@ -70508,6 +70977,8 @@ export const createRetentionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRetentionFilter",
 }));
 
 export type CreateRoleError = BadRequest | Forbidden | DatadogOpError;
@@ -70523,6 +70994,8 @@ export const createRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRole",
 }));
 
 export type CreateRUMApplicationError = BadRequest | DatadogOpError;
@@ -70538,6 +71011,8 @@ export const createRUMApplication: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRUMApplication",
 }));
 
 export type CreateRumConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -70553,6 +71028,8 @@ export const createRumConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRumConfig",
 }));
 
 export type CreateRumMetricError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70568,6 +71045,8 @@ export const createRumMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRumMetric",
 }));
 
 export type CreateRUMOperationError = BadRequest | Conflict | DatadogOpError;
@@ -70583,6 +71062,8 @@ export const createRUMOperation: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRUMOperation",
 }));
 
 export type CreateRUMOperationStrongLinkError = BadRequest | NotFound | Conflict | DatadogOpError;
@@ -70598,6 +71079,8 @@ export const createRUMOperationStrongLink: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRUMOperationStrongLink",
 }));
 
 export type CreateRumReplayPlaylistError = DatadogOpError;
@@ -70613,6 +71096,8 @@ export const createRumReplayPlaylist: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRumReplayPlaylist",
 }));
 
 export type CreateRumReplaySessionWatchError = DatadogOpError;
@@ -70628,6 +71113,8 @@ export const createRumReplaySessionWatch: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRumReplaySessionWatch",
 }));
 
 export type CreateSampleLogGenerationSubscriptionError = BadRequest | Forbidden | DatadogOpError;
@@ -70643,6 +71130,8 @@ export const createSampleLogGenerationSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSampleLogGenerationSubscription",
 }));
 
 export type CreateScanningGroupError = BadRequest | Forbidden | DatadogOpError;
@@ -70658,6 +71147,8 @@ export const createScanningGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScanningGroup",
 }));
 
 export type CreateScanningRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -70673,6 +71164,8 @@ export const createScanningRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScanningRule",
 }));
 
 export type CreateSCAResolveVulnerableSymbolsError = DatadogOpError;
@@ -70688,6 +71181,8 @@ export const createSCAResolveVulnerableSymbols: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSCAResolveVulnerableSymbols",
 }));
 
 export type CreateSCAResultError = DatadogOpError;
@@ -70703,6 +71198,8 @@ export const createSCAResult: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSCAResult",
 }));
 
 export type CreateSCAScanError = BadRequest | DatadogOpError;
@@ -70718,6 +71215,8 @@ export const createSCAScan: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSCAScan",
 }));
 
 export type CreateScorecardCampaignError = BadRequest | Forbidden | DatadogOpError;
@@ -70733,6 +71232,8 @@ export const createScorecardCampaign: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScorecardCampaign",
 }));
 
 export type CreateScorecardRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -70748,6 +71249,8 @@ export const createScorecardRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScorecardRule",
 }));
 
 export type CreateSecurityFilterError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -70763,6 +71266,8 @@ export const createSecurityFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityFilter",
 }));
 
 export type CreateSecurityFindingsAutomationDueDateRuleError =
@@ -70786,6 +71291,8 @@ export const createSecurityFindingsAutomationDueDateRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityFindingsAutomationDueDateRule",
 }));
 
 export type CreateSecurityFindingsAutomationInboxRuleError =
@@ -70809,6 +71316,8 @@ export const createSecurityFindingsAutomationInboxRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityFindingsAutomationInboxRule",
 }));
 
 export type CreateSecurityFindingsAutomationMuteRuleError =
@@ -70828,6 +71337,8 @@ export const createSecurityFindingsAutomationMuteRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityFindingsAutomationMuteRule",
 }));
 
 export type CreateSecurityFindingsAutomationSeverityModifierRuleError =
@@ -70851,6 +71362,8 @@ export const createSecurityFindingsAutomationSeverityModifierRule: API.Operation
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityFindingsAutomationSeverityModifierRule",
 }));
 
 export type CreateSecurityFindingsAutomationTicketCreationRuleError =
@@ -70874,6 +71387,8 @@ export const createSecurityFindingsAutomationTicketCreationRule: API.OperationMe
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityFindingsAutomationTicketCreationRule",
 }));
 
 export type CreateSecurityMonitoringCriticalAssetError =
@@ -70893,6 +71408,8 @@ export const createSecurityMonitoringCriticalAsset: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityMonitoringCriticalAsset",
 }));
 
 export type CreateSecurityMonitoringDatasetError =
@@ -70912,6 +71429,8 @@ export const createSecurityMonitoringDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityMonitoringDataset",
 }));
 
 export type CreateSecurityMonitoringIntegrationConfigError =
@@ -70934,6 +71453,8 @@ export const createSecurityMonitoringIntegrationConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityMonitoringIntegrationConfig",
 }));
 
 export type CreateSecurityMonitoringRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -70949,6 +71470,8 @@ export const createSecurityMonitoringRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityMonitoringRule",
 }));
 
 export type CreateSecurityMonitoringSuppressionError =
@@ -70968,6 +71491,8 @@ export const createSecurityMonitoringSuppression: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityMonitoringSuppression",
 }));
 
 export type CreateServiceAccountError = BadRequest | Forbidden | DatadogOpError;
@@ -70983,6 +71508,8 @@ export const createServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccount",
 }));
 
 export type CreateServiceAccountAccessTokenError =
@@ -71002,6 +71529,8 @@ export const createServiceAccountAccessToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccountAccessToken",
 }));
 
 export type CreateServiceAccountApplicationKeyError = BadRequest | Forbidden | DatadogOpError;
@@ -71017,6 +71546,8 @@ export const createServiceAccountApplicationKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccountApplicationKey",
 }));
 
 export type CreateServiceNowTemplateError = BadRequest | DatadogOpError;
@@ -71032,6 +71563,8 @@ export const createServiceNowTemplate: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceNowTemplate",
 }));
 
 export type CreateServiceNowTicketsError = BadRequest | NotFound | DatadogOpError;
@@ -71047,6 +71580,8 @@ export const createServiceNowTickets: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceNowTickets",
 }));
 
 export type CreateSignalNotificationRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -71062,6 +71597,8 @@ export const createSignalNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalNotificationRule",
 }));
 
 export type CreateSnapshotError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -71077,6 +71614,8 @@ export const createSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateSnowflakeIntegrationAccountError =
@@ -71097,6 +71636,8 @@ export const createSnowflakeIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnowflakeIntegrationAccount",
 }));
 
 export type CreateSpansMetricError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -71112,6 +71653,8 @@ export const createSpansMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpansMetric",
 }));
 
 export type CreateStaticAnalysisAstError = BadRequest | DatadogOpError;
@@ -71127,6 +71670,8 @@ export const createStaticAnalysisAst: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStaticAnalysisAst",
 }));
 
 export type CreateStaticAnalysisServerAnalysisError = BadRequest | DatadogOpError;
@@ -71142,6 +71687,8 @@ export const createStaticAnalysisServerAnalysis: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStaticAnalysisServerAnalysis",
 }));
 
 export type CreateStatusPageError = DatadogOpError;
@@ -71157,6 +71704,8 @@ export const createStatusPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStatusPage",
 }));
 
 export type CreateStatuspageAccountError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -71172,6 +71721,8 @@ export const createStatuspageAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStatuspageAccount",
 }));
 
 export type CreateStatuspageUrlSettingError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -71187,6 +71738,8 @@ export const createStatuspageUrlSetting: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStatuspageUrlSetting",
 }));
 
 export type CreateSubjectTypeError = BadRequest | Forbidden | DatadogOpError;
@@ -71202,6 +71755,8 @@ export const createSubjectType: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubjectType",
 }));
 
 export type CreateSyntheticsDowntimeError = BadRequest | Forbidden | DatadogOpError;
@@ -71217,6 +71772,8 @@ export const createSyntheticsDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSyntheticsDowntime",
 }));
 
 export type CreateSyntheticsNetworkTestError = BadRequest | DatadogOpError;
@@ -71232,6 +71789,8 @@ export const createSyntheticsNetworkTest: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSyntheticsNetworkTest",
 }));
 
 export type CreateSyntheticsSuiteError = BadRequest | DatadogOpError;
@@ -71247,6 +71806,8 @@ export const createSyntheticsSuite: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSyntheticsSuite",
 }));
 
 export type CreateTagConfigurationError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -71262,6 +71823,8 @@ export const createTagConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagConfiguration",
 }));
 
 export type CreateTagIndexingRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -71277,6 +71840,8 @@ export const createTagIndexingRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagIndexingRule",
 }));
 
 export type CreateTagIndexingRuleExemptionError = BadRequest | Forbidden | DatadogOpError;
@@ -71292,6 +71857,8 @@ export const createTagIndexingRuleExemption: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagIndexingRuleExemption",
 }));
 
 export type CreateTagPipelinesRulesetError = DatadogOpError;
@@ -71307,6 +71874,8 @@ export const createTagPipelinesRuleset: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagPipelinesRuleset",
 }));
 
 export type CreateTagRuleError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -71322,6 +71891,8 @@ export const createTagRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTagRule",
 }));
 
 export type CreateTeamError = Forbidden | Conflict | DatadogOpError;
@@ -71337,6 +71908,8 @@ export const createTeam: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeam",
 }));
 
 export type CreateTeamConnectionsError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -71352,6 +71925,8 @@ export const createTeamConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamConnections",
 }));
 
 export type CreateTeamLinkError = Forbidden | NotFound | UnprocessableEntity | DatadogOpError;
@@ -71367,6 +71942,8 @@ export const createTeamLink: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamLink",
 }));
 
 export type CreateTeamMembershipError = Forbidden | NotFound | Conflict | DatadogOpError;
@@ -71382,6 +71959,8 @@ export const createTeamMembership: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamMembership",
 }));
 
 export type CreateTeamNotificationRuleError = Forbidden | NotFound | Conflict | DatadogOpError;
@@ -71397,6 +71976,8 @@ export const createTeamNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamNotificationRule",
 }));
 
 export type CreateTeamsOwnershipMappingError = BadRequest | Forbidden | DatadogOpError;
@@ -71412,6 +71993,8 @@ export const createTeamsOwnershipMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamsOwnershipMapping",
 }));
 
 export type CreateTeamsOwnershipMappingsBatchError =
@@ -71432,6 +72015,8 @@ export const createTeamsOwnershipMappingsBatch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamsOwnershipMappingsBatch",
 }));
 
 export type CreateTenancyConfigError = DatadogOpError;
@@ -71447,6 +72032,8 @@ export const createTenancyConfig: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTenancyConfig",
 }));
 
 export type CreateTenantBasedHandleError =
@@ -71467,6 +72054,8 @@ export const createTenantBasedHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTenantBasedHandle",
 }));
 
 export type CreateTestSuiteForJourneyError = NotFound | DatadogOpError;
@@ -71482,6 +72071,8 @@ export const createTestSuiteForJourney: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestSuiteForJourney",
 }));
 
 export type CreateTimeseriesAnomalyInvestigationError =
@@ -71501,6 +72092,8 @@ export const createTimeseriesAnomalyInvestigation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimeseriesAnomalyInvestigation",
 }));
 
 export type CreateTimestampOverrideError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -71516,6 +72109,8 @@ export const createTimestampOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimestampOverride",
 }));
 
 export type CreateTwilioIntegrationAccountError =
@@ -71536,6 +72131,8 @@ export const createTwilioIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTwilioIntegrationAccount",
 }));
 
 export type CreateUnitCostError = BadRequest | Forbidden | DatadogOpError;
@@ -71551,6 +72148,8 @@ export const createUnitCost: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUnitCost",
 }));
 
 export type CreateUserError = BadRequest | Forbidden | DatadogOpError;
@@ -71566,6 +72165,8 @@ export const createUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserNotificationChannelError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -71581,6 +72182,8 @@ export const createUserNotificationChannel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserNotificationChannel",
 }));
 
 export type CreateUserNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -71596,6 +72199,8 @@ export const createUserNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserNotificationRule",
 }));
 
 export type CreateVariantForFeatureFlagError =
@@ -71616,6 +72221,8 @@ export const createVariantForFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVariantForFeatureFlag",
 }));
 
 export type CreateVulnerabilityNotificationRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -71631,6 +72238,8 @@ export const createVulnerabilityNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVulnerabilityNotificationRule",
 }));
 
 export type CreateWebIntegrationAccountError =
@@ -71651,6 +72260,8 @@ export const createWebIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebIntegrationAccount",
 }));
 
 export type CreateWidgetError = BadRequest | Forbidden | DatadogOpError;
@@ -71666,6 +72277,8 @@ export const createWidget: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWidget",
 }));
 
 export type CreateWorkflowError = BadRequest | Forbidden | DatadogOpError;
@@ -71681,6 +72294,8 @@ export const createWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type CreateWorkflowInstanceError = BadRequest | Forbidden | DatadogOpError;
@@ -71696,6 +72311,8 @@ export const createWorkflowInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowInstance",
 }));
 
 export type CreateWorkflowsWebhookHandleError =
@@ -71716,6 +72333,8 @@ export const createWorkflowsWebhookHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowsWebhookHandle",
 }));
 
 export type DeactivateContentPackError = Forbidden | NotFound | DatadogOpError;
@@ -71731,6 +72350,8 @@ export const deactivateContentPack: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateContentPack",
 }));
 
 export type DeactivateIntegrationError = Forbidden | NotFound | DatadogOpError;
@@ -71746,6 +72367,8 @@ export const deactivateIntegration: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateIntegration",
 }));
 
 export type DeleteActionConnectionError = Forbidden | NotFound | DatadogOpError;
@@ -71761,6 +72384,8 @@ export const deleteActionConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActionConnection",
 }));
 
 export type DeleteAiCustomRuleError = BadRequest | NotFound | DatadogOpError;
@@ -71776,6 +72401,8 @@ export const deleteAiCustomRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAiCustomRule",
 }));
 
 export type DeleteAiCustomRulesetError = BadRequest | NotFound | DatadogOpError;
@@ -71791,6 +72418,8 @@ export const deleteAiCustomRuleset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAiCustomRuleset",
 }));
 
 export type DeleteAiMemoryViolationResultError = BadRequest | NotFound | DatadogOpError;
@@ -71806,6 +72435,8 @@ export const deleteAiMemoryViolationResult: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAiMemoryViolationResult",
 }));
 
 export type DeleteAnnotationError = BadRequest | Forbidden | DatadogOpError;
@@ -71821,6 +72452,8 @@ export const deleteAnnotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotation",
 }));
 
 export type DeleteAPIKeyError = Forbidden | NotFound | DatadogOpError;
@@ -71836,6 +72469,8 @@ export const deleteAPIKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAPIKey",
 }));
 
 export type DeleteApmRetentionFilterError = Forbidden | NotFound | DatadogOpError;
@@ -71851,6 +72486,8 @@ export const deleteApmRetentionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApmRetentionFilter",
 }));
 
 export type DeleteAppError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -71866,6 +72503,8 @@ export const deleteApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteApplicationKeyError = Forbidden | NotFound | DatadogOpError;
@@ -71881,6 +72520,8 @@ export const deleteApplicationKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationKey",
 }));
 
 export type DeleteApplicationSecurityWafCustomRuleError =
@@ -71900,6 +72541,8 @@ export const deleteApplicationSecurityWafCustomRule: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationSecurityWafCustomRule",
 }));
 
 export type DeleteApplicationSecurityWafExclusionFilterError =
@@ -71927,6 +72570,8 @@ export const deleteApplicationSecurityWafExclusionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationSecurityWafExclusionFilter",
 }));
 
 export type DeleteApplicationSecurityWafPolicyError =
@@ -71946,6 +72591,8 @@ export const deleteApplicationSecurityWafPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationSecurityWafPolicy",
 }));
 
 export type DeleteAppsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -71961,6 +72608,8 @@ export const deleteApps: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApps",
 }));
 
 export type DeleteAuthNMappingError = Forbidden | NotFound | DatadogOpError;
@@ -71976,6 +72625,8 @@ export const deleteAuthNMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthNMapping",
 }));
 
 export type DeleteAWSAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -71991,6 +72642,8 @@ export const deleteAWSAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAWSAccount",
 }));
 
 export type DeleteAWSAccountCCMConfigError = Forbidden | NotFound | DatadogOpError;
@@ -72006,6 +72659,8 @@ export const deleteAWSAccountCCMConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAWSAccountCCMConfig",
 }));
 
 export type DeleteAWSCloudAuthPersonaMappingError = Forbidden | NotFound | DatadogOpError;
@@ -72021,6 +72676,8 @@ export const deleteAWSCloudAuthPersonaMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAWSCloudAuthPersonaMapping",
 }));
 
 export type DeleteAWSEventBridgeSourceError = BadRequest | Forbidden | DatadogOpError;
@@ -72036,6 +72693,8 @@ export const deleteAWSEventBridgeSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAWSEventBridgeSource",
 }));
 
 export type DeleteAwsScanOptionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72051,6 +72710,8 @@ export const deleteAwsScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAwsScanOptions",
 }));
 
 export type DeleteAzureScanOptionsError = DatadogOpError;
@@ -72066,6 +72727,8 @@ export const deleteAzureScanOptions: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureScanOptions",
 }));
 
 export type DeleteBudgetError = DatadogOpError;
@@ -72081,6 +72744,8 @@ export const deleteBudget: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBudget",
 }));
 
 export type DeleteCaseAutomationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -72096,6 +72761,8 @@ export const deleteCaseAutomationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaseAutomationRule",
 }));
 
 export type DeleteCaseCommentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72111,6 +72778,8 @@ export const deleteCaseComment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaseComment",
 }));
 
 export type DeleteCaseCustomAttributeError = Forbidden | NotFound | DatadogOpError;
@@ -72126,6 +72795,8 @@ export const deleteCaseCustomAttribute: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaseCustomAttribute",
 }));
 
 export type DeleteCaseLinkError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72141,6 +72812,8 @@ export const deleteCaseLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaseLink",
 }));
 
 export type DeleteCaseTypeError = Forbidden | DatadogOpError;
@@ -72156,6 +72829,8 @@ export const deleteCaseType: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaseType",
 }));
 
 export type DeleteCaseViewError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72171,6 +72846,8 @@ export const deleteCaseView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaseView",
 }));
 
 export type DeleteCatalogEntityError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72186,6 +72863,8 @@ export const deleteCatalogEntity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCatalogEntity",
 }));
 
 export type DeleteCatalogKindError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72201,6 +72880,8 @@ export const deleteCatalogKind: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCatalogKind",
 }));
 
 export type DeleteChangeRequestDecisionError = BadRequest | NotFound | DatadogOpError;
@@ -72216,6 +72897,8 @@ export const deleteChangeRequestDecision: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteChangeRequestDecision",
 }));
 
 export type DeleteCloudflareAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72231,6 +72914,8 @@ export const deleteCloudflareAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudflareAccount",
 }));
 
 export type DeleteCloudWorkloadSecurityAgentRuleError = Forbidden | NotFound | DatadogOpError;
@@ -72246,6 +72931,8 @@ export const deleteCloudWorkloadSecurityAgentRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudWorkloadSecurityAgentRule",
 }));
 
 export type DeleteComponentError = DatadogOpError;
@@ -72261,6 +72948,8 @@ export const deleteComponent: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteConfluentAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72276,6 +72965,8 @@ export const deleteConfluentAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfluentAccount",
 }));
 
 export type DeleteConfluentResourceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72291,6 +72982,8 @@ export const deleteConfluentResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfluentResource",
 }));
 
 export type DeleteConnectionError = DatadogOpError;
@@ -72306,6 +72999,8 @@ export const deleteConnection: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteCostAWSCURConfigError = BadRequest | NotFound | DatadogOpError;
@@ -72321,6 +73016,8 @@ export const deleteCostAWSCURConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCostAWSCURConfig",
 }));
 
 export type DeleteCostAzureUCConfigError = BadRequest | NotFound | DatadogOpError;
@@ -72336,6 +73033,8 @@ export const deleteCostAzureUCConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCostAzureUCConfig",
 }));
 
 export type DeleteCostGCPUsageCostConfigError = BadRequest | NotFound | DatadogOpError;
@@ -72351,6 +73050,8 @@ export const deleteCostGCPUsageCostConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCostGCPUsageCostConfig",
 }));
 
 export type DeleteCostTagDescriptionByKeyError = BadRequest | Forbidden | DatadogOpError;
@@ -72366,6 +73067,8 @@ export const deleteCostTagDescriptionByKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCostTagDescriptionByKey",
 }));
 
 export type DeleteCSMThreatsAgentPolicyError = Forbidden | NotFound | DatadogOpError;
@@ -72381,6 +73084,8 @@ export const deleteCSMThreatsAgentPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCSMThreatsAgentPolicy",
 }));
 
 export type DeleteCSMThreatsAgentRuleError = Forbidden | NotFound | DatadogOpError;
@@ -72396,6 +73101,8 @@ export const deleteCSMThreatsAgentRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCSMThreatsAgentRule",
 }));
 
 export type DeleteCurrentUserApplicationKeyError = Forbidden | NotFound | DatadogOpError;
@@ -72411,6 +73118,8 @@ export const deleteCurrentUserApplicationKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCurrentUserApplicationKey",
 }));
 
 export type DeleteCustomAllocationRuleError = DatadogOpError;
@@ -72426,6 +73135,8 @@ export const deleteCustomAllocationRule: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomAllocationRule",
 }));
 
 export type DeleteCustomAttributeConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -72441,6 +73152,8 @@ export const deleteCustomAttributeConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomAttributeConfig",
 }));
 
 export type DeleteCustomCostsFileError = Forbidden | NotFound | DatadogOpError;
@@ -72456,6 +73169,8 @@ export const deleteCustomCostsFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomCostsFile",
 }));
 
 export type DeleteCustomForecastError = BadRequest | NotFound | DatadogOpError;
@@ -72471,6 +73186,8 @@ export const deleteCustomForecast: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomForecast",
 }));
 
 export type DeleteCustomFrameworkError = BadRequest | DatadogOpError;
@@ -72486,6 +73203,8 @@ export const deleteCustomFramework: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomFramework",
 }));
 
 export type DeleteCustomRuleError = BadRequest | NotFound | DatadogOpError;
@@ -72501,6 +73220,8 @@ export const deleteCustomRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRule",
 }));
 
 export type DeleteCustomRulesetError = BadRequest | NotFound | DatadogOpError;
@@ -72516,6 +73237,8 @@ export const deleteCustomRuleset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRuleset",
 }));
 
 export type DeleteDashboardListItemsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72531,6 +73254,8 @@ export const deleteDashboardListItems: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardListItems",
 }));
 
 export type DeleteDashboardSecureEmbedError = Forbidden | NotFound | DatadogOpError;
@@ -72546,6 +73271,8 @@ export const deleteDashboardSecureEmbed: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboardSecureEmbed",
 }));
 
 export type DeleteDatabricksIntegrationAccountError =
@@ -72565,6 +73292,8 @@ export const deleteDatabricksIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabricksIntegrationAccount",
 }));
 
 export type DeleteDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72580,6 +73309,8 @@ export const deleteDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteDatastoreError = BadRequest | DatadogOpError;
@@ -72595,6 +73326,8 @@ export const deleteDatastore: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatastore",
 }));
 
 export type DeleteDatastoreItemError = BadRequest | NotFound | DatadogOpError;
@@ -72610,6 +73343,8 @@ export const deleteDatastoreItem: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatastoreItem",
 }));
 
 export type DeleteDegradationError = DatadogOpError;
@@ -72625,6 +73360,8 @@ export const deleteDegradation: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDegradation",
 }));
 
 export type DeleteDegradationTemplateError = DatadogOpError;
@@ -72640,6 +73377,8 @@ export const deleteDegradationTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDegradationTemplate",
 }));
 
 export type DeleteDeploymentGateError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72655,6 +73394,8 @@ export const deleteDeploymentGate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeploymentGate",
 }));
 
 export type DeleteDeploymentRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72670,6 +73411,8 @@ export const deleteDeploymentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeploymentRule",
 }));
 
 export type DeleteDORADeploymentError = BadRequest | Forbidden | DatadogOpError;
@@ -72685,6 +73428,8 @@ export const deleteDORADeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDORADeployment",
 }));
 
 export type DeleteDORAFailureError = BadRequest | Forbidden | DatadogOpError;
@@ -72700,6 +73445,8 @@ export const deleteDORAFailure: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDORAFailure",
 }));
 
 export type DeleteElasticCloudIntegrationAccountError =
@@ -72719,6 +73466,8 @@ export const deleteElasticCloudIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteElasticCloudIntegrationAccount",
 }));
 
 export type DeleteEntityIntegrationConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72734,6 +73483,8 @@ export const deleteEntityIntegrationConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEntityIntegrationConfig",
 }));
 
 export type DeleteExclusionFilterError = Forbidden | NotFound | DatadogOpError;
@@ -72749,6 +73500,8 @@ export const deleteExclusionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExclusionFilter",
 }));
 
 export type DeleteExecutionPolicyError = Forbidden | NotFound | DatadogOpError;
@@ -72764,6 +73517,8 @@ export const deleteExecutionPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExecutionPolicy",
 }));
 
 export type DeleteExperimentError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -72779,6 +73534,8 @@ export const deleteExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExperiment",
 }));
 
 export type DeleteExperimentMetricGroupError =
@@ -72799,6 +73556,8 @@ export const deleteExperimentMetricGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExperimentMetricGroup",
 }));
 
 export type DeleteFastlyAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72814,6 +73573,8 @@ export const deleteFastlyAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFastlyAccount",
 }));
 
 export type DeleteFastlyServiceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72829,6 +73590,8 @@ export const deleteFastlyService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFastlyService",
 }));
 
 export type DeleteFeatureFlagsEnvironmentError = Forbidden | NotFound | DatadogOpError;
@@ -72844,6 +73607,8 @@ export const deleteFeatureFlagsEnvironment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFeatureFlagsEnvironment",
 }));
 
 export type DeleteFleetScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72859,6 +73624,8 @@ export const deleteFleetSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFleetSchedule",
 }));
 
 export type DeleteFormError = BadRequest | DatadogOpError;
@@ -72874,6 +73641,8 @@ export const deleteForm: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForm",
 }));
 
 export type DeleteGcpScanOptionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -72889,6 +73658,8 @@ export const deleteGcpScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGcpScanOptions",
 }));
 
 export type DeleteGCPSTSAccountError = BadRequest | Forbidden | DatadogOpError;
@@ -72904,6 +73675,8 @@ export const deleteGCPSTSAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGCPSTSAccount",
 }));
 
 export type DeleteGlobalIncidentHandleError = BadRequest | DatadogOpError;
@@ -72919,6 +73692,8 @@ export const deleteGlobalIncidentHandle: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalIncidentHandle",
 }));
 
 export type DeleteGoogleChatDelegatedUserError = Forbidden | NotFound | DatadogOpError;
@@ -72934,6 +73709,8 @@ export const deleteGoogleChatDelegatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGoogleChatDelegatedUser",
 }));
 
 export type DeleteGoogleChatOrganizationError = BadRequest | Forbidden | DatadogOpError;
@@ -72949,6 +73726,8 @@ export const deleteGoogleChatOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGoogleChatOrganization",
 }));
 
 export type DeleteGoogleChatTargetAudienceError = Forbidden | NotFound | DatadogOpError;
@@ -72964,6 +73743,8 @@ export const deleteGoogleChatTargetAudience: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGoogleChatTargetAudience",
 }));
 
 export type DeleteHistoricalJobError =
@@ -72984,6 +73765,8 @@ export const deleteHistoricalJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHistoricalJob",
 }));
 
 export type DeleteHistoricalMetricsConfigurationError = BadRequest | DatadogOpError;
@@ -72999,6 +73782,8 @@ export const deleteHistoricalMetricsConfiguration: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHistoricalMetricsConfiguration",
 }));
 
 export type DeleteIgnoredInferredJourneyError = NotFound | DatadogOpError;
@@ -73014,6 +73799,8 @@ export const deleteIgnoredInferredJourney: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIgnoredInferredJourney",
 }));
 
 export type DeleteIncidentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73029,6 +73816,8 @@ export const deleteIncident: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncident",
 }));
 
 export type DeleteIncidentAttachmentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73044,6 +73833,8 @@ export const deleteIncidentAttachment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentAttachment",
 }));
 
 export type DeleteIncidentImpactError = Forbidden | NotFound | DatadogOpError;
@@ -73059,6 +73850,8 @@ export const deleteIncidentImpact: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentImpact",
 }));
 
 export type DeleteIncidentImpactFieldError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73074,6 +73867,8 @@ export const deleteIncidentImpactField: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentImpactField",
 }));
 
 export type DeleteIncidentIntegrationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73089,6 +73884,8 @@ export const deleteIncidentIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentIntegration",
 }));
 
 export type DeleteIncidentNotificationRuleError =
@@ -73108,6 +73905,8 @@ export const deleteIncidentNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentNotificationRule",
 }));
 
 export type DeleteIncidentNotificationTemplateError =
@@ -73127,6 +73926,8 @@ export const deleteIncidentNotificationTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentNotificationTemplate",
 }));
 
 export type DeleteIncidentPostmortemTemplateError = BadRequest | NotFound | DatadogOpError;
@@ -73142,6 +73943,8 @@ export const deleteIncidentPostmortemTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentPostmortemTemplate",
 }));
 
 export type DeleteIncidentResponderError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73157,6 +73960,8 @@ export const deleteIncidentResponder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentResponder",
 }));
 
 export type DeleteIncidentRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73172,6 +73977,8 @@ export const deleteIncidentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentRule",
 }));
 
 export type DeleteIncidentTemplateError = Forbidden | NotFound | DatadogOpError;
@@ -73187,6 +73994,8 @@ export const deleteIncidentTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentTemplate",
 }));
 
 export type DeleteIncidentTodoError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73202,6 +74011,8 @@ export const deleteIncidentTodo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentTodo",
 }));
 
 export type DeleteIncidentTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73217,6 +74028,8 @@ export const deleteIncidentType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentType",
 }));
 
 export type DeleteIncidentUserDefinedFieldError =
@@ -73236,6 +74049,8 @@ export const deleteIncidentUserDefinedField: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentUserDefinedField",
 }));
 
 export type DeleteIncidentUserDefinedRoleError = BadRequest | NotFound | DatadogOpError;
@@ -73251,6 +74066,8 @@ export const deleteIncidentUserDefinedRole: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentUserDefinedRole",
 }));
 
 export type DeleteIssueAssigneeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73266,6 +74083,8 @@ export const deleteIssueAssignee: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueAssignee",
 }));
 
 export type DeleteJiraAccountError = BadRequest | DatadogOpError;
@@ -73281,6 +74100,8 @@ export const deleteJiraAccount: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJiraAccount",
 }));
 
 export type DeleteJiraIssueTemplateError = DatadogOpError;
@@ -73296,6 +74117,8 @@ export const deleteJiraIssueTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJiraIssueTemplate",
 }));
 
 export type DeleteJourneyError = NotFound | DatadogOpError;
@@ -73311,6 +74134,8 @@ export const deleteJourney: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJourney",
 }));
 
 export type DeleteJourneyVariantError = NotFound | DatadogOpError;
@@ -73326,6 +74151,8 @@ export const deleteJourneyVariant: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJourneyVariant",
 }));
 
 export type DeleteLLMObsAnnotationQueueError = Forbidden | NotFound | DatadogOpError;
@@ -73341,6 +74168,8 @@ export const deleteLLMObsAnnotationQueue: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsAnnotationQueue",
 }));
 
 export type DeleteLLMObsAnnotationQueueInteractionsError =
@@ -73364,6 +74193,8 @@ export const deleteLLMObsAnnotationQueueInteractions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsAnnotationQueueInteractions",
 }));
 
 export type DeleteLLMObsAnnotationsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73379,6 +74210,8 @@ export const deleteLLMObsAnnotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsAnnotations",
 }));
 
 export type DeleteLLMObsCustomEvalConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73394,6 +74227,8 @@ export const deleteLLMObsCustomEvalConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsCustomEvalConfig",
 }));
 
 export type DeleteLLMObsDatasetRecordsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73409,6 +74244,8 @@ export const deleteLLMObsDatasetRecords: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsDatasetRecords",
 }));
 
 export type DeleteLLMObsDatasetsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73424,6 +74261,8 @@ export const deleteLLMObsDatasets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsDatasets",
 }));
 
 export type DeleteLLMObsExperimentsError = BadRequest | Forbidden | DatadogOpError;
@@ -73439,6 +74278,8 @@ export const deleteLLMObsExperiments: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsExperiments",
 }));
 
 export type DeleteLLMObsPatternsConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73454,6 +74295,8 @@ export const deleteLLMObsPatternsConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsPatternsConfig",
 }));
 
 export type DeleteLLMObsProjectsError = BadRequest | Forbidden | DatadogOpError;
@@ -73469,6 +74312,8 @@ export const deleteLLMObsProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsProjects",
 }));
 
 export type DeleteLLMObsPromptError = Forbidden | NotFound | DatadogOpError;
@@ -73484,6 +74329,8 @@ export const deleteLLMObsPrompt: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLLMObsPrompt",
 }));
 
 export type DeleteLogsArchiveError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73499,6 +74346,8 @@ export const deleteLogsArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogsArchive",
 }));
 
 export type DeleteLogsCustomDestinationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73514,6 +74363,8 @@ export const deleteLogsCustomDestination: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogsCustomDestination",
 }));
 
 export type DeleteLogsMetricError = Forbidden | NotFound | DatadogOpError;
@@ -73529,6 +74380,8 @@ export const deleteLogsMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogsMetric",
 }));
 
 export type DeleteMaintenanceTemplateError = DatadogOpError;
@@ -73544,6 +74397,8 @@ export const deleteMaintenanceTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMaintenanceTemplate",
 }));
 
 export type DeleteMaintenanceWindowError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73559,6 +74414,8 @@ export const deleteMaintenanceWindow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMaintenanceWindow",
 }));
 
 export type DeleteMetricError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -73574,6 +74431,8 @@ export const deleteMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetric",
 }));
 
 export type DeleteMetricCollectionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73589,6 +74448,8 @@ export const deleteMetricCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetricCollection",
 }));
 
 export type DeleteModelLabRunError = BadRequest | NotFound | DatadogOpError;
@@ -73604,6 +74465,8 @@ export const deleteModelLabRun: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteModelLabRun",
 }));
 
 export type DeleteMonitorConfigPolicyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73619,6 +74482,8 @@ export const deleteMonitorConfigPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitorConfigPolicy",
 }));
 
 export type DeleteMonitorNotificationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -73634,6 +74499,8 @@ export const deleteMonitorNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitorNotificationRule",
 }));
 
 export type DeleteMonitorUserTemplateError = NotFound | DatadogOpError;
@@ -73649,6 +74516,8 @@ export const deleteMonitorUserTemplate: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitorUserTemplate",
 }));
 
 export type DeleteMSTeamsUserBindingError = BadRequest | Forbidden | DatadogOpError;
@@ -73664,6 +74533,8 @@ export const deleteMSTeamsUserBinding: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMSTeamsUserBinding",
 }));
 
 export type DeleteOAuth2ClientCredentialsError = Forbidden | NotFound | DatadogOpError;
@@ -73679,6 +74550,8 @@ export const deleteOAuth2ClientCredentials: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOAuth2ClientCredentials",
 }));
 
 export type DeleteOktaAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73694,6 +74567,8 @@ export const deleteOktaAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOktaAccount",
 }));
 
 export type DeleteOnCallEscalationPolicyError = Forbidden | NotFound | DatadogOpError;
@@ -73709,6 +74584,8 @@ export const deleteOnCallEscalationPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOnCallEscalationPolicy",
 }));
 
 export type DeleteOnCallScheduleError = Forbidden | NotFound | DatadogOpError;
@@ -73724,6 +74601,8 @@ export const deleteOnCallSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOnCallSchedule",
 }));
 
 export type DeleteOpsgenieAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73739,6 +74618,8 @@ export const deleteOpsgenieAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOpsgenieAccount",
 }));
 
 export type DeleteOpsgenieServiceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73754,6 +74635,8 @@ export const deleteOpsgenieService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOpsgenieService",
 }));
 
 export type DeleteOrganizationHandleError = BadRequest | Forbidden | DatadogOpError;
@@ -73769,6 +74652,8 @@ export const deleteOrganizationHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationHandle",
 }));
 
 export type DeleteOrgAuthorizedClientError = Forbidden | NotFound | DatadogOpError;
@@ -73784,6 +74669,8 @@ export const deleteOrgAuthorizedClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgAuthorizedClient",
 }));
 
 export type DeleteOrgAuthorizedClientAllUserAuthorizationsError =
@@ -73810,6 +74697,8 @@ export const deleteOrgAuthorizedClientAllUserAuthorizations: API.OperationMethod
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgAuthorizedClientAllUserAuthorizations",
 }));
 
 export type DeleteOrgAuthorizedClientUserAuthorizationError = Forbidden | NotFound | DatadogOpError;
@@ -73833,6 +74722,8 @@ export const deleteOrgAuthorizedClientUserAuthorization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgAuthorizedClientUserAuthorization",
 }));
 
 export type DeleteOrgConnectionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73848,6 +74739,8 @@ export const deleteOrgConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgConnections",
 }));
 
 export type DeleteOrgGroupError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73863,6 +74756,8 @@ export const deleteOrgGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgGroup",
 }));
 
 export type DeleteOrgGroupPolicyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73878,6 +74773,8 @@ export const deleteOrgGroupPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgGroupPolicy",
 }));
 
 export type DeleteOrgGroupPolicyOverrideError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73893,6 +74790,8 @@ export const deleteOrgGroupPolicyOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgGroupPolicyOverride",
 }));
 
 export type DeletePipelineError = Forbidden | NotFound | Conflict | DatadogOpError;
@@ -73908,6 +74807,8 @@ export const deletePipeline: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeletePowerpackError = NotFound | DatadogOpError;
@@ -73923,6 +74824,8 @@ export const deletePowerpack: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePowerpack",
 }));
 
 export type DeleteProjectError = Forbidden | NotFound | DatadogOpError;
@@ -73938,6 +74841,8 @@ export const deleteProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectNotificationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -73953,6 +74858,8 @@ export const deleteProjectNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectNotificationRule",
 }));
 
 export type DeleteQuotaError = Forbidden | NotFound | DatadogOpError;
@@ -73968,6 +74875,8 @@ export const deleteQuota: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQuota",
 }));
 
 export type DeleteReplayHeatmapSnapshotError = DatadogOpError;
@@ -73983,6 +74892,8 @@ export const deleteReplayHeatmapSnapshot: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReplayHeatmapSnapshot",
 }));
 
 export type DeleteReportScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -73998,6 +74909,8 @@ export const deleteReportSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReportSchedule",
 }));
 
 export type DeleteRestrictionPolicyError = BadRequest | Forbidden | DatadogOpError;
@@ -74013,6 +74926,8 @@ export const deleteRestrictionPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRestrictionPolicy",
 }));
 
 export type DeleteRestrictionQueryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74028,6 +74943,8 @@ export const deleteRestrictionQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRestrictionQuery",
 }));
 
 export type DeleteRetentionFilterError = Forbidden | NotFound | DatadogOpError;
@@ -74043,6 +74960,8 @@ export const deleteRetentionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRetentionFilter",
 }));
 
 export type DeleteRoleError = Forbidden | NotFound | DatadogOpError;
@@ -74058,6 +74977,8 @@ export const deleteRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRole",
 }));
 
 export type DeleteRowsError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -74073,6 +74994,8 @@ export const deleteRows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRows",
 }));
 
 export type DeleteRUMApplicationError = NotFound | DatadogOpError;
@@ -74088,6 +75011,8 @@ export const deleteRUMApplication: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRUMApplication",
 }));
 
 export type DeleteRumMetricError = Forbidden | NotFound | DatadogOpError;
@@ -74103,6 +75028,8 @@ export const deleteRumMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRumMetric",
 }));
 
 export type DeleteRUMOperationError = NotFound | DatadogOpError;
@@ -74118,6 +75045,8 @@ export const deleteRUMOperation: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRUMOperation",
 }));
 
 export type DeleteRUMOperationStrongLinkError = NotFound | DatadogOpError;
@@ -74133,6 +75062,8 @@ export const deleteRUMOperationStrongLink: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRUMOperationStrongLink",
 }));
 
 export type DeleteRumQuotaConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74148,6 +75079,8 @@ export const deleteRumQuotaConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRumQuotaConfig",
 }));
 
 export type DeleteRumReplayPlaylistError = DatadogOpError;
@@ -74163,6 +75096,8 @@ export const deleteRumReplayPlaylist: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRumReplayPlaylist",
 }));
 
 export type DeleteRumReplaySessionWatchError = DatadogOpError;
@@ -74178,6 +75113,8 @@ export const deleteRumReplaySessionWatch: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRumReplaySessionWatch",
 }));
 
 export type DeleteSalesforceOrganizationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74193,6 +75130,8 @@ export const deleteSalesforceOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSalesforceOrganization",
 }));
 
 export type DeleteSampleLogGenerationSubscriptionError = BadRequest | Forbidden | DatadogOpError;
@@ -74208,6 +75147,8 @@ export const deleteSampleLogGenerationSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSampleLogGenerationSubscription",
 }));
 
 export type DeleteScanningGroupError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74223,6 +75164,8 @@ export const deleteScanningGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScanningGroup",
 }));
 
 export type DeleteScanningRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74238,6 +75181,8 @@ export const deleteScanningRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScanningRule",
 }));
 
 export type DeleteScopesRestrictionError = BadRequest | NotFound | DatadogOpError;
@@ -74253,6 +75198,8 @@ export const deleteScopesRestriction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScopesRestriction",
 }));
 
 export type DeleteScorecardCampaignError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74268,6 +75215,8 @@ export const deleteScorecardCampaign: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScorecardCampaign",
 }));
 
 export type DeleteScorecardRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74283,6 +75232,8 @@ export const deleteScorecardRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScorecardRule",
 }));
 
 export type DeleteSecurityFilterError = Forbidden | NotFound | DatadogOpError;
@@ -74298,6 +75249,8 @@ export const deleteSecurityFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityFilter",
 }));
 
 export type DeleteSecurityFindingsAutomationDueDateRuleError =
@@ -74324,6 +75277,8 @@ export const deleteSecurityFindingsAutomationDueDateRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityFindingsAutomationDueDateRule",
 }));
 
 export type DeleteSecurityFindingsAutomationInboxRuleError = Forbidden | NotFound | DatadogOpError;
@@ -74347,6 +75302,8 @@ export const deleteSecurityFindingsAutomationInboxRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityFindingsAutomationInboxRule",
 }));
 
 export type DeleteSecurityFindingsAutomationMuteRuleError = Forbidden | NotFound | DatadogOpError;
@@ -74366,6 +75323,8 @@ export const deleteSecurityFindingsAutomationMuteRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityFindingsAutomationMuteRule",
 }));
 
 export type DeleteSecurityFindingsAutomationSeverityModifierRuleError =
@@ -74393,6 +75352,8 @@ export const deleteSecurityFindingsAutomationSeverityModifierRule: API.Operation
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityFindingsAutomationSeverityModifierRule",
 }));
 
 export type DeleteSecurityFindingsAutomationTicketCreationRuleError =
@@ -74419,6 +75380,8 @@ export const deleteSecurityFindingsAutomationTicketCreationRule: API.OperationMe
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityFindingsAutomationTicketCreationRule",
 }));
 
 export type DeleteSecurityMonitoringCriticalAssetError = Forbidden | NotFound | DatadogOpError;
@@ -74434,6 +75397,8 @@ export const deleteSecurityMonitoringCriticalAsset: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityMonitoringCriticalAsset",
 }));
 
 export type DeleteSecurityMonitoringDatasetError =
@@ -74453,6 +75418,8 @@ export const deleteSecurityMonitoringDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityMonitoringDataset",
 }));
 
 export type DeleteSecurityMonitoringIntegrationConfigError = Forbidden | NotFound | DatadogOpError;
@@ -74476,6 +75443,8 @@ export const deleteSecurityMonitoringIntegrationConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityMonitoringIntegrationConfig",
 }));
 
 export type DeleteSecurityMonitoringRuleError = Forbidden | NotFound | DatadogOpError;
@@ -74491,6 +75460,8 @@ export const deleteSecurityMonitoringRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityMonitoringRule",
 }));
 
 export type DeleteSecurityMonitoringSuppressionError = Forbidden | NotFound | DatadogOpError;
@@ -74506,6 +75477,8 @@ export const deleteSecurityMonitoringSuppression: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityMonitoringSuppression",
 }));
 
 export type DeleteServiceAccountApplicationKeyError = Forbidden | NotFound | DatadogOpError;
@@ -74521,6 +75494,8 @@ export const deleteServiceAccountApplicationKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAccountApplicationKey",
 }));
 
 export type DeleteServiceDefinitionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74536,6 +75511,8 @@ export const deleteServiceDefinition: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceDefinition",
 }));
 
 export type DeleteServiceNowTemplateError = BadRequest | NotFound | DatadogOpError;
@@ -74551,6 +75528,8 @@ export const deleteServiceNowTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNowTemplate",
 }));
 
 export type DeleteSignalNotificationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -74566,6 +75545,8 @@ export const deleteSignalNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSignalNotificationRule",
 }));
 
 export type DeleteSnowflakeIntegrationAccountError =
@@ -74585,6 +75566,8 @@ export const deleteSnowflakeIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnowflakeIntegrationAccount",
 }));
 
 export type DeleteSourcemapsError = BadRequest | NotFound | DatadogOpError;
@@ -74600,6 +75583,8 @@ export const deleteSourcemaps: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSourcemaps",
 }));
 
 export type DeleteSpansMetricError = Forbidden | NotFound | DatadogOpError;
@@ -74615,6 +75600,8 @@ export const deleteSpansMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpansMetric",
 }));
 
 export type DeleteStatusPageError = DatadogOpError;
@@ -74630,6 +75617,8 @@ export const deleteStatusPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStatusPage",
 }));
 
 export type DeleteStatuspageAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74645,6 +75634,8 @@ export const deleteStatuspageAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStatuspageAccount",
 }));
 
 export type DeleteStatuspageUrlSettingError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74660,6 +75651,8 @@ export const deleteStatuspageUrlSetting: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStatuspageUrlSetting",
 }));
 
 export type DeleteSubjectTypeError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -74675,6 +75668,8 @@ export const deleteSubjectType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubjectType",
 }));
 
 export type DeleteSyncConfigError = Forbidden | NotFound | DatadogOpError;
@@ -74690,6 +75685,8 @@ export const deleteSyncConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSyncConfig",
 }));
 
 export type DeleteSyntheticsDowntimeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74705,6 +75702,8 @@ export const deleteSyntheticsDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSyntheticsDowntime",
 }));
 
 export type DeleteSyntheticsSuitesError = BadRequest | DatadogOpError;
@@ -74720,6 +75719,8 @@ export const deleteSyntheticsSuites: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSyntheticsSuites",
 }));
 
 export type DeleteSyntheticsTestsError = BadRequest | NotFound | DatadogOpError;
@@ -74735,6 +75736,8 @@ export const deleteSyntheticsTests: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSyntheticsTests",
 }));
 
 export type DeleteTableError = Forbidden | NotFound | DatadogOpError;
@@ -74750,6 +75753,8 @@ export const deleteTable: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTable",
 }));
 
 export type DeleteTagConfigurationError = Forbidden | NotFound | DatadogOpError;
@@ -74765,6 +75770,8 @@ export const deleteTagConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagConfiguration",
 }));
 
 export type DeleteTagIndexingRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -74780,6 +75787,8 @@ export const deleteTagIndexingRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagIndexingRule",
 }));
 
 export type DeleteTagIndexingRuleExemptionError = BadRequest | Forbidden | DatadogOpError;
@@ -74795,6 +75804,8 @@ export const deleteTagIndexingRuleExemption: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagIndexingRuleExemption",
 }));
 
 export type DeleteTagPipelinesRulesetError = DatadogOpError;
@@ -74810,6 +75821,8 @@ export const deleteTagPipelinesRuleset: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagPipelinesRuleset",
 }));
 
 export type DeleteTagRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74825,6 +75838,8 @@ export const deleteTagRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTagRule",
 }));
 
 export type DeleteTeamError = Forbidden | NotFound | DatadogOpError;
@@ -74840,6 +75855,8 @@ export const deleteTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeam",
 }));
 
 export type DeleteTeamConnectionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74855,6 +75872,8 @@ export const deleteTeamConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamConnections",
 }));
 
 export type DeleteTeamLinkError = Forbidden | NotFound | DatadogOpError;
@@ -74870,6 +75889,8 @@ export const deleteTeamLink: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamLink",
 }));
 
 export type DeleteTeamMembershipError = Forbidden | NotFound | DatadogOpError;
@@ -74885,6 +75906,8 @@ export const deleteTeamMembership: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamMembership",
 }));
 
 export type DeleteTeamNotificationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -74900,6 +75923,8 @@ export const deleteTeamNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamNotificationRule",
 }));
 
 export type DeleteTeamsOwnershipMappingError = Forbidden | NotFound | DatadogOpError;
@@ -74915,6 +75940,8 @@ export const deleteTeamsOwnershipMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamsOwnershipMapping",
 }));
 
 export type DeleteTenancyConfigError = DatadogOpError;
@@ -74930,6 +75957,8 @@ export const deleteTenancyConfig: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTenancyConfig",
 }));
 
 export type DeleteTenantBasedHandleError = BadRequest | Forbidden | DatadogOpError;
@@ -74945,6 +75974,8 @@ export const deleteTenantBasedHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTenantBasedHandle",
 }));
 
 export type DeleteTestOptimizationServiceSettingsError =
@@ -74964,6 +75995,8 @@ export const deleteTestOptimizationServiceSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTestOptimizationServiceSettings",
 }));
 
 export type DeleteTimestampOverrideError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -74979,6 +76012,8 @@ export const deleteTimestampOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTimestampOverride",
 }));
 
 export type DeleteTwilioIntegrationAccountError =
@@ -74998,6 +76033,8 @@ export const deleteTwilioIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTwilioIntegrationAccount",
 }));
 
 export type DeleteUnitCostError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75013,6 +76050,8 @@ export const deleteUnitCost: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUnitCost",
 }));
 
 export type DeleteUserAuthorizedClientError = Forbidden | NotFound | DatadogOpError;
@@ -75028,6 +76067,8 @@ export const deleteUserAuthorizedClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserAuthorizedClient",
 }));
 
 export type DeleteUserAuthorizedClientsByClientError = Forbidden | NotFound | DatadogOpError;
@@ -75043,6 +76084,8 @@ export const deleteUserAuthorizedClientsByClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserAuthorizedClientsByClient",
 }));
 
 export type DeleteUserInvitationsError = Forbidden | NotFound | DatadogOpError;
@@ -75058,6 +76101,8 @@ export const deleteUserInvitations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserInvitations",
 }));
 
 export type DeleteUserNotificationChannelError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75073,6 +76118,8 @@ export const deleteUserNotificationChannel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserNotificationChannel",
 }));
 
 export type DeleteUserNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75088,6 +76135,8 @@ export const deleteUserNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserNotificationRule",
 }));
 
 export type DeleteVariantFromFeatureFlagError =
@@ -75108,6 +76157,8 @@ export const deleteVariantFromFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVariantFromFeatureFlag",
 }));
 
 export type DeleteVulnerabilityNotificationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -75123,6 +76174,8 @@ export const deleteVulnerabilityNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVulnerabilityNotificationRule",
 }));
 
 export type DeleteWebIntegrationAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75138,6 +76191,8 @@ export const deleteWebIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebIntegrationAccount",
 }));
 
 export type DeleteWidgetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75153,6 +76208,8 @@ export const deleteWidget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWidget",
 }));
 
 export type DeleteWorkflowError = Forbidden | NotFound | DatadogOpError;
@@ -75168,6 +76225,8 @@ export const deleteWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DeleteWorkflowsWebhookHandleError = BadRequest | Forbidden | DatadogOpError;
@@ -75183,6 +76242,8 @@ export const deleteWorkflowsWebhookHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowsWebhookHandle",
 }));
 
 export type DetachCaseError = BadRequest | NotFound | DatadogOpError;
@@ -75198,6 +76259,8 @@ export const detachCase: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachCase",
 }));
 
 export type DisableCaseAutomationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75213,6 +76276,8 @@ export const disableCaseAutomationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableCaseAutomationRule",
 }));
 
 export type DisableCustomerOrgError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -75228,6 +76293,8 @@ export const disableCustomerOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableCustomerOrg",
 }));
 
 export type DisableFeatureFlagEnvironmentError = Forbidden | NotFound | DatadogOpError;
@@ -75243,6 +76310,8 @@ export const disableFeatureFlagEnvironment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableFeatureFlagEnvironment",
 }));
 
 export type DisableSecurityFindingsAutomationDefaultInboxRuleError =
@@ -75265,6 +76334,8 @@ export const disableSecurityFindingsAutomationDefaultInboxRule: API.OperationMet
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableSecurityFindingsAutomationDefaultInboxRule",
 }));
 
 export type DisableUserError = Forbidden | NotFound | DatadogOpError;
@@ -75280,6 +76351,8 @@ export const disableUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableUser",
 }));
 
 export type DownloadCloudWorkloadPolicyFileError = Forbidden | DatadogOpError;
@@ -75295,6 +76368,8 @@ export const downloadCloudWorkloadPolicyFile: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadCloudWorkloadPolicyFile",
 }));
 
 export type DownloadCSMThreatsPolicyError = Forbidden | DatadogOpError;
@@ -75310,6 +76385,8 @@ export const downloadCSMThreatsPolicy: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadCSMThreatsPolicy",
 }));
 
 export type EditDegradationUpdateError = DatadogOpError;
@@ -75325,6 +76402,8 @@ export const editDegradationUpdate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditDegradationUpdate",
 }));
 
 export type EditSecurityMonitoringSignalError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75340,6 +76419,8 @@ export const editSecurityMonitoringSignal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSecurityMonitoringSignal",
 }));
 
 export type EditSecurityMonitoringSignalAssigneeError =
@@ -75359,6 +76440,8 @@ export const editSecurityMonitoringSignalAssignee: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSecurityMonitoringSignalAssignee",
 }));
 
 export type EditSecurityMonitoringSignalIncidentsError =
@@ -75378,6 +76461,8 @@ export const editSecurityMonitoringSignalIncidents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSecurityMonitoringSignalIncidents",
 }));
 
 export type EditSecurityMonitoringSignalStateError =
@@ -75397,6 +76482,8 @@ export const editSecurityMonitoringSignalState: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSecurityMonitoringSignalState",
 }));
 
 export type EditSyntheticsSuiteError = BadRequest | DatadogOpError;
@@ -75412,6 +76499,8 @@ export const editSyntheticsSuite: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSyntheticsSuite",
 }));
 
 export type EnableCaseAutomationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75427,6 +76516,8 @@ export const enableCaseAutomationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableCaseAutomationRule",
 }));
 
 export type EnableFeatureFlagEnvironmentError = Forbidden | NotFound | DatadogOpError;
@@ -75442,6 +76533,8 @@ export const enableFeatureFlagEnvironment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableFeatureFlagEnvironment",
 }));
 
 export type EnableSecurityFindingsAutomationDefaultInboxRuleError =
@@ -75464,6 +76557,8 @@ export const enableSecurityFindingsAutomationDefaultInboxRule: API.OperationMeth
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSecurityFindingsAutomationDefaultInboxRule",
 }));
 
 export type EscalateOnCallPageError = DatadogOpError;
@@ -75479,6 +76574,8 @@ export const escalateOnCallPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EscalateOnCallPage",
 }));
 
 export type EstimateMetricsOutputSeriesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75494,6 +76591,8 @@ export const estimateMetricsOutputSeries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EstimateMetricsOutputSeries",
 }));
 
 export type ExecuteDdsqlTabularQueryError = BadRequest | Forbidden | DatadogOpError;
@@ -75509,6 +76608,8 @@ export const executeDdsqlTabularQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteDdsqlTabularQuery",
 }));
 
 export type ExportLLMObsDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75524,6 +76625,8 @@ export const exportLLMObsDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportLLMObsDataset",
 }));
 
 export type ExportSecurityMonitoringTerraformResourceError = Forbidden | NotFound | DatadogOpError;
@@ -75543,6 +76646,8 @@ export const exportSecurityMonitoringTerraformResource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSecurityMonitoringTerraformResource",
 }));
 
 export type FavoriteCaseProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75558,6 +76663,8 @@ export const favoriteCaseProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FavoriteCaseProject",
 }));
 
 export type FetchDdsqlTabularQueryError = BadRequest | Forbidden | DatadogOpError;
@@ -75573,6 +76680,8 @@ export const fetchDdsqlTabularQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchDdsqlTabularQuery",
 }));
 
 export type GenerateCostTagDescriptionByKeyError = BadRequest | Forbidden | DatadogOpError;
@@ -75588,6 +76697,8 @@ export const generateCostTagDescriptionByKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCostTagDescriptionByKey",
 }));
 
 export type GetAccountFacetInfoError = DatadogOpError;
@@ -75603,6 +76714,8 @@ export const getAccountFacetInfo: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountFacetInfo",
 }));
 
 export type GetActionConnectionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75618,6 +76731,8 @@ export const getActionConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionConnection",
 }));
 
 export type GetActiveBillingDimensionsError = BadRequest | Forbidden | DatadogOpError;
@@ -75633,6 +76748,8 @@ export const getActiveBillingDimensions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveBillingDimensions",
 }));
 
 export type GetAggregatedConnectionsError = BadRequest | Forbidden | DatadogOpError;
@@ -75648,6 +76765,8 @@ export const getAggregatedConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAggregatedConnections",
 }));
 
 export type GetAggregatedDnsError = BadRequest | Forbidden | DatadogOpError;
@@ -75663,6 +76782,8 @@ export const getAggregatedDns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAggregatedDns",
 }));
 
 export type GetAiCustomRuleError = BadRequest | NotFound | DatadogOpError;
@@ -75678,6 +76799,8 @@ export const getAiCustomRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiCustomRule",
 }));
 
 export type GetAiCustomRuleRevisionError = BadRequest | NotFound | DatadogOpError;
@@ -75693,6 +76816,8 @@ export const getAiCustomRuleRevision: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiCustomRuleRevision",
 }));
 
 export type GetAiCustomRulesetError = BadRequest | NotFound | DatadogOpError;
@@ -75708,6 +76833,8 @@ export const getAiCustomRuleset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiCustomRuleset",
 }));
 
 export type GetAllAuthMethodsError = Forbidden | DatadogOpError;
@@ -75723,6 +76850,8 @@ export const getAllAuthMethods: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllAuthMethods",
 }));
 
 export type GetAllCaseTypesError = Forbidden | DatadogOpError;
@@ -75738,6 +76867,8 @@ export const getAllCaseTypes: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllCaseTypes",
 }));
 
 export type GetAllCustomAttributeConfigsByCaseTypeError = BadRequest | Forbidden | DatadogOpError;
@@ -75753,6 +76884,8 @@ export const getAllCustomAttributeConfigsByCaseType: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllCustomAttributeConfigsByCaseType",
 }));
 
 export type GetAllCustomAttributesError = Forbidden | DatadogOpError;
@@ -75768,6 +76901,8 @@ export const getAllCustomAttributes: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllCustomAttributes",
 }));
 
 export type GetAllDatasetsError = Forbidden | DatadogOpError;
@@ -75783,6 +76918,8 @@ export const getAllDatasets: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllDatasets",
 }));
 
 export type GetAPIKeyError = Forbidden | NotFound | DatadogOpError;
@@ -75798,6 +76935,8 @@ export const getAPIKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAPIKey",
 }));
 
 export type GetApiMultistepSubtestParentsError = NotFound | DatadogOpError;
@@ -75813,6 +76952,8 @@ export const getApiMultistepSubtestParents: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiMultistepSubtestParents",
 }));
 
 export type GetApiMultistepSubtestsError = DatadogOpError;
@@ -75828,6 +76969,8 @@ export const getApiMultistepSubtests: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiMultistepSubtests",
 }));
 
 export type GetApmRetentionFilterError = Forbidden | NotFound | DatadogOpError;
@@ -75843,6 +76986,8 @@ export const getApmRetentionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApmRetentionFilter",
 }));
 
 export type GetAppError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75858,6 +77003,8 @@ export const getApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetAppKeyRegistrationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75873,6 +77020,8 @@ export const getAppKeyRegistration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppKeyRegistration",
 }));
 
 export type GetApplicationKeyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75888,6 +77037,8 @@ export const getApplicationKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationKey",
 }));
 
 export type GetApplicationSecurityWafCustomRuleError = Forbidden | DatadogOpError;
@@ -75903,6 +77054,8 @@ export const getApplicationSecurityWafCustomRule: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationSecurityWafCustomRule",
 }));
 
 export type GetApplicationSecurityWafExclusionFilterError = Forbidden | NotFound | DatadogOpError;
@@ -75918,6 +77071,8 @@ export const getApplicationSecurityWafExclusionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationSecurityWafExclusionFilter",
 }));
 
 export type GetApplicationSecurityWafPolicyError = Forbidden | DatadogOpError;
@@ -75933,6 +77088,8 @@ export const getApplicationSecurityWafPolicy: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationSecurityWafPolicy",
 }));
 
 export type GetArchiveSearchError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75948,6 +77105,8 @@ export const getArchiveSearch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArchiveSearch",
 }));
 
 export type GetAsmServiceByNameError = Forbidden | DatadogOpError;
@@ -75963,6 +77122,8 @@ export const getAsmServiceByName: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAsmServiceByName",
 }));
 
 export type GetAuthNMappingError = Forbidden | NotFound | DatadogOpError;
@@ -75978,6 +77139,8 @@ export const getAuthNMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthNMapping",
 }));
 
 export type GetAWSAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -75993,6 +77156,8 @@ export const getAWSAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSAccount",
 }));
 
 export type GetAWSAccountCCMConfigError = Forbidden | NotFound | DatadogOpError;
@@ -76008,6 +77173,8 @@ export const getAWSAccountCCMConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSAccountCCMConfig",
 }));
 
 export type GetAWSCloudAuthPersonaMappingError = Forbidden | NotFound | DatadogOpError;
@@ -76023,6 +77190,8 @@ export const getAWSCloudAuthPersonaMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSCloudAuthPersonaMapping",
 }));
 
 export type GetAWSIntegrationIAMPermissionsError = DatadogOpError;
@@ -76038,6 +77207,8 @@ export const getAWSIntegrationIAMPermissions: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSIntegrationIAMPermissions",
 }));
 
 export type GetAWSIntegrationIAMPermissionsResourceCollectionError = DatadogOpError;
@@ -76057,6 +77228,8 @@ export const getAWSIntegrationIAMPermissionsResourceCollection: API.OperationMet
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSIntegrationIAMPermissionsResourceCollection",
 }));
 
 export type GetAWSIntegrationIAMPermissionsStandardError = DatadogOpError;
@@ -76072,6 +77245,8 @@ export const getAWSIntegrationIAMPermissionsStandard: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSIntegrationIAMPermissionsStandard",
 }));
 
 export type GetAWSMetricNameFilterPreviewError = Forbidden | NotFound | DatadogOpError;
@@ -76087,6 +77262,8 @@ export const getAWSMetricNameFilterPreview: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAWSMetricNameFilterPreview",
 }));
 
 export type GetAwsOnDemandTaskError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76102,6 +77279,8 @@ export const getAwsOnDemandTask: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsOnDemandTask",
 }));
 
 export type GetAwsScanOptionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76117,6 +77296,8 @@ export const getAwsScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAwsScanOptions",
 }));
 
 export type GetAzureScanOptionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76132,6 +77313,8 @@ export const getAzureScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureScanOptions",
 }));
 
 export type GetBillingDimensionMappingError = BadRequest | Forbidden | DatadogOpError;
@@ -76147,6 +77330,8 @@ export const getBillingDimensionMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingDimensionMapping",
 }));
 
 export type GetBlueprintError = Forbidden | NotFound | DatadogOpError;
@@ -76162,6 +77347,8 @@ export const getBlueprint: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlueprint",
 }));
 
 export type GetBlueprintsByIntegrationIdError = Forbidden | DatadogOpError;
@@ -76177,6 +77364,8 @@ export const getBlueprintsByIntegrationId: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlueprintsByIntegrationId",
 }));
 
 export type GetBlueprintsBySlugsError = Forbidden | DatadogOpError;
@@ -76192,6 +77381,8 @@ export const getBlueprintsBySlugs: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlueprintsBySlugs",
 }));
 
 export type GetBudgetError = BadRequest | NotFound | DatadogOpError;
@@ -76207,6 +77398,8 @@ export const getBudget: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBudget",
 }));
 
 export type GetCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76222,6 +77415,8 @@ export const getCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCase",
 }));
 
 export type GetCaseAutomationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76237,6 +77432,8 @@ export const getCaseAutomationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaseAutomationRule",
 }));
 
 export type GetCaseViewError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76252,6 +77449,8 @@ export const getCaseView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaseView",
 }));
 
 export type GetChangeRequestError = BadRequest | NotFound | DatadogOpError;
@@ -76267,6 +77466,8 @@ export const getChangeRequest: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeRequest",
 }));
 
 export type GetChannelByNameError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76282,6 +77483,8 @@ export const getChannelByName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChannelByName",
 }));
 
 export type GetCloudflareAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76297,6 +77500,8 @@ export const getCloudflareAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudflareAccount",
 }));
 
 export type GetCloudWorkloadSecurityAgentRuleError = Forbidden | NotFound | DatadogOpError;
@@ -76312,6 +77517,8 @@ export const getCloudWorkloadSecurityAgentRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudWorkloadSecurityAgentRule",
 }));
 
 export type GetCodeCoverageBranchSummaryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76327,6 +77534,8 @@ export const getCodeCoverageBranchSummary: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodeCoverageBranchSummary",
 }));
 
 export type GetCodeCoverageCommitSummaryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76342,6 +77551,8 @@ export const getCodeCoverageCommitSummary: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodeCoverageCommitSummary",
 }));
 
 export type GetCodeCoverageFilesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76357,6 +77568,8 @@ export const getCodeCoverageFiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodeCoverageFiles",
 }));
 
 export type GetCodeCoveragePRSummaryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76372,6 +77585,8 @@ export const getCodeCoveragePRSummary: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCodeCoveragePRSummary",
 }));
 
 export type GetCommitmentsCommitmentListError = BadRequest | DatadogOpError;
@@ -76387,6 +77602,8 @@ export const getCommitmentsCommitmentList: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitmentsCommitmentList",
 }));
 
 export type GetCommitmentsCoverageScalarError = BadRequest | DatadogOpError;
@@ -76402,6 +77619,8 @@ export const getCommitmentsCoverageScalar: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitmentsCoverageScalar",
 }));
 
 export type GetCommitmentsCoverageTimeseriesError = BadRequest | DatadogOpError;
@@ -76417,6 +77636,8 @@ export const getCommitmentsCoverageTimeseries: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitmentsCoverageTimeseries",
 }));
 
 export type GetCommitmentsOnDemandHotspotsScalarError = BadRequest | DatadogOpError;
@@ -76432,6 +77653,8 @@ export const getCommitmentsOnDemandHotspotsScalar: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitmentsOnDemandHotspotsScalar",
 }));
 
 export type GetCommitmentsSavingsScalarError = BadRequest | DatadogOpError;
@@ -76447,6 +77670,8 @@ export const getCommitmentsSavingsScalar: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitmentsSavingsScalar",
 }));
 
 export type GetCommitmentsSavingsTimeseriesError = BadRequest | DatadogOpError;
@@ -76462,6 +77687,8 @@ export const getCommitmentsSavingsTimeseries: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitmentsSavingsTimeseries",
 }));
 
 export type GetCommitmentsUtilizationScalarError = BadRequest | DatadogOpError;
@@ -76477,6 +77704,8 @@ export const getCommitmentsUtilizationScalar: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitmentsUtilizationScalar",
 }));
 
 export type GetCommitmentsUtilizationTimeseriesError = BadRequest | DatadogOpError;
@@ -76492,6 +77721,8 @@ export const getCommitmentsUtilizationTimeseries: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitmentsUtilizationTimeseries",
 }));
 
 export type GetComponentError = DatadogOpError;
@@ -76507,6 +77738,8 @@ export const getComponent: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetConfluentAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76522,6 +77755,8 @@ export const getConfluentAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfluentAccount",
 }));
 
 export type GetConfluentResourceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76537,6 +77772,8 @@ export const getConfluentResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfluentResource",
 }));
 
 export type GetContentPacksStatesError = Forbidden | NotFound | DatadogOpError;
@@ -76552,6 +77789,8 @@ export const getContentPacksStates: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContentPacksStates",
 }));
 
 export type GetCostAccountFiltersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76567,6 +77806,8 @@ export const getCostAccountFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostAccountFilters",
 }));
 
 export type GetCostAnomalyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76582,6 +77823,8 @@ export const getCostAnomaly: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostAnomaly",
 }));
 
 export type GetCostAWSCURConfigError = DatadogOpError;
@@ -76597,6 +77840,8 @@ export const getCostAWSCURConfig: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostAWSCURConfig",
 }));
 
 export type GetCostAzureUCConfigError = DatadogOpError;
@@ -76612,6 +77857,8 @@ export const getCostAzureUCConfig: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostAzureUCConfig",
 }));
 
 export type GetCostGCPUsageCostConfigError = DatadogOpError;
@@ -76627,6 +77874,8 @@ export const getCostGCPUsageCostConfig: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostGCPUsageCostConfig",
 }));
 
 export type GetCostTagDescriptionByKeyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76642,6 +77891,8 @@ export const getCostTagDescriptionByKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostTagDescriptionByKey",
 }));
 
 export type GetCostTagKeyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76657,6 +77908,8 @@ export const getCostTagKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostTagKey",
 }));
 
 export type GetCostTagMetadataCurrencyError = BadRequest | Forbidden | DatadogOpError;
@@ -76672,6 +77925,8 @@ export const getCostTagMetadataCurrency: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostTagMetadataCurrency",
 }));
 
 export type GetCriticalAssetsAffectingRuleError = Forbidden | NotFound | DatadogOpError;
@@ -76687,6 +77942,8 @@ export const getCriticalAssetsAffectingRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCriticalAssetsAffectingRule",
 }));
 
 export type GetCSMAgentlessHostFacetInfoError = BadRequest | Forbidden | DatadogOpError;
@@ -76702,6 +77959,8 @@ export const getCSMAgentlessHostFacetInfo: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCSMAgentlessHostFacetInfo",
 }));
 
 export type GetCSMCloudAccountsCoverageAnalysisError = Forbidden | DatadogOpError;
@@ -76717,6 +77976,8 @@ export const getCSMCloudAccountsCoverageAnalysis: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCSMCloudAccountsCoverageAnalysis",
 }));
 
 export type GetCSMHostsAndContainersCoverageAnalysisError = Forbidden | DatadogOpError;
@@ -76732,6 +77993,8 @@ export const getCSMHostsAndContainersCoverageAnalysis: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCSMHostsAndContainersCoverageAnalysis",
 }));
 
 export type GetCSMServerlessCoverageAnalysisError = Forbidden | DatadogOpError;
@@ -76747,6 +78010,8 @@ export const getCSMServerlessCoverageAnalysis: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCSMServerlessCoverageAnalysis",
 }));
 
 export type GetCSMThreatsAgentPolicyError = Forbidden | NotFound | DatadogOpError;
@@ -76762,6 +78027,8 @@ export const getCSMThreatsAgentPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCSMThreatsAgentPolicy",
 }));
 
 export type GetCSMThreatsAgentRuleError = Forbidden | NotFound | DatadogOpError;
@@ -76777,6 +78044,8 @@ export const getCSMThreatsAgentRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCSMThreatsAgentRule",
 }));
 
 export type GetCSMUnifiedHostFacetInfoError = BadRequest | Forbidden | DatadogOpError;
@@ -76792,6 +78061,8 @@ export const getCSMUnifiedHostFacetInfo: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCSMUnifiedHostFacetInfo",
 }));
 
 export type GetCurrentUserError = Forbidden | DatadogOpError;
@@ -76807,6 +78078,8 @@ export const getCurrentUser: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUser",
 }));
 
 export type GetCurrentUserApplicationKeyError = Forbidden | NotFound | DatadogOpError;
@@ -76822,6 +78095,8 @@ export const getCurrentUserApplicationKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUserApplicationKey",
 }));
 
 export type GetCustomAllocationRuleError = DatadogOpError;
@@ -76837,6 +78112,8 @@ export const getCustomAllocationRule: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomAllocationRule",
 }));
 
 export type GetCustomCostsFileError = Forbidden | NotFound | DatadogOpError;
@@ -76852,6 +78129,8 @@ export const getCustomCostsFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomCostsFile",
 }));
 
 export type GetCustomForecastError = BadRequest | NotFound | DatadogOpError;
@@ -76867,6 +78146,8 @@ export const getCustomForecast: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomForecast",
 }));
 
 export type GetCustomFrameworkError = BadRequest | DatadogOpError;
@@ -76882,6 +78163,8 @@ export const getCustomFramework: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomFramework",
 }));
 
 export type GetCustomRuleError = BadRequest | NotFound | DatadogOpError;
@@ -76897,6 +78180,8 @@ export const getCustomRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRule",
 }));
 
 export type GetCustomRuleRevisionError = BadRequest | NotFound | DatadogOpError;
@@ -76912,6 +78197,8 @@ export const getCustomRuleRevision: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRuleRevision",
 }));
 
 export type GetCustomRulesetError = BadRequest | NotFound | DatadogOpError;
@@ -76927,6 +78214,8 @@ export const getCustomRuleset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRuleset",
 }));
 
 export type GetDashboardListItemsError = Forbidden | NotFound | DatadogOpError;
@@ -76942,6 +78231,8 @@ export const getDashboardListItems: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardListItems",
 }));
 
 export type GetDashboardSecureEmbedError = NotFound | DatadogOpError;
@@ -76957,6 +78248,8 @@ export const getDashboardSecureEmbed: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardSecureEmbed",
 }));
 
 export type GetDashboardUsageError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -76972,6 +78265,8 @@ export const getDashboardUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardUsage",
 }));
 
 export type GetDatabricksIntegrationAccountError =
@@ -76991,6 +78286,8 @@ export const getDatabricksIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabricksIntegrationAccount",
 }));
 
 export type GetDataDeletionRequestsError = BadRequest | Forbidden | DatadogOpError;
@@ -77006,6 +78303,8 @@ export const getDataDeletionRequests: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataDeletionRequests",
 }));
 
 export type GetDataObservabilityMonitorRunStatusError = NotFound | DatadogOpError;
@@ -77021,6 +78320,8 @@ export const getDataObservabilityMonitorRunStatus: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataObservabilityMonitorRunStatus",
 }));
 
 export type GetDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77036,6 +78337,8 @@ export const getDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetDatastoreError = BadRequest | NotFound | DatadogOpError;
@@ -77051,6 +78354,8 @@ export const getDatastore: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatastore",
 }));
 
 export type GetDegradationError = DatadogOpError;
@@ -77066,6 +78371,8 @@ export const getDegradation: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDegradation",
 }));
 
 export type GetDegradationTemplateError = DatadogOpError;
@@ -77081,6 +78388,8 @@ export const getDegradationTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDegradationTemplate",
 }));
 
 export type GetDeploymentGateError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77096,6 +78405,8 @@ export const getDeploymentGate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentGate",
 }));
 
 export type GetDeploymentGateRulesError = BadRequest | Forbidden | DatadogOpError;
@@ -77111,6 +78422,8 @@ export const getDeploymentGateRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentGateRules",
 }));
 
 export type GetDeploymentGatesEvaluationResultError =
@@ -77130,6 +78443,8 @@ export const getDeploymentGatesEvaluationResult: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentGatesEvaluationResult",
 }));
 
 export type GetDeploymentRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77145,6 +78460,8 @@ export const getDeploymentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentRule",
 }));
 
 export type GetDeviceError = Forbidden | NotFound | DatadogOpError;
@@ -77160,6 +78477,8 @@ export const getDevice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetDomainAllowlistError = DatadogOpError;
@@ -77175,6 +78494,8 @@ export const getDomainAllowlist: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainAllowlist",
 }));
 
 export type GetDORADeploymentError = BadRequest | Forbidden | DatadogOpError;
@@ -77190,6 +78511,8 @@ export const getDORADeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDORADeployment",
 }));
 
 export type GetDORAFailureError = BadRequest | Forbidden | DatadogOpError;
@@ -77205,6 +78528,8 @@ export const getDORAFailure: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDORAFailure",
 }));
 
 export type GetDowntimeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77220,6 +78545,8 @@ export const getDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDowntime",
 }));
 
 export type GetElasticCloudIntegrationAccountError =
@@ -77239,6 +78566,8 @@ export const getElasticCloudIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetElasticCloudIntegrationAccount",
 }));
 
 export type GetEntityContextError = BadRequest | Forbidden | DatadogOpError;
@@ -77254,6 +78583,8 @@ export const getEntityContext: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntityContext",
 }));
 
 export type GetEntityContextRecentlyUpdatedError = BadRequest | Forbidden | DatadogOpError;
@@ -77269,6 +78600,8 @@ export const getEntityContextRecentlyUpdated: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntityContextRecentlyUpdated",
 }));
 
 export type GetEntityIntegrationConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77284,6 +78617,8 @@ export const getEntityIntegrationConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntityIntegrationConfig",
 }));
 
 export type GetEntityRiskScoreError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77299,6 +78634,8 @@ export const getEntityRiskScore: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntityRiskScore",
 }));
 
 export type GetEntraIdAzureAppRegistrationsError = Forbidden | DatadogOpError;
@@ -77318,6 +78655,8 @@ export const getEntraIdAzureAppRegistrations: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntraIdAzureAppRegistrations",
 }));
 
 export type GetEstimatedCostByOrgError = BadRequest | Forbidden | DatadogOpError;
@@ -77333,6 +78672,8 @@ export const getEstimatedCostByOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEstimatedCostByOrg",
 }));
 
 export type GetEventError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77348,6 +78689,8 @@ export const getEvent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvent",
 }));
 
 export type GetExclusionFilterError = Forbidden | NotFound | DatadogOpError;
@@ -77363,6 +78706,8 @@ export const getExclusionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExclusionFilter",
 }));
 
 export type GetExecutionPolicyError = Forbidden | NotFound | DatadogOpError;
@@ -77378,6 +78723,8 @@ export const getExecutionPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExecutionPolicy",
 }));
 
 export type GetExperimentError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -77393,6 +78740,8 @@ export const getExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetExperimentAnalysisPlanError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77408,6 +78757,8 @@ export const getExperimentAnalysisPlan: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentAnalysisPlan",
 }));
 
 export type GetExperimentDiagnosticsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77423,6 +78774,8 @@ export const getExperimentDiagnostics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentDiagnostics",
 }));
 
 export type GetExperimentProtocolError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77438,6 +78791,8 @@ export const getExperimentProtocol: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentProtocol",
 }));
 
 export type GetExperimentResultsError =
@@ -77458,6 +78813,8 @@ export const getExperimentResults: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentResults",
 }));
 
 export type GetExperimentTrafficSummaryError =
@@ -77478,6 +78835,8 @@ export const getExperimentTrafficSummary: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentTrafficSummary",
 }));
 
 export type GetExposureSQLModelError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77493,6 +78852,8 @@ export const getExposureSQLModel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExposureSQLModel",
 }));
 
 export type GetFastlyAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77508,6 +78869,8 @@ export const getFastlyAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFastlyAccount",
 }));
 
 export type GetFastlyServiceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77523,6 +78886,8 @@ export const getFastlyService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFastlyService",
 }));
 
 export type GetFeatureFlagError = Forbidden | NotFound | DatadogOpError;
@@ -77538,6 +78903,8 @@ export const getFeatureFlag: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlag",
 }));
 
 export type GetFeatureFlagsEnvironmentError = Forbidden | NotFound | DatadogOpError;
@@ -77553,6 +78920,8 @@ export const getFeatureFlagsEnvironment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsEnvironment",
 }));
 
 export type GetFindingError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77568,6 +78937,8 @@ export const getFinding: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinding",
 }));
 
 export type GetFlakyTestsManagementPoliciesError =
@@ -77591,6 +78962,8 @@ export const getFlakyTestsManagementPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlakyTestsManagementPolicies",
 }));
 
 export type GetFleetAgentDetailV2Error = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77606,6 +78979,8 @@ export const getFleetAgentDetailV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFleetAgentDetailV2",
 }));
 
 export type GetFleetDeploymentV2Error = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77621,6 +78996,8 @@ export const getFleetDeploymentV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFleetDeploymentV2",
 }));
 
 export type GetFleetScheduleV2Error = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77636,6 +79013,8 @@ export const getFleetScheduleV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFleetScheduleV2",
 }));
 
 export type GetFormError = BadRequest | NotFound | DatadogOpError;
@@ -77651,6 +79030,8 @@ export const getForm: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForm",
 }));
 
 export type GetGcpScanOptionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77666,6 +79047,8 @@ export const getGcpScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGcpScanOptions",
 }));
 
 export type GetGCPSTSDelegateError = Forbidden | DatadogOpError;
@@ -77681,6 +79064,8 @@ export const getGCPSTSDelegate: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGCPSTSDelegate",
 }));
 
 export type GetGlobalIncidentSettingsError = BadRequest | DatadogOpError;
@@ -77696,6 +79081,8 @@ export const getGlobalIncidentSettings: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGlobalIncidentSettings",
 }));
 
 export type GetGoogleChatDelegatedUserError = Forbidden | NotFound | DatadogOpError;
@@ -77711,6 +79098,8 @@ export const getGoogleChatDelegatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleChatDelegatedUser",
 }));
 
 export type GetGoogleChatOrganizationError = Forbidden | NotFound | DatadogOpError;
@@ -77726,6 +79115,8 @@ export const getGoogleChatOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleChatOrganization",
 }));
 
 export type GetGoogleChatTargetAudienceError = Forbidden | NotFound | DatadogOpError;
@@ -77741,6 +79132,8 @@ export const getGoogleChatTargetAudience: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGoogleChatTargetAudience",
 }));
 
 export type GetGovernanceConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -77756,6 +79149,8 @@ export const getGovernanceConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGovernanceConfig",
 }));
 
 export type GetGovernanceControlError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77771,6 +79166,8 @@ export const getGovernanceControl: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGovernanceControl",
 }));
 
 export type GetGovernanceControlNotificationSettingsError = BadRequest | Forbidden | DatadogOpError;
@@ -77786,6 +79183,8 @@ export const getGovernanceControlNotificationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGovernanceControlNotificationSettings",
 }));
 
 export type GetGovernanceDetectionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77801,6 +79200,8 @@ export const getGovernanceDetection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGovernanceDetection",
 }));
 
 export type GetGovernanceNotificationSettingsError = BadRequest | Forbidden | DatadogOpError;
@@ -77816,6 +79217,8 @@ export const getGovernanceNotificationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGovernanceNotificationSettings",
 }));
 
 export type GetHamrOrgConnectionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77831,6 +79234,8 @@ export const getHamrOrgConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHamrOrgConnection",
 }));
 
 export type GetHistoricalCostByOrgError = BadRequest | Forbidden | DatadogOpError;
@@ -77846,6 +79251,8 @@ export const getHistoricalCostByOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHistoricalCostByOrg",
 }));
 
 export type GetHistoricalJobError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77861,6 +79268,8 @@ export const getHistoricalJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHistoricalJob",
 }));
 
 export type GetHistoricalMetricsConfigurationError = BadRequest | NotFound | DatadogOpError;
@@ -77876,6 +79285,8 @@ export const getHistoricalMetricsConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHistoricalMetricsConfiguration",
 }));
 
 export type GetHourlyUsageError = BadRequest | Forbidden | DatadogOpError;
@@ -77891,6 +79302,8 @@ export const getHourlyUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHourlyUsage",
 }));
 
 export type GetIncidentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77906,6 +79319,8 @@ export const getIncident: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncident",
 }));
 
 export type GetIncidentAIPostmortemError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77921,6 +79336,8 @@ export const getIncidentAIPostmortem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentAIPostmortem",
 }));
 
 export type GetIncidentIntegrationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77936,6 +79353,8 @@ export const getIncidentIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentIntegration",
 }));
 
 export type GetIncidentNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -77951,6 +79370,8 @@ export const getIncidentNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentNotificationRule",
 }));
 
 export type GetIncidentNotificationTemplateError =
@@ -77970,6 +79391,8 @@ export const getIncidentNotificationTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentNotificationTemplate",
 }));
 
 export type GetIncidentPostmortemTemplateError = BadRequest | NotFound | DatadogOpError;
@@ -77985,6 +79408,8 @@ export const getIncidentPostmortemTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentPostmortemTemplate",
 }));
 
 export type GetIncidentResponderError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78000,6 +79425,8 @@ export const getIncidentResponder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentResponder",
 }));
 
 export type GetIncidentRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78015,6 +79442,8 @@ export const getIncidentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentRule",
 }));
 
 export type GetIncidentTemplatesError = Forbidden | DatadogOpError;
@@ -78030,6 +79459,8 @@ export const getIncidentTemplates: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentTemplates",
 }));
 
 export type GetIncidentTodoError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78045,6 +79476,8 @@ export const getIncidentTodo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentTodo",
 }));
 
 export type GetIncidentTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78060,6 +79493,8 @@ export const getIncidentType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentType",
 }));
 
 export type GetIncidentUserDefinedFieldError = Forbidden | NotFound | DatadogOpError;
@@ -78075,6 +79510,8 @@ export const getIncidentUserDefinedField: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentUserDefinedField",
 }));
 
 export type GetIncidentUserDefinedRoleError = BadRequest | NotFound | DatadogOpError;
@@ -78090,6 +79527,8 @@ export const getIncidentUserDefinedRole: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentUserDefinedRole",
 }));
 
 export type GetIndicatorOfCompromiseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78105,6 +79544,8 @@ export const getIndicatorOfCompromise: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndicatorOfCompromise",
 }));
 
 export type GetInterfacesError = Forbidden | DatadogOpError;
@@ -78120,6 +79561,8 @@ export const getInterfaces: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInterfaces",
 }));
 
 export type GetInvestigationError = BadRequest | NotFound | DatadogOpError;
@@ -78135,6 +79578,8 @@ export const getInvestigation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestigation",
 }));
 
 export type GetInvestigationLogQueriesMatchingSignalError = Forbidden | NotFound | DatadogOpError;
@@ -78154,6 +79599,8 @@ export const getInvestigationLogQueriesMatchingSignal: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestigationLogQueriesMatchingSignal",
 }));
 
 export type GetInvitationError = Forbidden | NotFound | DatadogOpError;
@@ -78169,6 +79616,8 @@ export const getInvitation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvitation",
 }));
 
 export type GetIPAllowlistError = Forbidden | NotFound | DatadogOpError;
@@ -78184,6 +79633,8 @@ export const getIPAllowlist: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIPAllowlist",
 }));
 
 export type GetIssueError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78199,6 +79650,8 @@ export const getIssue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssue",
 }));
 
 export type GetJiraIssueTemplateError = BadRequest | DatadogOpError;
@@ -78214,6 +79667,8 @@ export const getJiraIssueTemplate: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJiraIssueTemplate",
 }));
 
 export type GetJourneyError = NotFound | DatadogOpError;
@@ -78229,6 +79684,8 @@ export const getJourney: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJourney",
 }));
 
 export type GetJourneyRecommendedTestsError = NotFound | DatadogOpError;
@@ -78244,6 +79701,8 @@ export const getJourneyRecommendedTests: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJourneyRecommendedTests",
 }));
 
 export type GetLLMObsAnnotatedInteractionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78259,6 +79718,8 @@ export const getLLMObsAnnotatedInteraction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsAnnotatedInteraction",
 }));
 
 export type GetLLMObsAnnotatedInteractionsError =
@@ -78278,6 +79739,8 @@ export const getLLMObsAnnotatedInteractions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsAnnotatedInteractions",
 }));
 
 export type GetLLMObsAnnotatedInteractionsByTraceIDsError = BadRequest | Forbidden | DatadogOpError;
@@ -78293,6 +79756,8 @@ export const getLLMObsAnnotatedInteractionsByTraceIDs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsAnnotatedInteractionsByTraceIDs",
 }));
 
 export type GetLLMObsAnnotationQueueLabelSchemaError = Forbidden | NotFound | DatadogOpError;
@@ -78308,6 +79773,8 @@ export const getLLMObsAnnotationQueueLabelSchema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsAnnotationQueueLabelSchema",
 }));
 
 export type GetLLMObsCustomEvalConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78323,6 +79790,8 @@ export const getLLMObsCustomEvalConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsCustomEvalConfig",
 }));
 
 export type GetLLMObsDatasetDraftStateError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78338,6 +79807,8 @@ export const getLLMObsDatasetDraftState: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsDatasetDraftState",
 }));
 
 export type GetLLMObsPatternsConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78353,6 +79824,8 @@ export const getLLMObsPatternsConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsPatternsConfig",
 }));
 
 export type GetLLMObsPatternsRunStatusError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78368,6 +79841,8 @@ export const getLLMObsPatternsRunStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsPatternsRunStatus",
 }));
 
 export type GetLLMObsPromptError = Forbidden | NotFound | DatadogOpError;
@@ -78383,6 +79858,8 @@ export const getLLMObsPrompt: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsPrompt",
 }));
 
 export type GetLLMObsPromptVersionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78398,6 +79875,8 @@ export const getLLMObsPromptVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLLMObsPromptVersion",
 }));
 
 export type GetLogsArchiveError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78413,6 +79892,8 @@ export const getLogsArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsArchive",
 }));
 
 export type GetLogsArchiveOrderError = Forbidden | DatadogOpError;
@@ -78428,6 +79909,8 @@ export const getLogsArchiveOrder: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsArchiveOrder",
 }));
 
 export type GetLogsCustomDestinationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78443,6 +79926,8 @@ export const getLogsCustomDestination: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsCustomDestination",
 }));
 
 export type GetLogsMetricError = Forbidden | NotFound | DatadogOpError;
@@ -78458,6 +79943,8 @@ export const getLogsMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogsMetric",
 }));
 
 export type GetMaintenanceError = DatadogOpError;
@@ -78473,6 +79960,8 @@ export const getMaintenance: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaintenance",
 }));
 
 export type GetMaintenanceTemplateError = DatadogOpError;
@@ -78488,6 +79977,8 @@ export const getMaintenanceTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceTemplate",
 }));
 
 export type GetMappingError = DatadogOpError;
@@ -78503,6 +79994,8 @@ export const getMapping: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMapping",
 }));
 
 export type GetMatchingSignalsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78518,6 +80011,8 @@ export const getMatchingSignals: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMatchingSignals",
 }));
 
 export type GetMetricError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78533,6 +80028,8 @@ export const getMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetric",
 }));
 
 export type GetMetricCollectionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78548,6 +80045,8 @@ export const getMetricCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricCollection",
 }));
 
 export type GetMetricSQLModelError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78563,6 +80062,8 @@ export const getMetricSQLModel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricSQLModel",
 }));
 
 export type GetMetricTagCardinalityDetailsError =
@@ -78582,6 +80083,8 @@ export const getMetricTagCardinalityDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricTagCardinalityDetails",
 }));
 
 export type GetModelLabArtifactContentError = BadRequest | DatadogOpError;
@@ -78597,6 +80100,8 @@ export const getModelLabArtifactContent: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModelLabArtifactContent",
 }));
 
 export type GetModelLabProjectError = BadRequest | NotFound | DatadogOpError;
@@ -78612,6 +80117,8 @@ export const getModelLabProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModelLabProject",
 }));
 
 export type GetModelLabRunError = BadRequest | NotFound | DatadogOpError;
@@ -78627,6 +80134,8 @@ export const getModelLabRun: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModelLabRun",
 }));
 
 export type GetMonitorConfigPolicyError = Forbidden | NotFound | DatadogOpError;
@@ -78642,6 +80151,8 @@ export const getMonitorConfigPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitorConfigPolicy",
 }));
 
 export type GetMonitorNotificationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -78657,6 +80168,8 @@ export const getMonitorNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitorNotificationRule",
 }));
 
 export type GetMonitorNotificationRulesError = Forbidden | DatadogOpError;
@@ -78672,6 +80185,8 @@ export const getMonitorNotificationRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitorNotificationRules",
 }));
 
 export type GetMonitorUserTemplateError = NotFound | DatadogOpError;
@@ -78687,6 +80202,8 @@ export const getMonitorUserTemplate: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitorUserTemplate",
 }));
 
 export type GetMonthlyCostAttributionError = BadRequest | Forbidden | DatadogOpError;
@@ -78702,6 +80219,8 @@ export const getMonthlyCostAttribution: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonthlyCostAttribution",
 }));
 
 export type GetOAuth2ClientCredentialsError = Forbidden | NotFound | DatadogOpError;
@@ -78717,6 +80236,8 @@ export const getOAuth2ClientCredentials: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuth2ClientCredentials",
 }));
 
 export type GetOAuth2WellKnownSitesError = DatadogOpError;
@@ -78732,6 +80253,8 @@ export const getOAuth2WellKnownSites: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuth2WellKnownSites",
 }));
 
 export type GetOIDCDiscoveryDocumentError = DatadogOpError;
@@ -78747,6 +80270,8 @@ export const getOIDCDiscoveryDocument: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOIDCDiscoveryDocument",
 }));
 
 export type GetOktaAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78762,6 +80287,8 @@ export const getOktaAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOktaAccount",
 }));
 
 export type GetOnCallEscalationPolicyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78777,6 +80304,8 @@ export const getOnCallEscalationPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnCallEscalationPolicy",
 }));
 
 export type GetOnCallScheduleError = Forbidden | NotFound | DatadogOpError;
@@ -78792,6 +80321,8 @@ export const getOnCallSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnCallSchedule",
 }));
 
 export type GetOnCallTeamRoutingRulesError = DatadogOpError;
@@ -78807,6 +80338,8 @@ export const getOnCallTeamRoutingRules: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnCallTeamRoutingRules",
 }));
 
 export type GetOnDemandConcurrencyCapError = DatadogOpError;
@@ -78822,6 +80355,8 @@ export const getOnDemandConcurrencyCap: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnDemandConcurrencyCap",
 }));
 
 export type GetOpsgenieServiceError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -78837,6 +80372,8 @@ export const getOpsgenieService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpsgenieService",
 }));
 
 export type GetOrganizationHandleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78852,6 +80389,8 @@ export const getOrganizationHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationHandle",
 }));
 
 export type GetOrgAuthorizedClientError = Forbidden | NotFound | DatadogOpError;
@@ -78867,6 +80406,8 @@ export const getOrgAuthorizedClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgAuthorizedClient",
 }));
 
 export type GetOrgConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78882,6 +80423,8 @@ export const getOrgConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgConfig",
 }));
 
 export type GetOrgGroupError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78897,6 +80440,8 @@ export const getOrgGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgGroup",
 }));
 
 export type GetOrgGroupMembershipError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78912,6 +80457,8 @@ export const getOrgGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgGroupMembership",
 }));
 
 export type GetOrgGroupPolicyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78927,6 +80474,8 @@ export const getOrgGroupPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgGroupPolicy",
 }));
 
 export type GetOrgGroupPolicyOverrideError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78942,6 +80491,8 @@ export const getOrgGroupPolicyOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgGroupPolicyOverride",
 }));
 
 export type GetOrgSettingsByIncidentTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -78957,6 +80508,8 @@ export const getOrgSettingsByIncidentType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgSettingsByIncidentType",
 }));
 
 export type GetOwnershipEvidenceError = BadRequest | NotFound | DatadogOpError;
@@ -78972,6 +80525,8 @@ export const getOwnershipEvidence: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOwnershipEvidence",
 }));
 
 export type GetOwnershipInferenceError = BadRequest | NotFound | DatadogOpError;
@@ -78987,6 +80542,8 @@ export const getOwnershipInference: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOwnershipInference",
 }));
 
 export type GetOwnershipSettingsError = DatadogOpError;
@@ -79002,6 +80559,8 @@ export const getOwnershipSettings: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOwnershipSettings",
 }));
 
 export type GetOwnershipUntaggedFindingsError = DatadogOpError;
@@ -79017,6 +80576,8 @@ export const getOwnershipUntaggedFindings: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOwnershipUntaggedFindings",
 }));
 
 export type GetPageAnnotationsError = BadRequest | Forbidden | DatadogOpError;
@@ -79032,6 +80593,8 @@ export const getPageAnnotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPageAnnotations",
 }));
 
 export type GetPermanentRetentionFilterError = Forbidden | NotFound | DatadogOpError;
@@ -79047,6 +80610,8 @@ export const getPermanentRetentionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermanentRetentionFilter",
 }));
 
 export type GetPersonalAccessTokenError = Forbidden | NotFound | DatadogOpError;
@@ -79062,6 +80627,8 @@ export const getPersonalAccessToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonalAccessToken",
 }));
 
 export type GetPipelineError = Forbidden | DatadogOpError;
@@ -79077,6 +80644,8 @@ export const getPipeline: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPipeline",
 }));
 
 export type GetPowerpackError = NotFound | DatadogOpError;
@@ -79092,6 +80661,8 @@ export const getPowerpack: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPowerpack",
 }));
 
 export type GetProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79107,6 +80678,8 @@ export const getProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectedCostError = BadRequest | Forbidden | DatadogOpError;
@@ -79122,6 +80695,8 @@ export const getProjectedCost: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectedCost",
 }));
 
 export type GetProjectNotificationRulesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79137,6 +80712,8 @@ export const getProjectNotificationRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectNotificationRules",
 }));
 
 export type GetProjectsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79152,6 +80729,8 @@ export const getProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjects",
 }));
 
 export type GetPrunedTraceError = Forbidden | NotFound | DatadogOpError;
@@ -79167,6 +80746,8 @@ export const getPrunedTrace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrunedTrace",
 }));
 
 export type GetReportScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79182,6 +80763,8 @@ export const getReportSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportSchedule",
 }));
 
 export type GetReportSchedulesForResourceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79197,6 +80780,8 @@ export const getReportSchedulesForResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportSchedulesForResource",
 }));
 
 export type GetResourceEvaluationFiltersError = BadRequest | Forbidden | DatadogOpError;
@@ -79212,6 +80797,8 @@ export const getResourceEvaluationFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceEvaluationFilters",
 }));
 
 export type GetRestrictionPolicyError = BadRequest | Forbidden | DatadogOpError;
@@ -79227,6 +80814,8 @@ export const getRestrictionPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestrictionPolicy",
 }));
 
 export type GetRestrictionQueryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79242,6 +80831,8 @@ export const getRestrictionQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestrictionQuery",
 }));
 
 export type GetRetentionFilterError = Forbidden | NotFound | DatadogOpError;
@@ -79257,6 +80848,8 @@ export const getRetentionFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRetentionFilter",
 }));
 
 export type GetRoleError = Forbidden | NotFound | DatadogOpError;
@@ -79272,6 +80865,8 @@ export const getRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRole",
 }));
 
 export type GetRoleRestrictionQueryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79287,6 +80882,8 @@ export const getRoleRestrictionQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleRestrictionQuery",
 }));
 
 export type GetRowsByIDError = Forbidden | NotFound | DatadogOpError;
@@ -79302,6 +80899,8 @@ export const getRowsByID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRowsByID",
 }));
 
 export type GetRuleVersionHistoryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79317,6 +80916,8 @@ export const getRuleVersionHistory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRuleVersionHistory",
 }));
 
 export type GetRUMApplicationError = NotFound | DatadogOpError;
@@ -79332,6 +80933,8 @@ export const getRUMApplication: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRUMApplication",
 }));
 
 export type GetRUMApplicationsError = NotFound | DatadogOpError;
@@ -79347,6 +80950,8 @@ export const getRUMApplications: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRUMApplications",
 }));
 
 export type GetRumConfigError = Forbidden | DatadogOpError;
@@ -79362,6 +80967,8 @@ export const getRumConfig: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRumConfig",
 }));
 
 export type GetRumMetricError = Forbidden | NotFound | DatadogOpError;
@@ -79377,6 +80984,8 @@ export const getRumMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRumMetric",
 }));
 
 export type GetRUMOperationError = NotFound | DatadogOpError;
@@ -79392,6 +81001,8 @@ export const getRUMOperation: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRUMOperation",
 }));
 
 export type GetRUMOperationByNameError = BadRequest | NotFound | DatadogOpError;
@@ -79407,6 +81018,8 @@ export const getRUMOperationByName: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRUMOperationByName",
 }));
 
 export type GetRumQuotaConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79422,6 +81035,8 @@ export const getRumQuotaConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRumQuotaConfig",
 }));
 
 export type GetRumReplayPlaylistError = DatadogOpError;
@@ -79437,6 +81052,8 @@ export const getRumReplayPlaylist: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRumReplayPlaylist",
 }));
 
 export type GetRumSdkConfigError = Forbidden | NotFound | DatadogOpError;
@@ -79452,6 +81069,8 @@ export const getRumSdkConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRumSdkConfig",
 }));
 
 export type GetSalesforceOrganizationsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79467,6 +81086,8 @@ export const getSalesforceOrganizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSalesforceOrganizations",
 }));
 
 export type GetSAMLConfigurationError = Forbidden | NotFound | DatadogOpError;
@@ -79482,6 +81103,8 @@ export const getSAMLConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSAMLConfiguration",
 }));
 
 export type GetSBOMError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79497,6 +81120,8 @@ export const getSBOM: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSBOM",
 }));
 
 export type GetSCAScanError = NotFound | DatadogOpError;
@@ -79512,6 +81137,8 @@ export const getSCAScan: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSCAScan",
 }));
 
 export type GetScheduleOnCallRespondersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79527,6 +81154,8 @@ export const getScheduleOnCallResponders: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScheduleOnCallResponders",
 }));
 
 export type GetScopesRestrictionError = BadRequest | NotFound | DatadogOpError;
@@ -79542,6 +81171,8 @@ export const getScopesRestriction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScopesRestriction",
 }));
 
 export type GetScorecardCampaignError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79557,6 +81188,8 @@ export const getScorecardCampaign: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScorecardCampaign",
 }));
 
 export type GetSeatsUsersError = BadRequest | UnprocessableEntity | DatadogOpError;
@@ -79572,6 +81205,8 @@ export const getSeatsUsers: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSeatsUsers",
 }));
 
 export type GetSecretsRulesError = DatadogOpError;
@@ -79587,6 +81222,8 @@ export const getSecretsRules: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretsRules",
 }));
 
 export type GetSecurityFilterError = Forbidden | NotFound | DatadogOpError;
@@ -79602,6 +81239,8 @@ export const getSecurityFilter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFilter",
 }));
 
 export type GetSecurityFindingsAutomationDefaultInboxRuleError =
@@ -79624,6 +81263,8 @@ export const getSecurityFindingsAutomationDefaultInboxRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFindingsAutomationDefaultInboxRule",
 }));
 
 export type GetSecurityFindingsAutomationDueDateRuleError = Forbidden | NotFound | DatadogOpError;
@@ -79639,6 +81280,8 @@ export const getSecurityFindingsAutomationDueDateRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFindingsAutomationDueDateRule",
 }));
 
 export type GetSecurityFindingsAutomationInboxRuleError = Forbidden | NotFound | DatadogOpError;
@@ -79654,6 +81297,8 @@ export const getSecurityFindingsAutomationInboxRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFindingsAutomationInboxRule",
 }));
 
 export type GetSecurityFindingsAutomationMuteRuleError = Forbidden | NotFound | DatadogOpError;
@@ -79669,6 +81314,8 @@ export const getSecurityFindingsAutomationMuteRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFindingsAutomationMuteRule",
 }));
 
 export type GetSecurityFindingsAutomationSeverityModifierRuleError =
@@ -79692,6 +81339,8 @@ export const getSecurityFindingsAutomationSeverityModifierRule: API.OperationMet
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFindingsAutomationSeverityModifierRule",
 }));
 
 export type GetSecurityFindingsAutomationTicketCreationRuleError =
@@ -79714,6 +81363,8 @@ export const getSecurityFindingsAutomationTicketCreationRule: API.OperationMetho
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityFindingsAutomationTicketCreationRule",
 }));
 
 export type GetSecurityMonitoringCriticalAssetError = Forbidden | NotFound | DatadogOpError;
@@ -79729,6 +81380,8 @@ export const getSecurityMonitoringCriticalAsset: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringCriticalAsset",
 }));
 
 export type GetSecurityMonitoringDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -79744,6 +81397,8 @@ export const getSecurityMonitoringDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringDataset",
 }));
 
 export type GetSecurityMonitoringDatasetByVersionError =
@@ -79763,6 +81418,8 @@ export const getSecurityMonitoringDatasetByVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringDatasetByVersion",
 }));
 
 export type GetSecurityMonitoringDatasetVersionHistoryError =
@@ -79790,6 +81447,8 @@ export const getSecurityMonitoringDatasetVersionHistory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringDatasetVersionHistory",
 }));
 
 export type GetSecurityMonitoringHistsignalError =
@@ -79809,6 +81468,8 @@ export const getSecurityMonitoringHistsignal: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringHistsignal",
 }));
 
 export type GetSecurityMonitoringHistsignalsByJobIdError =
@@ -79828,6 +81489,8 @@ export const getSecurityMonitoringHistsignalsByJobId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringHistsignalsByJobId",
 }));
 
 export type GetSecurityMonitoringIntegrationConfigError = Forbidden | NotFound | DatadogOpError;
@@ -79843,6 +81506,8 @@ export const getSecurityMonitoringIntegrationConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringIntegrationConfig",
 }));
 
 export type GetSecurityMonitoringRuleError = NotFound | DatadogOpError;
@@ -79858,6 +81523,8 @@ export const getSecurityMonitoringRule: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringRule",
 }));
 
 export type GetSecurityMonitoringSignalError = Forbidden | NotFound | DatadogOpError;
@@ -79873,6 +81540,8 @@ export const getSecurityMonitoringSignal: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringSignal",
 }));
 
 export type GetSecurityMonitoringSuppressionError = Forbidden | NotFound | DatadogOpError;
@@ -79888,6 +81557,8 @@ export const getSecurityMonitoringSuppression: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMonitoringSuppression",
 }));
 
 export type GetSegmentsError = DatadogOpError;
@@ -79903,6 +81574,8 @@ export const getSegments: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegments",
 }));
 
 export type GetServiceAccountAccessTokenError = Forbidden | NotFound | DatadogOpError;
@@ -79918,6 +81591,8 @@ export const getServiceAccountAccessToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountAccessToken",
 }));
 
 export type GetServiceAccountApplicationKeyError = Forbidden | NotFound | DatadogOpError;
@@ -79933,6 +81608,8 @@ export const getServiceAccountApplicationKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountApplicationKey",
 }));
 
 export type GetServiceDefinitionError =
@@ -79953,6 +81630,8 @@ export const getServiceDefinition: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceDefinition",
 }));
 
 export type GetServiceListError = DatadogOpError;
@@ -79968,6 +81647,8 @@ export const getServiceList: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceList",
 }));
 
 export type GetServiceNowTemplateError = BadRequest | NotFound | DatadogOpError;
@@ -79983,6 +81664,8 @@ export const getServiceNowTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceNowTemplate",
 }));
 
 export type GetServiceRepositoryInfoError = DatadogOpError;
@@ -79998,6 +81681,8 @@ export const getServiceRepositoryInfo: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceRepositoryInfo",
 }));
 
 export type GetSignalEntitiesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80013,6 +81698,8 @@ export const getSignalEntities: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalEntities",
 }));
 
 export type GetSignalNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80028,6 +81715,8 @@ export const getSignalNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalNotificationRule",
 }));
 
 export type GetSignalNotificationRulesError = Forbidden | DatadogOpError;
@@ -80043,6 +81732,8 @@ export const getSignalNotificationRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalNotificationRules",
 }));
 
 export type GetSingleEntityContextError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80058,6 +81749,8 @@ export const getSingleEntityContext: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSingleEntityContext",
 }));
 
 export type GetSloStatusError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80073,6 +81766,8 @@ export const getSloStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSloStatus",
 }));
 
 export type GetSnowflakeIntegrationAccountError =
@@ -80092,6 +81787,8 @@ export const getSnowflakeIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnowflakeIntegrationAccount",
 }));
 
 export type GetSourcemapsError = BadRequest | NotFound | DatadogOpError;
@@ -80107,6 +81804,8 @@ export const getSourcemaps: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSourcemaps",
 }));
 
 export type GetSpaceByDisplayNameError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80122,6 +81821,8 @@ export const getSpaceByDisplayName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpaceByDisplayName",
 }));
 
 export type GetSpansMetricError = Forbidden | NotFound | DatadogOpError;
@@ -80137,6 +81838,8 @@ export const getSpansMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpansMetric",
 }));
 
 export type GetSPARecommendationsError = BadRequest | Forbidden | DatadogOpError;
@@ -80152,6 +81855,8 @@ export const getSPARecommendations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSPARecommendations",
 }));
 
 export type GetSPARecommendationsByShardError = BadRequest | Forbidden | DatadogOpError;
@@ -80167,6 +81872,8 @@ export const getSPARecommendationsByShard: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSPARecommendationsByShard",
 }));
 
 export type GetSPARecommendationsV2Error = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80182,6 +81889,8 @@ export const getSPARecommendationsV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSPARecommendationsV2",
 }));
 
 export type GetStaticAnalysisDefaultRulesetsError = BadRequest | DatadogOpError;
@@ -80197,6 +81906,8 @@ export const getStaticAnalysisDefaultRulesets: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStaticAnalysisDefaultRulesets",
 }));
 
 export type GetStaticAnalysisNodeTypesError = BadRequest | DatadogOpError;
@@ -80212,6 +81923,8 @@ export const getStaticAnalysisNodeTypes: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStaticAnalysisNodeTypes",
 }));
 
 export type GetStaticAnalysisRulesetError = BadRequest | NotFound | DatadogOpError;
@@ -80227,6 +81940,8 @@ export const getStaticAnalysisRuleset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStaticAnalysisRuleset",
 }));
 
 export type GetStaticAnalysisTreeSitterWasmError = BadRequest | DatadogOpError;
@@ -80242,6 +81957,8 @@ export const getStaticAnalysisTreeSitterWasm: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStaticAnalysisTreeSitterWasm",
 }));
 
 export type GetStatusPageError = DatadogOpError;
@@ -80257,6 +81974,8 @@ export const getStatusPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatusPage",
 }));
 
 export type GetStatuspageAccountError = Forbidden | NotFound | DatadogOpError;
@@ -80272,6 +81991,8 @@ export const getStatuspageAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatuspageAccount",
 }));
 
 export type GetStegadographyWidgetsError = BadRequest | Forbidden | DatadogOpError;
@@ -80287,6 +82008,8 @@ export const getStegadographyWidgets: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStegadographyWidgets",
 }));
 
 export type GetSubjectTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80302,6 +82025,8 @@ export const getSubjectType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubjectType",
 }));
 
 export type GetSuggestedActionsMatchingSignalError = Forbidden | NotFound | DatadogOpError;
@@ -80321,6 +82046,8 @@ export const getSuggestedActionsMatchingSignal: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuggestedActionsMatchingSignal",
 }));
 
 export type GetSuppressionsAffectingFutureRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -80336,6 +82063,8 @@ export const getSuppressionsAffectingFutureRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuppressionsAffectingFutureRule",
 }));
 
 export type GetSuppressionsAffectingRuleError = Forbidden | NotFound | DatadogOpError;
@@ -80351,6 +82080,8 @@ export const getSuppressionsAffectingRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuppressionsAffectingRule",
 }));
 
 export type GetSuppressionVersionHistoryError = Forbidden | NotFound | DatadogOpError;
@@ -80366,6 +82097,8 @@ export const getSuppressionVersionHistory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuppressionVersionHistory",
 }));
 
 export type GetSyntheticsBrowserTestResultError = BadRequest | NotFound | DatadogOpError;
@@ -80381,6 +82114,8 @@ export const getSyntheticsBrowserTestResult: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyntheticsBrowserTestResult",
 }));
 
 export type GetSyntheticsDowntimeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80396,6 +82131,8 @@ export const getSyntheticsDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyntheticsDowntime",
 }));
 
 export type GetSyntheticsFastTestResultError = BadRequest | NotFound | DatadogOpError;
@@ -80411,6 +82148,8 @@ export const getSyntheticsFastTestResult: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyntheticsFastTestResult",
 }));
 
 export type GetSyntheticsNetworkTestError = BadRequest | NotFound | DatadogOpError;
@@ -80426,6 +82165,8 @@ export const getSyntheticsNetworkTest: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyntheticsNetworkTest",
 }));
 
 export type GetSyntheticsSuiteError = NotFound | DatadogOpError;
@@ -80441,6 +82182,8 @@ export const getSyntheticsSuite: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyntheticsSuite",
 }));
 
 export type GetSyntheticsTestResultError = BadRequest | NotFound | DatadogOpError;
@@ -80456,6 +82199,8 @@ export const getSyntheticsTestResult: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyntheticsTestResult",
 }));
 
 export type GetSyntheticsTestVersionError = NotFound | DatadogOpError;
@@ -80471,6 +82216,8 @@ export const getSyntheticsTestVersion: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyntheticsTestVersion",
 }));
 
 export type GetTableError = Forbidden | NotFound | DatadogOpError;
@@ -80486,6 +82233,8 @@ export const getTable: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type GetTagIndexingRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80501,6 +82250,8 @@ export const getTagIndexingRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagIndexingRule",
 }));
 
 export type GetTagIndexingRuleExemptionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80516,6 +82267,8 @@ export const getTagIndexingRuleExemption: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagIndexingRuleExemption",
 }));
 
 export type GetTagPipelinesRulesetError = DatadogOpError;
@@ -80531,6 +82284,8 @@ export const getTagPipelinesRuleset: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagPipelinesRuleset",
 }));
 
 export type GetTagRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80546,6 +82301,8 @@ export const getTagRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagRule",
 }));
 
 export type GetTagRuleScoreError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80561,6 +82318,8 @@ export const getTagRuleScore: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTagRuleScore",
 }));
 
 export type GetTeamError = Forbidden | NotFound | DatadogOpError;
@@ -80576,6 +82335,8 @@ export const getTeam: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeam",
 }));
 
 export type GetTeamHierarchyLinkError = Forbidden | NotFound | DatadogOpError;
@@ -80591,6 +82352,8 @@ export const getTeamHierarchyLink: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamHierarchyLink",
 }));
 
 export type GetTeamLinkError = Forbidden | NotFound | DatadogOpError;
@@ -80606,6 +82369,8 @@ export const getTeamLink: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamLink",
 }));
 
 export type GetTeamLinksError = Forbidden | NotFound | DatadogOpError;
@@ -80621,6 +82386,8 @@ export const getTeamLinks: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamLinks",
 }));
 
 export type GetTeamMembershipsError = Forbidden | NotFound | DatadogOpError;
@@ -80636,6 +82403,8 @@ export const getTeamMemberships: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamMemberships",
 }));
 
 export type GetTeamNotificationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -80651,6 +82420,8 @@ export const getTeamNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamNotificationRule",
 }));
 
 export type GetTeamNotificationRulesError = Forbidden | NotFound | DatadogOpError;
@@ -80666,6 +82437,8 @@ export const getTeamNotificationRules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamNotificationRules",
 }));
 
 export type GetTeamOnCallUsersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80681,6 +82454,8 @@ export const getTeamOnCallUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamOnCallUsers",
 }));
 
 export type GetTeamPermissionSettingsError = Forbidden | NotFound | DatadogOpError;
@@ -80696,6 +82471,8 @@ export const getTeamPermissionSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamPermissionSettings",
 }));
 
 export type GetTeamsOwnershipMappingError = Forbidden | NotFound | DatadogOpError;
@@ -80711,6 +82488,8 @@ export const getTeamsOwnershipMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamsOwnershipMapping",
 }));
 
 export type GetTeamSyncError = Forbidden | DatadogOpError;
@@ -80726,6 +82505,8 @@ export const getTeamSync: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamSync",
 }));
 
 export type GetTenancyConfigError = DatadogOpError;
@@ -80741,6 +82522,8 @@ export const getTenancyConfig: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTenancyConfig",
 }));
 
 export type GetTenancyConfigsError = DatadogOpError;
@@ -80756,6 +82539,8 @@ export const getTenancyConfigs: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTenancyConfigs",
 }));
 
 export type GetTenantBasedHandleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80771,6 +82556,8 @@ export const getTenantBasedHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTenantBasedHandle",
 }));
 
 export type GetTestFileDownloadUrlError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80786,6 +82573,8 @@ export const getTestFileDownloadUrl: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTestFileDownloadUrl",
 }));
 
 export type GetTestFileMultipartPresignedUrlsError =
@@ -80809,6 +82598,8 @@ export const getTestFileMultipartPresignedUrls: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTestFileMultipartPresignedUrls",
 }));
 
 export type GetTestOptimizationServiceSettingsError =
@@ -80828,6 +82619,8 @@ export const getTestOptimizationServiceSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTestOptimizationServiceSettings",
 }));
 
 export type GetTestParentSuitesError = NotFound | DatadogOpError;
@@ -80843,6 +82636,8 @@ export const getTestParentSuites: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTestParentSuites",
 }));
 
 export type GetTraceError = Forbidden | NotFound | DatadogOpError;
@@ -80858,6 +82653,8 @@ export const getTrace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrace",
 }));
 
 export type GetTwilioIntegrationAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80873,6 +82670,8 @@ export const getTwilioIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTwilioIntegrationAccount",
 }));
 
 export type GetUnitCostError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -80888,6 +82687,8 @@ export const getUnitCost: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUnitCost",
 }));
 
 export type GetUsageAttributionTypesError = Forbidden | DatadogOpError;
@@ -80903,6 +82704,8 @@ export const getUsageAttributionTypes: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsageAttributionTypes",
 }));
 
 export type GetUsageSummaryAvailableFieldsError = Forbidden | DatadogOpError;
@@ -80918,6 +82721,8 @@ export const getUsageSummaryAvailableFields: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsageSummaryAvailableFields",
 }));
 
 export type GetUserError = Forbidden | NotFound | DatadogOpError;
@@ -80933,6 +82738,8 @@ export const getUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserAuthorizedClientError = Forbidden | NotFound | DatadogOpError;
@@ -80948,6 +82755,8 @@ export const getUserAuthorizedClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAuthorizedClient",
 }));
 
 export type GetUserFacetInfoError = DatadogOpError;
@@ -80963,6 +82772,8 @@ export const getUserFacetInfo: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserFacetInfo",
 }));
 
 export type GetUserIdentityProvidersError = Forbidden | NotFound | DatadogOpError;
@@ -80978,6 +82789,8 @@ export const getUserIdentityProviders: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserIdentityProviders",
 }));
 
 export type GetUserMembershipsError = NotFound | DatadogOpError;
@@ -80993,6 +82806,8 @@ export const getUserMemberships: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserMemberships",
 }));
 
 export type GetUserNotificationChannelError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81008,6 +82823,8 @@ export const getUserNotificationChannel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserNotificationChannel",
 }));
 
 export type GetUserNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81023,6 +82840,8 @@ export const getUserNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserNotificationRule",
 }));
 
 export type GetVulnerabilityNotificationRuleError =
@@ -81042,6 +82861,8 @@ export const getVulnerabilityNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVulnerabilityNotificationRule",
 }));
 
 export type GetVulnerabilityNotificationRulesError = Forbidden | DatadogOpError;
@@ -81057,6 +82878,8 @@ export const getVulnerabilityNotificationRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVulnerabilityNotificationRules",
 }));
 
 export type GetWebIntegrationAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81072,6 +82895,8 @@ export const getWebIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebIntegrationAccount",
 }));
 
 export type GetWidgetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81087,6 +82912,8 @@ export const getWidget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWidget",
 }));
 
 export type GetWorkflowError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81102,6 +82929,8 @@ export const getWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowInstanceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81117,6 +82946,8 @@ export const getWorkflowInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowInstance",
 }));
 
 export type GetWorkflowsWebhookHandleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81132,6 +82963,8 @@ export const getWorkflowsWebhookHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowsWebhookHandle",
 }));
 
 export type IgnoreInferredJourneyError = NotFound | DatadogOpError;
@@ -81147,6 +82980,8 @@ export const ignoreInferredJourney: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IgnoreInferredJourney",
 }));
 
 export type ImportIncidentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81162,6 +82997,8 @@ export const importIncident: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportIncident",
 }));
 
 export type ImportSecurityVulnerabilitiesError = BadRequest | Forbidden | DatadogOpError;
@@ -81177,6 +83014,8 @@ export const importSecurityVulnerabilities: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSecurityVulnerabilities",
 }));
 
 export type LinkIncidentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81192,6 +83031,8 @@ export const linkIncident: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkIncident",
 }));
 
 export type LinkJiraIssueToCaseError =
@@ -81212,6 +83053,8 @@ export const linkJiraIssueToCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkJiraIssueToCase",
 }));
 
 export type LinkPageToIncidentError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -81227,6 +83070,8 @@ export const linkPageToIncident: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkPageToIncident",
 }));
 
 export type ListActiveMetricConfigurationsError =
@@ -81246,6 +83091,8 @@ export const listActiveMetricConfigurations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActiveMetricConfigurations",
 }));
 
 export type ListAiCustomRuleRevisionsError = BadRequest | NotFound | DatadogOpError;
@@ -81261,6 +83108,8 @@ export const listAiCustomRuleRevisions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiCustomRuleRevisions",
 }));
 
 export type ListAiCustomRulesetsError = DatadogOpError;
@@ -81276,6 +83125,8 @@ export const listAiCustomRulesets: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiCustomRulesets",
 }));
 
 export type ListAiMemoryViolationResultsError = BadRequest | NotFound | DatadogOpError;
@@ -81291,6 +83142,8 @@ export const listAiMemoryViolationResults: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiMemoryViolationResults",
 }));
 
 export type ListAiPromptsError = BadRequest | NotFound | DatadogOpError;
@@ -81306,6 +83159,8 @@ export const listAiPrompts: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiPrompts",
 }));
 
 export type ListAllCSMAgentsError = Forbidden | DatadogOpError;
@@ -81321,6 +83176,8 @@ export const listAllCSMAgents: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllCSMAgents",
 }));
 
 export type ListAllCSMServerlessAgentsError = Forbidden | DatadogOpError;
@@ -81336,6 +83193,8 @@ export const listAllCSMServerlessAgents: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllCSMServerlessAgents",
 }));
 
 export type ListAnnotationsError = BadRequest | Forbidden | DatadogOpError;
@@ -81351,6 +83210,8 @@ export const listAnnotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnnotations",
 }));
 
 export type ListAPIKeysError = BadRequest | Forbidden | DatadogOpError;
@@ -81366,6 +83227,8 @@ export const listAPIKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAPIKeys",
 }));
 
 export type ListApmRetentionFiltersError = Forbidden | DatadogOpError;
@@ -81381,6 +83244,8 @@ export const listApmRetentionFilters: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApmRetentionFilters",
 }));
 
 export type ListAppKeyRegistrationsError = BadRequest | Forbidden | DatadogOpError;
@@ -81396,6 +83261,8 @@ export const listAppKeyRegistrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppKeyRegistrations",
 }));
 
 export type ListApplicationKeysError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81411,6 +83278,8 @@ export const listApplicationKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationKeys",
 }));
 
 export type ListApplicationSecurityWAFCustomRulesError = Forbidden | DatadogOpError;
@@ -81426,6 +83295,8 @@ export const listApplicationSecurityWAFCustomRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationSecurityWAFCustomRules",
 }));
 
 export type ListApplicationSecurityWafExclusionFiltersError = Forbidden | DatadogOpError;
@@ -81445,6 +83316,8 @@ export const listApplicationSecurityWafExclusionFilters: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationSecurityWafExclusionFilters",
 }));
 
 export type ListApplicationSecurityWAFPoliciesError = Forbidden | DatadogOpError;
@@ -81460,6 +83333,8 @@ export const listApplicationSecurityWAFPolicies: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationSecurityWAFPolicies",
 }));
 
 export type ListAppsError = BadRequest | Forbidden | DatadogOpError;
@@ -81475,6 +83350,8 @@ export const listApps: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 }));
 
 export type ListAppVersionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81490,6 +83367,8 @@ export const listAppVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppVersions",
 }));
 
 export type ListArchiveReadRolesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81505,6 +83384,8 @@ export const listArchiveReadRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArchiveReadRoles",
 }));
 
 export type ListAssetsSBOMsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81520,6 +83401,8 @@ export const listAssetsSBOMs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssetsSBOMs",
 }));
 
 export type ListAuditLogsError = BadRequest | Forbidden | DatadogOpError;
@@ -81535,6 +83418,8 @@ export const listAuditLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuditLogs",
 }));
 
 export type ListAuthNMappingsError = Forbidden | DatadogOpError;
@@ -81550,6 +83435,8 @@ export const listAuthNMappings: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthNMappings",
 }));
 
 export type ListAWSAccountsError = Forbidden | DatadogOpError;
@@ -81565,6 +83452,8 @@ export const listAWSAccounts: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAWSAccounts",
 }));
 
 export type ListAWSCloudAuthPersonaMappingsError = BadRequest | Forbidden | DatadogOpError;
@@ -81580,6 +83469,8 @@ export const listAWSCloudAuthPersonaMappings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAWSCloudAuthPersonaMappings",
 }));
 
 export type ListAWSEventBridgeSourcesError = BadRequest | Forbidden | DatadogOpError;
@@ -81595,6 +83486,8 @@ export const listAWSEventBridgeSources: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAWSEventBridgeSources",
 }));
 
 export type ListAWSLogsServicesError = Forbidden | DatadogOpError;
@@ -81610,6 +83503,8 @@ export const listAWSLogsServices: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAWSLogsServices",
 }));
 
 export type ListAWSNamespacesError = Forbidden | DatadogOpError;
@@ -81625,6 +83520,8 @@ export const listAWSNamespaces: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAWSNamespaces",
 }));
 
 export type ListAwsOnDemandTasksError = Forbidden | DatadogOpError;
@@ -81640,6 +83537,8 @@ export const listAwsOnDemandTasks: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsOnDemandTasks",
 }));
 
 export type ListAwsScanOptionsError = Forbidden | DatadogOpError;
@@ -81655,6 +83554,8 @@ export const listAwsScanOptions: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwsScanOptions",
 }));
 
 export type ListAzureScanOptionsError = DatadogOpError;
@@ -81670,6 +83571,8 @@ export const listAzureScanOptions: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureScanOptions",
 }));
 
 export type ListBlueprintsError = Forbidden | DatadogOpError;
@@ -81685,6 +83588,8 @@ export const listBlueprints: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlueprints",
 }));
 
 export type ListBudgetsError = DatadogOpError;
@@ -81700,6 +83605,8 @@ export const listBudgets: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBudgets",
 }));
 
 export type ListCaseAutomationRulesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81715,6 +83622,8 @@ export const listCaseAutomationRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaseAutomationRules",
 }));
 
 export type ListCaseLinksError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81730,6 +83639,8 @@ export const listCaseLinks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaseLinks",
 }));
 
 export type ListCaseTimelineError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81745,6 +83656,8 @@ export const listCaseTimeline: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaseTimeline",
 }));
 
 export type ListCaseViewsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81760,6 +83673,8 @@ export const listCaseViews: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaseViews",
 }));
 
 export type ListCaseWatchersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81775,6 +83690,8 @@ export const listCaseWatchers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaseWatchers",
 }));
 
 export type ListCatalogEntityError = Forbidden | DatadogOpError;
@@ -81790,6 +83707,8 @@ export const listCatalogEntity: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogEntity",
 }));
 
 export type ListCatalogKindError = BadRequest | Forbidden | DatadogOpError;
@@ -81805,6 +83724,8 @@ export const listCatalogKind: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogKind",
 }));
 
 export type ListCatalogRelationError = Forbidden | DatadogOpError;
@@ -81820,6 +83741,8 @@ export const listCatalogRelation: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogRelation",
 }));
 
 export type ListCIAppGitHubAccountsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81835,6 +83758,8 @@ export const listCIAppGitHubAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCIAppGitHubAccounts",
 }));
 
 export type ListCIAppPipelineEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -81850,6 +83775,8 @@ export const listCIAppPipelineEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCIAppPipelineEvents",
 }));
 
 export type ListCIAppTestEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -81865,6 +83792,8 @@ export const listCIAppTestEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCIAppTestEvents",
 }));
 
 export type ListCloudflareAccountsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81880,6 +83809,8 @@ export const listCloudflareAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudflareAccounts",
 }));
 
 export type ListCloudWorkloadSecurityAgentRulesError = Forbidden | DatadogOpError;
@@ -81895,6 +83826,8 @@ export const listCloudWorkloadSecurityAgentRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudWorkloadSecurityAgentRules",
 }));
 
 export type ListComponentsError = DatadogOpError;
@@ -81910,6 +83843,8 @@ export const listComponents: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 }));
 
 export type ListConfluentAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81925,6 +83860,8 @@ export const listConfluentAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfluentAccount",
 }));
 
 export type ListConfluentResourceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -81940,6 +83877,8 @@ export const listConfluentResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfluentResource",
 }));
 
 export type ListConnectionsError = DatadogOpError;
@@ -81955,6 +83894,8 @@ export const listConnections: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 }));
 
 export type ListContainerImagesError = BadRequest | Forbidden | DatadogOpError;
@@ -81970,6 +83911,8 @@ export const listContainerImages: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContainerImages",
 }));
 
 export type ListContainersError = BadRequest | Forbidden | DatadogOpError;
@@ -81985,6 +83928,8 @@ export const listContainers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContainers",
 }));
 
 export type ListCostAnomaliesError = BadRequest | Forbidden | DatadogOpError;
@@ -82000,6 +83945,8 @@ export const listCostAnomalies: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostAnomalies",
 }));
 
 export type ListCostAWSCURConfigsError = Forbidden | DatadogOpError;
@@ -82015,6 +83962,8 @@ export const listCostAWSCURConfigs: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostAWSCURConfigs",
 }));
 
 export type ListCostAzureUCConfigsError = Forbidden | DatadogOpError;
@@ -82030,6 +83979,8 @@ export const listCostAzureUCConfigs: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostAzureUCConfigs",
 }));
 
 export type ListCostGCPUsageCostConfigsError = Forbidden | DatadogOpError;
@@ -82045,6 +83996,8 @@ export const listCostGCPUsageCostConfigs: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostGCPUsageCostConfigs",
 }));
 
 export type ListCostTagDescriptionsError = Forbidden | DatadogOpError;
@@ -82060,6 +84013,8 @@ export const listCostTagDescriptions: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostTagDescriptions",
 }));
 
 export type ListCostTagKeysError = BadRequest | Forbidden | DatadogOpError;
@@ -82075,6 +84030,8 @@ export const listCostTagKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostTagKeys",
 }));
 
 export type ListCostTagKeySourcesError = BadRequest | Forbidden | DatadogOpError;
@@ -82090,6 +84047,8 @@ export const listCostTagKeySources: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostTagKeySources",
 }));
 
 export type ListCostTagMetadataError = BadRequest | Forbidden | DatadogOpError;
@@ -82105,6 +84064,8 @@ export const listCostTagMetadata: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostTagMetadata",
 }));
 
 export type ListCostTagMetadataMetricsError = BadRequest | Forbidden | DatadogOpError;
@@ -82120,6 +84081,8 @@ export const listCostTagMetadataMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostTagMetadataMetrics",
 }));
 
 export type ListCostTagMetadataMonthsError = BadRequest | Forbidden | DatadogOpError;
@@ -82135,6 +84098,8 @@ export const listCostTagMetadataMonths: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostTagMetadataMonths",
 }));
 
 export type ListCostTagMetadataOrchestratorsError = BadRequest | Forbidden | DatadogOpError;
@@ -82150,6 +84115,8 @@ export const listCostTagMetadataOrchestrators: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostTagMetadataOrchestrators",
 }));
 
 export type ListCostTagsError = BadRequest | Forbidden | DatadogOpError;
@@ -82165,6 +84132,8 @@ export const listCostTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCostTags",
 }));
 
 export type ListCSMAgentlessHostFacetsError = Forbidden | DatadogOpError;
@@ -82180,6 +84149,8 @@ export const listCSMAgentlessHostFacets: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCSMAgentlessHostFacets",
 }));
 
 export type ListCSMAgentlessHostsError = BadRequest | Forbidden | DatadogOpError;
@@ -82195,6 +84166,8 @@ export const listCSMAgentlessHosts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCSMAgentlessHosts",
 }));
 
 export type ListCSMThreatsAgentPoliciesError = Forbidden | DatadogOpError;
@@ -82210,6 +84183,8 @@ export const listCSMThreatsAgentPolicies: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCSMThreatsAgentPolicies",
 }));
 
 export type ListCSMThreatsAgentRulesError = Forbidden | DatadogOpError;
@@ -82225,6 +84200,8 @@ export const listCSMThreatsAgentRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCSMThreatsAgentRules",
 }));
 
 export type ListCSMUnifiedHostFacetsError = Forbidden | DatadogOpError;
@@ -82240,6 +84217,8 @@ export const listCSMUnifiedHostFacets: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCSMUnifiedHostFacets",
 }));
 
 export type ListCSMUnifiedHostsError = BadRequest | Forbidden | DatadogOpError;
@@ -82255,6 +84234,8 @@ export const listCSMUnifiedHosts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCSMUnifiedHosts",
 }));
 
 export type ListCurrentUserApplicationKeysError =
@@ -82274,6 +84255,8 @@ export const listCurrentUserApplicationKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCurrentUserApplicationKeys",
 }));
 
 export type ListCustomAllocationRulesError = DatadogOpError;
@@ -82289,6 +84272,8 @@ export const listCustomAllocationRules: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomAllocationRules",
 }));
 
 export type ListCustomAllocationRulesStatusError = DatadogOpError;
@@ -82304,6 +84289,8 @@ export const listCustomAllocationRulesStatus: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomAllocationRulesStatus",
 }));
 
 export type ListCustomCostsFilesError = BadRequest | Forbidden | DatadogOpError;
@@ -82319,6 +84306,8 @@ export const listCustomCostsFiles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomCostsFiles",
 }));
 
 export type ListCustomRuleRevisionsError = BadRequest | NotFound | DatadogOpError;
@@ -82334,6 +84323,8 @@ export const listCustomRuleRevisions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomRuleRevisions",
 }));
 
 export type ListCustomRulesetsError = DatadogOpError;
@@ -82349,6 +84340,8 @@ export const listCustomRulesets: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomRulesets",
 }));
 
 export type ListDashboardsUsageError = BadRequest | Forbidden | DatadogOpError;
@@ -82364,6 +84357,8 @@ export const listDashboardsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardsUsage",
 }));
 
 export type ListDatabricksIntegrationAccountsError =
@@ -82383,6 +84378,8 @@ export const listDatabricksIntegrationAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabricksIntegrationAccounts",
 }));
 
 export type ListDatasetReportSchedulesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -82398,6 +84395,8 @@ export const listDatasetReportSchedules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasetReportSchedules",
 }));
 
 export type ListDatastoreItemsError = BadRequest | NotFound | DatadogOpError;
@@ -82413,6 +84412,8 @@ export const listDatastoreItems: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatastoreItems",
 }));
 
 export type ListDatastoresError = DatadogOpError;
@@ -82428,6 +84429,8 @@ export const listDatastores: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatastores",
 }));
 
 export type ListDegradationsError = DatadogOpError;
@@ -82443,6 +84446,8 @@ export const listDegradations: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDegradations",
 }));
 
 export type ListDegradationTemplatesError = DatadogOpError;
@@ -82458,6 +84463,8 @@ export const listDegradationTemplates: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDegradationTemplates",
 }));
 
 export type ListDeploymentGatesError = BadRequest | Forbidden | DatadogOpError;
@@ -82473,6 +84480,8 @@ export const listDeploymentGates: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentGates",
 }));
 
 export type ListDevicesError = BadRequest | Forbidden | DatadogOpError;
@@ -82488,6 +84497,8 @@ export const listDevices: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 }));
 
 export type ListDeviceUserTagsError = Forbidden | NotFound | DatadogOpError;
@@ -82503,6 +84514,8 @@ export const listDeviceUserTags: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeviceUserTags",
 }));
 
 export type ListDORADeploymentsError = BadRequest | Forbidden | DatadogOpError;
@@ -82518,6 +84531,8 @@ export const listDORADeployments: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDORADeployments",
 }));
 
 export type ListDORAFailuresError = BadRequest | Forbidden | DatadogOpError;
@@ -82533,6 +84548,8 @@ export const listDORAFailures: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDORAFailures",
 }));
 
 export type ListDowntimesError = Forbidden | DatadogOpError;
@@ -82548,6 +84565,8 @@ export const listDowntimes: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDowntimes",
 }));
 
 export type ListElasticCloudIntegrationAccountsError =
@@ -82567,6 +84586,8 @@ export const listElasticCloudIntegrationAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListElasticCloudIntegrationAccounts",
 }));
 
 export type ListEntityRiskScoresError = BadRequest | Forbidden | DatadogOpError;
@@ -82582,6 +84603,8 @@ export const listEntityRiskScores: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEntityRiskScores",
 }));
 
 export type ListEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -82597,6 +84620,8 @@ export const listEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvents",
 }));
 
 export type ListExclusionFiltersError = Forbidden | DatadogOpError;
@@ -82612,6 +84637,8 @@ export const listExclusionFilters: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExclusionFilters",
 }));
 
 export type ListExecutionPoliciesError = BadRequest | Forbidden | DatadogOpError;
@@ -82627,6 +84654,8 @@ export const listExecutionPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExecutionPolicies",
 }));
 
 export type ListExperimentMetricGroupsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -82642,6 +84671,8 @@ export const listExperimentMetricGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentMetricGroups",
 }));
 
 export type ListExperimentProtocolsError = BadRequest | Forbidden | DatadogOpError;
@@ -82657,6 +84688,8 @@ export const listExperimentProtocols: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentProtocols",
 }));
 
 export type ListExperimentsError = BadRequest | Forbidden | DatadogOpError;
@@ -82672,6 +84705,8 @@ export const listExperiments: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperiments",
 }));
 
 export type ListExposureSQLModelsError = BadRequest | Forbidden | DatadogOpError;
@@ -82687,6 +84722,8 @@ export const listExposureSQLModels: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExposureSQLModels",
 }));
 
 export type ListFastlyAccountsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -82702,6 +84739,8 @@ export const listFastlyAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFastlyAccounts",
 }));
 
 export type ListFastlyServicesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -82717,6 +84756,8 @@ export const listFastlyServices: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFastlyServices",
 }));
 
 export type ListFeatureFlagsError = Forbidden | DatadogOpError;
@@ -82732,6 +84773,8 @@ export const listFeatureFlags: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureFlags",
 }));
 
 export type ListFeatureFlagsEnvironmentsError = Forbidden | DatadogOpError;
@@ -82747,6 +84790,8 @@ export const listFeatureFlagsEnvironments: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureFlagsEnvironments",
 }));
 
 export type ListFindingsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -82762,6 +84807,8 @@ export const listFindings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 }));
 
 export type ListFleetAgentsV2Error = BadRequest | Forbidden | DatadogOpError;
@@ -82777,6 +84824,8 @@ export const listFleetAgentsV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetAgentsV2",
 }));
 
 export type ListFleetAgentTracersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -82792,6 +84841,8 @@ export const listFleetAgentTracers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetAgentTracers",
 }));
 
 export type ListFleetAgentVersionsV2Error = Forbidden | NotFound | DatadogOpError;
@@ -82807,6 +84858,8 @@ export const listFleetAgentVersionsV2: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetAgentVersionsV2",
 }));
 
 export type ListFleetDeploymentsV2Error = BadRequest | Forbidden | DatadogOpError;
@@ -82822,6 +84875,8 @@ export const listFleetDeploymentsV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetDeploymentsV2",
 }));
 
 export type ListFleetSchedulesV2Error = BadRequest | Forbidden | DatadogOpError;
@@ -82837,6 +84892,8 @@ export const listFleetSchedulesV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetSchedulesV2",
 }));
 
 export type ListFleetTracersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -82852,6 +84909,8 @@ export const listFleetTracers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetTracers",
 }));
 
 export type ListFormsError = BadRequest | DatadogOpError;
@@ -82867,6 +84926,8 @@ export const listForms: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForms",
 }));
 
 export type ListGcpScanOptionsError = Forbidden | DatadogOpError;
@@ -82882,6 +84943,8 @@ export const listGcpScanOptions: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGcpScanOptions",
 }));
 
 export type ListGCPSTSAccountsError = Forbidden | NotFound | DatadogOpError;
@@ -82897,6 +84960,8 @@ export const listGCPSTSAccounts: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGCPSTSAccounts",
 }));
 
 export type ListGlobalIncidentHandlesError = BadRequest | DatadogOpError;
@@ -82912,6 +84977,8 @@ export const listGlobalIncidentHandles: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGlobalIncidentHandles",
 }));
 
 export type ListGlobalOrgsError = BadRequest | Forbidden | DatadogOpError;
@@ -82927,6 +84994,8 @@ export const listGlobalOrgs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGlobalOrgs",
 }));
 
 export type ListGoogleChatOrganizationsError = Forbidden | DatadogOpError;
@@ -82942,6 +85011,8 @@ export const listGoogleChatOrganizations: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGoogleChatOrganizations",
 }));
 
 export type ListGoogleChatTargetAudiencesError = Forbidden | NotFound | DatadogOpError;
@@ -82957,6 +85028,8 @@ export const listGoogleChatTargetAudiences: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGoogleChatTargetAudiences",
 }));
 
 export type ListGovernanceControlDetectionsError = BadRequest | Forbidden | DatadogOpError;
@@ -82972,6 +85045,8 @@ export const listGovernanceControlDetections: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGovernanceControlDetections",
 }));
 
 export type ListGovernanceControlsError = BadRequest | Forbidden | DatadogOpError;
@@ -82987,6 +85062,8 @@ export const listGovernanceControls: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGovernanceControls",
 }));
 
 export type ListGovernanceInsightsError = BadRequest | Forbidden | DatadogOpError;
@@ -83002,6 +85079,8 @@ export const listGovernanceInsights: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGovernanceInsights",
 }));
 
 export type ListHistoricalJobsError = BadRequest | Forbidden | DatadogOpError;
@@ -83017,6 +85096,8 @@ export const listHistoricalJobs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHistoricalJobs",
 }));
 
 export type ListIdentityProvidersError = Forbidden | DatadogOpError;
@@ -83032,6 +85113,8 @@ export const listIdentityProviders: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviders",
 }));
 
 export type ListIdentityProviderUsersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83047,6 +85130,8 @@ export const listIdentityProviderUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviderUsers",
 }));
 
 export type ListIncidentAttachmentsError = BadRequest | DatadogOpError;
@@ -83062,6 +85147,8 @@ export const listIncidentAttachments: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentAttachments",
 }));
 
 export type ListIncidentImpactFieldsError = BadRequest | Forbidden | DatadogOpError;
@@ -83077,6 +85164,8 @@ export const listIncidentImpactFields: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentImpactFields",
 }));
 
 export type ListIncidentImpactsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83092,6 +85181,8 @@ export const listIncidentImpacts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentImpacts",
 }));
 
 export type ListIncidentIntegrationsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83107,6 +85198,8 @@ export const listIncidentIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentIntegrations",
 }));
 
 export type ListIncidentNotificationRulesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83122,6 +85215,8 @@ export const listIncidentNotificationRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentNotificationRules",
 }));
 
 export type ListIncidentNotificationTemplatesError =
@@ -83141,6 +85236,8 @@ export const listIncidentNotificationTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentNotificationTemplates",
 }));
 
 export type ListIncidentPostmortemTemplatesError = BadRequest | DatadogOpError;
@@ -83156,6 +85253,8 @@ export const listIncidentPostmortemTemplates: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentPostmortemTemplates",
 }));
 
 export type ListIncidentRespondersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83171,6 +85270,8 @@ export const listIncidentResponders: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentResponders",
 }));
 
 export type ListIncidentRulesError = BadRequest | Forbidden | DatadogOpError;
@@ -83186,6 +85287,8 @@ export const listIncidentRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentRules",
 }));
 
 export type ListIncidentsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83201,6 +85304,8 @@ export const listIncidents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidents",
 }));
 
 export type ListIncidentTodosError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83216,6 +85321,8 @@ export const listIncidentTodos: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentTodos",
 }));
 
 export type ListIncidentTypesError = BadRequest | Forbidden | DatadogOpError;
@@ -83231,6 +85338,8 @@ export const listIncidentTypes: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentTypes",
 }));
 
 export type ListIncidentUserDefinedFieldsError = BadRequest | Forbidden | DatadogOpError;
@@ -83246,6 +85355,8 @@ export const listIncidentUserDefinedFields: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentUserDefinedFields",
 }));
 
 export type ListIncidentUserDefinedRolesError = BadRequest | DatadogOpError;
@@ -83261,6 +85372,8 @@ export const listIncidentUserDefinedRoles: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentUserDefinedRoles",
 }));
 
 export type ListIndicatorsOfCompromiseError = BadRequest | Forbidden | DatadogOpError;
@@ -83276,6 +85389,8 @@ export const listIndicatorsOfCompromise: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIndicatorsOfCompromise",
 }));
 
 export type ListIntegrationsError = DatadogOpError;
@@ -83291,6 +85406,8 @@ export const listIntegrations: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrations",
 }));
 
 export type ListInterfaceUserTagsError = Forbidden | NotFound | DatadogOpError;
@@ -83306,6 +85423,8 @@ export const listInterfaceUserTags: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInterfaceUserTags",
 }));
 
 export type ListInvestigationsError = BadRequest | DatadogOpError;
@@ -83321,6 +85440,8 @@ export const listInvestigations: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvestigations",
 }));
 
 export type ListJiraAccountsError = NotFound | DatadogOpError;
@@ -83336,6 +85457,8 @@ export const listJiraAccounts: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJiraAccounts",
 }));
 
 export type ListJiraIssueTemplatesError = DatadogOpError;
@@ -83351,6 +85474,8 @@ export const listJiraIssueTemplates: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJiraIssueTemplates",
 }));
 
 export type ListLLMObsAnnotationQueuesError = BadRequest | Forbidden | DatadogOpError;
@@ -83366,6 +85491,8 @@ export const listLLMObsAnnotationQueues: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsAnnotationQueues",
 }));
 
 export type ListLLMObsCustomEvalConfigsError = Forbidden | DatadogOpError;
@@ -83381,6 +85508,8 @@ export const listLLMObsCustomEvalConfigs: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsCustomEvalConfigs",
 }));
 
 export type ListLLMObsDatasetRecordsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83396,6 +85525,8 @@ export const listLLMObsDatasetRecords: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsDatasetRecords",
 }));
 
 export type ListLLMObsDatasetsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83411,6 +85542,8 @@ export const listLLMObsDatasets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsDatasets",
 }));
 
 export type ListLLMObsDatasetVersionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83426,6 +85559,8 @@ export const listLLMObsDatasetVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsDatasetVersions",
 }));
 
 export type ListLLMObsExperimentEventsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83441,6 +85576,8 @@ export const listLLMObsExperimentEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsExperimentEvents",
 }));
 
 export type ListLLMObsExperimentsError = BadRequest | Forbidden | DatadogOpError;
@@ -83456,6 +85593,8 @@ export const listLLMObsExperiments: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsExperiments",
 }));
 
 export type ListLLMObsIntegrationAccountsError = BadRequest | Forbidden | DatadogOpError;
@@ -83471,6 +85610,8 @@ export const listLLMObsIntegrationAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsIntegrationAccounts",
 }));
 
 export type ListLLMObsIntegrationModelsError = BadRequest | Forbidden | DatadogOpError;
@@ -83486,6 +85627,8 @@ export const listLLMObsIntegrationModels: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsIntegrationModels",
 }));
 
 export type ListLLMObsPatternsClusteredPointsError =
@@ -83505,6 +85648,8 @@ export const listLLMObsPatternsClusteredPoints: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsPatternsClusteredPoints",
 }));
 
 export type ListLLMObsPatternsConfigsError = BadRequest | Forbidden | DatadogOpError;
@@ -83520,6 +85665,8 @@ export const listLLMObsPatternsConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsPatternsConfigs",
 }));
 
 export type ListLLMObsPatternsRunsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83535,6 +85682,8 @@ export const listLLMObsPatternsRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsPatternsRuns",
 }));
 
 export type ListLLMObsPatternsTopicsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83550,6 +85699,8 @@ export const listLLMObsPatternsTopics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsPatternsTopics",
 }));
 
 export type ListLLMObsPatternsTopicsWithClusteredPointsError =
@@ -83573,6 +85724,8 @@ export const listLLMObsPatternsTopicsWithClusteredPoints: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsPatternsTopicsWithClusteredPoints",
 }));
 
 export type ListLLMObsProjectsError = BadRequest | Forbidden | DatadogOpError;
@@ -83588,6 +85741,8 @@ export const listLLMObsProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsProjects",
 }));
 
 export type ListLLMObsPromptsError = Forbidden | DatadogOpError;
@@ -83603,6 +85758,8 @@ export const listLLMObsPrompts: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsPrompts",
 }));
 
 export type ListLLMObsPromptVersionsError = Forbidden | DatadogOpError;
@@ -83618,6 +85775,8 @@ export const listLLMObsPromptVersions: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsPromptVersions",
 }));
 
 export type ListLLMObsSpansError = BadRequest | Forbidden | DatadogOpError;
@@ -83633,6 +85792,8 @@ export const listLLMObsSpans: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLLMObsSpans",
 }));
 
 export type ListLogsError = BadRequest | Forbidden | DatadogOpError;
@@ -83648,6 +85809,8 @@ export const listLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogs",
 }));
 
 export type ListLogsArchivesError = Forbidden | DatadogOpError;
@@ -83663,6 +85826,8 @@ export const listLogsArchives: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsArchives",
 }));
 
 export type ListLogsCustomDestinationsError = Forbidden | DatadogOpError;
@@ -83678,6 +85843,8 @@ export const listLogsCustomDestinations: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsCustomDestinations",
 }));
 
 export type ListLogsGetError = BadRequest | Forbidden | DatadogOpError;
@@ -83693,6 +85860,8 @@ export const listLogsGet: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsGet",
 }));
 
 export type ListLogsMetricsError = Forbidden | DatadogOpError;
@@ -83708,6 +85877,8 @@ export const listLogsMetrics: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsMetrics",
 }));
 
 export type ListMaintenancesError = DatadogOpError;
@@ -83723,6 +85894,8 @@ export const listMaintenances: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaintenances",
 }));
 
 export type ListMaintenanceTemplatesError = DatadogOpError;
@@ -83738,6 +85911,8 @@ export const listMaintenanceTemplates: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaintenanceTemplates",
 }));
 
 export type ListMaintenanceWindowsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83753,6 +85928,8 @@ export const listMaintenanceWindows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaintenanceWindows",
 }));
 
 export type ListMetricAssetsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -83768,6 +85945,8 @@ export const listMetricAssets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetricAssets",
 }));
 
 export type ListMetricCollectionsError = BadRequest | Forbidden | DatadogOpError;
@@ -83783,6 +85962,8 @@ export const listMetricCollections: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetricCollections",
 }));
 
 export type ListMetricsError = BadRequest | Forbidden | DatadogOpError;
@@ -83798,6 +85979,8 @@ export const listMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetrics",
 }));
 
 export type ListMetricSQLModelsError = BadRequest | Forbidden | DatadogOpError;
@@ -83813,6 +85996,8 @@ export const listMetricSQLModels: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetricSQLModels",
 }));
 
 export type ListModelLabProjectArtifactsError = BadRequest | DatadogOpError;
@@ -83828,6 +86013,8 @@ export const listModelLabProjectArtifacts: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelLabProjectArtifacts",
 }));
 
 export type ListModelLabProjectFacetKeysError = DatadogOpError;
@@ -83843,6 +86030,8 @@ export const listModelLabProjectFacetKeys: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelLabProjectFacetKeys",
 }));
 
 export type ListModelLabProjectFacetValuesError = BadRequest | DatadogOpError;
@@ -83858,6 +86047,8 @@ export const listModelLabProjectFacetValues: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelLabProjectFacetValues",
 }));
 
 export type ListModelLabProjectsError = BadRequest | DatadogOpError;
@@ -83873,6 +86064,8 @@ export const listModelLabProjects: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelLabProjects",
 }));
 
 export type ListModelLabRunArtifactsError = BadRequest | NotFound | DatadogOpError;
@@ -83888,6 +86081,8 @@ export const listModelLabRunArtifacts: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelLabRunArtifacts",
 }));
 
 export type ListModelLabRunFacetKeysError = BadRequest | NotFound | DatadogOpError;
@@ -83903,6 +86098,8 @@ export const listModelLabRunFacetKeys: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelLabRunFacetKeys",
 }));
 
 export type ListModelLabRunFacetValuesError = BadRequest | NotFound | DatadogOpError;
@@ -83918,6 +86115,8 @@ export const listModelLabRunFacetValues: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelLabRunFacetValues",
 }));
 
 export type ListModelLabRunsError = BadRequest | DatadogOpError;
@@ -83933,6 +86132,8 @@ export const listModelLabRuns: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelLabRuns",
 }));
 
 export type ListMonitorConfigPoliciesError = Forbidden | DatadogOpError;
@@ -83948,6 +86149,8 @@ export const listMonitorConfigPolicies: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorConfigPolicies",
 }));
 
 export type ListMonitorDowntimesError = NotFound | DatadogOpError;
@@ -83963,6 +86166,8 @@ export const listMonitorDowntimes: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorDowntimes",
 }));
 
 export type ListMonitorUserTemplatesError = DatadogOpError;
@@ -83978,6 +86183,8 @@ export const listMonitorUserTemplates: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorUserTemplates",
 }));
 
 export type ListMultipleRulesetsError = DatadogOpError;
@@ -83993,6 +86200,8 @@ export const listMultipleRulesets: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMultipleRulesets",
 }));
 
 export type ListNetworkHealthInsightsError = BadRequest | Forbidden | DatadogOpError;
@@ -84008,6 +86217,8 @@ export const listNetworkHealthInsights: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkHealthInsights",
 }));
 
 export type ListOktaAccountsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -84023,6 +86234,8 @@ export const listOktaAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOktaAccounts",
 }));
 
 export type ListOnCallSchedulesError = BadRequest | Forbidden | DatadogOpError;
@@ -84038,6 +86251,8 @@ export const listOnCallSchedules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOnCallSchedules",
 }));
 
 export type ListOpsgenieAccountsError = Forbidden | DatadogOpError;
@@ -84053,6 +86268,8 @@ export const listOpsgenieAccounts: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpsgenieAccounts",
 }));
 
 export type ListOpsgenieServicesError = Forbidden | DatadogOpError;
@@ -84068,6 +86285,8 @@ export const listOpsgenieServices: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOpsgenieServices",
 }));
 
 export type ListOrganizationHandlesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -84083,6 +86302,8 @@ export const listOrganizationHandles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationHandles",
 }));
 
 export type ListOrgAuthorizedClientsError = Forbidden | DatadogOpError;
@@ -84098,6 +86319,8 @@ export const listOrgAuthorizedClients: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgAuthorizedClients",
 }));
 
 export type ListOrgAuthorizedClientUserAuthorizationsError = Forbidden | NotFound | DatadogOpError;
@@ -84113,6 +86336,8 @@ export const listOrgAuthorizedClientUserAuthorizations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgAuthorizedClientUserAuthorizations",
 }));
 
 export type ListOrgConfigsError = BadRequest | Forbidden | DatadogOpError;
@@ -84128,6 +86353,8 @@ export const listOrgConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgConfigs",
 }));
 
 export type ListOrgConnectionsError = Forbidden | DatadogOpError;
@@ -84143,6 +86370,8 @@ export const listOrgConnections: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgConnections",
 }));
 
 export type ListOrgGroupMembershipsError = BadRequest | Forbidden | DatadogOpError;
@@ -84158,6 +86387,8 @@ export const listOrgGroupMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgGroupMemberships",
 }));
 
 export type ListOrgGroupPoliciesError = BadRequest | Forbidden | DatadogOpError;
@@ -84173,6 +86404,8 @@ export const listOrgGroupPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgGroupPolicies",
 }));
 
 export type ListOrgGroupPolicyConfigsError = Forbidden | DatadogOpError;
@@ -84188,6 +86421,8 @@ export const listOrgGroupPolicyConfigs: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgGroupPolicyConfigs",
 }));
 
 export type ListOrgGroupPolicyOverridesError = BadRequest | Forbidden | DatadogOpError;
@@ -84203,6 +86438,8 @@ export const listOrgGroupPolicyOverrides: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgGroupPolicyOverrides",
 }));
 
 export type ListOrgGroupPolicySuggestionsError = BadRequest | Forbidden | DatadogOpError;
@@ -84218,6 +86455,8 @@ export const listOrgGroupPolicySuggestions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgGroupPolicySuggestions",
 }));
 
 export type ListOrgGroupsError = BadRequest | Forbidden | DatadogOpError;
@@ -84233,6 +86472,8 @@ export const listOrgGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgGroups",
 }));
 
 export type ListOrgsError = Forbidden | DatadogOpError;
@@ -84248,6 +86489,8 @@ export const listOrgs: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgs",
 }));
 
 export type ListOrgSettingsError = BadRequest | Forbidden | DatadogOpError;
@@ -84263,6 +86506,8 @@ export const listOrgSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgSettings",
 }));
 
 export type ListOwnershipHistoryError = BadRequest | DatadogOpError;
@@ -84278,6 +86523,8 @@ export const listOwnershipHistory: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOwnershipHistory",
 }));
 
 export type ListOwnershipHistoryByOwnerTypeError = BadRequest | DatadogOpError;
@@ -84293,6 +86540,8 @@ export const listOwnershipHistoryByOwnerType: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOwnershipHistoryByOwnerType",
 }));
 
 export type ListOwnershipInferencesError = BadRequest | NotFound | DatadogOpError;
@@ -84308,6 +86557,8 @@ export const listOwnershipInferences: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOwnershipInferences",
 }));
 
 export type ListPermanentRetentionFiltersError = Forbidden | DatadogOpError;
@@ -84323,6 +86574,8 @@ export const listPermanentRetentionFilters: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPermanentRetentionFilters",
 }));
 
 export type ListPermissionsError = BadRequest | Forbidden | DatadogOpError;
@@ -84338,6 +86591,8 @@ export const listPermissions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
 }));
 
 export type ListPersonalAccessTokensError = BadRequest | Forbidden | DatadogOpError;
@@ -84353,6 +86608,8 @@ export const listPersonalAccessTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPersonalAccessTokens",
 }));
 
 export type ListPipelinesError = BadRequest | Forbidden | DatadogOpError;
@@ -84368,6 +86625,8 @@ export const listPipelines: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPipelines",
 }));
 
 export type ListPowerpacksError = DatadogOpError;
@@ -84383,6 +86642,8 @@ export const listPowerpacks: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPowerpacks",
 }));
 
 export type ListProcessesError = BadRequest | Forbidden | DatadogOpError;
@@ -84398,6 +86659,8 @@ export const listProcesses: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProcesses",
 }));
 
 export type ListProductCatalogSKUsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -84413,6 +86676,8 @@ export const listProductCatalogSKUs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductCatalogSKUs",
 }));
 
 export type ListQueryProductAnalyticsError = BadRequest | Forbidden | DatadogOpError;
@@ -84428,6 +86693,8 @@ export const listQueryProductAnalytics: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueryProductAnalytics",
 }));
 
 export type ListQueryProductAnalyticsJourneyError = BadRequest | Forbidden | DatadogOpError;
@@ -84443,6 +86710,8 @@ export const listQueryProductAnalyticsJourney: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueryProductAnalyticsJourney",
 }));
 
 export type ListQueryProductAnalyticsRetentionError = BadRequest | Forbidden | DatadogOpError;
@@ -84458,6 +86727,8 @@ export const listQueryProductAnalyticsRetention: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueryProductAnalyticsRetention",
 }));
 
 export type ListQuotasError = BadRequest | Forbidden | DatadogOpError;
@@ -84473,6 +86744,8 @@ export const listQuotas: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQuotas",
 }));
 
 export type ListReferenceTableRowsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -84488,6 +86761,8 @@ export const listReferenceTableRows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReferenceTableRows",
 }));
 
 export type ListReplayHeatmapSnapshotsError = DatadogOpError;
@@ -84503,6 +86778,8 @@ export const listReplayHeatmapSnapshots: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReplayHeatmapSnapshots",
 }));
 
 export type ListReportSchedulesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -84518,6 +86795,8 @@ export const listReportSchedules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportSchedules",
 }));
 
 export type ListRestrictionQueriesError = Forbidden | DatadogOpError;
@@ -84533,6 +86812,8 @@ export const listRestrictionQueries: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestrictionQueries",
 }));
 
 export type ListRestrictionQueryRolesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -84548,6 +86829,8 @@ export const listRestrictionQueryRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestrictionQueryRoles",
 }));
 
 export type ListRetentionFiltersError = Forbidden | DatadogOpError;
@@ -84563,6 +86846,8 @@ export const listRetentionFilters: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRetentionFilters",
 }));
 
 export type ListRolePermissionsError = Forbidden | NotFound | DatadogOpError;
@@ -84578,6 +86863,8 @@ export const listRolePermissions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRolePermissions",
 }));
 
 export type ListRolesError = Forbidden | DatadogOpError;
@@ -84593,6 +86880,8 @@ export const listRoles: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoles",
 }));
 
 export type ListRoleTemplatesError = DatadogOpError;
@@ -84608,6 +86897,8 @@ export const listRoleTemplates: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoleTemplates",
 }));
 
 export type ListRoleUsersError = Forbidden | NotFound | DatadogOpError;
@@ -84623,6 +86914,8 @@ export const listRoleUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoleUsers",
 }));
 
 export type ListRUMEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -84638,6 +86931,8 @@ export const listRUMEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRUMEvents",
 }));
 
 export type ListRumMetricsError = Forbidden | DatadogOpError;
@@ -84653,6 +86948,8 @@ export const listRumMetrics: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRumMetrics",
 }));
 
 export type ListRUMOperationsError = BadRequest | DatadogOpError;
@@ -84668,6 +86965,8 @@ export const listRUMOperations: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRUMOperations",
 }));
 
 export type ListRUMOperationStrongLinksError = BadRequest | DatadogOpError;
@@ -84683,6 +86982,8 @@ export const listRUMOperationStrongLinks: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRUMOperationStrongLinks",
 }));
 
 export type ListRumReplayPlaylistsError = DatadogOpError;
@@ -84698,6 +86999,8 @@ export const listRumReplayPlaylists: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRumReplayPlaylists",
 }));
 
 export type ListRumReplayPlaylistSessionsError = DatadogOpError;
@@ -84713,6 +87016,8 @@ export const listRumReplayPlaylistSessions: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRumReplayPlaylistSessions",
 }));
 
 export type ListRumReplaySessionWatchersError = DatadogOpError;
@@ -84728,6 +87033,8 @@ export const listRumReplaySessionWatchers: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRumReplaySessionWatchers",
 }));
 
 export type ListRumReplayViewershipHistorySessionsError = DatadogOpError;
@@ -84743,6 +87050,8 @@ export const listRumReplayViewershipHistorySessions: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRumReplayViewershipHistorySessions",
 }));
 
 export type ListSAMLConfigurationsError = Forbidden | DatadogOpError;
@@ -84758,6 +87067,8 @@ export const listSAMLConfigurations: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSAMLConfigurations",
 }));
 
 export type ListSampleLogGenerationSubscriptionsError = BadRequest | Forbidden | DatadogOpError;
@@ -84773,6 +87084,8 @@ export const listSampleLogGenerationSubscriptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSampleLogGenerationSubscriptions",
 }));
 
 export type ListSCALicensesError = DatadogOpError;
@@ -84788,6 +87101,8 @@ export const listSCALicenses: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSCALicenses",
 }));
 
 export type ListScannedAssetsMetadataError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -84803,6 +87118,8 @@ export const listScannedAssetsMetadata: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScannedAssetsMetadata",
 }));
 
 export type ListScanningGroupsError = BadRequest | Forbidden | DatadogOpError;
@@ -84818,6 +87135,8 @@ export const listScanningGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScanningGroups",
 }));
 
 export type ListScorecardCampaignsError = BadRequest | Forbidden | DatadogOpError;
@@ -84833,6 +87152,8 @@ export const listScorecardCampaigns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScorecardCampaigns",
 }));
 
 export type ListScorecardOutcomesError = BadRequest | Forbidden | DatadogOpError;
@@ -84848,6 +87169,8 @@ export const listScorecardOutcomes: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScorecardOutcomes",
 }));
 
 export type ListScorecardRulesError = BadRequest | Forbidden | DatadogOpError;
@@ -84863,6 +87186,8 @@ export const listScorecardRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScorecardRules",
 }));
 
 export type ListScorecardsError = Forbidden | DatadogOpError;
@@ -84878,6 +87203,8 @@ export const listScorecards: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScorecards",
 }));
 
 export type ListScorecardScoresError = BadRequest | Forbidden | DatadogOpError;
@@ -84893,6 +87220,8 @@ export const listScorecardScores: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScorecardScores",
 }));
 
 export type ListSecurityFiltersError = Forbidden | DatadogOpError;
@@ -84908,6 +87237,8 @@ export const listSecurityFilters: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFilters",
 }));
 
 export type ListSecurityFilterVersionsError = Forbidden | DatadogOpError;
@@ -84923,6 +87254,8 @@ export const listSecurityFilterVersions: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFilterVersions",
 }));
 
 export type ListSecurityFindingsError = BadRequest | Forbidden | DatadogOpError;
@@ -84938,6 +87271,8 @@ export const listSecurityFindings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFindings",
 }));
 
 export type ListSecurityFindingsAutomationDefaultInboxRulesError = Forbidden | DatadogOpError;
@@ -84957,6 +87292,8 @@ export const listSecurityFindingsAutomationDefaultInboxRules: API.OperationMetho
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFindingsAutomationDefaultInboxRules",
 }));
 
 export type ListSecurityFindingsAutomationDueDateRulesError = Forbidden | DatadogOpError;
@@ -84972,6 +87309,8 @@ export const listSecurityFindingsAutomationDueDateRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFindingsAutomationDueDateRules",
 }));
 
 export type ListSecurityFindingsAutomationInboxRulesError = Forbidden | DatadogOpError;
@@ -84987,6 +87326,8 @@ export const listSecurityFindingsAutomationInboxRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFindingsAutomationInboxRules",
 }));
 
 export type ListSecurityFindingsAutomationMuteRulesError = Forbidden | DatadogOpError;
@@ -85002,6 +87343,8 @@ export const listSecurityFindingsAutomationMuteRules: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFindingsAutomationMuteRules",
 }));
 
 export type ListSecurityFindingsAutomationSeverityModifierRulesError =
@@ -85024,6 +87367,8 @@ export const listSecurityFindingsAutomationSeverityModifierRules: API.OperationM
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFindingsAutomationSeverityModifierRules",
 }));
 
 export type ListSecurityFindingsAutomationTicketCreationRulesError = Forbidden | DatadogOpError;
@@ -85043,6 +87388,8 @@ export const listSecurityFindingsAutomationTicketCreationRules: API.OperationMet
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityFindingsAutomationTicketCreationRules",
 }));
 
 export type ListSecurityMonitoringCriticalAssetsError = Forbidden | DatadogOpError;
@@ -85058,6 +87405,8 @@ export const listSecurityMonitoringCriticalAssets: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityMonitoringCriticalAssets",
 }));
 
 export type ListSecurityMonitoringDatasetsError = BadRequest | Forbidden | DatadogOpError;
@@ -85073,6 +87422,8 @@ export const listSecurityMonitoringDatasets: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityMonitoringDatasets",
 }));
 
 export type ListSecurityMonitoringHistsignalsError =
@@ -85092,6 +87443,8 @@ export const listSecurityMonitoringHistsignals: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityMonitoringHistsignals",
 }));
 
 export type ListSecurityMonitoringIntegrationConfigsError = Forbidden | DatadogOpError;
@@ -85107,6 +87460,8 @@ export const listSecurityMonitoringIntegrationConfigs: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityMonitoringIntegrationConfigs",
 }));
 
 export type ListSecurityMonitoringRulesError = BadRequest | DatadogOpError;
@@ -85122,6 +87477,8 @@ export const listSecurityMonitoringRules: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityMonitoringRules",
 }));
 
 export type ListSecurityMonitoringSignalsError = BadRequest | Forbidden | DatadogOpError;
@@ -85137,6 +87494,8 @@ export const listSecurityMonitoringSignals: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityMonitoringSignals",
 }));
 
 export type ListSecurityMonitoringSuppressionsError = Forbidden | DatadogOpError;
@@ -85152,6 +87511,8 @@ export const listSecurityMonitoringSuppressions: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityMonitoringSuppressions",
 }));
 
 export type ListServiceAccountAccessTokensError =
@@ -85171,6 +87532,8 @@ export const listServiceAccountAccessTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceAccountAccessTokens",
 }));
 
 export type ListServiceAccountApplicationKeysError =
@@ -85190,6 +87553,8 @@ export const listServiceAccountApplicationKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceAccountApplicationKeys",
 }));
 
 export type ListServiceDefinitionsError = Forbidden | DatadogOpError;
@@ -85205,6 +87570,8 @@ export const listServiceDefinitions: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceDefinitions",
 }));
 
 export type ListServiceNowAssignmentGroupsError = BadRequest | NotFound | DatadogOpError;
@@ -85220,6 +87587,8 @@ export const listServiceNowAssignmentGroups: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceNowAssignmentGroups",
 }));
 
 export type ListServiceNowBusinessServicesError = BadRequest | NotFound | DatadogOpError;
@@ -85235,6 +87604,8 @@ export const listServiceNowBusinessServices: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceNowBusinessServices",
 }));
 
 export type ListServiceNowInstancesError = NotFound | DatadogOpError;
@@ -85250,6 +87621,8 @@ export const listServiceNowInstances: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceNowInstances",
 }));
 
 export type ListServiceNowTemplatesError = DatadogOpError;
@@ -85265,6 +87638,8 @@ export const listServiceNowTemplates: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceNowTemplates",
 }));
 
 export type ListServiceNowUsersError = BadRequest | NotFound | DatadogOpError;
@@ -85280,6 +87655,8 @@ export const listServiceNowUsers: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceNowUsers",
 }));
 
 export type ListSharedDashboardsByDashboardIdError = Forbidden | NotFound | DatadogOpError;
@@ -85295,6 +87672,8 @@ export const listSharedDashboardsByDashboardId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedDashboardsByDashboardId",
 }));
 
 export type ListSlackUserBindingsError = BadRequest | Forbidden | DatadogOpError;
@@ -85310,6 +87689,8 @@ export const listSlackUserBindings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSlackUserBindings",
 }));
 
 export type ListSnowflakeIntegrationAccountsError =
@@ -85329,6 +87710,8 @@ export const listSnowflakeIntegrationAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnowflakeIntegrationAccounts",
 }));
 
 export type ListSourcemapsError = BadRequest | DatadogOpError;
@@ -85344,6 +87727,8 @@ export const listSourcemaps: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSourcemaps",
 }));
 
 export type ListSpansError = BadRequest | Forbidden | UnprocessableEntity | DatadogOpError;
@@ -85359,6 +87744,8 @@ export const listSpans: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpans",
 }));
 
 export type ListSpansGetError = BadRequest | Forbidden | UnprocessableEntity | DatadogOpError;
@@ -85374,6 +87761,8 @@ export const listSpansGet: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpansGet",
 }));
 
 export type ListSpansMetricsError = Forbidden | DatadogOpError;
@@ -85389,6 +87778,8 @@ export const listSpansMetrics: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpansMetrics",
 }));
 
 export type ListStandardPatternsError = BadRequest | Forbidden | DatadogOpError;
@@ -85404,6 +87795,8 @@ export const listStandardPatterns: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStandardPatterns",
 }));
 
 export type ListStaticAnalysisCodegenRulesetsError = BadRequest | DatadogOpError;
@@ -85419,6 +87812,8 @@ export const listStaticAnalysisCodegenRulesets: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStaticAnalysisCodegenRulesets",
 }));
 
 export type ListStatusPagesError = DatadogOpError;
@@ -85434,6 +87829,8 @@ export const listStatusPages: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStatusPages",
 }));
 
 export type ListStatuspageUrlSettingsError = Forbidden | NotFound | DatadogOpError;
@@ -85449,6 +87846,8 @@ export const listStatuspageUrlSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStatuspageUrlSettings",
 }));
 
 export type ListSubjectTypesError = BadRequest | Forbidden | DatadogOpError;
@@ -85464,6 +87863,8 @@ export const listSubjectTypes: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubjectTypes",
 }));
 
 export type ListSyntheticsBrowserTestLatestResultsError = BadRequest | NotFound | DatadogOpError;
@@ -85479,6 +87880,8 @@ export const listSyntheticsBrowserTestLatestResults: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSyntheticsBrowserTestLatestResults",
 }));
 
 export type ListSyntheticsDowntimesError = BadRequest | Forbidden | DatadogOpError;
@@ -85494,6 +87897,8 @@ export const listSyntheticsDowntimes: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSyntheticsDowntimes",
 }));
 
 export type ListSyntheticsTestLatestResultsError = BadRequest | NotFound | DatadogOpError;
@@ -85509,6 +87914,8 @@ export const listSyntheticsTestLatestResults: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSyntheticsTestLatestResults",
 }));
 
 export type ListSyntheticsTestVersionsError = Forbidden | NotFound | DatadogOpError;
@@ -85524,6 +87931,8 @@ export const listSyntheticsTestVersions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSyntheticsTestVersions",
 }));
 
 export type ListTablesError = Forbidden | DatadogOpError;
@@ -85539,6 +87948,8 @@ export const listTables: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 }));
 
 export type ListTagConfigurationByNameError = Forbidden | NotFound | DatadogOpError;
@@ -85554,6 +87965,8 @@ export const listTagConfigurationByName: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagConfigurationByName",
 }));
 
 export type ListTagConfigurationsError = BadRequest | Forbidden | DatadogOpError;
@@ -85569,6 +87982,8 @@ export const listTagConfigurations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagConfigurations",
 }));
 
 export type ListTagIndexingRulesError = BadRequest | Forbidden | DatadogOpError;
@@ -85584,6 +87999,8 @@ export const listTagIndexingRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagIndexingRules",
 }));
 
 export type ListTagIndexingRulesForMetricError = BadRequest | Forbidden | DatadogOpError;
@@ -85599,6 +88016,8 @@ export const listTagIndexingRulesForMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagIndexingRulesForMetric",
 }));
 
 export type ListTagPipelinesRulesetsError = DatadogOpError;
@@ -85614,6 +88033,8 @@ export const listTagPipelinesRulesets: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagPipelinesRulesets",
 }));
 
 export type ListTagPipelinesRulesetsStatusError = DatadogOpError;
@@ -85629,6 +88050,8 @@ export const listTagPipelinesRulesetsStatus: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagPipelinesRulesetsStatus",
 }));
 
 export type ListTagRulesError = BadRequest | Forbidden | DatadogOpError;
@@ -85644,6 +88067,8 @@ export const listTagRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagRules",
 }));
 
 export type ListTagsError = Forbidden | DatadogOpError;
@@ -85659,6 +88084,8 @@ export const listTags: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListTagsByMetricNameError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85674,6 +88101,8 @@ export const listTagsByMetricName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagsByMetricName",
 }));
 
 export type ListTeamConnectionsError = BadRequest | Forbidden | DatadogOpError;
@@ -85689,6 +88118,8 @@ export const listTeamConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamConnections",
 }));
 
 export type ListTeamHierarchyLinksError = Forbidden | DatadogOpError;
@@ -85704,6 +88135,8 @@ export const listTeamHierarchyLinks: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamHierarchyLinks",
 }));
 
 export type ListTeamsError = Forbidden | DatadogOpError;
@@ -85719,6 +88152,8 @@ export const listTeams: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeams",
 }));
 
 export type ListTeamsOwnershipMappingsError = BadRequest | Forbidden | DatadogOpError;
@@ -85734,6 +88169,8 @@ export const listTeamsOwnershipMappings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamsOwnershipMappings",
 }));
 
 export type ListTeamsOwnershipRulesError = BadRequest | Forbidden | DatadogOpError;
@@ -85749,6 +88186,8 @@ export const listTeamsOwnershipRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamsOwnershipRules",
 }));
 
 export type ListTenancyProductsError = DatadogOpError;
@@ -85764,6 +88203,8 @@ export const listTenancyProducts: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTenancyProducts",
 }));
 
 export type ListTenantBasedHandlesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85779,6 +88220,8 @@ export const listTenantBasedHandles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTenantBasedHandles",
 }));
 
 export type ListTimestampOverridesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85794,6 +88237,8 @@ export const listTimestampOverrides: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTimestampOverrides",
 }));
 
 export type ListTwilioIntegrationAccountsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85809,6 +88254,8 @@ export const listTwilioIntegrationAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTwilioIntegrationAccounts",
 }));
 
 export type ListUnitCostsError = Forbidden | DatadogOpError;
@@ -85824,6 +88271,8 @@ export const listUnitCosts: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUnitCosts",
 }));
 
 export type ListUserAuthorizedClientsError = Forbidden | DatadogOpError;
@@ -85839,6 +88288,8 @@ export const listUserAuthorizedClients: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserAuthorizedClients",
 }));
 
 export type ListUserCaseProjectFavoritesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85854,6 +88305,8 @@ export const listUserCaseProjectFavorites: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserCaseProjectFavorites",
 }));
 
 export type ListUserNotificationChannelsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85869,6 +88322,8 @@ export const listUserNotificationChannels: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserNotificationChannels",
 }));
 
 export type ListUserNotificationRulesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85884,6 +88339,8 @@ export const listUserNotificationRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserNotificationRules",
 }));
 
 export type ListUserOrganizationsError = Forbidden | NotFound | DatadogOpError;
@@ -85899,6 +88356,8 @@ export const listUserOrganizations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserOrganizations",
 }));
 
 export type ListUserPermissionsError = Forbidden | NotFound | DatadogOpError;
@@ -85914,6 +88373,8 @@ export const listUserPermissions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserPermissions",
 }));
 
 export type ListUserRestrictionQueriesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85929,6 +88390,8 @@ export const listUserRestrictionQueries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserRestrictionQueries",
 }));
 
 export type ListUsersError = BadRequest | Forbidden | DatadogOpError;
@@ -85944,6 +88407,8 @@ export const listUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type ListVolumesByMetricNameError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85959,6 +88424,8 @@ export const listVolumesByMetricName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumesByMetricName",
 }));
 
 export type ListVulnerableAssetsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85974,6 +88441,8 @@ export const listVulnerableAssets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVulnerableAssets",
 }));
 
 export type ListWebIntegrationAccountsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -85989,6 +88458,8 @@ export const listWebIntegrationAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebIntegrationAccounts",
 }));
 
 export type ListWorkflowInstancesError = BadRequest | Forbidden | DatadogOpError;
@@ -86004,6 +88475,8 @@ export const listWorkflowInstances: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowInstances",
 }));
 
 export type ListWorkflowsError = BadRequest | Forbidden | DatadogOpError;
@@ -86019,6 +88492,8 @@ export const listWorkflows: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 }));
 
 export type ListWorkflowsWebhookHandlesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86034,6 +88509,8 @@ export const listWorkflowsWebhookHandles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowsWebhookHandles",
 }));
 
 export type LockLLMObsDatasetDraftStateError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86049,6 +88526,8 @@ export const lockLLMObsDatasetDraftState: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LockLLMObsDatasetDraftState",
 }));
 
 export type MakeGCPSTSDelegateError = Forbidden | Conflict | DatadogOpError;
@@ -86064,6 +88543,8 @@ export const makeGCPSTSDelegate: API.OperationMethod<
   errors: [Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MakeGCPSTSDelegate",
 }));
 
 export type MitigateGovernanceDetectionsError = BadRequest | Forbidden | DatadogOpError;
@@ -86079,6 +88560,8 @@ export const mitigateGovernanceDetections: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MitigateGovernanceDetections",
 }));
 
 export type MoveCaseToProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86094,6 +88577,8 @@ export const moveCaseToProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCaseToProject",
 }));
 
 export type MuteSecurityFindingsError =
@@ -86113,6 +88598,8 @@ export const muteSecurityFindings: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MuteSecurityFindings",
 }));
 
 export type OrderRetentionFiltersError = BadRequest | Forbidden | DatadogOpError;
@@ -86128,6 +88615,8 @@ export const orderRetentionFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrderRetentionFilters",
 }));
 
 export type PatchDORADeploymentByVersionError = BadRequest | Forbidden | DatadogOpError;
@@ -86143,6 +88632,8 @@ export const patchDORADeploymentByVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDORADeploymentByVersion",
 }));
 
 export type PatchGlobalVariableError = BadRequest | NotFound | DatadogOpError;
@@ -86158,6 +88649,8 @@ export const patchGlobalVariable: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGlobalVariable",
 }));
 
 export type PatchMaintenanceUpdateError = DatadogOpError;
@@ -86173,6 +88666,8 @@ export const patchMaintenanceUpdate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMaintenanceUpdate",
 }));
 
 export type PatchReportScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86188,6 +88683,8 @@ export const patchReportSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchReportSchedule",
 }));
 
 export type PatchSignalNotificationRuleError =
@@ -86208,6 +88705,8 @@ export const patchSignalNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSignalNotificationRule",
 }));
 
 export type PatchSubjectTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86223,6 +88722,8 @@ export const patchSubjectType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSubjectType",
 }));
 
 export type PatchTestSuiteError = BadRequest | DatadogOpError;
@@ -86238,6 +88739,8 @@ export const patchTestSuite: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTestSuite",
 }));
 
 export type PatchVulnerabilityNotificationRuleError =
@@ -86258,6 +88761,8 @@ export const patchVulnerabilityNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchVulnerabilityNotificationRule",
 }));
 
 export type PauseExposureScheduleError =
@@ -86278,6 +88783,8 @@ export const pauseExposureSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseExposureSchedule",
 }));
 
 export type PinModelLabRunError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86293,6 +88800,8 @@ export const pinModelLabRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PinModelLabRun",
 }));
 
 export type PollSyntheticsTestResultsError = BadRequest | NotFound | DatadogOpError;
@@ -86308,6 +88817,8 @@ export const pollSyntheticsTestResults: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PollSyntheticsTestResults",
 }));
 
 export type PostOwnershipSettingsError = BadRequest | DatadogOpError;
@@ -86323,6 +88834,8 @@ export const postOwnershipSettings: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostOwnershipSettings",
 }));
 
 export type PreviewAWSMetricNameFilterError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86338,6 +88851,8 @@ export const previewAWSMetricNameFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewAWSMetricNameFilter",
 }));
 
 export type PreviewCatalogEntitiesError = DatadogOpError;
@@ -86353,6 +88868,8 @@ export const previewCatalogEntities: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewCatalogEntities",
 }));
 
 export type PrintReportError =
@@ -86373,6 +88890,8 @@ export const printReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrintReport",
 }));
 
 export type PublishAppError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86388,6 +88907,8 @@ export const publishApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishApp",
 }));
 
 export type PublishFormError = BadRequest | NotFound | DatadogOpError;
@@ -86403,6 +88924,8 @@ export const publishForm: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishForm",
 }));
 
 export type PublishStatusPageError = DatadogOpError;
@@ -86418,6 +88941,8 @@ export const publishStatusPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishStatusPage",
 }));
 
 export type QueryAccountsError = DatadogOpError;
@@ -86433,6 +88958,8 @@ export const queryAccounts: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryAccounts",
 }));
 
 export type QueryAggregatedLongTasksError = BadRequest | DatadogOpError;
@@ -86448,6 +88975,8 @@ export const queryAggregatedLongTasks: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryAggregatedLongTasks",
 }));
 
 export type QueryAggregatedWaterfallError = BadRequest | DatadogOpError;
@@ -86463,6 +88992,8 @@ export const queryAggregatedWaterfall: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryAggregatedWaterfall",
 }));
 
 export type QueryEventFilteredUsersError = DatadogOpError;
@@ -86478,6 +89009,8 @@ export const queryEventFilteredUsers: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryEventFilteredUsers",
 }));
 
 export type QueryProductAnalyticsJourneyFunnelError = BadRequest | Forbidden | DatadogOpError;
@@ -86493,6 +89026,8 @@ export const queryProductAnalyticsJourneyFunnel: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsJourneyFunnel",
 }));
 
 export type QueryProductAnalyticsJourneyScalarError = BadRequest | Forbidden | DatadogOpError;
@@ -86508,6 +89043,8 @@ export const queryProductAnalyticsJourneyScalar: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsJourneyScalar",
 }));
 
 export type QueryProductAnalyticsJourneyTimeseriesError = BadRequest | Forbidden | DatadogOpError;
@@ -86523,6 +89060,8 @@ export const queryProductAnalyticsJourneyTimeseries: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsJourneyTimeseries",
 }));
 
 export type QueryProductAnalyticsRetentionGridError = BadRequest | Forbidden | DatadogOpError;
@@ -86538,6 +89077,8 @@ export const queryProductAnalyticsRetentionGrid: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsRetentionGrid",
 }));
 
 export type QueryProductAnalyticsRetentionScalarError = BadRequest | Forbidden | DatadogOpError;
@@ -86553,6 +89094,8 @@ export const queryProductAnalyticsRetentionScalar: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsRetentionScalar",
 }));
 
 export type QueryProductAnalyticsRetentionTimeseriesError = BadRequest | Forbidden | DatadogOpError;
@@ -86568,6 +89111,8 @@ export const queryProductAnalyticsRetentionTimeseries: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsRetentionTimeseries",
 }));
 
 export type QueryProductAnalyticsSankeyError = BadRequest | Forbidden | DatadogOpError;
@@ -86583,6 +89128,8 @@ export const queryProductAnalyticsSankey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsSankey",
 }));
 
 export type QueryProductAnalyticsScalarError = BadRequest | Forbidden | DatadogOpError;
@@ -86598,6 +89145,8 @@ export const queryProductAnalyticsScalar: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsScalar",
 }));
 
 export type QueryProductAnalyticsTimeseriesError = BadRequest | Forbidden | DatadogOpError;
@@ -86613,6 +89162,8 @@ export const queryProductAnalyticsTimeseries: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProductAnalyticsTimeseries",
 }));
 
 export type QueryScalarDataError = BadRequest | Forbidden | DatadogOpError;
@@ -86628,6 +89179,8 @@ export const queryScalarData: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryScalarData",
 }));
 
 export type QueryTimeseriesDataError = BadRequest | Forbidden | DatadogOpError;
@@ -86643,6 +89196,8 @@ export const queryTimeseriesData: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryTimeseriesData",
 }));
 
 export type QueryUsersError = DatadogOpError;
@@ -86658,6 +89213,8 @@ export const queryUsers: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryUsers",
 }));
 
 export type RefreshExperimentResultsError =
@@ -86678,6 +89235,8 @@ export const refreshExperimentResults: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshExperimentResults",
 }));
 
 export type RefreshExperimentResultsForOrgError = BadRequest | Forbidden | DatadogOpError;
@@ -86693,6 +89252,8 @@ export const refreshExperimentResultsForOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshExperimentResultsForOrg",
 }));
 
 export type RegisterAppKeyError = BadRequest | Forbidden | DatadogOpError;
@@ -86708,6 +89269,8 @@ export const registerAppKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterAppKey",
 }));
 
 export type RegisterOAuthClientError = BadRequest | DatadogOpError;
@@ -86723,6 +89286,8 @@ export const registerOAuthClient: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterOAuthClient",
 }));
 
 export type RemoveCaseInsightsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86738,6 +89303,8 @@ export const removeCaseInsights: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCaseInsights",
 }));
 
 export type RemovePermissionFromRoleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86753,6 +89320,8 @@ export const removePermissionFromRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePermissionFromRole",
 }));
 
 export type RemoveRoleFromArchiveError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86768,6 +89337,8 @@ export const removeRoleFromArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRoleFromArchive",
 }));
 
 export type RemoveRoleFromRestrictionQueryError =
@@ -86787,6 +89358,8 @@ export const removeRoleFromRestrictionQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRoleFromRestrictionQuery",
 }));
 
 export type RemoveRumReplaySessionFromPlaylistError = DatadogOpError;
@@ -86802,6 +89375,8 @@ export const removeRumReplaySessionFromPlaylist: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRumReplaySessionFromPlaylist",
 }));
 
 export type RemoveTeamHierarchyLinkError = Forbidden | NotFound | DatadogOpError;
@@ -86817,6 +89392,8 @@ export const removeTeamHierarchyLink: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeamHierarchyLink",
 }));
 
 export type RemoveTestFromSyntheticsDowntimeError =
@@ -86836,6 +89413,8 @@ export const removeTestFromSyntheticsDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTestFromSyntheticsDowntime",
 }));
 
 export type RemoveUserFromRoleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -86851,6 +89430,8 @@ export const removeUserFromRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUserFromRole",
 }));
 
 export type ReorderApmRetentionFiltersError = BadRequest | Forbidden | DatadogOpError;
@@ -86866,6 +89447,8 @@ export const reorderApmRetentionFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderApmRetentionFilters",
 }));
 
 export type ReorderCustomAllocationRulesError = DatadogOpError;
@@ -86881,6 +89464,8 @@ export const reorderCustomAllocationRules: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderCustomAllocationRules",
 }));
 
 export type ReorderScanningGroupsError = BadRequest | Forbidden | DatadogOpError;
@@ -86896,6 +89481,8 @@ export const reorderScanningGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderScanningGroups",
 }));
 
 export type ReorderSecurityFindingsAutomationDueDateRulesError =
@@ -86919,6 +89506,8 @@ export const reorderSecurityFindingsAutomationDueDateRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderSecurityFindingsAutomationDueDateRules",
 }));
 
 export type ReorderSecurityFindingsAutomationInboxRulesError =
@@ -86942,6 +89531,8 @@ export const reorderSecurityFindingsAutomationInboxRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderSecurityFindingsAutomationInboxRules",
 }));
 
 export type ReorderSecurityFindingsAutomationMuteRulesError =
@@ -86965,6 +89556,8 @@ export const reorderSecurityFindingsAutomationMuteRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderSecurityFindingsAutomationMuteRules",
 }));
 
 export type ReorderSecurityFindingsAutomationSeverityModifierRulesError =
@@ -86988,6 +89581,8 @@ export const reorderSecurityFindingsAutomationSeverityModifierRules: API.Operati
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderSecurityFindingsAutomationSeverityModifierRules",
 }));
 
 export type ReorderSecurityFindingsAutomationTicketCreationRulesError =
@@ -87011,6 +89606,8 @@ export const reorderSecurityFindingsAutomationTicketCreationRules: API.Operation
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderSecurityFindingsAutomationTicketCreationRules",
 }));
 
 export type ReorderTagIndexingRulesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87026,6 +89623,8 @@ export const reorderTagIndexingRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderTagIndexingRules",
 }));
 
 export type ReorderTagPipelinesRulesetsError = DatadogOpError;
@@ -87041,6 +89640,8 @@ export const reorderTagPipelinesRulesets: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderTagPipelinesRulesets",
 }));
 
 export type ReplaceRestrictionQueryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87056,6 +89657,8 @@ export const replaceRestrictionQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRestrictionQuery",
 }));
 
 export type ResolveOnCallPageError = DatadogOpError;
@@ -87071,6 +89674,8 @@ export const resolveOnCallPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveOnCallPage",
 }));
 
 export type RestoreLLMObsDatasetVersionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87086,6 +89691,8 @@ export const restoreLLMObsDatasetVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreLLMObsDatasetVersion",
 }));
 
 export type RestoreSecurityMonitoringRuleError =
@@ -87106,6 +89713,8 @@ export const restoreSecurityMonitoringRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreSecurityMonitoringRule",
 }));
 
 export type RestoreSourcemapsError = BadRequest | NotFound | DatadogOpError;
@@ -87121,6 +89730,8 @@ export const restoreSourcemaps: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreSourcemaps",
 }));
 
 export type ResumeExposureScheduleError =
@@ -87141,6 +89752,8 @@ export const resumeExposureSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeExposureSchedule",
 }));
 
 export type RevertAppError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87156,6 +89769,8 @@ export const revertApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertApp",
 }));
 
 export type RevertCustomRuleRevisionError = BadRequest | DatadogOpError;
@@ -87171,6 +89786,8 @@ export const revertCustomRuleRevision: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertCustomRuleRevision",
 }));
 
 export type RevokePersonalAccessTokenError = Forbidden | NotFound | DatadogOpError;
@@ -87186,6 +89803,8 @@ export const revokePersonalAccessToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokePersonalAccessToken",
 }));
 
 export type RevokeServiceAccountAccessTokenError = Forbidden | NotFound | DatadogOpError;
@@ -87201,6 +89820,8 @@ export const revokeServiceAccountAccessToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeServiceAccountAccessToken",
 }));
 
 export type RunDataObservabilityMonitorError = BadRequest | NotFound | DatadogOpError;
@@ -87216,6 +89837,8 @@ export const runDataObservabilityMonitor: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunDataObservabilityMonitor",
 }));
 
 export type RunHistoricalJobError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87231,6 +89854,8 @@ export const runHistoricalJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunHistoricalJob",
 }));
 
 export type SearchAuditLogsError = BadRequest | Forbidden | DatadogOpError;
@@ -87246,6 +89871,8 @@ export const searchAuditLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAuditLogs",
 }));
 
 export type SearchCasesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87261,6 +89888,8 @@ export const searchCases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCases",
 }));
 
 export type SearchCIAppPipelineEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -87276,6 +89905,8 @@ export const searchCIAppPipelineEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCIAppPipelineEvents",
 }));
 
 export type SearchCIAppTestEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -87291,6 +89922,8 @@ export const searchCIAppTestEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCIAppTestEvents",
 }));
 
 export type SearchCostRecommendationsError = DatadogOpError;
@@ -87306,6 +89939,8 @@ export const searchCostRecommendations: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCostRecommendations",
 }));
 
 export type SearchEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -87321,6 +89956,8 @@ export const searchEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchEvents",
 }));
 
 export type SearchFlakyTestsError = BadRequest | Forbidden | DatadogOpError;
@@ -87336,6 +89973,8 @@ export const searchFlakyTests: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchFlakyTests",
 }));
 
 export type SearchIncidentsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87351,6 +89990,8 @@ export const searchIncidents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchIncidents",
 }));
 
 export type SearchInferredJourneysError = BadRequest | NotFound | DatadogOpError;
@@ -87366,6 +90007,8 @@ export const searchInferredJourneys: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchInferredJourneys",
 }));
 
 export type SearchIssuesError = BadRequest | Forbidden | DatadogOpError;
@@ -87381,6 +90024,8 @@ export const searchIssues: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchIssues",
 }));
 
 export type SearchJourneysError = BadRequest | NotFound | DatadogOpError;
@@ -87396,6 +90041,8 @@ export const searchJourneys: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchJourneys",
 }));
 
 export type SearchLLMObsExperimentationError = BadRequest | Forbidden | DatadogOpError;
@@ -87411,6 +90058,8 @@ export const searchLLMObsExperimentation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchLLMObsExperimentation",
 }));
 
 export type SearchLLMObsSpansError = BadRequest | Forbidden | DatadogOpError;
@@ -87426,6 +90075,8 @@ export const searchLLMObsSpans: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchLLMObsSpans",
 }));
 
 export type SearchRUMEventsError = BadRequest | Forbidden | DatadogOpError;
@@ -87441,6 +90092,8 @@ export const searchRUMEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchRUMEvents",
 }));
 
 export type SearchSecurityFindingsError = BadRequest | Forbidden | DatadogOpError;
@@ -87456,6 +90109,8 @@ export const searchSecurityFindings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSecurityFindings",
 }));
 
 export type SearchSecurityMonitoringHistsignalsError =
@@ -87475,6 +90130,8 @@ export const searchSecurityMonitoringHistsignals: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSecurityMonitoringHistsignals",
 }));
 
 export type SearchSecurityMonitoringSignalsError = BadRequest | Forbidden | DatadogOpError;
@@ -87490,6 +90147,8 @@ export const searchSecurityMonitoringSignals: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSecurityMonitoringSignals",
 }));
 
 export type SearchSuitesError = BadRequest | DatadogOpError;
@@ -87505,6 +90164,8 @@ export const searchSuites: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSuites",
 }));
 
 export type SearchWidgetsError = BadRequest | Forbidden | DatadogOpError;
@@ -87520,6 +90181,8 @@ export const searchWidgets: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchWidgets",
 }));
 
 export type SendInvitationsError = BadRequest | Forbidden | DatadogOpError;
@@ -87535,6 +90198,8 @@ export const sendInvitations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendInvitations",
 }));
 
 export type SendSecurityMonitoringNotificationPreviewError =
@@ -87553,6 +90218,8 @@ export const sendSecurityMonitoringNotificationPreview: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendSecurityMonitoringNotificationPreview",
 }));
 
 export type SetDefaultSubjectTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87568,6 +90235,8 @@ export const setDefaultSubjectType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultSubjectType",
 }));
 
 export type SetOnCallTeamRoutingRulesError = DatadogOpError;
@@ -87583,6 +90252,8 @@ export const setOnCallTeamRoutingRules: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOnCallTeamRoutingRules",
 }));
 
 export type SetOnDemandConcurrencyCapError = DatadogOpError;
@@ -87598,6 +90269,8 @@ export const setOnDemandConcurrencyCap: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOnDemandConcurrencyCap",
 }));
 
 export type SimpleSearchLLMObsExperimentationError = BadRequest | Forbidden | DatadogOpError;
@@ -87613,6 +90286,8 @@ export const simpleSearchLLMObsExperimentation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SimpleSearchLLMObsExperimentation",
 }));
 
 export type SoftDeleteDegradationUpdateError = DatadogOpError;
@@ -87628,6 +90303,8 @@ export const softDeleteDegradationUpdate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SoftDeleteDegradationUpdate",
 }));
 
 export type StarModelLabProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87643,6 +90320,8 @@ export const starModelLabProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StarModelLabProject",
 }));
 
 export type StartExperimentError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -87658,6 +90337,8 @@ export const startExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartExperiment",
 }));
 
 export type StartExposureScheduleError =
@@ -87678,6 +90359,8 @@ export const startExposureSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartExposureSchedule",
 }));
 
 export type StopExposureScheduleError =
@@ -87698,6 +90381,8 @@ export const stopExposureSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopExposureSchedule",
 }));
 
 export type SubmitLogError = BadRequest | Forbidden | DatadogOpError;
@@ -87713,6 +90398,8 @@ export const submitLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitLog",
 }));
 
 export type SubmitMetricsError = BadRequest | Forbidden | DatadogOpError;
@@ -87728,6 +90415,8 @@ export const submitMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitMetrics",
 }));
 
 export type SubmitProductAnalyticsEventError = BadRequest | Forbidden | DatadogOpError;
@@ -87743,6 +90432,8 @@ export const submitProductAnalyticsEvent: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitProductAnalyticsEvent",
 }));
 
 export type SyncTeamsError = Forbidden | DatadogOpError;
@@ -87758,6 +90449,8 @@ export const syncTeams: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncTeams",
 }));
 
 export type TestExistingSecurityMonitoringRuleError =
@@ -87777,6 +90470,8 @@ export const testExistingSecurityMonitoringRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestExistingSecurityMonitoringRule",
 }));
 
 export type TestSecurityMonitoringRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87792,6 +90487,8 @@ export const testSecurityMonitoringRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestSecurityMonitoringRule",
 }));
 
 export type ToggleReportScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87807,6 +90504,8 @@ export const toggleReportSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleReportSchedule",
 }));
 
 export type TriggerDeploymentGatesEvaluationError =
@@ -87826,6 +90525,8 @@ export const triggerDeploymentGatesEvaluation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerDeploymentGatesEvaluation",
 }));
 
 export type TriggerFleetScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87841,6 +90542,8 @@ export const triggerFleetSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerFleetSchedule",
 }));
 
 export type TriggerInvestigationError = BadRequest | DatadogOpError;
@@ -87856,6 +90559,8 @@ export const triggerInvestigation: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerInvestigation",
 }));
 
 export type TriggerLLMObsPatternsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87871,6 +90576,8 @@ export const triggerLLMObsPatterns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerLLMObsPatterns",
 }));
 
 export type UnarchiveCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87886,6 +90593,8 @@ export const unarchiveCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveCase",
 }));
 
 export type UnarchiveExposureSQLModelError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87901,6 +90610,8 @@ export const unarchiveExposureSQLModel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveExposureSQLModel",
 }));
 
 export type UnarchiveFeatureFlagError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87916,6 +90627,8 @@ export const unarchiveFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveFeatureFlag",
 }));
 
 export type UnassignCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87931,6 +90644,8 @@ export const unassignCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignCase",
 }));
 
 export type UnassignSeatsUserError = BadRequest | UnprocessableEntity | DatadogOpError;
@@ -87946,6 +90661,8 @@ export const unassignSeatsUser: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignSeatsUser",
 }));
 
 export type UnfavoriteCaseProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87961,6 +90678,8 @@ export const unfavoriteCaseProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnfavoriteCaseProject",
 }));
 
 export type UnlinkJiraIssueError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87976,6 +90695,8 @@ export const unlinkJiraIssue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkJiraIssue",
 }));
 
 export type UnlockLLMObsDatasetDraftStateError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -87991,6 +90712,8 @@ export const unlockLLMObsDatasetDraftState: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockLLMObsDatasetDraftState",
 }));
 
 export type UnpinModelLabRunError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88006,6 +90729,8 @@ export const unpinModelLabRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpinModelLabRun",
 }));
 
 export type UnpublishAppError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88021,6 +90746,8 @@ export const unpublishApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpublishApp",
 }));
 
 export type UnpublishStatusPageError = DatadogOpError;
@@ -88036,6 +90763,8 @@ export const unpublishStatusPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpublishStatusPage",
 }));
 
 export type UnregisterAppKeyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88051,6 +90780,8 @@ export const unregisterAppKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnregisterAppKey",
 }));
 
 export type UnstarModelLabProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88066,6 +90797,8 @@ export const unstarModelLabProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnstarModelLabProject",
 }));
 
 export type UnwatchCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88081,6 +90814,8 @@ export const unwatchCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnwatchCase",
 }));
 
 export type UpdateActionConnectionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88096,6 +90831,8 @@ export const updateActionConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateActionConnection",
 }));
 
 export type UpdateAiCustomRulesetError = BadRequest | DatadogOpError;
@@ -88111,6 +90848,8 @@ export const updateAiCustomRuleset: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiCustomRuleset",
 }));
 
 export type UpdateAllocationsForFeatureFlagInEnvironmentError =
@@ -88135,6 +90874,8 @@ export const updateAllocationsForFeatureFlagInEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAllocationsForFeatureFlagInEnvironment",
 }));
 
 export type UpdateAnnotationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88150,6 +90891,8 @@ export const updateAnnotation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnnotation",
 }));
 
 export type UpdateAPIKeyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88165,6 +90908,8 @@ export const updateAPIKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAPIKey",
 }));
 
 export type UpdateApmRetentionFilterError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88180,6 +90925,8 @@ export const updateApmRetentionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApmRetentionFilter",
 }));
 
 export type UpdateAppError = BadRequest | Forbidden | DatadogOpError;
@@ -88195,6 +90942,8 @@ export const updateApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateAppFavoriteError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88210,6 +90959,8 @@ export const updateAppFavorite: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppFavorite",
 }));
 
 export type UpdateApplicationKeyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88225,6 +90976,8 @@ export const updateApplicationKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationKey",
 }));
 
 export type UpdateApplicationSecurityWafCustomRuleError =
@@ -88245,6 +90998,8 @@ export const updateApplicationSecurityWafCustomRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationSecurityWafCustomRule",
 }));
 
 export type UpdateApplicationSecurityWafExclusionFilterError =
@@ -88269,6 +91024,8 @@ export const updateApplicationSecurityWafExclusionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationSecurityWafExclusionFilter",
 }));
 
 export type UpdateApplicationSecurityWafPolicyError =
@@ -88289,6 +91046,8 @@ export const updateApplicationSecurityWafPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationSecurityWafPolicy",
 }));
 
 export type UpdateAppSelfServiceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88304,6 +91063,8 @@ export const updateAppSelfService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppSelfService",
 }));
 
 export type UpdateAppTagsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88319,6 +91080,8 @@ export const updateAppTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppTags",
 }));
 
 export type UpdateAppVersionNameError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88334,6 +91097,8 @@ export const updateAppVersionName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppVersionName",
 }));
 
 export type UpdateAttributesError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88349,6 +91114,8 @@ export const updateAttributes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttributes",
 }));
 
 export type UpdateAuthNMappingError =
@@ -88370,6 +91137,8 @@ export const updateAuthNMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAuthNMapping",
 }));
 
 export type UpdateAWSAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88385,6 +91154,8 @@ export const updateAWSAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAWSAccount",
 }));
 
 export type UpdateAWSAccountCCMConfigError = Forbidden | NotFound | DatadogOpError;
@@ -88400,6 +91171,8 @@ export const updateAWSAccountCCMConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAWSAccountCCMConfig",
 }));
 
 export type UpdateAwsScanOptionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88415,6 +91188,8 @@ export const updateAwsScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAwsScanOptions",
 }));
 
 export type UpdateAzureScanOptionsError = DatadogOpError;
@@ -88430,6 +91205,8 @@ export const updateAzureScanOptions: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureScanOptions",
 }));
 
 export type UpdateCaseAutomationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88445,6 +91222,8 @@ export const updateCaseAutomationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseAutomationRule",
 }));
 
 export type UpdateCaseCommentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88460,6 +91239,8 @@ export const updateCaseComment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseComment",
 }));
 
 export type UpdateCaseCustomAttributeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88475,6 +91256,8 @@ export const updateCaseCustomAttribute: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseCustomAttribute",
 }));
 
 export type UpdateCaseDescriptionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88490,6 +91273,8 @@ export const updateCaseDescription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseDescription",
 }));
 
 export type UpdateCaseDueDateError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88505,6 +91290,8 @@ export const updateCaseDueDate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseDueDate",
 }));
 
 export type UpdateCaseResolvedReasonError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88520,6 +91307,8 @@ export const updateCaseResolvedReason: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseResolvedReason",
 }));
 
 export type UpdateCaseTitleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88535,6 +91324,8 @@ export const updateCaseTitle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseTitle",
 }));
 
 export type UpdateCaseTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88550,6 +91341,8 @@ export const updateCaseType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseType",
 }));
 
 export type UpdateCaseViewError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88565,6 +91358,8 @@ export const updateCaseView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaseView",
 }));
 
 export type UpdateChangeRequestError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88580,6 +91375,8 @@ export const updateChangeRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChangeRequest",
 }));
 
 export type UpdateChangeRequestDecisionError = BadRequest | NotFound | DatadogOpError;
@@ -88595,6 +91392,8 @@ export const updateChangeRequestDecision: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateChangeRequestDecision",
 }));
 
 export type UpdateCIAppGitHubAccountError =
@@ -88615,6 +91414,8 @@ export const updateCIAppGitHubAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCIAppGitHubAccount",
 }));
 
 export type UpdateCloudflareAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88630,6 +91431,8 @@ export const updateCloudflareAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudflareAccount",
 }));
 
 export type UpdateCloudWorkloadSecurityAgentRuleError =
@@ -88650,6 +91453,8 @@ export const updateCloudWorkloadSecurityAgentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudWorkloadSecurityAgentRule",
 }));
 
 export type UpdateComponentError = DatadogOpError;
@@ -88665,6 +91470,8 @@ export const updateComponent: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateComponent",
 }));
 
 export type UpdateConfluentAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88680,6 +91487,8 @@ export const updateConfluentAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfluentAccount",
 }));
 
 export type UpdateConfluentResourceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88695,6 +91504,8 @@ export const updateConfluentResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfluentResource",
 }));
 
 export type UpdateConnectionError = DatadogOpError;
@@ -88710,6 +91521,8 @@ export const updateConnection: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnection",
 }));
 
 export type UpdateCostAccountFiltersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88725,6 +91538,8 @@ export const updateCostAccountFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCostAccountFilters",
 }));
 
 export type UpdateCostAWSCURConfigError = Forbidden | NotFound | DatadogOpError;
@@ -88740,6 +91555,8 @@ export const updateCostAWSCURConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCostAWSCURConfig",
 }));
 
 export type UpdateCostAzureUCConfigsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88755,6 +91572,8 @@ export const updateCostAzureUCConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCostAzureUCConfigs",
 }));
 
 export type UpdateCostGCPUsageCostConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88770,6 +91589,8 @@ export const updateCostGCPUsageCostConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCostGCPUsageCostConfig",
 }));
 
 export type UpdateCSMThreatsAgentPolicyError =
@@ -88790,6 +91611,8 @@ export const updateCSMThreatsAgentPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCSMThreatsAgentPolicy",
 }));
 
 export type UpdateCSMThreatsAgentRuleError =
@@ -88810,6 +91633,8 @@ export const updateCSMThreatsAgentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCSMThreatsAgentRule",
 }));
 
 export type UpdateCurrentUserError =
@@ -88830,6 +91655,8 @@ export const updateCurrentUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentUser",
 }));
 
 export type UpdateCurrentUserApplicationKeyError =
@@ -88849,6 +91676,8 @@ export const updateCurrentUserApplicationKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentUserApplicationKey",
 }));
 
 export type UpdateCustomAllocationRuleError = DatadogOpError;
@@ -88864,6 +91693,8 @@ export const updateCustomAllocationRule: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomAllocationRule",
 }));
 
 export type UpdateCustomAttributeConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88879,6 +91710,8 @@ export const updateCustomAttributeConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomAttributeConfig",
 }));
 
 export type UpdateCustomFrameworkError = BadRequest | DatadogOpError;
@@ -88894,6 +91727,8 @@ export const updateCustomFramework: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomFramework",
 }));
 
 export type UpdateCustomRulesetError = BadRequest | DatadogOpError;
@@ -88909,6 +91744,8 @@ export const updateCustomRuleset: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRuleset",
 }));
 
 export type UpdateDashboardListItemsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88924,6 +91761,8 @@ export const updateDashboardListItems: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardListItems",
 }));
 
 export type UpdateDashboardSecureEmbedError = Forbidden | NotFound | DatadogOpError;
@@ -88939,6 +91778,8 @@ export const updateDashboardSecureEmbed: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboardSecureEmbed",
 }));
 
 export type UpdateDatabricksIntegrationAccountError =
@@ -88959,6 +91800,8 @@ export const updateDatabricksIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabricksIntegrationAccount",
 }));
 
 export type UpdateDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -88974,6 +91817,8 @@ export const updateDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateDatastoreError = BadRequest | NotFound | DatadogOpError;
@@ -88989,6 +91834,8 @@ export const updateDatastore: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatastore",
 }));
 
 export type UpdateDatastoreItemError = BadRequest | NotFound | DatadogOpError;
@@ -89004,6 +91851,8 @@ export const updateDatastoreItem: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatastoreItem",
 }));
 
 export type UpdateDegradationError = DatadogOpError;
@@ -89019,6 +91868,8 @@ export const updateDegradation: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDegradation",
 }));
 
 export type UpdateDegradationTemplateError = DatadogOpError;
@@ -89034,6 +91885,8 @@ export const updateDegradationTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDegradationTemplate",
 }));
 
 export type UpdateDeploymentGateError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89049,6 +91902,8 @@ export const updateDeploymentGate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeploymentGate",
 }));
 
 export type UpdateDeploymentRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89064,6 +91919,8 @@ export const updateDeploymentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeploymentRule",
 }));
 
 export type UpdateDeviceUserTagsError = Forbidden | NotFound | DatadogOpError;
@@ -89079,6 +91936,8 @@ export const updateDeviceUserTags: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceUserTags",
 }));
 
 export type UpdateDomainAllowlistError = DatadogOpError;
@@ -89094,6 +91953,8 @@ export const updateDomainAllowlist: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainAllowlist",
 }));
 
 export type UpdateDORADeploymentError = BadRequest | Forbidden | DatadogOpError;
@@ -89109,6 +91970,8 @@ export const updateDORADeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDORADeployment",
 }));
 
 export type UpdateDowntimeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89124,6 +91987,8 @@ export const updateDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDowntime",
 }));
 
 export type UpdateElasticCloudIntegrationAccountError =
@@ -89144,6 +92009,8 @@ export const updateElasticCloudIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateElasticCloudIntegrationAccount",
 }));
 
 export type UpdateEntityIntegrationConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -89159,6 +92026,8 @@ export const updateEntityIntegrationConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEntityIntegrationConfig",
 }));
 
 export type UpdateExclusionFilterError =
@@ -89179,6 +92048,8 @@ export const updateExclusionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExclusionFilter",
 }));
 
 export type UpdateExecutionPolicyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89194,6 +92065,8 @@ export const updateExecutionPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExecutionPolicy",
 }));
 
 export type UpdateExperimentError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -89209,6 +92082,8 @@ export const updateExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperiment",
 }));
 
 export type UpdateExperimentAnalysisPlanAttributesError =
@@ -89229,6 +92104,8 @@ export const updateExperimentAnalysisPlanAttributes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentAnalysisPlanAttributes",
 }));
 
 export type UpdateExperimentMetricGroupError =
@@ -89249,6 +92126,8 @@ export const updateExperimentMetricGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentMetricGroup",
 }));
 
 export type UpdateExposureSQLModelError =
@@ -89269,6 +92148,8 @@ export const updateExposureSQLModel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExposureSQLModel",
 }));
 
 export type UpdateFastlyAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89284,6 +92165,8 @@ export const updateFastlyAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFastlyAccount",
 }));
 
 export type UpdateFastlyServiceError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89299,6 +92182,8 @@ export const updateFastlyService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFastlyService",
 }));
 
 export type UpdateFeatureFlagError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89314,6 +92199,8 @@ export const updateFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureFlag",
 }));
 
 export type UpdateFeatureFlagsEnvironmentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89329,6 +92216,8 @@ export const updateFeatureFlagsEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureFlagsEnvironment",
 }));
 
 export type UpdateFindingsAssigneeError = BadRequest | NotFound | DatadogOpError;
@@ -89344,6 +92233,8 @@ export const updateFindingsAssignee: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFindingsAssignee",
 }));
 
 export type UpdateFlakyTestsError = BadRequest | Forbidden | DatadogOpError;
@@ -89359,6 +92250,8 @@ export const updateFlakyTests: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlakyTests",
 }));
 
 export type UpdateFlakyTestsManagementPoliciesError =
@@ -89382,6 +92275,8 @@ export const updateFlakyTestsManagementPolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlakyTestsManagementPolicies",
 }));
 
 export type UpdateFleetScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89397,6 +92292,8 @@ export const updateFleetSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFleetSchedule",
 }));
 
 export type UpdateFormError = BadRequest | NotFound | DatadogOpError;
@@ -89412,6 +92309,8 @@ export const updateForm: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateForm",
 }));
 
 export type UpdateGcpScanOptionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89427,6 +92326,8 @@ export const updateGcpScanOptions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGcpScanOptions",
 }));
 
 export type UpdateGCPSTSAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89442,6 +92343,8 @@ export const updateGCPSTSAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGCPSTSAccount",
 }));
 
 export type UpdateGlobalIncidentHandleError = BadRequest | DatadogOpError;
@@ -89457,6 +92360,8 @@ export const updateGlobalIncidentHandle: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalIncidentHandle",
 }));
 
 export type UpdateGlobalIncidentSettingsError = BadRequest | DatadogOpError;
@@ -89472,6 +92377,8 @@ export const updateGlobalIncidentSettings: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalIncidentSettings",
 }));
 
 export type UpdateGoogleChatTargetAudienceError =
@@ -89491,6 +92398,8 @@ export const updateGoogleChatTargetAudience: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGoogleChatTargetAudience",
 }));
 
 export type UpdateGovernanceControlError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89506,6 +92415,8 @@ export const updateGovernanceControl: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGovernanceControl",
 }));
 
 export type UpdateGovernanceControlNotificationSettingsError =
@@ -89528,6 +92439,8 @@ export const updateGovernanceControlNotificationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGovernanceControlNotificationSettings",
 }));
 
 export type UpdateGovernanceDetectionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89543,6 +92456,8 @@ export const updateGovernanceDetection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGovernanceDetection",
 }));
 
 export type UpdateGovernanceNotificationSettingsError = BadRequest | Forbidden | DatadogOpError;
@@ -89558,6 +92473,8 @@ export const updateGovernanceNotificationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGovernanceNotificationSettings",
 }));
 
 export type UpdateIdentityProviderError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89573,6 +92490,8 @@ export const updateIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProvider",
 }));
 
 export type UpdateIncidentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89588,6 +92507,8 @@ export const updateIncident: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncident",
 }));
 
 export type UpdateIncidentAttachmentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89603,6 +92524,8 @@ export const updateIncidentAttachment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentAttachment",
 }));
 
 export type UpdateIncidentConfigurationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89618,6 +92541,8 @@ export const updateIncidentConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentConfiguration",
 }));
 
 export type UpdateIncidentGoogleChatConfigurationError =
@@ -89637,6 +92562,8 @@ export const updateIncidentGoogleChatConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentGoogleChatConfiguration",
 }));
 
 export type UpdateIncidentGoogleMeetConfigurationError =
@@ -89656,6 +92583,8 @@ export const updateIncidentGoogleMeetConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentGoogleMeetConfiguration",
 }));
 
 export type UpdateIncidentImpactError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89671,6 +92600,8 @@ export const updateIncidentImpact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentImpact",
 }));
 
 export type UpdateIncidentImpactFieldError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89686,6 +92617,8 @@ export const updateIncidentImpactField: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentImpactField",
 }));
 
 export type UpdateIncidentIntegrationError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89701,6 +92634,8 @@ export const updateIncidentIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentIntegration",
 }));
 
 export type UpdateIncidentNotificationRuleError =
@@ -89720,6 +92655,8 @@ export const updateIncidentNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentNotificationRule",
 }));
 
 export type UpdateIncidentNotificationTemplateError =
@@ -89739,6 +92676,8 @@ export const updateIncidentNotificationTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentNotificationTemplate",
 }));
 
 export type UpdateIncidentPostmortemTemplateError = BadRequest | NotFound | DatadogOpError;
@@ -89754,6 +92693,8 @@ export const updateIncidentPostmortemTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentPostmortemTemplate",
 }));
 
 export type UpdateIncidentRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89769,6 +92710,8 @@ export const updateIncidentRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentRule",
 }));
 
 export type UpdateIncidentTemplateError =
@@ -89789,6 +92732,8 @@ export const updateIncidentTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentTemplate",
 }));
 
 export type UpdateIncidentTodoError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89804,6 +92749,8 @@ export const updateIncidentTodo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentTodo",
 }));
 
 export type UpdateIncidentTypeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89819,6 +92766,8 @@ export const updateIncidentType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentType",
 }));
 
 export type UpdateIncidentUserDefinedFieldError =
@@ -89838,6 +92787,8 @@ export const updateIncidentUserDefinedField: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentUserDefinedField",
 }));
 
 export type UpdateIncidentUserDefinedRoleError = BadRequest | NotFound | DatadogOpError;
@@ -89853,6 +92804,8 @@ export const updateIncidentUserDefinedRole: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentUserDefinedRole",
 }));
 
 export type UpdateInterfaceUserTagsError = Forbidden | NotFound | DatadogOpError;
@@ -89868,6 +92821,8 @@ export const updateInterfaceUserTags: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInterfaceUserTags",
 }));
 
 export type UpdateIPAllowlistError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89883,6 +92838,8 @@ export const updateIPAllowlist: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIPAllowlist",
 }));
 
 export type UpdateIssueAssigneeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89898,6 +92855,8 @@ export const updateIssueAssignee: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueAssignee",
 }));
 
 export type UpdateIssueStateError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89913,6 +92872,8 @@ export const updateIssueState: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueState",
 }));
 
 export type UpdateJiraIssueTemplateError = BadRequest | DatadogOpError;
@@ -89928,6 +92889,8 @@ export const updateJiraIssueTemplate: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJiraIssueTemplate",
 }));
 
 export type UpdateJourneyError = NotFound | DatadogOpError;
@@ -89943,6 +92906,8 @@ export const updateJourney: API.OperationMethod<
   errors: [NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJourney",
 }));
 
 export type UpdateJourneyVariantError = BadRequest | NotFound | DatadogOpError;
@@ -89958,6 +92923,8 @@ export const updateJourneyVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJourneyVariant",
 }));
 
 export type UpdateLLMObsAnnotationQueueError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -89973,6 +92940,8 @@ export const updateLLMObsAnnotationQueue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsAnnotationQueue",
 }));
 
 export type UpdateLLMObsAnnotationQueueLabelSchemaError =
@@ -89992,6 +92961,8 @@ export const updateLLMObsAnnotationQueueLabelSchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsAnnotationQueueLabelSchema",
 }));
 
 export type UpdateLLMObsCustomEvalConfigError =
@@ -90012,6 +92983,8 @@ export const updateLLMObsCustomEvalConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsCustomEvalConfig",
 }));
 
 export type UpdateLLMObsDatasetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90027,6 +93000,8 @@ export const updateLLMObsDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsDataset",
 }));
 
 export type UpdateLLMObsDatasetRecordsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90042,6 +93017,8 @@ export const updateLLMObsDatasetRecords: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsDatasetRecords",
 }));
 
 export type UpdateLLMObsExperimentError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90057,6 +93034,8 @@ export const updateLLMObsExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsExperiment",
 }));
 
 export type UpdateLLMObsProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90072,6 +93051,8 @@ export const updateLLMObsProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsProject",
 }));
 
 export type UpdateLLMObsPromptError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90087,6 +93068,8 @@ export const updateLLMObsPrompt: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsPrompt",
 }));
 
 export type UpdateLLMObsPromptVersionError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90102,6 +93085,8 @@ export const updateLLMObsPromptVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLLMObsPromptVersion",
 }));
 
 export type UpdateLoginOrgConfigsMaxSessionDurationError = BadRequest | Forbidden | DatadogOpError;
@@ -90121,6 +93106,8 @@ export const updateLoginOrgConfigsMaxSessionDuration: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoginOrgConfigsMaxSessionDuration",
 }));
 
 export type UpdateLogsArchiveError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90136,6 +93123,8 @@ export const updateLogsArchive: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsArchive",
 }));
 
 export type UpdateLogsArchiveOrderError =
@@ -90155,6 +93144,8 @@ export const updateLogsArchiveOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsArchiveOrder",
 }));
 
 export type UpdateLogsCustomDestinationError =
@@ -90175,6 +93166,8 @@ export const updateLogsCustomDestination: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsCustomDestination",
 }));
 
 export type UpdateLogsMetricError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90190,6 +93183,8 @@ export const updateLogsMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogsMetric",
 }));
 
 export type UpdateMaintenanceError = DatadogOpError;
@@ -90205,6 +93200,8 @@ export const updateMaintenance: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenance",
 }));
 
 export type UpdateMaintenanceTemplateError = DatadogOpError;
@@ -90220,6 +93217,8 @@ export const updateMaintenanceTemplate: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceTemplate",
 }));
 
 export type UpdateMaintenanceWindowError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90235,6 +93234,8 @@ export const updateMaintenanceWindow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceWindow",
 }));
 
 export type UpdateMetricError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -90250,6 +93251,8 @@ export const updateMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMetric",
 }));
 
 export type UpdateMetricCollectionError =
@@ -90270,6 +93273,8 @@ export const updateMetricCollection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMetricCollection",
 }));
 
 export type UpdateMetricSQLModelError =
@@ -90290,6 +93295,8 @@ export const updateMetricSQLModel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMetricSQLModel",
 }));
 
 export type UpdateMonitorConfigPolicyError =
@@ -90309,6 +93316,8 @@ export const updateMonitorConfigPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitorConfigPolicy",
 }));
 
 export type UpdateMonitorNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90324,6 +93333,8 @@ export const updateMonitorNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitorNotificationRule",
 }));
 
 export type UpdateMonitorUserTemplateError = BadRequest | NotFound | DatadogOpError;
@@ -90339,6 +93350,8 @@ export const updateMonitorUserTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitorUserTemplate",
 }));
 
 export type UpdateOAuth2ClientCredentialsError =
@@ -90359,6 +93372,8 @@ export const updateOAuth2ClientCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOAuth2ClientCredentials",
 }));
 
 export type UpdateOktaAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90374,6 +93389,8 @@ export const updateOktaAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOktaAccount",
 }));
 
 export type UpdateOnCallEscalationPolicyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90389,6 +93406,8 @@ export const updateOnCallEscalationPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOnCallEscalationPolicy",
 }));
 
 export type UpdateOnCallScheduleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90404,6 +93423,8 @@ export const updateOnCallSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOnCallSchedule",
 }));
 
 export type UpdateOpsgenieAccountError =
@@ -90424,6 +93445,8 @@ export const updateOpsgenieAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOpsgenieAccount",
 }));
 
 export type UpdateOpsgenieServiceError =
@@ -90444,6 +93467,8 @@ export const updateOpsgenieService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOpsgenieService",
 }));
 
 export type UpdateOrganizationHandleError =
@@ -90464,6 +93489,8 @@ export const updateOrganizationHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationHandle",
 }));
 
 export type UpdateOrgAuthorizedClientError =
@@ -90484,6 +93511,8 @@ export const updateOrgAuthorizedClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgAuthorizedClient",
 }));
 
 export type UpdateOrgConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90499,6 +93528,8 @@ export const updateOrgConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgConfig",
 }));
 
 export type UpdateOrgConnectionsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90514,6 +93545,8 @@ export const updateOrgConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgConnections",
 }));
 
 export type UpdateOrgGroupError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90529,6 +93562,8 @@ export const updateOrgGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgGroup",
 }));
 
 export type UpdateOrgGroupMembershipError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90544,6 +93579,8 @@ export const updateOrgGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgGroupMembership",
 }));
 
 export type UpdateOrgGroupPolicyError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90559,6 +93596,8 @@ export const updateOrgGroupPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgGroupPolicy",
 }));
 
 export type UpdateOrgGroupPolicyOverrideError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90574,6 +93613,8 @@ export const updateOrgGroupPolicyOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgGroupPolicyOverride",
 }));
 
 export type UpdateOrgSamlConfigurationsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90589,6 +93630,8 @@ export const updateOrgSamlConfigurations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgSamlConfigurations",
 }));
 
 export type UpdatePermanentRetentionFilterError =
@@ -90608,6 +93651,8 @@ export const updatePermanentRetentionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePermanentRetentionFilter",
 }));
 
 export type UpdatePersonalAccessTokenError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90623,6 +93668,8 @@ export const updatePersonalAccessToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePersonalAccessToken",
 }));
 
 export type UpdatePipelineError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -90638,6 +93685,8 @@ export const updatePipeline: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 export type UpdatePowerpackError = BadRequest | NotFound | DatadogOpError;
@@ -90653,6 +93702,8 @@ export const updatePowerpack: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePowerpack",
 }));
 
 export type UpdatePriorityError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90668,6 +93719,8 @@ export const updatePriority: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePriority",
 }));
 
 export type UpdateProjectError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90683,6 +93736,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90698,6 +93753,8 @@ export const updateProjectNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectNotificationRule",
 }));
 
 export type UpdateProtectionLevelError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90713,6 +93770,8 @@ export const updateProtectionLevel: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProtectionLevel",
 }));
 
 export type UpdateQuotaError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90728,6 +93787,8 @@ export const updateQuota: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateQuota",
 }));
 
 export type UpdateReferenceTableError = BadRequest | Forbidden | DatadogOpError;
@@ -90743,6 +93804,8 @@ export const updateReferenceTable: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReferenceTable",
 }));
 
 export type UpdateReplayHeatmapSnapshotError = DatadogOpError;
@@ -90758,6 +93821,8 @@ export const updateReplayHeatmapSnapshot: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReplayHeatmapSnapshot",
 }));
 
 export type UpdateResourceEvaluationFiltersError = BadRequest | Forbidden | DatadogOpError;
@@ -90773,6 +93838,8 @@ export const updateResourceEvaluationFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceEvaluationFilters",
 }));
 
 export type UpdateRestrictionPolicyError = BadRequest | Forbidden | DatadogOpError;
@@ -90788,6 +93855,8 @@ export const updateRestrictionPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRestrictionPolicy",
 }));
 
 export type UpdateRestrictionQueryError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90803,6 +93872,8 @@ export const updateRestrictionQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRestrictionQuery",
 }));
 
 export type UpdateRetentionFilterError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90818,6 +93889,8 @@ export const updateRetentionFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRetentionFilter",
 }));
 
 export type UpdateRoleError =
@@ -90838,6 +93911,8 @@ export const updateRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRole",
 }));
 
 export type UpdateRUMApplicationError =
@@ -90857,6 +93932,8 @@ export const updateRUMApplication: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRUMApplication",
 }));
 
 export type UpdateRumConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -90872,6 +93949,8 @@ export const updateRumConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRumConfig",
 }));
 
 export type UpdateRumMetricError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -90887,6 +93966,8 @@ export const updateRumMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRumMetric",
 }));
 
 export type UpdateRUMOperationError = BadRequest | NotFound | Conflict | DatadogOpError;
@@ -90902,6 +93983,8 @@ export const updateRUMOperation: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRUMOperation",
 }));
 
 export type UpdateRUMOperationStrongLinkError = BadRequest | NotFound | DatadogOpError;
@@ -90917,6 +94000,8 @@ export const updateRUMOperationStrongLink: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRUMOperationStrongLink",
 }));
 
 export type UpdateRumReplayPlaylistError = DatadogOpError;
@@ -90932,6 +94017,8 @@ export const updateRumReplayPlaylist: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRumReplayPlaylist",
 }));
 
 export type UpdateRumSdkConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90947,6 +94034,8 @@ export const updateRumSdkConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRumSdkConfig",
 }));
 
 export type UpdateSAMLConfigurationError =
@@ -90967,6 +94056,8 @@ export const updateSAMLConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSAMLConfiguration",
 }));
 
 export type UpdateScanningGroupError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90982,6 +94073,8 @@ export const updateScanningGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScanningGroup",
 }));
 
 export type UpdateScanningRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -90997,6 +94090,8 @@ export const updateScanningRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScanningRule",
 }));
 
 export type UpdateScorecardCampaignError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91012,6 +94107,8 @@ export const updateScorecardCampaign: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScorecardCampaign",
 }));
 
 export type UpdateScorecardOutcomesError = BadRequest | Forbidden | Conflict | DatadogOpError;
@@ -91027,6 +94124,8 @@ export const updateScorecardOutcomes: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScorecardOutcomes",
 }));
 
 export type UpdateScorecardRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -91042,6 +94141,8 @@ export const updateScorecardRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScorecardRule",
 }));
 
 export type UpdateSecurityFilterError =
@@ -91062,6 +94163,8 @@ export const updateSecurityFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityFilter",
 }));
 
 export type UpdateSecurityFindingsAutomationDueDateRuleError =
@@ -91086,6 +94189,8 @@ export const updateSecurityFindingsAutomationDueDateRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityFindingsAutomationDueDateRule",
 }));
 
 export type UpdateSecurityFindingsAutomationInboxRuleError =
@@ -91106,6 +94211,8 @@ export const updateSecurityFindingsAutomationInboxRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityFindingsAutomationInboxRule",
 }));
 
 export type UpdateSecurityFindingsAutomationMuteRuleError =
@@ -91126,6 +94233,8 @@ export const updateSecurityFindingsAutomationMuteRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityFindingsAutomationMuteRule",
 }));
 
 export type UpdateSecurityFindingsAutomationSeverityModifierRuleError =
@@ -91150,6 +94259,8 @@ export const updateSecurityFindingsAutomationSeverityModifierRule: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityFindingsAutomationSeverityModifierRule",
 }));
 
 export type UpdateSecurityFindingsAutomationTicketCreationRuleError =
@@ -91174,6 +94285,8 @@ export const updateSecurityFindingsAutomationTicketCreationRule: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityFindingsAutomationTicketCreationRule",
 }));
 
 export type UpdateSecurityMonitoringCriticalAssetError =
@@ -91194,6 +94307,8 @@ export const updateSecurityMonitoringCriticalAsset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityMonitoringCriticalAsset",
 }));
 
 export type UpdateSecurityMonitoringDatasetError =
@@ -91214,6 +94329,8 @@ export const updateSecurityMonitoringDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityMonitoringDataset",
 }));
 
 export type UpdateSecurityMonitoringIntegrationConfigError =
@@ -91233,6 +94350,8 @@ export const updateSecurityMonitoringIntegrationConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityMonitoringIntegrationConfig",
 }));
 
 export type UpdateSecurityMonitoringRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91248,6 +94367,8 @@ export const updateSecurityMonitoringRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityMonitoringRule",
 }));
 
 export type UpdateSecurityMonitoringSuppressionError =
@@ -91268,6 +94389,8 @@ export const updateSecurityMonitoringSuppression: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityMonitoringSuppression",
 }));
 
 export type UpdateServiceAccountAccessTokenError =
@@ -91287,6 +94410,8 @@ export const updateServiceAccountAccessToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAccountAccessToken",
 }));
 
 export type UpdateServiceAccountApplicationKeyError =
@@ -91306,6 +94431,8 @@ export const updateServiceAccountApplicationKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAccountApplicationKey",
 }));
 
 export type UpdateServiceNowTemplateError = BadRequest | NotFound | DatadogOpError;
@@ -91321,6 +94448,8 @@ export const updateServiceNowTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceNowTemplate",
 }));
 
 export type UpdateSnowflakeIntegrationAccountError =
@@ -91341,6 +94470,8 @@ export const updateSnowflakeIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnowflakeIntegrationAccount",
 }));
 
 export type UpdateSpansMetricError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91356,6 +94487,8 @@ export const updateSpansMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpansMetric",
 }));
 
 export type UpdateStatusError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91371,6 +94504,8 @@ export const updateStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStatus",
 }));
 
 export type UpdateStatusPageError = DatadogOpError;
@@ -91386,6 +94521,8 @@ export const updateStatusPage: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStatusPage",
 }));
 
 export type UpdateStatuspageAccountError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91401,6 +94538,8 @@ export const updateStatuspageAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStatuspageAccount",
 }));
 
 export type UpdateStatuspageUrlSettingError =
@@ -91421,6 +94560,8 @@ export const updateStatuspageUrlSetting: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStatuspageUrlSetting",
 }));
 
 export type UpdateSyntheticsDowntimeError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91436,6 +94577,8 @@ export const updateSyntheticsDowntime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSyntheticsDowntime",
 }));
 
 export type UpdateSyntheticsNetworkTestError = BadRequest | NotFound | DatadogOpError;
@@ -91451,6 +94594,8 @@ export const updateSyntheticsNetworkTest: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSyntheticsNetworkTest",
 }));
 
 export type UpdateTagConfigurationError =
@@ -91470,6 +94615,8 @@ export const updateTagConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTagConfiguration",
 }));
 
 export type UpdateTagIndexingRuleError =
@@ -91490,6 +94637,8 @@ export const updateTagIndexingRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTagIndexingRule",
 }));
 
 export type UpdateTagPipelinesRulesetError = DatadogOpError;
@@ -91505,6 +94654,8 @@ export const updateTagPipelinesRuleset: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTagPipelinesRuleset",
 }));
 
 export type UpdateTagRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91520,6 +94671,8 @@ export const updateTagRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTagRule",
 }));
 
 export type UpdateTeamError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -91535,6 +94688,8 @@ export const updateTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeam",
 }));
 
 export type UpdateTeamLinkError = Forbidden | NotFound | DatadogOpError;
@@ -91550,6 +94705,8 @@ export const updateTeamLink: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamLink",
 }));
 
 export type UpdateTeamMembershipError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91565,6 +94722,8 @@ export const updateTeamMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamMembership",
 }));
 
 export type UpdateTeamNotificationRuleError = Forbidden | NotFound | DatadogOpError;
@@ -91580,6 +94739,8 @@ export const updateTeamNotificationRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamNotificationRule",
 }));
 
 export type UpdateTeamPermissionSettingError = Forbidden | NotFound | DatadogOpError;
@@ -91595,6 +94756,8 @@ export const updateTeamPermissionSetting: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamPermissionSetting",
 }));
 
 export type UpdateTenancyConfigError = DatadogOpError;
@@ -91610,6 +94773,8 @@ export const updateTenancyConfig: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTenancyConfig",
 }));
 
 export type UpdateTenantBasedHandleError =
@@ -91630,6 +94795,8 @@ export const updateTenantBasedHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTenantBasedHandle",
 }));
 
 export type UpdateTestOptimizationServiceSettingsError =
@@ -91649,6 +94816,8 @@ export const updateTestOptimizationServiceSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTestOptimizationServiceSettings",
 }));
 
 export type UpdateTimestampOverrideError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91664,6 +94833,8 @@ export const updateTimestampOverride: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTimestampOverride",
 }));
 
 export type UpdateTwilioIntegrationAccountError =
@@ -91684,6 +94855,8 @@ export const updateTwilioIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTwilioIntegrationAccount",
 }));
 
 export type UpdateUnitCostError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91699,6 +94872,8 @@ export const updateUnitCost: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUnitCost",
 }));
 
 export type UpdateUserError =
@@ -91719,6 +94894,8 @@ export const updateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserIdentityProvidersError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91734,6 +94911,8 @@ export const updateUserIdentityProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserIdentityProviders",
 }));
 
 export type UpdateUserNotificationRuleError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91749,6 +94928,8 @@ export const updateUserNotificationRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserNotificationRule",
 }));
 
 export type UpdateVariantForFeatureFlagError =
@@ -91769,6 +94950,8 @@ export const updateVariantForFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVariantForFeatureFlag",
 }));
 
 export type UpdateWebIntegrationAccountError =
@@ -91789,6 +94972,8 @@ export const updateWebIntegrationAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebIntegrationAccount",
 }));
 
 export type UpdateWidgetError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91804,6 +94989,8 @@ export const updateWidget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWidget",
 }));
 
 export type UpdateWorkflowError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91819,6 +95006,8 @@ export const updateWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflow",
 }));
 
 export type UpdateWorkflowsWebhookHandleError =
@@ -91839,6 +95028,8 @@ export const updateWorkflowsWebhookHandle: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowsWebhookHandle",
 }));
 
 export type UploadAbortTestFileMultipartError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -91854,6 +95045,8 @@ export const uploadAbortTestFileMultipart: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadAbortTestFileMultipart",
 }));
 
 export type UploadCompleteTestFileMultipartError =
@@ -91873,6 +95066,8 @@ export const uploadCompleteTestFileMultipart: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadCompleteTestFileMultipart",
 }));
 
 export type UploadCustomCostsFileError = BadRequest | Forbidden | DatadogOpError;
@@ -91888,6 +95083,8 @@ export const uploadCustomCostsFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadCustomCostsFile",
 }));
 
 export type UploadIdPMetadataError = BadRequest | Forbidden | DatadogOpError;
@@ -91903,6 +95100,8 @@ export const uploadIdPMetadata: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadIdPMetadata",
 }));
 
 export type UploadLLMObsDatasetRecordsFileError =
@@ -91922,6 +95121,8 @@ export const uploadLLMObsDatasetRecordsFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadLLMObsDatasetRecordsFile",
 }));
 
 export type UpsertAndPublishFormVersionError = BadRequest | NotFound | DatadogOpError;
@@ -91937,6 +95138,8 @@ export const upsertAndPublishFormVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertAndPublishFormVersion",
 }));
 
 export type UpsertBudgetError = BadRequest | NotFound | DatadogOpError;
@@ -91952,6 +95155,8 @@ export const upsertBudget: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertBudget",
 }));
 
 export type UpsertCatalogEntityError = BadRequest | Forbidden | DatadogOpError;
@@ -91967,6 +95172,8 @@ export const upsertCatalogEntity: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertCatalogEntity",
 }));
 
 export type UpsertCatalogKindError = BadRequest | Forbidden | DatadogOpError;
@@ -91982,6 +95189,8 @@ export const upsertCatalogKind: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertCatalogKind",
 }));
 
 export type UpsertCostTagDescriptionByKeyError = BadRequest | Forbidden | DatadogOpError;
@@ -91997,6 +95206,8 @@ export const upsertCostTagDescriptionByKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertCostTagDescriptionByKey",
 }));
 
 export type UpsertCustomForecastError = BadRequest | NotFound | DatadogOpError;
@@ -92012,6 +95223,8 @@ export const upsertCustomForecast: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertCustomForecast",
 }));
 
 export type UpsertFormVersionError = BadRequest | NotFound | DatadogOpError;
@@ -92027,6 +95240,8 @@ export const upsertFormVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertFormVersion",
 }));
 
 export type UpsertLLMObsAnnotationsError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -92042,6 +95257,8 @@ export const upsertLLMObsAnnotations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertLLMObsAnnotations",
 }));
 
 export type UpsertLLMObsPatternsConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -92057,6 +95274,8 @@ export const upsertLLMObsPatternsConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertLLMObsPatternsConfig",
 }));
 
 export type UpsertRowsError = BadRequest | Forbidden | NotFound | Conflict | DatadogOpError;
@@ -92072,6 +95291,8 @@ export const upsertRows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertRows",
 }));
 
 export type UpsertRumQuotaConfigError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -92087,6 +95308,8 @@ export const upsertRumQuotaConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertRumQuotaConfig",
 }));
 
 export type UpsertScopesRestrictionError = BadRequest | NotFound | DatadogOpError;
@@ -92102,6 +95325,8 @@ export const upsertScopesRestriction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertScopesRestriction",
 }));
 
 export type UpsertSyncConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -92117,6 +95342,8 @@ export const upsertSyncConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertSyncConfig",
 }));
 
 export type ValidateError = Forbidden | DatadogOpError;
@@ -92132,6 +95359,8 @@ export const validate: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Validate",
 }));
 
 export type ValidateAPIKeyError = Forbidden | DatadogOpError;
@@ -92147,6 +95376,8 @@ export const validateAPIKey: API.OperationMethod<
   errors: [Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAPIKey",
 }));
 
 export type ValidateAWSCCMConfigError = BadRequest | Forbidden | DatadogOpError;
@@ -92162,6 +95393,8 @@ export const validateAWSCCMConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAWSCCMConfig",
 }));
 
 export type ValidateBudgetError = DatadogOpError;
@@ -92177,6 +95410,8 @@ export const validateBudget: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateBudget",
 }));
 
 export type ValidateCsvBudgetError = DatadogOpError;
@@ -92192,6 +95427,8 @@ export const validateCsvBudget: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateCsvBudget",
 }));
 
 export type ValidateExistingMonitorUserTemplateError = BadRequest | NotFound | DatadogOpError;
@@ -92207,6 +95444,8 @@ export const validateExistingMonitorUserTemplate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateExistingMonitorUserTemplate",
 }));
 
 export type ValidateMonitorUserTemplateError = BadRequest | DatadogOpError;
@@ -92222,6 +95461,8 @@ export const validateMonitorUserTemplate: API.OperationMethod<
   errors: [BadRequest, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateMonitorUserTemplate",
 }));
 
 export type ValidatePipelineError = BadRequest | Forbidden | DatadogOpError;
@@ -92237,6 +95478,8 @@ export const validatePipeline: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidatePipeline",
 }));
 
 export type ValidateQueryError = DatadogOpError;
@@ -92252,6 +95495,8 @@ export const validateQuery: API.OperationMethod<
   errors: [UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateQuery",
 }));
 
 export type ValidateSecurityMonitoringIntegrationConfigError =
@@ -92279,6 +95524,8 @@ export const validateSecurityMonitoringIntegrationConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateSecurityMonitoringIntegrationConfig",
 }));
 
 export type ValidateSecurityMonitoringIntegrationCredentialsError =
@@ -92305,6 +95552,8 @@ export const validateSecurityMonitoringIntegrationCredentials: API.OperationMeth
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateSecurityMonitoringIntegrationCredentials",
 }));
 
 export type ValidateSecurityMonitoringRuleError = BadRequest | Forbidden | DatadogOpError;
@@ -92320,6 +95569,8 @@ export const validateSecurityMonitoringRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateSecurityMonitoringRule",
 }));
 
 export type ValidateSecurityMonitoringSuppressionError = BadRequest | Forbidden | DatadogOpError;
@@ -92335,6 +95586,8 @@ export const validateSecurityMonitoringSuppression: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateSecurityMonitoringSuppression",
 }));
 
 export type WatchCaseError = BadRequest | Forbidden | NotFound | DatadogOpError;
@@ -92350,6 +95603,8 @@ export const watchCase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
   protocol: DatadogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCase",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

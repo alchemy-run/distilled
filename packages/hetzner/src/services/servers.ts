@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Servers",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** The project has no remaining Server quota (Hetzner `resource_limit_exceeded`, HTTP 403). Often a race after a delete -- retry. */
 export class ServerLimitExceeded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1581,6 +1594,8 @@ export const createServer: API.OperationMethod<
   errors: [ServerLimitExceeded, ServerPlacementError, UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServer",
 }));
 
 export type DeleteServerError = HetznerOpError;
@@ -1596,6 +1611,8 @@ export const deleteServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServer",
 }));
 
 export type GetServerError = HetznerOpError;
@@ -1611,6 +1628,8 @@ export const getServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServer",
 }));
 
 export type GetServerMetricsError = HetznerOpError;
@@ -1626,6 +1645,8 @@ export const getServerMetrics: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerMetrics",
 }));
 
 export type ListServersError = HetznerOpError;
@@ -1643,6 +1664,8 @@ export const listServers: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListServers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1667,6 +1690,8 @@ export const updateServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

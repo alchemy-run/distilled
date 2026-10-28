@@ -14,6 +14,18 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "RepoSearch",
+  propagate: "w3c",
+} as const;
+
 export type QuickSearchPostRequestLangCase0 =
   | "aa"
   | "ab"
@@ -1347,6 +1359,8 @@ export const quickSearchPost: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QuickSearchPost",
 }));
 
 export type SearchFullTextError = HuggingFaceOpError;
@@ -1362,6 +1376,8 @@ export const searchFullText: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchFullText",
 }));
 
 export type SearchQuickError = HuggingFaceOpError;
@@ -1377,6 +1393,8 @@ export const searchQuick: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchQuick",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

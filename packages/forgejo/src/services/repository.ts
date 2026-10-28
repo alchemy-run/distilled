@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoRepository",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3676,6 +3689,8 @@ export const acceptRepoTransfer: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptRepoTransfer",
 }));
 
 export type ActionRun2Error = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -3691,6 +3706,8 @@ export const actionRun2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActionRun2",
 }));
 
 export type CancelActionRunError = Forbidden | NotFound | ForgejoOpError;
@@ -3706,6 +3723,8 @@ export const cancelActionRun: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelActionRun",
 }));
 
 export type ConvertRepoError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -3721,6 +3740,8 @@ export const convertRepo: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertRepo",
 }));
 
 export type CreateCurrentUserRepoError =
@@ -3741,6 +3762,8 @@ export const createCurrentUserRepo: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCurrentUserRepo",
 }));
 
 export type CreateForkError =
@@ -3761,6 +3784,8 @@ export const createFork: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFork",
 }));
 
 export type CreateRepoVariableError = BadRequest | NotFound | ForgejoOpError;
@@ -3776,6 +3801,8 @@ export const createRepoVariable: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepoVariable",
 }));
 
 export type DeleteActionArtifactError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -3791,6 +3818,8 @@ export const deleteActionArtifact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActionArtifact",
 }));
 
 export type DeleteActionRunError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -3806,6 +3835,8 @@ export const deleteActionRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActionRun",
 }));
 
 export type DeleteRepoError = Forbidden | NotFound | ForgejoOpError;
@@ -3821,6 +3852,8 @@ export const deleteRepo: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepo",
 }));
 
 export type DeleteRepoRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -3836,6 +3869,8 @@ export const deleteRepoRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoRunner",
 }));
 
 export type DeleteRepoSecretError = BadRequest | NotFound | ForgejoOpError;
@@ -3851,6 +3886,8 @@ export const deleteRepoSecret: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoSecret",
 }));
 
 export type DeleteRepoVariableError = BadRequest | NotFound | ForgejoOpError;
@@ -3866,6 +3903,8 @@ export const deleteRepoVariable: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoVariable",
 }));
 
 export type DispatchWorkflowError = NotFound | ForgejoOpError;
@@ -3881,6 +3920,8 @@ export const dispatchWorkflow: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DispatchWorkflow",
 }));
 
 export type DownloadActionArtifactError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -3896,6 +3937,8 @@ export const downloadActionArtifact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadActionArtifact",
 }));
 
 export type EditRepoError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -3911,6 +3954,8 @@ export const editRepo: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditRepo",
 }));
 
 export type GenerateRepoError =
@@ -3931,6 +3976,8 @@ export const generateRepo: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateRepo",
 }));
 
 export type GetActionArtifactError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -3946,6 +3993,8 @@ export const getActionArtifact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionArtifact",
 }));
 
 export type GetAnnotatedTagError = BadRequest | NotFound | ForgejoOpError;
@@ -3961,6 +4010,8 @@ export const getAnnotatedTag: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotatedTag",
 }));
 
 export type GetBlobError = BadRequest | NotFound | ForgejoOpError;
@@ -3972,6 +4023,8 @@ export const getBlob: API.OperationMethod<GetBlobRequest, GitBlob, GetBlobError,
     errors: [BadRequest, NotFound],
     protocol: ForgejoProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetBlob",
   }));
 
 export type GetBlobsError = BadRequest | ForgejoOpError;
@@ -3987,6 +4040,8 @@ export const getBlobs: API.OperationMethod<
   errors: [BadRequest],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlobs",
 }));
 
 export type GetRepoError = NotFound | ForgejoOpError;
@@ -4002,6 +4057,8 @@ export const getRepo: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepo",
 }));
 
 export type GetRepoPermissionsError = Forbidden | NotFound | ForgejoOpError;
@@ -4017,6 +4074,8 @@ export const getRepoPermissions: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoPermissions",
 }));
 
 export type GetRepoRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -4032,6 +4091,8 @@ export const getRepoRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoRunner",
 }));
 
 export type GetRepoRunnersError = BadRequest | NotFound | ForgejoOpError;
@@ -4047,6 +4108,8 @@ export const getRepoRunners: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoRunners",
 }));
 
 export type GetRepoVariableError = BadRequest | NotFound | ForgejoOpError;
@@ -4062,6 +4125,8 @@ export const getRepoVariable: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoVariable",
 }));
 
 export type GetRepoVariablesListError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -4077,6 +4142,8 @@ export const getRepoVariablesList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoVariablesList",
 }));
 
 export type GetTreeError = BadRequest | NotFound | ForgejoOpError;
@@ -4092,6 +4159,8 @@ export const getTree: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTree",
 }));
 
 export type ListActionArtifactsError = BadRequest | Forbidden | ForgejoOpError;
@@ -4107,6 +4176,8 @@ export const listActionArtifacts: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActionArtifacts",
 }));
 
 export type ListActionRunArtifactsError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -4122,6 +4193,8 @@ export const listActionRunArtifacts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActionRunArtifacts",
 }));
 
 export type ListActionRunJobsError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -4137,6 +4210,8 @@ export const listActionRunJobs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActionRunJobs",
 }));
 
 export type ListActionRunsError = BadRequest | Forbidden | ForgejoOpError;
@@ -4152,6 +4227,8 @@ export const listActionRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActionRuns",
 }));
 
 export type ListActionTasksError =
@@ -4173,6 +4250,8 @@ export const listActionTasks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActionTasks",
 }));
 
 export type ListForksError = NotFound | ForgejoOpError;
@@ -4188,6 +4267,8 @@ export const listForks: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForks",
 }));
 
 export type MigrateRepoError = Forbidden | Conflict | UnprocessableEntity | ForgejoOpError;
@@ -4203,6 +4284,8 @@ export const migrateRepo: API.OperationMethod<
   errors: [Forbidden, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateRepo",
 }));
 
 export type RegisterRepoRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -4218,6 +4301,8 @@ export const registerRepoRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterRepoRunner",
 }));
 
 export type RejectRepoTransferError = Forbidden | NotFound | ForgejoOpError;
@@ -4233,6 +4318,8 @@ export const rejectRepoTransfer: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectRepoTransfer",
 }));
 
 export type RepoAddCollaboratorError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4248,6 +4335,8 @@ export const repoAddCollaborator: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoAddCollaborator",
 }));
 
 export type RepoAddFlagError = Forbidden | NotFound | ForgejoOpError;
@@ -4263,6 +4352,8 @@ export const repoAddFlag: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoAddFlag",
 }));
 
 export type RepoAddPushMirrorError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -4278,6 +4369,8 @@ export const repoAddPushMirror: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoAddPushMirror",
 }));
 
 export type RepoAddTeamError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4293,6 +4386,8 @@ export const repoAddTeam: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoAddTeam",
 }));
 
 export type RepoAddTopicError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4308,6 +4403,8 @@ export const repoAddTopic: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoAddTopic",
 }));
 
 export type RepoApplyDiffPatchError = NotFound | Locked | ForgejoOpError;
@@ -4323,6 +4420,8 @@ export const repoApplyDiffPatch: API.OperationMethod<
   errors: [NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoApplyDiffPatch",
 }));
 
 export type RepoCancelScheduledAutoMergeError = Forbidden | NotFound | Locked | ForgejoOpError;
@@ -4338,6 +4437,8 @@ export const repoCancelScheduledAutoMerge: API.OperationMethod<
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCancelScheduledAutoMerge",
 }));
 
 export type RepoChangeFilesError =
@@ -4359,6 +4460,8 @@ export const repoChangeFiles: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoChangeFiles",
 }));
 
 export type RepoCheckCollaboratorError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4374,6 +4477,8 @@ export const repoCheckCollaborator: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCheckCollaborator",
 }));
 
 export type RepoCheckFlagError = Forbidden | NotFound | ForgejoOpError;
@@ -4389,6 +4494,8 @@ export const repoCheckFlag: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCheckFlag",
 }));
 
 export type RepoCheckTeamError = NotFound | ForgejoOpError;
@@ -4404,6 +4511,8 @@ export const repoCheckTeam: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCheckTeam",
 }));
 
 export type RepoCompareDiffError = NotFound | ForgejoOpError;
@@ -4419,6 +4528,8 @@ export const repoCompareDiff: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCompareDiff",
 }));
 
 export type RepoCreateBranchError = Forbidden | NotFound | Conflict | Locked | ForgejoOpError;
@@ -4434,6 +4545,8 @@ export const repoCreateBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateBranch",
 }));
 
 export type RepoCreateBranchProtectionError =
@@ -4454,6 +4567,8 @@ export const repoCreateBranchProtection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateBranchProtection",
 }));
 
 export type RepoCreateFileError =
@@ -4475,6 +4590,8 @@ export const repoCreateFile: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateFile",
 }));
 
 export type RepoCreateHookError = NotFound | ForgejoOpError;
@@ -4490,6 +4607,8 @@ export const repoCreateHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateHook",
 }));
 
 export type RepoCreateKeyError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4505,6 +4624,8 @@ export const repoCreateKey: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateKey",
 }));
 
 export type RepoCreatePullRequestError =
@@ -4525,6 +4646,8 @@ export const repoCreatePullRequest: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreatePullRequest",
 }));
 
 export type RepoCreatePullReviewError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4540,6 +4663,8 @@ export const repoCreatePullReview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreatePullReview",
 }));
 
 export type RepoCreatePullReviewCommentError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4555,6 +4680,8 @@ export const repoCreatePullReviewComment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreatePullReviewComment",
 }));
 
 export type RepoCreatePullReviewRequestsError =
@@ -4574,6 +4701,8 @@ export const repoCreatePullReviewRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreatePullReviewRequests",
 }));
 
 export type RepoCreateReleaseError = NotFound | Conflict | UnprocessableEntity | ForgejoOpError;
@@ -4589,6 +4718,8 @@ export const repoCreateRelease: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateRelease",
 }));
 
 export type RepoCreateReleaseAttachmentError = BadRequest | NotFound | ForgejoOpError;
@@ -4604,6 +4735,8 @@ export const repoCreateReleaseAttachment: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateReleaseAttachment",
 }));
 
 export type RepoCreateStatusError = BadRequest | NotFound | ForgejoOpError;
@@ -4619,6 +4752,8 @@ export const repoCreateStatus: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateStatus",
 }));
 
 export type RepoCreateTagError =
@@ -4639,6 +4774,8 @@ export const repoCreateTag: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateTag",
 }));
 
 export type RepoCreateTagProtectionError =
@@ -4659,6 +4796,8 @@ export const repoCreateTagProtection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateTagProtection",
 }));
 
 export type RepoCreateWikiPageError = BadRequest | Forbidden | NotFound | Locked | ForgejoOpError;
@@ -4674,6 +4813,8 @@ export const repoCreateWikiPage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoCreateWikiPage",
 }));
 
 export type RepoDeleteAllFlagsError = Forbidden | NotFound | ForgejoOpError;
@@ -4689,6 +4830,8 @@ export const repoDeleteAllFlags: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteAllFlags",
 }));
 
 export type RepoDeleteAvatarError = NotFound | ForgejoOpError;
@@ -4704,6 +4847,8 @@ export const repoDeleteAvatar: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteAvatar",
 }));
 
 export type RepoDeleteBranchError = Forbidden | NotFound | Locked | ForgejoOpError;
@@ -4719,6 +4864,8 @@ export const repoDeleteBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteBranch",
 }));
 
 export type RepoDeleteBranchProtectionError = NotFound | ForgejoOpError;
@@ -4734,6 +4881,8 @@ export const repoDeleteBranchProtection: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteBranchProtection",
 }));
 
 export type RepoDeleteCollaboratorError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4749,6 +4898,8 @@ export const repoDeleteCollaborator: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteCollaborator",
 }));
 
 export type RepoDeleteFileError = BadRequest | Forbidden | NotFound | Locked | ForgejoOpError;
@@ -4764,6 +4915,8 @@ export const repoDeleteFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteFile",
 }));
 
 export type RepoDeleteFlagError = Forbidden | NotFound | ForgejoOpError;
@@ -4779,6 +4932,8 @@ export const repoDeleteFlag: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteFlag",
 }));
 
 export type RepoDeleteGitHookError = NotFound | ForgejoOpError;
@@ -4794,6 +4949,8 @@ export const repoDeleteGitHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteGitHook",
 }));
 
 export type RepoDeleteHookError = NotFound | ForgejoOpError;
@@ -4809,6 +4966,8 @@ export const repoDeleteHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteHook",
 }));
 
 export type RepoDeleteKeyError = Forbidden | NotFound | ForgejoOpError;
@@ -4824,6 +4983,8 @@ export const repoDeleteKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteKey",
 }));
 
 export type RepoDeletePullReviewError = Forbidden | NotFound | ForgejoOpError;
@@ -4839,6 +5000,8 @@ export const repoDeletePullReview: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeletePullReview",
 }));
 
 export type RepoDeletePullReviewCommentError = Forbidden | NotFound | ForgejoOpError;
@@ -4854,6 +5017,8 @@ export const repoDeletePullReviewComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeletePullReviewComment",
 }));
 
 export type RepoDeletePullReviewRequestsError =
@@ -4873,6 +5038,8 @@ export const repoDeletePullReviewRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeletePullReviewRequests",
 }));
 
 export type RepoDeletePushMirrorError = BadRequest | NotFound | ForgejoOpError;
@@ -4888,6 +5055,8 @@ export const repoDeletePushMirror: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeletePushMirror",
 }));
 
 export type RepoDeleteReleaseError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4903,6 +5072,8 @@ export const repoDeleteRelease: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteRelease",
 }));
 
 export type RepoDeleteReleaseAttachmentError = NotFound | ForgejoOpError;
@@ -4918,6 +5089,8 @@ export const repoDeleteReleaseAttachment: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteReleaseAttachment",
 }));
 
 export type RepoDeleteReleaseByTagError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4933,6 +5106,8 @@ export const repoDeleteReleaseByTag: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteReleaseByTag",
 }));
 
 export type RepoDeleteTagError =
@@ -4953,6 +5128,8 @@ export const repoDeleteTag: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteTag",
 }));
 
 export type RepoDeleteTagProtectionError = NotFound | ForgejoOpError;
@@ -4968,6 +5145,8 @@ export const repoDeleteTagProtection: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteTagProtection",
 }));
 
 export type RepoDeleteTeamError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4983,6 +5162,8 @@ export const repoDeleteTeam: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteTeam",
 }));
 
 export type RepoDeleteTopicError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -4998,6 +5179,8 @@ export const repoDeleteTopic: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteTopic",
 }));
 
 export type RepoDeleteWikiPageError = Forbidden | NotFound | Locked | ForgejoOpError;
@@ -5013,6 +5196,8 @@ export const repoDeleteWikiPage: API.OperationMethod<
   errors: [Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDeleteWikiPage",
 }));
 
 export type RepoDownloadCommitDiffOrPatchError = NotFound | ForgejoOpError;
@@ -5028,6 +5213,8 @@ export const repoDownloadCommitDiffOrPatch: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDownloadCommitDiffOrPatch",
 }));
 
 export type RepoDownloadPullDiffOrPatchError = NotFound | ForgejoOpError;
@@ -5043,6 +5230,8 @@ export const repoDownloadPullDiffOrPatch: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoDownloadPullDiffOrPatch",
 }));
 
 export type RepoEditBranchProtectionError =
@@ -5062,6 +5251,8 @@ export const repoEditBranchProtection: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoEditBranchProtection",
 }));
 
 export type RepoEditGitHookError = NotFound | ForgejoOpError;
@@ -5077,6 +5268,8 @@ export const repoEditGitHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoEditGitHook",
 }));
 
 export type RepoEditHookError = NotFound | ForgejoOpError;
@@ -5092,6 +5285,8 @@ export const repoEditHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoEditHook",
 }));
 
 export type RepoEditPullRequestError =
@@ -5112,6 +5307,8 @@ export const repoEditPullRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoEditPullRequest",
 }));
 
 export type RepoEditReleaseError = NotFound | ForgejoOpError;
@@ -5127,6 +5324,8 @@ export const repoEditRelease: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoEditRelease",
 }));
 
 export type RepoEditReleaseAttachmentError = NotFound | ForgejoOpError;
@@ -5142,6 +5341,8 @@ export const repoEditReleaseAttachment: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoEditReleaseAttachment",
 }));
 
 export type RepoEditTagProtectionError = NotFound | UnprocessableEntity | Locked | ForgejoOpError;
@@ -5157,6 +5358,8 @@ export const repoEditTagProtection: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoEditTagProtection",
 }));
 
 export type RepoEditWikiPageError = BadRequest | Forbidden | NotFound | Locked | ForgejoOpError;
@@ -5172,6 +5375,8 @@ export const repoEditWikiPage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoEditWikiPage",
 }));
 
 export type RepoGetActionJobLogsError = Forbidden | NotFound | ForgejoOpError;
@@ -5187,6 +5392,8 @@ export const repoGetActionJobLogs: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetActionJobLogs",
 }));
 
 export type RepoGetActionRunLogsError = Forbidden | NotFound | ForgejoOpError;
@@ -5202,6 +5409,8 @@ export const repoGetActionRunLogs: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetActionRunLogs",
 }));
 
 export type RepoGetAllCommitsError = NotFound | Conflict | ForgejoOpError;
@@ -5217,6 +5426,8 @@ export const repoGetAllCommits: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetAllCommits",
 }));
 
 export type RepoGetArchiveError = NotFound | ForgejoOpError;
@@ -5232,6 +5443,8 @@ export const repoGetArchive: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetArchive",
 }));
 
 export type RepoGetAssigneesError = NotFound | ForgejoOpError;
@@ -5247,6 +5460,8 @@ export const repoGetAssignees: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetAssignees",
 }));
 
 export type RepoGetBranchError = NotFound | ForgejoOpError;
@@ -5262,6 +5477,8 @@ export const repoGetBranch: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetBranch",
 }));
 
 export type RepoGetBranchProtectionError = NotFound | ForgejoOpError;
@@ -5277,6 +5494,8 @@ export const repoGetBranchProtection: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetBranchProtection",
 }));
 
 export type RepoGetByIDError = NotFound | ForgejoOpError;
@@ -5292,6 +5511,8 @@ export const repoGetByID: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetByID",
 }));
 
 export type RepoGetCombinedStatusByRefError = BadRequest | NotFound | ForgejoOpError;
@@ -5307,6 +5528,8 @@ export const repoGetCombinedStatusByRef: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetCombinedStatusByRef",
 }));
 
 export type RepoGetCommitPullRequestError = NotFound | ForgejoOpError;
@@ -5322,6 +5545,8 @@ export const repoGetCommitPullRequest: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetCommitPullRequest",
 }));
 
 export type RepoGetContentsError = NotFound | ForgejoOpError;
@@ -5337,6 +5562,8 @@ export const repoGetContents: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetContents",
 }));
 
 export type RepoGetContentsListError = NotFound | ForgejoOpError;
@@ -5352,6 +5579,8 @@ export const repoGetContentsList: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetContentsList",
 }));
 
 export type RepoGetEditorConfigError = NotFound | ForgejoOpError;
@@ -5367,6 +5596,8 @@ export const repoGetEditorConfig: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetEditorConfig",
 }));
 
 export type RepoGetGitHookError = NotFound | ForgejoOpError;
@@ -5382,6 +5613,8 @@ export const repoGetGitHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetGitHook",
 }));
 
 export type RepoGetHookError = NotFound | ForgejoOpError;
@@ -5397,6 +5630,8 @@ export const repoGetHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetHook",
 }));
 
 export type RepoGetIssueConfigError = NotFound | ForgejoOpError;
@@ -5412,6 +5647,8 @@ export const repoGetIssueConfig: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetIssueConfig",
 }));
 
 export type RepoGetIssueTemplatesError = NotFound | ForgejoOpError;
@@ -5427,6 +5664,8 @@ export const repoGetIssueTemplates: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetIssueTemplates",
 }));
 
 export type RepoGetKeyError = NotFound | ForgejoOpError;
@@ -5442,6 +5681,8 @@ export const repoGetKey: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetKey",
 }));
 
 export type RepoGetLanguagesError = NotFound | ForgejoOpError;
@@ -5457,6 +5698,8 @@ export const repoGetLanguages: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetLanguages",
 }));
 
 export type RepoGetLatestReleaseError = NotFound | ForgejoOpError;
@@ -5472,6 +5715,8 @@ export const repoGetLatestRelease: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetLatestRelease",
 }));
 
 export type RepoGetNoteError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -5487,6 +5732,8 @@ export const repoGetNote: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetNote",
 }));
 
 export type RepoGetPullRequestError = NotFound | ForgejoOpError;
@@ -5502,6 +5749,8 @@ export const repoGetPullRequest: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetPullRequest",
 }));
 
 export type RepoGetPullRequestByBaseHeadError = NotFound | ForgejoOpError;
@@ -5517,6 +5766,8 @@ export const repoGetPullRequestByBaseHead: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetPullRequestByBaseHead",
 }));
 
 export type RepoGetPullRequestCommitsError = NotFound | ForgejoOpError;
@@ -5532,6 +5783,8 @@ export const repoGetPullRequestCommits: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetPullRequestCommits",
 }));
 
 export type RepoGetPullRequestFilesError = NotFound | ForgejoOpError;
@@ -5547,6 +5800,8 @@ export const repoGetPullRequestFiles: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetPullRequestFiles",
 }));
 
 export type RepoGetPullReviewError = NotFound | ForgejoOpError;
@@ -5562,6 +5817,8 @@ export const repoGetPullReview: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetPullReview",
 }));
 
 export type RepoGetPullReviewCommentError = Forbidden | NotFound | ForgejoOpError;
@@ -5577,6 +5834,8 @@ export const repoGetPullReviewComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetPullReviewComment",
 }));
 
 export type RepoGetPullReviewCommentsError = NotFound | ForgejoOpError;
@@ -5592,6 +5851,8 @@ export const repoGetPullReviewComments: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetPullReviewComments",
 }));
 
 export type RepoGetPushMirrorByRemoteNameError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -5607,6 +5868,8 @@ export const repoGetPushMirrorByRemoteName: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetPushMirrorByRemoteName",
 }));
 
 export type RepoGetRawFileError = NotFound | ForgejoOpError;
@@ -5622,6 +5885,8 @@ export const repoGetRawFile: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetRawFile",
 }));
 
 export type RepoGetRawFileOrLFSError = NotFound | ForgejoOpError;
@@ -5637,6 +5902,8 @@ export const repoGetRawFileOrLFS: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetRawFileOrLFS",
 }));
 
 export type RepoGetReleaseError = NotFound | ForgejoOpError;
@@ -5652,6 +5919,8 @@ export const repoGetRelease: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetRelease",
 }));
 
 export type RepoGetReleaseAttachmentError = NotFound | ForgejoOpError;
@@ -5667,6 +5936,8 @@ export const repoGetReleaseAttachment: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetReleaseAttachment",
 }));
 
 export type RepoGetReleaseByTagError = NotFound | ForgejoOpError;
@@ -5682,6 +5953,8 @@ export const repoGetReleaseByTag: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetReleaseByTag",
 }));
 
 export type RepoGetReviewersError = NotFound | ForgejoOpError;
@@ -5697,6 +5970,8 @@ export const repoGetReviewers: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetReviewers",
 }));
 
 export type RepoGetSingleCommitError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -5712,6 +5987,8 @@ export const repoGetSingleCommit: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetSingleCommit",
 }));
 
 export type RepoGetTagError = NotFound | ForgejoOpError;
@@ -5727,6 +6004,8 @@ export const repoGetTag: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetTag",
 }));
 
 export type RepoGetTagProtectionError = NotFound | ForgejoOpError;
@@ -5742,6 +6021,8 @@ export const repoGetTagProtection: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetTagProtection",
 }));
 
 export type RepoGetWikiPageError = NotFound | ForgejoOpError;
@@ -5757,6 +6038,8 @@ export const repoGetWikiPage: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetWikiPage",
 }));
 
 export type RepoGetWikiPageRevisionsError = NotFound | ForgejoOpError;
@@ -5772,6 +6055,8 @@ export const repoGetWikiPageRevisions: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetWikiPageRevisions",
 }));
 
 export type RepoGetWikiPagesError = NotFound | ForgejoOpError;
@@ -5787,6 +6072,8 @@ export const repoGetWikiPages: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoGetWikiPages",
 }));
 
 export type RepoListActionsSecretsError = Forbidden | NotFound | ForgejoOpError;
@@ -5802,6 +6089,8 @@ export const repoListActionsSecrets: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListActionsSecrets",
 }));
 
 export type RepoListActivityFeedsError = NotFound | ForgejoOpError;
@@ -5817,6 +6106,8 @@ export const repoListActivityFeeds: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListActivityFeeds",
 }));
 
 export type RepoListAllGitRefsError = NotFound | ForgejoOpError;
@@ -5832,6 +6123,8 @@ export const repoListAllGitRefs: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListAllGitRefs",
 }));
 
 export type RepoListBranchesError = ForgejoOpError;
@@ -5847,6 +6140,8 @@ export const repoListBranches: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListBranches",
 }));
 
 export type RepoListBranchProtectionError = Forbidden | NotFound | ForgejoOpError;
@@ -5862,6 +6157,8 @@ export const repoListBranchProtection: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListBranchProtection",
 }));
 
 export type RepoListCollaboratorsError = NotFound | ForgejoOpError;
@@ -5877,6 +6174,8 @@ export const repoListCollaborators: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListCollaborators",
 }));
 
 export type RepoListFlagsError = Forbidden | NotFound | ForgejoOpError;
@@ -5892,6 +6191,8 @@ export const repoListFlags: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListFlags",
 }));
 
 export type RepoListGitHooksError = NotFound | ForgejoOpError;
@@ -5907,6 +6208,8 @@ export const repoListGitHooks: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListGitHooks",
 }));
 
 export type RepoListGitRefsError = NotFound | ForgejoOpError;
@@ -5922,6 +6225,8 @@ export const repoListGitRefs: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListGitRefs",
 }));
 
 export type RepoListHooksError = Forbidden | NotFound | ForgejoOpError;
@@ -5937,6 +6242,8 @@ export const repoListHooks: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListHooks",
 }));
 
 export type RepoListKeysError = NotFound | ForgejoOpError;
@@ -5952,6 +6259,8 @@ export const repoListKeys: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListKeys",
 }));
 
 export type RepoListPinnedIssuesError = NotFound | ForgejoOpError;
@@ -5967,6 +6276,8 @@ export const repoListPinnedIssues: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListPinnedIssues",
 }));
 
 export type RepoListPinnedPullRequestsError = NotFound | ForgejoOpError;
@@ -5982,6 +6293,8 @@ export const repoListPinnedPullRequests: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListPinnedPullRequests",
 }));
 
 export type RepoListPullRequestsError = BadRequest | NotFound | ForgejoOpError;
@@ -5997,6 +6310,8 @@ export const repoListPullRequests: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListPullRequests",
 }));
 
 export type RepoListPullReviewsError = NotFound | ForgejoOpError;
@@ -6012,6 +6327,8 @@ export const repoListPullReviews: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListPullReviews",
 }));
 
 export type RepoListPushMirrorsError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -6027,6 +6344,8 @@ export const repoListPushMirrors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListPushMirrors",
 }));
 
 export type RepoListReleaseAttachmentsError = NotFound | ForgejoOpError;
@@ -6042,6 +6361,8 @@ export const repoListReleaseAttachments: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListReleaseAttachments",
 }));
 
 export type RepoListReleasesError = NotFound | ForgejoOpError;
@@ -6057,6 +6378,8 @@ export const repoListReleases: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListReleases",
 }));
 
 export type RepoListStargazersError = NotFound | ForgejoOpError;
@@ -6072,6 +6395,8 @@ export const repoListStargazers: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListStargazers",
 }));
 
 export type RepoListStatusesError = BadRequest | NotFound | ForgejoOpError;
@@ -6087,6 +6412,8 @@ export const repoListStatuses: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListStatuses",
 }));
 
 export type RepoListStatusesByRefError = BadRequest | NotFound | ForgejoOpError;
@@ -6102,6 +6429,8 @@ export const repoListStatusesByRef: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListStatusesByRef",
 }));
 
 export type RepoListSubscribersError = NotFound | ForgejoOpError;
@@ -6117,6 +6446,8 @@ export const repoListSubscribers: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListSubscribers",
 }));
 
 export type RepoListTagProtectionError = ForgejoOpError;
@@ -6132,6 +6463,8 @@ export const repoListTagProtection: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListTagProtection",
 }));
 
 export type RepoListTagsError = NotFound | ForgejoOpError;
@@ -6147,6 +6480,8 @@ export const repoListTags: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListTags",
 }));
 
 export type RepoListTeamsError = NotFound | ForgejoOpError;
@@ -6162,6 +6497,8 @@ export const repoListTeams: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListTeams",
 }));
 
 export type RepoListTopicsError = NotFound | ForgejoOpError;
@@ -6177,6 +6514,8 @@ export const repoListTopics: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoListTopics",
 }));
 
 export type RepoMergePullRequestError = NotFound | Conflict | Locked | ForgejoOpError;
@@ -6192,6 +6531,8 @@ export const repoMergePullRequest: API.OperationMethod<
   errors: [NotFound, Conflict, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoMergePullRequest",
 }));
 
 export type RepoNewPinAllowedError = NotFound | ForgejoOpError;
@@ -6207,6 +6548,8 @@ export const repoNewPinAllowed: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoNewPinAllowed",
 }));
 
 export type RepoPullRequestIsMergedError = NotFound | ForgejoOpError;
@@ -6222,6 +6565,8 @@ export const repoPullRequestIsMerged: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoPullRequestIsMerged",
 }));
 
 export type RepoRemoveNoteError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -6237,6 +6582,8 @@ export const repoRemoveNote: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoRemoveNote",
 }));
 
 export type RepoReplaceAllFlagsError = Forbidden | NotFound | ForgejoOpError;
@@ -6252,6 +6599,8 @@ export const repoReplaceAllFlags: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoReplaceAllFlags",
 }));
 
 export type RepoSearchRunJobsError = Forbidden | ForgejoOpError;
@@ -6267,6 +6616,8 @@ export const repoSearchRunJobs: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoSearchRunJobs",
 }));
 
 export type RepoSetNoteError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -6282,6 +6633,8 @@ export const repoSetNote: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoSetNote",
 }));
 
 export type RepoSigningKeyError = ForgejoOpError;
@@ -6297,6 +6650,8 @@ export const repoSigningKey: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoSigningKey",
 }));
 
 export type RepoSubmitPullReviewError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -6312,6 +6667,8 @@ export const repoSubmitPullReview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoSubmitPullReview",
 }));
 
 export type RepoSyncForkBranchError = BadRequest | NotFound | ForgejoOpError;
@@ -6327,6 +6684,8 @@ export const repoSyncForkBranch: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoSyncForkBranch",
 }));
 
 export type RepoSyncForkBranchInfoError = BadRequest | NotFound | ForgejoOpError;
@@ -6342,6 +6701,8 @@ export const repoSyncForkBranchInfo: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoSyncForkBranchInfo",
 }));
 
 export type RepoSyncForkDefaultError = BadRequest | NotFound | ForgejoOpError;
@@ -6357,6 +6718,8 @@ export const repoSyncForkDefault: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoSyncForkDefault",
 }));
 
 export type RepoSyncForkDefaultInfoError = BadRequest | NotFound | ForgejoOpError;
@@ -6372,6 +6735,8 @@ export const repoSyncForkDefaultInfo: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoSyncForkDefaultInfo",
 }));
 
 export type RepoTestHookError = NotFound | ForgejoOpError;
@@ -6387,6 +6752,8 @@ export const repoTestHook: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoTestHook",
 }));
 
 export type RepoTrackedTimesError =
@@ -6407,6 +6774,8 @@ export const repoTrackedTimes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoTrackedTimes",
 }));
 
 export type RepoUpdateAvatarError = NotFound | ForgejoOpError;
@@ -6422,6 +6791,8 @@ export const repoUpdateAvatar: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoUpdateAvatar",
 }));
 
 export type RepoUpdateBranchError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -6437,6 +6808,8 @@ export const repoUpdateBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoUpdateBranch",
 }));
 
 export type RepoUpdateFileError =
@@ -6458,6 +6831,8 @@ export const repoUpdateFile: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, Locked],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoUpdateFile",
 }));
 
 export type RepoUpdatePullRequestError =
@@ -6478,6 +6853,8 @@ export const repoUpdatePullRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoUpdatePullRequest",
 }));
 
 export type RepoUpdateTopicsError = NotFound | UnprocessableEntity | ForgejoOpError;
@@ -6493,6 +6870,8 @@ export const repoUpdateTopics: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoUpdateTopics",
 }));
 
 export type RepoValidateIssueConfigError = NotFound | ForgejoOpError;
@@ -6508,6 +6887,8 @@ export const repoValidateIssueConfig: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RepoValidateIssueConfig",
 }));
 
 export type ReviewRepoDismissPullError =
@@ -6527,6 +6908,8 @@ export const reviewRepoDismissPull: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewRepoDismissPull",
 }));
 
 export type ReviewRepoUnDismissPullError =
@@ -6546,6 +6929,8 @@ export const reviewRepoUnDismissPull: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewRepoUnDismissPull",
 }));
 
 export type SearchRepoError = UnprocessableEntity | ForgejoOpError;
@@ -6561,6 +6946,8 @@ export const searchRepo: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchRepo",
 }));
 
 export type SearchTopicError = Forbidden | NotFound | ForgejoOpError;
@@ -6576,6 +6963,8 @@ export const searchTopic: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTopic",
 }));
 
 export type SyncRepoMirrorError = Forbidden | NotFound | ForgejoOpError;
@@ -6591,6 +6980,8 @@ export const syncRepoMirror: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncRepoMirror",
 }));
 
 export type SyncRepoPushMirrorError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -6606,6 +6997,8 @@ export const syncRepoPushMirror: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncRepoPushMirror",
 }));
 
 export type TransferRepoError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -6621,6 +7014,8 @@ export const transferRepo: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferRepo",
 }));
 
 export type UpdateRepoSecretError = BadRequest | NotFound | ForgejoOpError;
@@ -6636,6 +7031,8 @@ export const updateRepoSecret: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoSecret",
 }));
 
 export type UpdateRepoVariableError = BadRequest | NotFound | ForgejoOpError;
@@ -6651,6 +7048,8 @@ export const updateRepoVariable: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoVariable",
 }));
 
 export type UserCurrentCheckSubscriptionError = NotFound | ForgejoOpError;
@@ -6666,6 +7065,8 @@ export const userCurrentCheckSubscription: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentCheckSubscription",
 }));
 
 export type UserCurrentDeleteSubscriptionError = NotFound | ForgejoOpError;
@@ -6681,6 +7082,8 @@ export const userCurrentDeleteSubscription: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentDeleteSubscription",
 }));
 
 export type UserCurrentPutSubscriptionError = NotFound | ForgejoOpError;
@@ -6696,6 +7099,8 @@ export const userCurrentPutSubscription: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentPutSubscription",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

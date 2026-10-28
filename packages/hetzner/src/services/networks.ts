@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Networks",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateNetworkRequestLabelsMap = { [key: string]: string | undefined };
 /** Type of subnet. */
@@ -431,6 +444,8 @@ export const createNetwork: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type DeleteNetworkError = HetznerOpError;
@@ -446,6 +461,8 @@ export const deleteNetwork: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetwork",
 }));
 
 export type GetNetworkError = HetznerOpError;
@@ -461,6 +478,8 @@ export const getNetwork: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetwork",
 }));
 
 export type ListNetworkMembersError = HetznerOpError;
@@ -478,6 +497,8 @@ export const listNetworkMembers: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNetworkMembers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -504,6 +525,8 @@ export const listNetworks: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNetworks",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -528,6 +551,8 @@ export const updateNetwork: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetwork",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

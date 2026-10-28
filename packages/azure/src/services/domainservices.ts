@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AAD" },
+  prefix: "Domainservices",
+  service: "Domainservices",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CreateOuContainerRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
@@ -908,6 +929,11 @@ export const CreateOuContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateOuContainer",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Aad" },
+  },
 }));
 
 export type DeleteDomainServiceError = AzureOpError;
@@ -923,6 +949,8 @@ export const DeleteDomainService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainService",
 }));
 
 export type DeleteOuContainerError = AzureOpError;
@@ -938,6 +966,11 @@ export const DeleteOuContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteOuContainer",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Aad" },
+  },
 }));
 
 export type DomainServicesCreateOrUpdateError = AzureOpError;
@@ -953,6 +986,8 @@ export const DomainServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainServicesCreateOrUpdate",
 }));
 
 export type GetDomainServiceError = AzureOpError;
@@ -968,6 +1003,8 @@ export const GetDomainService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainService",
 }));
 
 export type GetOuContainerError = AzureOpError;
@@ -983,6 +1020,11 @@ export const GetOuContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetOuContainer",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Aad" },
+  },
 }));
 
 export type ListDomainServiceByResourceGroupError = AzureOpError;
@@ -998,6 +1040,8 @@ export const ListDomainServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainServiceByResourceGroup",
 }));
 
 export type ListDomainServiceOperationsError = AzureOpError;
@@ -1013,6 +1057,8 @@ export const ListDomainServiceOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainServiceOperations",
 }));
 
 export type ListDomainServicesError = AzureOpError;
@@ -1028,6 +1074,8 @@ export const ListDomainServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainServices",
 }));
 
 export type ListOuContainerError = AzureOpError;
@@ -1043,6 +1091,11 @@ export const ListOuContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListOuContainer",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Aad" },
+  },
 }));
 
 export type ListOuContainerOperationsError = AzureOpError;
@@ -1058,6 +1111,11 @@ export const ListOuContainerOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListOuContainerOperations",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Aad" },
+  },
 }));
 
 export type UpdateDomainServiceError = AzureOpError;
@@ -1073,6 +1131,8 @@ export const UpdateDomainService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainService",
 }));
 
 export type UpdateOuContainerError = AzureOpError;
@@ -1088,6 +1148,11 @@ export const UpdateOuContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateOuContainer",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Aad" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

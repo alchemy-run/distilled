@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://controlcatalog.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ControlCatalog",
+  service: "ControlCatalog",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -354,6 +369,8 @@ export const getControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetControl",
+  telemetry: TELEMETRY,
+  span: "GetControl",
 }));
 
 export type ListCommonControlsError =
@@ -391,6 +408,8 @@ export const listCommonControls: API.PaginatedOperationMethod<
     items: "CommonControls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCommonControls",
 })) as any;
 
 export type ListControlMappingsError =
@@ -426,6 +445,8 @@ export const listControlMappings: API.PaginatedOperationMethod<
     items: "ControlMappings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControlMappings",
 })) as any;
 
 export type ListControlsError =
@@ -461,6 +482,8 @@ export const listControls: API.PaginatedOperationMethod<
     items: "Controls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControls",
 })) as any;
 
 export type ListDomainsError =
@@ -496,6 +519,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListObjectivesError =
@@ -533,6 +558,8 @@ export const listObjectives: API.PaginatedOperationMethod<
     items: "Objectives",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectives",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

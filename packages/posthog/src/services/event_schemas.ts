@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "EventSchemas",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -154,6 +167,8 @@ export const createEventSchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEventSchema",
 }));
 
 export type EventSchemasDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -168,6 +183,8 @@ export const eventSchemasDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventSchemasDestroy",
 }));
 
 export type ListEventSchemasError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -182,6 +199,8 @@ export const listEventSchemas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventSchemas",
 }));
 
 export type UpdateEventSchemaError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -196,6 +215,8 @@ export const updateEventSchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventSchema",
 }));
 
 export type UpdateEventSchemasPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -210,6 +231,8 @@ export const updateEventSchemasPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventSchemasPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

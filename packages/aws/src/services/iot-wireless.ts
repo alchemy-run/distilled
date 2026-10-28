@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.iotwireless.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTWireless",
+  service: "IoTWireless",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2262,6 +2277,8 @@ export const associateAwsAccountWithPartnerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAwsAccountWithPartnerAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateAwsAccountWithPartnerAccount",
 }));
 
 export type AssociateMulticastGroupWithFuotaTaskError =
@@ -2294,6 +2311,8 @@ export const associateMulticastGroupWithFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMulticastGroupWithFuotaTask",
+  telemetry: TELEMETRY,
+  span: "AssociateMulticastGroupWithFuotaTask",
 }));
 
 export type AssociateWirelessDeviceWithFuotaTaskError =
@@ -2326,6 +2345,8 @@ export const associateWirelessDeviceWithFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessDeviceWithFuotaTask",
+  telemetry: TELEMETRY,
+  span: "AssociateWirelessDeviceWithFuotaTask",
 }));
 
 export type AssociateWirelessDeviceWithMulticastGroupError =
@@ -2362,6 +2383,8 @@ export const associateWirelessDeviceWithMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessDeviceWithMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateWirelessDeviceWithMulticastGroup",
 }));
 
 export type AssociateWirelessDeviceWithThingError =
@@ -2394,6 +2417,8 @@ export const associateWirelessDeviceWithThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessDeviceWithThing",
+  telemetry: TELEMETRY,
+  span: "AssociateWirelessDeviceWithThing",
 }));
 
 export type AssociateWirelessGatewayWithCertificateError =
@@ -2426,6 +2451,8 @@ export const associateWirelessGatewayWithCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessGatewayWithCertificate",
+  telemetry: TELEMETRY,
+  span: "AssociateWirelessGatewayWithCertificate",
 }));
 
 export type AssociateWirelessGatewayWithThingError =
@@ -2458,6 +2485,8 @@ export const associateWirelessGatewayWithThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWirelessGatewayWithThing",
+  telemetry: TELEMETRY,
+  span: "AssociateWirelessGatewayWithThing",
 }));
 
 export type CancelMulticastGroupSessionError =
@@ -2490,6 +2519,8 @@ export const cancelMulticastGroupSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMulticastGroupSession",
+  telemetry: TELEMETRY,
+  span: "CancelMulticastGroupSession",
 }));
 
 export type CreateDestinationError =
@@ -2522,6 +2553,8 @@ export const createDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDestination",
+  telemetry: TELEMETRY,
+  span: "CreateDestination",
 }));
 
 export type CreateDeviceProfileError =
@@ -2552,6 +2585,8 @@ export const createDeviceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceProfile",
+  telemetry: TELEMETRY,
+  span: "CreateDeviceProfile",
 }));
 
 export type CreateFuotaTaskError =
@@ -2584,6 +2619,8 @@ export const createFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFuotaTask",
+  telemetry: TELEMETRY,
+  span: "CreateFuotaTask",
 }));
 
 export type CreateMulticastGroupError =
@@ -2616,6 +2653,8 @@ export const createMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "CreateMulticastGroup",
 }));
 
 export type CreateNetworkAnalyzerConfigurationError =
@@ -2648,6 +2687,8 @@ export const createNetworkAnalyzerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkAnalyzerConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateNetworkAnalyzerConfiguration",
 }));
 
 export type CreateServiceProfileError =
@@ -2678,6 +2719,8 @@ export const createServiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceProfile",
+  telemetry: TELEMETRY,
+  span: "CreateServiceProfile",
 }));
 
 export type CreateWirelessDeviceError =
@@ -2710,6 +2753,8 @@ export const createWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWirelessDevice",
+  telemetry: TELEMETRY,
+  span: "CreateWirelessDevice",
 }));
 
 export type CreateWirelessGatewayError =
@@ -2751,6 +2796,8 @@ export const createWirelessGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWirelessGateway",
+  telemetry: TELEMETRY,
+  span: "CreateWirelessGateway",
 }));
 
 export type CreateWirelessGatewayTaskError =
@@ -2783,6 +2830,8 @@ export const createWirelessGatewayTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWirelessGatewayTask",
+  telemetry: TELEMETRY,
+  span: "CreateWirelessGatewayTask",
 }));
 
 export type CreateWirelessGatewayTaskDefinitionError =
@@ -2815,6 +2864,8 @@ export const createWirelessGatewayTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWirelessGatewayTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateWirelessGatewayTaskDefinition",
 }));
 
 export type DeleteDestinationError =
@@ -2847,6 +2898,8 @@ export const deleteDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteDestination",
 }));
 
 export type DeleteDeviceProfileError =
@@ -2879,6 +2932,8 @@ export const deleteDeviceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeviceProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceProfile",
 }));
 
 export type DeleteFuotaTaskError =
@@ -2909,6 +2964,8 @@ export const deleteFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFuotaTask",
+  telemetry: TELEMETRY,
+  span: "DeleteFuotaTask",
 }));
 
 export type DeleteMulticastGroupError =
@@ -2941,6 +2998,8 @@ export const deleteMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteMulticastGroup",
 }));
 
 export type DeleteNetworkAnalyzerConfigurationError =
@@ -2973,6 +3032,8 @@ export const deleteNetworkAnalyzerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkAnalyzerConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkAnalyzerConfiguration",
 }));
 
 export type DeleteQueuedMessagesError =
@@ -3003,6 +3064,8 @@ export const deleteQueuedMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueuedMessages",
+  telemetry: TELEMETRY,
+  span: "DeleteQueuedMessages",
 }));
 
 export type DeleteServiceProfileError =
@@ -3035,6 +3098,8 @@ export const deleteServiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceProfile",
 }));
 
 export type DeleteWirelessDeviceError =
@@ -3065,6 +3130,8 @@ export const deleteWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessDevice",
+  telemetry: TELEMETRY,
+  span: "DeleteWirelessDevice",
 }));
 
 export type DeleteWirelessDeviceImportTaskError =
@@ -3097,6 +3164,8 @@ export const deleteWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessDeviceImportTask",
+  telemetry: TELEMETRY,
+  span: "DeleteWirelessDeviceImportTask",
 }));
 
 export type DeleteWirelessGatewayError =
@@ -3138,6 +3207,8 @@ export const deleteWirelessGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteWirelessGateway",
 }));
 
 export type DeleteWirelessGatewayTaskError =
@@ -3168,6 +3239,8 @@ export const deleteWirelessGatewayTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessGatewayTask",
+  telemetry: TELEMETRY,
+  span: "DeleteWirelessGatewayTask",
 }));
 
 export type DeleteWirelessGatewayTaskDefinitionError =
@@ -3199,6 +3272,8 @@ export const deleteWirelessGatewayTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWirelessGatewayTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteWirelessGatewayTaskDefinition",
 }));
 
 export type DeregisterWirelessDeviceError =
@@ -3227,6 +3302,8 @@ export const deregisterWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterWirelessDevice",
+  telemetry: TELEMETRY,
+  span: "DeregisterWirelessDevice",
 }));
 
 export type DisassociateAwsAccountFromPartnerAccountError =
@@ -3257,6 +3334,8 @@ export const disassociateAwsAccountFromPartnerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAwsAccountFromPartnerAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateAwsAccountFromPartnerAccount",
 }));
 
 export type DisassociateMulticastGroupFromFuotaTaskError =
@@ -3287,6 +3366,8 @@ export const disassociateMulticastGroupFromFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMulticastGroupFromFuotaTask",
+  telemetry: TELEMETRY,
+  span: "DisassociateMulticastGroupFromFuotaTask",
 }));
 
 export type DisassociateWirelessDeviceFromFuotaTaskError =
@@ -3319,6 +3400,8 @@ export const disassociateWirelessDeviceFromFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessDeviceFromFuotaTask",
+  telemetry: TELEMETRY,
+  span: "DisassociateWirelessDeviceFromFuotaTask",
 }));
 
 export type DisassociateWirelessDeviceFromMulticastGroupError =
@@ -3357,6 +3440,8 @@ export const disassociateWirelessDeviceFromMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessDeviceFromMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateWirelessDeviceFromMulticastGroup",
 }));
 
 export type DisassociateWirelessDeviceFromThingError =
@@ -3389,6 +3474,8 @@ export const disassociateWirelessDeviceFromThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessDeviceFromThing",
+  telemetry: TELEMETRY,
+  span: "DisassociateWirelessDeviceFromThing",
 }));
 
 export type DisassociateWirelessGatewayFromCertificateError =
@@ -3423,6 +3510,8 @@ export const disassociateWirelessGatewayFromCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessGatewayFromCertificate",
+  telemetry: TELEMETRY,
+  span: "DisassociateWirelessGatewayFromCertificate",
 }));
 
 export type DisassociateWirelessGatewayFromThingError =
@@ -3455,6 +3544,8 @@ export const disassociateWirelessGatewayFromThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWirelessGatewayFromThing",
+  telemetry: TELEMETRY,
+  span: "DisassociateWirelessGatewayFromThing",
 }));
 
 export type GetDestinationError =
@@ -3485,6 +3576,8 @@ export const getDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDestination",
+  telemetry: TELEMETRY,
+  span: "GetDestination",
 }));
 
 export type GetDeviceProfileError =
@@ -3515,6 +3608,8 @@ export const getDeviceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceProfile",
+  telemetry: TELEMETRY,
+  span: "GetDeviceProfile",
 }));
 
 export type GetEventConfigurationByResourceTypesError =
@@ -3537,6 +3632,8 @@ export const getEventConfigurationByResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventConfigurationByResourceTypes",
+  telemetry: TELEMETRY,
+  span: "GetEventConfigurationByResourceTypes",
 }));
 
 export type GetFuotaTaskError =
@@ -3567,6 +3664,8 @@ export const getFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFuotaTask",
+  telemetry: TELEMETRY,
+  span: "GetFuotaTask",
 }));
 
 export type GetLogLevelsByResourceTypesError =
@@ -3599,6 +3698,8 @@ export const getLogLevelsByResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogLevelsByResourceTypes",
+  telemetry: TELEMETRY,
+  span: "GetLogLevelsByResourceTypes",
 }));
 
 export type GetMetricConfigurationError =
@@ -3631,6 +3732,8 @@ export const getMetricConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetMetricConfiguration",
 }));
 
 export type GetMetricsError =
@@ -3663,6 +3766,8 @@ export const getMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetrics",
+  telemetry: TELEMETRY,
+  span: "GetMetrics",
 }));
 
 export type GetMulticastGroupError =
@@ -3693,6 +3798,8 @@ export const getMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "GetMulticastGroup",
 }));
 
 export type GetMulticastGroupSessionError =
@@ -3723,6 +3830,8 @@ export const getMulticastGroupSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMulticastGroupSession",
+  telemetry: TELEMETRY,
+  span: "GetMulticastGroupSession",
 }));
 
 export type GetNetworkAnalyzerConfigurationError =
@@ -3753,6 +3862,8 @@ export const getNetworkAnalyzerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkAnalyzerConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetNetworkAnalyzerConfiguration",
 }));
 
 export type GetPartnerAccountError =
@@ -3782,6 +3893,8 @@ export const getPartnerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartnerAccount",
+  telemetry: TELEMETRY,
+  span: "GetPartnerAccount",
 }));
 
 export type GetPositionError =
@@ -3815,6 +3928,8 @@ export const getPosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPosition",
+  telemetry: TELEMETRY,
+  span: "GetPosition",
 }));
 
 export type GetPositionConfigurationError =
@@ -3848,6 +3963,8 @@ export const getPositionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPositionConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetPositionConfiguration",
 }));
 
 export type GetPositionEstimateError =
@@ -3880,6 +3997,8 @@ export const getPositionEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPositionEstimate",
+  telemetry: TELEMETRY,
+  span: "GetPositionEstimate",
 }));
 
 export type GetResourceEventConfigurationError =
@@ -3910,6 +4029,8 @@ export const getResourceEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceEventConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetResourceEventConfiguration",
 }));
 
 export type GetResourceLogLevelError =
@@ -3941,6 +4062,8 @@ export const getResourceLogLevel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceLogLevel",
+  telemetry: TELEMETRY,
+  span: "GetResourceLogLevel",
 }));
 
 export type GetResourcePositionError =
@@ -3973,6 +4096,8 @@ export const getResourcePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePosition",
+  telemetry: TELEMETRY,
+  span: "GetResourcePosition",
 }));
 
 export type GetServiceEndpointError =
@@ -4002,6 +4127,8 @@ export const getServiceEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetServiceEndpoint",
 }));
 
 export type GetServiceProfileError =
@@ -4032,6 +4159,8 @@ export const getServiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceProfile",
+  telemetry: TELEMETRY,
+  span: "GetServiceProfile",
 }));
 
 export type GetWirelessDeviceError =
@@ -4062,6 +4191,8 @@ export const getWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessDevice",
+  telemetry: TELEMETRY,
+  span: "GetWirelessDevice",
 }));
 
 export type GetWirelessDeviceImportTaskError =
@@ -4095,6 +4226,8 @@ export const getWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessDeviceImportTask",
+  telemetry: TELEMETRY,
+  span: "GetWirelessDeviceImportTask",
 }));
 
 export type GetWirelessDeviceStatisticsError =
@@ -4125,6 +4258,8 @@ export const getWirelessDeviceStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessDeviceStatistics",
+  telemetry: TELEMETRY,
+  span: "GetWirelessDeviceStatistics",
 }));
 
 export type GetWirelessGatewayError =
@@ -4155,6 +4290,8 @@ export const getWirelessGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGateway",
+  telemetry: TELEMETRY,
+  span: "GetWirelessGateway",
 }));
 
 export type GetWirelessGatewayCertificateError =
@@ -4186,6 +4323,8 @@ export const getWirelessGatewayCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayCertificate",
+  telemetry: TELEMETRY,
+  span: "GetWirelessGatewayCertificate",
 }));
 
 export type GetWirelessGatewayFirmwareInformationError =
@@ -4216,6 +4355,8 @@ export const getWirelessGatewayFirmwareInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayFirmwareInformation",
+  telemetry: TELEMETRY,
+  span: "GetWirelessGatewayFirmwareInformation",
 }));
 
 export type GetWirelessGatewayStatisticsError =
@@ -4246,6 +4387,8 @@ export const getWirelessGatewayStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayStatistics",
+  telemetry: TELEMETRY,
+  span: "GetWirelessGatewayStatistics",
 }));
 
 export type GetWirelessGatewayTaskError =
@@ -4276,6 +4419,8 @@ export const getWirelessGatewayTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayTask",
+  telemetry: TELEMETRY,
+  span: "GetWirelessGatewayTask",
 }));
 
 export type GetWirelessGatewayTaskDefinitionError =
@@ -4306,6 +4451,8 @@ export const getWirelessGatewayTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWirelessGatewayTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "GetWirelessGatewayTaskDefinition",
 }));
 
 export type ListDestinationsError =
@@ -4340,6 +4487,8 @@ export const listDestinations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDestinations",
 })) as any;
 
 export type ListDeviceProfilesError =
@@ -4374,6 +4523,8 @@ export const listDeviceProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeviceProfiles",
 })) as any;
 
 export type ListDevicesForWirelessDeviceImportTaskError =
@@ -4406,6 +4557,8 @@ export const listDevicesForWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevicesForWirelessDeviceImportTask",
+  telemetry: TELEMETRY,
+  span: "ListDevicesForWirelessDeviceImportTask",
 }));
 
 export type ListEventConfigurationsError =
@@ -4434,6 +4587,8 @@ export const listEventConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListEventConfigurations",
 }));
 
 export type ListFuotaTasksError =
@@ -4468,6 +4623,8 @@ export const listFuotaTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFuotaTasks",
 })) as any;
 
 export type ListMulticastGroupsError =
@@ -4502,6 +4659,8 @@ export const listMulticastGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMulticastGroups",
 })) as any;
 
 export type ListMulticastGroupsByFuotaTaskError =
@@ -4538,6 +4697,8 @@ export const listMulticastGroupsByFuotaTask: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMulticastGroupsByFuotaTask",
 })) as any;
 
 export type ListNetworkAnalyzerConfigurationsError =
@@ -4572,6 +4733,8 @@ export const listNetworkAnalyzerConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworkAnalyzerConfigurations",
 })) as any;
 
 export type ListPartnerAccountsError =
@@ -4600,6 +4763,8 @@ export const listPartnerAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPartnerAccounts",
+  telemetry: TELEMETRY,
+  span: "ListPartnerAccounts",
 }));
 
 export type ListPositionConfigurationsError =
@@ -4637,6 +4802,8 @@ export const listPositionConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPositionConfigurations",
 })) as any;
 
 export type ListQueuedMessagesError =
@@ -4673,6 +4840,8 @@ export const listQueuedMessages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueuedMessages",
 })) as any;
 
 export type ListServiceProfilesError =
@@ -4707,6 +4876,8 @@ export const listServiceProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceProfiles",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4737,6 +4908,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWirelessDeviceImportTasksError =
@@ -4770,6 +4943,8 @@ export const listWirelessDeviceImportTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWirelessDeviceImportTasks",
+  telemetry: TELEMETRY,
+  span: "ListWirelessDeviceImportTasks",
 }));
 
 export type ListWirelessDevicesError =
@@ -4804,6 +4979,8 @@ export const listWirelessDevices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWirelessDevices",
 })) as any;
 
 export type ListWirelessGatewaysError =
@@ -4838,6 +5015,8 @@ export const listWirelessGateways: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWirelessGateways",
 })) as any;
 
 export type ListWirelessGatewayTaskDefinitionsError =
@@ -4866,6 +5045,8 @@ export const listWirelessGatewayTaskDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWirelessGatewayTaskDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListWirelessGatewayTaskDefinitions",
 }));
 
 export type PutPositionConfigurationError =
@@ -4899,6 +5080,8 @@ export const putPositionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPositionConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutPositionConfiguration",
 }));
 
 export type PutResourceLogLevelError =
@@ -4930,6 +5113,8 @@ export const putResourceLogLevel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceLogLevel",
+  telemetry: TELEMETRY,
+  span: "PutResourceLogLevel",
 }));
 
 export type ResetAllResourceLogLevelsError =
@@ -4961,6 +5146,8 @@ export const resetAllResourceLogLevels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetAllResourceLogLevels",
+  telemetry: TELEMETRY,
+  span: "ResetAllResourceLogLevels",
 }));
 
 export type ResetResourceLogLevelError =
@@ -4992,6 +5179,8 @@ export const resetResourceLogLevel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetResourceLogLevel",
+  telemetry: TELEMETRY,
+  span: "ResetResourceLogLevel",
 }));
 
 export type SendDataToMulticastGroupError =
@@ -5024,6 +5213,8 @@ export const sendDataToMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataToMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "SendDataToMulticastGroup",
 }));
 
 export type SendDataToWirelessDeviceError =
@@ -5052,6 +5243,8 @@ export const sendDataToWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataToWirelessDevice",
+  telemetry: TELEMETRY,
+  span: "SendDataToWirelessDevice",
 }));
 
 export type StartBulkAssociateWirelessDeviceWithMulticastGroupError =
@@ -5091,6 +5284,8 @@ export const startBulkAssociateWirelessDeviceWithMulticastGroup: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkAssociateWirelessDeviceWithMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "StartBulkAssociateWirelessDeviceWithMulticastGroup",
 }));
 
 export type StartBulkDisassociateWirelessDeviceFromMulticastGroupError =
@@ -5130,6 +5325,8 @@ export const startBulkDisassociateWirelessDeviceFromMulticastGroup: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkDisassociateWirelessDeviceFromMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "StartBulkDisassociateWirelessDeviceFromMulticastGroup",
 }));
 
 export type StartFuotaTaskError =
@@ -5162,6 +5359,8 @@ export const startFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFuotaTask",
+  telemetry: TELEMETRY,
+  span: "StartFuotaTask",
 }));
 
 export type StartMulticastGroupSessionError =
@@ -5194,6 +5393,8 @@ export const startMulticastGroupSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMulticastGroupSession",
+  telemetry: TELEMETRY,
+  span: "StartMulticastGroupSession",
 }));
 
 export type StartSingleWirelessDeviceImportTaskError =
@@ -5226,6 +5427,8 @@ export const startSingleWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSingleWirelessDeviceImportTask",
+  telemetry: TELEMETRY,
+  span: "StartSingleWirelessDeviceImportTask",
 }));
 
 export type StartWirelessDeviceImportTaskError =
@@ -5259,6 +5462,8 @@ export const startWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWirelessDeviceImportTask",
+  telemetry: TELEMETRY,
+  span: "StartWirelessDeviceImportTask",
 }));
 
 export type TagResourceError =
@@ -5291,6 +5496,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestWirelessDeviceError =
@@ -5320,6 +5527,8 @@ export const testWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestWirelessDevice",
+  telemetry: TELEMETRY,
+  span: "TestWirelessDevice",
 }));
 
 export type UntagResourceError =
@@ -5350,6 +5559,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDestinationError =
@@ -5380,6 +5591,8 @@ export const updateDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateDestination",
 }));
 
 export type UpdateEventConfigurationByResourceTypesError =
@@ -5408,6 +5621,8 @@ export const updateEventConfigurationByResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventConfigurationByResourceTypes",
+  telemetry: TELEMETRY,
+  span: "UpdateEventConfigurationByResourceTypes",
 }));
 
 export type UpdateFuotaTaskError =
@@ -5440,6 +5655,8 @@ export const updateFuotaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFuotaTask",
+  telemetry: TELEMETRY,
+  span: "UpdateFuotaTask",
 }));
 
 export type UpdateLogLevelsByResourceTypesError =
@@ -5474,6 +5691,8 @@ export const updateLogLevelsByResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLogLevelsByResourceTypes",
+  telemetry: TELEMETRY,
+  span: "UpdateLogLevelsByResourceTypes",
 }));
 
 export type UpdateMetricConfigurationError =
@@ -5506,6 +5725,8 @@ export const updateMetricConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMetricConfiguration",
 }));
 
 export type UpdateMulticastGroupError =
@@ -5538,6 +5759,8 @@ export const updateMulticastGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMulticastGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateMulticastGroup",
 }));
 
 export type UpdateNetworkAnalyzerConfigurationError =
@@ -5568,6 +5791,8 @@ export const updateNetworkAnalyzerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkAnalyzerConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkAnalyzerConfiguration",
 }));
 
 export type UpdatePartnerAccountError =
@@ -5596,6 +5821,8 @@ export const updatePartnerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartnerAccount",
+  telemetry: TELEMETRY,
+  span: "UpdatePartnerAccount",
 }));
 
 export type UpdatePositionError =
@@ -5629,6 +5856,8 @@ export const updatePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePosition",
+  telemetry: TELEMETRY,
+  span: "UpdatePosition",
 }));
 
 export type UpdateResourceEventConfigurationError =
@@ -5661,6 +5890,8 @@ export const updateResourceEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceEventConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceEventConfiguration",
 }));
 
 export type UpdateResourcePositionError =
@@ -5693,6 +5924,8 @@ export const updateResourcePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourcePosition",
+  telemetry: TELEMETRY,
+  span: "UpdateResourcePosition",
 }));
 
 export type UpdateWirelessDeviceError =
@@ -5723,6 +5956,8 @@ export const updateWirelessDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWirelessDevice",
+  telemetry: TELEMETRY,
+  span: "UpdateWirelessDevice",
 }));
 
 export type UpdateWirelessDeviceImportTaskError =
@@ -5755,6 +5990,8 @@ export const updateWirelessDeviceImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWirelessDeviceImportTask",
+  telemetry: TELEMETRY,
+  span: "UpdateWirelessDeviceImportTask",
 }));
 
 export type UpdateWirelessGatewayError =
@@ -5785,6 +6022,8 @@ export const updateWirelessGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWirelessGateway",
+  telemetry: TELEMETRY,
+  span: "UpdateWirelessGateway",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

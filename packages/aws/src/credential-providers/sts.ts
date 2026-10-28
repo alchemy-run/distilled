@@ -27,13 +27,22 @@ const unredact = (value: string | Redacted.Redacted<string>): string =>
 export const stsRegion = <E = never>(
   region: string | undefined,
   fallback: Effect.Effect<string | undefined, E> = Effect.succeed(undefined),
-): Effect.Effect<Region.RegionName, E> =>
+): Effect.Effect<Region.RegionName, E | CredentialSourceError> =>
   region
     ? Effect.succeed(region as Region.RegionName)
     : Region.fromEnvironment.pipe(
-        Effect.catchTag("ConfigError", () =>
-          Effect.map(fallback, (resolved) => (resolved ?? "us-east-1") as Region.RegionName),
-        ),
+        Effect.catchTags({
+          ConfigError: () =>
+            Effect.map(fallback, (resolved) => (resolved ?? "us-east-1") as Region.RegionName),
+          SourceError: (cause) =>
+            Effect.fail(
+              new CredentialSourceError({
+                message: `Could not read the STS region: ${cause.message}`,
+                tryNextLink: false,
+                cause,
+              }),
+            ),
+        }),
       );
 
 interface StsResponse {

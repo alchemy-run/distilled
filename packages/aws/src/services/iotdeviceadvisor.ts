@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.iotdeviceadvisor.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IotDeviceAdvisor",
+  service: "IotDeviceAdvisor",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -394,6 +409,8 @@ export const createSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSuiteDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateSuiteDefinition",
 }));
 
 export type DeleteSuiteDefinitionError =
@@ -417,6 +434,8 @@ export const deleteSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSuiteDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteSuiteDefinition",
 }));
 
 export type GetEndpointError =
@@ -439,6 +458,8 @@ export const getEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetEndpoint",
 }));
 
 export type GetSuiteDefinitionError =
@@ -463,6 +484,8 @@ export const getSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteDefinition",
+  telemetry: TELEMETRY,
+  span: "GetSuiteDefinition",
 }));
 
 export type GetSuiteRunError =
@@ -487,6 +510,8 @@ export const getSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRun",
+  telemetry: TELEMETRY,
+  span: "GetSuiteRun",
 }));
 
 export type GetSuiteRunReportError =
@@ -511,6 +536,8 @@ export const getSuiteRunReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuiteRunReport",
+  telemetry: TELEMETRY,
+  span: "GetSuiteRunReport",
 }));
 
 export type ListSuiteDefinitionsError =
@@ -540,6 +567,8 @@ export const listSuiteDefinitions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuiteDefinitions",
 })) as any;
 
 export type ListSuiteRunsError = InternalServerException | ValidationException | CommonErrors;
@@ -567,6 +596,8 @@ export const listSuiteRuns: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuiteRuns",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -591,6 +622,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartSuiteRunError =
@@ -615,6 +648,8 @@ export const startSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSuiteRun",
+  telemetry: TELEMETRY,
+  span: "StartSuiteRun",
 }));
 
 export type StopSuiteRunError =
@@ -639,6 +674,8 @@ export const stopSuiteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSuiteRun",
+  telemetry: TELEMETRY,
+  span: "StopSuiteRun",
 }));
 
 export type TagResourceError =
@@ -663,6 +700,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -687,6 +726,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateSuiteDefinitionError =
@@ -710,6 +751,8 @@ export const updateSuiteDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSuiteDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateSuiteDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Notion
  * Effect SDK.
@@ -9,7 +9,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/<tag>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Notion's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Notion's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses), a passthrough union style, the cursor pagination profile, and
  * the protocol/retry/error names.
@@ -20,12 +20,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * (`data_sources.ts`) while the barrel exports them camelCased
  * (`dataSources.queryDataSource`).
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
@@ -107,6 +107,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Notion Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // RFC-6902 patches apply to the Smithy models via finalizeConvert in
   // scripts/convert.ts — never here.

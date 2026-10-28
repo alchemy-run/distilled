@@ -51,6 +51,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneId: "zone_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Ssl",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AdvancedCertificateManagerRequired
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AdvancedCertificateManagerRequired>()(
@@ -959,6 +973,8 @@ export const createAnalyze: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnalyze",
 }));
 
 export type CreateCertificatePackError =
@@ -977,6 +993,8 @@ export const createCertificatePack: API.OperationMethod<
   errors: [AdvancedCertificateManagerRequired, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificatePack",
 }));
 
 export type DeleteCertificatePackError =
@@ -1002,6 +1020,8 @@ export const deleteCertificatePack: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatePack",
 }));
 
 export type GetAutomaticUpgraderError = CloudflareOpError;
@@ -1017,6 +1037,8 @@ export const getAutomaticUpgrader: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomaticUpgrader",
 }));
 
 export type GetAutoOriginTlsKexError = CloudflareOpError;
@@ -1032,6 +1054,8 @@ export const getAutoOriginTlsKex: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoOriginTlsKex",
 }));
 
 export type GetCertificatePackError = CertificatePackNotFound | Forbidden | CloudflareOpError;
@@ -1047,6 +1071,8 @@ export const getCertificatePack: API.OperationMethod<
   errors: [CertificatePackNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatePack",
 }));
 
 export type GetCertificatePackQuotaError = CloudflareOpError;
@@ -1062,6 +1088,8 @@ export const getCertificatePackQuota: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatePackQuota",
 }));
 
 export type GetRecommendationError = CloudflareOpError;
@@ -1077,6 +1105,8 @@ export const getRecommendation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecommendation",
 }));
 
 export type GetUniversalSettingError = Forbidden | CloudflareOpError;
@@ -1092,6 +1122,8 @@ export const getUniversalSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUniversalSetting",
 }));
 
 export type GetVerificationError = CloudflareOpError;
@@ -1107,6 +1139,8 @@ export const getVerification: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVerification",
 }));
 
 export type ListCertificatePacksError = Forbidden | CloudflareOpError;
@@ -1124,6 +1158,8 @@ export const listCertificatePacks: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCertificatePacks",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1148,6 +1184,8 @@ export const patchAutomaticUpgrader: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAutomaticUpgrader",
 }));
 
 export type PatchAutoOriginTlsKexError = CloudflareOpError;
@@ -1163,6 +1201,8 @@ export const patchAutoOriginTlsKex: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAutoOriginTlsKex",
 }));
 
 export type PatchCertificatePackError = CertificatePackNotFound | Forbidden | CloudflareOpError;
@@ -1178,6 +1218,8 @@ export const patchCertificatePack: API.OperationMethod<
   errors: [CertificatePackNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatePack",
 }));
 
 export type PatchUniversalSettingError = Forbidden | CloudflareOpError;
@@ -1193,6 +1235,8 @@ export const patchUniversalSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUniversalSetting",
 }));
 
 export type PatchVerificationError = CloudflareOpError;
@@ -1208,6 +1252,8 @@ export const patchVerification: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchVerification",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

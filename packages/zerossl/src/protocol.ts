@@ -4,6 +4,7 @@ import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type ConfigError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys, matchTypedError } from "@distilled.cloud/core/protocol-http";
 import {
@@ -37,7 +38,11 @@ import type * as AST from "effect/SchemaAST";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownZeroSslError, ZeroSslParseError, type DefaultErrors } from "./errors.ts";
 
-export type ZeroSslOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type ZeroSslOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 export type ZeroSslOpContext = Credentials | HttpClient.HttpClient;
 
@@ -49,7 +54,7 @@ const resolveCredentials = /*@__PURE__*/ Effect.gen(function* () {
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     const creds = yield* resolveCredentials;
-    return buildRequest({
+    return yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: creds.apiBaseUrl,

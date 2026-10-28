@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Registry",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -191,6 +204,8 @@ export const createArtifactory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArtifactory",
 }));
 
 export type DeleteArtifactoryError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -206,6 +221,8 @@ export const deleteArtifactory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteArtifactory",
 }));
 
 export type GetArtifactoryError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -221,6 +238,8 @@ export const getArtifactory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArtifactory",
 }));
 
 export type ListArtifactoriesError = BadRequest | Forbidden | StackitOpError;
@@ -236,6 +255,8 @@ export const listArtifactories: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactories",
 }));
 
 export type ListReplicationAdaptersError = BadRequest | StackitOpError;
@@ -251,6 +272,8 @@ export const listReplicationAdapters: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReplicationAdapters",
 }));
 
 export type PatchArtifactoryError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -266,6 +289,8 @@ export const patchArtifactory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchArtifactory",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

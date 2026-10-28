@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GameLiftStreams",
+  service: "GameLiftStreams",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -816,6 +831,8 @@ export const addStreamGroupLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddStreamGroupLocations",
+  telemetry: TELEMETRY,
+  span: "AddStreamGroupLocations",
 }));
 
 export type AssociateApplicationsError =
@@ -850,6 +867,8 @@ export const associateApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplications",
+  telemetry: TELEMETRY,
+  span: "AssociateApplications",
 }));
 
 export type CreateApplicationError =
@@ -890,6 +909,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateStreamGroupError =
@@ -940,6 +961,8 @@ export const createStreamGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamGroup",
+  telemetry: TELEMETRY,
+  span: "CreateStreamGroup",
 }));
 
 export type CreateStreamSessionAdminShellError =
@@ -978,6 +1001,8 @@ export const createStreamSessionAdminShell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamSessionAdminShell",
+  telemetry: TELEMETRY,
+  span: "CreateStreamSessionAdminShell",
 }));
 
 export type CreateStreamSessionConnectionError =
@@ -1036,6 +1061,8 @@ export const createStreamSessionConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamSessionConnection",
+  telemetry: TELEMETRY,
+  span: "CreateStreamSessionConnection",
 }));
 
 export type CreateStreamUrlError =
@@ -1074,6 +1101,8 @@ export const createStreamUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamUrl",
+  telemetry: TELEMETRY,
+  span: "CreateStreamUrl",
 }));
 
 export type DeleteApplicationError =
@@ -1118,6 +1147,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteStreamGroupError =
@@ -1150,6 +1181,8 @@ export const deleteStreamGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteStreamGroup",
 }));
 
 export type DisassociateApplicationsError =
@@ -1182,6 +1215,8 @@ export const disassociateApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplications",
+  telemetry: TELEMETRY,
+  span: "DisassociateApplications",
 }));
 
 export type ExportStreamSessionFilesError =
@@ -1226,6 +1261,8 @@ export const exportStreamSessionFiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportStreamSessionFiles",
+  telemetry: TELEMETRY,
+  span: "ExportStreamSessionFiles",
 }));
 
 export type GetApplicationError =
@@ -1256,6 +1293,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetStreamGroupError =
@@ -1286,6 +1325,8 @@ export const getStreamGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamGroup",
+  telemetry: TELEMETRY,
+  span: "GetStreamGroup",
 }));
 
 export type GetStreamSessionError =
@@ -1316,6 +1357,8 @@ export const getStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamSession",
+  telemetry: TELEMETRY,
+  span: "GetStreamSession",
 }));
 
 export type GetStreamUrlError =
@@ -1348,6 +1391,8 @@ export const getStreamUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamUrl",
+  telemetry: TELEMETRY,
+  span: "GetStreamUrl",
 }));
 
 export type ListApplicationsError =
@@ -1383,6 +1428,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListApplicationShaderCachesError =
@@ -1415,6 +1462,8 @@ export const listApplicationShaderCaches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApplicationShaderCaches",
+  telemetry: TELEMETRY,
+  span: "ListApplicationShaderCaches",
 }));
 
 export type ListStreamGroupsError =
@@ -1450,6 +1499,8 @@ export const listStreamGroups: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamGroups",
 })) as any;
 
 export type ListStreamSessionsError =
@@ -1491,6 +1542,8 @@ export const listStreamSessions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamSessions",
 })) as any;
 
 export type ListStreamSessionsByAccountError =
@@ -1530,6 +1583,8 @@ export const listStreamSessionsByAccount: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamSessionsByAccount",
 })) as any;
 
 export type ListStreamUrlsError =
@@ -1565,6 +1620,8 @@ export const listStreamUrls: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamUrls",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1599,6 +1656,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RemoveStreamGroupLocationsError =
@@ -1631,6 +1690,8 @@ export const removeStreamGroupLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveStreamGroupLocations",
+  telemetry: TELEMETRY,
+  span: "RemoveStreamGroupLocations",
 }));
 
 export type RevokeStreamUrlError =
@@ -1663,6 +1724,8 @@ export const revokeStreamUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeStreamUrl",
+  telemetry: TELEMETRY,
+  span: "RevokeStreamUrl",
 }));
 
 export type StartStreamSessionError =
@@ -1749,6 +1812,8 @@ export const startStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamSession",
+  telemetry: TELEMETRY,
+  span: "StartStreamSession",
 }));
 
 export type TagResourceError =
@@ -1787,6 +1852,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateStreamSessionError =
@@ -1817,6 +1884,8 @@ export const terminateStreamSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateStreamSession",
+  telemetry: TELEMETRY,
+  span: "TerminateStreamSession",
 }));
 
 export type UntagResourceError =
@@ -1845,6 +1914,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -1877,6 +1948,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateStreamGroupError =
@@ -1923,6 +1996,8 @@ export const updateStreamGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateStreamGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

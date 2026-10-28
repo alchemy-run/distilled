@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DesktopVirtualization" },
+  prefix: "Desktopvirtualization",
+  service: "Desktopvirtualization",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type AppAttachPackageCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Schema for MSIX Package Dependencies properties. */
@@ -3673,6 +3694,8 @@ export const AppAttachPackageCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppAttachPackageCreateOrUpdate",
 }));
 
 export type ApplicationGroupsCreateOrUpdateError = AzureOpError;
@@ -3688,6 +3711,8 @@ export const ApplicationGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationGroupsCreateOrUpdate",
 }));
 
 export type ApplicationsCreateOrUpdateError = AzureOpError;
@@ -3703,6 +3728,8 @@ export const ApplicationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationsCreateOrUpdate",
 }));
 
 export type CreateScalingPlanError = AzureOpError;
@@ -3718,6 +3745,8 @@ export const CreateScalingPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScalingPlan",
 }));
 
 export type CreateScalingPlanPersonalScheduleError = AzureOpError;
@@ -3733,6 +3762,8 @@ export const CreateScalingPlanPersonalSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScalingPlanPersonalSchedule",
 }));
 
 export type CreateScalingPlanPooledScheduleError = AzureOpError;
@@ -3748,6 +3779,8 @@ export const CreateScalingPlanPooledSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScalingPlanPooledSchedule",
 }));
 
 export type DeleteAppAttachPackageError = AzureOpError;
@@ -3763,6 +3796,8 @@ export const DeleteAppAttachPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppAttachPackage",
 }));
 
 export type DeleteApplicationError = AzureOpError;
@@ -3778,6 +3813,8 @@ export const DeleteApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationGroupError = AzureOpError;
@@ -3793,6 +3830,8 @@ export const DeleteApplicationGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationGroup",
 }));
 
 export type DeleteHostPoolError = AzureOpError;
@@ -3808,6 +3847,8 @@ export const DeleteHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostPool",
 }));
 
 export type DeleteMSIXPackageError = AzureOpError;
@@ -3823,6 +3864,8 @@ export const DeleteMSIXPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMSIXPackage",
 }));
 
 export type DeletePrivateEndpointConnectionByHostPoolError = AzureOpError;
@@ -3838,6 +3881,8 @@ export const DeletePrivateEndpointConnectionByHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionByHostPool",
 }));
 
 export type DeletePrivateEndpointConnectionByWorkspaceError = AzureOpError;
@@ -3857,6 +3902,8 @@ export const DeletePrivateEndpointConnectionByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionByWorkspace",
 }));
 
 export type DeleteScalingPlanError = AzureOpError;
@@ -3872,6 +3919,8 @@ export const DeleteScalingPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScalingPlan",
 }));
 
 export type DeleteScalingPlanPersonalScheduleError = AzureOpError;
@@ -3887,6 +3936,8 @@ export const DeleteScalingPlanPersonalSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScalingPlanPersonalSchedule",
 }));
 
 export type DeleteScalingPlanPooledScheduleError = AzureOpError;
@@ -3902,6 +3953,8 @@ export const DeleteScalingPlanPooledSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScalingPlanPooledSchedule",
 }));
 
 export type DeleteSessionHostError = AzureOpError;
@@ -3917,6 +3970,8 @@ export const DeleteSessionHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSessionHost",
 }));
 
 export type DeleteUserSessionError = AzureOpError;
@@ -3932,6 +3987,8 @@ export const DeleteUserSession: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserSession",
 }));
 
 export type DeleteWorkspaceError = AzureOpError;
@@ -3947,6 +4004,8 @@ export const DeleteWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DisconnectUserSessionError = AzureOpError;
@@ -3962,6 +4021,8 @@ export const DisconnectUserSession: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectUserSession",
 }));
 
 export type GetAppAttachPackageError = AzureOpError;
@@ -3977,6 +4038,8 @@ export const GetAppAttachPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppAttachPackage",
 }));
 
 export type GetApplicationError = AzureOpError;
@@ -3992,6 +4055,8 @@ export const GetApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationGroupError = AzureOpError;
@@ -4007,6 +4072,8 @@ export const GetApplicationGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationGroup",
 }));
 
 export type GetDesktopError = AzureOpError;
@@ -4022,6 +4089,8 @@ export const GetDesktop: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDesktop",
 }));
 
 export type GetHostPoolError = AzureOpError;
@@ -4037,6 +4106,8 @@ export const GetHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostPool",
 }));
 
 export type GetHostPoolRegistrationTokenError = AzureOpError;
@@ -4052,6 +4123,8 @@ export const GetHostPoolRegistrationToken: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostPoolRegistrationToken",
 }));
 
 export type GetMSIXPackageError = AzureOpError;
@@ -4067,6 +4140,8 @@ export const GetMSIXPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMSIXPackage",
 }));
 
 export type GetPrivateEndpointConnectionByHostPoolError = AzureOpError;
@@ -4082,6 +4157,8 @@ export const GetPrivateEndpointConnectionByHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionByHostPool",
 }));
 
 export type GetPrivateEndpointConnectionByWorkspaceError = AzureOpError;
@@ -4097,6 +4174,8 @@ export const GetPrivateEndpointConnectionByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionByWorkspace",
 }));
 
 export type GetScalingPlanError = AzureOpError;
@@ -4112,6 +4191,8 @@ export const GetScalingPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScalingPlan",
 }));
 
 export type GetScalingPlanPersonalScheduleError = AzureOpError;
@@ -4127,6 +4208,8 @@ export const GetScalingPlanPersonalSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScalingPlanPersonalSchedule",
 }));
 
 export type GetScalingPlanPooledScheduleError = AzureOpError;
@@ -4142,6 +4225,8 @@ export const GetScalingPlanPooledSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScalingPlanPooledSchedule",
 }));
 
 export type GetSessionHostError = AzureOpError;
@@ -4157,6 +4242,8 @@ export const GetSessionHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionHost",
 }));
 
 export type GetUserSessionError = AzureOpError;
@@ -4172,6 +4259,8 @@ export const GetUserSession: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserSession",
 }));
 
 export type GetWorkspaceError = AzureOpError;
@@ -4187,6 +4276,8 @@ export const GetWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type HostPoolsCreateOrUpdateError = AzureOpError;
@@ -4202,6 +4293,8 @@ export const HostPoolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostPoolsCreateOrUpdate",
 }));
 
 export type ImportAppAttachPackageInfoError = AzureOpError;
@@ -4217,6 +4310,8 @@ export const ImportAppAttachPackageInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportAppAttachPackageInfo",
 }));
 
 export type ListAppAttachPackageByResourceGroupError = AzureOpError;
@@ -4232,6 +4327,8 @@ export const ListAppAttachPackageByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppAttachPackageByResourceGroup",
 }));
 
 export type ListAppAttachPackageBySubscriptionError = AzureOpError;
@@ -4247,6 +4344,8 @@ export const ListAppAttachPackageBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppAttachPackageBySubscription",
 }));
 
 export type ListApplicationGroupByResourceGroupError = AzureOpError;
@@ -4262,6 +4361,8 @@ export const ListApplicationGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationGroupByResourceGroup",
 }));
 
 export type ListApplicationGroupBySubscriptionError = AzureOpError;
@@ -4277,6 +4378,8 @@ export const ListApplicationGroupBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationGroupBySubscription",
 }));
 
 export type ListApplicationsError = AzureOpError;
@@ -4292,6 +4395,8 @@ export const ListApplications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 }));
 
 export type ListDesktopsError = AzureOpError;
@@ -4307,6 +4412,8 @@ export const ListDesktops: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDesktops",
 }));
 
 export type ListHostPoolByResourceGroupError = AzureOpError;
@@ -4322,6 +4429,8 @@ export const ListHostPoolByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostPoolByResourceGroup",
 }));
 
 export type ListHostPoolRegistrationTokensError = AzureOpError;
@@ -4337,6 +4446,8 @@ export const ListHostPoolRegistrationTokens: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostPoolRegistrationTokens",
 }));
 
 export type ListHostPoolsError = AzureOpError;
@@ -4352,6 +4463,8 @@ export const ListHostPools: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostPools",
 }));
 
 export type ListMSIXPackagesError = AzureOpError;
@@ -4367,6 +4480,8 @@ export const ListMSIXPackages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMSIXPackages",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -4382,6 +4497,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByHostPoolError = AzureOpError;
@@ -4397,6 +4514,8 @@ export const ListPrivateEndpointConnectionByHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByHostPool",
 }));
 
 export type ListPrivateEndpointConnectionByWorkspaceError = AzureOpError;
@@ -4412,6 +4531,8 @@ export const ListPrivateEndpointConnectionByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByWorkspace",
 }));
 
 export type ListPrivateLinkResourceByHostPoolError = AzureOpError;
@@ -4427,6 +4548,8 @@ export const ListPrivateLinkResourceByHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByHostPool",
 }));
 
 export type ListPrivateLinkResourceByWorkspaceError = AzureOpError;
@@ -4442,6 +4565,8 @@ export const ListPrivateLinkResourceByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByWorkspace",
 }));
 
 export type ListScalingPlanByHostPoolError = AzureOpError;
@@ -4457,6 +4582,8 @@ export const ListScalingPlanByHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScalingPlanByHostPool",
 }));
 
 export type ListScalingPlanByResourceGroupError = AzureOpError;
@@ -4472,6 +4599,8 @@ export const ListScalingPlanByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScalingPlanByResourceGroup",
 }));
 
 export type ListScalingPlanBySubscriptionError = AzureOpError;
@@ -4487,6 +4616,8 @@ export const ListScalingPlanBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScalingPlanBySubscription",
 }));
 
 export type ListScalingPlanPersonalSchedulesError = AzureOpError;
@@ -4502,6 +4633,8 @@ export const ListScalingPlanPersonalSchedules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScalingPlanPersonalSchedules",
 }));
 
 export type ListScalingPlanPooledSchedulesError = AzureOpError;
@@ -4517,6 +4650,8 @@ export const ListScalingPlanPooledSchedules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScalingPlanPooledSchedules",
 }));
 
 export type ListSessionHostsError = AzureOpError;
@@ -4532,6 +4667,8 @@ export const ListSessionHosts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessionHosts",
 }));
 
 export type ListStartMenuItemsError = AzureOpError;
@@ -4547,6 +4684,8 @@ export const ListStartMenuItems: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStartMenuItems",
 }));
 
 export type ListUserSessionByHostPoolError = AzureOpError;
@@ -4562,6 +4701,8 @@ export const ListUserSessionByHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserSessionByHostPool",
 }));
 
 export type ListUserSessionsError = AzureOpError;
@@ -4577,6 +4718,8 @@ export const ListUserSessions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserSessions",
 }));
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
@@ -4592,6 +4735,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceByResourceGroup",
 }));
 
 export type ListWorkspaceBySubscriptionError = AzureOpError;
@@ -4607,6 +4752,8 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceBySubscription",
 }));
 
 export type MsixImagesExpandError = AzureOpError;
@@ -4622,6 +4769,8 @@ export const MsixImagesExpand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MsixImagesExpand",
 }));
 
 export type MSIXPackagesCreateOrUpdateError = AzureOpError;
@@ -4637,6 +4786,8 @@ export const MSIXPackagesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MSIXPackagesCreateOrUpdate",
 }));
 
 export type SendUserSessionMessageError = AzureOpError;
@@ -4652,6 +4803,8 @@ export const SendUserSessionMessage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUserSessionMessage",
 }));
 
 export type UpdateAppAttachPackageError = AzureOpError;
@@ -4667,6 +4820,8 @@ export const UpdateAppAttachPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppAttachPackage",
 }));
 
 export type UpdateApplicationError = AzureOpError;
@@ -4682,6 +4837,8 @@ export const UpdateApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateApplicationGroupError = AzureOpError;
@@ -4697,6 +4854,8 @@ export const UpdateApplicationGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationGroup",
 }));
 
 export type UpdateDesktopError = AzureOpError;
@@ -4712,6 +4871,8 @@ export const UpdateDesktop: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDesktop",
 }));
 
 export type UpdateHostPoolError = AzureOpError;
@@ -4727,6 +4888,8 @@ export const UpdateHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostPool",
 }));
 
 export type UpdateMSIXPackageError = AzureOpError;
@@ -4742,6 +4905,8 @@ export const UpdateMSIXPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMSIXPackage",
 }));
 
 export type UpdatePrivateEndpointConnectionByHostPoolError = AzureOpError;
@@ -4757,6 +4922,8 @@ export const UpdatePrivateEndpointConnectionByHostPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnectionByHostPool",
 }));
 
 export type UpdatePrivateEndpointConnectionByWorkspaceError = AzureOpError;
@@ -4772,6 +4939,8 @@ export const UpdatePrivateEndpointConnectionByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnectionByWorkspace",
 }));
 
 export type UpdateScalingPlanError = AzureOpError;
@@ -4787,6 +4956,8 @@ export const UpdateScalingPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScalingPlan",
 }));
 
 export type UpdateScalingPlanPersonalScheduleError = AzureOpError;
@@ -4802,6 +4973,8 @@ export const UpdateScalingPlanPersonalSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScalingPlanPersonalSchedule",
 }));
 
 export type UpdateScalingPlanPooledScheduleError = AzureOpError;
@@ -4817,6 +4990,8 @@ export const UpdateScalingPlanPooledSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScalingPlanPooledSchedule",
 }));
 
 export type UpdateSessionHostError = AzureOpError;
@@ -4832,6 +5007,8 @@ export const UpdateSessionHost: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSessionHost",
 }));
 
 export type UpdateWorkspaceError = AzureOpError;
@@ -4847,6 +5024,8 @@ export const UpdateWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type WorkspacesCreateOrUpdateError = AzureOpError;
@@ -4862,6 +5041,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

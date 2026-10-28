@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://connect-campaigns.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectCampaignsV2",
+  service: "ConnectCampaignsV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -813,6 +828,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type DeleteCampaignError =
@@ -841,6 +858,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteCampaignChannelSubtypeConfigError =
@@ -871,6 +890,8 @@ export const deleteCampaignChannelSubtypeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignChannelSubtypeConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaignChannelSubtypeConfig",
 }));
 
 export type DeleteCampaignCommunicationLimitsError =
@@ -903,6 +924,8 @@ export const deleteCampaignCommunicationLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignCommunicationLimits",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaignCommunicationLimits",
 }));
 
 export type DeleteCampaignCommunicationTimeError =
@@ -935,6 +958,8 @@ export const deleteCampaignCommunicationTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignCommunicationTime",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaignCommunicationTime",
 }));
 
 export type DeleteCampaignEntryLimitsError =
@@ -967,6 +992,8 @@ export const deleteCampaignEntryLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaignEntryLimits",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaignEntryLimits",
 }));
 
 export type DeleteConnectInstanceConfigError =
@@ -999,6 +1026,8 @@ export const deleteConnectInstanceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectInstanceConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectInstanceConfig",
 }));
 
 export type DeleteConnectInstanceIntegrationError =
@@ -1029,6 +1058,8 @@ export const deleteConnectInstanceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectInstanceIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectInstanceIntegration",
 }));
 
 export type DeleteInstanceOnboardingJobError =
@@ -1059,6 +1090,8 @@ export const deleteInstanceOnboardingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceOnboardingJob",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceOnboardingJob",
 }));
 
 export type DescribeCampaignError =
@@ -1087,6 +1120,8 @@ export const describeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCampaign",
+  telemetry: TELEMETRY,
+  span: "DescribeCampaign",
 }));
 
 export type GetCampaignStateError =
@@ -1117,6 +1152,8 @@ export const getCampaignState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignState",
+  telemetry: TELEMETRY,
+  span: "GetCampaignState",
 }));
 
 export type GetCampaignStateBatchError =
@@ -1145,6 +1182,8 @@ export const getCampaignStateBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignStateBatch",
+  telemetry: TELEMETRY,
+  span: "GetCampaignStateBatch",
 }));
 
 export type GetConnectInstanceConfigError =
@@ -1173,6 +1212,8 @@ export const getConnectInstanceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectInstanceConfig",
+  telemetry: TELEMETRY,
+  span: "GetConnectInstanceConfig",
 }));
 
 export type GetInstanceCommunicationLimitsError =
@@ -1201,6 +1242,8 @@ export const getInstanceCommunicationLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceCommunicationLimits",
+  telemetry: TELEMETRY,
+  span: "GetInstanceCommunicationLimits",
 }));
 
 export type GetInstanceOnboardingJobStatusError =
@@ -1229,6 +1272,8 @@ export const getInstanceOnboardingJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceOnboardingJobStatus",
+  telemetry: TELEMETRY,
+  span: "GetInstanceOnboardingJobStatus",
 }));
 
 export type ListCampaignsError =
@@ -1258,6 +1303,8 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaignSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
 })) as any;
 
 export type ListConnectInstanceIntegrationsError =
@@ -1295,6 +1342,8 @@ export const listConnectInstanceIntegrations: API.PaginatedOperationMethod<
     items: "integrationSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectInstanceIntegrations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1325,6 +1374,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PauseCampaignError =
@@ -1359,6 +1410,8 @@ export const pauseCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseCampaign",
+  telemetry: TELEMETRY,
+  span: "PauseCampaign",
 }));
 
 export type PutConnectInstanceIntegrationError =
@@ -1391,6 +1444,8 @@ export const putConnectInstanceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConnectInstanceIntegration",
+  telemetry: TELEMETRY,
+  span: "PutConnectInstanceIntegration",
 }));
 
 export type PutInstanceCommunicationLimitsError =
@@ -1421,6 +1476,8 @@ export const putInstanceCommunicationLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInstanceCommunicationLimits",
+  telemetry: TELEMETRY,
+  span: "PutInstanceCommunicationLimits",
 }));
 
 export type PutOutboundRequestBatchError =
@@ -1455,6 +1512,8 @@ export const putOutboundRequestBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOutboundRequestBatch",
+  telemetry: TELEMETRY,
+  span: "PutOutboundRequestBatch",
 }));
 
 export type PutProfileOutboundRequestBatchError =
@@ -1489,6 +1548,8 @@ export const putProfileOutboundRequestBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileOutboundRequestBatch",
+  telemetry: TELEMETRY,
+  span: "PutProfileOutboundRequestBatch",
 }));
 
 export type ResumeCampaignError =
@@ -1523,6 +1584,8 @@ export const resumeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeCampaign",
+  telemetry: TELEMETRY,
+  span: "ResumeCampaign",
 }));
 
 export type StartCampaignError =
@@ -1557,6 +1620,8 @@ export const startCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCampaign",
+  telemetry: TELEMETRY,
+  span: "StartCampaign",
 }));
 
 export type StartInstanceOnboardingJobError =
@@ -1589,6 +1654,8 @@ export const startInstanceOnboardingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstanceOnboardingJob",
+  telemetry: TELEMETRY,
+  span: "StartInstanceOnboardingJob",
 }));
 
 export type StopCampaignError =
@@ -1623,6 +1690,8 @@ export const stopCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCampaign",
+  telemetry: TELEMETRY,
+  span: "StopCampaign",
 }));
 
 export type TagResourceError =
@@ -1653,6 +1722,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1683,6 +1754,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCampaignChannelSubtypeConfigError =
@@ -1713,6 +1786,8 @@ export const updateCampaignChannelSubtypeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignChannelSubtypeConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignChannelSubtypeConfig",
 }));
 
 export type UpdateCampaignCommunicationLimitsError =
@@ -1745,6 +1820,8 @@ export const updateCampaignCommunicationLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignCommunicationLimits",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignCommunicationLimits",
 }));
 
 export type UpdateCampaignCommunicationTimeError =
@@ -1777,6 +1854,8 @@ export const updateCampaignCommunicationTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignCommunicationTime",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignCommunicationTime",
 }));
 
 export type UpdateCampaignEntryLimitsError =
@@ -1809,6 +1888,8 @@ export const updateCampaignEntryLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignEntryLimits",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignEntryLimits",
 }));
 
 export type UpdateCampaignFlowAssociationError =
@@ -1841,6 +1922,8 @@ export const updateCampaignFlowAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignFlowAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignFlowAssociation",
 }));
 
 export type UpdateCampaignNameError =
@@ -1871,6 +1954,8 @@ export const updateCampaignName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignName",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignName",
 }));
 
 export type UpdateCampaignScheduleError =
@@ -1903,6 +1988,8 @@ export const updateCampaignSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignSchedule",
 }));
 
 export type UpdateCampaignSourceError =
@@ -1935,6 +2022,8 @@ export const updateCampaignSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaignSource",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignSource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

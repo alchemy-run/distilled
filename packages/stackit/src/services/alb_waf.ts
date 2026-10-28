@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "AlbWaf",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -459,6 +472,8 @@ export const createCustomRuleGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomRuleGroup",
 }));
 
 export type CreateManagedRuleSetError = BadRequest | Forbidden | StackitOpError;
@@ -474,6 +489,8 @@ export const createManagedRuleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManagedRuleSet",
 }));
 
 export type CreateWAFError = BadRequest | Forbidden | StackitOpError;
@@ -489,6 +506,8 @@ export const createWAF: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWAF",
 }));
 
 export type DeleteCustomRuleGroupError = BadRequest | Forbidden | StackitOpError;
@@ -504,6 +523,8 @@ export const deleteCustomRuleGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRuleGroup",
 }));
 
 export type DeleteManagedRuleSetError = BadRequest | Forbidden | StackitOpError;
@@ -519,6 +540,8 @@ export const deleteManagedRuleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagedRuleSet",
 }));
 
 export type DeleteWAFError = BadRequest | Forbidden | StackitOpError;
@@ -534,6 +557,8 @@ export const deleteWAF: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWAF",
 }));
 
 export type GetCustomRuleGroupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -549,6 +574,8 @@ export const getCustomRuleGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRuleGroup",
 }));
 
 export type GetManagedRuleSetError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -564,6 +591,8 @@ export const getManagedRuleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedRuleSet",
 }));
 
 export type GetQuotaError = BadRequest | Forbidden | StackitOpError;
@@ -579,6 +608,8 @@ export const getQuota: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuota",
 }));
 
 export type GetWAFError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -594,6 +625,8 @@ export const getWAF: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWAF",
 }));
 
 export type ListCustomRuleGroupError = BadRequest | Forbidden | StackitOpError;
@@ -609,6 +642,8 @@ export const listCustomRuleGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomRuleGroup",
 }));
 
 export type ListManagedRuleSetsError = BadRequest | Forbidden | StackitOpError;
@@ -624,6 +659,8 @@ export const listManagedRuleSets: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedRuleSets",
 }));
 
 export type ListWAFError = BadRequest | Forbidden | StackitOpError;
@@ -639,6 +676,8 @@ export const listWAF: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWAF",
 }));
 
 export type PatchManagedRuleSetError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -654,6 +693,8 @@ export const patchManagedRuleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchManagedRuleSet",
 }));
 
 export type UpdateCustomRuleGroupError = BadRequest | Forbidden | StackitOpError;
@@ -669,6 +710,8 @@ export const updateCustomRuleGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRuleGroup",
 }));
 
 export type UpdateWAFError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -684,6 +727,8 @@ export const updateWAF: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWAF",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

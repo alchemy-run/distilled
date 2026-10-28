@@ -1,7 +1,7 @@
 import * as crypto from "node:crypto";
 import * as API from "@distilled.cloud/core/api";
 import { debugHttp } from "@distilled.cloud/core/debug";
-import { type ConfigError, HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { ConfigError, HTTP_STATUS_MAP, type InvalidInput } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
 import {
   hasSensitiveMember,
@@ -54,11 +54,12 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import type { Config } from "./credentials.ts";
-import { Credentials } from "./credentials.ts";
+import { Credentials, DEFAULT_API_BASE_URL } from "./credentials.ts";
 import {
   COINBASE_HTTP_STATUS_MAP,
   CoinbaseParseError,
@@ -74,7 +75,11 @@ import {
  * CoinbaseOpError, CoinbaseOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type CoinbaseOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type CoinbaseOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Coinbase operation. */
 export type CoinbaseOpContext = Credentials | HttpClient.HttpClient;
@@ -100,19 +105,28 @@ const base64url = (buf: Buffer | Uint8Array): string =>
  */
 const randomNonce = (): string => crypto.randomBytes(16).toString("hex");
 
+interface SigningKey {
+  readonly jwsAlg: "ES256" | "EdDSA";
+  readonly key: crypto.KeyObject;
+}
+
+const invalidKey = (detail: string, cause: unknown) =>
+  new ConfigError({
+    message: `${detail}: ${cause instanceof Error ? cause.message : String(cause)}`,
+  });
+
 /**
  * Detect key type and return the appropriate signing algorithm and key object.
+ * A secret that is not a usable key fails with `ConfigError`.
  */
-const resolveSigningKey = (
-  apiKeySecret: string,
-): { algorithm: string; jwsAlg: string; key: crypto.KeyObject } => {
+const resolveSigningKey = (apiKeySecret: string): Effect.Effect<SigningKey, ConfigError> => {
   // Try EC (ES256) first -- PEM format
   if (apiKeySecret.includes("-----BEGIN")) {
-    return {
-      algorithm: "ES256",
-      jwsAlg: "ES256",
-      key: crypto.createPrivateKey(apiKeySecret),
-    };
+    return Effect.try({
+      try: (): SigningKey => ({ jwsAlg: "ES256", key: crypto.createPrivateKey(apiKeySecret) }),
+      catch: (cause) =>
+        invalidKey("The CDP API Key Secret is not a valid EC PEM private key", cause),
+    });
   }
 
   // Ed25519 -- base64 encoded 64-byte key (32 seed + 32 public)
@@ -124,18 +138,25 @@ const resolveSigningKey = (
     // Ed25519 PKCS8 prefix: 302e020100300506032b657004220420
     const pkcs8Prefix = Buffer.from("302e020100300506032b657004220420", "hex");
     const pkcs8Der = Buffer.concat([pkcs8Prefix, seed]);
-    return {
-      algorithm: "EdDSA",
-      jwsAlg: "EdDSA",
-      key: crypto.createPrivateKey({
-        key: pkcs8Der,
-        format: "der",
-        type: "pkcs8",
+    return Effect.try({
+      try: (): SigningKey => ({
+        jwsAlg: "EdDSA",
+        key: crypto.createPrivateKey({
+          key: pkcs8Der,
+          format: "der",
+          type: "pkcs8",
+        }),
       }),
-    };
+      catch: (cause) =>
+        invalidKey("The CDP API Key Secret is not a valid Ed25519 private key", cause),
+    });
   }
 
-  throw new Error("Unsupported CDP API Key Secret format. Expected EC PEM or Ed25519 base64.");
+  return Effect.fail(
+    new ConfigError({
+      message: "Unsupported CDP API Key Secret format. Expected EC PEM or Ed25519 base64.",
+    }),
+  );
 };
 
 /**
@@ -150,44 +171,46 @@ const generateJwt = (
   apiKeySecret: string,
   method: string,
   uri: string,
-): string => {
-  const { jwsAlg, key } = resolveSigningKey(apiKeySecret);
+): Effect.Effect<string, ConfigError> =>
+  Effect.flatMap(resolveSigningKey(apiKeySecret), ({ jwsAlg, key }) => {
+    const now = Math.floor(Date.now() / 1000);
+    const header = {
+      alg: jwsAlg,
+      kid: apiKeyId,
+      typ: "JWT",
+      nonce: randomNonce(),
+    };
+    const payload = {
+      sub: apiKeyId,
+      iss: "cdp",
+      aud: ["cdp_service"],
+      nbf: now,
+      exp: now + 120,
+      uri: `${method} ${uri}`,
+    };
 
-  const now = Math.floor(Date.now() / 1000);
-  const header = {
-    alg: jwsAlg,
-    kid: apiKeyId,
-    typ: "JWT",
-    nonce: randomNonce(),
-  };
-  const payload = {
-    sub: apiKeyId,
-    iss: "cdp",
-    aud: ["cdp_service"],
-    nbf: now,
-    exp: now + 120,
-    uri: `${method} ${uri}`,
-  };
+    const headerB64 = base64url(Buffer.from(JSON.stringify(header)));
+    const payloadB64 = base64url(Buffer.from(JSON.stringify(payload)));
+    const signingInput = `${headerB64}.${payloadB64}`;
 
-  const headerB64 = base64url(Buffer.from(JSON.stringify(header)));
-  const payloadB64 = base64url(Buffer.from(JSON.stringify(payload)));
-  const signingInput = `${headerB64}.${payloadB64}`;
-
-  let signature: Buffer;
-  if (jwsAlg === "ES256") {
-    // ES256 uses SHA-256 with ECDSA, needs IEEE P1363 format (not DER)
-    const sign = crypto.createSign("SHA256");
-    sign.update(signingInput);
-    const derSig = sign.sign(key);
-    // Convert DER signature to IEEE P1363 (raw r||s) format
-    signature = derToP1363(derSig, 32);
-  } else {
-    // EdDSA (Ed25519) uses sign directly
-    signature = Buffer.from(crypto.sign(null, Buffer.from(signingInput), key));
-  }
-
-  return `${signingInput}.${base64url(signature)}`;
-};
+    // A key that parses but cannot sign with its algorithm (for example an
+    // Ed25519 key in PEM form, which is routed to ES256) fails here.
+    return Effect.try({
+      try: () => {
+        if (jwsAlg === "ES256") {
+          // ES256 uses SHA-256 with ECDSA, needs IEEE P1363 format (not DER)
+          const sign = crypto.createSign("SHA256");
+          sign.update(signingInput);
+          const derSig = sign.sign(key);
+          // Convert DER signature to IEEE P1363 (raw r||s) format
+          return derToP1363(derSig, 32);
+        }
+        // EdDSA (Ed25519) uses sign directly
+        return Buffer.from(crypto.sign(null, Buffer.from(signingInput), key));
+      },
+      catch: (cause) => invalidKey(`The CDP API Key Secret cannot sign a ${jwsAlg} JWT`, cause),
+    }).pipe(Effect.map((signature) => `${signingInput}.${base64url(signature)}`));
+  });
 
 /**
  * Convert a DER-encoded ECDSA signature to IEEE P1363 (raw r||s) format.
@@ -263,15 +286,23 @@ const matchError = (
     return Effect.succeed(errorBody);
   }
 
-  try {
-    const parsed = Schema.decodeUnknownSync(CoinbaseErrorResponse)(errorBody);
-    const errorProps = {
-      errorType: parsed.errorType,
-      errorMessage: parsed.errorMessage,
-      correlationId: parsed.correlationId,
-      errorLink: parsed.errorLink,
-    };
+  // A body that is not Coinbase's error shape (a proxy page, an empty body)
+  // still maps by HTTP status below.
+  const parsed = Option.getOrUndefined(
+    Schema.decodeUnknownOption(CoinbaseErrorResponse)(errorBody),
+  );
+  // Without the envelope, the start of the raw body is the best message.
+  const message =
+    parsed?.errorMessage ??
+    (typeof errorBody === "string" ? errorBody : (JSON.stringify(errorBody) ?? "")).slice(0, 200);
+  const errorProps = {
+    errorType: parsed?.errorType,
+    errorMessage: parsed?.errorMessage,
+    correlationId: parsed?.correlationId,
+    errorLink: parsed?.errorLink,
+  };
 
+  if (parsed) {
     // 1. Match by Coinbase-specific error type first
     const TypedErrorClass = ERROR_TYPE_MAP[parsed.errorType];
     if (TypedErrorClass) {
@@ -291,34 +322,32 @@ const matchError = (
         }),
       );
     }
+  }
 
-    // 3. Fall back to HTTP status code mapping from core
-    const CoreErrorClass = (HTTP_STATUS_MAP as any)[status];
-    if (CoreErrorClass) {
-      return fail(
-        new CoreErrorClass({
-          message: parsed.errorMessage ?? "",
-          retryAfter: parseRetryAfterForStatus(status, headers),
-        }),
-      );
-    }
-
-    // 4. Coinbase-specific HTTP status codes (402)
-    const CoinbaseErrorClass = (COINBASE_HTTP_STATUS_MAP as any)[status];
-    if (CoinbaseErrorClass) {
-      return fail(new CoinbaseErrorClass(errorProps));
-    }
-
-    // 5. Fall back to unknown error
+  // 3. Fall back to HTTP status code mapping from core
+  const CoreErrorClass = (HTTP_STATUS_MAP as any)[status];
+  if (CoreErrorClass) {
     return fail(
-      new UnknownCoinbaseError({
-        ...errorProps,
-        body: errorBody,
+      new CoreErrorClass({
+        message,
+        retryAfter: parseRetryAfterForStatus(status, headers),
       }),
     );
-  } catch {
-    return fail(new UnknownCoinbaseError({ body: errorBody }));
   }
+
+  // 4. Coinbase-specific HTTP status codes (402)
+  const CoinbaseErrorClass = (COINBASE_HTTP_STATUS_MAP as any)[status];
+  if (CoinbaseErrorClass) {
+    return fail(new CoinbaseErrorClass(errorProps));
+  }
+
+  // 5. Fall back to unknown error
+  return fail(
+    new UnknownCoinbaseError({
+      ...errorProps,
+      body: errorBody,
+    }),
+  );
 };
 
 // ============================================================================
@@ -341,7 +370,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     // Sensitive input members accept string | Redacted<string>; the wire
     // wants the raw string.
-    const request = buildRequest({
+    const request = yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: creds.apiBaseUrl,
@@ -350,8 +379,14 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     // JWT `uri` claim: "METHOD host/path" -- label-substituted path, no query
     // string (matches the v0 client: baseUrl.host + baseUrl.pathname +
     // parts.path).
-    const url = new URL(request.url);
-    const jwt = generateJwt(
+    const url = yield* Effect.try({
+      try: () => new URL(request.url),
+      catch: () =>
+        new ConfigError({
+          message: `Coinbase apiBaseUrl must be an absolute URL such as ${DEFAULT_API_BASE_URL}; got ${JSON.stringify(creds.apiBaseUrl)}`,
+        }),
+    });
+    const jwt = yield* generateJwt(
       creds.apiKeyId,
       Redacted.value(creds.apiKeySecret),
       request.method,
@@ -369,7 +404,7 @@ const decode = ({
   readonly errors: ReadonlyArray<unknown>;
 }) =>
   Effect.gen(function* () {
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
     if (debugHttp()) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
     }

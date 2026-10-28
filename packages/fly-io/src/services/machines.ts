@@ -19,6 +19,20 @@ const __s: any[] = [];
 
 export type { FlyIoOpError, FlyIoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "fly-io-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "fly-request-id", name: "http.response.header.fly-request-id", transform: "list" },
+  ],
+  prefix: "Fly",
+  service: "FlyMachines",
+  labels: "fly_io",
+  propagate: "w3c",
+} as const;
+
 export class MachineReplacing
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MachineReplacing>()("MachineReplacing", {
@@ -2261,6 +2275,8 @@ export const authenticateToken: API.OperationMethod<
   errors: [BadRequest],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthenticateToken",
 }));
 
 export type AuthorizeTokenError = BadRequest | FlyIoOpError;
@@ -2276,6 +2292,8 @@ export const authorizeToken: API.OperationMethod<
   errors: [BadRequest],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeToken",
 }));
 
 export type CheckAppCertificateError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -2291,6 +2309,8 @@ export const checkAppCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAppCertificate",
 }));
 
 export type CordonMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2306,6 +2326,8 @@ export const cordonMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CordonMachine",
 }));
 
 export type CreateAppError =
@@ -2327,6 +2349,8 @@ export const createApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateAppAcmeCertificateError =
@@ -2348,6 +2372,8 @@ export const createAppAcmeCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppAcmeCertificate",
 }));
 
 export type CreateAppCustomCertificateError =
@@ -2369,6 +2395,8 @@ export const createAppCustomCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppCustomCertificate",
 }));
 
 export type CreateAppDeployTokenError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -2384,6 +2412,8 @@ export const createAppDeployToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppDeployToken",
 }));
 
 export type CreateAppIPAssignmentError =
@@ -2405,6 +2435,8 @@ export const createAppIPAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, NetworkNotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppIPAssignment",
 }));
 
 export type CreateMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2420,6 +2452,8 @@ export const createMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMachine",
 }));
 
 export type CreateMachineLeaseError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2435,6 +2469,8 @@ export const createMachineLease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMachineLease",
 }));
 
 export type CreatePostgresError = BadRequest | NotFound | UnprocessableEntity | FlyIoOpError;
@@ -2450,6 +2486,8 @@ export const createPostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgres",
 }));
 
 export type CreatePostgresAttachmentError = NotFound | FlyIoOpError;
@@ -2465,6 +2503,8 @@ export const createPostgresAttachment: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgresAttachment",
 }));
 
 export type CreatePostgresBackupError = NotFound | Conflict | FlyIoOpError;
@@ -2480,6 +2520,8 @@ export const createPostgresBackup: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgresBackup",
 }));
 
 export type CreatePostgresDatabaseError =
@@ -2499,6 +2541,8 @@ export const createPostgresDatabase: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgresDatabase",
 }));
 
 export type CreatePostgresUserError =
@@ -2519,6 +2563,8 @@ export const createPostgresUser: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgresUser",
 }));
 
 export type CreateSecretError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2534,6 +2580,8 @@ export const createSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecret",
 }));
 
 export type CreateVolumeError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2549,6 +2597,8 @@ export const createVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type CreateVolumeSnapshotError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2564,6 +2614,8 @@ export const createVolumeSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolumeSnapshot",
 }));
 
 export type DecryptSecretKeyError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -2579,6 +2631,8 @@ export const decryptSecretKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DecryptSecretKey",
 }));
 
 export type DeleteAppError = Forbidden | NotFound | FlyIoOpError;
@@ -2594,6 +2648,8 @@ export const deleteApp: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteAppAcmeCertificateError = Forbidden | NotFound | FlyIoOpError;
@@ -2609,6 +2665,8 @@ export const deleteAppAcmeCertificate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppAcmeCertificate",
 }));
 
 export type DeleteAppCertificateError = Forbidden | NotFound | FlyIoOpError;
@@ -2624,6 +2682,8 @@ export const deleteAppCertificate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppCertificate",
 }));
 
 export type DeleteAppCustomCertificateError = Forbidden | NotFound | FlyIoOpError;
@@ -2639,6 +2699,8 @@ export const deleteAppCustomCertificate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppCustomCertificate",
 }));
 
 export type DeleteAppIPAssignmentError = Forbidden | NotFound | FlyIoOpError;
@@ -2654,6 +2716,8 @@ export const deleteAppIPAssignment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppIPAssignment",
 }));
 
 export type DeleteMachineError = Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2669,6 +2733,8 @@ export const deleteMachine: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMachine",
 }));
 
 export type DeleteMachineMetadataError = Forbidden | NotFound | FlyIoOpError;
@@ -2684,6 +2750,8 @@ export const deleteMachineMetadata: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMachineMetadata",
 }));
 
 export type DeletePostgresError = NotFound | FlyIoOpError;
@@ -2699,6 +2767,8 @@ export const deletePostgres: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgres",
 }));
 
 export type DeletePostgresAttachmentError = NotFound | FlyIoOpError;
@@ -2714,6 +2784,8 @@ export const deletePostgresAttachment: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgresAttachment",
 }));
 
 export type DeletePostgresDatabaseError = BadRequest | NotFound | FlyIoOpError;
@@ -2729,6 +2801,8 @@ export const deletePostgresDatabase: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgresDatabase",
 }));
 
 export type DeletePostgresUserError = BadRequest | NotFound | FlyIoOpError;
@@ -2744,6 +2818,8 @@ export const deletePostgresUser: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgresUser",
 }));
 
 export type DeleteSecretError = Forbidden | NotFound | FlyIoOpError;
@@ -2759,6 +2835,8 @@ export const deleteSecret: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecret",
 }));
 
 export type DeleteSecretKeyError = Forbidden | NotFound | FlyIoOpError;
@@ -2774,6 +2852,8 @@ export const deleteSecretKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretKey",
 }));
 
 export type DeleteVolumeError = Forbidden | NotFound | Conflict | VolumeAttached | FlyIoOpError;
@@ -2789,6 +2869,8 @@ export const deleteVolume: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, VolumeAttached],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DisablePostgresExtensionError =
@@ -2808,6 +2890,8 @@ export const disablePostgresExtension: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisablePostgresExtension",
 }));
 
 export type EnablePostgresExtensionError =
@@ -2828,6 +2912,8 @@ export const enablePostgresExtension: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnablePostgresExtension",
 }));
 
 export type EncryptSecretKeyError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -2843,6 +2929,8 @@ export const encryptSecretKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EncryptSecretKey",
 }));
 
 export type ExecMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2858,6 +2946,8 @@ export const execMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecMachine",
 }));
 
 export type ExtendVolumeError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -2873,6 +2963,8 @@ export const extendVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendVolume",
 }));
 
 export type ForkPostgresError =
@@ -2893,6 +2985,8 @@ export const forkPostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForkPostgres",
 }));
 
 export type GenerateSecretKeyError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -2908,6 +3002,8 @@ export const generateSecretKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateSecretKey",
 }));
 
 export type GetAppError = Forbidden | NotFound | FlyIoOpError;
@@ -2919,6 +3015,8 @@ export const getApp: API.OperationMethod<GetAppRequest, App, GetAppError, FlyIoO
     errors: [Forbidden, NotFound],
     protocol: FlyIoProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetApp",
   }));
 
 export type GetAppCertificateError = Forbidden | NotFound | FlyIoOpError;
@@ -2934,6 +3032,8 @@ export const getAppCertificate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppCertificate",
 }));
 
 export type GetCurrentTokenError = Forbidden | FlyIoOpError;
@@ -2949,6 +3049,8 @@ export const getCurrentToken: API.OperationMethod<
   errors: [Forbidden],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentToken",
 }));
 
 export type GetMachineError = Forbidden | NotFound | FlyIoOpError;
@@ -2964,6 +3066,8 @@ export const getMachine: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachine",
 }));
 
 export type GetMachineLeaseError = Forbidden | NotFound | FlyIoOpError;
@@ -2979,6 +3083,8 @@ export const getMachineLease: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineLease",
 }));
 
 export type GetMachineMemoryError = Forbidden | NotFound | FlyIoOpError;
@@ -2994,6 +3100,8 @@ export const getMachineMemory: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineMemory",
 }));
 
 export type GetMachineMetadataError = Forbidden | NotFound | FlyIoOpError;
@@ -3009,6 +3117,8 @@ export const getMachineMetadata: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineMetadata",
 }));
 
 export type GetMachineMetadataKeyError = NotFound | FlyIoOpError;
@@ -3024,6 +3134,8 @@ export const getMachineMetadataKey: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineMetadataKey",
 }));
 
 export type GetPlacementsError = BadRequest | Forbidden | FlyIoOpError;
@@ -3039,6 +3151,8 @@ export const getPlacements: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlacements",
 }));
 
 export type GetPostgresError = NotFound | FlyIoOpError;
@@ -3054,6 +3168,8 @@ export const getPostgres: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgres",
 }));
 
 export type GetRegionsError = Forbidden | FlyIoOpError;
@@ -3069,6 +3185,8 @@ export const getRegions: API.OperationMethod<
   errors: [Forbidden],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegions",
 }));
 
 export type GetSecretError = Forbidden | NotFound | FlyIoOpError;
@@ -3084,6 +3202,8 @@ export const getSecret: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecret",
 }));
 
 export type GetSecretKeyError = Forbidden | NotFound | FlyIoOpError;
@@ -3099,6 +3219,8 @@ export const getSecretKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretKey",
 }));
 
 export type GetVolumeByIdError = Forbidden | NotFound | FlyIoOpError;
@@ -3114,6 +3236,8 @@ export const getVolumeById: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolumeById",
 }));
 
 export type ListAppCertificatesError = Forbidden | NotFound | FlyIoOpError;
@@ -3129,6 +3253,8 @@ export const listAppCertificates: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppCertificates",
 }));
 
 export type ListAppIPAssignmentsError = Forbidden | NotFound | FlyIoOpError;
@@ -3144,6 +3270,8 @@ export const listAppIPAssignments: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppIPAssignments",
 }));
 
 export type ListAppsError = Forbidden | FlyIoOpError;
@@ -3159,6 +3287,8 @@ export const listApps: API.OperationMethod<
   errors: [Forbidden],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 }));
 
 export type ListMachineEventsError = Forbidden | NotFound | FlyIoOpError;
@@ -3174,6 +3304,8 @@ export const listMachineEvents: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineEvents",
 }));
 
 export type ListMachineProcessesError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3189,6 +3321,8 @@ export const listMachineProcesses: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineProcesses",
 }));
 
 export type ListMachinesError = Forbidden | NotFound | FlyIoOpError;
@@ -3204,6 +3338,8 @@ export const listMachines: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachines",
 }));
 
 export type ListMachinesOrgError = Forbidden | NotFound | FlyIoOpError;
@@ -3219,6 +3355,8 @@ export const listMachinesOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachinesOrg",
 }));
 
 export type ListMachineVersionsError = Forbidden | NotFound | FlyIoOpError;
@@ -3234,6 +3372,8 @@ export const listMachineVersions: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachineVersions",
 }));
 
 export type ListPostgresError = BadRequest | NotFound | UnprocessableEntity | FlyIoOpError;
@@ -3249,6 +3389,8 @@ export const listPostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgres",
 }));
 
 export type ListPostgresBackupsError = NotFound | FlyIoOpError;
@@ -3264,6 +3406,8 @@ export const listPostgresBackups: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresBackups",
 }));
 
 export type ListPostgresDatabasesError = NotFound | FlyIoOpError;
@@ -3279,6 +3423,8 @@ export const listPostgresDatabases: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresDatabases",
 }));
 
 export type ListPostgresExtensionsError = BadRequest | NotFound | FlyIoOpError;
@@ -3294,6 +3440,8 @@ export const listPostgresExtensions: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresExtensions",
 }));
 
 export type ListPostgresUsersError = NotFound | FlyIoOpError;
@@ -3309,6 +3457,8 @@ export const listPostgresUsers: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresUsers",
 }));
 
 export type ListSecretKeysError = Forbidden | NotFound | FlyIoOpError;
@@ -3324,6 +3474,8 @@ export const listSecretKeys: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretKeys",
 }));
 
 export type ListSecretsError = Forbidden | NotFound | FlyIoOpError;
@@ -3339,6 +3491,8 @@ export const listSecrets: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecrets",
 }));
 
 export type ListVolumesError = Forbidden | NotFound | FlyIoOpError;
@@ -3354,6 +3508,8 @@ export const listVolumes: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 }));
 
 export type ListVolumeSnapshotsError = Forbidden | NotFound | FlyIoOpError;
@@ -3369,6 +3525,8 @@ export const listVolumeSnapshots: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumeSnapshots",
 }));
 
 export type ListVolumesOrgError = FlyIoOpError;
@@ -3384,6 +3542,8 @@ export const listVolumesOrg: API.OperationMethod<
   errors: [],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVolumesOrg",
 }));
 
 export type MachinesReleaseLeaseError = Forbidden | NotFound | FlyIoOpError;
@@ -3399,6 +3559,8 @@ export const machinesReleaseLease: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MachinesReleaseLease",
 }));
 
 export type PatchMachineMetadataError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3414,6 +3576,8 @@ export const patchMachineMetadata: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMachineMetadata",
 }));
 
 export type PostgresQueriesActiveError = NotFound | UnprocessableEntity | FlyIoOpError;
@@ -3429,6 +3593,8 @@ export const postgresQueriesActive: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostgresQueriesActive",
 }));
 
 export type PostgresQueriesSlowError = NotFound | UnprocessableEntity | FlyIoOpError;
@@ -3444,6 +3610,8 @@ export const postgresQueriesSlow: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostgresQueriesSlow",
 }));
 
 export type PostgresUsersCredentialsError = BadRequest | NotFound | FlyIoOpError;
@@ -3459,6 +3627,8 @@ export const postgresUsersCredentials: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostgresUsersCredentials",
 }));
 
 export type ReclaimMachineMemoryError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3474,6 +3644,8 @@ export const reclaimMachineMemory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReclaimMachineMemory",
 }));
 
 export type RequestKmsTokenError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3489,6 +3661,8 @@ export const requestKmsToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestKmsToken",
 }));
 
 export type RequestOidcTokenError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3504,6 +3678,8 @@ export const requestOidcToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestOidcToken",
 }));
 
 export type RestartMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -3519,6 +3695,8 @@ export const restartMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartMachine",
 }));
 
 export type RestorePostgresError = BadRequest | NotFound | UnprocessableEntity | FlyIoOpError;
@@ -3534,6 +3712,8 @@ export const restorePostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorePostgres",
 }));
 
 export type RotatePostgresUserPasswordError =
@@ -3553,6 +3733,8 @@ export const rotatePostgresUserPassword: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotatePostgresUserPassword",
 }));
 
 export type SetMachineMemoryLimitError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3568,6 +3750,8 @@ export const setMachineMemoryLimit: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetMachineMemoryLimit",
 }));
 
 export type SetSecretKeyError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -3583,6 +3767,8 @@ export const setSecretKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSecretKey",
 }));
 
 export type SignalMachineError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3598,6 +3784,8 @@ export const signalMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalMachine",
 }));
 
 export type SignSecretKeyError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3613,6 +3801,8 @@ export const signSecretKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignSecretKey",
 }));
 
 export type StartMachineError =
@@ -3642,6 +3832,8 @@ export const startMachine: API.OperationMethod<
   ],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartMachine",
 }));
 
 export type StopMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -3657,6 +3849,8 @@ export const stopMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopMachine",
 }));
 
 export type SuspendMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -3672,6 +3866,8 @@ export const suspendMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendMachine",
 }));
 
 export type UncordonMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -3687,6 +3883,8 @@ export const uncordonMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UncordonMachine",
 }));
 
 export type UpdateMachineError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -3702,6 +3900,8 @@ export const updateMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMachine",
 }));
 
 export type UpdatePostgresUserRoleError =
@@ -3721,6 +3921,8 @@ export const updatePostgresUserRole: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePostgresUserRole",
 }));
 
 export type UpdateSecretsError = BadRequest | Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -3736,6 +3938,8 @@ export const updateSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecrets",
 }));
 
 export type UpdateVolumeError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3751,6 +3955,8 @@ export const updateVolume: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVolume",
 }));
 
 export type UpsertMachineMetadataError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3766,6 +3972,8 @@ export const upsertMachineMetadata: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertMachineMetadata",
 }));
 
 export type VerifySecretKeyError = BadRequest | Forbidden | NotFound | FlyIoOpError;
@@ -3781,6 +3989,8 @@ export const verifySecretKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifySecretKey",
 }));
 
 export type WaitMachineError =
@@ -3802,6 +4012,8 @@ export const waitMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, GatewayTimeout, MachineWaitTimeout],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitMachine",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

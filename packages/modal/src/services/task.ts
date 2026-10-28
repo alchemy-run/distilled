@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "TaskService",
+  propagate: "w3c",
+} as const;
+
 export interface ListTaskRequest {
   environmentName?: string;
   appId?: string;
@@ -143,6 +155,8 @@ export const listTask: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTask",
 }));
 
 export type TaskClusterHelloError = ModalOpError;
@@ -158,6 +172,8 @@ export const taskClusterHello: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskClusterHello",
 }));
 
 export type TaskCurrentInputsError = ModalOpError;
@@ -172,6 +188,8 @@ export const taskCurrentInputs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskCurrentInputs",
 }));
 
 export type TaskGetCommandRouterAccessError = ModalOpError;
@@ -186,6 +204,8 @@ export const taskGetCommandRouterAccess: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskGetCommandRouterAccess",
 }));
 
 export type TaskGetInfoError = ModalOpError;
@@ -200,6 +220,8 @@ export const taskGetInfo: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskGetInfo",
 }));
 
 export type TaskResultError = ModalOpError;
@@ -214,6 +236,8 @@ export const taskResult: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskResult",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appmesh.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppMesh",
+  service: "AppMesh",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1273,6 +1288,8 @@ export const createGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRoute",
+  telemetry: TELEMETRY,
+  span: "CreateGatewayRoute",
 }));
 
 export type CreateMeshError =
@@ -1316,6 +1333,8 @@ export const createMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMesh",
+  telemetry: TELEMETRY,
+  span: "CreateMesh",
 }));
 
 export type CreateRouteError =
@@ -1357,6 +1376,8 @@ export const createRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoute",
+  telemetry: TELEMETRY,
+  span: "CreateRoute",
 }));
 
 export type CreateVirtualGatewayError =
@@ -1400,6 +1421,8 @@ export const createVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualGateway",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualGateway",
 }));
 
 export type CreateVirtualNodeError =
@@ -1462,6 +1485,8 @@ export const createVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualNode",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualNode",
 }));
 
 export type CreateVirtualRouterError =
@@ -1506,6 +1531,8 @@ export const createVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualRouter",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualRouter",
 }));
 
 export type CreateVirtualServiceError =
@@ -1550,6 +1577,8 @@ export const createVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualService",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualService",
 }));
 
 export type DeleteGatewayRouteError =
@@ -1584,6 +1613,8 @@ export const deleteGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRoute",
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayRoute",
 }));
 
 export type DeleteMeshError =
@@ -1621,6 +1652,8 @@ export const deleteMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMesh",
+  telemetry: TELEMETRY,
+  span: "DeleteMesh",
 }));
 
 export type DeleteRouteError =
@@ -1655,6 +1688,8 @@ export const deleteRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoute",
+  telemetry: TELEMETRY,
+  span: "DeleteRoute",
 }));
 
 export type DeleteVirtualGatewayError =
@@ -1690,6 +1725,8 @@ export const deleteVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualGateway",
 }));
 
 export type DeleteVirtualNodeError =
@@ -1727,6 +1764,8 @@ export const deleteVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualNode",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualNode",
 }));
 
 export type DeleteVirtualRouterError =
@@ -1764,6 +1803,8 @@ export const deleteVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualRouter",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualRouter",
 }));
 
 export type DeleteVirtualServiceError =
@@ -1798,6 +1839,8 @@ export const deleteVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualService",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualService",
 }));
 
 export type DescribeGatewayRouteError =
@@ -1830,6 +1873,8 @@ export const describeGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayRoute",
+  telemetry: TELEMETRY,
+  span: "DescribeGatewayRoute",
 }));
 
 export type DescribeMeshError =
@@ -1862,6 +1907,8 @@ export const describeMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMesh",
+  telemetry: TELEMETRY,
+  span: "DescribeMesh",
 }));
 
 export type DescribeRouteError =
@@ -1894,6 +1941,8 @@ export const describeRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoute",
+  telemetry: TELEMETRY,
+  span: "DescribeRoute",
 }));
 
 export type DescribeVirtualGatewayError =
@@ -1926,6 +1975,8 @@ export const describeVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualGateway",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualGateway",
 }));
 
 export type DescribeVirtualNodeError =
@@ -1958,6 +2009,8 @@ export const describeVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualNode",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualNode",
 }));
 
 export type DescribeVirtualRouterError =
@@ -1990,6 +2043,8 @@ export const describeVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualRouter",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualRouter",
 }));
 
 export type DescribeVirtualServiceError =
@@ -2022,6 +2077,8 @@ export const describeVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualService",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualService",
 }));
 
 export type ListGatewayRoutesError =
@@ -2062,6 +2119,8 @@ export const listGatewayRoutes: API.PaginatedOperationMethod<
     items: "gatewayRoutes",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGatewayRoutes",
 })) as any;
 
 export type ListMeshesError =
@@ -2101,6 +2160,8 @@ export const listMeshes: API.PaginatedOperationMethod<
     items: "meshes",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMeshes",
 })) as any;
 
 export type ListRoutesError =
@@ -2140,6 +2201,8 @@ export const listRoutes: API.PaginatedOperationMethod<
     items: "routes",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoutes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2179,6 +2242,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListVirtualGatewaysError =
@@ -2218,6 +2283,8 @@ export const listVirtualGateways: API.PaginatedOperationMethod<
     items: "virtualGateways",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualGateways",
 })) as any;
 
 export type ListVirtualNodesError =
@@ -2257,6 +2324,8 @@ export const listVirtualNodes: API.PaginatedOperationMethod<
     items: "virtualNodes",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNodes",
 })) as any;
 
 export type ListVirtualRoutersError =
@@ -2296,6 +2365,8 @@ export const listVirtualRouters: API.PaginatedOperationMethod<
     items: "virtualRouters",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualRouters",
 })) as any;
 
 export type ListVirtualServicesError =
@@ -2335,6 +2406,8 @@ export const listVirtualServices: API.PaginatedOperationMethod<
     items: "virtualServices",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualServices",
 })) as any;
 
 export type TagResourceError =
@@ -2372,6 +2445,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2404,6 +2479,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGatewayRouteError =
@@ -2441,6 +2518,8 @@ export const updateGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRoute",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayRoute",
 }));
 
 export type UpdateMeshError =
@@ -2475,6 +2554,8 @@ export const updateMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMesh",
+  telemetry: TELEMETRY,
+  span: "UpdateMesh",
 }));
 
 export type UpdateRouteError =
@@ -2511,6 +2592,8 @@ export const updateRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoute",
+  telemetry: TELEMETRY,
+  span: "UpdateRoute",
 }));
 
 export type UpdateVirtualGatewayError =
@@ -2547,6 +2630,8 @@ export const updateVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualGateway",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualGateway",
 }));
 
 export type UpdateVirtualNodeError =
@@ -2583,6 +2668,8 @@ export const updateVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualNode",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualNode",
 }));
 
 export type UpdateVirtualRouterError =
@@ -2619,6 +2706,8 @@ export const updateVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualRouter",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualRouter",
 }));
 
 export type UpdateVirtualServiceError =
@@ -2655,6 +2744,8 @@ export const updateVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualService",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

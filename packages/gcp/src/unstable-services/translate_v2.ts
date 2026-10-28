@@ -12,6 +12,24 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "translation" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Translate",
+  service: "translate",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -189,6 +207,8 @@ export const detectDetections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetectDetections",
 }));
 
 export type ListDetectionsError = NotFound | Forbidden | GcpOpError;
@@ -204,6 +224,8 @@ export const listDetections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDetections",
 }));
 
 export type ListLanguagesError = NotFound | Forbidden | GcpOpError;
@@ -219,6 +241,8 @@ export const listLanguages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLanguages",
 }));
 
 export type ListTranslationsError = NotFound | Forbidden | GcpOpError;
@@ -234,6 +258,8 @@ export const listTranslations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTranslations",
 }));
 
 export type TranslateTranslationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -249,6 +275,8 @@ export const translateTranslations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TranslateTranslations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

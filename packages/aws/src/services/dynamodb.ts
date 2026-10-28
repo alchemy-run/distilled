@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -375,6 +376,22 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://dynamodb.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  attributes: { "db.system.name": "aws.dynamodb" },
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DynamoDB",
+  service: "DynamoDB",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BackupInUseException
   extends /*@__PURE__*/ S.TaggedError<BackupInUseException>()("BackupInUseException", {
@@ -2406,6 +2423,14 @@ export const batchExecuteStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
+  telemetry: TELEMETRY,
+  span: {
+    op: "BatchExecuteStatement",
+    attributes: { "db.operation.name": "BatchExecuteStatement" },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type BatchGetItemError =
@@ -2493,6 +2518,15 @@ export const batchGetItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetItem",
+  telemetry: TELEMETRY,
+  span: {
+    op: "BatchGetItem",
+    attributes: { "db.operation.name": "BatchGetItem" },
+    input: { RequestItems: [{ name: "aws.dynamodb.table_names", transform: "keys" }] },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type BatchWriteItemError =
@@ -2611,6 +2645,15 @@ export const batchWriteItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWriteItem",
+  telemetry: TELEMETRY,
+  span: {
+    op: "BatchWriteItem",
+    attributes: { "db.operation.name": "BatchWriteItem" },
+    input: { RequestItems: [{ name: "aws.dynamodb.table_names", transform: "keys" }] },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type CreateBackupError =
@@ -2674,6 +2717,17 @@ export const createBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackup",
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateBackup",
+    attributes: { "db.operation.name": "CreateBackup" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type CreateGlobalTableError =
@@ -2747,6 +2801,8 @@ export const createGlobalTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalTable",
+  telemetry: TELEMETRY,
+  span: { op: "CreateGlobalTable", attributes: { "db.operation.name": "CreateGlobalTable" } },
 }));
 
 export type CreateTableError =
@@ -2789,6 +2845,17 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateTable",
+    attributes: { "db.operation.name": "CreateTable" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type DeleteBackupError =
@@ -2822,6 +2889,8 @@ export const deleteBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackup",
+  telemetry: TELEMETRY,
+  span: { op: "DeleteBackup", attributes: { "db.operation.name": "DeleteBackup" } },
 }));
 
 export type DeleteItemError =
@@ -2875,6 +2944,20 @@ export const deleteItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteItem",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteItem",
+    attributes: { "db.operation.name": "DeleteItem" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type DeleteResourcePolicyError =
@@ -2925,6 +3008,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: { op: "DeleteResourcePolicy", attributes: { "db.operation.name": "DeleteResourcePolicy" } },
 }));
 
 export type DeleteTableError =
@@ -2975,6 +3060,17 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteTable",
+    attributes: { "db.operation.name": "DeleteTable" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type DescribeBackupError =
@@ -3000,6 +3096,8 @@ export const describeBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackup",
+  telemetry: TELEMETRY,
+  span: { op: "DescribeBackup", attributes: { "db.operation.name": "DescribeBackup" } },
 }));
 
 export type DescribeContinuousBackupsError =
@@ -3036,6 +3134,17 @@ export const describeContinuousBackups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContinuousBackups",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeContinuousBackups",
+    attributes: { "db.operation.name": "DescribeContinuousBackups" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type DescribeContributorInsightsError =
@@ -3058,6 +3167,18 @@ export const describeContributorInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContributorInsights",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeContributorInsights",
+    attributes: { "db.operation.name": "DescribeContributorInsights" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+      IndexName: [{ name: "aws.dynamodb.index_name" }],
+    },
+  },
 }));
 
 export type DescribeEndpointsError = CommonErrors;
@@ -3077,6 +3198,8 @@ export const describeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoints",
+  telemetry: TELEMETRY,
+  span: { op: "DescribeEndpoints", attributes: { "db.operation.name": "DescribeEndpoints" } },
 }));
 
 export type DescribeExportError =
@@ -3099,6 +3222,8 @@ export const describeExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExport",
+  telemetry: TELEMETRY,
+  span: { op: "DescribeExport", attributes: { "db.operation.name": "DescribeExport" } },
 }));
 
 export type DescribeGlobalTableError =
@@ -3125,6 +3250,8 @@ export const describeGlobalTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalTable",
+  telemetry: TELEMETRY,
+  span: { op: "DescribeGlobalTable", attributes: { "db.operation.name": "DescribeGlobalTable" } },
 }));
 
 export type DescribeGlobalTableSettingsError =
@@ -3151,6 +3278,11 @@ export const describeGlobalTableSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalTableSettings",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeGlobalTableSettings",
+    attributes: { "db.operation.name": "DescribeGlobalTableSettings" },
+  },
 }));
 
 export type DescribeImportError = ImportNotFoundException | CommonErrors;
@@ -3169,6 +3301,8 @@ export const describeImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImport",
+  telemetry: TELEMETRY,
+  span: { op: "DescribeImport", attributes: { "db.operation.name": "DescribeImport" } },
 }));
 
 export type DescribeKinesisStreamingDestinationError =
@@ -3191,6 +3325,17 @@ export const describeKinesisStreamingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKinesisStreamingDestination",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeKinesisStreamingDestination",
+    attributes: { "db.operation.name": "DescribeKinesisStreamingDestination" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type DescribeLimitsError = InternalServerError | InvalidEndpointException | CommonErrors;
@@ -3271,6 +3416,8 @@ export const describeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimits",
+  telemetry: TELEMETRY,
+  span: { op: "DescribeLimits", attributes: { "db.operation.name": "DescribeLimits" } },
 }));
 
 export type DescribeTableError =
@@ -3301,6 +3448,17 @@ export const describeTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTable",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeTable",
+    attributes: { "db.operation.name": "DescribeTable" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type DescribeTableReplicaAutoScalingError =
@@ -3322,6 +3480,17 @@ export const describeTableReplicaAutoScaling: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTableReplicaAutoScaling",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeTableReplicaAutoScaling",
+    attributes: { "db.operation.name": "DescribeTableReplicaAutoScaling" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type DescribeTimeToLiveError =
@@ -3344,6 +3513,17 @@ export const describeTimeToLive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTimeToLive",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeTimeToLive",
+    attributes: { "db.operation.name": "DescribeTimeToLive" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type DisableKinesisStreamingDestinationError =
@@ -3375,6 +3555,17 @@ export const disableKinesisStreamingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableKinesisStreamingDestination",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DisableKinesisStreamingDestination",
+    attributes: { "db.operation.name": "DisableKinesisStreamingDestination" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type EnableKinesisStreamingDestinationError =
@@ -3408,6 +3599,17 @@ export const enableKinesisStreamingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableKinesisStreamingDestination",
+  telemetry: TELEMETRY,
+  span: {
+    op: "EnableKinesisStreamingDestination",
+    attributes: { "db.operation.name": "EnableKinesisStreamingDestination" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type ExecuteStatementError =
@@ -3460,6 +3662,18 @@ export const executeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExecuteStatement",
+    attributes: { "db.operation.name": "ExecuteStatement" },
+    input: {
+      ConsistentRead: [{ name: "aws.dynamodb.consistent_read" }],
+      Limit: [{ name: "aws.dynamodb.limit" }],
+    },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type ExecuteTransactionError =
@@ -3502,6 +3716,14 @@ export const executeTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteTransaction",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExecuteTransaction",
+    attributes: { "db.operation.name": "ExecuteTransaction" },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type ExportTableToPointInTimeError =
@@ -3536,6 +3758,11 @@ export const exportTableToPointInTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportTableToPointInTime",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ExportTableToPointInTime",
+    attributes: { "db.operation.name": "ExportTableToPointInTime" },
+  },
 }));
 
 export type GetItemError =
@@ -3575,6 +3802,23 @@ export const getItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetItem",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetItem",
+    attributes: { "db.operation.name": "GetItem" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+      AttributesToGet: [{ name: "aws.dynamodb.attributes_to_get" }],
+      ConsistentRead: [{ name: "aws.dynamodb.consistent_read" }],
+      ProjectionExpression: [{ name: "aws.dynamodb.projection" }],
+    },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type GetResourcePolicyError =
@@ -3635,6 +3879,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: { op: "GetResourcePolicy", attributes: { "db.operation.name": "GetResourcePolicy" } },
 }));
 
 export type ImportTableError =
@@ -3657,6 +3903,8 @@ export const importTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportTable",
+  telemetry: TELEMETRY,
+  span: { op: "ImportTable", attributes: { "db.operation.name": "ImportTable" } },
 }));
 
 export type ListBackupsError = InternalServerError | InvalidEndpointException | CommonErrors;
@@ -3688,6 +3936,18 @@ export const listBackups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackups",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListBackups",
+    attributes: { "db.operation.name": "ListBackups" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+      Limit: [{ name: "aws.dynamodb.limit" }],
+    },
+  },
 }));
 
 export type ListContributorInsightsError =
@@ -3716,6 +3976,17 @@ export const listContributorInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListContributorInsights",
+    attributes: { "db.operation.name": "ListContributorInsights" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 })) as any;
 
 export type ListExportsError = InternalServerError | LimitExceededException | CommonErrors;
@@ -3740,6 +4011,8 @@ export const listExports: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListExports", attributes: { "db.operation.name": "ListExports" } },
 })) as any;
 
 export type ListGlobalTablesError = InternalServerError | InvalidEndpointException | CommonErrors;
@@ -3762,6 +4035,12 @@ export const listGlobalTables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGlobalTables",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListGlobalTables",
+    attributes: { "db.operation.name": "ListGlobalTables" },
+    input: { Limit: [{ name: "aws.dynamodb.limit" }] },
+  },
 }));
 
 export type ListImportsError = LimitExceededException | CommonErrors;
@@ -3782,6 +4061,8 @@ export const listImports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListImports",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "PageSize" } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListImports", attributes: { "db.operation.name": "ListImports" } },
 })) as any;
 
 export type ListTablesError = InternalServerError | InvalidEndpointException | CommonErrors;
@@ -3809,6 +4090,15 @@ export const listTables: API.PaginatedOperationMethod<
     items: "TableNames",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListTables",
+    attributes: { "db.operation.name": "ListTables" },
+    input: {
+      ExclusiveStartTableName: [{ name: "aws.dynamodb.exclusive_start_table" }],
+      Limit: [{ name: "aws.dynamodb.limit" }],
+    },
+  },
 })) as any;
 
 export type ListTagsOfResourceError =
@@ -3835,6 +4125,8 @@ export const listTagsOfResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsOfResource",
+  telemetry: TELEMETRY,
+  span: { op: "ListTagsOfResource", attributes: { "db.operation.name": "ListTagsOfResource" } },
 }));
 
 export type PutItemError =
@@ -3902,6 +4194,20 @@ export const putItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutItem",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutItem",
+    attributes: { "db.operation.name": "PutItem" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type PutResourcePolicyError =
@@ -3953,6 +4259,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: { op: "PutResourcePolicy", attributes: { "db.operation.name": "PutResourcePolicy" } },
 }));
 
 export type QueryError =
@@ -4043,6 +4351,29 @@ export const query: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "Query",
+    attributes: { "db.operation.name": "Query" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+      IndexName: [{ name: "aws.dynamodb.index_name" }],
+      Select: [{ name: "aws.dynamodb.select" }],
+      AttributesToGet: [{ name: "aws.dynamodb.attributes_to_get" }],
+      Limit: [{ name: "aws.dynamodb.limit" }],
+      ConsistentRead: [{ name: "aws.dynamodb.consistent_read" }],
+      ScanIndexForward: [{ name: "aws.dynamodb.scan_forward" }],
+      ProjectionExpression: [{ name: "aws.dynamodb.projection" }],
+    },
+    output: {
+      Count: [{ name: "aws.dynamodb.count" }],
+      ScannedCount: [{ name: "aws.dynamodb.scanned_count" }],
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 })) as any;
 
 export type RestoreTableFromBackupError =
@@ -4095,6 +4426,11 @@ export const restoreTableFromBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableFromBackup",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RestoreTableFromBackup",
+    attributes: { "db.operation.name": "RestoreTableFromBackup" },
+  },
 }));
 
 export type RestoreTableToPointInTimeError =
@@ -4168,6 +4504,11 @@ export const restoreTableToPointInTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableToPointInTime",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RestoreTableToPointInTime",
+    attributes: { "db.operation.name": "RestoreTableToPointInTime" },
+  },
 }));
 
 export type ScanError =
@@ -4249,6 +4590,30 @@ export const scan: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "Scan",
+    attributes: { "db.operation.name": "Scan" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+      IndexName: [{ name: "aws.dynamodb.index_name" }],
+      AttributesToGet: [{ name: "aws.dynamodb.attributes_to_get" }],
+      Limit: [{ name: "aws.dynamodb.limit" }],
+      Select: [{ name: "aws.dynamodb.select" }],
+      TotalSegments: [{ name: "aws.dynamodb.total_segments" }],
+      Segment: [{ name: "aws.dynamodb.segment" }],
+      ProjectionExpression: [{ name: "aws.dynamodb.projection" }],
+      ConsistentRead: [{ name: "aws.dynamodb.consistent_read" }],
+    },
+    output: {
+      Count: [{ name: "aws.dynamodb.count" }],
+      ScannedCount: [{ name: "aws.dynamodb.scanned_count" }],
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 })) as any;
 
 export type SearchVectorsError =
@@ -4292,6 +4657,22 @@ export const searchVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchVectors",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SearchVectors",
+    attributes: { "db.operation.name": "SearchVectors" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+      IndexName: [{ name: "aws.dynamodb.index_name" }],
+      ProjectionExpression: [{ name: "aws.dynamodb.projection" }],
+    },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type TagResourceError =
@@ -4341,6 +4722,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: { op: "TagResource", attributes: { "db.operation.name": "TagResource" } },
 }));
 
 export type TransactGetItemsError =
@@ -4395,6 +4778,14 @@ export const transactGetItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransactGetItems",
+  telemetry: TELEMETRY,
+  span: {
+    op: "TransactGetItems",
+    attributes: { "db.operation.name": "TransactGetItems" },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type TransactWriteItemsError =
@@ -4488,6 +4879,14 @@ export const transactWriteItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransactWriteItems",
+  telemetry: TELEMETRY,
+  span: {
+    op: "TransactWriteItems",
+    attributes: { "db.operation.name": "TransactWriteItems" },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type UntagResourceError =
@@ -4535,6 +4934,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: { op: "UntagResource", attributes: { "db.operation.name": "UntagResource" } },
 }));
 
 export type UpdateContinuousBackupsError =
@@ -4575,6 +4976,17 @@ export const updateContinuousBackups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContinuousBackups",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateContinuousBackups",
+    attributes: { "db.operation.name": "UpdateContinuousBackups" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type UpdateContributorInsightsError =
@@ -4602,6 +5014,18 @@ export const updateContributorInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContributorInsights",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateContributorInsights",
+    attributes: { "db.operation.name": "UpdateContributorInsights" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+      IndexName: [{ name: "aws.dynamodb.index_name" }],
+    },
+  },
 }));
 
 export type UpdateGlobalTableError =
@@ -4659,6 +5083,8 @@ export const updateGlobalTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalTable",
+  telemetry: TELEMETRY,
+  span: { op: "UpdateGlobalTable", attributes: { "db.operation.name": "UpdateGlobalTable" } },
 }));
 
 export type UpdateGlobalTableSettingsError =
@@ -4697,6 +5123,11 @@ export const updateGlobalTableSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalTableSettings",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateGlobalTableSettings",
+    attributes: { "db.operation.name": "UpdateGlobalTableSettings" },
+  },
 }));
 
 export type UpdateItemError =
@@ -4744,6 +5175,20 @@ export const updateItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateItem",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateItem",
+    attributes: { "db.operation.name": "UpdateItem" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+    output: {
+      ConsumedCapacity: [{ name: "aws.dynamodb.consumed_capacity", transform: "jsonList" }],
+    },
+  },
 }));
 
 export type UpdateKinesisStreamingDestinationError =
@@ -4774,6 +5219,17 @@ export const updateKinesisStreamingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKinesisStreamingDestination",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateKinesisStreamingDestination",
+    attributes: { "db.operation.name": "UpdateKinesisStreamingDestination" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type UpdateTableError =
@@ -4821,6 +5277,17 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateTable",
+    attributes: { "db.operation.name": "UpdateTable" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type UpdateTableReplicaAutoScalingError =
@@ -4849,6 +5316,17 @@ export const updateTableReplicaAutoScaling: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableReplicaAutoScaling",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateTableReplicaAutoScaling",
+    attributes: { "db.operation.name": "UpdateTableReplicaAutoScaling" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 export type UpdateTimeToLiveError =
@@ -4905,6 +5383,17 @@ export const updateTimeToLive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTimeToLive",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateTimeToLive",
+    attributes: { "db.operation.name": "UpdateTimeToLive" },
+    input: {
+      TableName: [
+        { name: "aws.dynamodb.table_names", transform: "list" },
+        { name: "db.namespace" },
+      ],
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

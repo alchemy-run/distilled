@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AppConfiguration" },
+  prefix: "Appconfiguration",
+  service: "Appconfiguration",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The resource type to check for name availability. */
 export type CheckOperationNameAvailabilityRequestType =
   "Microsoft.AppConfiguration/configurationStores";
@@ -1156,6 +1177,8 @@ export const CheckOperationNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckOperationNameAvailability",
 }));
 
 export type CreateConfigurationStoreError = AzureOpError;
@@ -1171,6 +1194,8 @@ export const CreateConfigurationStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationStore",
 }));
 
 export type CreateReplicasError = AzureOpError;
@@ -1186,6 +1211,8 @@ export const CreateReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReplicas",
 }));
 
 export type CreateSnapshotError = AzureOpError;
@@ -1201,6 +1228,8 @@ export const CreateSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type DeleteConfigurationStoreError = AzureOpError;
@@ -1216,6 +1245,8 @@ export const DeleteConfigurationStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationStore",
 }));
 
 export type DeleteKeyValueError = AzureOpError;
@@ -1231,6 +1262,8 @@ export const DeleteKeyValue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKeyValue",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1246,6 +1279,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteReplicasError = AzureOpError;
@@ -1261,6 +1296,8 @@ export const DeleteReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReplicas",
 }));
 
 export type GetConfigurationStoreError = AzureOpError;
@@ -1276,6 +1313,8 @@ export const GetConfigurationStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationStore",
 }));
 
 export type GetConfigurationStoreDeletedError = AzureOpError;
@@ -1291,6 +1330,8 @@ export const GetConfigurationStoreDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationStoreDeleted",
 }));
 
 export type GetKeyValueError = AzureOpError;
@@ -1306,6 +1347,8 @@ export const GetKeyValue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyValue",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1321,6 +1364,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -1336,6 +1381,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetReplicasError = AzureOpError;
@@ -1351,6 +1398,8 @@ export const GetReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReplicas",
 }));
 
 export type GetSnapshotError = AzureOpError;
@@ -1366,6 +1415,8 @@ export const GetSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type KeyValuesCreateOrUpdateError = AzureOpError;
@@ -1381,6 +1432,8 @@ export const KeyValuesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeyValuesCreateOrUpdate",
 }));
 
 export type ListConfigurationStoreByResourceGroupError = AzureOpError;
@@ -1396,6 +1449,8 @@ export const ListConfigurationStoreByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationStoreByResourceGroup",
 }));
 
 export type ListConfigurationStoreDeletedError = AzureOpError;
@@ -1411,6 +1466,8 @@ export const ListConfigurationStoreDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationStoreDeleted",
 }));
 
 export type ListConfigurationStoreKeysError = AzureOpError;
@@ -1426,6 +1483,8 @@ export const ListConfigurationStoreKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationStoreKeys",
 }));
 
 export type ListConfigurationStoresError = AzureOpError;
@@ -1441,6 +1500,8 @@ export const ListConfigurationStores: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationStores",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1456,6 +1517,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByConfigurationStoreError = AzureOpError;
@@ -1475,6 +1538,8 @@ export const ListPrivateEndpointConnectionByConfigurationStore: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByConfigurationStore",
 }));
 
 export type ListPrivateLinkResourceByConfigurationStoreError = AzureOpError;
@@ -1490,6 +1555,8 @@ export const ListPrivateLinkResourceByConfigurationStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByConfigurationStore",
 }));
 
 export type ListReplicasByConfigurationStoreError = AzureOpError;
@@ -1505,6 +1572,8 @@ export const ListReplicasByConfigurationStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReplicasByConfigurationStore",
 }));
 
 export type OperationsRegionalCheckNameAvailabilityError = AzureOpError;
@@ -1520,6 +1589,8 @@ export const OperationsRegionalCheckNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OperationsRegionalCheckNameAvailability",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -1535,6 +1606,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type PurgeConfigurationStoreDeletedError = AzureOpError;
@@ -1550,6 +1623,8 @@ export const PurgeConfigurationStoreDeleted: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeConfigurationStoreDeleted",
 }));
 
 export type RegenerateConfigurationStoreKeyError = AzureOpError;
@@ -1565,6 +1640,8 @@ export const RegenerateConfigurationStoreKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateConfigurationStoreKey",
 }));
 
 export type UpdateConfigurationStoreError = AzureOpError;
@@ -1580,6 +1657,8 @@ export const UpdateConfigurationStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationStore",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

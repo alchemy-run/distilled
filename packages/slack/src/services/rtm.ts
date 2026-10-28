@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Rtm",
+  propagate: "w3c",
+} as const;
+
 export interface ConnectRtmRequest {
   /** Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/apis/web-api/user-presence-and-status#batching). */
   batch_presence_aware?: boolean;
@@ -73,6 +86,8 @@ export const connectRtm: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectRtm",
 }));
 
 export type StartRtmError = SlackOpError;
@@ -88,6 +103,8 @@ export const startRtm: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartRtm",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

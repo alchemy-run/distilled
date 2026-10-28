@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.SoftwarePlan" },
+  prefix: "Softwareplan",
+  service: "Softwareplan",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The SKU to be applied for this resource */
 export interface Sku {
   /** Name of the SKU to be applied */
@@ -191,6 +211,13 @@ export const CreateHybridUseBenefit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateHybridUseBenefit",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+    },
+  },
 }));
 
 export type DeleteHybridUseBenefitError = AzureOpError;
@@ -206,6 +233,13 @@ export const DeleteHybridUseBenefit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteHybridUseBenefit",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+    },
+  },
 }));
 
 export type GetHybridUseBenefitError = AzureOpError;
@@ -221,6 +255,13 @@ export const GetHybridUseBenefit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetHybridUseBenefit",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+    },
+  },
 }));
 
 export type ListHybridUseBenefitError = AzureOpError;
@@ -236,6 +277,11 @@ export const ListHybridUseBenefit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListHybridUseBenefit",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits" },
+  },
 }));
 
 export type ListHybridUseBenefitRevisionError = AzureOpError;
@@ -251,6 +297,14 @@ export const ListHybridUseBenefitRevision: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListHybridUseBenefitRevision",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}/revisions",
+    },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -266,6 +320,11 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListOperations",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.SoftwarePlan/operations" },
+  },
 }));
 
 export type RegisterSoftwarePlanError = AzureOpError;
@@ -281,6 +340,8 @@ export const RegisterSoftwarePlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterSoftwarePlan",
 }));
 
 export type UpdateHybridUseBenefitError = AzureOpError;
@@ -296,6 +357,13 @@ export const UpdateHybridUseBenefit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateHybridUseBenefit",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

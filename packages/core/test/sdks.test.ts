@@ -10,7 +10,7 @@ import { describe, expect, test } from "vitest";
 const PACKAGES = join(import.meta.dirname, "..", "..");
 
 /** Library packages: no generated SDK, so none of the checks apply. */
-const LIBRARIES = new Set(["core", "aws4signer"]);
+const LIBRARIES = new Set(["core", "aws4signer", "dev"]);
 
 const sdks = readdirSync(PACKAGES)
   .filter((name) => !LIBRARIES.has(name) && existsSync(join(PACKAGES, name, "package.json")))

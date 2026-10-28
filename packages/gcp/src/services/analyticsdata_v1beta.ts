@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "analyticsdata" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Analyticsdata",
+  service: "analyticsdata",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -972,6 +991,8 @@ export const batchRunPivotReportsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchRunPivotReportsProperties",
 }));
 
 export type BatchRunReportsPropertiesError =
@@ -992,6 +1013,8 @@ export const batchRunReportsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchRunReportsProperties",
 }));
 
 export type CheckCompatibilityPropertiesError =
@@ -1012,6 +1035,8 @@ export const checkCompatibilityProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCompatibilityProperties",
 }));
 
 export type CreatePropertiesAudienceExportsError =
@@ -1032,6 +1057,8 @@ export const createPropertiesAudienceExports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesAudienceExports",
 }));
 
 export type GetMetadataPropertiesError = NotFound | Forbidden | GcpOpError;
@@ -1047,6 +1074,8 @@ export const getMetadataProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadataProperties",
 }));
 
 export type GetPropertiesAudienceExportsError = NotFound | Forbidden | GcpOpError;
@@ -1062,6 +1091,8 @@ export const getPropertiesAudienceExports: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesAudienceExports",
 }));
 
 export type ListPropertiesAudienceExportsError = NotFound | Forbidden | GcpOpError;
@@ -1078,6 +1109,8 @@ export const listPropertiesAudienceExports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesAudienceExports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1099,6 +1132,8 @@ export const queryPropertiesAudienceExports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryPropertiesAudienceExports",
 }));
 
 export type RunPivotReportPropertiesError =
@@ -1119,6 +1154,8 @@ export const runPivotReportProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunPivotReportProperties",
 }));
 
 export type RunRealtimeReportPropertiesError =
@@ -1139,6 +1176,8 @@ export const runRealtimeReportProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunRealtimeReportProperties",
 }));
 
 export type RunReportPropertiesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1154,6 +1193,8 @@ export const runReportProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunReportProperties",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

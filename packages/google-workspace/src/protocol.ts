@@ -1,7 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import { debugHttp } from "@distilled.cloud/core/debug";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import type { DefaultErrors } from "@distilled.cloud/core/errors";
+import type { ConfigError, DefaultErrors } from "@distilled.cloud/core/errors";
 import { getAnn, getProps, hasPropAnn, nameOf } from "@distilled.cloud/core/protocol-http";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
@@ -61,6 +61,7 @@ export type GoogleWorkspaceOpError =
   | DefaultErrors
   | UnknownGoogleWorkspaceError
   | GoogleWorkspaceParseError
+  | ConfigError
   | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Google Workspace operation. */
@@ -223,7 +224,7 @@ const decode = ({
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- some error responses (proxies,
     // HTML error pages) carry non-JSON bodies.
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
     if (debugHttp()) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
     }

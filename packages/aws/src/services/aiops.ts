@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://aiops.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AIOps",
+  service: "AIOps",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -294,6 +309,8 @@ export const createInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvestigationGroup",
+  telemetry: TELEMETRY,
+  span: "CreateInvestigationGroup",
 }));
 
 export type DeleteInvestigationGroupError =
@@ -324,6 +341,8 @@ export const deleteInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteInvestigationGroup",
 }));
 
 export type DeleteInvestigationGroupPolicyError =
@@ -356,6 +375,8 @@ export const deleteInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvestigationGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteInvestigationGroupPolicy",
 }));
 
 export type GetInvestigationGroupError =
@@ -386,6 +407,8 @@ export const getInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroup",
+  telemetry: TELEMETRY,
+  span: "GetInvestigationGroup",
 }));
 
 export type GetInvestigationGroupPolicyError =
@@ -418,6 +441,8 @@ export const getInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigationGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "GetInvestigationGroupPolicy",
 }));
 
 export type ListInvestigationGroupsError =
@@ -447,6 +472,8 @@ export const listInvestigationGroups: API.PaginatedOperationMethod<
     items: "investigationGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvestigationGroups",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -479,6 +506,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutInvestigationGroupPolicyError =
@@ -517,6 +546,8 @@ export const putInvestigationGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInvestigationGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "PutInvestigationGroupPolicy",
 }));
 
 export type TagResourceError =
@@ -555,6 +586,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -587,6 +620,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateInvestigationGroupError =
@@ -621,6 +656,8 @@ export const updateInvestigationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvestigationGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateInvestigationGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

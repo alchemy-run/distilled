@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "VercelCi",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -963,6 +977,8 @@ export const getVercelCiInvocation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelCiInvocation",
 }));
 
 export type GetVercelCiInvocationLogsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -978,6 +994,8 @@ export const getVercelCiInvocationLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelCiInvocationLogs",
 }));
 
 export type GetVercelCiInvocationTreeError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -993,6 +1011,8 @@ export const getVercelCiInvocationTree: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelCiInvocationTree",
 }));
 
 export type GetVercelCiJobDefinitionError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1008,6 +1028,8 @@ export const getVercelCiJobDefinition: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelCiJobDefinition",
 }));
 
 export type GetVercelCiJobRunError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1023,6 +1045,8 @@ export const getVercelCiJobRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelCiJobRun",
 }));
 
 export type GetVercelCiJobRunLogsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1038,6 +1062,8 @@ export const getVercelCiJobRunLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelCiJobRunLogs",
 }));
 
 export type GetVercelCiTaskLogsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1053,6 +1079,8 @@ export const getVercelCiTaskLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelCiTaskLogs",
 }));
 
 export type GetVercelCiTaskRunLogsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1068,6 +1096,8 @@ export const getVercelCiTaskRunLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVercelCiTaskRunLogs",
 }));
 
 export type ListVercelCiBranchesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1083,6 +1113,8 @@ export const listVercelCiBranches: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelCiBranches",
 }));
 
 export type ListVercelCiInvocationAttemptsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1098,6 +1130,8 @@ export const listVercelCiInvocationAttempts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelCiInvocationAttempts",
 }));
 
 export type ListVercelCiInvocationsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1113,6 +1147,8 @@ export const listVercelCiInvocations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelCiInvocations",
 }));
 
 export type ListVercelCiJobDefinitionsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1128,6 +1164,8 @@ export const listVercelCiJobDefinitions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelCiJobDefinitions",
 }));
 
 export type ListVercelCiJobRunsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1143,6 +1181,8 @@ export const listVercelCiJobRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelCiJobRuns",
 }));
 
 export type ListVercelCiTaskDefinitionsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1158,6 +1198,8 @@ export const listVercelCiTaskDefinitions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelCiTaskDefinitions",
 }));
 
 export type ListVercelCiTaskRunsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1173,6 +1215,8 @@ export const listVercelCiTaskRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVercelCiTaskRuns",
 }));
 
 export type RetryVercelCiInvocationError =
@@ -1193,6 +1237,8 @@ export const retryVercelCiInvocation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryVercelCiInvocation",
 }));
 
 export type SearchVercelCiLogsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -1208,6 +1254,8 @@ export const searchVercelCiLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchVercelCiLogs",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

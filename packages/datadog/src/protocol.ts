@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * DatadogProtocol -- hand-written.
@@ -35,7 +35,8 @@ export type DatadogOpError =
   | UnknownDatadogError
   | ConfigError
   | HttpClientError.HttpClientError
-  | DatadogParseError;
+  | DatadogParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Datadog operation. */
 export type DatadogOpContext = Credentials | HttpClient.HttpClient;

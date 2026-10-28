@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Sca",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -478,6 +491,8 @@ export const createApplication: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateEnvironmentError = BadRequest | Conflict | StackitOpError;
@@ -493,6 +508,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type DeleteApplicationError = NotFound | StackitOpError;
@@ -508,6 +525,8 @@ export const deleteApplication: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type GetApplicationError = NotFound | StackitOpError;
@@ -523,6 +542,8 @@ export const getApplication: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationEventsError = NotFound | StackitOpError;
@@ -538,6 +559,8 @@ export const getApplicationEvents: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationEvents",
 }));
 
 export type GetApplicationLogsError = BadRequest | NotFound | StackitOpError;
@@ -553,6 +576,8 @@ export const getApplicationLogs: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationLogs",
 }));
 
 export type GetEnvironmentError = NotFound | StackitOpError;
@@ -568,6 +593,8 @@ export const getEnvironment: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetOverviewError = StackitOpError;
@@ -583,6 +610,8 @@ export const getOverview: API.OperationMethod<
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOverview",
 }));
 
 export type ListApplicationsError = BadRequest | StackitOpError;
@@ -598,6 +627,8 @@ export const listApplications: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 }));
 
 export type ListEnvironmentsError = BadRequest | StackitOpError;
@@ -613,6 +644,8 @@ export const listEnvironments: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListProjectApplicationsError = BadRequest | StackitOpError;
@@ -628,6 +661,8 @@ export const listProjectApplications: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectApplications",
 }));
 
 export type UpdateApplicationError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -643,6 +678,8 @@ export const updateApplication: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -23,7 +23,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("EasCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "EasCredentials",
+  ) {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   accessToken: /*@__PURE__*/ EffectConfig.String("EXPO_TOKEN"),
@@ -54,6 +56,5 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       accessToken: Redacted.make(accessToken),
       apiBaseUrl,
     })),
-    Effect.orDie,
   ),
 );

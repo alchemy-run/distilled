@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediaconnect.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaConnect",
+  service: "MediaConnect",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AddFlowOutputs420Exception
   extends /*@__PURE__*/ S.TaggedError<AddFlowOutputs420Exception>()(
@@ -3108,6 +3123,8 @@ export const addBridgeOutputs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddBridgeOutputs",
+  telemetry: TELEMETRY,
+  span: "AddBridgeOutputs",
 }));
 
 export type AddBridgeSourcesError =
@@ -3142,6 +3159,8 @@ export const addBridgeSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddBridgeSources",
+  telemetry: TELEMETRY,
+  span: "AddBridgeSources",
 }));
 
 export type AddFlowMediaStreamsError =
@@ -3174,6 +3193,8 @@ export const addFlowMediaStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowMediaStreams",
+  telemetry: TELEMETRY,
+  span: "AddFlowMediaStreams",
 }));
 
 export type AddFlowOutputsError =
@@ -3208,6 +3229,8 @@ export const addFlowOutputs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowOutputs",
+  telemetry: TELEMETRY,
+  span: "AddFlowOutputs",
 }));
 
 export type AddFlowSourcesError =
@@ -3240,6 +3263,8 @@ export const addFlowSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowSources",
+  telemetry: TELEMETRY,
+  span: "AddFlowSources",
 }));
 
 export type AddFlowVpcInterfacesError =
@@ -3272,6 +3297,8 @@ export const addFlowVpcInterfaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddFlowVpcInterfaces",
+  telemetry: TELEMETRY,
+  span: "AddFlowVpcInterfaces",
 }));
 
 export type BatchGetRouterInputError =
@@ -3302,6 +3329,8 @@ export const batchGetRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterInput",
+  telemetry: TELEMETRY,
+  span: "BatchGetRouterInput",
 }));
 
 export type BatchGetRouterNetworkInterfaceError =
@@ -3332,6 +3361,8 @@ export const batchGetRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "BatchGetRouterNetworkInterface",
 }));
 
 export type BatchGetRouterOutputError =
@@ -3362,6 +3393,8 @@ export const batchGetRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRouterOutput",
+  telemetry: TELEMETRY,
+  span: "BatchGetRouterOutput",
 }));
 
 export type CreateBridgeError =
@@ -3396,6 +3429,8 @@ export const createBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBridge",
+  telemetry: TELEMETRY,
+  span: "CreateBridge",
 }));
 
 export type CreateFlowError =
@@ -3428,6 +3463,8 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
+  telemetry: TELEMETRY,
+  span: "CreateFlow",
 }));
 
 export type CreateGatewayError =
@@ -3462,6 +3499,8 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type CreateRouterInputError =
@@ -3496,6 +3535,8 @@ export const createRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterInput",
+  telemetry: TELEMETRY,
+  span: "CreateRouterInput",
 }));
 
 export type CreateRouterNetworkInterfaceError =
@@ -3530,6 +3571,8 @@ export const createRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "CreateRouterNetworkInterface",
 }));
 
 export type CreateRouterOutputError =
@@ -3564,6 +3607,8 @@ export const createRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouterOutput",
+  telemetry: TELEMETRY,
+  span: "CreateRouterOutput",
 }));
 
 export type DeleteBridgeError =
@@ -3598,6 +3643,8 @@ export const deleteBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBridge",
+  telemetry: TELEMETRY,
+  span: "DeleteBridge",
 }));
 
 export type DeleteFlowError =
@@ -3630,6 +3677,8 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteFlow",
 }));
 
 export type DeleteGatewayError =
@@ -3664,6 +3713,8 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeleteRouterInputError =
@@ -3698,6 +3749,8 @@ export const deleteRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterInput",
+  telemetry: TELEMETRY,
+  span: "DeleteRouterInput",
 }));
 
 export type DeleteRouterNetworkInterfaceError =
@@ -3732,6 +3785,8 @@ export const deleteRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "DeleteRouterNetworkInterface",
 }));
 
 export type DeleteRouterOutputError =
@@ -3766,6 +3821,8 @@ export const deleteRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouterOutput",
+  telemetry: TELEMETRY,
+  span: "DeleteRouterOutput",
 }));
 
 export type DeregisterGatewayInstanceError =
@@ -3800,6 +3857,8 @@ export const deregisterGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterGatewayInstance",
+  telemetry: TELEMETRY,
+  span: "DeregisterGatewayInstance",
 }));
 
 export type DescribeBridgeError =
@@ -3834,6 +3893,8 @@ export const describeBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBridge",
+  telemetry: TELEMETRY,
+  span: "DescribeBridge",
 }));
 
 export type DescribeFlowError =
@@ -3866,6 +3927,8 @@ export const describeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlow",
+  telemetry: TELEMETRY,
+  span: "DescribeFlow",
 }));
 
 export type DescribeFlowSourceMetadataError =
@@ -3898,6 +3961,8 @@ export const describeFlowSourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowSourceMetadata",
+  telemetry: TELEMETRY,
+  span: "DescribeFlowSourceMetadata",
 }));
 
 export type DescribeFlowSourceThumbnailError =
@@ -3930,6 +3995,8 @@ export const describeFlowSourceThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowSourceThumbnail",
+  telemetry: TELEMETRY,
+  span: "DescribeFlowSourceThumbnail",
 }));
 
 export type DescribeGatewayError =
@@ -3964,6 +4031,8 @@ export const describeGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGateway",
+  telemetry: TELEMETRY,
+  span: "DescribeGateway",
 }));
 
 export type DescribeGatewayInstanceError =
@@ -3998,6 +4067,8 @@ export const describeGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayInstance",
+  telemetry: TELEMETRY,
+  span: "DescribeGatewayInstance",
 }));
 
 export type DescribeOfferingError =
@@ -4028,6 +4099,8 @@ export const describeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOffering",
+  telemetry: TELEMETRY,
+  span: "DescribeOffering",
 }));
 
 export type DescribeReservationError =
@@ -4058,6 +4131,8 @@ export const describeReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservation",
+  telemetry: TELEMETRY,
+  span: "DescribeReservation",
 }));
 
 export type GetRouterInputError =
@@ -4092,6 +4167,8 @@ export const getRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInput",
+  telemetry: TELEMETRY,
+  span: "GetRouterInput",
 }));
 
 export type GetRouterInputSourceMetadataError =
@@ -4124,6 +4201,8 @@ export const getRouterInputSourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInputSourceMetadata",
+  telemetry: TELEMETRY,
+  span: "GetRouterInputSourceMetadata",
 }));
 
 export type GetRouterInputThumbnailError =
@@ -4156,6 +4235,8 @@ export const getRouterInputThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterInputThumbnail",
+  telemetry: TELEMETRY,
+  span: "GetRouterInputThumbnail",
 }));
 
 export type GetRouterNetworkInterfaceError =
@@ -4190,6 +4271,8 @@ export const getRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "GetRouterNetworkInterface",
 }));
 
 export type GetRouterOutputError =
@@ -4224,6 +4307,8 @@ export const getRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouterOutput",
+  telemetry: TELEMETRY,
+  span: "GetRouterOutput",
 }));
 
 export type GrantFlowEntitlementsError =
@@ -4258,6 +4343,8 @@ export const grantFlowEntitlements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GrantFlowEntitlements",
+  telemetry: TELEMETRY,
+  span: "GrantFlowEntitlements",
 }));
 
 export type ListBridgesError =
@@ -4295,6 +4382,8 @@ export const listBridges: API.PaginatedOperationMethod<
     items: "Bridges",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBridges",
 })) as any;
 
 export type ListEntitlementsError =
@@ -4330,6 +4419,8 @@ export const listEntitlements: API.PaginatedOperationMethod<
     items: "Entitlements",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntitlements",
 })) as any;
 
 export type ListFlowsError =
@@ -4365,6 +4456,8 @@ export const listFlows: API.PaginatedOperationMethod<
     items: "Flows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlows",
 })) as any;
 
 export type ListGatewayInstancesError =
@@ -4402,6 +4495,8 @@ export const listGatewayInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGatewayInstances",
 })) as any;
 
 export type ListGatewaysError =
@@ -4439,6 +4534,8 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "Gateways",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 })) as any;
 
 export type ListOfferingsError =
@@ -4474,6 +4571,8 @@ export const listOfferings: API.PaginatedOperationMethod<
     items: "Offerings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferings",
 })) as any;
 
 export type ListReservationsError =
@@ -4509,6 +4608,8 @@ export const listReservations: API.PaginatedOperationMethod<
     items: "Reservations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReservations",
 })) as any;
 
 export type ListRouterInputsError =
@@ -4546,6 +4647,8 @@ export const listRouterInputs: API.PaginatedOperationMethod<
     items: "RouterInputs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRouterInputs",
 })) as any;
 
 export type ListRouterNetworkInterfacesError =
@@ -4583,6 +4686,8 @@ export const listRouterNetworkInterfaces: API.PaginatedOperationMethod<
     items: "RouterNetworkInterfaces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRouterNetworkInterfaces",
 })) as any;
 
 export type ListRouterOutputsError =
@@ -4620,6 +4725,8 @@ export const listRouterOutputs: API.PaginatedOperationMethod<
     items: "RouterOutputs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRouterOutputs",
 })) as any;
 
 export type ListTagsForGlobalResourceError =
@@ -4642,6 +4749,8 @@ export const listTagsForGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForGlobalResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForGlobalResource",
 }));
 
 export type ListTagsForResourceError =
@@ -4664,6 +4773,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PurchaseOfferingError =
@@ -4696,6 +4807,8 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseOffering",
 }));
 
 export type RemoveBridgeOutputError =
@@ -4730,6 +4843,8 @@ export const removeBridgeOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBridgeOutput",
+  telemetry: TELEMETRY,
+  span: "RemoveBridgeOutput",
 }));
 
 export type RemoveBridgeSourceError =
@@ -4764,6 +4879,8 @@ export const removeBridgeSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBridgeSource",
+  telemetry: TELEMETRY,
+  span: "RemoveBridgeSource",
 }));
 
 export type RemoveFlowMediaStreamError =
@@ -4796,6 +4913,8 @@ export const removeFlowMediaStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowMediaStream",
+  telemetry: TELEMETRY,
+  span: "RemoveFlowMediaStream",
 }));
 
 export type RemoveFlowOutputError =
@@ -4828,6 +4947,8 @@ export const removeFlowOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowOutput",
+  telemetry: TELEMETRY,
+  span: "RemoveFlowOutput",
 }));
 
 export type RemoveFlowSourceError =
@@ -4860,6 +4981,8 @@ export const removeFlowSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowSource",
+  telemetry: TELEMETRY,
+  span: "RemoveFlowSource",
 }));
 
 export type RemoveFlowVpcInterfaceError =
@@ -4892,6 +5015,8 @@ export const removeFlowVpcInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFlowVpcInterface",
+  telemetry: TELEMETRY,
+  span: "RemoveFlowVpcInterface",
 }));
 
 export type RestartRouterInputError =
@@ -4926,6 +5051,8 @@ export const restartRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartRouterInput",
+  telemetry: TELEMETRY,
+  span: "RestartRouterInput",
 }));
 
 export type RestartRouterOutputError =
@@ -4960,6 +5087,8 @@ export const restartRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartRouterOutput",
+  telemetry: TELEMETRY,
+  span: "RestartRouterOutput",
 }));
 
 export type RevokeFlowEntitlementError =
@@ -4992,6 +5121,8 @@ export const revokeFlowEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeFlowEntitlement",
+  telemetry: TELEMETRY,
+  span: "RevokeFlowEntitlement",
 }));
 
 export type StartFlowError =
@@ -5024,6 +5155,8 @@ export const startFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlow",
+  telemetry: TELEMETRY,
+  span: "StartFlow",
 }));
 
 export type StartRouterInputError =
@@ -5058,6 +5191,8 @@ export const startRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouterInput",
+  telemetry: TELEMETRY,
+  span: "StartRouterInput",
 }));
 
 export type StartRouterOutputError =
@@ -5092,6 +5227,8 @@ export const startRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouterOutput",
+  telemetry: TELEMETRY,
+  span: "StartRouterOutput",
 }));
 
 export type StopFlowError =
@@ -5124,6 +5261,8 @@ export const stopFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlow",
+  telemetry: TELEMETRY,
+  span: "StopFlow",
 }));
 
 export type StopRouterInputError =
@@ -5158,6 +5297,8 @@ export const stopRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRouterInput",
+  telemetry: TELEMETRY,
+  span: "StopRouterInput",
 }));
 
 export type StopRouterOutputError =
@@ -5192,6 +5333,8 @@ export const stopRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRouterOutput",
+  telemetry: TELEMETRY,
+  span: "StopRouterOutput",
 }));
 
 export type TagGlobalResourceError =
@@ -5214,6 +5357,8 @@ export const tagGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagGlobalResource",
+  telemetry: TELEMETRY,
+  span: "TagGlobalResource",
 }));
 
 export type TagResourceError =
@@ -5236,6 +5381,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TakeRouterInputError =
@@ -5270,6 +5417,8 @@ export const takeRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TakeRouterInput",
+  telemetry: TELEMETRY,
+  span: "TakeRouterInput",
 }));
 
 export type UntagGlobalResourceError =
@@ -5292,6 +5441,8 @@ export const untagGlobalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagGlobalResource",
+  telemetry: TELEMETRY,
+  span: "UntagGlobalResource",
 }));
 
 export type UntagResourceError =
@@ -5314,6 +5465,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBridgeError =
@@ -5348,6 +5501,8 @@ export const updateBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridge",
+  telemetry: TELEMETRY,
+  span: "UpdateBridge",
 }));
 
 export type UpdateBridgeOutputError =
@@ -5382,6 +5537,8 @@ export const updateBridgeOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeOutput",
+  telemetry: TELEMETRY,
+  span: "UpdateBridgeOutput",
 }));
 
 export type UpdateBridgeSourceError =
@@ -5416,6 +5573,8 @@ export const updateBridgeSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeSource",
+  telemetry: TELEMETRY,
+  span: "UpdateBridgeSource",
 }));
 
 export type UpdateBridgeStateError =
@@ -5450,6 +5609,8 @@ export const updateBridgeState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBridgeState",
+  telemetry: TELEMETRY,
+  span: "UpdateBridgeState",
 }));
 
 export type UpdateFlowError =
@@ -5496,6 +5657,8 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateFlow",
 }));
 
 export type UpdateFlowEntitlementError =
@@ -5528,6 +5691,8 @@ export const updateFlowEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowEntitlement",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowEntitlement",
 }));
 
 export type UpdateFlowMediaStreamError =
@@ -5560,6 +5725,8 @@ export const updateFlowMediaStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowMediaStream",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowMediaStream",
 }));
 
 export type UpdateFlowOutputError =
@@ -5592,6 +5759,8 @@ export const updateFlowOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowOutput",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowOutput",
 }));
 
 export type UpdateFlowSourceError =
@@ -5638,6 +5807,8 @@ export const updateFlowSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowSource",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowSource",
 }));
 
 export type UpdateGatewayInstanceError =
@@ -5672,6 +5843,8 @@ export const updateGatewayInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayInstance",
 }));
 
 export type UpdateRouterInputError =
@@ -5706,6 +5879,8 @@ export const updateRouterInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterInput",
+  telemetry: TELEMETRY,
+  span: "UpdateRouterInput",
 }));
 
 export type UpdateRouterNetworkInterfaceError =
@@ -5738,6 +5913,8 @@ export const updateRouterNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "UpdateRouterNetworkInterface",
 }));
 
 export type UpdateRouterOutputError =
@@ -5772,6 +5949,8 @@ export const updateRouterOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouterOutput",
+  telemetry: TELEMETRY,
+  span: "UpdateRouterOutput",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

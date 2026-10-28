@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "MessagingPreferences",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -133,6 +146,8 @@ export const getMessagingPreferencesOptOut: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMessagingPreferencesOptOut",
 }));
 
 export type GetMessagingPreferencesWebhookUrlError = PosthogOpError;
@@ -148,6 +163,8 @@ export const getMessagingPreferencesWebhookUrl: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMessagingPreferencesWebhookUrl",
 }));
 
 export type MessagingPreferencesAddOptOutCreateError = PosthogOpError;
@@ -163,6 +180,8 @@ export const messagingPreferencesAddOptOutCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MessagingPreferencesAddOptOutCreate",
 }));
 
 export type MessagingPreferencesBulkAddOptOutsCreateError = NotFound | PosthogOpError;
@@ -178,6 +197,8 @@ export const messagingPreferencesBulkAddOptOutsCreate: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MessagingPreferencesBulkAddOptOutsCreate",
 }));
 
 export type MessagingPreferencesExportOptOutsCsvRetrieveError = NotFound | PosthogOpError;
@@ -193,6 +214,8 @@ export const messagingPreferencesExportOptOutsCsvRetrieve: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MessagingPreferencesExportOptOutsCsvRetrieve",
 }));
 
 export type MessagingPreferencesGenerateLinkCreateError = PosthogOpError;
@@ -208,6 +231,8 @@ export const messagingPreferencesGenerateLinkCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MessagingPreferencesGenerateLinkCreate",
 }));
 
 export type MessagingPreferencesRemoveOptOutCreateError = PosthogOpError;
@@ -223,6 +248,8 @@ export const messagingPreferencesRemoveOptOutCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MessagingPreferencesRemoveOptOutCreate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Resource",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -6270,6 +6283,8 @@ export const createResourceV1alpha3DeviceTaintRule: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1alpha3DeviceTaintRule",
 }));
 
 export type CreateResourceV1alpha3ResourcePoolStatusRequestError = KubernetesOpError;
@@ -6293,6 +6308,8 @@ export const createResourceV1alpha3ResourcePoolStatusRequest: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1alpha3ResourcePoolStatusRequest",
 }));
 
 export type CreateResourceV1beta1DeviceClassError =
@@ -6311,6 +6328,8 @@ export const createResourceV1beta1DeviceClass: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta1DeviceClass",
 }));
 
 export type CreateResourceV1beta1NamespacedResourceClaimError =
@@ -6333,6 +6352,8 @@ export const createResourceV1beta1NamespacedResourceClaim: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta1NamespacedResourceClaim",
 }));
 
 export type CreateResourceV1beta1NamespacedResourceClaimTemplateError =
@@ -6355,6 +6376,8 @@ export const createResourceV1beta1NamespacedResourceClaimTemplate: API.Operation
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta1NamespacedResourceClaimTemplate",
 }));
 
 export type CreateResourceV1beta1ResourceSliceError =
@@ -6373,6 +6396,8 @@ export const createResourceV1beta1ResourceSlice: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta1ResourceSlice",
 }));
 
 export type CreateResourceV1beta2DeviceClassError =
@@ -6391,6 +6416,8 @@ export const createResourceV1beta2DeviceClass: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta2DeviceClass",
 }));
 
 export type CreateResourceV1beta2DeviceTaintRuleError =
@@ -6409,6 +6436,8 @@ export const createResourceV1beta2DeviceTaintRule: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta2DeviceTaintRule",
 }));
 
 export type CreateResourceV1beta2NamespacedResourceClaimError =
@@ -6427,6 +6456,8 @@ export const createResourceV1beta2NamespacedResourceClaim: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta2NamespacedResourceClaim",
 }));
 
 export type CreateResourceV1beta2NamespacedResourceClaimTemplateError =
@@ -6449,6 +6480,8 @@ export const createResourceV1beta2NamespacedResourceClaimTemplate: API.Operation
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta2NamespacedResourceClaimTemplate",
 }));
 
 export type CreateResourceV1beta2ResourceSliceError =
@@ -6467,6 +6500,8 @@ export const createResourceV1beta2ResourceSlice: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1beta2ResourceSlice",
 }));
 
 export type CreateResourceV1DeviceClassError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -6482,6 +6517,8 @@ export const createResourceV1DeviceClass: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1DeviceClass",
 }));
 
 export type CreateResourceV1DeviceTaintRuleError = KubernetesOpError;
@@ -6497,6 +6534,8 @@ export const createResourceV1DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1DeviceTaintRule",
 }));
 
 export type CreateResourceV1NamespacedResourceClaimError =
@@ -6515,6 +6554,8 @@ export const createResourceV1NamespacedResourceClaim: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1NamespacedResourceClaim",
 }));
 
 export type CreateResourceV1NamespacedResourceClaimTemplateError =
@@ -6537,6 +6578,8 @@ export const createResourceV1NamespacedResourceClaimTemplate: API.OperationMetho
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1NamespacedResourceClaimTemplate",
 }));
 
 export type CreateResourceV1ResourceSliceError = Conflict | UnprocessableEntity | KubernetesOpError;
@@ -6552,6 +6595,8 @@ export const createResourceV1ResourceSlice: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceV1ResourceSlice",
 }));
 
 export type DeleteResourceV1alpha3CollectionDeviceTaintRuleError = KubernetesOpError;
@@ -6571,6 +6616,8 @@ export const deleteResourceV1alpha3CollectionDeviceTaintRule: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1alpha3CollectionDeviceTaintRule",
 }));
 
 export type DeleteResourceV1alpha3CollectionResourcePoolStatusRequestError = KubernetesOpError;
@@ -6590,6 +6637,8 @@ export const deleteResourceV1alpha3CollectionResourcePoolStatusRequest: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1alpha3CollectionResourcePoolStatusRequest",
 }));
 
 export type DeleteResourceV1alpha3DeviceTaintRuleError = NotFound | Conflict | KubernetesOpError;
@@ -6605,6 +6654,8 @@ export const deleteResourceV1alpha3DeviceTaintRule: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1alpha3DeviceTaintRule",
 }));
 
 export type DeleteResourceV1alpha3ResourcePoolStatusRequestError = KubernetesOpError;
@@ -6628,6 +6679,8 @@ export const deleteResourceV1alpha3ResourcePoolStatusRequest: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1alpha3ResourcePoolStatusRequest",
 }));
 
 export type DeleteResourceV1beta1CollectionDeviceClassError = KubernetesOpError;
@@ -6643,6 +6696,8 @@ export const deleteResourceV1beta1CollectionDeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta1CollectionDeviceClass",
 }));
 
 export type DeleteResourceV1beta1CollectionNamespacedResourceClaimError = KubernetesOpError;
@@ -6662,6 +6717,8 @@ export const deleteResourceV1beta1CollectionNamespacedResourceClaim: API.Operati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta1CollectionNamespacedResourceClaim",
 }));
 
 export type DeleteResourceV1beta1CollectionNamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -6681,6 +6738,8 @@ export const deleteResourceV1beta1CollectionNamespacedResourceClaimTemplate: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta1CollectionNamespacedResourceClaimTemplate",
 }));
 
 export type DeleteResourceV1beta1CollectionResourceSliceError = KubernetesOpError;
@@ -6700,6 +6759,8 @@ export const deleteResourceV1beta1CollectionResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta1CollectionResourceSlice",
 }));
 
 export type DeleteResourceV1beta1DeviceClassError = NotFound | Conflict | KubernetesOpError;
@@ -6715,6 +6776,8 @@ export const deleteResourceV1beta1DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta1DeviceClass",
 }));
 
 export type DeleteResourceV1beta1NamespacedResourceClaimError =
@@ -6737,6 +6800,8 @@ export const deleteResourceV1beta1NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta1NamespacedResourceClaim",
 }));
 
 export type DeleteResourceV1beta1NamespacedResourceClaimTemplateError =
@@ -6759,6 +6824,8 @@ export const deleteResourceV1beta1NamespacedResourceClaimTemplate: API.Operation
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta1NamespacedResourceClaimTemplate",
 }));
 
 export type DeleteResourceV1beta1ResourceSliceError = NotFound | Conflict | KubernetesOpError;
@@ -6774,6 +6841,8 @@ export const deleteResourceV1beta1ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta1ResourceSlice",
 }));
 
 export type DeleteResourceV1beta2CollectionDeviceClassError = KubernetesOpError;
@@ -6789,6 +6858,8 @@ export const deleteResourceV1beta2CollectionDeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2CollectionDeviceClass",
 }));
 
 export type DeleteResourceV1beta2CollectionDeviceTaintRuleError = KubernetesOpError;
@@ -6808,6 +6879,8 @@ export const deleteResourceV1beta2CollectionDeviceTaintRule: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2CollectionDeviceTaintRule",
 }));
 
 export type DeleteResourceV1beta2CollectionNamespacedResourceClaimError = KubernetesOpError;
@@ -6827,6 +6900,8 @@ export const deleteResourceV1beta2CollectionNamespacedResourceClaim: API.Operati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2CollectionNamespacedResourceClaim",
 }));
 
 export type DeleteResourceV1beta2CollectionNamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -6846,6 +6921,8 @@ export const deleteResourceV1beta2CollectionNamespacedResourceClaimTemplate: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2CollectionNamespacedResourceClaimTemplate",
 }));
 
 export type DeleteResourceV1beta2CollectionResourceSliceError = KubernetesOpError;
@@ -6865,6 +6942,8 @@ export const deleteResourceV1beta2CollectionResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2CollectionResourceSlice",
 }));
 
 export type DeleteResourceV1beta2DeviceClassError = NotFound | Conflict | KubernetesOpError;
@@ -6880,6 +6959,8 @@ export const deleteResourceV1beta2DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2DeviceClass",
 }));
 
 export type DeleteResourceV1beta2DeviceTaintRuleError = NotFound | Conflict | KubernetesOpError;
@@ -6895,6 +6976,8 @@ export const deleteResourceV1beta2DeviceTaintRule: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2DeviceTaintRule",
 }));
 
 export type DeleteResourceV1beta2NamespacedResourceClaimError =
@@ -6917,6 +7000,8 @@ export const deleteResourceV1beta2NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2NamespacedResourceClaim",
 }));
 
 export type DeleteResourceV1beta2NamespacedResourceClaimTemplateError =
@@ -6939,6 +7024,8 @@ export const deleteResourceV1beta2NamespacedResourceClaimTemplate: API.Operation
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2NamespacedResourceClaimTemplate",
 }));
 
 export type DeleteResourceV1beta2ResourceSliceError = NotFound | Conflict | KubernetesOpError;
@@ -6954,6 +7041,8 @@ export const deleteResourceV1beta2ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1beta2ResourceSlice",
 }));
 
 export type DeleteResourceV1CollectionDeviceClassError = KubernetesOpError;
@@ -6969,6 +7058,8 @@ export const deleteResourceV1CollectionDeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1CollectionDeviceClass",
 }));
 
 export type DeleteResourceV1CollectionDeviceTaintRuleError = KubernetesOpError;
@@ -6984,6 +7075,8 @@ export const deleteResourceV1CollectionDeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1CollectionDeviceTaintRule",
 }));
 
 export type DeleteResourceV1CollectionNamespacedResourceClaimError = KubernetesOpError;
@@ -7003,6 +7096,8 @@ export const deleteResourceV1CollectionNamespacedResourceClaim: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1CollectionNamespacedResourceClaim",
 }));
 
 export type DeleteResourceV1CollectionNamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -7022,6 +7117,8 @@ export const deleteResourceV1CollectionNamespacedResourceClaimTemplate: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1CollectionNamespacedResourceClaimTemplate",
 }));
 
 export type DeleteResourceV1CollectionResourceSliceError = KubernetesOpError;
@@ -7037,6 +7134,8 @@ export const deleteResourceV1CollectionResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1CollectionResourceSlice",
 }));
 
 export type DeleteResourceV1DeviceClassError = NotFound | Conflict | KubernetesOpError;
@@ -7052,6 +7151,8 @@ export const deleteResourceV1DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1DeviceClass",
 }));
 
 export type DeleteResourceV1DeviceTaintRuleError = KubernetesOpError;
@@ -7067,6 +7168,8 @@ export const deleteResourceV1DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1DeviceTaintRule",
 }));
 
 export type DeleteResourceV1NamespacedResourceClaimError = NotFound | Conflict | KubernetesOpError;
@@ -7082,6 +7185,8 @@ export const deleteResourceV1NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1NamespacedResourceClaim",
 }));
 
 export type DeleteResourceV1NamespacedResourceClaimTemplateError =
@@ -7104,6 +7209,8 @@ export const deleteResourceV1NamespacedResourceClaimTemplate: API.OperationMetho
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1NamespacedResourceClaimTemplate",
 }));
 
 export type DeleteResourceV1ResourceSliceError = NotFound | Conflict | KubernetesOpError;
@@ -7119,6 +7226,8 @@ export const deleteResourceV1ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceV1ResourceSlice",
 }));
 
 export type GetResourceAPIGroupError = KubernetesOpError;
@@ -7134,6 +7243,8 @@ export const getResourceAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceAPIGroup",
 }));
 
 export type GetResourceV1alpha3APIResourcesError = KubernetesOpError;
@@ -7149,6 +7260,8 @@ export const getResourceV1alpha3APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceV1alpha3APIResources",
 }));
 
 export type GetResourceV1APIResourcesError = KubernetesOpError;
@@ -7164,6 +7277,8 @@ export const getResourceV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceV1APIResources",
 }));
 
 export type GetResourceV1beta1APIResourcesError = KubernetesOpError;
@@ -7179,6 +7294,8 @@ export const getResourceV1beta1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceV1beta1APIResources",
 }));
 
 export type GetResourceV1beta2APIResourcesError = KubernetesOpError;
@@ -7194,6 +7311,8 @@ export const getResourceV1beta2APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceV1beta2APIResources",
 }));
 
 export type ListResourceV1alpha3DeviceTaintRuleError = KubernetesOpError;
@@ -7209,6 +7328,8 @@ export const listResourceV1alpha3DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1alpha3DeviceTaintRule",
 }));
 
 export type ListResourceV1alpha3ResourcePoolStatusRequestError = KubernetesOpError;
@@ -7232,6 +7353,8 @@ export const listResourceV1alpha3ResourcePoolStatusRequest: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1alpha3ResourcePoolStatusRequest",
 }));
 
 export type ListResourceV1beta1DeviceClassError = KubernetesOpError;
@@ -7247,6 +7370,8 @@ export const listResourceV1beta1DeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta1DeviceClass",
 }));
 
 export type ListResourceV1beta1NamespacedResourceClaimError = KubernetesOpError;
@@ -7262,6 +7387,8 @@ export const listResourceV1beta1NamespacedResourceClaim: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta1NamespacedResourceClaim",
 }));
 
 export type ListResourceV1beta1NamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -7281,6 +7408,8 @@ export const listResourceV1beta1NamespacedResourceClaimTemplate: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta1NamespacedResourceClaimTemplate",
 }));
 
 export type ListResourceV1beta1ResourceClaimForAllNamespacesError = KubernetesOpError;
@@ -7300,6 +7429,8 @@ export const listResourceV1beta1ResourceClaimForAllNamespaces: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta1ResourceClaimForAllNamespaces",
 }));
 
 export type ListResourceV1beta1ResourceClaimTemplateForAllNamespacesError = KubernetesOpError;
@@ -7319,6 +7450,8 @@ export const listResourceV1beta1ResourceClaimTemplateForAllNamespaces: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta1ResourceClaimTemplateForAllNamespaces",
 }));
 
 export type ListResourceV1beta1ResourceSliceError = KubernetesOpError;
@@ -7334,6 +7467,8 @@ export const listResourceV1beta1ResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta1ResourceSlice",
 }));
 
 export type ListResourceV1beta2DeviceClassError = KubernetesOpError;
@@ -7349,6 +7484,8 @@ export const listResourceV1beta2DeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta2DeviceClass",
 }));
 
 export type ListResourceV1beta2DeviceTaintRuleError = KubernetesOpError;
@@ -7364,6 +7501,8 @@ export const listResourceV1beta2DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta2DeviceTaintRule",
 }));
 
 export type ListResourceV1beta2NamespacedResourceClaimError = KubernetesOpError;
@@ -7379,6 +7518,8 @@ export const listResourceV1beta2NamespacedResourceClaim: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta2NamespacedResourceClaim",
 }));
 
 export type ListResourceV1beta2NamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -7398,6 +7539,8 @@ export const listResourceV1beta2NamespacedResourceClaimTemplate: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta2NamespacedResourceClaimTemplate",
 }));
 
 export type ListResourceV1beta2ResourceClaimForAllNamespacesError = KubernetesOpError;
@@ -7417,6 +7560,8 @@ export const listResourceV1beta2ResourceClaimForAllNamespaces: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta2ResourceClaimForAllNamespaces",
 }));
 
 export type ListResourceV1beta2ResourceClaimTemplateForAllNamespacesError = KubernetesOpError;
@@ -7436,6 +7581,8 @@ export const listResourceV1beta2ResourceClaimTemplateForAllNamespaces: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta2ResourceClaimTemplateForAllNamespaces",
 }));
 
 export type ListResourceV1beta2ResourceSliceError = KubernetesOpError;
@@ -7451,6 +7598,8 @@ export const listResourceV1beta2ResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1beta2ResourceSlice",
 }));
 
 export type ListResourceV1DeviceClassError = KubernetesOpError;
@@ -7466,6 +7615,8 @@ export const listResourceV1DeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1DeviceClass",
 }));
 
 export type ListResourceV1DeviceTaintRuleError = KubernetesOpError;
@@ -7481,6 +7632,8 @@ export const listResourceV1DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1DeviceTaintRule",
 }));
 
 export type ListResourceV1NamespacedResourceClaimError = KubernetesOpError;
@@ -7496,6 +7649,8 @@ export const listResourceV1NamespacedResourceClaim: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1NamespacedResourceClaim",
 }));
 
 export type ListResourceV1NamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -7515,6 +7670,8 @@ export const listResourceV1NamespacedResourceClaimTemplate: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1NamespacedResourceClaimTemplate",
 }));
 
 export type ListResourceV1ResourceClaimForAllNamespacesError = KubernetesOpError;
@@ -7534,6 +7691,8 @@ export const listResourceV1ResourceClaimForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1ResourceClaimForAllNamespaces",
 }));
 
 export type ListResourceV1ResourceClaimTemplateForAllNamespacesError = KubernetesOpError;
@@ -7553,6 +7712,8 @@ export const listResourceV1ResourceClaimTemplateForAllNamespaces: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1ResourceClaimTemplateForAllNamespaces",
 }));
 
 export type ListResourceV1ResourceSliceError = KubernetesOpError;
@@ -7568,6 +7729,8 @@ export const listResourceV1ResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceV1ResourceSlice",
 }));
 
 export type PatchResourceV1alpha3DeviceTaintRuleError =
@@ -7587,6 +7750,8 @@ export const patchResourceV1alpha3DeviceTaintRule: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1alpha3DeviceTaintRule",
 }));
 
 export type PatchResourceV1alpha3DeviceTaintRuleStatusError =
@@ -7606,6 +7771,8 @@ export const patchResourceV1alpha3DeviceTaintRuleStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1alpha3DeviceTaintRuleStatus",
 }));
 
 export type PatchResourceV1alpha3ResourcePoolStatusRequestError = KubernetesOpError;
@@ -7629,6 +7796,8 @@ export const patchResourceV1alpha3ResourcePoolStatusRequest: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1alpha3ResourcePoolStatusRequest",
 }));
 
 export type PatchResourceV1alpha3ResourcePoolStatusRequestStatusError = KubernetesOpError;
@@ -7652,6 +7821,8 @@ export const patchResourceV1alpha3ResourcePoolStatusRequestStatus: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1alpha3ResourcePoolStatusRequestStatus",
 }));
 
 export type PatchResourceV1beta1DeviceClassError =
@@ -7671,6 +7842,8 @@ export const patchResourceV1beta1DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta1DeviceClass",
 }));
 
 export type PatchResourceV1beta1NamespacedResourceClaimError =
@@ -7694,6 +7867,8 @@ export const patchResourceV1beta1NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta1NamespacedResourceClaim",
 }));
 
 export type PatchResourceV1beta1NamespacedResourceClaimStatusError =
@@ -7717,6 +7892,8 @@ export const patchResourceV1beta1NamespacedResourceClaimStatus: API.OperationMet
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta1NamespacedResourceClaimStatus",
 }));
 
 export type PatchResourceV1beta1NamespacedResourceClaimTemplateError =
@@ -7740,6 +7917,8 @@ export const patchResourceV1beta1NamespacedResourceClaimTemplate: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta1NamespacedResourceClaimTemplate",
 }));
 
 export type PatchResourceV1beta1ResourceSliceError =
@@ -7759,6 +7938,8 @@ export const patchResourceV1beta1ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta1ResourceSlice",
 }));
 
 export type PatchResourceV1beta2DeviceClassError =
@@ -7778,6 +7959,8 @@ export const patchResourceV1beta2DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta2DeviceClass",
 }));
 
 export type PatchResourceV1beta2DeviceTaintRuleError =
@@ -7797,6 +7980,8 @@ export const patchResourceV1beta2DeviceTaintRule: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta2DeviceTaintRule",
 }));
 
 export type PatchResourceV1beta2DeviceTaintRuleStatusError =
@@ -7816,6 +8001,8 @@ export const patchResourceV1beta2DeviceTaintRuleStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta2DeviceTaintRuleStatus",
 }));
 
 export type PatchResourceV1beta2NamespacedResourceClaimError =
@@ -7839,6 +8026,8 @@ export const patchResourceV1beta2NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta2NamespacedResourceClaim",
 }));
 
 export type PatchResourceV1beta2NamespacedResourceClaimStatusError =
@@ -7862,6 +8051,8 @@ export const patchResourceV1beta2NamespacedResourceClaimStatus: API.OperationMet
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta2NamespacedResourceClaimStatus",
 }));
 
 export type PatchResourceV1beta2NamespacedResourceClaimTemplateError =
@@ -7885,6 +8076,8 @@ export const patchResourceV1beta2NamespacedResourceClaimTemplate: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta2NamespacedResourceClaimTemplate",
 }));
 
 export type PatchResourceV1beta2ResourceSliceError =
@@ -7904,6 +8097,8 @@ export const patchResourceV1beta2ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1beta2ResourceSlice",
 }));
 
 export type PatchResourceV1DeviceClassError =
@@ -7923,6 +8118,8 @@ export const patchResourceV1DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1DeviceClass",
 }));
 
 export type PatchResourceV1DeviceTaintRuleError = KubernetesOpError;
@@ -7938,6 +8135,8 @@ export const patchResourceV1DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1DeviceTaintRule",
 }));
 
 export type PatchResourceV1DeviceTaintRuleStatusError = KubernetesOpError;
@@ -7953,6 +8152,8 @@ export const patchResourceV1DeviceTaintRuleStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1DeviceTaintRuleStatus",
 }));
 
 export type PatchResourceV1NamespacedResourceClaimError =
@@ -7972,6 +8173,8 @@ export const patchResourceV1NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1NamespacedResourceClaim",
 }));
 
 export type PatchResourceV1NamespacedResourceClaimStatusError =
@@ -7995,6 +8198,8 @@ export const patchResourceV1NamespacedResourceClaimStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1NamespacedResourceClaimStatus",
 }));
 
 export type PatchResourceV1NamespacedResourceClaimTemplateError =
@@ -8018,6 +8223,8 @@ export const patchResourceV1NamespacedResourceClaimTemplate: API.OperationMethod
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1NamespacedResourceClaimTemplate",
 }));
 
 export type PatchResourceV1ResourceSliceError =
@@ -8037,6 +8244,8 @@ export const patchResourceV1ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchResourceV1ResourceSlice",
 }));
 
 export type ReadResourceV1alpha3DeviceTaintRuleError = NotFound | KubernetesOpError;
@@ -8052,6 +8261,8 @@ export const readResourceV1alpha3DeviceTaintRule: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1alpha3DeviceTaintRule",
 }));
 
 export type ReadResourceV1alpha3DeviceTaintRuleStatusError = NotFound | KubernetesOpError;
@@ -8067,6 +8278,8 @@ export const readResourceV1alpha3DeviceTaintRuleStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1alpha3DeviceTaintRuleStatus",
 }));
 
 export type ReadResourceV1alpha3ResourcePoolStatusRequestError = KubernetesOpError;
@@ -8086,6 +8299,8 @@ export const readResourceV1alpha3ResourcePoolStatusRequest: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1alpha3ResourcePoolStatusRequest",
 }));
 
 export type ReadResourceV1alpha3ResourcePoolStatusRequestStatusError = KubernetesOpError;
@@ -8109,6 +8324,8 @@ export const readResourceV1alpha3ResourcePoolStatusRequestStatus: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1alpha3ResourcePoolStatusRequestStatus",
 }));
 
 export type ReadResourceV1beta1DeviceClassError = NotFound | KubernetesOpError;
@@ -8124,6 +8341,8 @@ export const readResourceV1beta1DeviceClass: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta1DeviceClass",
 }));
 
 export type ReadResourceV1beta1NamespacedResourceClaimError = NotFound | KubernetesOpError;
@@ -8139,6 +8358,8 @@ export const readResourceV1beta1NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta1NamespacedResourceClaim",
 }));
 
 export type ReadResourceV1beta1NamespacedResourceClaimStatusError = NotFound | KubernetesOpError;
@@ -8158,6 +8379,8 @@ export const readResourceV1beta1NamespacedResourceClaimStatus: API.OperationMeth
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta1NamespacedResourceClaimStatus",
 }));
 
 export type ReadResourceV1beta1NamespacedResourceClaimTemplateError = NotFound | KubernetesOpError;
@@ -8177,6 +8400,8 @@ export const readResourceV1beta1NamespacedResourceClaimTemplate: API.OperationMe
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta1NamespacedResourceClaimTemplate",
 }));
 
 export type ReadResourceV1beta1ResourceSliceError = NotFound | KubernetesOpError;
@@ -8192,6 +8417,8 @@ export const readResourceV1beta1ResourceSlice: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta1ResourceSlice",
 }));
 
 export type ReadResourceV1beta2DeviceClassError = NotFound | KubernetesOpError;
@@ -8207,6 +8434,8 @@ export const readResourceV1beta2DeviceClass: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta2DeviceClass",
 }));
 
 export type ReadResourceV1beta2DeviceTaintRuleError = NotFound | KubernetesOpError;
@@ -8222,6 +8451,8 @@ export const readResourceV1beta2DeviceTaintRule: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta2DeviceTaintRule",
 }));
 
 export type ReadResourceV1beta2DeviceTaintRuleStatusError = NotFound | KubernetesOpError;
@@ -8237,6 +8468,8 @@ export const readResourceV1beta2DeviceTaintRuleStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta2DeviceTaintRuleStatus",
 }));
 
 export type ReadResourceV1beta2NamespacedResourceClaimError = NotFound | KubernetesOpError;
@@ -8252,6 +8485,8 @@ export const readResourceV1beta2NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta2NamespacedResourceClaim",
 }));
 
 export type ReadResourceV1beta2NamespacedResourceClaimStatusError = NotFound | KubernetesOpError;
@@ -8271,6 +8506,8 @@ export const readResourceV1beta2NamespacedResourceClaimStatus: API.OperationMeth
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta2NamespacedResourceClaimStatus",
 }));
 
 export type ReadResourceV1beta2NamespacedResourceClaimTemplateError = NotFound | KubernetesOpError;
@@ -8290,6 +8527,8 @@ export const readResourceV1beta2NamespacedResourceClaimTemplate: API.OperationMe
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta2NamespacedResourceClaimTemplate",
 }));
 
 export type ReadResourceV1beta2ResourceSliceError = NotFound | KubernetesOpError;
@@ -8305,6 +8544,8 @@ export const readResourceV1beta2ResourceSlice: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1beta2ResourceSlice",
 }));
 
 export type ReadResourceV1DeviceClassError = NotFound | KubernetesOpError;
@@ -8320,6 +8561,8 @@ export const readResourceV1DeviceClass: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1DeviceClass",
 }));
 
 export type ReadResourceV1DeviceTaintRuleError = KubernetesOpError;
@@ -8335,6 +8578,8 @@ export const readResourceV1DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1DeviceTaintRule",
 }));
 
 export type ReadResourceV1DeviceTaintRuleStatusError = KubernetesOpError;
@@ -8350,6 +8595,8 @@ export const readResourceV1DeviceTaintRuleStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1DeviceTaintRuleStatus",
 }));
 
 export type ReadResourceV1NamespacedResourceClaimError = NotFound | KubernetesOpError;
@@ -8365,6 +8612,8 @@ export const readResourceV1NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1NamespacedResourceClaim",
 }));
 
 export type ReadResourceV1NamespacedResourceClaimStatusError = NotFound | KubernetesOpError;
@@ -8380,6 +8629,8 @@ export const readResourceV1NamespacedResourceClaimStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1NamespacedResourceClaimStatus",
 }));
 
 export type ReadResourceV1NamespacedResourceClaimTemplateError = NotFound | KubernetesOpError;
@@ -8399,6 +8650,8 @@ export const readResourceV1NamespacedResourceClaimTemplate: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1NamespacedResourceClaimTemplate",
 }));
 
 export type ReadResourceV1ResourceSliceError = NotFound | KubernetesOpError;
@@ -8414,6 +8667,8 @@ export const readResourceV1ResourceSlice: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourceV1ResourceSlice",
 }));
 
 export type ReplaceResourceV1alpha3DeviceTaintRuleError =
@@ -8433,6 +8688,8 @@ export const replaceResourceV1alpha3DeviceTaintRule: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1alpha3DeviceTaintRule",
 }));
 
 export type ReplaceResourceV1alpha3DeviceTaintRuleStatusError =
@@ -8452,6 +8709,8 @@ export const replaceResourceV1alpha3DeviceTaintRuleStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1alpha3DeviceTaintRuleStatus",
 }));
 
 export type ReplaceResourceV1alpha3ResourcePoolStatusRequestError = KubernetesOpError;
@@ -8475,6 +8734,8 @@ export const replaceResourceV1alpha3ResourcePoolStatusRequest: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1alpha3ResourcePoolStatusRequest",
 }));
 
 export type ReplaceResourceV1alpha3ResourcePoolStatusRequestStatusError = KubernetesOpError;
@@ -8498,6 +8759,8 @@ export const replaceResourceV1alpha3ResourcePoolStatusRequestStatus: API.Operati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1alpha3ResourcePoolStatusRequestStatus",
 }));
 
 export type ReplaceResourceV1beta1DeviceClassError =
@@ -8517,6 +8780,8 @@ export const replaceResourceV1beta1DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta1DeviceClass",
 }));
 
 export type ReplaceResourceV1beta1NamespacedResourceClaimError =
@@ -8540,6 +8805,8 @@ export const replaceResourceV1beta1NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta1NamespacedResourceClaim",
 }));
 
 export type ReplaceResourceV1beta1NamespacedResourceClaimStatusError =
@@ -8563,6 +8830,8 @@ export const replaceResourceV1beta1NamespacedResourceClaimStatus: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta1NamespacedResourceClaimStatus",
 }));
 
 export type ReplaceResourceV1beta1NamespacedResourceClaimTemplateError =
@@ -8586,6 +8855,8 @@ export const replaceResourceV1beta1NamespacedResourceClaimTemplate: API.Operatio
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta1NamespacedResourceClaimTemplate",
 }));
 
 export type ReplaceResourceV1beta1ResourceSliceError =
@@ -8605,6 +8876,8 @@ export const replaceResourceV1beta1ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta1ResourceSlice",
 }));
 
 export type ReplaceResourceV1beta2DeviceClassError =
@@ -8624,6 +8897,8 @@ export const replaceResourceV1beta2DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta2DeviceClass",
 }));
 
 export type ReplaceResourceV1beta2DeviceTaintRuleError =
@@ -8643,6 +8918,8 @@ export const replaceResourceV1beta2DeviceTaintRule: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta2DeviceTaintRule",
 }));
 
 export type ReplaceResourceV1beta2DeviceTaintRuleStatusError =
@@ -8662,6 +8939,8 @@ export const replaceResourceV1beta2DeviceTaintRuleStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta2DeviceTaintRuleStatus",
 }));
 
 export type ReplaceResourceV1beta2NamespacedResourceClaimError =
@@ -8685,6 +8964,8 @@ export const replaceResourceV1beta2NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta2NamespacedResourceClaim",
 }));
 
 export type ReplaceResourceV1beta2NamespacedResourceClaimStatusError =
@@ -8708,6 +8989,8 @@ export const replaceResourceV1beta2NamespacedResourceClaimStatus: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta2NamespacedResourceClaimStatus",
 }));
 
 export type ReplaceResourceV1beta2NamespacedResourceClaimTemplateError =
@@ -8731,6 +9014,8 @@ export const replaceResourceV1beta2NamespacedResourceClaimTemplate: API.Operatio
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta2NamespacedResourceClaimTemplate",
 }));
 
 export type ReplaceResourceV1beta2ResourceSliceError =
@@ -8750,6 +9035,8 @@ export const replaceResourceV1beta2ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1beta2ResourceSlice",
 }));
 
 export type ReplaceResourceV1DeviceClassError =
@@ -8769,6 +9056,8 @@ export const replaceResourceV1DeviceClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1DeviceClass",
 }));
 
 export type ReplaceResourceV1DeviceTaintRuleError = KubernetesOpError;
@@ -8784,6 +9073,8 @@ export const replaceResourceV1DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1DeviceTaintRule",
 }));
 
 export type ReplaceResourceV1DeviceTaintRuleStatusError = KubernetesOpError;
@@ -8799,6 +9090,8 @@ export const replaceResourceV1DeviceTaintRuleStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1DeviceTaintRuleStatus",
 }));
 
 export type ReplaceResourceV1NamespacedResourceClaimError =
@@ -8818,6 +9111,8 @@ export const replaceResourceV1NamespacedResourceClaim: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1NamespacedResourceClaim",
 }));
 
 export type ReplaceResourceV1NamespacedResourceClaimStatusError =
@@ -8841,6 +9136,8 @@ export const replaceResourceV1NamespacedResourceClaimStatus: API.OperationMethod
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1NamespacedResourceClaimStatus",
 }));
 
 export type ReplaceResourceV1NamespacedResourceClaimTemplateError =
@@ -8864,6 +9161,8 @@ export const replaceResourceV1NamespacedResourceClaimTemplate: API.OperationMeth
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1NamespacedResourceClaimTemplate",
 }));
 
 export type ReplaceResourceV1ResourceSliceError =
@@ -8883,6 +9182,8 @@ export const replaceResourceV1ResourceSlice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceV1ResourceSlice",
 }));
 
 export type WatchResourceV1alpha3DeviceTaintRuleError = KubernetesOpError;
@@ -8898,6 +9199,8 @@ export const watchResourceV1alpha3DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1alpha3DeviceTaintRule",
 }));
 
 export type WatchResourceV1alpha3DeviceTaintRuleListError = KubernetesOpError;
@@ -8913,6 +9216,8 @@ export const watchResourceV1alpha3DeviceTaintRuleList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1alpha3DeviceTaintRuleList",
 }));
 
 export type WatchResourceV1alpha3ResourcePoolStatusRequestError = KubernetesOpError;
@@ -8932,6 +9237,8 @@ export const watchResourceV1alpha3ResourcePoolStatusRequest: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1alpha3ResourcePoolStatusRequest",
 }));
 
 export type WatchResourceV1alpha3ResourcePoolStatusRequestListError = KubernetesOpError;
@@ -8951,6 +9258,8 @@ export const watchResourceV1alpha3ResourcePoolStatusRequestList: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1alpha3ResourcePoolStatusRequestList",
 }));
 
 export type WatchResourceV1beta1DeviceClassError = KubernetesOpError;
@@ -8966,6 +9275,8 @@ export const watchResourceV1beta1DeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1DeviceClass",
 }));
 
 export type WatchResourceV1beta1DeviceClassListError = KubernetesOpError;
@@ -8981,6 +9292,8 @@ export const watchResourceV1beta1DeviceClassList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1DeviceClassList",
 }));
 
 export type WatchResourceV1beta1NamespacedResourceClaimError = KubernetesOpError;
@@ -8996,6 +9309,8 @@ export const watchResourceV1beta1NamespacedResourceClaim: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1NamespacedResourceClaim",
 }));
 
 export type WatchResourceV1beta1NamespacedResourceClaimListError = KubernetesOpError;
@@ -9015,6 +9330,8 @@ export const watchResourceV1beta1NamespacedResourceClaimList: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1NamespacedResourceClaimList",
 }));
 
 export type WatchResourceV1beta1NamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -9034,6 +9351,8 @@ export const watchResourceV1beta1NamespacedResourceClaimTemplate: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1NamespacedResourceClaimTemplate",
 }));
 
 export type WatchResourceV1beta1NamespacedResourceClaimTemplateListError = KubernetesOpError;
@@ -9053,6 +9372,8 @@ export const watchResourceV1beta1NamespacedResourceClaimTemplateList: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1NamespacedResourceClaimTemplateList",
 }));
 
 export type WatchResourceV1beta1ResourceClaimListForAllNamespacesError = KubernetesOpError;
@@ -9072,6 +9393,8 @@ export const watchResourceV1beta1ResourceClaimListForAllNamespaces: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1ResourceClaimListForAllNamespaces",
 }));
 
 export type WatchResourceV1beta1ResourceClaimTemplateListForAllNamespacesError = KubernetesOpError;
@@ -9091,6 +9414,8 @@ export const watchResourceV1beta1ResourceClaimTemplateListForAllNamespaces: API.
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1ResourceClaimTemplateListForAllNamespaces",
 }));
 
 export type WatchResourceV1beta1ResourceSliceError = KubernetesOpError;
@@ -9106,6 +9431,8 @@ export const watchResourceV1beta1ResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1ResourceSlice",
 }));
 
 export type WatchResourceV1beta1ResourceSliceListError = KubernetesOpError;
@@ -9121,6 +9448,8 @@ export const watchResourceV1beta1ResourceSliceList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta1ResourceSliceList",
 }));
 
 export type WatchResourceV1beta2DeviceClassError = KubernetesOpError;
@@ -9136,6 +9465,8 @@ export const watchResourceV1beta2DeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2DeviceClass",
 }));
 
 export type WatchResourceV1beta2DeviceClassListError = KubernetesOpError;
@@ -9151,6 +9482,8 @@ export const watchResourceV1beta2DeviceClassList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2DeviceClassList",
 }));
 
 export type WatchResourceV1beta2DeviceTaintRuleError = KubernetesOpError;
@@ -9166,6 +9499,8 @@ export const watchResourceV1beta2DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2DeviceTaintRule",
 }));
 
 export type WatchResourceV1beta2DeviceTaintRuleListError = KubernetesOpError;
@@ -9181,6 +9516,8 @@ export const watchResourceV1beta2DeviceTaintRuleList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2DeviceTaintRuleList",
 }));
 
 export type WatchResourceV1beta2NamespacedResourceClaimError = KubernetesOpError;
@@ -9196,6 +9533,8 @@ export const watchResourceV1beta2NamespacedResourceClaim: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2NamespacedResourceClaim",
 }));
 
 export type WatchResourceV1beta2NamespacedResourceClaimListError = KubernetesOpError;
@@ -9215,6 +9554,8 @@ export const watchResourceV1beta2NamespacedResourceClaimList: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2NamespacedResourceClaimList",
 }));
 
 export type WatchResourceV1beta2NamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -9234,6 +9575,8 @@ export const watchResourceV1beta2NamespacedResourceClaimTemplate: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2NamespacedResourceClaimTemplate",
 }));
 
 export type WatchResourceV1beta2NamespacedResourceClaimTemplateListError = KubernetesOpError;
@@ -9253,6 +9596,8 @@ export const watchResourceV1beta2NamespacedResourceClaimTemplateList: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2NamespacedResourceClaimTemplateList",
 }));
 
 export type WatchResourceV1beta2ResourceClaimListForAllNamespacesError = KubernetesOpError;
@@ -9272,6 +9617,8 @@ export const watchResourceV1beta2ResourceClaimListForAllNamespaces: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2ResourceClaimListForAllNamespaces",
 }));
 
 export type WatchResourceV1beta2ResourceClaimTemplateListForAllNamespacesError = KubernetesOpError;
@@ -9291,6 +9638,8 @@ export const watchResourceV1beta2ResourceClaimTemplateListForAllNamespaces: API.
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2ResourceClaimTemplateListForAllNamespaces",
 }));
 
 export type WatchResourceV1beta2ResourceSliceError = KubernetesOpError;
@@ -9306,6 +9655,8 @@ export const watchResourceV1beta2ResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2ResourceSlice",
 }));
 
 export type WatchResourceV1beta2ResourceSliceListError = KubernetesOpError;
@@ -9321,6 +9672,8 @@ export const watchResourceV1beta2ResourceSliceList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1beta2ResourceSliceList",
 }));
 
 export type WatchResourceV1DeviceClassError = KubernetesOpError;
@@ -9336,6 +9689,8 @@ export const watchResourceV1DeviceClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1DeviceClass",
 }));
 
 export type WatchResourceV1DeviceClassListError = KubernetesOpError;
@@ -9351,6 +9706,8 @@ export const watchResourceV1DeviceClassList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1DeviceClassList",
 }));
 
 export type WatchResourceV1DeviceTaintRuleError = KubernetesOpError;
@@ -9366,6 +9723,8 @@ export const watchResourceV1DeviceTaintRule: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1DeviceTaintRule",
 }));
 
 export type WatchResourceV1DeviceTaintRuleListError = KubernetesOpError;
@@ -9381,6 +9740,8 @@ export const watchResourceV1DeviceTaintRuleList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1DeviceTaintRuleList",
 }));
 
 export type WatchResourceV1NamespacedResourceClaimError = KubernetesOpError;
@@ -9396,6 +9757,8 @@ export const watchResourceV1NamespacedResourceClaim: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1NamespacedResourceClaim",
 }));
 
 export type WatchResourceV1NamespacedResourceClaimListError = KubernetesOpError;
@@ -9411,6 +9774,8 @@ export const watchResourceV1NamespacedResourceClaimList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1NamespacedResourceClaimList",
 }));
 
 export type WatchResourceV1NamespacedResourceClaimTemplateError = KubernetesOpError;
@@ -9430,6 +9795,8 @@ export const watchResourceV1NamespacedResourceClaimTemplate: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1NamespacedResourceClaimTemplate",
 }));
 
 export type WatchResourceV1NamespacedResourceClaimTemplateListError = KubernetesOpError;
@@ -9449,6 +9816,8 @@ export const watchResourceV1NamespacedResourceClaimTemplateList: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1NamespacedResourceClaimTemplateList",
 }));
 
 export type WatchResourceV1ResourceClaimListForAllNamespacesError = KubernetesOpError;
@@ -9468,6 +9837,8 @@ export const watchResourceV1ResourceClaimListForAllNamespaces: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1ResourceClaimListForAllNamespaces",
 }));
 
 export type WatchResourceV1ResourceClaimTemplateListForAllNamespacesError = KubernetesOpError;
@@ -9487,6 +9858,8 @@ export const watchResourceV1ResourceClaimTemplateListForAllNamespaces: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1ResourceClaimTemplateListForAllNamespaces",
 }));
 
 export type WatchResourceV1ResourceSliceError = KubernetesOpError;
@@ -9502,6 +9875,8 @@ export const watchResourceV1ResourceSlice: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1ResourceSlice",
 }));
 
 export type WatchResourceV1ResourceSliceListError = KubernetesOpError;
@@ -9517,6 +9892,8 @@ export const watchResourceV1ResourceSliceList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchResourceV1ResourceSliceList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

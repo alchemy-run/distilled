@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://migrationhub-config.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MigrationHubConfig",
+  service: "MigrationHubConfig",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -188,6 +204,8 @@ export const createHomeRegionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHomeRegionControl",
+  telemetry: TELEMETRY,
+  span: "CreateHomeRegionControl",
 }));
 
 export type DeleteHomeRegionControlError =
@@ -218,6 +236,8 @@ export const deleteHomeRegionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHomeRegionControl",
+  telemetry: TELEMETRY,
+  span: "DeleteHomeRegionControl",
 }));
 
 export type DescribeHomeRegionControlsError =
@@ -255,6 +275,8 @@ export const describeHomeRegionControls: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeHomeRegionControls",
 })) as any;
 
 export type GetHomeRegionError =
@@ -289,6 +311,8 @@ export const getHomeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHomeRegion",
+  telemetry: TELEMETRY,
+  span: "GetHomeRegion",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

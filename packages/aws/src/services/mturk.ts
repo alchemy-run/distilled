@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -79,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mturk-requester.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MTurk",
+  service: "MTurk",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class RequestError
   extends /*@__PURE__*/ S.TaggedError<RequestError>()(
@@ -673,6 +689,8 @@ export const acceptQualificationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptQualificationRequest",
+  telemetry: TELEMETRY,
+  span: "AcceptQualificationRequest",
 }));
 
 export type ApproveAssignmentError = RequestError | ServiceFault | CommonErrors;
@@ -707,6 +725,8 @@ export const approveAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApproveAssignment",
+  telemetry: TELEMETRY,
+  span: "ApproveAssignment",
 }));
 
 export type AssociateQualificationWithWorkerError = RequestError | ServiceFault | CommonErrors;
@@ -737,6 +757,8 @@ export const associateQualificationWithWorker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateQualificationWithWorker",
+  telemetry: TELEMETRY,
+  span: "AssociateQualificationWithWorker",
 }));
 
 export type CreateAdditionalAssignmentsForHITError = RequestError | ServiceFault | CommonErrors;
@@ -768,6 +790,8 @@ export const createAdditionalAssignmentsForHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdditionalAssignmentsForHIT",
+  telemetry: TELEMETRY,
+  span: "CreateAdditionalAssignmentsForHIT",
 }));
 
 export type CreateHITError = RequestError | ServiceFault | CommonErrors;
@@ -799,6 +823,8 @@ export const createHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHIT",
+  telemetry: TELEMETRY,
+  span: "CreateHIT",
 }));
 
 export type CreateHITTypeError = RequestError | ServiceFault | CommonErrors;
@@ -820,6 +846,8 @@ export const createHITType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHITType",
+  telemetry: TELEMETRY,
+  span: "CreateHITType",
 }));
 
 export type CreateHITWithHITTypeError = RequestError | ServiceFault | CommonErrors;
@@ -849,6 +877,8 @@ export const createHITWithHITType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHITWithHITType",
+  telemetry: TELEMETRY,
+  span: "CreateHITWithHITType",
 }));
 
 export type CreateQualificationTypeError = RequestError | ServiceFault | CommonErrors;
@@ -871,6 +901,8 @@ export const createQualificationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQualificationType",
+  telemetry: TELEMETRY,
+  span: "CreateQualificationType",
 }));
 
 export type CreateWorkerBlockError = RequestError | ServiceFault | CommonErrors;
@@ -889,6 +921,8 @@ export const createWorkerBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkerBlock",
+  telemetry: TELEMETRY,
+  span: "CreateWorkerBlock",
 }));
 
 export type DeleteHITError = RequestError | ServiceFault | CommonErrors;
@@ -923,6 +957,8 @@ export const deleteHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHIT",
+  telemetry: TELEMETRY,
+  span: "DeleteHIT",
 }));
 
 export type DeleteQualificationTypeError = RequestError | ServiceFault | CommonErrors;
@@ -957,6 +993,8 @@ export const deleteQualificationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQualificationType",
+  telemetry: TELEMETRY,
+  span: "DeleteQualificationType",
 }));
 
 export type DeleteWorkerBlockError = RequestError | ServiceFault | CommonErrors;
@@ -975,6 +1013,8 @@ export const deleteWorkerBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkerBlock",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkerBlock",
 }));
 
 export type DisassociateQualificationFromWorkerError = RequestError | ServiceFault | CommonErrors;
@@ -997,6 +1037,8 @@ export const disassociateQualificationFromWorker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateQualificationFromWorker",
+  telemetry: TELEMETRY,
+  span: "DisassociateQualificationFromWorker",
 }));
 
 export type GetAccountBalanceError = RequestError | ServiceFault | CommonErrors;
@@ -1017,6 +1059,8 @@ export const getAccountBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountBalance",
+  telemetry: TELEMETRY,
+  span: "GetAccountBalance",
 }));
 
 export type GetAssignmentError = RequestError | ServiceFault | CommonErrors;
@@ -1035,6 +1079,8 @@ export const getAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssignment",
+  telemetry: TELEMETRY,
+  span: "GetAssignment",
 }));
 
 export type GetFileUploadURLError = RequestError | ServiceFault | CommonErrors;
@@ -1067,6 +1113,8 @@ export const getFileUploadURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFileUploadURL",
+  telemetry: TELEMETRY,
+  span: "GetFileUploadURL",
 }));
 
 export type GetHITError = RequestError | ServiceFault | CommonErrors;
@@ -1085,6 +1133,8 @@ export const getHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHIT",
+  telemetry: TELEMETRY,
+  span: "GetHIT",
 }));
 
 export type GetQualificationScoreError = RequestError | ServiceFault | CommonErrors;
@@ -1114,6 +1164,8 @@ export const getQualificationScore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationScore",
+  telemetry: TELEMETRY,
+  span: "GetQualificationScore",
 }));
 
 export type GetQualificationTypeError = RequestError | ServiceFault | CommonErrors;
@@ -1132,6 +1184,8 @@ export const getQualificationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationType",
+  telemetry: TELEMETRY,
+  span: "GetQualificationType",
 }));
 
 export type ListAssignmentsForHITError = RequestError | ServiceFault | CommonErrors;
@@ -1180,6 +1234,8 @@ export const listAssignmentsForHIT: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssignmentsForHIT",
 })) as any;
 
 export type ListBonusPaymentsError = RequestError | ServiceFault | CommonErrors;
@@ -1207,6 +1263,8 @@ export const listBonusPayments: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBonusPayments",
 })) as any;
 
 export type ListHITsError = RequestError | ServiceFault | CommonErrors;
@@ -1235,6 +1293,8 @@ export const listHITs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHITs",
 })) as any;
 
 export type ListHITsForQualificationTypeError = RequestError | ServiceFault | CommonErrors;
@@ -1262,6 +1322,8 @@ export const listHITsForQualificationType: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHITsForQualificationType",
 })) as any;
 
 export type ListQualificationRequestsError = RequestError | ServiceFault | CommonErrors;
@@ -1291,6 +1353,8 @@ export const listQualificationRequests: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQualificationRequests",
 })) as any;
 
 export type ListQualificationTypesError = RequestError | ServiceFault | CommonErrors;
@@ -1318,6 +1382,8 @@ export const listQualificationTypes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQualificationTypes",
 })) as any;
 
 export type ListReviewableHITsError = RequestError | ServiceFault | CommonErrors;
@@ -1343,6 +1409,8 @@ export const listReviewableHITs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReviewableHITs",
 })) as any;
 
 export type ListReviewPolicyResultsForHITError = RequestError | ServiceFault | CommonErrors;
@@ -1371,6 +1439,8 @@ export const listReviewPolicyResultsForHIT: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReviewPolicyResultsForHIT",
 })) as any;
 
 export type ListWorkerBlocksError = RequestError | ServiceFault | CommonErrors;
@@ -1395,6 +1465,8 @@ export const listWorkerBlocks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkerBlocks",
 })) as any;
 
 export type ListWorkersWithQualificationTypeError = RequestError | ServiceFault | CommonErrors;
@@ -1420,6 +1492,8 @@ export const listWorkersWithQualificationType: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkersWithQualificationType",
 })) as any;
 
 export type NotifyWorkersError = RequestError | ServiceFault | CommonErrors;
@@ -1445,6 +1519,8 @@ export const notifyWorkers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyWorkers",
+  telemetry: TELEMETRY,
+  span: "NotifyWorkers",
 }));
 
 export type RejectAssignmentError = RequestError | ServiceFault | CommonErrors;
@@ -1471,6 +1547,8 @@ export const rejectAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAssignment",
+  telemetry: TELEMETRY,
+  span: "RejectAssignment",
 }));
 
 export type RejectQualificationRequestError = RequestError | ServiceFault | CommonErrors;
@@ -1494,6 +1572,8 @@ export const rejectQualificationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectQualificationRequest",
+  telemetry: TELEMETRY,
+  span: "RejectQualificationRequest",
 }));
 
 export type SendBonusError = RequestError | ServiceFault | CommonErrors;
@@ -1523,6 +1603,8 @@ export const sendBonus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBonus",
+  telemetry: TELEMETRY,
+  span: "SendBonus",
 }));
 
 export type SendTestEventNotificationError = RequestError | ServiceFault | CommonErrors;
@@ -1545,6 +1627,8 @@ export const sendTestEventNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTestEventNotification",
+  telemetry: TELEMETRY,
+  span: "SendTestEventNotification",
 }));
 
 export type UpdateExpirationForHITError = RequestError | ServiceFault | CommonErrors;
@@ -1564,6 +1648,8 @@ export const updateExpirationForHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExpirationForHIT",
+  telemetry: TELEMETRY,
+  span: "UpdateExpirationForHIT",
 }));
 
 export type UpdateHITReviewStatusError = RequestError | ServiceFault | CommonErrors;
@@ -1584,6 +1670,8 @@ export const updateHITReviewStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHITReviewStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateHITReviewStatus",
 }));
 
 export type UpdateHITTypeOfHITError = RequestError | ServiceFault | CommonErrors;
@@ -1607,6 +1695,8 @@ export const updateHITTypeOfHIT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHITTypeOfHIT",
+  telemetry: TELEMETRY,
+  span: "UpdateHITTypeOfHIT",
 }));
 
 export type UpdateNotificationSettingsError = RequestError | ServiceFault | CommonErrors;
@@ -1634,6 +1724,8 @@ export const updateNotificationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationSettings",
 }));
 
 export type UpdateQualificationTypeError = RequestError | ServiceFault | CommonErrors;
@@ -1688,6 +1780,8 @@ export const updateQualificationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQualificationType",
+  telemetry: TELEMETRY,
+  span: "UpdateQualificationType",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

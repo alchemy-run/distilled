@@ -7,6 +7,7 @@ import {
   InternalServerError,
   ServiceUnavailable,
   Unauthorized,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -73,7 +74,11 @@ import {
  * SlackOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type SlackOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type SlackOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Slack operation. */
 export type SlackOpContext = Credentials | HttpClient.HttpClient;
@@ -157,7 +162,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
     const token = Redacted.value(creds.token);
-    return buildRequest({
+    return yield* buildRequest({
       input: serializeForWire(unwrapRedactedDeep(input), inputAst),
       inputAst,
       baseUrl: creds.apiBaseUrl,
@@ -180,7 +185,7 @@ const decode = ({
     // Read as BYTES first: the analytics export answers a successful call
     // with a gzipped file, which a text read would corrupt. Everything else
     // decodes from the same buffer.
-    const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.orDie));
+    const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.catch(fail)));
     const text = new TextDecoder().decode(bytes);
     if (debugHttp()) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);

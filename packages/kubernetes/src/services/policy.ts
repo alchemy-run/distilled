@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Policy",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -719,6 +732,8 @@ export const createPolicyV1NamespacedPodDisruptionBudget: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicyV1NamespacedPodDisruptionBudget",
 }));
 
 export type DeletePolicyV1CollectionNamespacedPodDisruptionBudgetError = KubernetesOpError;
@@ -738,6 +753,8 @@ export const deletePolicyV1CollectionNamespacedPodDisruptionBudget: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicyV1CollectionNamespacedPodDisruptionBudget",
 }));
 
 export type DeletePolicyV1NamespacedPodDisruptionBudgetError =
@@ -756,6 +773,8 @@ export const deletePolicyV1NamespacedPodDisruptionBudget: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicyV1NamespacedPodDisruptionBudget",
 }));
 
 export type GetPolicyAPIGroupError = KubernetesOpError;
@@ -771,6 +790,8 @@ export const getPolicyAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyAPIGroup",
 }));
 
 export type GetPolicyV1APIResourcesError = KubernetesOpError;
@@ -786,6 +807,8 @@ export const getPolicyV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyV1APIResources",
 }));
 
 export type ListPolicyV1NamespacedPodDisruptionBudgetError = KubernetesOpError;
@@ -801,6 +824,8 @@ export const listPolicyV1NamespacedPodDisruptionBudget: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyV1NamespacedPodDisruptionBudget",
 }));
 
 export type ListPolicyV1PodDisruptionBudgetForAllNamespacesError = KubernetesOpError;
@@ -820,6 +845,8 @@ export const listPolicyV1PodDisruptionBudgetForAllNamespaces: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyV1PodDisruptionBudgetForAllNamespaces",
 }));
 
 export type PatchPolicyV1NamespacedPodDisruptionBudgetError =
@@ -839,6 +866,8 @@ export const patchPolicyV1NamespacedPodDisruptionBudget: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPolicyV1NamespacedPodDisruptionBudget",
 }));
 
 export type PatchPolicyV1NamespacedPodDisruptionBudgetStatusError =
@@ -862,6 +891,8 @@ export const patchPolicyV1NamespacedPodDisruptionBudgetStatus: API.OperationMeth
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPolicyV1NamespacedPodDisruptionBudgetStatus",
 }));
 
 export type ReadPolicyV1NamespacedPodDisruptionBudgetError = NotFound | KubernetesOpError;
@@ -877,6 +908,8 @@ export const readPolicyV1NamespacedPodDisruptionBudget: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadPolicyV1NamespacedPodDisruptionBudget",
 }));
 
 export type ReadPolicyV1NamespacedPodDisruptionBudgetStatusError = NotFound | KubernetesOpError;
@@ -896,6 +929,8 @@ export const readPolicyV1NamespacedPodDisruptionBudgetStatus: API.OperationMetho
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadPolicyV1NamespacedPodDisruptionBudgetStatus",
 }));
 
 export type ReplacePolicyV1NamespacedPodDisruptionBudgetError =
@@ -915,6 +950,8 @@ export const replacePolicyV1NamespacedPodDisruptionBudget: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePolicyV1NamespacedPodDisruptionBudget",
 }));
 
 export type ReplacePolicyV1NamespacedPodDisruptionBudgetStatusError =
@@ -938,6 +975,8 @@ export const replacePolicyV1NamespacedPodDisruptionBudgetStatus: API.OperationMe
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePolicyV1NamespacedPodDisruptionBudgetStatus",
 }));
 
 export type WatchPolicyV1NamespacedPodDisruptionBudgetError = KubernetesOpError;
@@ -953,6 +992,8 @@ export const watchPolicyV1NamespacedPodDisruptionBudget: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchPolicyV1NamespacedPodDisruptionBudget",
 }));
 
 export type WatchPolicyV1NamespacedPodDisruptionBudgetListError = KubernetesOpError;
@@ -972,6 +1013,8 @@ export const watchPolicyV1NamespacedPodDisruptionBudgetList: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchPolicyV1NamespacedPodDisruptionBudgetList",
 }));
 
 export type WatchPolicyV1PodDisruptionBudgetListForAllNamespacesError = KubernetesOpError;
@@ -991,6 +1034,8 @@ export const watchPolicyV1PodDisruptionBudgetListForAllNamespaces: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchPolicyV1PodDisruptionBudgetListForAllNamespaces",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

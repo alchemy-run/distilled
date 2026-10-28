@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://polly.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Polly",
+  service: "Polly",
+  propagate: TxXray.propagate,
+} as const;
 
 export class EngineNotSupportedException
   extends /*@__PURE__*/ S.TaggedError<EngineNotSupportedException>()(
@@ -687,6 +702,8 @@ export const deleteLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLexicon",
+  telemetry: TELEMETRY,
+  span: "DeleteLexicon",
 }));
 
 export type DescribeVoicesError =
@@ -727,6 +744,8 @@ export const describeVoices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVoices",
+  telemetry: TELEMETRY,
+  span: "DescribeVoices",
 }));
 
 export type GetLexiconError = LexiconNotFoundException | ServiceFailureException | CommonErrors;
@@ -746,6 +765,8 @@ export const getLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLexicon",
+  telemetry: TELEMETRY,
+  span: "GetLexicon",
 }));
 
 export type GetSpeechSynthesisTaskError =
@@ -771,6 +792,8 @@ export const getSpeechSynthesisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeechSynthesisTask",
+  telemetry: TELEMETRY,
+  span: "GetSpeechSynthesisTask",
 }));
 
 export type ListLexiconsError = InvalidNextTokenException | ServiceFailureException | CommonErrors;
@@ -789,6 +812,8 @@ export const listLexicons: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLexicons",
+  telemetry: TELEMETRY,
+  span: "ListLexicons",
 }));
 
 export type ListSpeechSynthesisTasksError =
@@ -818,6 +843,8 @@ export const listSpeechSynthesisTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpeechSynthesisTasks",
 })) as any;
 
 export type PutLexiconError =
@@ -858,6 +885,8 @@ export const putLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLexicon",
+  telemetry: TELEMETRY,
+  span: "PutLexicon",
 }));
 
 export type StartSpeechSynthesisStreamError =
@@ -892,6 +921,8 @@ export const startSpeechSynthesisStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisStream",
+  telemetry: TELEMETRY,
+  span: "StartSpeechSynthesisStream",
 }));
 
 export type StartSpeechSynthesisTaskError =
@@ -945,6 +976,8 @@ export const startSpeechSynthesisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisTask",
+  telemetry: TELEMETRY,
+  span: "StartSpeechSynthesisTask",
 }));
 
 export type SynthesizeSpeechError =
@@ -987,6 +1020,8 @@ export const synthesizeSpeech: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SynthesizeSpeech",
+  telemetry: TELEMETRY,
+  span: "SynthesizeSpeech",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

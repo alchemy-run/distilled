@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -76,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesisanalytics.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KinesisAnalyticsV2",
+  service: "KinesisAnalyticsV2",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CodeValidationException
   extends /*@__PURE__*/ S.TaggedError<CodeValidationException>()("CodeValidationException", {
@@ -1217,6 +1233,8 @@ export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationCloudWatchLoggingOption",
+  telemetry: TELEMETRY,
+  span: "AddApplicationCloudWatchLoggingOption",
 }));
 
 export type AddApplicationInputError =
@@ -1257,6 +1275,8 @@ export const addApplicationInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationInput",
+  telemetry: TELEMETRY,
+  span: "AddApplicationInput",
 }));
 
 export type AddApplicationInputProcessingConfigurationError =
@@ -1289,6 +1309,8 @@ export const addApplicationInputProcessingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationInputProcessingConfiguration",
+  telemetry: TELEMETRY,
+  span: "AddApplicationInputProcessingConfiguration",
 }));
 
 export type AddApplicationOutputError =
@@ -1334,6 +1356,8 @@ export const addApplicationOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationOutput",
+  telemetry: TELEMETRY,
+  span: "AddApplicationOutput",
 }));
 
 export type AddApplicationReferenceDataSourceError =
@@ -1370,6 +1394,8 @@ export const addApplicationReferenceDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationReferenceDataSource",
+  telemetry: TELEMETRY,
+  span: "AddApplicationReferenceDataSource",
 }));
 
 export type AddApplicationVpcConfigurationError =
@@ -1408,6 +1434,8 @@ export const addApplicationVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "AddApplicationVpcConfiguration",
 }));
 
 export type CreateApplicationError =
@@ -1446,6 +1474,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationPresignedUrlError =
@@ -1481,6 +1511,8 @@ export const createApplicationPresignedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationPresignedUrl",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationPresignedUrl",
 }));
 
 export type CreateApplicationSnapshotError =
@@ -1515,6 +1547,8 @@ export const createApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationSnapshot",
 }));
 
 export type DeleteApplicationError =
@@ -1547,6 +1581,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationCloudWatchLoggingOptionError =
@@ -1579,6 +1615,8 @@ export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationCloudWatchLoggingOption",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationCloudWatchLoggingOption",
 }));
 
 export type DeleteApplicationInputProcessingConfigurationError =
@@ -1617,6 +1655,8 @@ export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationInputProcessingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationInputProcessingConfiguration",
 }));
 
 export type DeleteApplicationOutputError =
@@ -1649,6 +1689,8 @@ export const deleteApplicationOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationOutput",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationOutput",
 }));
 
 export type DeleteApplicationReferenceDataSourceError =
@@ -1682,6 +1724,8 @@ export const deleteApplicationReferenceDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationReferenceDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationReferenceDataSource",
 }));
 
 export type DeleteApplicationSnapshotError =
@@ -1714,6 +1758,8 @@ export const deleteApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationSnapshot",
 }));
 
 export type DeleteApplicationVpcConfigurationError =
@@ -1744,6 +1790,8 @@ export const deleteApplicationVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationVpcConfiguration",
 }));
 
 export type DescribeApplicationError =
@@ -1769,6 +1817,8 @@ export const describeApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplication",
+  telemetry: TELEMETRY,
+  span: "DescribeApplication",
 }));
 
 export type DescribeApplicationOperationError =
@@ -1793,6 +1843,8 @@ export const describeApplicationOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationOperation",
 }));
 
 export type DescribeApplicationSnapshotError =
@@ -1815,6 +1867,8 @@ export const describeApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationSnapshot",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationSnapshot",
 }));
 
 export type DescribeApplicationVersionError =
@@ -1839,6 +1893,8 @@ export const describeApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationVersion",
 }));
 
 export type DiscoverInputSchemaError =
@@ -1878,6 +1934,8 @@ export const discoverInputSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DiscoverInputSchema",
+  telemetry: TELEMETRY,
+  span: "DiscoverInputSchema",
 }));
 
 export type ListApplicationOperationsError =
@@ -1912,6 +1970,8 @@ export const listApplicationOperations: API.PaginatedOperationMethod<
     items: "ApplicationOperationInfoList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationOperations",
 })) as any;
 
 export type ListApplicationsError = InvalidRequestException | CommonErrors;
@@ -1942,6 +2002,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "ApplicationSummaries",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListApplicationSnapshotsError =
@@ -1970,6 +2032,8 @@ export const listApplicationSnapshots: API.PaginatedOperationMethod<
     items: "SnapshotSummaries",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationSnapshots",
 })) as any;
 
 export type ListApplicationVersionsError =
@@ -2004,6 +2068,8 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
     items: "ApplicationVersionSummaries",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2027,6 +2093,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RollbackApplicationError =
@@ -2066,6 +2134,8 @@ export const rollbackApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackApplication",
+  telemetry: TELEMETRY,
+  span: "RollbackApplication",
 }));
 
 export type StartApplicationError =
@@ -2097,6 +2167,8 @@ export const startApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
+  telemetry: TELEMETRY,
+  span: "StartApplication",
 }));
 
 export type StopApplicationError =
@@ -2136,6 +2208,8 @@ export const stopApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
+  telemetry: TELEMETRY,
+  span: "StopApplication",
 }));
 
 export type TagResourceError =
@@ -2168,6 +2242,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2199,6 +2275,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -2239,6 +2317,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateApplicationMaintenanceConfigurationError =
@@ -2286,6 +2366,8 @@ export const updateApplicationMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationMaintenanceConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

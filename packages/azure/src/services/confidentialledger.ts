@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ConfidentialLedger" },
+  prefix: "Confidentialledger",
+  service: "Confidentialledger",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -384,6 +405,8 @@ export const CheckNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNameAvailability",
 }));
 
 export type CreateLedgerError = AzureOpError;
@@ -399,6 +422,8 @@ export const CreateLedger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLedger",
 }));
 
 export type DeleteLedgerError = AzureOpError;
@@ -414,6 +439,8 @@ export const DeleteLedger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLedger",
 }));
 
 export type ExportLedgerFileError = AzureOpError;
@@ -429,6 +456,8 @@ export const ExportLedgerFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportLedgerFile",
 }));
 
 export type GetLedgerError = AzureOpError;
@@ -444,6 +473,8 @@ export const GetLedger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLedger",
 }));
 
 export type ListLedgerByResourceGroupError = AzureOpError;
@@ -459,6 +490,8 @@ export const ListLedgerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLedgerByResourceGroup",
 }));
 
 export type ListLedgerBySubscriptionError = AzureOpError;
@@ -474,6 +507,8 @@ export const ListLedgerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLedgerBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -489,6 +524,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateLedgerError = AzureOpError;
@@ -504,6 +541,8 @@ export const UpdateLedger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLedger",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

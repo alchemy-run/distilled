@@ -32,7 +32,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("AzureCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "AzureCredentials",
+  ) {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   bearerToken: /*@__PURE__*/ EffectConfig.Redacted("AZURE_BEARER_TOKEN"),
@@ -67,6 +69,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       tenantId: Option.getOrUndefined(tenantId),
       apiBaseUrl,
     })),
-    Effect.orDie,
   ),
 );

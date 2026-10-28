@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "CashbackRules",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -166,6 +179,8 @@ export const createCashbackRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCashbackRule",
 }));
 
 export type ListCashbackRulesError = BadRequest | Forbidden | WhopOpError;
@@ -183,6 +198,8 @@ export const listCashbackRules: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCashbackRules",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -208,6 +225,8 @@ export const payoutCashbackRules: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PayoutCashbackRules",
 }));
 
 export type UpdateCashbackRuleError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -223,6 +242,8 @@ export const updateCashbackRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCashbackRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

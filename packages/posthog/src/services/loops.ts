@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Loops",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -464,6 +477,8 @@ export const createLoop: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoop",
 }));
 
 export type CreateLoopsPreviewError = NotFound | PosthogOpError;
@@ -479,6 +494,8 @@ export const createLoopsPreview: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoopsPreview",
 }));
 
 export type CreateLoopsRunError = Forbidden | NotFound | PosthogOpError;
@@ -494,6 +511,8 @@ export const createLoopsRun: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoopsRun",
 }));
 
 export type GetLoopError = NotFound | PosthogOpError;
@@ -505,6 +524,8 @@ export const getLoop: API.OperationMethod<GetLoopRequest, LoopDTO, GetLoopError,
     errors: [NotFound],
     protocol: PosthogProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetLoop",
   }));
 
 export type GetLoopsRunError = NotFound | PosthogOpError;
@@ -520,6 +541,8 @@ export const getLoopsRun: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoopsRun",
 }));
 
 export type ListLoopsError = PosthogOpError;
@@ -535,6 +558,8 @@ export const listLoops: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoops",
 }));
 
 export type LoopsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -550,6 +575,8 @@ export const loopsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoopsDestroy",
 }));
 
 export type LoopsTriggerCreateError = NotFound | PosthogOpError;
@@ -565,6 +592,8 @@ export const loopsTriggerCreate: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoopsTriggerCreate",
 }));
 
 export type UpdateLoopsPartialError = Forbidden | NotFound | PosthogOpError;
@@ -580,6 +609,8 @@ export const updateLoopsPartial: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoopsPartial",
 }));
 
 export type UpdateLoopsSkillBundleError = Forbidden | NotFound | PosthogOpError;
@@ -595,6 +626,8 @@ export const updateLoopsSkillBundle: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoopsSkillBundle",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

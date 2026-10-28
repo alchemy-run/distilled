@@ -21,6 +21,7 @@ catalog:
   alchemy: "2.0.0-beta.81"
   changelogithub: "^13.16.1"
   effect: "^4.0.5"
+  graphql: "^16.11.0"
   husky: "^9.1.7"
   mitata: "^1.0.34"
   oxfmt: "^0.72.0"

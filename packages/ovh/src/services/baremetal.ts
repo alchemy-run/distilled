@@ -13,6 +13,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Baremetal",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3844,6 +3858,8 @@ export const activateDedicatedServerAntiDDosGame: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateDedicatedServerAntiDDosGame",
 }));
 
 export type CancelDedicatedServerTaskError = OvhOpError;
@@ -3859,6 +3875,8 @@ export const cancelDedicatedServerTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDedicatedServerTask",
 }));
 
 export type ConfirmDedicatedServerTerminationError = OvhOpError;
@@ -3874,6 +3892,8 @@ export const confirmDedicatedServerTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmDedicatedServerTermination",
 }));
 
 export type CreateDedicatedServerAuthenticationSecretError = OvhOpError;
@@ -3893,6 +3913,8 @@ export const createDedicatedServerAuthenticationSecret: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerAuthenticationSecret",
 }));
 
 export type CreateDedicatedServerBiosSettingsSgxConfigureError = OvhOpError;
@@ -3912,6 +3934,8 @@ export const createDedicatedServerBiosSettingsSgxConfigure: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerBiosSettingsSgxConfigure",
 }));
 
 export type CreateDedicatedServerChangeContactError = OvhOpError;
@@ -3927,6 +3951,8 @@ export const createDedicatedServerChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerChangeContact",
 }));
 
 export type CreateDedicatedServerFeatureBackupCloudError = OvhOpError;
@@ -3942,6 +3968,8 @@ export const createDedicatedServerFeatureBackupCloud: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBackupCloud",
 }));
 
 export type CreateDedicatedServerFeatureBackupCloudPasswordError = OvhOpError;
@@ -3961,6 +3989,8 @@ export const createDedicatedServerFeatureBackupCloudPassword: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBackupCloudPassword",
 }));
 
 export type CreateDedicatedServerFeatureBackupFTPError = OvhOpError;
@@ -3976,6 +4006,8 @@ export const createDedicatedServerFeatureBackupFTP: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBackupFTP",
 }));
 
 export type CreateDedicatedServerFeatureBackupFTPAccessError = OvhOpError;
@@ -3991,6 +4023,8 @@ export const createDedicatedServerFeatureBackupFTPAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBackupFTPAccess",
 }));
 
 export type CreateDedicatedServerFeatureBackupFTPPasswordError = OvhOpError;
@@ -4010,6 +4044,8 @@ export const createDedicatedServerFeatureBackupFTPPassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBackupFTPPassword",
 }));
 
 export type CreateDedicatedServerFeatureBmcJavaKvmError = OvhOpError;
@@ -4025,6 +4061,8 @@ export const createDedicatedServerFeatureBmcJavaKvm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBmcJavaKvm",
 }));
 
 export type CreateDedicatedServerFeatureBmcSshSolError = OvhOpError;
@@ -4040,6 +4078,8 @@ export const createDedicatedServerFeatureBmcSshSol: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBmcSshSol",
 }));
 
 export type CreateDedicatedServerFeatureBmcWebKvmError = OvhOpError;
@@ -4055,6 +4095,8 @@ export const createDedicatedServerFeatureBmcWebKvm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBmcWebKvm",
 }));
 
 export type CreateDedicatedServerFeatureBmcWebSolError = OvhOpError;
@@ -4070,6 +4112,8 @@ export const createDedicatedServerFeatureBmcWebSol: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureBmcWebSol",
 }));
 
 export type CreateDedicatedServerFeatureIpmiAccessError = OvhOpError;
@@ -4085,6 +4129,8 @@ export const createDedicatedServerFeatureIpmiAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerFeatureIpmiAccess",
 }));
 
 export type CreateDedicatedServerIpBlockMergeError = OvhOpError;
@@ -4100,6 +4146,8 @@ export const createDedicatedServerIpBlockMerge: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerIpBlockMerge",
 }));
 
 export type CreateDedicatedServerIpMoveError = OvhOpError;
@@ -4115,6 +4163,8 @@ export const createDedicatedServerIpMove: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerIpMove",
 }));
 
 export type CreateDedicatedServerLicenseWindowsError = OvhOpError;
@@ -4130,6 +4180,8 @@ export const createDedicatedServerLicenseWindows: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerLicenseWindows",
 }));
 
 export type CreateDedicatedServerNetworkingError = OvhOpError;
@@ -4145,6 +4197,8 @@ export const createDedicatedServerNetworking: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerNetworking",
 }));
 
 export type CreateDedicatedServerOlaAggregationError = OvhOpError;
@@ -4160,6 +4214,8 @@ export const createDedicatedServerOlaAggregation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerOlaAggregation",
 }));
 
 export type CreateDedicatedServerReinstallError =
@@ -4180,6 +4236,8 @@ export const createDedicatedServerReinstall: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerReinstall",
 }));
 
 export type CreateDedicatedServerSecondaryDnsDomainError = OvhOpError;
@@ -4195,6 +4253,8 @@ export const createDedicatedServerSecondaryDnsDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerSecondaryDnsDomain",
 }));
 
 export type CreateDedicatedServerSplaError = OvhOpError;
@@ -4210,6 +4270,8 @@ export const createDedicatedServerSpla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerSpla",
 }));
 
 export type CreateDedicatedServerSupportReplaceCoolingError = OvhOpError;
@@ -4225,6 +4287,8 @@ export const createDedicatedServerSupportReplaceCooling: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerSupportReplaceCooling",
 }));
 
 export type CreateDedicatedServerSupportReplaceHardDiskDriveError = OvhOpError;
@@ -4244,6 +4308,8 @@ export const createDedicatedServerSupportReplaceHardDiskDrive: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerSupportReplaceHardDiskDrive",
 }));
 
 export type CreateDedicatedServerSupportReplaceMemoryError = OvhOpError;
@@ -4259,6 +4325,8 @@ export const createDedicatedServerSupportReplaceMemory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerSupportReplaceMemory",
 }));
 
 export type CreateDedicatedServerTaskScheduleError = OvhOpError;
@@ -4274,6 +4342,8 @@ export const createDedicatedServerTaskSchedule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerTaskSchedule",
 }));
 
 export type CreateDedicatedServerVirtualMacError = OvhOpError;
@@ -4289,6 +4359,8 @@ export const createDedicatedServerVirtualMac: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerVirtualMac",
 }));
 
 export type CreateDedicatedServerVirtualMacVirtualAddressError = OvhOpError;
@@ -4308,6 +4380,8 @@ export const createDedicatedServerVirtualMacVirtualAddress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedServerVirtualMacVirtualAddress",
 }));
 
 export type DeleteDedicatedServerFeatureBackupCloudError = OvhOpError;
@@ -4323,6 +4397,8 @@ export const deleteDedicatedServerFeatureBackupCloud: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedServerFeatureBackupCloud",
 }));
 
 export type DeleteDedicatedServerFeatureBackupFTPError = OvhOpError;
@@ -4338,6 +4414,8 @@ export const deleteDedicatedServerFeatureBackupFTP: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedServerFeatureBackupFTP",
 }));
 
 export type DeleteDedicatedServerFeatureBackupFTPAccessError = OvhOpError;
@@ -4353,6 +4431,8 @@ export const deleteDedicatedServerFeatureBackupFTPAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedServerFeatureBackupFTPAccess",
 }));
 
 export type DeleteDedicatedServerNetworkingError = OvhOpError;
@@ -4368,6 +4448,8 @@ export const deleteDedicatedServerNetworking: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedServerNetworking",
 }));
 
 export type DeleteDedicatedServerOptionError = OvhOpError;
@@ -4383,6 +4465,8 @@ export const deleteDedicatedServerOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedServerOption",
 }));
 
 export type DeleteDedicatedServerSecondaryDnsDomainError = OvhOpError;
@@ -4398,6 +4482,8 @@ export const deleteDedicatedServerSecondaryDnsDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedServerSecondaryDnsDomain",
 }));
 
 export type DeleteDedicatedServerVirtualMacVirtualAddressError = OvhOpError;
@@ -4417,6 +4503,8 @@ export const deleteDedicatedServerVirtualMacVirtualAddress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedServerVirtualMacVirtualAddress",
 }));
 
 export type DeleteDedicatedServerVrackError = OvhOpError;
@@ -4432,6 +4520,8 @@ export const deleteDedicatedServerVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedServerVrack",
 }));
 
 export type GetDedicatedServerError = OvhOpError;
@@ -4447,6 +4537,8 @@ export const getDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServer",
 }));
 
 export type GetDedicatedServerAntiDDosGameStatusError = OvhOpError;
@@ -4462,6 +4554,8 @@ export const getDedicatedServerAntiDDosGameStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerAntiDDosGameStatus",
 }));
 
 export type GetDedicatedServerBackupCloudOfferDetailsError = OvhOpError;
@@ -4477,6 +4571,8 @@ export const getDedicatedServerBackupCloudOfferDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerBackupCloudOfferDetails",
 }));
 
 export type GetDedicatedServerBiosSettingsError = OvhOpError;
@@ -4492,6 +4588,8 @@ export const getDedicatedServerBiosSettings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerBiosSettings",
 }));
 
 export type GetDedicatedServerBiosSettingsSgxError = OvhOpError;
@@ -4507,6 +4605,8 @@ export const getDedicatedServerBiosSettingsSgx: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerBiosSettingsSgx",
 }));
 
 export type GetDedicatedServerBootError = OvhOpError;
@@ -4522,6 +4622,8 @@ export const getDedicatedServerBoot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerBoot",
 }));
 
 export type GetDedicatedServerBootOptionError = OvhOpError;
@@ -4537,6 +4639,8 @@ export const getDedicatedServerBootOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerBootOption",
 }));
 
 export type GetDedicatedServerBurstError = OvhOpError;
@@ -4552,6 +4656,8 @@ export const getDedicatedServerBurst: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerBurst",
 }));
 
 export type GetDedicatedServerFeatureBackupFTPError = OvhOpError;
@@ -4567,6 +4673,8 @@ export const getDedicatedServerFeatureBackupFTP: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureBackupFTP",
 }));
 
 export type GetDedicatedServerFeatureBackupFTPAccessError = OvhOpError;
@@ -4582,6 +4690,8 @@ export const getDedicatedServerFeatureBackupFTPAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureBackupFTPAccess",
 }));
 
 export type GetDedicatedServerFeatureBmcError = OvhOpError;
@@ -4597,6 +4707,8 @@ export const getDedicatedServerFeatureBmc: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureBmc",
 }));
 
 export type GetDedicatedServerFeatureBmcJavaKvmError = OvhOpError;
@@ -4612,6 +4724,8 @@ export const getDedicatedServerFeatureBmcJavaKvm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureBmcJavaKvm",
 }));
 
 export type GetDedicatedServerFeatureBmcSshSolError = OvhOpError;
@@ -4627,6 +4741,8 @@ export const getDedicatedServerFeatureBmcSshSol: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureBmcSshSol",
 }));
 
 export type GetDedicatedServerFeatureBmcTestError = OvhOpError;
@@ -4642,6 +4758,8 @@ export const getDedicatedServerFeatureBmcTest: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureBmcTest",
 }));
 
 export type GetDedicatedServerFeatureBmcWebKvmError = OvhOpError;
@@ -4657,6 +4775,8 @@ export const getDedicatedServerFeatureBmcWebKvm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureBmcWebKvm",
 }));
 
 export type GetDedicatedServerFeatureBmcWebSolError = OvhOpError;
@@ -4672,6 +4792,8 @@ export const getDedicatedServerFeatureBmcWebSol: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureBmcWebSol",
 }));
 
 export type GetDedicatedServerFeatureFirewallError = OvhOpError;
@@ -4687,6 +4809,8 @@ export const getDedicatedServerFeatureFirewall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureFirewall",
 }));
 
 export type GetDedicatedServerFeatureIpmiError = OvhOpError;
@@ -4702,6 +4826,8 @@ export const getDedicatedServerFeatureIpmi: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureIpmi",
 }));
 
 export type GetDedicatedServerFeatureIpmiAccessError = OvhOpError;
@@ -4717,6 +4843,8 @@ export const getDedicatedServerFeatureIpmiAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureIpmiAccess",
 }));
 
 export type GetDedicatedServerFeatureIpmiTestError = OvhOpError;
@@ -4732,6 +4860,8 @@ export const getDedicatedServerFeatureIpmiTest: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureIpmiTest",
 }));
 
 export type GetDedicatedServerFeatureKvmError = OvhOpError;
@@ -4747,6 +4877,8 @@ export const getDedicatedServerFeatureKvm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerFeatureKvm",
 }));
 
 export type GetDedicatedServerInterventionError = OvhOpError;
@@ -4762,6 +4894,8 @@ export const getDedicatedServerIntervention: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerIntervention",
 }));
 
 export type GetDedicatedServerIpCanBeMovedToError = OvhOpError;
@@ -4777,6 +4911,8 @@ export const getDedicatedServerIpCanBeMovedTo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerIpCanBeMovedTo",
 }));
 
 export type GetDedicatedServerNetworkInterfaceControllerError = OvhOpError;
@@ -4800,6 +4936,8 @@ export const getDedicatedServerNetworkInterfaceController: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerNetworkInterfaceController",
 }));
 
 export type GetDedicatedServerOperationError = OvhOpError;
@@ -4815,6 +4953,8 @@ export const getDedicatedServerOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerOperation",
 }));
 
 export type GetDedicatedServerOptionError = OvhOpError;
@@ -4830,6 +4970,8 @@ export const getDedicatedServerOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerOption",
 }));
 
 export type GetDedicatedServerOrderableFeatureError = OvhOpError;
@@ -4845,6 +4987,8 @@ export const getDedicatedServerOrderableFeature: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerOrderableFeature",
 }));
 
 export type GetDedicatedServerOrderableKvmError = OvhOpError;
@@ -4860,6 +5004,8 @@ export const getDedicatedServerOrderableKvm: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerOrderableKvm",
 }));
 
 export type GetDedicatedServerOrderableKvmExpressError = OvhOpError;
@@ -4875,6 +5021,8 @@ export const getDedicatedServerOrderableKvmExpress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerOrderableKvmExpress",
 }));
 
 export type GetDedicatedServerOrderableProfessionalUseError = OvhOpError;
@@ -4894,6 +5042,8 @@ export const getDedicatedServerOrderableProfessionalUse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerOrderableProfessionalUse",
 }));
 
 export type GetDedicatedServerPlannedInterventionError = OvhOpError;
@@ -4909,6 +5059,8 @@ export const getDedicatedServerPlannedIntervention: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerPlannedIntervention",
 }));
 
 export type GetDedicatedServerSecondaryDnsDomainError = OvhOpError;
@@ -4924,6 +5076,8 @@ export const getDedicatedServerSecondaryDnsDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerSecondaryDnsDomain",
 }));
 
 export type GetDedicatedServerSecondaryDnsDomainDnsServerError = OvhOpError;
@@ -4943,6 +5097,8 @@ export const getDedicatedServerSecondaryDnsDomainDnsServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerSecondaryDnsDomainDnsServer",
 }));
 
 export type GetDedicatedServerSecondaryDnsNameDomainTokenError = OvhOpError;
@@ -4962,6 +5118,8 @@ export const getDedicatedServerSecondaryDnsNameDomainToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerSecondaryDnsNameDomainToken",
 }));
 
 export type GetDedicatedServerSecondaryDnsNameServerAvailableError = OvhOpError;
@@ -4981,6 +5139,8 @@ export const getDedicatedServerSecondaryDnsNameServerAvailable: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerSecondaryDnsNameServerAvailable",
 }));
 
 export type GetDedicatedServerServiceInfosError = OvhOpError;
@@ -4996,6 +5156,8 @@ export const getDedicatedServerServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerServiceInfos",
 }));
 
 export type GetDedicatedServerSpecificationHardwareError = OvhOpError;
@@ -5011,6 +5173,8 @@ export const getDedicatedServerSpecificationHardware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerSpecificationHardware",
 }));
 
 export type GetDedicatedServerSpecificationNetworkError = OvhOpError;
@@ -5026,6 +5190,8 @@ export const getDedicatedServerSpecificationNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerSpecificationNetwork",
 }));
 
 export type GetDedicatedServerSplaError = OvhOpError;
@@ -5041,6 +5207,8 @@ export const getDedicatedServerSpla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerSpla",
 }));
 
 export type GetDedicatedServerTaskError = OvhOpError;
@@ -5056,6 +5224,8 @@ export const getDedicatedServerTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerTask",
 }));
 
 export type GetDedicatedServerVirtualMacError = OvhOpError;
@@ -5071,6 +5241,8 @@ export const getDedicatedServerVirtualMac: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerVirtualMac",
 }));
 
 export type GetDedicatedServerVirtualMacVirtualAddressError = OvhOpError;
@@ -5086,6 +5258,8 @@ export const getDedicatedServerVirtualMacVirtualAddress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerVirtualMacVirtualAddress",
 }));
 
 export type GetDedicatedServerVirtualNetworkInterfaceError = OvhOpError;
@@ -5101,6 +5275,8 @@ export const getDedicatedServerVirtualNetworkInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerVirtualNetworkInterface",
 }));
 
 export type GetDedicatedServerVirtualNetworkInterfaceByUuidError = OvhOpError;
@@ -5124,6 +5300,8 @@ export const getDedicatedServerVirtualNetworkInterfaceByUuid: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerVirtualNetworkInterfaceByUuid",
 }));
 
 export type GetDedicatedServerVrackError = OvhOpError;
@@ -5139,6 +5317,8 @@ export const getDedicatedServerVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedServerVrack",
 }));
 
 export type ListDedicatedServerError = OvhOpError;
@@ -5154,6 +5334,8 @@ export const listDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServer",
 }));
 
 export type ListDedicatedServerAvailabilityRawError = OvhOpError;
@@ -5169,6 +5351,8 @@ export const listDedicatedServerAvailabilityRaw: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerAvailabilityRaw",
 }));
 
 export type ListDedicatedServerBootError = OvhOpError;
@@ -5184,6 +5368,8 @@ export const listDedicatedServerBoot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerBoot",
 }));
 
 export type ListDedicatedServerBootOptionError = OvhOpError;
@@ -5199,6 +5385,8 @@ export const listDedicatedServerBootOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerBootOption",
 }));
 
 export type ListDedicatedServerDatacenterAvailabilitiesError = OvhOpError;
@@ -5222,6 +5410,8 @@ export const listDedicatedServerDatacenterAvailabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerDatacenterAvailabilities",
 }));
 
 export type ListDedicatedServerDatacenterAvailabilityRawError = OvhOpError;
@@ -5245,6 +5435,8 @@ export const listDedicatedServerDatacenterAvailabilityRaw: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerDatacenterAvailabilityRaw",
 }));
 
 export type ListDedicatedServerFeatureBackupCloudError = OvhOpError;
@@ -5260,6 +5452,8 @@ export const listDedicatedServerFeatureBackupCloud: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerFeatureBackupCloud",
 }));
 
 export type ListDedicatedServerFeatureBackupFTPAccessError = OvhOpError;
@@ -5279,6 +5473,8 @@ export const listDedicatedServerFeatureBackupFTPAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerFeatureBackupFTPAccess",
 }));
 
 export type ListDedicatedServerFeatureBackupFTPAuthorizableBlocksError = OvhOpError;
@@ -5302,6 +5498,8 @@ export const listDedicatedServerFeatureBackupFTPAuthorizableBlocks: API.Operatio
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerFeatureBackupFTPAuthorizableBlocks",
 }));
 
 export type ListDedicatedServerInstallCompatibleTemplatePartitionSchemesError = OvhOpError;
@@ -5325,6 +5523,8 @@ export const listDedicatedServerInstallCompatibleTemplatePartitionSchemes: API.O
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerInstallCompatibleTemplatePartitionSchemes",
 }));
 
 export type ListDedicatedServerInstallCompatibleTemplatesError = OvhOpError;
@@ -5344,6 +5544,8 @@ export const listDedicatedServerInstallCompatibleTemplates: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerInstallCompatibleTemplates",
 }));
 
 export type ListDedicatedServerInstallHardwareRaidProfileError = OvhOpError;
@@ -5363,6 +5565,8 @@ export const listDedicatedServerInstallHardwareRaidProfile: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerInstallHardwareRaidProfile",
 }));
 
 export type ListDedicatedServerInstallHardwareRaidSizeError = OvhOpError;
@@ -5378,6 +5582,8 @@ export const listDedicatedServerInstallHardwareRaidSize: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerInstallHardwareRaidSize",
 }));
 
 export type ListDedicatedServerInstallStatusError = OvhOpError;
@@ -5393,6 +5599,8 @@ export const listDedicatedServerInstallStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerInstallStatus",
 }));
 
 export type ListDedicatedServerInterventionError = OvhOpError;
@@ -5408,6 +5616,8 @@ export const listDedicatedServerIntervention: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerIntervention",
 }));
 
 export type ListDedicatedServerIpCountryAvailableError = OvhOpError;
@@ -5423,6 +5633,8 @@ export const listDedicatedServerIpCountryAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerIpCountryAvailable",
 }));
 
 export type ListDedicatedServerIpsError = OvhOpError;
@@ -5438,6 +5650,8 @@ export const listDedicatedServerIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerIps",
 }));
 
 export type ListDedicatedServerLicenseCompliantWindowsError = OvhOpError;
@@ -5457,6 +5671,8 @@ export const listDedicatedServerLicenseCompliantWindows: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerLicenseCompliantWindows",
 }));
 
 export type ListDedicatedServerLicenseCompliantWindowsSqlServerError = OvhOpError;
@@ -5480,6 +5696,8 @@ export const listDedicatedServerLicenseCompliantWindowsSqlServer: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerLicenseCompliantWindowsSqlServer",
 }));
 
 export type ListDedicatedServerNetworkingError = OvhOpError;
@@ -5495,6 +5713,8 @@ export const listDedicatedServerNetworking: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerNetworking",
 }));
 
 export type ListDedicatedServerNetworkInterfaceControllerError = OvhOpError;
@@ -5518,6 +5738,8 @@ export const listDedicatedServerNetworkInterfaceController: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerNetworkInterfaceController",
 }));
 
 export type ListDedicatedServerNetworkInterfaceControllerMrtgError = OvhOpError;
@@ -5541,6 +5763,8 @@ export const listDedicatedServerNetworkInterfaceControllerMrtg: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerNetworkInterfaceControllerMrtg",
 }));
 
 export type ListDedicatedServerOngoingError = OvhOpError;
@@ -5556,6 +5780,8 @@ export const listDedicatedServerOngoing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOngoing",
 }));
 
 export type ListDedicatedServerOperationError = OvhOpError;
@@ -5571,6 +5797,8 @@ export const listDedicatedServerOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOperation",
 }));
 
 export type ListDedicatedServerOptionError = OvhOpError;
@@ -5586,6 +5814,8 @@ export const listDedicatedServerOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOption",
 }));
 
 export type ListDedicatedServerOrderableBackupStorageError = OvhOpError;
@@ -5601,6 +5831,8 @@ export const listDedicatedServerOrderableBackupStorage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOrderableBackupStorage",
 }));
 
 export type ListDedicatedServerOrderableBandwidthError = OvhOpError;
@@ -5616,6 +5848,8 @@ export const listDedicatedServerOrderableBandwidth: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOrderableBandwidth",
 }));
 
 export type ListDedicatedServerOrderableBandwidthvRackError = OvhOpError;
@@ -5631,6 +5865,8 @@ export const listDedicatedServerOrderableBandwidthvRack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOrderableBandwidthvRack",
 }));
 
 export type ListDedicatedServerOrderableIpError = OvhOpError;
@@ -5646,6 +5882,8 @@ export const listDedicatedServerOrderableIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOrderableIp",
 }));
 
 export type ListDedicatedServerOrderableSupportLevelError = OvhOpError;
@@ -5661,6 +5899,8 @@ export const listDedicatedServerOrderableSupportLevel: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOrderableSupportLevel",
 }));
 
 export type ListDedicatedServerOrderableTrafficError = OvhOpError;
@@ -5676,6 +5916,8 @@ export const listDedicatedServerOrderableTraffic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOrderableTraffic",
 }));
 
 export type ListDedicatedServerOrderableUsbKeyError = OvhOpError;
@@ -5691,6 +5933,8 @@ export const listDedicatedServerOrderableUsbKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOrderableUsbKey",
 }));
 
 export type ListDedicatedServerOsAvailabilitiesError = OvhOpError;
@@ -5706,6 +5950,8 @@ export const listDedicatedServerOsAvailabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerOsAvailabilities",
 }));
 
 export type ListDedicatedServerPlannedInterventionError = OvhOpError;
@@ -5721,6 +5967,8 @@ export const listDedicatedServerPlannedIntervention: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerPlannedIntervention",
 }));
 
 export type ListDedicatedServerRegionAvailabilitiesError = OvhOpError;
@@ -5736,6 +5984,8 @@ export const listDedicatedServerRegionAvailabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerRegionAvailabilities",
 }));
 
 export type ListDedicatedServerSecondaryDnsDomainsError = OvhOpError;
@@ -5751,6 +6001,8 @@ export const listDedicatedServerSecondaryDnsDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerSecondaryDnsDomains",
 }));
 
 export type ListDedicatedServerSpecificationIpError = OvhOpError;
@@ -5766,6 +6018,8 @@ export const listDedicatedServerSpecificationIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerSpecificationIp",
 }));
 
 export type ListDedicatedServerSplaError = OvhOpError;
@@ -5781,6 +6035,8 @@ export const listDedicatedServerSpla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerSpla",
 }));
 
 export type ListDedicatedServerTaskError = OvhOpError;
@@ -5796,6 +6052,8 @@ export const listDedicatedServerTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerTask",
 }));
 
 export type ListDedicatedServerTaskAvailableTimeslotsError = OvhOpError;
@@ -5811,6 +6069,8 @@ export const listDedicatedServerTaskAvailableTimeslots: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerTaskAvailableTimeslots",
 }));
 
 export type ListDedicatedServerUpdateAllowedError = OvhOpError;
@@ -5826,6 +6086,8 @@ export const listDedicatedServerUpdateAllowed: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerUpdateAllowed",
 }));
 
 export type ListDedicatedServerUpgradeAvailableTimeslotsError = OvhOpError;
@@ -5845,6 +6107,8 @@ export const listDedicatedServerUpgradeAvailableTimeslots: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerUpgradeAvailableTimeslots",
 }));
 
 export type ListDedicatedServerVirtualMacError = OvhOpError;
@@ -5860,6 +6124,8 @@ export const listDedicatedServerVirtualMac: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerVirtualMac",
 }));
 
 export type ListDedicatedServerVirtualMacVirtualAddressError = OvhOpError;
@@ -5879,6 +6145,8 @@ export const listDedicatedServerVirtualMacVirtualAddress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerVirtualMacVirtualAddress",
 }));
 
 export type ListDedicatedServerVirtualNetworkInterfaceError = OvhOpError;
@@ -5898,6 +6166,8 @@ export const listDedicatedServerVirtualNetworkInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerVirtualNetworkInterface",
 }));
 
 export type ListDedicatedServerVrackError = OvhOpError;
@@ -5913,6 +6183,8 @@ export const listDedicatedServerVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedServerVrack",
 }));
 
 export type PutDedicatedServerError = OvhOpError;
@@ -5928,6 +6200,8 @@ export const putDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedServer",
 }));
 
 export type PutDedicatedServerBurstError = OvhOpError;
@@ -5943,6 +6217,8 @@ export const putDedicatedServerBurst: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedServerBurst",
 }));
 
 export type PutDedicatedServerFeatureBackupFTPAccessError = OvhOpError;
@@ -5958,6 +6234,8 @@ export const putDedicatedServerFeatureBackupFTPAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedServerFeatureBackupFTPAccess",
 }));
 
 export type PutDedicatedServerFeatureFirewallError = OvhOpError;
@@ -5973,6 +6251,8 @@ export const putDedicatedServerFeatureFirewall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedServerFeatureFirewall",
 }));
 
 export type PutDedicatedServerSecondaryDnsDomainError = OvhOpError;
@@ -5988,6 +6268,8 @@ export const putDedicatedServerSecondaryDnsDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedServerSecondaryDnsDomain",
 }));
 
 export type PutDedicatedServerServiceInfosError = OvhOpError;
@@ -6003,6 +6285,8 @@ export const putDedicatedServerServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedServerServiceInfos",
 }));
 
 export type PutDedicatedServerSplaError = OvhOpError;
@@ -6018,6 +6302,8 @@ export const putDedicatedServerSpla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedServerSpla",
 }));
 
 export type PutDedicatedServerUpgradeScheduleError = OvhOpError;
@@ -6033,6 +6319,8 @@ export const putDedicatedServerUpgradeSchedule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDedicatedServerUpgradeSchedule",
 }));
 
 export type RebootDedicatedServerError = OvhOpError;
@@ -6048,6 +6336,8 @@ export const rebootDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebootDedicatedServer",
 }));
 
 export type ResetDedicatedServerFeaturesIpmiInterfaceError = OvhOpError;
@@ -6063,6 +6353,8 @@ export const resetDedicatedServerFeaturesIpmiInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetDedicatedServerFeaturesIpmiInterface",
 }));
 
 export type ResetDedicatedServerFeaturesIpmiSessionsError = OvhOpError;
@@ -6078,6 +6370,8 @@ export const resetDedicatedServerFeaturesIpmiSessions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetDedicatedServerFeaturesIpmiSessions",
 }));
 
 export type ResetDedicatedServerOlaError = OvhOpError;
@@ -6093,6 +6387,8 @@ export const resetDedicatedServerOla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetDedicatedServerOla",
 }));
 
 export type RestartDedicatedServerFeaturesBmcError = OvhOpError;
@@ -6108,6 +6404,8 @@ export const restartDedicatedServerFeaturesBmc: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartDedicatedServerFeaturesBmc",
 }));
 
 export type RevokeDedicatedServerFeaturesBmcSessionsError = OvhOpError;
@@ -6123,6 +6421,8 @@ export const revokeDedicatedServerFeaturesBmcSessions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeDedicatedServerFeaturesBmcSessions",
 }));
 
 export type RevokeDedicatedServerSplaError = OvhOpError;
@@ -6138,6 +6438,8 @@ export const revokeDedicatedServerSpla: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeDedicatedServerSpla",
 }));
 
 export type StartDedicatedServerInstallError = OvhOpError;
@@ -6153,6 +6455,8 @@ export const startDedicatedServerInstall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartDedicatedServerInstall",
 }));
 
 export type TerminateDedicatedServerError = OvhOpError;
@@ -6168,6 +6472,8 @@ export const terminateDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateDedicatedServer",
 }));
 
 export type TestDedicatedServerFeaturesBmcError = OvhOpError;
@@ -6183,6 +6489,8 @@ export const testDedicatedServerFeaturesBmc: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestDedicatedServerFeaturesBmc",
 }));
 
 export type TestDedicatedServerFeaturesIpmiError = OvhOpError;
@@ -6198,6 +6506,8 @@ export const testDedicatedServerFeaturesIpmi: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestDedicatedServerFeaturesIpmi",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

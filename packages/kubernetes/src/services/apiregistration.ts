@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Apiregistration",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -619,6 +632,8 @@ export const createApiregistrationV1APIService: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiregistrationV1APIService",
 }));
 
 export type DeleteApiregistrationV1APIServiceError = NotFound | Conflict | KubernetesOpError;
@@ -634,6 +649,8 @@ export const deleteApiregistrationV1APIService: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiregistrationV1APIService",
 }));
 
 export type DeleteApiregistrationV1CollectionAPIServiceError = KubernetesOpError;
@@ -649,6 +666,8 @@ export const deleteApiregistrationV1CollectionAPIService: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiregistrationV1CollectionAPIService",
 }));
 
 export type GetApiregistrationAPIGroupError = KubernetesOpError;
@@ -664,6 +683,8 @@ export const getApiregistrationAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiregistrationAPIGroup",
 }));
 
 export type GetApiregistrationV1APIResourcesError = KubernetesOpError;
@@ -679,6 +700,8 @@ export const getApiregistrationV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiregistrationV1APIResources",
 }));
 
 export type ListApiregistrationV1APIServiceError = KubernetesOpError;
@@ -698,6 +721,8 @@ export const listApiregistrationV1APIService: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiregistrationV1APIService",
 }));
 
 export type PatchApiregistrationV1APIServiceError =
@@ -721,6 +746,8 @@ export const patchApiregistrationV1APIService: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApiregistrationV1APIService",
 }));
 
 export type PatchApiregistrationV1APIServiceStatusError =
@@ -744,6 +771,8 @@ export const patchApiregistrationV1APIServiceStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApiregistrationV1APIServiceStatus",
 }));
 
 export type ReadApiregistrationV1APIServiceError = NotFound | KubernetesOpError;
@@ -763,6 +792,8 @@ export const readApiregistrationV1APIService: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadApiregistrationV1APIService",
 }));
 
 export type ReadApiregistrationV1APIServiceStatusError = NotFound | KubernetesOpError;
@@ -782,6 +813,8 @@ export const readApiregistrationV1APIServiceStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadApiregistrationV1APIServiceStatus",
 }));
 
 export type ReplaceApiregistrationV1APIServiceError =
@@ -805,6 +838,8 @@ export const replaceApiregistrationV1APIService: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceApiregistrationV1APIService",
 }));
 
 export type ReplaceApiregistrationV1APIServiceStatusError =
@@ -828,6 +863,8 @@ export const replaceApiregistrationV1APIServiceStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceApiregistrationV1APIServiceStatus",
 }));
 
 export type WatchApiregistrationV1APIServiceError = KubernetesOpError;
@@ -843,6 +880,8 @@ export const watchApiregistrationV1APIService: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchApiregistrationV1APIService",
 }));
 
 export type WatchApiregistrationV1APIServiceListError = KubernetesOpError;
@@ -858,6 +897,8 @@ export const watchApiregistrationV1APIServiceList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchApiregistrationV1APIServiceList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

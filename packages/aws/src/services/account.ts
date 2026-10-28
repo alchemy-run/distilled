@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -107,6 +108,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Account",
+  service: "Account",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -405,6 +420,8 @@ export const acceptPrimaryEmailUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPrimaryEmailUpdate",
+  telemetry: TELEMETRY,
+  span: "AcceptPrimaryEmailUpdate",
 }));
 
 export type DeleteAlternateContactError =
@@ -439,6 +456,8 @@ export const deleteAlternateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlternateContact",
+  telemetry: TELEMETRY,
+  span: "DeleteAlternateContact",
 }));
 
 export type DisableRegionError =
@@ -471,6 +490,8 @@ export const disableRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableRegion",
+  telemetry: TELEMETRY,
+  span: "DisableRegion",
 }));
 
 export type EnableRegionError =
@@ -501,6 +522,8 @@ export const enableRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableRegion",
+  telemetry: TELEMETRY,
+  span: "EnableRegion",
 }));
 
 export type GetAccountInformationError =
@@ -529,6 +552,8 @@ export const getAccountInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountInformation",
+  telemetry: TELEMETRY,
+  span: "GetAccountInformation",
 }));
 
 export type GetAlternateContactError =
@@ -563,6 +588,8 @@ export const getAlternateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlternateContact",
+  telemetry: TELEMETRY,
+  span: "GetAlternateContact",
 }));
 
 export type GetContactInformationError =
@@ -595,6 +622,8 @@ export const getContactInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactInformation",
+  telemetry: TELEMETRY,
+  span: "GetContactInformation",
 }));
 
 export type GetGovCloudAccountInformationError =
@@ -627,6 +656,8 @@ export const getGovCloudAccountInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGovCloudAccountInformation",
+  telemetry: TELEMETRY,
+  span: "GetGovCloudAccountInformation",
 }));
 
 export type GetPrimaryEmailError =
@@ -657,6 +688,8 @@ export const getPrimaryEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrimaryEmail",
+  telemetry: TELEMETRY,
+  span: "GetPrimaryEmail",
 }));
 
 export type GetPrimaryEmailUpdateStatusError =
@@ -687,6 +720,8 @@ export const getPrimaryEmailUpdateStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrimaryEmailUpdateStatus",
+  telemetry: TELEMETRY,
+  span: "GetPrimaryEmailUpdateStatus",
 }));
 
 export type GetRegionOptStatusError =
@@ -715,6 +750,8 @@ export const getRegionOptStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegionOptStatus",
+  telemetry: TELEMETRY,
+  span: "GetRegionOptStatus",
 }));
 
 export type ListRegionsError =
@@ -750,6 +787,8 @@ export const listRegions: API.PaginatedOperationMethod<
     items: "Regions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegions",
 })) as any;
 
 export type PutAccountNameError =
@@ -778,6 +817,8 @@ export const putAccountName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountName",
+  telemetry: TELEMETRY,
+  span: "PutAccountName",
 }));
 
 export type PutAlternateContactError =
@@ -810,6 +851,8 @@ export const putAlternateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlternateContact",
+  telemetry: TELEMETRY,
+  span: "PutAlternateContact",
 }));
 
 export type PutContactInformationError =
@@ -840,6 +883,8 @@ export const putContactInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContactInformation",
+  telemetry: TELEMETRY,
+  span: "PutContactInformation",
 }));
 
 export type SendPhoneNumberVerificationError =
@@ -874,6 +919,8 @@ export const sendPhoneNumberVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendPhoneNumberVerification",
+  telemetry: TELEMETRY,
+  span: "SendPhoneNumberVerification",
 }));
 
 export type StartPrimaryEmailUpdateError =
@@ -906,6 +953,8 @@ export const startPrimaryEmailUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPrimaryEmailUpdate",
+  telemetry: TELEMETRY,
+  span: "StartPrimaryEmailUpdate",
 }));
 
 export type VerifyPhoneNumberError =
@@ -940,6 +989,8 @@ export const verifyPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "VerifyPhoneNumber",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

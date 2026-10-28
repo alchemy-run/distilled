@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -76,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://directconnect.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DirectConnect",
+  service: "DirectConnect",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DirectConnectClientException
   extends /*@__PURE__*/ S.TaggedError<DirectConnectClientException>()(
@@ -1283,6 +1299,8 @@ export const acceptDirectConnectGatewayAssociationProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDirectConnectGatewayAssociationProposal",
+  telemetry: TELEMETRY,
+  span: "AcceptDirectConnectGatewayAssociationProposal",
 }));
 
 export type AllocateConnectionOnInterconnectError =
@@ -1310,6 +1328,8 @@ export const allocateConnectionOnInterconnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateConnectionOnInterconnect",
+  telemetry: TELEMETRY,
+  span: "AllocateConnectionOnInterconnect",
 }));
 
 export type AllocateHostedConnectionError =
@@ -1343,6 +1363,8 @@ export const allocateHostedConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateHostedConnection",
+  telemetry: TELEMETRY,
+  span: "AllocateHostedConnection",
 }));
 
 export type AllocatePrivateVirtualInterfaceError =
@@ -1376,6 +1398,8 @@ export const allocatePrivateVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocatePrivateVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "AllocatePrivateVirtualInterface",
 }));
 
 export type AllocatePublicVirtualInterfaceError =
@@ -1414,6 +1438,8 @@ export const allocatePublicVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocatePublicVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "AllocatePublicVirtualInterface",
 }));
 
 export type AllocateTransitVirtualInterfaceError =
@@ -1448,6 +1474,8 @@ export const allocateTransitVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateTransitVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "AllocateTransitVirtualInterface",
 }));
 
 export type AssociateConnectionsToResiliencyGroupError =
@@ -1472,6 +1500,8 @@ export const associateConnectionsToResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConnectionsToResiliencyGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateConnectionsToResiliencyGroup",
 }));
 
 export type AssociateConnectionWithLagError =
@@ -1509,6 +1539,8 @@ export const associateConnectionWithLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConnectionWithLag",
+  telemetry: TELEMETRY,
+  span: "AssociateConnectionWithLag",
 }));
 
 export type AssociateHostedConnectionError =
@@ -1536,6 +1568,8 @@ export const associateHostedConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateHostedConnection",
+  telemetry: TELEMETRY,
+  span: "AssociateHostedConnection",
 }));
 
 export type AssociateMacSecKeyError =
@@ -1561,6 +1595,8 @@ export const associateMacSecKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMacSecKey",
+  telemetry: TELEMETRY,
+  span: "AssociateMacSecKey",
 }));
 
 export type AssociateVirtualInterfaceError =
@@ -1593,6 +1629,8 @@ export const associateVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "AssociateVirtualInterface",
 }));
 
 export type ConfirmConnectionError =
@@ -1617,6 +1655,8 @@ export const confirmConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmConnection",
+  telemetry: TELEMETRY,
+  span: "ConfirmConnection",
 }));
 
 export type ConfirmCustomerAgreementError =
@@ -1638,6 +1678,8 @@ export const confirmCustomerAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmCustomerAgreement",
+  telemetry: TELEMETRY,
+  span: "ConfirmCustomerAgreement",
 }));
 
 export type ConfirmPrivateVirtualInterfaceError =
@@ -1663,6 +1705,8 @@ export const confirmPrivateVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmPrivateVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "ConfirmPrivateVirtualInterface",
 }));
 
 export type ConfirmPublicVirtualInterfaceError =
@@ -1687,6 +1731,8 @@ export const confirmPublicVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmPublicVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "ConfirmPublicVirtualInterface",
 }));
 
 export type ConfirmTransitVirtualInterfaceError =
@@ -1710,6 +1756,8 @@ export const confirmTransitVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmTransitVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "ConfirmTransitVirtualInterface",
 }));
 
 export type CreateBGPPeerError =
@@ -1749,6 +1797,8 @@ export const createBGPPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBGPPeer",
+  telemetry: TELEMETRY,
+  span: "CreateBGPPeer",
 }));
 
 export type CreateConnectionError =
@@ -1787,6 +1837,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateDirectConnectGatewayError =
@@ -1813,6 +1865,8 @@ export const createDirectConnectGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGateway",
+  telemetry: TELEMETRY,
+  span: "CreateDirectConnectGateway",
 }));
 
 export type CreateDirectConnectGatewayAssociationError =
@@ -1835,6 +1889,8 @@ export const createDirectConnectGatewayAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGatewayAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateDirectConnectGatewayAssociation",
 }));
 
 export type CreateDirectConnectGatewayAssociationProposalError =
@@ -1866,6 +1922,8 @@ export const createDirectConnectGatewayAssociationProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGatewayAssociationProposal",
+  telemetry: TELEMETRY,
+  span: "CreateDirectConnectGatewayAssociationProposal",
 }));
 
 export type CreateInterconnectError =
@@ -1911,6 +1969,8 @@ export const createInterconnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInterconnect",
+  telemetry: TELEMETRY,
+  span: "CreateInterconnect",
 }));
 
 export type CreateLagError =
@@ -1961,6 +2021,8 @@ export const createLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLag",
+  telemetry: TELEMETRY,
+  span: "CreateLag",
 }));
 
 export type CreatePrivateVirtualInterfaceError =
@@ -2002,6 +2064,8 @@ export const createPrivateVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateVirtualInterface",
 }));
 
 export type CreatePublicVirtualInterfaceError =
@@ -2036,6 +2100,8 @@ export const createPublicVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "CreatePublicVirtualInterface",
 }));
 
 export type CreateResiliencyGroupError =
@@ -2067,6 +2133,8 @@ export const createResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResiliencyGroup",
+  telemetry: TELEMETRY,
+  span: "CreateResiliencyGroup",
 }));
 
 export type CreateTransitVirtualInterfaceError =
@@ -2106,6 +2174,8 @@ export const createTransitVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "CreateTransitVirtualInterface",
 }));
 
 export type DeleteBGPPeerError =
@@ -2129,6 +2199,8 @@ export const deleteBGPPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBGPPeer",
+  telemetry: TELEMETRY,
+  span: "DeleteBGPPeer",
 }));
 
 export type DeleteConnectionError =
@@ -2154,6 +2226,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteDirectConnectGatewayError =
@@ -2177,6 +2251,8 @@ export const deleteDirectConnectGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectConnectGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectConnectGateway",
 }));
 
 export type DeleteDirectConnectGatewayAssociationError =
@@ -2200,6 +2276,8 @@ export const deleteDirectConnectGatewayAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectConnectGatewayAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectConnectGatewayAssociation",
 }));
 
 export type DeleteDirectConnectGatewayAssociationProposalError =
@@ -2229,6 +2307,8 @@ export const deleteDirectConnectGatewayAssociationProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectConnectGatewayAssociationProposal",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectConnectGatewayAssociationProposal",
 }));
 
 export type DeleteInterconnectError =
@@ -2253,6 +2333,8 @@ export const deleteInterconnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInterconnect",
+  telemetry: TELEMETRY,
+  span: "DeleteInterconnect",
 }));
 
 export type DeleteLagError =
@@ -2275,6 +2357,8 @@ export const deleteLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLag",
+  telemetry: TELEMETRY,
+  span: "DeleteLag",
 }));
 
 export type DeleteResiliencyGroupError =
@@ -2299,6 +2383,8 @@ export const deleteResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResiliencyGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteResiliencyGroup",
 }));
 
 export type DeleteVirtualInterfaceError =
@@ -2320,6 +2406,8 @@ export const deleteVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualInterface",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualInterface",
 }));
 
 export type DescribeConnectionLoaError =
@@ -2348,6 +2436,8 @@ export const describeConnectionLoa: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionLoa",
+  telemetry: TELEMETRY,
+  span: "DescribeConnectionLoa",
 }));
 
 export type DescribeConnectionsError =
@@ -2369,6 +2459,8 @@ export const describeConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnections",
+  telemetry: TELEMETRY,
+  span: "DescribeConnections",
 }));
 
 export type DescribeConnectionsOnInterconnectError =
@@ -2394,6 +2486,8 @@ export const describeConnectionsOnInterconnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionsOnInterconnect",
+  telemetry: TELEMETRY,
+  span: "DescribeConnectionsOnInterconnect",
 }));
 
 export type DescribeCustomerMetadataError =
@@ -2415,6 +2509,8 @@ export const describeCustomerMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomerMetadata",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomerMetadata",
 }));
 
 export type DescribeDirectConnectGatewayAssociationProposalsError =
@@ -2444,6 +2540,8 @@ export const describeDirectConnectGatewayAssociationProposals: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectConnectGatewayAssociationProposals",
+  telemetry: TELEMETRY,
+  span: "DescribeDirectConnectGatewayAssociationProposals",
 }));
 
 export type DescribeDirectConnectGatewayAssociationsError =
@@ -2493,6 +2591,8 @@ export const describeDirectConnectGatewayAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectConnectGatewayAssociations",
+  telemetry: TELEMETRY,
+  span: "DescribeDirectConnectGatewayAssociations",
 }));
 
 export type DescribeDirectConnectGatewayAttachmentsError =
@@ -2518,6 +2618,8 @@ export const describeDirectConnectGatewayAttachments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectConnectGatewayAttachments",
+  telemetry: TELEMETRY,
+  span: "DescribeDirectConnectGatewayAttachments",
 }));
 
 export type DescribeDirectConnectGatewaysError =
@@ -2539,6 +2641,8 @@ export const describeDirectConnectGateways: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectConnectGateways",
+  telemetry: TELEMETRY,
+  span: "DescribeDirectConnectGateways",
 }));
 
 export type DescribeHostedConnectionsError =
@@ -2563,6 +2667,8 @@ export const describeHostedConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHostedConnections",
+  telemetry: TELEMETRY,
+  span: "DescribeHostedConnections",
 }));
 
 export type DescribeInterconnectLoaError =
@@ -2590,6 +2696,8 @@ export const describeInterconnectLoa: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInterconnectLoa",
+  telemetry: TELEMETRY,
+  span: "DescribeInterconnectLoa",
 }));
 
 export type DescribeInterconnectsError =
@@ -2611,6 +2719,8 @@ export const describeInterconnects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInterconnects",
+  telemetry: TELEMETRY,
+  span: "DescribeInterconnects",
 }));
 
 export type DescribeLagsError =
@@ -2632,6 +2742,8 @@ export const describeLags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLags",
+  telemetry: TELEMETRY,
+  span: "DescribeLags",
 }));
 
 export type DescribeLoaError =
@@ -2657,6 +2769,8 @@ export const describeLoa: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoa",
+  telemetry: TELEMETRY,
+  span: "DescribeLoa",
 }));
 
 export type DescribeLocationsError =
@@ -2679,6 +2793,8 @@ export const describeLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocations",
+  telemetry: TELEMETRY,
+  span: "DescribeLocations",
 }));
 
 export type DescribeRouterConfigurationError =
@@ -2700,6 +2816,8 @@ export const describeRouterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRouterConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeRouterConfiguration",
 }));
 
 export type DescribeTagsError =
@@ -2721,6 +2839,8 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 }));
 
 export type DescribeVirtualGatewaysError =
@@ -2746,6 +2866,8 @@ export const describeVirtualGateways: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualGateways",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualGateways",
 }));
 
 export type DescribeVirtualInterfacesError =
@@ -2776,6 +2898,8 @@ export const describeVirtualInterfaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualInterfaces",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualInterfaces",
 }));
 
 export type DisassociateConnectionFromLagError =
@@ -2807,6 +2931,8 @@ export const disassociateConnectionFromLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConnectionFromLag",
+  telemetry: TELEMETRY,
+  span: "DisassociateConnectionFromLag",
 }));
 
 export type DisassociateConnectionsFromResiliencyGroupError =
@@ -2830,6 +2956,8 @@ export const disassociateConnectionsFromResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConnectionsFromResiliencyGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateConnectionsFromResiliencyGroup",
 }));
 
 export type DisassociateMacSecKeyError =
@@ -2851,6 +2979,8 @@ export const disassociateMacSecKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMacSecKey",
+  telemetry: TELEMETRY,
+  span: "DisassociateMacSecKey",
 }));
 
 export type GetResiliencyGroupError =
@@ -2872,6 +3002,8 @@ export const getResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResiliencyGroup",
+  telemetry: TELEMETRY,
+  span: "GetResiliencyGroup",
 }));
 
 export type ListResiliencyGroupAssociationsError =
@@ -2893,6 +3025,8 @@ export const listResiliencyGroupAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResiliencyGroupAssociations",
+  telemetry: TELEMETRY,
+  span: "ListResiliencyGroupAssociations",
 }));
 
 export type ListResiliencyGroupsError =
@@ -2915,6 +3049,8 @@ export const listResiliencyGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResiliencyGroups",
+  telemetry: TELEMETRY,
+  span: "ListResiliencyGroups",
 }));
 
 export type ListVirtualInterfaceRoutesError =
@@ -2942,6 +3078,8 @@ export const listVirtualInterfaceRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVirtualInterfaceRoutes",
+  telemetry: TELEMETRY,
+  span: "ListVirtualInterfaceRoutes",
 }));
 
 export type ListVirtualInterfaceTestHistoryError =
@@ -2963,6 +3101,8 @@ export const listVirtualInterfaceTestHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVirtualInterfaceTestHistory",
+  telemetry: TELEMETRY,
+  span: "ListVirtualInterfaceTestHistory",
 }));
 
 export type StartBgpFailoverTestError =
@@ -2990,6 +3130,8 @@ export const startBgpFailoverTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBgpFailoverTest",
+  telemetry: TELEMETRY,
+  span: "StartBgpFailoverTest",
 }));
 
 export type StopBgpFailoverTestError =
@@ -3011,6 +3153,8 @@ export const stopBgpFailoverTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBgpFailoverTest",
+  telemetry: TELEMETRY,
+  span: "StopBgpFailoverTest",
 }));
 
 export type TagResourceError =
@@ -3041,6 +3185,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3062,6 +3208,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectionError =
@@ -3089,6 +3237,8 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateConnection",
 }));
 
 export type UpdateConnectionsBillingModeError =
@@ -3111,6 +3261,8 @@ export const updateConnectionsBillingMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionsBillingMode",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectionsBillingMode",
 }));
 
 export type UpdateDirectConnectGatewayError =
@@ -3132,6 +3284,8 @@ export const updateDirectConnectGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectConnectGateway",
+  telemetry: TELEMETRY,
+  span: "UpdateDirectConnectGateway",
 }));
 
 export type UpdateDirectConnectGatewayAssociationError =
@@ -3155,6 +3309,8 @@ export const updateDirectConnectGatewayAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectConnectGatewayAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDirectConnectGatewayAssociation",
 }));
 
 export type UpdateLagError =
@@ -3193,6 +3349,8 @@ export const updateLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLag",
+  telemetry: TELEMETRY,
+  span: "UpdateLag",
 }));
 
 export type UpdateResiliencyGroupError =
@@ -3214,6 +3372,8 @@ export const updateResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResiliencyGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateResiliencyGroup",
 }));
 
 export type UpdateVirtualInterfaceAttributesError =
@@ -3242,6 +3402,8 @@ export const updateVirtualInterfaceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualInterfaceAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualInterfaceAttributes",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

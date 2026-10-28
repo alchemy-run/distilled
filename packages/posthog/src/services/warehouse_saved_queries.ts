@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WarehouseSavedQueries",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -598,6 +611,8 @@ export const createWarehouseSavedQueriesAncestor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseSavedQueriesAncestor",
 }));
 
 export type CreateWarehouseSavedQueriesCheckIncrementalError = PosthogOpError;
@@ -613,6 +628,8 @@ export const createWarehouseSavedQueriesCheckIncremental: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseSavedQueriesCheckIncremental",
 }));
 
 export type CreateWarehouseSavedQueriesDescendantError =
@@ -632,6 +649,8 @@ export const createWarehouseSavedQueriesDescendant: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseSavedQueriesDescendant",
 }));
 
 export type CreateWarehouseSavedQueriesMaterializeError =
@@ -651,6 +670,8 @@ export const createWarehouseSavedQueriesMaterialize: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseSavedQueriesMaterialize",
 }));
 
 export type CreateWarehouseSavedQueriesRevertMaterializationError =
@@ -674,6 +695,8 @@ export const createWarehouseSavedQueriesRevertMaterialization: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseSavedQueriesRevertMaterialization",
 }));
 
 export type CreateWarehouseSavedQueriesRunError =
@@ -693,6 +716,8 @@ export const createWarehouseSavedQueriesRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseSavedQueriesRun",
 }));
 
 export type CreateWarehouseSavedQueryError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -708,6 +733,8 @@ export const createWarehouseSavedQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseSavedQuery",
 }));
 
 export type GetWarehouseSavedQueriesActivityError = Forbidden | NotFound | PosthogOpError;
@@ -723,6 +750,8 @@ export const getWarehouseSavedQueriesActivity: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseSavedQueriesActivity",
 }));
 
 export type GetWarehouseSavedQueriesDependencyError = Forbidden | NotFound | PosthogOpError;
@@ -738,6 +767,8 @@ export const getWarehouseSavedQueriesDependency: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseSavedQueriesDependency",
 }));
 
 export type GetWarehouseSavedQueriesRunHistoryError = Forbidden | NotFound | PosthogOpError;
@@ -753,6 +784,8 @@ export const getWarehouseSavedQueriesRunHistory: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseSavedQueriesRunHistory",
 }));
 
 export type GetWarehouseSavedQueryError = Forbidden | NotFound | PosthogOpError;
@@ -768,6 +801,8 @@ export const getWarehouseSavedQuery: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseSavedQuery",
 }));
 
 export type ListWarehouseSavedQueriesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -783,6 +818,8 @@ export const listWarehouseSavedQueries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWarehouseSavedQueries",
 }));
 
 export type UpdateWarehouseSavedQueriesPartialError =
@@ -802,6 +839,8 @@ export const updateWarehouseSavedQueriesPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarehouseSavedQueriesPartial",
 }));
 
 export type UpdateWarehouseSavedQueryError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -817,6 +856,8 @@ export const updateWarehouseSavedQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarehouseSavedQuery",
 }));
 
 export type WarehouseSavedQueriesCancelCreateError =
@@ -836,6 +877,8 @@ export const warehouseSavedQueriesCancelCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseSavedQueriesCancelCreate",
 }));
 
 export type WarehouseSavedQueriesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -851,6 +894,8 @@ export const warehouseSavedQueriesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseSavedQueriesDestroy",
 }));
 
 export type WarehouseSavedQueriesResumeCreateError = PosthogOpError;
@@ -866,6 +911,8 @@ export const warehouseSavedQueriesResumeCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseSavedQueriesResumeCreate",
 }));
 
 export type WarehouseSavedQueriesResumeSchedulesCreateError =
@@ -885,6 +932,8 @@ export const warehouseSavedQueriesResumeSchedulesCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseSavedQueriesResumeSchedulesCreate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
