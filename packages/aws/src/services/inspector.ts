@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -73,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://inspector.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Inspector",
+  service: "Inspector",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -916,6 +932,8 @@ export const addAttributesToFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddAttributesToFindings",
+  telemetry: TELEMETRY,
+  span: "AddAttributesToFindings",
 }));
 
 export type CreateAssessmentTargetError =
@@ -957,6 +975,8 @@ export const createAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentTarget",
+  telemetry: TELEMETRY,
+  span: "CreateAssessmentTarget",
 }));
 
 export type CreateAssessmentTemplateError =
@@ -992,6 +1012,8 @@ export const createAssessmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateAssessmentTemplate",
 }));
 
 export type CreateExclusionsPreviewError =
@@ -1026,6 +1048,8 @@ export const createExclusionsPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExclusionsPreview",
+  telemetry: TELEMETRY,
+  span: "CreateExclusionsPreview",
 }));
 
 export type CreateResourceGroupError =
@@ -1059,6 +1083,8 @@ export const createResourceGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceGroup",
+  telemetry: TELEMETRY,
+  span: "CreateResourceGroup",
 }));
 
 export type DeleteAssessmentRunError =
@@ -1092,6 +1118,8 @@ export const deleteAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentRun",
 }));
 
 export type DeleteAssessmentTargetError =
@@ -1125,6 +1153,8 @@ export const deleteAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentTarget",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentTarget",
 }));
 
 export type DeleteAssessmentTemplateError =
@@ -1158,6 +1188,8 @@ export const deleteAssessmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteAssessmentTemplate",
 }));
 
 export type DescribeAssessmentRunsError = InternalException | InvalidInputException | CommonErrors;
@@ -1177,6 +1209,8 @@ export const describeAssessmentRuns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentRuns",
+  telemetry: TELEMETRY,
+  span: "DescribeAssessmentRuns",
 }));
 
 export type DescribeAssessmentTargetsError =
@@ -1199,6 +1233,8 @@ export const describeAssessmentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentTargets",
+  telemetry: TELEMETRY,
+  span: "DescribeAssessmentTargets",
 }));
 
 export type DescribeAssessmentTemplatesError =
@@ -1221,6 +1257,8 @@ export const describeAssessmentTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentTemplates",
+  telemetry: TELEMETRY,
+  span: "DescribeAssessmentTemplates",
 }));
 
 export type DescribeCrossAccountAccessRoleError = InternalException | CommonErrors;
@@ -1240,6 +1278,8 @@ export const describeCrossAccountAccessRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCrossAccountAccessRole",
+  telemetry: TELEMETRY,
+  span: "DescribeCrossAccountAccessRole",
 }));
 
 export type DescribeExclusionsError = InternalException | InvalidInputException | CommonErrors;
@@ -1258,6 +1298,8 @@ export const describeExclusions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExclusions",
+  telemetry: TELEMETRY,
+  span: "DescribeExclusions",
 }));
 
 export type DescribeFindingsError = InternalException | InvalidInputException | CommonErrors;
@@ -1276,6 +1318,8 @@ export const describeFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFindings",
+  telemetry: TELEMETRY,
+  span: "DescribeFindings",
 }));
 
 export type DescribeResourceGroupsError = InternalException | InvalidInputException | CommonErrors;
@@ -1295,6 +1339,8 @@ export const describeResourceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeResourceGroups",
 }));
 
 export type DescribeRulesPackagesError = InternalException | InvalidInputException | CommonErrors;
@@ -1314,6 +1360,8 @@ export const describeRulesPackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRulesPackages",
+  telemetry: TELEMETRY,
+  span: "DescribeRulesPackages",
 }));
 
 export type GetAssessmentReportError =
@@ -1349,6 +1397,8 @@ export const getAssessmentReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessmentReport",
+  telemetry: TELEMETRY,
+  span: "GetAssessmentReport",
 }));
 
 export type GetExclusionsPreviewError =
@@ -1380,6 +1430,8 @@ export const getExclusionsPreview: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetExclusionsPreview",
 })) as any;
 
 export type GetTelemetryMetadataError =
@@ -1404,6 +1456,8 @@ export const getTelemetryMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryMetadata",
+  telemetry: TELEMETRY,
+  span: "GetTelemetryMetadata",
 }));
 
 export type ListAssessmentRunAgentsError =
@@ -1434,6 +1488,8 @@ export const listAssessmentRunAgents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentRunAgents",
 })) as any;
 
 export type ListAssessmentRunsError =
@@ -1464,6 +1520,8 @@ export const listAssessmentRuns: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentRuns",
 })) as any;
 
 export type ListAssessmentTargetsError =
@@ -1494,6 +1552,8 @@ export const listAssessmentTargets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentTargets",
 })) as any;
 
 export type ListAssessmentTemplatesError =
@@ -1524,6 +1584,8 @@ export const listAssessmentTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssessmentTemplates",
 })) as any;
 
 export type ListEventSubscriptionsError =
@@ -1554,6 +1616,8 @@ export const listEventSubscriptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventSubscriptions",
 })) as any;
 
 export type ListExclusionsError =
@@ -1583,6 +1647,8 @@ export const listExclusions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExclusions",
 })) as any;
 
 export type ListFindingsError =
@@ -1613,6 +1679,8 @@ export const listFindings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListRulesPackagesError =
@@ -1641,6 +1709,8 @@ export const listRulesPackages: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRulesPackages",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1664,6 +1734,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PreviewAgentsError =
@@ -1701,6 +1773,8 @@ export const previewAgents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "PreviewAgents",
 })) as any;
 
 export type RegisterCrossAccountAccessRoleError =
@@ -1732,6 +1806,8 @@ export const registerCrossAccountAccessRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCrossAccountAccessRole",
+  telemetry: TELEMETRY,
+  span: "RegisterCrossAccountAccessRole",
 }));
 
 export type RemoveAttributesFromFindingsError =
@@ -1763,6 +1839,8 @@ export const removeAttributesFromFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttributesFromFindings",
+  telemetry: TELEMETRY,
+  span: "RemoveAttributesFromFindings",
 }));
 
 export type SetTagsForResourceError =
@@ -1794,6 +1872,8 @@ export const setTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTagsForResource",
+  telemetry: TELEMETRY,
+  span: "SetTagsForResource",
 }));
 
 export type StartAssessmentRunError =
@@ -1832,6 +1912,8 @@ export const startAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "StartAssessmentRun",
 }));
 
 export type StopAssessmentRunError =
@@ -1863,6 +1945,8 @@ export const stopAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "StopAssessmentRun",
 }));
 
 export type SubscribeToEventError =
@@ -1896,6 +1980,8 @@ export const subscribeToEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToEvent",
+  telemetry: TELEMETRY,
+  span: "SubscribeToEvent",
 }));
 
 export type UnsubscribeFromEventError =
@@ -1927,6 +2013,8 @@ export const unsubscribeFromEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnsubscribeFromEvent",
+  telemetry: TELEMETRY,
+  span: "UnsubscribeFromEvent",
 }));
 
 export type UpdateAssessmentTargetError =
@@ -1961,6 +2049,8 @@ export const updateAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentTarget",
+  telemetry: TELEMETRY,
+  span: "UpdateAssessmentTarget",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

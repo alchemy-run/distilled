@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Aliases",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -543,6 +557,8 @@ export const assignAlias: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAlias",
 }));
 
 export type DeleteAliasError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -558,6 +574,8 @@ export const deleteAlias: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlias",
 }));
 
 export type GetAliasError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -573,6 +591,8 @@ export const getAlias: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlias",
 }));
 
 export type ListAliasesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -588,6 +608,8 @@ export const listAliases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAliases",
 }));
 
 export type ListDeploymentAliasesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -603,6 +625,8 @@ export const listDeploymentAliases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentAliases",
 }));
 
 export type PatchUrlProtectionBypassError =
@@ -623,6 +647,8 @@ export const patchUrlProtectionBypass: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUrlProtectionBypass",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

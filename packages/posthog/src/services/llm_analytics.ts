@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "LlmAnalytics",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export type CreateLlmAnalyticsClusteringConfigSetEventFilterRequestEventFiltersItemMap = {
   [key: string]: unknown | undefined;
 };
@@ -1325,6 +1338,8 @@ export const createLlmAnalyticsClusteringConfigSetEventFilter: API.OperationMeth
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsClusteringConfigSetEventFilter",
 }));
 
 export type CreateLlmAnalyticsClusteringJobError = PosthogOpError;
@@ -1340,6 +1355,8 @@ export const createLlmAnalyticsClusteringJob: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsClusteringJob",
 }));
 
 export type CreateLlmAnalyticsClusteringRunError = PosthogOpError;
@@ -1355,6 +1372,8 @@ export const createLlmAnalyticsClusteringRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsClusteringRun",
 }));
 
 export type CreateLlmAnalyticsEvaluationConfigSetActiveKeyError = PosthogOpError;
@@ -1374,6 +1393,8 @@ export const createLlmAnalyticsEvaluationConfigSetActiveKey: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsEvaluationConfigSetActiveKey",
 }));
 
 export type CreateLlmAnalyticsEvaluationReportError = PosthogOpError;
@@ -1389,6 +1410,8 @@ export const createLlmAnalyticsEvaluationReport: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsEvaluationReport",
 }));
 
 export type CreateLlmAnalyticsParserRecipeError = PosthogOpError;
@@ -1403,6 +1426,8 @@ export const createLlmAnalyticsParserRecipe: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsParserRecipe",
 }));
 
 export type CreateLlmAnalyticsProviderKeyError = PosthogOpError;
@@ -1417,6 +1442,8 @@ export const createLlmAnalyticsProviderKey: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsProviderKey",
 }));
 
 export type CreateLlmAnalyticsProviderKeyValidationError = PosthogOpError;
@@ -1432,6 +1459,8 @@ export const createLlmAnalyticsProviderKeyValidation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsProviderKeyValidation",
 }));
 
 export type CreateLlmAnalyticsReviewQueueError = PosthogOpError;
@@ -1446,6 +1475,8 @@ export const createLlmAnalyticsReviewQueue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsReviewQueue",
 }));
 
 export type CreateLlmAnalyticsReviewQueueItemError = PosthogOpError;
@@ -1460,6 +1491,8 @@ export const createLlmAnalyticsReviewQueueItem: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsReviewQueueItem",
 }));
 
 export type CreateLlmAnalyticsScoreDefinitionError = PosthogOpError;
@@ -1474,6 +1507,8 @@ export const createLlmAnalyticsScoreDefinition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsScoreDefinition",
 }));
 
 export type CreateLlmAnalyticsScoreDefinitionsNewVersionError = PosthogOpError;
@@ -1488,6 +1523,8 @@ export const createLlmAnalyticsScoreDefinitionsNewVersion: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsScoreDefinitionsNewVersion",
 }));
 
 export type CreateLlmAnalyticsTraceReviewError = PosthogOpError;
@@ -1502,6 +1539,8 @@ export const createLlmAnalyticsTraceReview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsTraceReview",
 }));
 
 export type CreateLlmAnalyticsTranslateError = PosthogOpError;
@@ -1517,6 +1556,8 @@ export const createLlmAnalyticsTranslate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsTranslate",
 }));
 
 export type GetLlmAnalyticsClusteringJobError = PosthogOpError;
@@ -1532,6 +1573,8 @@ export const getLlmAnalyticsClusteringJob: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsClusteringJob",
 }));
 
 export type GetLlmAnalyticsEvaluationConfigError = PosthogOpError;
@@ -1547,6 +1590,8 @@ export const getLlmAnalyticsEvaluationConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsEvaluationConfig",
 }));
 
 export type GetLlmAnalyticsEvaluationReportError = PosthogOpError;
@@ -1562,6 +1607,8 @@ export const getLlmAnalyticsEvaluationReport: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsEvaluationReport",
 }));
 
 export type GetLlmAnalyticsModelError = PosthogOpError;
@@ -1577,6 +1624,8 @@ export const getLlmAnalyticsModel: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsModel",
 }));
 
 export type GetLlmAnalyticsParserRecipeError = PosthogOpError;
@@ -1591,6 +1640,8 @@ export const getLlmAnalyticsParserRecipe: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsParserRecipe",
 }));
 
 export type GetLlmAnalyticsProviderKeyError = PosthogOpError;
@@ -1605,6 +1656,8 @@ export const getLlmAnalyticsProviderKey: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsProviderKey",
 }));
 
 export type GetLlmAnalyticsProviderKeysDependentConfigError = PosthogOpError;
@@ -1620,6 +1673,8 @@ export const getLlmAnalyticsProviderKeysDependentConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsProviderKeysDependentConfig",
 }));
 
 export type GetLlmAnalyticsReviewQueueError = PosthogOpError;
@@ -1634,6 +1689,8 @@ export const getLlmAnalyticsReviewQueue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsReviewQueue",
 }));
 
 export type GetLlmAnalyticsReviewQueueItemError = PosthogOpError;
@@ -1648,6 +1705,8 @@ export const getLlmAnalyticsReviewQueueItem: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsReviewQueueItem",
 }));
 
 export type GetLlmAnalyticsScoreDefinitionError = PosthogOpError;
@@ -1662,6 +1721,8 @@ export const getLlmAnalyticsScoreDefinition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsScoreDefinition",
 }));
 
 export type GetLlmAnalyticsScoreDefinitionsVersionError = PosthogOpError;
@@ -1676,6 +1737,8 @@ export const getLlmAnalyticsScoreDefinitionsVersion: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsScoreDefinitionsVersion",
 }));
 
 export type GetLlmAnalyticsTraceReviewError = PosthogOpError;
@@ -1690,6 +1753,8 @@ export const getLlmAnalyticsTraceReview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmAnalyticsTraceReview",
 }));
 
 export type ListLlmAnalyticsClusteringConfigError = PosthogOpError;
@@ -1705,6 +1770,8 @@ export const listLlmAnalyticsClusteringConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsClusteringConfig",
 }));
 
 export type ListLlmAnalyticsClusteringJobsError = PosthogOpError;
@@ -1720,6 +1787,8 @@ export const listLlmAnalyticsClusteringJobs: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsClusteringJobs",
 }));
 
 export type ListLlmAnalyticsEvaluationReportsError = PosthogOpError;
@@ -1735,6 +1804,8 @@ export const listLlmAnalyticsEvaluationReports: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsEvaluationReports",
 }));
 
 export type ListLlmAnalyticsEvaluationReportsRunsError = PosthogOpError;
@@ -1750,6 +1821,8 @@ export const listLlmAnalyticsEvaluationReportsRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsEvaluationReportsRuns",
 }));
 
 export type ListLlmAnalyticsParserRecipesError = PosthogOpError;
@@ -1764,6 +1837,8 @@ export const listLlmAnalyticsParserRecipes: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsParserRecipes",
 }));
 
 export type ListLlmAnalyticsProviderKeysError = PosthogOpError;
@@ -1778,6 +1853,8 @@ export const listLlmAnalyticsProviderKeys: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsProviderKeys",
 }));
 
 export type ListLlmAnalyticsReviewQueueItemsError = PosthogOpError;
@@ -1792,6 +1869,8 @@ export const listLlmAnalyticsReviewQueueItems: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsReviewQueueItems",
 }));
 
 export type ListLlmAnalyticsReviewQueuesError = PosthogOpError;
@@ -1806,6 +1885,8 @@ export const listLlmAnalyticsReviewQueues: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsReviewQueues",
 }));
 
 export type ListLlmAnalyticsScoreDefinitionsError = PosthogOpError;
@@ -1820,6 +1901,8 @@ export const listLlmAnalyticsScoreDefinitions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsScoreDefinitions",
 }));
 
 export type ListLlmAnalyticsScoreDefinitionsVersionsError = PosthogOpError;
@@ -1834,6 +1917,8 @@ export const listLlmAnalyticsScoreDefinitionsVersions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsScoreDefinitionsVersions",
 }));
 
 export type ListLlmAnalyticsTraceReviewsError = PosthogOpError;
@@ -1848,6 +1933,8 @@ export const listLlmAnalyticsTraceReviews: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsTraceReviews",
 }));
 
 export type LlmAnalyticsClusteringJobsDestroyError = PosthogOpError;
@@ -1863,6 +1950,8 @@ export const llmAnalyticsClusteringJobsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmAnalyticsClusteringJobsDestroy",
 }));
 
 export type LlmAnalyticsEvaluationReportsDestroyError = PosthogOpError;
@@ -1878,6 +1967,8 @@ export const llmAnalyticsEvaluationReportsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmAnalyticsEvaluationReportsDestroy",
 }));
 
 export type LlmAnalyticsEvaluationReportsGenerateCreateError = PosthogOpError;
@@ -1897,6 +1988,8 @@ export const llmAnalyticsEvaluationReportsGenerateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmAnalyticsEvaluationReportsGenerateCreate",
 }));
 
 export type LlmAnalyticsParserRecipesDestroyError = PosthogOpError;
@@ -1911,6 +2004,8 @@ export const llmAnalyticsParserRecipesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmAnalyticsParserRecipesDestroy",
 }));
 
 export type LlmAnalyticsProviderKeysDestroyError = PosthogOpError;
@@ -1925,6 +2020,8 @@ export const llmAnalyticsProviderKeysDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmAnalyticsProviderKeysDestroy",
 }));
 
 export type LlmAnalyticsProviderKeysValidateCreateError = PosthogOpError;
@@ -1939,6 +2036,8 @@ export const llmAnalyticsProviderKeysValidateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmAnalyticsProviderKeysValidateCreate",
 }));
 
 export type LlmAnalyticsTraceReviewsDestroyError = PosthogOpError;
@@ -1953,6 +2052,8 @@ export const llmAnalyticsTraceReviewsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmAnalyticsTraceReviewsDestroy",
 }));
 
 export type ReviewLlmAnalyticsQueueItemsDestroyError = PosthogOpError;
@@ -1967,6 +2068,8 @@ export const reviewLlmAnalyticsQueueItemsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewLlmAnalyticsQueueItemsDestroy",
 }));
 
 export type ReviewLlmAnalyticsQueuesDestroyError = PosthogOpError;
@@ -1981,6 +2084,8 @@ export const reviewLlmAnalyticsQueuesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewLlmAnalyticsQueuesDestroy",
 }));
 
 export type UpdateLlmAnalyticsClusteringJobError = PosthogOpError;
@@ -1996,6 +2101,8 @@ export const updateLlmAnalyticsClusteringJob: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsClusteringJob",
 }));
 
 export type UpdateLlmAnalyticsClusteringJobsPartialError = PosthogOpError;
@@ -2011,6 +2118,8 @@ export const updateLlmAnalyticsClusteringJobsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsClusteringJobsPartial",
 }));
 
 export type UpdateLlmAnalyticsEvaluationReportError = PosthogOpError;
@@ -2026,6 +2135,8 @@ export const updateLlmAnalyticsEvaluationReport: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsEvaluationReport",
 }));
 
 export type UpdateLlmAnalyticsEvaluationReportsPartialError = PosthogOpError;
@@ -2041,6 +2152,8 @@ export const updateLlmAnalyticsEvaluationReportsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsEvaluationReportsPartial",
 }));
 
 export type UpdateLlmAnalyticsParserRecipesPartialError = PosthogOpError;
@@ -2055,6 +2168,8 @@ export const updateLlmAnalyticsParserRecipesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsParserRecipesPartial",
 }));
 
 export type UpdateLlmAnalyticsProviderKeyError = PosthogOpError;
@@ -2069,6 +2184,8 @@ export const updateLlmAnalyticsProviderKey: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsProviderKey",
 }));
 
 export type UpdateLlmAnalyticsProviderKeysPartialError = PosthogOpError;
@@ -2083,6 +2200,8 @@ export const updateLlmAnalyticsProviderKeysPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsProviderKeysPartial",
 }));
 
 export type UpdateLlmAnalyticsReviewQueueItemPartialError = PosthogOpError;
@@ -2097,6 +2216,8 @@ export const updateLlmAnalyticsReviewQueueItemPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsReviewQueueItemPartial",
 }));
 
 export type UpdateLlmAnalyticsReviewQueuePartialError = PosthogOpError;
@@ -2111,6 +2232,8 @@ export const updateLlmAnalyticsReviewQueuePartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsReviewQueuePartial",
 }));
 
 export type UpdateLlmAnalyticsScoreDefinitionsPartialError = PosthogOpError;
@@ -2125,6 +2248,8 @@ export const updateLlmAnalyticsScoreDefinitionsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsScoreDefinitionsPartial",
 }));
 
 export type UpdateLlmAnalyticsTraceReviewsPartialError = PosthogOpError;
@@ -2139,6 +2264,8 @@ export const updateLlmAnalyticsTraceReviewsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmAnalyticsTraceReviewsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

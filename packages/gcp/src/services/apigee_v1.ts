@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "apigee" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Apigee",
+  service: "apigee",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 /** The Apigee resource (or its organization) does not exist. Apigee answers HTTP 403 'Permission denied on resource "organizations/..." (or it may not exist)' instead of 404. */
 export class ApigeeResourceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -6764,6 +6783,8 @@ export const activateOrganizationsInstancesNatAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateOrganizationsInstancesNatAddresses",
 }));
 
 export type AdjustOrganizationsAppgroupsBalanceError =
@@ -6785,6 +6806,8 @@ export const adjustOrganizationsAppgroupsBalance: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdjustOrganizationsAppgroupsBalance",
 }));
 
 export type AdjustOrganizationsDevelopersBalanceError =
@@ -6806,6 +6829,8 @@ export const adjustOrganizationsDevelopersBalance: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdjustOrganizationsDevelopersBalance",
 }));
 
 export type AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksError =
@@ -6831,6 +6856,8 @@ export const attachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks",
 }));
 
 export type AttributesOrganizationsApiproductsError =
@@ -6852,6 +6879,8 @@ export const attributesOrganizationsApiproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttributesOrganizationsApiproducts",
 }));
 
 export type AttributesOrganizationsDevelopersError =
@@ -6873,6 +6902,8 @@ export const attributesOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttributesOrganizationsDevelopers",
 }));
 
 export type AttributesOrganizationsDevelopersAppsError =
@@ -6894,6 +6925,8 @@ export const attributesOrganizationsDevelopersApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttributesOrganizationsDevelopersApps",
 }));
 
 export type BatchComputeOrganizationsSecurityAssessmentResultsError =
@@ -6923,6 +6956,8 @@ export const batchComputeOrganizationsSecurityAssessmentResults: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchComputeOrganizationsSecurityAssessmentResults",
 }));
 
 export type BatchUpdateOrganizationsEnvironmentsSecurityIncidentsError =
@@ -6952,6 +6987,8 @@ export const batchUpdateOrganizationsEnvironmentsSecurityIncidents: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateOrganizationsEnvironmentsSecurityIncidents",
 }));
 
 export type ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsError =
@@ -6981,6 +7018,8 @@ export const computeEnvironmentScoresOrganizationsSecurityProfilesEnvironments: 
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironments",
 }));
 
 export type CreateOrganizationsError =
@@ -7002,6 +7041,8 @@ export const createOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizations",
 }));
 
 export type CreateOrganizationsAnalyticsDatastoresError =
@@ -7023,6 +7064,8 @@ export const createOrganizationsAnalyticsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsAnalyticsDatastores",
 }));
 
 export type CreateOrganizationsApimServiceExtensionsError =
@@ -7044,6 +7087,8 @@ export const createOrganizationsApimServiceExtensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsApimServiceExtensions",
 }));
 
 export type CreateOrganizationsApiproductsError =
@@ -7065,6 +7110,8 @@ export const createOrganizationsApiproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsApiproducts",
 }));
 
 export type CreateOrganizationsApiproductsRateplansError =
@@ -7086,6 +7133,8 @@ export const createOrganizationsApiproductsRateplans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsApiproductsRateplans",
 }));
 
 export type CreateOrganizationsApisError =
@@ -7107,6 +7156,8 @@ export const createOrganizationsApis: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsApis",
 }));
 
 export type CreateOrganizationsApisKeyvaluemapsError =
@@ -7128,6 +7179,8 @@ export const createOrganizationsApisKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsApisKeyvaluemaps",
 }));
 
 export type CreateOrganizationsApisKeyvaluemapsEntriesError =
@@ -7149,6 +7202,8 @@ export const createOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsApisKeyvaluemapsEntries",
 }));
 
 export type CreateOrganizationsAppgroupsError =
@@ -7170,6 +7225,8 @@ export const createOrganizationsAppgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsAppgroups",
 }));
 
 export type CreateOrganizationsAppgroupsAppsError =
@@ -7191,6 +7248,8 @@ export const createOrganizationsAppgroupsApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsAppgroupsApps",
 }));
 
 export type CreateOrganizationsAppgroupsAppsKeysError =
@@ -7212,6 +7271,8 @@ export const createOrganizationsAppgroupsAppsKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsAppgroupsAppsKeys",
 }));
 
 export type CreateOrganizationsAppgroupsSubscriptionsError =
@@ -7233,6 +7294,8 @@ export const createOrganizationsAppgroupsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsAppgroupsSubscriptions",
 }));
 
 export type CreateOrganizationsDatacollectorsError =
@@ -7254,6 +7317,8 @@ export const createOrganizationsDatacollectors: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsDatacollectors",
 }));
 
 export type CreateOrganizationsDevelopersError =
@@ -7275,6 +7340,8 @@ export const createOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsDevelopers",
 }));
 
 export type CreateOrganizationsDevelopersAppsError =
@@ -7296,6 +7363,8 @@ export const createOrganizationsDevelopersApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsDevelopersApps",
 }));
 
 export type CreateOrganizationsDevelopersAppsKeysError =
@@ -7317,6 +7386,8 @@ export const createOrganizationsDevelopersAppsKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsDevelopersAppsKeys",
 }));
 
 export type CreateOrganizationsDevelopersAppsKeysCreateError =
@@ -7342,6 +7413,8 @@ export const createOrganizationsDevelopersAppsKeysCreate: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsDevelopersAppsKeysCreate",
 }));
 
 export type CreateOrganizationsDevelopersSubscriptionsError =
@@ -7363,6 +7436,8 @@ export const createOrganizationsDevelopersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsDevelopersSubscriptions",
 }));
 
 export type CreateOrganizationsDnsZonesError =
@@ -7384,6 +7459,8 @@ export const createOrganizationsDnsZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsDnsZones",
 }));
 
 export type CreateOrganizationsEndpointAttachmentsError =
@@ -7405,6 +7482,8 @@ export const createOrganizationsEndpointAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEndpointAttachments",
 }));
 
 export type CreateOrganizationsEnvgroupsError =
@@ -7426,6 +7505,8 @@ export const createOrganizationsEnvgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvgroups",
 }));
 
 export type CreateOrganizationsEnvgroupsAttachmentsError =
@@ -7447,6 +7528,8 @@ export const createOrganizationsEnvgroupsAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvgroupsAttachments",
 }));
 
 export type CreateOrganizationsEnvironmentsError =
@@ -7468,6 +7551,8 @@ export const createOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironments",
 }));
 
 export type CreateOrganizationsEnvironmentsAnalyticsExportsError =
@@ -7493,6 +7578,8 @@ export const createOrganizationsEnvironmentsAnalyticsExports: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsAnalyticsExports",
 }));
 
 export type CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
@@ -7518,6 +7605,8 @@ export const createOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsApisRevisionsDebugsessions",
 }));
 
 export type CreateOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -7543,6 +7632,8 @@ export const createOrganizationsEnvironmentsArchiveDeployments: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsArchiveDeployments",
 }));
 
 export type CreateOrganizationsEnvironmentsKeystoresError =
@@ -7564,6 +7655,8 @@ export const createOrganizationsEnvironmentsKeystores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsKeystores",
 }));
 
 export type CreateOrganizationsEnvironmentsKeystoresAliasesError =
@@ -7589,6 +7682,8 @@ export const createOrganizationsEnvironmentsKeystoresAliases: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsKeystoresAliases",
 }));
 
 export type CreateOrganizationsEnvironmentsKeyvaluemapsError =
@@ -7614,6 +7709,8 @@ export const createOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsKeyvaluemaps",
 }));
 
 export type CreateOrganizationsEnvironmentsKeyvaluemapsEntriesError =
@@ -7639,6 +7736,8 @@ export const createOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsKeyvaluemapsEntries",
 }));
 
 export type CreateOrganizationsEnvironmentsQueriesError =
@@ -7660,6 +7759,8 @@ export const createOrganizationsEnvironmentsQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsQueries",
 }));
 
 export type CreateOrganizationsEnvironmentsReferencesError =
@@ -7681,6 +7782,8 @@ export const createOrganizationsEnvironmentsReferences: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsReferences",
 }));
 
 export type CreateOrganizationsEnvironmentsResourcefilesError =
@@ -7706,6 +7809,8 @@ export const createOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsResourcefiles",
 }));
 
 export type CreateOrganizationsEnvironmentsSecurityActionsError =
@@ -7731,6 +7836,8 @@ export const createOrganizationsEnvironmentsSecurityActions: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsSecurityActions",
 }));
 
 export type CreateOrganizationsEnvironmentsSecurityReportsError =
@@ -7756,6 +7863,8 @@ export const createOrganizationsEnvironmentsSecurityReports: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsSecurityReports",
 }));
 
 export type CreateOrganizationsEnvironmentsTargetserversError =
@@ -7781,6 +7890,8 @@ export const createOrganizationsEnvironmentsTargetservers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsTargetservers",
 }));
 
 export type CreateOrganizationsEnvironmentsTraceConfigOverridesError =
@@ -7806,6 +7917,8 @@ export const createOrganizationsEnvironmentsTraceConfigOverrides: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsEnvironmentsTraceConfigOverrides",
 }));
 
 export type CreateOrganizationsHostQueriesError =
@@ -7827,6 +7940,8 @@ export const createOrganizationsHostQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsHostQueries",
 }));
 
 export type CreateOrganizationsHostSecurityReportsError =
@@ -7848,6 +7963,8 @@ export const createOrganizationsHostSecurityReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsHostSecurityReports",
 }));
 
 export type CreateOrganizationsInstancesError =
@@ -7869,6 +7986,8 @@ export const createOrganizationsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsInstances",
 }));
 
 export type CreateOrganizationsInstancesAttachmentsError =
@@ -7890,6 +8009,8 @@ export const createOrganizationsInstancesAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsInstancesAttachments",
 }));
 
 export type CreateOrganizationsInstancesCanaryevaluationsError =
@@ -7915,6 +8036,8 @@ export const createOrganizationsInstancesCanaryevaluations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsInstancesCanaryevaluations",
 }));
 
 export type CreateOrganizationsInstancesNatAddressesError =
@@ -7936,6 +8059,8 @@ export const createOrganizationsInstancesNatAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsInstancesNatAddresses",
 }));
 
 export type CreateOrganizationsKeyvaluemapsError =
@@ -7957,6 +8082,8 @@ export const createOrganizationsKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsKeyvaluemaps",
 }));
 
 export type CreateOrganizationsKeyvaluemapsEntriesError =
@@ -7978,6 +8105,8 @@ export const createOrganizationsKeyvaluemapsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsKeyvaluemapsEntries",
 }));
 
 export type CreateOrganizationsReportsError =
@@ -7999,6 +8128,8 @@ export const createOrganizationsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsReports",
 }));
 
 export type CreateOrganizationsSecurityFeedbackError =
@@ -8020,6 +8151,8 @@ export const createOrganizationsSecurityFeedback: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSecurityFeedback",
 }));
 
 export type CreateOrganizationsSecurityMonitoringConditionsError =
@@ -8045,6 +8178,8 @@ export const createOrganizationsSecurityMonitoringConditions: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSecurityMonitoringConditions",
 }));
 
 export type CreateOrganizationsSecurityProfilesError =
@@ -8066,6 +8201,8 @@ export const createOrganizationsSecurityProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSecurityProfiles",
 }));
 
 export type CreateOrganizationsSecurityProfilesEnvironmentsError =
@@ -8095,6 +8232,8 @@ export const createOrganizationsSecurityProfilesEnvironments: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSecurityProfilesEnvironments",
 }));
 
 export type CreateOrganizationsSecurityProfilesV2Error =
@@ -8116,6 +8255,8 @@ export const createOrganizationsSecurityProfilesV2: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSecurityProfilesV2",
 }));
 
 export type CreateOrganizationsSharedflowsError =
@@ -8137,6 +8278,8 @@ export const createOrganizationsSharedflows: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSharedflows",
 }));
 
 export type CreateOrganizationsSitesApicategoriesError =
@@ -8158,6 +8301,8 @@ export const createOrganizationsSitesApicategories: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSitesApicategories",
 }));
 
 export type CreateOrganizationsSitesApidocsError =
@@ -8179,6 +8324,8 @@ export const createOrganizationsSitesApidocs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSitesApidocs",
 }));
 
 export type CreateOrganizationsSpacesError =
@@ -8200,6 +8347,8 @@ export const createOrganizationsSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSpaces",
 }));
 
 export type CreditOrganizationsAppgroupsBalanceError =
@@ -8221,6 +8370,8 @@ export const creditOrganizationsAppgroupsBalance: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreditOrganizationsAppgroupsBalance",
 }));
 
 export type CreditOrganizationsDevelopersBalanceError =
@@ -8242,6 +8393,8 @@ export const creditOrganizationsDevelopersBalance: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreditOrganizationsDevelopersBalance",
 }));
 
 export type CsrOrganizationsEnvironmentsKeystoresAliasesError =
@@ -8265,6 +8418,8 @@ export const csrOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CsrOrganizationsEnvironmentsKeystoresAliases",
 }));
 
 export type DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
@@ -8290,6 +8445,8 @@ export const deleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions",
 }));
 
 export type DeleteOrganizationsError =
@@ -8311,6 +8468,8 @@ export const deleteOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizations",
 }));
 
 export type DeleteOrganizationsAnalyticsDatastoresError =
@@ -8332,6 +8491,8 @@ export const deleteOrganizationsAnalyticsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsAnalyticsDatastores",
 }));
 
 export type DeleteOrganizationsApimServiceExtensionsError =
@@ -8353,6 +8514,8 @@ export const deleteOrganizationsApimServiceExtensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsApimServiceExtensions",
 }));
 
 export type DeleteOrganizationsApiproductsError =
@@ -8374,6 +8537,8 @@ export const deleteOrganizationsApiproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsApiproducts",
 }));
 
 export type DeleteOrganizationsApiproductsAttributesError =
@@ -8395,6 +8560,8 @@ export const deleteOrganizationsApiproductsAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsApiproductsAttributes",
 }));
 
 export type DeleteOrganizationsApiproductsRateplansError =
@@ -8416,6 +8583,8 @@ export const deleteOrganizationsApiproductsRateplans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsApiproductsRateplans",
 }));
 
 export type DeleteOrganizationsApisError =
@@ -8437,6 +8606,8 @@ export const deleteOrganizationsApis: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsApis",
 }));
 
 export type DeleteOrganizationsApisKeyvaluemapsError =
@@ -8458,6 +8629,8 @@ export const deleteOrganizationsApisKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsApisKeyvaluemaps",
 }));
 
 export type DeleteOrganizationsApisKeyvaluemapsEntriesError =
@@ -8483,6 +8656,8 @@ export const deleteOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsApisKeyvaluemapsEntries",
 }));
 
 export type DeleteOrganizationsApisRevisionsError =
@@ -8504,6 +8679,8 @@ export const deleteOrganizationsApisRevisions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsApisRevisions",
 }));
 
 export type DeleteOrganizationsAppgroupsError =
@@ -8525,6 +8702,8 @@ export const deleteOrganizationsAppgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsAppgroups",
 }));
 
 export type DeleteOrganizationsAppgroupsAppsError =
@@ -8546,6 +8725,8 @@ export const deleteOrganizationsAppgroupsApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsAppgroupsApps",
 }));
 
 export type DeleteOrganizationsAppgroupsAppsKeysError =
@@ -8567,6 +8748,8 @@ export const deleteOrganizationsAppgroupsAppsKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsAppgroupsAppsKeys",
 }));
 
 export type DeleteOrganizationsAppgroupsAppsKeysApiproductsError =
@@ -8592,6 +8775,8 @@ export const deleteOrganizationsAppgroupsAppsKeysApiproducts: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsAppgroupsAppsKeysApiproducts",
 }));
 
 export type DeleteOrganizationsDatacollectorsError =
@@ -8613,6 +8798,8 @@ export const deleteOrganizationsDatacollectors: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsDatacollectors",
 }));
 
 export type DeleteOrganizationsDevelopersError =
@@ -8634,6 +8821,8 @@ export const deleteOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsDevelopers",
 }));
 
 export type DeleteOrganizationsDevelopersAppsError =
@@ -8655,6 +8844,8 @@ export const deleteOrganizationsDevelopersApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsDevelopersApps",
 }));
 
 export type DeleteOrganizationsDevelopersAppsAttributesError =
@@ -8680,6 +8871,8 @@ export const deleteOrganizationsDevelopersAppsAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsDevelopersAppsAttributes",
 }));
 
 export type DeleteOrganizationsDevelopersAppsKeysError =
@@ -8701,6 +8894,8 @@ export const deleteOrganizationsDevelopersAppsKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsDevelopersAppsKeys",
 }));
 
 export type DeleteOrganizationsDevelopersAppsKeysApiproductsError =
@@ -8726,6 +8921,8 @@ export const deleteOrganizationsDevelopersAppsKeysApiproducts: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsDevelopersAppsKeysApiproducts",
 }));
 
 export type DeleteOrganizationsDevelopersAttributesError =
@@ -8747,6 +8944,8 @@ export const deleteOrganizationsDevelopersAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsDevelopersAttributes",
 }));
 
 export type DeleteOrganizationsDnsZonesError =
@@ -8768,6 +8967,8 @@ export const deleteOrganizationsDnsZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsDnsZones",
 }));
 
 export type DeleteOrganizationsEndpointAttachmentsError =
@@ -8789,6 +8990,8 @@ export const deleteOrganizationsEndpointAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEndpointAttachments",
 }));
 
 export type DeleteOrganizationsEnvgroupsError =
@@ -8810,6 +9013,8 @@ export const deleteOrganizationsEnvgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvgroups",
 }));
 
 export type DeleteOrganizationsEnvgroupsAttachmentsError =
@@ -8831,6 +9036,8 @@ export const deleteOrganizationsEnvgroupsAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvgroupsAttachments",
 }));
 
 export type DeleteOrganizationsEnvironmentsError =
@@ -8852,6 +9059,8 @@ export const deleteOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironments",
 }));
 
 export type DeleteOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -8877,6 +9086,8 @@ export const deleteOrganizationsEnvironmentsArchiveDeployments: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsArchiveDeployments",
 }));
 
 export type DeleteOrganizationsEnvironmentsCachesError =
@@ -8898,6 +9109,8 @@ export const deleteOrganizationsEnvironmentsCaches: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsCaches",
 }));
 
 export type DeleteOrganizationsEnvironmentsKeystoresError =
@@ -8919,6 +9132,8 @@ export const deleteOrganizationsEnvironmentsKeystores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsKeystores",
 }));
 
 export type DeleteOrganizationsEnvironmentsKeystoresAliasesError =
@@ -8944,6 +9159,8 @@ export const deleteOrganizationsEnvironmentsKeystoresAliases: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsKeystoresAliases",
 }));
 
 export type DeleteOrganizationsEnvironmentsKeyvaluemapsError =
@@ -8965,6 +9182,8 @@ export const deleteOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsKeyvaluemaps",
 }));
 
 export type DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesError =
@@ -8990,6 +9209,8 @@ export const deleteOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsKeyvaluemapsEntries",
 }));
 
 export type DeleteOrganizationsEnvironmentsReferencesError =
@@ -9011,6 +9232,8 @@ export const deleteOrganizationsEnvironmentsReferences: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsReferences",
 }));
 
 export type DeleteOrganizationsEnvironmentsResourcefilesError =
@@ -9032,6 +9255,8 @@ export const deleteOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsResourcefiles",
 }));
 
 export type DeleteOrganizationsEnvironmentsSecurityActionsError =
@@ -9057,6 +9282,8 @@ export const deleteOrganizationsEnvironmentsSecurityActions: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsSecurityActions",
 }));
 
 export type DeleteOrganizationsEnvironmentsTargetserversError =
@@ -9078,6 +9305,8 @@ export const deleteOrganizationsEnvironmentsTargetservers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsTargetservers",
 }));
 
 export type DeleteOrganizationsEnvironmentsTraceConfigOverridesError =
@@ -9103,6 +9332,8 @@ export const deleteOrganizationsEnvironmentsTraceConfigOverrides: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsEnvironmentsTraceConfigOverrides",
 }));
 
 export type DeleteOrganizationsInstancesError =
@@ -9124,6 +9355,8 @@ export const deleteOrganizationsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsInstances",
 }));
 
 export type DeleteOrganizationsInstancesAttachmentsError =
@@ -9145,6 +9378,8 @@ export const deleteOrganizationsInstancesAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsInstancesAttachments",
 }));
 
 export type DeleteOrganizationsInstancesNatAddressesError =
@@ -9166,6 +9401,8 @@ export const deleteOrganizationsInstancesNatAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsInstancesNatAddresses",
 }));
 
 export type DeleteOrganizationsKeyvaluemapsError =
@@ -9187,6 +9424,8 @@ export const deleteOrganizationsKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsKeyvaluemaps",
 }));
 
 export type DeleteOrganizationsKeyvaluemapsEntriesError =
@@ -9208,6 +9447,8 @@ export const deleteOrganizationsKeyvaluemapsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsKeyvaluemapsEntries",
 }));
 
 export type DeleteOrganizationsReportsError =
@@ -9229,6 +9470,8 @@ export const deleteOrganizationsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsReports",
 }));
 
 export type DeleteOrganizationsSecurityFeedbackError =
@@ -9250,6 +9493,8 @@ export const deleteOrganizationsSecurityFeedback: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSecurityFeedback",
 }));
 
 export type DeleteOrganizationsSecurityMonitoringConditionsError =
@@ -9275,6 +9520,8 @@ export const deleteOrganizationsSecurityMonitoringConditions: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSecurityMonitoringConditions",
 }));
 
 export type DeleteOrganizationsSecurityProfilesError =
@@ -9296,6 +9543,8 @@ export const deleteOrganizationsSecurityProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSecurityProfiles",
 }));
 
 export type DeleteOrganizationsSecurityProfilesEnvironmentsError =
@@ -9321,6 +9570,8 @@ export const deleteOrganizationsSecurityProfilesEnvironments: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSecurityProfilesEnvironments",
 }));
 
 export type DeleteOrganizationsSecurityProfilesV2Error =
@@ -9342,6 +9593,8 @@ export const deleteOrganizationsSecurityProfilesV2: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSecurityProfilesV2",
 }));
 
 export type DeleteOrganizationsSharedflowsError =
@@ -9363,6 +9616,8 @@ export const deleteOrganizationsSharedflows: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSharedflows",
 }));
 
 export type DeleteOrganizationsSharedflowsRevisionsError =
@@ -9384,6 +9639,8 @@ export const deleteOrganizationsSharedflowsRevisions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSharedflowsRevisions",
 }));
 
 export type DeleteOrganizationsSitesApicategoriesError =
@@ -9405,6 +9662,8 @@ export const deleteOrganizationsSitesApicategories: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSitesApicategories",
 }));
 
 export type DeleteOrganizationsSitesApidocsError =
@@ -9426,6 +9685,8 @@ export const deleteOrganizationsSitesApidocs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSitesApidocs",
 }));
 
 export type DeleteOrganizationsSpacesError =
@@ -9447,6 +9708,8 @@ export const deleteOrganizationsSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSpaces",
 }));
 
 export type DeployOrganizationsEnvironmentsApisRevisionsError =
@@ -9472,6 +9735,8 @@ export const deployOrganizationsEnvironmentsApisRevisions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployOrganizationsEnvironmentsApisRevisions",
 }));
 
 export type DeployOrganizationsEnvironmentsSharedflowsRevisionsError =
@@ -9497,6 +9762,8 @@ export const deployOrganizationsEnvironmentsSharedflowsRevisions: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployOrganizationsEnvironmentsSharedflowsRevisions",
 }));
 
 export type DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksError =
@@ -9522,6 +9789,8 @@ export const detachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks: API
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks",
 }));
 
 export type DisableOrganizationsEnvironmentsSecurityActionsError =
@@ -9547,6 +9816,8 @@ export const disableOrganizationsEnvironmentsSecurityActions: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationsEnvironmentsSecurityActions",
 }));
 
 export type EnableOrganizationsEnvironmentsSecurityActionsError =
@@ -9572,6 +9843,8 @@ export const enableOrganizationsEnvironmentsSecurityActions: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationsEnvironmentsSecurityActions",
 }));
 
 export type ExpireOrganizationsAppgroupsSubscriptionsError =
@@ -9593,6 +9866,8 @@ export const expireOrganizationsAppgroupsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExpireOrganizationsAppgroupsSubscriptions",
 }));
 
 export type ExpireOrganizationsDevelopersSubscriptionsError =
@@ -9614,6 +9889,8 @@ export const expireOrganizationsDevelopersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExpireOrganizationsDevelopersSubscriptions",
 }));
 
 export type GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsError =
@@ -9639,6 +9916,8 @@ export const generateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDep
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments",
 }));
 
 export type GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -9664,6 +9943,8 @@ export const generateDownloadUrlOrganizationsEnvironmentsArchiveDeployments: API
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeployments",
 }));
 
 export type GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsError =
@@ -9689,6 +9970,8 @@ export const generateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApp
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApps",
 }));
 
 export type GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsError =
@@ -9714,6 +9997,8 @@ export const generateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsD
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments",
 }));
 
 export type GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -9739,6 +10024,8 @@ export const generateUploadUrlOrganizationsEnvironmentsArchiveDeployments: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateUploadUrlOrganizationsEnvironmentsArchiveDeployments",
 }));
 
 export type GetAddonsConfigOrganizationsEnvironmentsError =
@@ -9758,6 +10045,8 @@ export const getAddonsConfigOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddonsConfigOrganizationsEnvironments",
 }));
 
 export type GetApiSecurityRuntimeConfigOrganizationsEnvironmentsError =
@@ -9781,6 +10070,8 @@ export const getApiSecurityRuntimeConfigOrganizationsEnvironments: API.Operation
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiSecurityRuntimeConfigOrganizationsEnvironments",
 }));
 
 export type GetBalanceOrganizationsAppgroupsError =
@@ -9800,6 +10091,8 @@ export const getBalanceOrganizationsAppgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalanceOrganizationsAppgroups",
 }));
 
 export type GetBalanceOrganizationsDevelopersError =
@@ -9819,6 +10112,8 @@ export const getBalanceOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalanceOrganizationsDevelopers",
 }));
 
 export type GetCertificateOrganizationsEnvironmentsKeystoresAliasesError =
@@ -9842,6 +10137,8 @@ export const getCertificateOrganizationsEnvironmentsKeystoresAliases: API.Operat
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateOrganizationsEnvironmentsKeystoresAliases",
 }));
 
 export type GetControlPlaneAccessOrganizationsError =
@@ -9861,6 +10158,8 @@ export const getControlPlaneAccessOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetControlPlaneAccessOrganizations",
 }));
 
 export type GetDebugmaskOrganizationsEnvironmentsError =
@@ -9880,6 +10179,8 @@ export const getDebugmaskOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDebugmaskOrganizationsEnvironments",
 }));
 
 export type GetDeployedConfigOrganizationsEnvironmentsError =
@@ -9899,6 +10200,8 @@ export const getDeployedConfigOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployedConfigOrganizationsEnvironments",
 }));
 
 export type GetDeployedIngressConfigOrganizationsError =
@@ -9918,6 +10221,8 @@ export const getDeployedIngressConfigOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployedIngressConfigOrganizations",
 }));
 
 export type GetDeployedIngressConfigOrganizationsEnvgroupsError =
@@ -9941,6 +10246,8 @@ export const getDeployedIngressConfigOrganizationsEnvgroups: API.OperationMethod
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployedIngressConfigOrganizationsEnvgroups",
 }));
 
 export type GetDeploymentsOrganizationsEnvironmentsApisRevisionsError =
@@ -9964,6 +10271,8 @@ export const getDeploymentsOrganizationsEnvironmentsApisRevisions: API.Operation
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentsOrganizationsEnvironmentsApisRevisions",
 }));
 
 export type GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsError =
@@ -9987,6 +10296,8 @@ export const getDeploymentsOrganizationsEnvironmentsSharedflowsRevisions: API.Op
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisions",
 }));
 
 export type GetDocumentationOrganizationsSitesApidocsError =
@@ -10006,6 +10317,8 @@ export const getDocumentationOrganizationsSitesApidocs: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocumentationOrganizationsSitesApidocs",
 }));
 
 export type GetIamPolicyOrganizationsEnvironmentsError =
@@ -10025,6 +10338,8 @@ export const getIamPolicyOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyOrganizationsEnvironments",
 }));
 
 export type GetIamPolicyOrganizationsEnvironmentsDeploymentsError =
@@ -10048,6 +10363,8 @@ export const getIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMeth
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyOrganizationsEnvironmentsDeployments",
 }));
 
 export type GetIamPolicyOrganizationsSpacesError =
@@ -10067,6 +10384,8 @@ export const getIamPolicyOrganizationsSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyOrganizationsSpaces",
 }));
 
 export type GetMcpServerConfigOrganizationsError =
@@ -10086,6 +10405,8 @@ export const getMcpServerConfigOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpServerConfigOrganizations",
 }));
 
 export type GetMonetizationConfigOrganizationsAppgroupsError =
@@ -10105,6 +10426,8 @@ export const getMonetizationConfigOrganizationsAppgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonetizationConfigOrganizationsAppgroups",
 }));
 
 export type GetMonetizationConfigOrganizationsDevelopersError =
@@ -10128,6 +10451,8 @@ export const getMonetizationConfigOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonetizationConfigOrganizationsDevelopers",
 }));
 
 export type GetOrganizationsError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -10143,6 +10468,8 @@ export const getOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizations",
 }));
 
 export type GetOrganizationsAnalyticsDatastoresError =
@@ -10162,6 +10489,8 @@ export const getOrganizationsAnalyticsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsAnalyticsDatastores",
 }));
 
 export type GetOrganizationsApimServiceExtensionsError =
@@ -10181,6 +10510,8 @@ export const getOrganizationsApimServiceExtensions: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApimServiceExtensions",
 }));
 
 export type GetOrganizationsApiproductsError =
@@ -10200,6 +10531,8 @@ export const getOrganizationsApiproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApiproducts",
 }));
 
 export type GetOrganizationsApiproductsAttributesError =
@@ -10219,6 +10552,8 @@ export const getOrganizationsApiproductsAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApiproductsAttributes",
 }));
 
 export type GetOrganizationsApiproductsRateplansError =
@@ -10238,6 +10573,8 @@ export const getOrganizationsApiproductsRateplans: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApiproductsRateplans",
 }));
 
 export type GetOrganizationsApisError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -10253,6 +10590,8 @@ export const getOrganizationsApis: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApis",
 }));
 
 export type GetOrganizationsApisKeyvaluemapsError =
@@ -10272,6 +10611,8 @@ export const getOrganizationsApisKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApisKeyvaluemaps",
 }));
 
 export type GetOrganizationsApisKeyvaluemapsEntriesError =
@@ -10291,6 +10632,8 @@ export const getOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApisKeyvaluemapsEntries",
 }));
 
 export type GetOrganizationsApisRevisionsError =
@@ -10310,6 +10653,8 @@ export const getOrganizationsApisRevisions: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApisRevisions",
 }));
 
 export type GetOrganizationsAppgroupsError =
@@ -10329,6 +10674,8 @@ export const getOrganizationsAppgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsAppgroups",
 }));
 
 export type GetOrganizationsAppgroupsAppsError =
@@ -10348,6 +10695,8 @@ export const getOrganizationsAppgroupsApps: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsAppgroupsApps",
 }));
 
 export type GetOrganizationsAppgroupsAppsKeysError =
@@ -10367,6 +10716,8 @@ export const getOrganizationsAppgroupsAppsKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsAppgroupsAppsKeys",
 }));
 
 export type GetOrganizationsAppgroupsSubscriptionsError =
@@ -10386,6 +10737,8 @@ export const getOrganizationsAppgroupsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsAppgroupsSubscriptions",
 }));
 
 export type GetOrganizationsAppsError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -10401,6 +10754,8 @@ export const getOrganizationsApps: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsApps",
 }));
 
 export type GetOrganizationsDatacollectorsError =
@@ -10420,6 +10775,8 @@ export const getOrganizationsDatacollectors: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsDatacollectors",
 }));
 
 export type GetOrganizationsDevelopersError =
@@ -10439,6 +10796,8 @@ export const getOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsDevelopers",
 }));
 
 export type GetOrganizationsDevelopersAppsError =
@@ -10458,6 +10817,8 @@ export const getOrganizationsDevelopersApps: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsDevelopersApps",
 }));
 
 export type GetOrganizationsDevelopersAppsAttributesError =
@@ -10477,6 +10838,8 @@ export const getOrganizationsDevelopersAppsAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsDevelopersAppsAttributes",
 }));
 
 export type GetOrganizationsDevelopersAppsKeysError =
@@ -10496,6 +10859,8 @@ export const getOrganizationsDevelopersAppsKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsDevelopersAppsKeys",
 }));
 
 export type GetOrganizationsDevelopersAttributesError =
@@ -10515,6 +10880,8 @@ export const getOrganizationsDevelopersAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsDevelopersAttributes",
 }));
 
 export type GetOrganizationsDevelopersSubscriptionsError =
@@ -10534,6 +10901,8 @@ export const getOrganizationsDevelopersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsDevelopersSubscriptions",
 }));
 
 export type GetOrganizationsDnsZonesError =
@@ -10553,6 +10922,8 @@ export const getOrganizationsDnsZones: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsDnsZones",
 }));
 
 export type GetOrganizationsEndpointAttachmentsError =
@@ -10572,6 +10943,8 @@ export const getOrganizationsEndpointAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEndpointAttachments",
 }));
 
 export type GetOrganizationsEnvgroupsError =
@@ -10591,6 +10964,8 @@ export const getOrganizationsEnvgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvgroups",
 }));
 
 export type GetOrganizationsEnvgroupsAttachmentsError =
@@ -10610,6 +10985,8 @@ export const getOrganizationsEnvgroupsAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvgroupsAttachments",
 }));
 
 export type GetOrganizationsEnvironmentsError =
@@ -10629,6 +11006,8 @@ export const getOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironments",
 }));
 
 export type GetOrganizationsEnvironmentsAnalyticsExportsError =
@@ -10652,6 +11031,8 @@ export const getOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsAnalyticsExports",
 }));
 
 export type GetOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
@@ -10675,6 +11056,8 @@ export const getOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Operati
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsApisRevisionsDebugsessions",
 }));
 
 export type GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataError =
@@ -10698,6 +11081,8 @@ export const getOrganizationsEnvironmentsApisRevisionsDebugsessionsData: API.Ope
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsApisRevisionsDebugsessionsData",
 }));
 
 export type GetOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -10721,6 +11106,8 @@ export const getOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsArchiveDeployments",
 }));
 
 export type GetOrganizationsEnvironmentsDeploymentsError =
@@ -10740,6 +11127,8 @@ export const getOrganizationsEnvironmentsDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsDeployments",
 }));
 
 export type GetOrganizationsEnvironmentsFlowhooksError =
@@ -10759,6 +11148,8 @@ export const getOrganizationsEnvironmentsFlowhooks: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsFlowhooks",
 }));
 
 export type GetOrganizationsEnvironmentsKeystoresError =
@@ -10778,6 +11169,8 @@ export const getOrganizationsEnvironmentsKeystores: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsKeystores",
 }));
 
 export type GetOrganizationsEnvironmentsKeystoresAliasesError =
@@ -10801,6 +11194,8 @@ export const getOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsKeystoresAliases",
 }));
 
 export type GetOrganizationsEnvironmentsKeyvaluemapsError =
@@ -10820,6 +11215,8 @@ export const getOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsKeyvaluemaps",
 }));
 
 export type GetOrganizationsEnvironmentsKeyvaluemapsEntriesError =
@@ -10843,6 +11240,8 @@ export const getOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMetho
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsKeyvaluemapsEntries",
 }));
 
 export type GetOrganizationsEnvironmentsOptimizedStatsError =
@@ -10862,6 +11261,8 @@ export const getOrganizationsEnvironmentsOptimizedStats: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsOptimizedStats",
 }));
 
 export type GetOrganizationsEnvironmentsQueriesError =
@@ -10881,6 +11282,8 @@ export const getOrganizationsEnvironmentsQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsQueries",
 }));
 
 export type GetOrganizationsEnvironmentsReferencesError =
@@ -10900,6 +11303,8 @@ export const getOrganizationsEnvironmentsReferences: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsReferences",
 }));
 
 export type GetOrganizationsEnvironmentsResourcefilesError =
@@ -10919,6 +11324,8 @@ export const getOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsResourcefiles",
 }));
 
 export type GetOrganizationsEnvironmentsSecurityActionsError =
@@ -10942,6 +11349,8 @@ export const getOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsSecurityActions",
 }));
 
 export type GetOrganizationsEnvironmentsSecurityIncidentsError =
@@ -10965,6 +11374,8 @@ export const getOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsSecurityIncidents",
 }));
 
 export type GetOrganizationsEnvironmentsSecurityReportsError =
@@ -10988,6 +11399,8 @@ export const getOrganizationsEnvironmentsSecurityReports: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsSecurityReports",
 }));
 
 export type GetOrganizationsEnvironmentsStatsError =
@@ -11007,6 +11420,8 @@ export const getOrganizationsEnvironmentsStats: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsStats",
 }));
 
 export type GetOrganizationsEnvironmentsTargetserversError =
@@ -11026,6 +11441,8 @@ export const getOrganizationsEnvironmentsTargetservers: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsTargetservers",
 }));
 
 export type GetOrganizationsEnvironmentsTraceConfigOverridesError =
@@ -11049,6 +11466,8 @@ export const getOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMeth
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsEnvironmentsTraceConfigOverrides",
 }));
 
 export type GetOrganizationsHostQueriesError =
@@ -11068,6 +11487,8 @@ export const getOrganizationsHostQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsHostQueries",
 }));
 
 export type GetOrganizationsHostSecurityReportsError =
@@ -11087,6 +11508,8 @@ export const getOrganizationsHostSecurityReports: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsHostSecurityReports",
 }));
 
 export type GetOrganizationsHostStatsError =
@@ -11106,6 +11529,8 @@ export const getOrganizationsHostStats: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsHostStats",
 }));
 
 export type GetOrganizationsInstancesError =
@@ -11125,6 +11550,8 @@ export const getOrganizationsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsInstances",
 }));
 
 export type GetOrganizationsInstancesAttachmentsError =
@@ -11144,6 +11571,8 @@ export const getOrganizationsInstancesAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsInstancesAttachments",
 }));
 
 export type GetOrganizationsInstancesCanaryevaluationsError =
@@ -11163,6 +11592,8 @@ export const getOrganizationsInstancesCanaryevaluations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsInstancesCanaryevaluations",
 }));
 
 export type GetOrganizationsInstancesNatAddressesError =
@@ -11182,6 +11613,8 @@ export const getOrganizationsInstancesNatAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsInstancesNatAddresses",
 }));
 
 export type GetOrganizationsKeyvaluemapsError =
@@ -11201,6 +11634,8 @@ export const getOrganizationsKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsKeyvaluemaps",
 }));
 
 export type GetOrganizationsKeyvaluemapsEntriesError =
@@ -11220,6 +11655,8 @@ export const getOrganizationsKeyvaluemapsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsKeyvaluemapsEntries",
 }));
 
 export type GetOrganizationsOperationsError =
@@ -11239,6 +11676,8 @@ export const getOrganizationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsOperations",
 }));
 
 export type GetOrganizationsOptimizedHostStatsError =
@@ -11258,6 +11697,8 @@ export const getOrganizationsOptimizedHostStats: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsOptimizedHostStats",
 }));
 
 export type GetOrganizationsReportsError =
@@ -11277,6 +11718,8 @@ export const getOrganizationsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsReports",
 }));
 
 export type GetOrganizationsSecurityFeedbackError =
@@ -11296,6 +11739,8 @@ export const getOrganizationsSecurityFeedback: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSecurityFeedback",
 }));
 
 export type GetOrganizationsSecurityMonitoringConditionsError =
@@ -11319,6 +11764,8 @@ export const getOrganizationsSecurityMonitoringConditions: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSecurityMonitoringConditions",
 }));
 
 export type GetOrganizationsSecurityProfilesError =
@@ -11338,6 +11785,8 @@ export const getOrganizationsSecurityProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSecurityProfiles",
 }));
 
 export type GetOrganizationsSecurityProfilesV2Error =
@@ -11357,6 +11806,8 @@ export const getOrganizationsSecurityProfilesV2: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSecurityProfilesV2",
 }));
 
 export type GetOrganizationsSharedflowsError =
@@ -11376,6 +11827,8 @@ export const getOrganizationsSharedflows: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSharedflows",
 }));
 
 export type GetOrganizationsSharedflowsRevisionsError =
@@ -11395,6 +11848,8 @@ export const getOrganizationsSharedflowsRevisions: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSharedflowsRevisions",
 }));
 
 export type GetOrganizationsSitesApicategoriesError =
@@ -11414,6 +11869,8 @@ export const getOrganizationsSitesApicategories: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSitesApicategories",
 }));
 
 export type GetOrganizationsSitesApidocsError =
@@ -11433,6 +11890,8 @@ export const getOrganizationsSitesApidocs: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSitesApidocs",
 }));
 
 export type GetOrganizationsSpacesError =
@@ -11452,6 +11911,8 @@ export const getOrganizationsSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSpaces",
 }));
 
 export type GetProjectMappingOrganizationsError =
@@ -11471,6 +11932,8 @@ export const getProjectMappingOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectMappingOrganizations",
 }));
 
 export type GetResultOrganizationsEnvironmentsQueriesError =
@@ -11490,6 +11953,8 @@ export const getResultOrganizationsEnvironmentsQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResultOrganizationsEnvironmentsQueries",
 }));
 
 export type GetResultOrganizationsEnvironmentsSecurityReportsError =
@@ -11513,6 +11978,8 @@ export const getResultOrganizationsEnvironmentsSecurityReports: API.OperationMet
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResultOrganizationsEnvironmentsSecurityReports",
 }));
 
 export type GetResultOrganizationsHostQueriesError =
@@ -11532,6 +11999,8 @@ export const getResultOrganizationsHostQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResultOrganizationsHostQueries",
 }));
 
 export type GetResultOrganizationsHostSecurityReportsError =
@@ -11551,6 +12020,8 @@ export const getResultOrganizationsHostSecurityReports: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResultOrganizationsHostSecurityReports",
 }));
 
 export type GetResulturlOrganizationsEnvironmentsQueriesError =
@@ -11578,6 +12049,8 @@ export const getResulturlOrganizationsEnvironmentsQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResulturlOrganizationsEnvironmentsQueries",
 }));
 
 export type GetResultViewOrganizationsEnvironmentsSecurityReportsError =
@@ -11601,6 +12074,8 @@ export const getResultViewOrganizationsEnvironmentsSecurityReports: API.Operatio
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResultViewOrganizationsEnvironmentsSecurityReports",
 }));
 
 export type GetResultViewOrganizationsHostQueriesError =
@@ -11619,6 +12094,8 @@ export const getResultViewOrganizationsHostQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResultViewOrganizationsHostQueries",
 }));
 
 export type GetResultViewOrganizationsHostSecurityReportsError =
@@ -11642,6 +12119,8 @@ export const getResultViewOrganizationsHostSecurityReports: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResultViewOrganizationsHostSecurityReports",
 }));
 
 export type GetRuntimeConfigOrganizationsError =
@@ -11661,6 +12140,8 @@ export const getRuntimeConfigOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRuntimeConfigOrganizations",
 }));
 
 export type GetSchemav2OrganizationsEnvironmentsAnalyticsAdminError =
@@ -11684,6 +12165,8 @@ export const getSchemav2OrganizationsEnvironmentsAnalyticsAdmin: API.OperationMe
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchemav2OrganizationsEnvironmentsAnalyticsAdmin",
 }));
 
 export type GetSecurityActionsConfigOrganizationsEnvironmentsError =
@@ -11707,6 +12190,8 @@ export const getSecurityActionsConfigOrganizationsEnvironments: API.OperationMet
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityActionsConfigOrganizationsEnvironments",
 }));
 
 export type GetSecuritySettingsOrganizationsError =
@@ -11726,6 +12211,8 @@ export const getSecuritySettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecuritySettingsOrganizations",
 }));
 
 export type GetSyncAuthorizationOrganizationsError =
@@ -11747,6 +12234,8 @@ export const getSyncAuthorizationOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyncAuthorizationOrganizations",
 }));
 
 export type GetTraceConfigOrganizationsEnvironmentsError =
@@ -11766,6 +12255,8 @@ export const getTraceConfigOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTraceConfigOrganizationsEnvironments",
 }));
 
 export type ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesError =
@@ -11793,6 +12284,8 @@ export const listEnvironmentResourcesOrganizationsEnvironmentsResourcefiles: API
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentResourcesOrganizationsEnvironmentsResourcefiles",
 }));
 
 export type ListHybridIssuersError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -11808,6 +12301,8 @@ export const listHybridIssuers: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHybridIssuers",
 }));
 
 export type ListOrganizationsError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -11823,6 +12318,8 @@ export const listOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
 }));
 
 export type ListOrganizationsAnalyticsDatastoresError =
@@ -11842,6 +12339,8 @@ export const listOrganizationsAnalyticsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsAnalyticsDatastores",
 }));
 
 export type ListOrganizationsApimServiceExtensionsError =
@@ -11866,6 +12365,8 @@ export const listOrganizationsApimServiceExtensions: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApimServiceExtensions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -11886,6 +12387,8 @@ export const listOrganizationsApiproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApiproducts",
 }));
 
 export type ListOrganizationsApiproductsAttributesError =
@@ -11905,6 +12408,8 @@ export const listOrganizationsApiproductsAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApiproductsAttributes",
 }));
 
 export type ListOrganizationsApiproductsRateplansError =
@@ -11924,6 +12429,8 @@ export const listOrganizationsApiproductsRateplans: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApiproductsRateplans",
 }));
 
 export type ListOrganizationsApisError = NotFound | Forbidden | ApigeeResourceNotFound | GcpOpError;
@@ -11939,6 +12446,8 @@ export const listOrganizationsApis: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApis",
 }));
 
 export type ListOrganizationsApisDebugsessionsError =
@@ -11959,6 +12468,8 @@ export const listOrganizationsApisDebugsessions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApisDebugsessions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -11979,6 +12490,8 @@ export const listOrganizationsApisDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApisDeployments",
 }));
 
 export type ListOrganizationsApisKeyvaluemapsEntriesError =
@@ -11999,6 +12512,8 @@ export const listOrganizationsApisKeyvaluemapsEntries: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApisKeyvaluemapsEntries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12019,6 +12534,8 @@ export const listOrganizationsApisRevisionsDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApisRevisionsDeployments",
 }));
 
 export type ListOrganizationsAppgroupsError =
@@ -12039,6 +12556,8 @@ export const listOrganizationsAppgroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsAppgroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12060,6 +12579,8 @@ export const listOrganizationsAppgroupsApps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsAppgroupsApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12085,6 +12606,8 @@ export const listOrganizationsAppgroupsSubscriptions: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsAppgroupsSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12102,6 +12625,8 @@ export const listOrganizationsApps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12123,6 +12648,8 @@ export const listOrganizationsDatacollectors: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsDatacollectors",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12143,6 +12670,8 @@ export const listOrganizationsDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsDeployments",
 }));
 
 export type ListOrganizationsDevelopersError =
@@ -12162,6 +12691,8 @@ export const listOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsDevelopers",
 }));
 
 export type ListOrganizationsDevelopersAppsError =
@@ -12181,6 +12712,8 @@ export const listOrganizationsDevelopersApps: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsDevelopersApps",
 }));
 
 export type ListOrganizationsDevelopersAppsAttributesError =
@@ -12200,6 +12733,8 @@ export const listOrganizationsDevelopersAppsAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsDevelopersAppsAttributes",
 }));
 
 export type ListOrganizationsDevelopersAttributesError =
@@ -12219,6 +12754,8 @@ export const listOrganizationsDevelopersAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsDevelopersAttributes",
 }));
 
 export type ListOrganizationsDevelopersSubscriptionsError =
@@ -12242,6 +12779,8 @@ export const listOrganizationsDevelopersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsDevelopersSubscriptions",
 }));
 
 export type ListOrganizationsDnsZonesError =
@@ -12262,6 +12801,8 @@ export const listOrganizationsDnsZones: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsDnsZones",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12287,6 +12828,8 @@ export const listOrganizationsEndpointAttachments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEndpointAttachments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12308,6 +12851,8 @@ export const listOrganizationsEnvgroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvgroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12333,6 +12878,8 @@ export const listOrganizationsEnvgroupsAttachments: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvgroupsAttachments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12357,6 +12904,8 @@ export const listOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsAnalyticsExports",
 }));
 
 export type ListOrganizationsEnvironmentsApisDeploymentsError =
@@ -12380,6 +12929,8 @@ export const listOrganizationsEnvironmentsApisDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsApisDeployments",
 }));
 
 export type ListOrganizationsEnvironmentsApisRevisionsDebugsessionsError =
@@ -12404,6 +12955,8 @@ export const listOrganizationsEnvironmentsApisRevisionsDebugsessions: API.Pagina
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsApisRevisionsDebugsessions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12433,6 +12986,8 @@ export const listOrganizationsEnvironmentsArchiveDeployments: API.PaginatedOpera
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsArchiveDeployments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12453,6 +13008,8 @@ export const listOrganizationsEnvironmentsDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsDeployments",
 }));
 
 export type ListOrganizationsEnvironmentsKeyvaluemapsEntriesError =
@@ -12477,6 +13034,8 @@ export const listOrganizationsEnvironmentsKeyvaluemapsEntries: API.PaginatedOper
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsKeyvaluemapsEntries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12497,6 +13056,8 @@ export const listOrganizationsEnvironmentsQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsQueries",
 }));
 
 export type ListOrganizationsEnvironmentsResourcefilesError =
@@ -12520,6 +13081,8 @@ export const listOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsResourcefiles",
 }));
 
 export type ListOrganizationsEnvironmentsSecurityActionsError =
@@ -12544,6 +13107,8 @@ export const listOrganizationsEnvironmentsSecurityActions: API.PaginatedOperatio
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsSecurityActions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12569,6 +13134,8 @@ export const listOrganizationsEnvironmentsSecurityIncidents: API.PaginatedOperat
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsSecurityIncidents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12594,6 +13161,8 @@ export const listOrganizationsEnvironmentsSecurityReports: API.PaginatedOperatio
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsSecurityReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12618,6 +13187,8 @@ export const listOrganizationsEnvironmentsSharedflowsDeployments: API.OperationM
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsSharedflowsDeployments",
 }));
 
 export type ListOrganizationsEnvironmentsTraceConfigOverridesError =
@@ -12646,6 +13217,8 @@ export const listOrganizationsEnvironmentsTraceConfigOverrides: API.PaginatedOpe
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsEnvironmentsTraceConfigOverrides",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12666,6 +13239,8 @@ export const listOrganizationsHostQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsHostQueries",
 }));
 
 export type ListOrganizationsHostSecurityReportsError =
@@ -12686,6 +13261,8 @@ export const listOrganizationsHostSecurityReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsHostSecurityReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12707,6 +13284,8 @@ export const listOrganizationsInstances: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsInstances",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12732,6 +13311,8 @@ export const listOrganizationsInstancesAttachments: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsInstancesAttachments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12753,6 +13334,8 @@ export const listOrganizationsInstancesNatAddresses: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsInstancesNatAddresses",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12774,6 +13357,8 @@ export const listOrganizationsKeyvaluemapsEntries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsKeyvaluemapsEntries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12795,6 +13380,8 @@ export const listOrganizationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12815,6 +13402,8 @@ export const listOrganizationsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsReports",
 }));
 
 export type ListOrganizationsSecurityFeedbackError =
@@ -12835,6 +13424,8 @@ export const listOrganizationsSecurityFeedback: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSecurityFeedback",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12864,6 +13455,8 @@ export const listOrganizationsSecurityMonitoringConditions: API.PaginatedOperati
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSecurityMonitoringConditions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12885,6 +13478,8 @@ export const listOrganizationsSecurityProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSecurityProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12910,6 +13505,8 @@ export const listOrganizationsSecurityProfilesV2: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSecurityProfilesV2",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12930,6 +13527,8 @@ export const listOrganizationsSharedflows: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSharedflows",
 }));
 
 export type ListOrganizationsSharedflowsDeploymentsError =
@@ -12949,6 +13548,8 @@ export const listOrganizationsSharedflowsDeployments: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSharedflowsDeployments",
 }));
 
 export type ListOrganizationsSharedflowsRevisionsDeploymentsError =
@@ -12972,6 +13573,8 @@ export const listOrganizationsSharedflowsRevisionsDeployments: API.OperationMeth
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSharedflowsRevisionsDeployments",
 }));
 
 export type ListOrganizationsSitesApicategoriesError =
@@ -12991,6 +13594,8 @@ export const listOrganizationsSitesApicategories: API.OperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSitesApicategories",
 }));
 
 export type ListOrganizationsSitesApidocsError =
@@ -13011,6 +13616,8 @@ export const listOrganizationsSitesApidocs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSitesApidocs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13032,6 +13639,8 @@ export const listOrganizationsSpaces: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSpaces",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13057,6 +13666,8 @@ export const listRevisionsOrganizationsSecurityProfiles: API.PaginatedOperationM
   errors: [NotFound, Forbidden, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRevisionsOrganizationsSecurityProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13079,6 +13690,8 @@ export const modifyEnvironmentOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyEnvironmentOrganizationsEnvironments",
 }));
 
 export type MoveOrganizationsApiproductsError =
@@ -13100,6 +13713,8 @@ export const moveOrganizationsApiproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveOrganizationsApiproducts",
 }));
 
 export type MoveOrganizationsApisError =
@@ -13121,6 +13736,8 @@ export const moveOrganizationsApis: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveOrganizationsApis",
 }));
 
 export type MoveOrganizationsSharedflowsError =
@@ -13142,6 +13759,8 @@ export const moveOrganizationsSharedflows: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveOrganizationsSharedflows",
 }));
 
 export type PatchOrganizationsApimServiceExtensionsError =
@@ -13163,6 +13782,8 @@ export const patchOrganizationsApimServiceExtensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsApimServiceExtensions",
 }));
 
 export type PatchOrganizationsApisError =
@@ -13184,6 +13805,8 @@ export const patchOrganizationsApis: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsApis",
 }));
 
 export type PatchOrganizationsDatacollectorsError =
@@ -13205,6 +13828,8 @@ export const patchOrganizationsDatacollectors: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsDatacollectors",
 }));
 
 export type PatchOrganizationsEnvgroupsError =
@@ -13226,6 +13851,8 @@ export const patchOrganizationsEnvgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsEnvgroups",
 }));
 
 export type PatchOrganizationsEnvironmentsArchiveDeploymentsError =
@@ -13251,6 +13878,8 @@ export const patchOrganizationsEnvironmentsArchiveDeployments: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsEnvironmentsArchiveDeployments",
 }));
 
 export type PatchOrganizationsEnvironmentsSecurityActionsError =
@@ -13276,6 +13905,8 @@ export const patchOrganizationsEnvironmentsSecurityActions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsEnvironmentsSecurityActions",
 }));
 
 export type PatchOrganizationsEnvironmentsSecurityIncidentsError =
@@ -13301,6 +13932,8 @@ export const patchOrganizationsEnvironmentsSecurityIncidents: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsEnvironmentsSecurityIncidents",
 }));
 
 export type PatchOrganizationsEnvironmentsTraceConfigOverridesError =
@@ -13326,6 +13959,8 @@ export const patchOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsEnvironmentsTraceConfigOverrides",
 }));
 
 export type PatchOrganizationsInstancesError =
@@ -13347,6 +13982,8 @@ export const patchOrganizationsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsInstances",
 }));
 
 export type PatchOrganizationsSecurityFeedbackError =
@@ -13368,6 +14005,8 @@ export const patchOrganizationsSecurityFeedback: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsSecurityFeedback",
 }));
 
 export type PatchOrganizationsSecurityMonitoringConditionsError =
@@ -13393,6 +14032,8 @@ export const patchOrganizationsSecurityMonitoringConditions: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsSecurityMonitoringConditions",
 }));
 
 export type PatchOrganizationsSecurityProfilesError =
@@ -13414,6 +14055,8 @@ export const patchOrganizationsSecurityProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsSecurityProfiles",
 }));
 
 export type PatchOrganizationsSecurityProfilesV2Error =
@@ -13435,6 +14078,8 @@ export const patchOrganizationsSecurityProfilesV2: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsSecurityProfilesV2",
 }));
 
 export type PatchOrganizationsSitesApicategoriesError =
@@ -13456,6 +14101,8 @@ export const patchOrganizationsSitesApicategories: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsSitesApicategories",
 }));
 
 export type PatchOrganizationsSpacesError =
@@ -13477,6 +14124,8 @@ export const patchOrganizationsSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsSpaces",
 }));
 
 export type ProvisionOrganizationProjectsError =
@@ -13498,6 +14147,8 @@ export const provisionOrganizationProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionOrganizationProjects",
 }));
 
 export type QueryTabularStatsOrganizationsEnvironmentsSecurityStatsError =
@@ -13523,6 +14174,8 @@ export const queryTabularStatsOrganizationsEnvironmentsSecurityStats: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryTabularStatsOrganizationsEnvironmentsSecurityStats",
 }));
 
 export type QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsError =
@@ -13548,6 +14201,8 @@ export const queryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats",
 }));
 
 export type ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysError =
@@ -13573,6 +14228,8 @@ export const replaceDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeys",
 }));
 
 export type ReportStatusOrganizationsInstancesError =
@@ -13594,6 +14251,8 @@ export const reportStatusOrganizationsInstances: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportStatusOrganizationsInstances",
 }));
 
 export type SetAddonEnablementOrganizationsEnvironmentsAddonsConfigError =
@@ -13619,6 +14278,8 @@ export const setAddonEnablementOrganizationsEnvironmentsAddonsConfig: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAddonEnablementOrganizationsEnvironmentsAddonsConfig",
 }));
 
 export type SetAddonsOrganizationsError =
@@ -13640,6 +14301,8 @@ export const setAddonsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAddonsOrganizations",
 }));
 
 export type SetDeveloperStatusOrganizationsDevelopersError =
@@ -13661,6 +14324,8 @@ export const setDeveloperStatusOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDeveloperStatusOrganizationsDevelopers",
 }));
 
 export type SetIamPolicyOrganizationsEnvironmentsError =
@@ -13682,6 +14347,8 @@ export const setIamPolicyOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyOrganizationsEnvironments",
 }));
 
 export type SetIamPolicyOrganizationsEnvironmentsDeploymentsError =
@@ -13707,6 +14374,8 @@ export const setIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyOrganizationsEnvironmentsDeployments",
 }));
 
 export type SetIamPolicyOrganizationsSpacesError =
@@ -13728,6 +14397,8 @@ export const setIamPolicyOrganizationsSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyOrganizationsSpaces",
 }));
 
 export type SetSyncAuthorizationOrganizationsError =
@@ -13749,6 +14420,8 @@ export const setSyncAuthorizationOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSyncAuthorizationOrganizations",
 }));
 
 export type SubscribeOrganizationsEnvironmentsError =
@@ -13770,6 +14443,8 @@ export const subscribeOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeOrganizationsEnvironments",
 }));
 
 export type TestIamPermissionsOrganizationsEnvironmentsError =
@@ -13795,6 +14470,8 @@ export const testIamPermissionsOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsOrganizationsEnvironments",
 }));
 
 export type TestIamPermissionsOrganizationsEnvironmentsDeploymentsError =
@@ -13820,6 +14497,8 @@ export const testIamPermissionsOrganizationsEnvironmentsDeployments: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsOrganizationsEnvironmentsDeployments",
 }));
 
 export type TestIamPermissionsOrganizationsSpacesError =
@@ -13841,6 +14520,8 @@ export const testIamPermissionsOrganizationsSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsOrganizationsSpaces",
 }));
 
 export type TestOrganizationsAnalyticsDatastoresError =
@@ -13862,6 +14543,8 @@ export const testOrganizationsAnalyticsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestOrganizationsAnalyticsDatastores",
 }));
 
 export type UndeployOrganizationsEnvironmentsApisRevisionsError =
@@ -13887,6 +14570,8 @@ export const undeployOrganizationsEnvironmentsApisRevisions: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeployOrganizationsEnvironmentsApisRevisions",
 }));
 
 export type UndeployOrganizationsEnvironmentsSharedflowsRevisionsError =
@@ -13912,6 +14597,8 @@ export const undeployOrganizationsEnvironmentsSharedflowsRevisions: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeployOrganizationsEnvironmentsSharedflowsRevisions",
 }));
 
 export type UnsubscribeOrganizationsEnvironmentsError =
@@ -13933,6 +14620,8 @@ export const unsubscribeOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeOrganizationsEnvironments",
 }));
 
 export type UpdateApiProductAttributeOrganizationsApiproductsAttributesError =
@@ -13958,6 +14647,8 @@ export const updateApiProductAttributeOrganizationsApiproductsAttributes: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApiProductAttributeOrganizationsApiproductsAttributes",
 }));
 
 export type UpdateApiProxyRevisionOrganizationsApisRevisionsError =
@@ -13983,6 +14674,8 @@ export const updateApiProxyRevisionOrganizationsApisRevisions: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApiProxyRevisionOrganizationsApisRevisions",
 }));
 
 export type UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsError =
@@ -14008,6 +14701,8 @@ export const updateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiprod
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproducts",
 }));
 
 export type UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysError =
@@ -14033,6 +14728,8 @@ export const updateAppGroupAppKeyOrganizationsAppgroupsAppsKeys: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeys",
 }));
 
 export type UpdateControlPlaneAccessOrganizationsError =
@@ -14054,6 +14751,8 @@ export const updateControlPlaneAccessOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateControlPlaneAccessOrganizations",
 }));
 
 export type UpdateDebugmaskOrganizationsEnvironmentsError =
@@ -14075,6 +14774,8 @@ export const updateDebugmaskOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDebugmaskOrganizationsEnvironments",
 }));
 
 export type UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesError =
@@ -14100,6 +14801,8 @@ export const updateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes: A
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes",
 }));
 
 export type UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsError =
@@ -14125,6 +14828,8 @@ export const updateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApipr
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproducts",
 }));
 
 export type UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysError =
@@ -14150,6 +14855,8 @@ export const updateDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeys",
 }));
 
 export type UpdateDeveloperAttributeOrganizationsDevelopersAttributesError =
@@ -14175,6 +14882,8 @@ export const updateDeveloperAttributeOrganizationsDevelopersAttributes: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeveloperAttributeOrganizationsDevelopersAttributes",
 }));
 
 export type UpdateDocumentationOrganizationsSitesApidocsError =
@@ -14200,6 +14909,8 @@ export const updateDocumentationOrganizationsSitesApidocs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentationOrganizationsSitesApidocs",
 }));
 
 export type UpdateEnvironmentOrganizationsEnvironmentsError =
@@ -14225,6 +14936,8 @@ export const updateEnvironmentOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentOrganizationsEnvironments",
 }));
 
 export type UpdateMonetizationConfigOrganizationsAppgroupsError =
@@ -14250,6 +14963,8 @@ export const updateMonetizationConfigOrganizationsAppgroups: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonetizationConfigOrganizationsAppgroups",
 }));
 
 export type UpdateMonetizationConfigOrganizationsDevelopersError =
@@ -14275,6 +14990,8 @@ export const updateMonetizationConfigOrganizationsDevelopers: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonetizationConfigOrganizationsDevelopers",
 }));
 
 export type UpdateOrganizationsError =
@@ -14296,6 +15013,8 @@ export const updateOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizations",
 }));
 
 export type UpdateOrganizationsAnalyticsDatastoresError =
@@ -14317,6 +15036,8 @@ export const updateOrganizationsAnalyticsDatastores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsAnalyticsDatastores",
 }));
 
 export type UpdateOrganizationsApiproductsError =
@@ -14338,6 +15059,8 @@ export const updateOrganizationsApiproducts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsApiproducts",
 }));
 
 export type UpdateOrganizationsApiproductsRateplansError =
@@ -14359,6 +15082,8 @@ export const updateOrganizationsApiproductsRateplans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsApiproductsRateplans",
 }));
 
 export type UpdateOrganizationsApisKeyvaluemapsError =
@@ -14380,6 +15105,8 @@ export const updateOrganizationsApisKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsApisKeyvaluemaps",
 }));
 
 export type UpdateOrganizationsApisKeyvaluemapsEntriesError =
@@ -14405,6 +15132,8 @@ export const updateOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsApisKeyvaluemapsEntries",
 }));
 
 export type UpdateOrganizationsAppgroupsError =
@@ -14426,6 +15155,8 @@ export const updateOrganizationsAppgroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsAppgroups",
 }));
 
 export type UpdateOrganizationsAppgroupsAppsError =
@@ -14447,6 +15178,8 @@ export const updateOrganizationsAppgroupsApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsAppgroupsApps",
 }));
 
 export type UpdateOrganizationsDevelopersError =
@@ -14468,6 +15201,8 @@ export const updateOrganizationsDevelopers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsDevelopers",
 }));
 
 export type UpdateOrganizationsDevelopersAppsError =
@@ -14489,6 +15224,8 @@ export const updateOrganizationsDevelopersApps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsDevelopersApps",
 }));
 
 export type UpdateOrganizationsEnvironmentsError =
@@ -14510,6 +15247,8 @@ export const updateOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsEnvironments",
 }));
 
 export type UpdateOrganizationsEnvironmentsKeystoresAliasesError =
@@ -14535,6 +15274,8 @@ export const updateOrganizationsEnvironmentsKeystoresAliases: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsEnvironmentsKeystoresAliases",
 }));
 
 export type UpdateOrganizationsEnvironmentsKeyvaluemapsError =
@@ -14560,6 +15301,8 @@ export const updateOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsEnvironmentsKeyvaluemaps",
 }));
 
 export type UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesError =
@@ -14585,6 +15328,8 @@ export const updateOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsEnvironmentsKeyvaluemapsEntries",
 }));
 
 export type UpdateOrganizationsEnvironmentsReferencesError =
@@ -14606,6 +15351,8 @@ export const updateOrganizationsEnvironmentsReferences: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsEnvironmentsReferences",
 }));
 
 export type UpdateOrganizationsEnvironmentsResourcefilesError =
@@ -14631,6 +15378,8 @@ export const updateOrganizationsEnvironmentsResourcefiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsEnvironmentsResourcefiles",
 }));
 
 export type UpdateOrganizationsEnvironmentsTargetserversError =
@@ -14656,6 +15405,8 @@ export const updateOrganizationsEnvironmentsTargetservers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsEnvironmentsTargetservers",
 }));
 
 export type UpdateOrganizationsKeyvaluemapsError =
@@ -14677,6 +15428,8 @@ export const updateOrganizationsKeyvaluemaps: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsKeyvaluemaps",
 }));
 
 export type UpdateOrganizationsKeyvaluemapsEntriesError =
@@ -14698,6 +15451,8 @@ export const updateOrganizationsKeyvaluemapsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsKeyvaluemapsEntries",
 }));
 
 export type UpdateOrganizationsReportsError =
@@ -14719,6 +15474,8 @@ export const updateOrganizationsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsReports",
 }));
 
 export type UpdateOrganizationsSitesApidocsError =
@@ -14740,6 +15497,8 @@ export const updateOrganizationsSitesApidocs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationsSitesApidocs",
 }));
 
 export type UpdateSecurityActionsConfigOrganizationsEnvironmentsError =
@@ -14765,6 +15524,8 @@ export const updateSecurityActionsConfigOrganizationsEnvironments: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityActionsConfigOrganizationsEnvironments",
 }));
 
 export type UpdateSecuritySettingsOrganizationsError =
@@ -14786,6 +15547,8 @@ export const updateSecuritySettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecuritySettingsOrganizations",
 }));
 
 export type UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsError =
@@ -14811,6 +15574,8 @@ export const updateSharedFlowRevisionOrganizationsSharedflowsRevisions: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSharedFlowRevisionOrganizationsSharedflowsRevisions",
 }));
 
 export type UpdateTraceConfigOrganizationsEnvironmentsError =
@@ -14836,6 +15601,8 @@ export const updateTraceConfigOrganizationsEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, ApigeeResourceNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTraceConfigOrganizationsEnvironments",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "Vpn",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -861,6 +874,8 @@ export const createGateway: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type CreateGatewayBGPFilterError =
@@ -881,6 +896,8 @@ export const createGatewayBGPFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayBGPFilter",
 }));
 
 export type CreateGatewayBGPFilterRuleError =
@@ -901,6 +918,8 @@ export const createGatewayBGPFilterRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayBGPFilterRule",
 }));
 
 export type CreateGatewayConnectionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -916,6 +935,8 @@ export const createGatewayConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayConnection",
 }));
 
 export type DeleteGatewayError = BadRequest | Forbidden | StackitOpError;
@@ -931,6 +952,8 @@ export const deleteGateway: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeleteGatewayBGPFilterError =
@@ -951,6 +974,8 @@ export const deleteGatewayBGPFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayBGPFilter",
 }));
 
 export type DeleteGatewayBGPFilterRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -966,6 +991,8 @@ export const deleteGatewayBGPFilterRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayBGPFilterRule",
 }));
 
 export type DeleteGatewayConnectionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -981,6 +1008,8 @@ export const deleteGatewayConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayConnection",
 }));
 
 export type GetGatewayError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -996,6 +1025,8 @@ export const getGateway: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGateway",
 }));
 
 export type GetGatewayBGPFilterError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1011,6 +1042,8 @@ export const getGatewayBGPFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayBGPFilter",
 }));
 
 export type GetGatewayBGPFilterRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1026,6 +1059,8 @@ export const getGatewayBGPFilterRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayBGPFilterRule",
 }));
 
 export type GetGatewayConnectionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1041,6 +1076,8 @@ export const getGatewayConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayConnection",
 }));
 
 export type GetGatewayConnectionStatusError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1056,6 +1093,8 @@ export const getGatewayConnectionStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayConnectionStatus",
 }));
 
 export type GetGatewayStatusError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1071,6 +1110,8 @@ export const getGatewayStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayStatus",
 }));
 
 export type ListGatewayBGPFilterRulesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1086,6 +1127,8 @@ export const listGatewayBGPFilterRules: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGatewayBGPFilterRules",
 }));
 
 export type ListGatewayBGPFiltersError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1101,6 +1144,8 @@ export const listGatewayBGPFilters: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGatewayBGPFilters",
 }));
 
 export type ListGatewayConnectionsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1116,6 +1161,8 @@ export const listGatewayConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGatewayConnections",
 }));
 
 export type ListGatewaysError = BadRequest | Forbidden | StackitOpError;
@@ -1131,6 +1178,8 @@ export const listGateways: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 }));
 
 export type ListPlansError = BadRequest | StackitOpError;
@@ -1146,6 +1195,8 @@ export const listPlans: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlans",
 }));
 
 export type ListQuotasError = BadRequest | StackitOpError;
@@ -1161,6 +1212,8 @@ export const listQuotas: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQuotas",
 }));
 
 export type UpdateGatewayError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -1176,6 +1229,8 @@ export const updateGateway: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGateway",
 }));
 
 export type UpdateGatewayBGPFilterError =
@@ -1196,6 +1251,8 @@ export const updateGatewayBGPFilter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayBGPFilter",
 }));
 
 export type UpdateGatewayBGPFilterRuleError =
@@ -1216,6 +1273,8 @@ export const updateGatewayBGPFilterRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayBGPFilterRule",
 }));
 
 export type UpdateGatewayConnectionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1231,6 +1290,8 @@ export const updateGatewayConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

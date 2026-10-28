@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Emailmxplan",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface CreateEmailMxplanAccountAliasRequest {
   /** The internal name of your mxplan organization */
   service: string;
@@ -868,6 +882,8 @@ export const createEmailMxplanAccountAlias: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailMxplanAccountAlias",
 }));
 
 export type CreateEmailMxplanAccountChangePasswordError = OvhOpError;
@@ -883,6 +899,8 @@ export const createEmailMxplanAccountChangePassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailMxplanAccountChangePassword",
 }));
 
 export type CreateEmailMxplanAccountDiagnosticError = OvhOpError;
@@ -898,6 +916,8 @@ export const createEmailMxplanAccountDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailMxplanAccountDiagnostic",
 }));
 
 export type CreateEmailMxplanAccountFullAccessError = OvhOpError;
@@ -913,6 +933,8 @@ export const createEmailMxplanAccountFullAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailMxplanAccountFullAccess",
 }));
 
 export type CreateEmailMxplanDomainDisclaimerError = OvhOpError;
@@ -928,6 +950,8 @@ export const createEmailMxplanDomainDisclaimer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailMxplanDomainDisclaimer",
 }));
 
 export type CreateEmailMxplanExternalContactError = OvhOpError;
@@ -943,6 +967,8 @@ export const createEmailMxplanExternalContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailMxplanExternalContact",
 }));
 
 export type DeleteEmailMxplanAccountError = OvhOpError;
@@ -958,6 +984,8 @@ export const deleteEmailMxplanAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailMxplanAccount",
 }));
 
 export type DeleteEmailMxplanAccountAliasError = OvhOpError;
@@ -973,6 +1001,8 @@ export const deleteEmailMxplanAccountAlias: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailMxplanAccountAlias",
 }));
 
 export type DeleteEmailMxplanAccountFullAccessError = OvhOpError;
@@ -988,6 +1018,8 @@ export const deleteEmailMxplanAccountFullAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailMxplanAccountFullAccess",
 }));
 
 export type DeleteEmailMxplanAccountSendAsError = OvhOpError;
@@ -1003,6 +1035,8 @@ export const deleteEmailMxplanAccountSendAs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailMxplanAccountSendAs",
 }));
 
 export type DeleteEmailMxplanAccountSendOnBehalfToError = OvhOpError;
@@ -1018,6 +1052,8 @@ export const deleteEmailMxplanAccountSendOnBehalfTo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailMxplanAccountSendOnBehalfTo",
 }));
 
 export type DeleteEmailMxplanDomainDisclaimerError = OvhOpError;
@@ -1033,6 +1069,8 @@ export const deleteEmailMxplanDomainDisclaimer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailMxplanDomainDisclaimer",
 }));
 
 export type DeleteEmailMxplanExternalContactError = OvhOpError;
@@ -1048,6 +1086,8 @@ export const deleteEmailMxplanExternalContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailMxplanExternalContact",
 }));
 
 export type GetEmailMxplanError = OvhOpError;
@@ -1063,6 +1103,8 @@ export const getEmailMxplan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplan",
 }));
 
 export type GetEmailMxplanAccountError = OvhOpError;
@@ -1078,6 +1120,8 @@ export const getEmailMxplanAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanAccount",
 }));
 
 export type GetEmailMxplanAccountAliasError = OvhOpError;
@@ -1093,6 +1137,8 @@ export const getEmailMxplanAccountAlias: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanAccountAlias",
 }));
 
 export type GetEmailMxplanAccountDiagnosticError = OvhOpError;
@@ -1108,6 +1154,8 @@ export const getEmailMxplanAccountDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanAccountDiagnostic",
 }));
 
 export type GetEmailMxplanAccountFullAccessError = OvhOpError;
@@ -1123,6 +1171,8 @@ export const getEmailMxplanAccountFullAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanAccountFullAccess",
 }));
 
 export type GetEmailMxplanAccountSendAsError = OvhOpError;
@@ -1138,6 +1188,8 @@ export const getEmailMxplanAccountSendAs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanAccountSendAs",
 }));
 
 export type GetEmailMxplanAccountSendOnBehalfToError = OvhOpError;
@@ -1153,6 +1205,8 @@ export const getEmailMxplanAccountSendOnBehalfTo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanAccountSendOnBehalfTo",
 }));
 
 export type GetEmailMxplanAccountTaskError = OvhOpError;
@@ -1168,6 +1222,8 @@ export const getEmailMxplanAccountTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanAccountTask",
 }));
 
 export type GetEmailMxplanDomainError = OvhOpError;
@@ -1183,6 +1239,8 @@ export const getEmailMxplanDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanDomain",
 }));
 
 export type GetEmailMxplanDomainDisclaimerError = OvhOpError;
@@ -1198,6 +1256,8 @@ export const getEmailMxplanDomainDisclaimer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanDomainDisclaimer",
 }));
 
 export type GetEmailMxplanExternalContactError = OvhOpError;
@@ -1213,6 +1273,8 @@ export const getEmailMxplanExternalContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanExternalContact",
 }));
 
 export type GetEmailMxplanServerError = OvhOpError;
@@ -1228,6 +1290,8 @@ export const getEmailMxplanServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanServer",
 }));
 
 export type GetEmailMxplanTaskError = OvhOpError;
@@ -1243,6 +1307,8 @@ export const getEmailMxplanTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMxplanTask",
 }));
 
 export type ListEmailMxplanError = OvhOpError;
@@ -1258,6 +1324,8 @@ export const listEmailMxplan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplan",
 }));
 
 export type ListEmailMxplanAccountError = OvhOpError;
@@ -1273,6 +1341,8 @@ export const listEmailMxplanAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanAccount",
 }));
 
 export type ListEmailMxplanAccountAliasError = OvhOpError;
@@ -1288,6 +1358,8 @@ export const listEmailMxplanAccountAlias: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanAccountAlias",
 }));
 
 export type ListEmailMxplanAccountCapabilitiesError = OvhOpError;
@@ -1303,6 +1375,8 @@ export const listEmailMxplanAccountCapabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanAccountCapabilities",
 }));
 
 export type ListEmailMxplanAccountFullAccessError = OvhOpError;
@@ -1318,6 +1392,8 @@ export const listEmailMxplanAccountFullAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanAccountFullAccess",
 }));
 
 export type ListEmailMxplanAccountSendAsError = OvhOpError;
@@ -1333,6 +1409,8 @@ export const listEmailMxplanAccountSendAs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanAccountSendAs",
 }));
 
 export type ListEmailMxplanAccountSendOnBehalfToError = OvhOpError;
@@ -1348,6 +1426,8 @@ export const listEmailMxplanAccountSendOnBehalfTo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanAccountSendOnBehalfTo",
 }));
 
 export type ListEmailMxplanAccountTaskError = OvhOpError;
@@ -1363,6 +1443,8 @@ export const listEmailMxplanAccountTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanAccountTask",
 }));
 
 export type ListEmailMxplanDomainError = OvhOpError;
@@ -1378,6 +1460,8 @@ export const listEmailMxplanDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanDomain",
 }));
 
 export type ListEmailMxplanDomainDisclaimerAttributeError = OvhOpError;
@@ -1393,6 +1477,8 @@ export const listEmailMxplanDomainDisclaimerAttribute: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanDomainDisclaimerAttribute",
 }));
 
 export type ListEmailMxplanExternalContactError = OvhOpError;
@@ -1408,6 +1494,8 @@ export const listEmailMxplanExternalContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanExternalContact",
 }));
 
 export type ListEmailMxplanTaskError = OvhOpError;
@@ -1423,6 +1511,8 @@ export const listEmailMxplanTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailMxplanTask",
 }));
 
 export type PutEmailMxplanError = OvhOpError;
@@ -1438,6 +1528,8 @@ export const putEmailMxplan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailMxplan",
 }));
 
 export type PutEmailMxplanAccountError = OvhOpError;
@@ -1453,6 +1545,8 @@ export const putEmailMxplanAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailMxplanAccount",
 }));
 
 export type PutEmailMxplanDomainError = OvhOpError;
@@ -1468,6 +1562,8 @@ export const putEmailMxplanDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailMxplanDomain",
 }));
 
 export type PutEmailMxplanDomainDisclaimerError = OvhOpError;
@@ -1483,6 +1579,8 @@ export const putEmailMxplanDomainDisclaimer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailMxplanDomainDisclaimer",
 }));
 
 export type PutEmailMxplanExternalContactError = OvhOpError;
@@ -1498,6 +1596,8 @@ export const putEmailMxplanExternalContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmailMxplanExternalContact",
 }));
 
 export type SendEmailMxplanAccountAsError = OvhOpError;
@@ -1513,6 +1613,8 @@ export const sendEmailMxplanAccountAs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEmailMxplanAccountAs",
 }));
 
 export type SendEmailMxplanAccountOnBehalfToError = OvhOpError;
@@ -1528,6 +1630,8 @@ export const sendEmailMxplanAccountOnBehalfTo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEmailMxplanAccountOnBehalfTo",
 }));
 
 export type UpdateEmailMxplanFlagsOnAllAccountsError = OvhOpError;
@@ -1543,6 +1647,8 @@ export const updateEmailMxplanFlagsOnAllAccounts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmailMxplanFlagsOnAllAccounts",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

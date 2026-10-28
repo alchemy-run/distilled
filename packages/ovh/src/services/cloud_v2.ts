@@ -13,6 +13,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "CloudV2",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4862,6 +4876,8 @@ export const createPublicCloudProjectComputeAutobackup: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectComputeAutobackup",
 }));
 
 export type CreatePublicCloudProjectComputeBackupError = Conflict | OvhOpError;
@@ -4877,6 +4893,8 @@ export const createPublicCloudProjectComputeBackup: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectComputeBackup",
 }));
 
 export type CreatePublicCloudProjectComputeInstanceError = BadRequest | Conflict | OvhOpError;
@@ -4892,6 +4910,8 @@ export const createPublicCloudProjectComputeInstance: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectComputeInstance",
 }));
 
 export type CreatePublicCloudProjectComputeInstanceActionError =
@@ -4915,6 +4935,8 @@ export const createPublicCloudProjectComputeInstanceAction: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectComputeInstanceAction",
 }));
 
 export type CreatePublicCloudProjectComputeInstanceConsoleError = NotFound | Conflict | OvhOpError;
@@ -4934,6 +4956,8 @@ export const createPublicCloudProjectComputeInstanceConsole: API.OperationMethod
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectComputeInstanceConsole",
 }));
 
 export type CreatePublicCloudProjectComputeInstanceGroupError = Conflict | OvhOpError;
@@ -4953,6 +4977,8 @@ export const createPublicCloudProjectComputeInstanceGroup: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectComputeInstanceGroup",
 }));
 
 export type CreatePublicCloudProjectFloatingIpError = Conflict | OvhOpError;
@@ -4968,6 +4994,8 @@ export const createPublicCloudProjectFloatingIp: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectFloatingIp",
 }));
 
 export type CreatePublicCloudProjectGatewayError = BadRequest | Conflict | OvhOpError;
@@ -4983,6 +5011,8 @@ export const createPublicCloudProjectGateway: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectGateway",
 }));
 
 export type CreatePublicCloudProjectKeyManagerContainerError = BadRequest | Conflict | OvhOpError;
@@ -4998,6 +5028,8 @@ export const createPublicCloudProjectKeyManagerContainer: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectKeyManagerContainer",
 }));
 
 export type CreatePublicCloudProjectKeyManagerContainerConsumerError =
@@ -5021,6 +5053,8 @@ export const createPublicCloudProjectKeyManagerContainerConsumer: API.OperationM
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectKeyManagerContainerConsumer",
 }));
 
 export type CreatePublicCloudProjectKeyManagerSecretError = BadRequest | Conflict | OvhOpError;
@@ -5036,6 +5070,8 @@ export const createPublicCloudProjectKeyManagerSecret: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectKeyManagerSecret",
 }));
 
 export type CreatePublicCloudProjectKeyManagerSecretConsumerError =
@@ -5059,6 +5095,8 @@ export const createPublicCloudProjectKeyManagerSecretConsumer: API.OperationMeth
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectKeyManagerSecretConsumer",
 }));
 
 export type CreatePublicCloudProjectKeyManagerSecretPayloadError = NotFound | Conflict | OvhOpError;
@@ -5078,6 +5116,8 @@ export const createPublicCloudProjectKeyManagerSecretPayload: API.OperationMetho
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectKeyManagerSecretPayload",
 }));
 
 export type CreatePublicCloudProjectLoadbalancerError =
@@ -5097,6 +5137,8 @@ export const createPublicCloudProjectLoadbalancer: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectLoadbalancer",
 }));
 
 export type CreatePublicCloudProjectLoadbalancerListenerError =
@@ -5120,6 +5162,8 @@ export const createPublicCloudProjectLoadbalancerListener: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectLoadbalancerListener",
 }));
 
 export type CreatePublicCloudProjectLoadbalancerListenerL7policyError =
@@ -5142,6 +5186,8 @@ export const createPublicCloudProjectLoadbalancerListenerL7policy: API.Operation
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectLoadbalancerListenerL7policy",
 }));
 
 export type CreatePublicCloudProjectLoadbalancerPoolError = BadRequest | Conflict | OvhOpError;
@@ -5157,6 +5203,8 @@ export const createPublicCloudProjectLoadbalancerPool: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectLoadbalancerPool",
 }));
 
 export type CreatePublicCloudProjectLoadbalancerPoolMemberError =
@@ -5180,6 +5228,8 @@ export const createPublicCloudProjectLoadbalancerPoolMember: API.OperationMethod
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectLoadbalancerPoolMember",
 }));
 
 export type CreatePublicCloudProjectNetworkError = Conflict | OvhOpError;
@@ -5195,6 +5245,8 @@ export const createPublicCloudProjectNetwork: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectNetwork",
 }));
 
 export type CreatePublicCloudProjectNetworkSubnetError = Conflict | OvhOpError;
@@ -5210,6 +5262,8 @@ export const createPublicCloudProjectNetworkSubnet: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectNetworkSubnet",
 }));
 
 export type CreatePublicCloudProjectPublicIpFloatingError = OvhOpError;
@@ -5225,6 +5279,8 @@ export const createPublicCloudProjectPublicIpFloating: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectPublicIpFloating",
 }));
 
 export type CreatePublicCloudProjectRancherError = OvhOpError;
@@ -5240,6 +5296,8 @@ export const createPublicCloudProjectRancher: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectRancher",
 }));
 
 export type CreatePublicCloudProjectRancherAdminCredentialsError = OvhOpError;
@@ -5259,6 +5317,8 @@ export const createPublicCloudProjectRancherAdminCredentials: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectRancherAdminCredentials",
 }));
 
 export type CreatePublicCloudProjectSecurityGroupError = Conflict | OvhOpError;
@@ -5274,6 +5334,8 @@ export const createPublicCloudProjectSecurityGroup: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectSecurityGroup",
 }));
 
 export type CreatePublicCloudProjectSshKeyError = Conflict | OvhOpError;
@@ -5289,6 +5351,8 @@ export const createPublicCloudProjectSshKey: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectSshKey",
 }));
 
 export type CreatePublicCloudProjectStorageBlockBackupError = Conflict | OvhOpError;
@@ -5304,6 +5368,8 @@ export const createPublicCloudProjectStorageBlockBackup: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectStorageBlockBackup",
 }));
 
 export type CreatePublicCloudProjectStorageBlockSnapshotError = Conflict | OvhOpError;
@@ -5323,6 +5389,8 @@ export const createPublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectStorageBlockSnapshot",
 }));
 
 export type CreatePublicCloudProjectStorageBlockVolumeError = BadRequest | Conflict | OvhOpError;
@@ -5338,6 +5406,8 @@ export const createPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectStorageBlockVolume",
 }));
 
 export type CreatePublicCloudProjectStorageFileNetworkError = OvhOpError;
@@ -5353,6 +5423,8 @@ export const createPublicCloudProjectStorageFileNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectStorageFileNetwork",
 }));
 
 export type CreatePublicCloudProjectStorageFileSnapshotError =
@@ -5376,6 +5448,8 @@ export const createPublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectStorageFileSnapshot",
 }));
 
 export type CreatePublicCloudProjectStorageObjectBucketError = BadRequest | Conflict | OvhOpError;
@@ -5395,6 +5469,8 @@ export const createPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePublicCloudProjectStorageObjectBucket",
 }));
 
 export type DeletePublicCloudProjectComputeAutobackupError = NotFound | Conflict | OvhOpError;
@@ -5410,6 +5486,8 @@ export const deletePublicCloudProjectComputeAutobackup: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectComputeAutobackup",
 }));
 
 export type DeletePublicCloudProjectComputeBackupError = NotFound | Conflict | OvhOpError;
@@ -5425,6 +5503,8 @@ export const deletePublicCloudProjectComputeBackup: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectComputeBackup",
 }));
 
 export type DeletePublicCloudProjectComputeInstanceError = NotFound | Conflict | OvhOpError;
@@ -5440,6 +5520,8 @@ export const deletePublicCloudProjectComputeInstance: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectComputeInstance",
 }));
 
 export type DeletePublicCloudProjectComputeInstanceGroupError = NotFound | Conflict | OvhOpError;
@@ -5459,6 +5541,8 @@ export const deletePublicCloudProjectComputeInstanceGroup: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectComputeInstanceGroup",
 }));
 
 export type DeletePublicCloudProjectFloatingIpError = NotFound | Conflict | OvhOpError;
@@ -5474,6 +5558,8 @@ export const deletePublicCloudProjectFloatingIp: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectFloatingIp",
 }));
 
 export type DeletePublicCloudProjectGatewayError = NotFound | Conflict | OvhOpError;
@@ -5489,6 +5575,8 @@ export const deletePublicCloudProjectGateway: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectGateway",
 }));
 
 export type DeletePublicCloudProjectKeyManagerContainerError = NotFound | Conflict | OvhOpError;
@@ -5508,6 +5596,8 @@ export const deletePublicCloudProjectKeyManagerContainer: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectKeyManagerContainer",
 }));
 
 export type DeletePublicCloudProjectKeyManagerContainerConsumerError = NotFound | OvhOpError;
@@ -5527,6 +5617,8 @@ export const deletePublicCloudProjectKeyManagerContainerConsumer: API.OperationM
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectKeyManagerContainerConsumer",
 }));
 
 export type DeletePublicCloudProjectKeyManagerSecretError = NotFound | Conflict | OvhOpError;
@@ -5542,6 +5634,8 @@ export const deletePublicCloudProjectKeyManagerSecret: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectKeyManagerSecret",
 }));
 
 export type DeletePublicCloudProjectKeyManagerSecretConsumerError = NotFound | OvhOpError;
@@ -5561,6 +5655,8 @@ export const deletePublicCloudProjectKeyManagerSecretConsumer: API.OperationMeth
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectKeyManagerSecretConsumer",
 }));
 
 export type DeletePublicCloudProjectLoadbalancerError = NotFound | Conflict | OvhOpError;
@@ -5576,6 +5672,8 @@ export const deletePublicCloudProjectLoadbalancer: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectLoadbalancer",
 }));
 
 export type DeletePublicCloudProjectLoadbalancerListenerError = NotFound | Conflict | OvhOpError;
@@ -5595,6 +5693,8 @@ export const deletePublicCloudProjectLoadbalancerListener: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectLoadbalancerListener",
 }));
 
 export type DeletePublicCloudProjectLoadbalancerListenerL7policyError =
@@ -5617,6 +5717,8 @@ export const deletePublicCloudProjectLoadbalancerListenerL7policy: API.Operation
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectLoadbalancerListenerL7policy",
 }));
 
 export type DeletePublicCloudProjectLoadbalancerPoolError = NotFound | Conflict | OvhOpError;
@@ -5632,6 +5734,8 @@ export const deletePublicCloudProjectLoadbalancerPool: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectLoadbalancerPool",
 }));
 
 export type DeletePublicCloudProjectLoadbalancerPoolMemberError = NotFound | Conflict | OvhOpError;
@@ -5651,6 +5755,8 @@ export const deletePublicCloudProjectLoadbalancerPoolMember: API.OperationMethod
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectLoadbalancerPoolMember",
 }));
 
 export type DeletePublicCloudProjectNetworkError = NotFound | Conflict | OvhOpError;
@@ -5666,6 +5772,8 @@ export const deletePublicCloudProjectNetwork: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectNetwork",
 }));
 
 export type DeletePublicCloudProjectNetworkSubnetError = NotFound | Conflict | OvhOpError;
@@ -5681,6 +5789,8 @@ export const deletePublicCloudProjectNetworkSubnet: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectNetworkSubnet",
 }));
 
 export type DeletePublicCloudProjectPublicIpExtNetError = OvhOpError;
@@ -5696,6 +5806,8 @@ export const deletePublicCloudProjectPublicIpExtNet: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectPublicIpExtNet",
 }));
 
 export type DeletePublicCloudProjectPublicIpFloatingError = OvhOpError;
@@ -5711,6 +5823,8 @@ export const deletePublicCloudProjectPublicIpFloating: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectPublicIpFloating",
 }));
 
 export type DeletePublicCloudProjectRancherError = OvhOpError;
@@ -5726,6 +5840,8 @@ export const deletePublicCloudProjectRancher: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectRancher",
 }));
 
 export type DeletePublicCloudProjectSecurityGroupError = NotFound | Conflict | OvhOpError;
@@ -5741,6 +5857,8 @@ export const deletePublicCloudProjectSecurityGroup: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectSecurityGroup",
 }));
 
 export type DeletePublicCloudProjectSshKeyError = NotFound | OvhOpError;
@@ -5756,6 +5874,8 @@ export const deletePublicCloudProjectSshKey: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectSshKey",
 }));
 
 export type DeletePublicCloudProjectStorageBlockBackupError = NotFound | Conflict | OvhOpError;
@@ -5771,6 +5891,8 @@ export const deletePublicCloudProjectStorageBlockBackup: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectStorageBlockBackup",
 }));
 
 export type DeletePublicCloudProjectStorageBlockSnapshotError = NotFound | Conflict | OvhOpError;
@@ -5790,6 +5912,8 @@ export const deletePublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectStorageBlockSnapshot",
 }));
 
 export type DeletePublicCloudProjectStorageBlockVolumeError = NotFound | Conflict | OvhOpError;
@@ -5805,6 +5929,8 @@ export const deletePublicCloudProjectStorageBlockVolume: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectStorageBlockVolume",
 }));
 
 export type DeletePublicCloudProjectStorageFileNetworkError = OvhOpError;
@@ -5820,6 +5946,8 @@ export const deletePublicCloudProjectStorageFileNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectStorageFileNetwork",
 }));
 
 export type DeletePublicCloudProjectStorageFileShareError = NotFound | Conflict | OvhOpError;
@@ -5835,6 +5963,8 @@ export const deletePublicCloudProjectStorageFileShare: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectStorageFileShare",
 }));
 
 export type DeletePublicCloudProjectStorageFileSnapshotError = NotFound | Conflict | OvhOpError;
@@ -5854,6 +5984,8 @@ export const deletePublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectStorageFileSnapshot",
 }));
 
 export type DeletePublicCloudProjectStorageObjectBucketError = NotFound | Conflict | OvhOpError;
@@ -5873,6 +6005,8 @@ export const deletePublicCloudProjectStorageObjectBucket: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicCloudProjectStorageObjectBucket",
 }));
 
 export type GetPublicCloudProjectError = OvhOpError;
@@ -5888,6 +6022,8 @@ export const getPublicCloudProject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProject",
 }));
 
 export type GetPublicCloudProjectComputeAutobackupError = NotFound | OvhOpError;
@@ -5903,6 +6039,8 @@ export const getPublicCloudProjectComputeAutobackup: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectComputeAutobackup",
 }));
 
 export type GetPublicCloudProjectComputeBackupError = NotFound | OvhOpError;
@@ -5918,6 +6056,8 @@ export const getPublicCloudProjectComputeBackup: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectComputeBackup",
 }));
 
 export type GetPublicCloudProjectComputeInstanceError = NotFound | OvhOpError;
@@ -5933,6 +6073,8 @@ export const getPublicCloudProjectComputeInstance: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectComputeInstance",
 }));
 
 export type GetPublicCloudProjectComputeInstanceConsoleOutputError = NotFound | OvhOpError;
@@ -5952,6 +6094,8 @@ export const getPublicCloudProjectComputeInstanceConsoleOutput: API.OperationMet
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectComputeInstanceConsoleOutput",
 }));
 
 export type GetPublicCloudProjectComputeInstanceGroupError = NotFound | OvhOpError;
@@ -5967,6 +6111,8 @@ export const getPublicCloudProjectComputeInstanceGroup: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectComputeInstanceGroup",
 }));
 
 export type GetPublicCloudProjectFloatingIpError = NotFound | OvhOpError;
@@ -5982,6 +6128,8 @@ export const getPublicCloudProjectFloatingIp: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectFloatingIp",
 }));
 
 export type GetPublicCloudProjectGatewayError = NotFound | OvhOpError;
@@ -5997,6 +6145,8 @@ export const getPublicCloudProjectGateway: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectGateway",
 }));
 
 export type GetPublicCloudProjectKeyManagerContainerError = NotFound | OvhOpError;
@@ -6012,6 +6162,8 @@ export const getPublicCloudProjectKeyManagerContainer: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectKeyManagerContainer",
 }));
 
 export type GetPublicCloudProjectKeyManagerContainerConsumerError = NotFound | OvhOpError;
@@ -6031,6 +6183,8 @@ export const getPublicCloudProjectKeyManagerContainerConsumer: API.OperationMeth
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectKeyManagerContainerConsumer",
 }));
 
 export type GetPublicCloudProjectKeyManagerSecretError = NotFound | OvhOpError;
@@ -6046,6 +6200,8 @@ export const getPublicCloudProjectKeyManagerSecret: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectKeyManagerSecret",
 }));
 
 export type GetPublicCloudProjectKeyManagerSecretConsumerError = NotFound | OvhOpError;
@@ -6065,6 +6221,8 @@ export const getPublicCloudProjectKeyManagerSecretConsumer: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectKeyManagerSecretConsumer",
 }));
 
 export type GetPublicCloudProjectLoadbalancerError = NotFound | OvhOpError;
@@ -6080,6 +6238,8 @@ export const getPublicCloudProjectLoadbalancer: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectLoadbalancer",
 }));
 
 export type GetPublicCloudProjectLoadbalancerListenerError = NotFound | OvhOpError;
@@ -6095,6 +6255,8 @@ export const getPublicCloudProjectLoadbalancerListener: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectLoadbalancerListener",
 }));
 
 export type GetPublicCloudProjectLoadbalancerListenerL7policyError = NotFound | OvhOpError;
@@ -6114,6 +6276,8 @@ export const getPublicCloudProjectLoadbalancerListenerL7policy: API.OperationMet
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectLoadbalancerListenerL7policy",
 }));
 
 export type GetPublicCloudProjectLoadbalancerPoolError = NotFound | OvhOpError;
@@ -6129,6 +6293,8 @@ export const getPublicCloudProjectLoadbalancerPool: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectLoadbalancerPool",
 }));
 
 export type GetPublicCloudProjectLoadbalancerPoolMemberError = NotFound | OvhOpError;
@@ -6148,6 +6314,8 @@ export const getPublicCloudProjectLoadbalancerPoolMember: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectLoadbalancerPoolMember",
 }));
 
 export type GetPublicCloudProjectNetworkError = NotFound | OvhOpError;
@@ -6163,6 +6331,8 @@ export const getPublicCloudProjectNetwork: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectNetwork",
 }));
 
 export type GetPublicCloudProjectNetworkSubnetError = NotFound | OvhOpError;
@@ -6178,6 +6348,8 @@ export const getPublicCloudProjectNetworkSubnet: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectNetworkSubnet",
 }));
 
 export type GetPublicCloudProjectPublicIpAdditionalError = OvhOpError;
@@ -6193,6 +6365,8 @@ export const getPublicCloudProjectPublicIpAdditional: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectPublicIpAdditional",
 }));
 
 export type GetPublicCloudProjectPublicIpExtNetError = OvhOpError;
@@ -6208,6 +6382,8 @@ export const getPublicCloudProjectPublicIpExtNet: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectPublicIpExtNet",
 }));
 
 export type GetPublicCloudProjectPublicIpFloatingError = OvhOpError;
@@ -6223,6 +6399,8 @@ export const getPublicCloudProjectPublicIpFloating: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectPublicIpFloating",
 }));
 
 export type GetPublicCloudProjectQuotaError = BadRequest | Conflict | OvhOpError;
@@ -6238,6 +6416,8 @@ export const getPublicCloudProjectQuota: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectQuota",
 }));
 
 export type GetPublicCloudProjectRancherError = OvhOpError;
@@ -6253,6 +6433,8 @@ export const getPublicCloudProjectRancher: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectRancher",
 }));
 
 export type GetPublicCloudProjectRancherTaskError = OvhOpError;
@@ -6268,6 +6450,8 @@ export const getPublicCloudProjectRancherTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectRancherTask",
 }));
 
 export type GetPublicCloudProjectReferenceInstanceFlavorError = OvhOpError;
@@ -6287,6 +6471,8 @@ export const getPublicCloudProjectReferenceInstanceFlavor: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectReferenceInstanceFlavor",
 }));
 
 export type GetPublicCloudProjectReferenceInstanceImageError = OvhOpError;
@@ -6306,6 +6492,8 @@ export const getPublicCloudProjectReferenceInstanceImage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectReferenceInstanceImage",
 }));
 
 export type GetPublicCloudProjectReferenceRancherEligibilityError = OvhOpError;
@@ -6325,6 +6513,8 @@ export const getPublicCloudProjectReferenceRancherEligibility: API.OperationMeth
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectReferenceRancherEligibility",
 }));
 
 export type GetPublicCloudProjectReferenceRegionError = NotFound | OvhOpError;
@@ -6340,6 +6530,8 @@ export const getPublicCloudProjectReferenceRegion: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectReferenceRegion",
 }));
 
 export type GetPublicCloudProjectSecurityGroupError = NotFound | OvhOpError;
@@ -6355,6 +6547,8 @@ export const getPublicCloudProjectSecurityGroup: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectSecurityGroup",
 }));
 
 export type GetPublicCloudProjectSshKeyError = NotFound | OvhOpError;
@@ -6370,6 +6564,8 @@ export const getPublicCloudProjectSshKey: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectSshKey",
 }));
 
 export type GetPublicCloudProjectStorageBlockBackupError = NotFound | OvhOpError;
@@ -6385,6 +6581,8 @@ export const getPublicCloudProjectStorageBlockBackup: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectStorageBlockBackup",
 }));
 
 export type GetPublicCloudProjectStorageBlockSnapshotError = NotFound | OvhOpError;
@@ -6400,6 +6598,8 @@ export const getPublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectStorageBlockSnapshot",
 }));
 
 export type GetPublicCloudProjectStorageBlockVolumeError = NotFound | OvhOpError;
@@ -6415,6 +6615,8 @@ export const getPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectStorageBlockVolume",
 }));
 
 export type GetPublicCloudProjectStorageFileNetworkError = OvhOpError;
@@ -6430,6 +6632,8 @@ export const getPublicCloudProjectStorageFileNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectStorageFileNetwork",
 }));
 
 export type GetPublicCloudProjectStorageFileShareError = NotFound | OvhOpError;
@@ -6445,6 +6649,8 @@ export const getPublicCloudProjectStorageFileShare: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectStorageFileShare",
 }));
 
 export type GetPublicCloudProjectStorageFileSnapshotError = NotFound | OvhOpError;
@@ -6460,6 +6666,8 @@ export const getPublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectStorageFileSnapshot",
 }));
 
 export type GetPublicCloudProjectStorageObjectBucketError = NotFound | OvhOpError;
@@ -6475,6 +6683,8 @@ export const getPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   errors: [NotFound, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicCloudProjectStorageObjectBucket",
 }));
 
 export type ListPublicCloudProjectError = OvhOpError;
@@ -6490,6 +6700,8 @@ export const listPublicCloudProject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProject",
 }));
 
 export type ListPublicCloudProjectComputeAutobackupError = OvhOpError;
@@ -6505,6 +6717,8 @@ export const listPublicCloudProjectComputeAutobackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectComputeAutobackup",
 }));
 
 export type ListPublicCloudProjectComputeBackupError = OvhOpError;
@@ -6520,6 +6734,8 @@ export const listPublicCloudProjectComputeBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectComputeBackup",
 }));
 
 export type ListPublicCloudProjectComputeInstanceError = OvhOpError;
@@ -6535,6 +6751,8 @@ export const listPublicCloudProjectComputeInstance: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectComputeInstance",
 }));
 
 export type ListPublicCloudProjectComputeInstanceEventsError = OvhOpError;
@@ -6550,6 +6768,8 @@ export const listPublicCloudProjectComputeInstanceEvents: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectComputeInstanceEvents",
 }));
 
 export type ListPublicCloudProjectComputeInstanceGroupError = OvhOpError;
@@ -6565,6 +6785,8 @@ export const listPublicCloudProjectComputeInstanceGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectComputeInstanceGroup",
 }));
 
 export type ListPublicCloudProjectFloatingIpError = OvhOpError;
@@ -6580,6 +6802,8 @@ export const listPublicCloudProjectFloatingIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectFloatingIp",
 }));
 
 export type ListPublicCloudProjectGatewayError = OvhOpError;
@@ -6595,6 +6819,8 @@ export const listPublicCloudProjectGateway: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectGateway",
 }));
 
 export type ListPublicCloudProjectKeyManagerContainerError = OvhOpError;
@@ -6610,6 +6836,8 @@ export const listPublicCloudProjectKeyManagerContainer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectKeyManagerContainer",
 }));
 
 export type ListPublicCloudProjectKeyManagerContainerConsumerError = OvhOpError;
@@ -6633,6 +6861,8 @@ export const listPublicCloudProjectKeyManagerContainerConsumer: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectKeyManagerContainerConsumer",
 }));
 
 export type ListPublicCloudProjectKeyManagerSecretError = OvhOpError;
@@ -6648,6 +6878,8 @@ export const listPublicCloudProjectKeyManagerSecret: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectKeyManagerSecret",
 }));
 
 export type ListPublicCloudProjectKeyManagerSecretConsumerError = OvhOpError;
@@ -6671,6 +6903,8 @@ export const listPublicCloudProjectKeyManagerSecretConsumer: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectKeyManagerSecretConsumer",
 }));
 
 export type ListPublicCloudProjectLoadbalancerError = OvhOpError;
@@ -6686,6 +6920,8 @@ export const listPublicCloudProjectLoadbalancer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectLoadbalancer",
 }));
 
 export type ListPublicCloudProjectLoadbalancerListenerError = OvhOpError;
@@ -6701,6 +6937,8 @@ export const listPublicCloudProjectLoadbalancerListener: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectLoadbalancerListener",
 }));
 
 export type ListPublicCloudProjectLoadbalancerListenerL7policyError = OvhOpError;
@@ -6724,6 +6962,8 @@ export const listPublicCloudProjectLoadbalancerListenerL7policy: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectLoadbalancerListenerL7policy",
 }));
 
 export type ListPublicCloudProjectLoadbalancerPoolError = OvhOpError;
@@ -6739,6 +6979,8 @@ export const listPublicCloudProjectLoadbalancerPool: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectLoadbalancerPool",
 }));
 
 export type ListPublicCloudProjectLoadbalancerPoolMemberError = OvhOpError;
@@ -6758,6 +7000,8 @@ export const listPublicCloudProjectLoadbalancerPoolMember: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectLoadbalancerPoolMember",
 }));
 
 export type ListPublicCloudProjectNetworkError = OvhOpError;
@@ -6773,6 +7017,8 @@ export const listPublicCloudProjectNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectNetwork",
 }));
 
 export type ListPublicCloudProjectNetworkSubnetError = OvhOpError;
@@ -6788,6 +7034,8 @@ export const listPublicCloudProjectNetworkSubnet: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectNetworkSubnet",
 }));
 
 export type ListPublicCloudProjectPublicIpError = OvhOpError;
@@ -6803,6 +7051,8 @@ export const listPublicCloudProjectPublicIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectPublicIp",
 }));
 
 export type ListPublicCloudProjectPublicIpAdditionalError = OvhOpError;
@@ -6818,6 +7068,8 @@ export const listPublicCloudProjectPublicIpAdditional: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectPublicIpAdditional",
 }));
 
 export type ListPublicCloudProjectPublicIpExtNetError = OvhOpError;
@@ -6833,6 +7085,8 @@ export const listPublicCloudProjectPublicIpExtNet: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectPublicIpExtNet",
 }));
 
 export type ListPublicCloudProjectPublicIpFloatingError = OvhOpError;
@@ -6848,6 +7102,8 @@ export const listPublicCloudProjectPublicIpFloating: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectPublicIpFloating",
 }));
 
 export type ListPublicCloudProjectRancherError = OvhOpError;
@@ -6863,6 +7119,8 @@ export const listPublicCloudProjectRancher: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectRancher",
 }));
 
 export type ListPublicCloudProjectRancherCapabilityPlanError = OvhOpError;
@@ -6882,6 +7140,8 @@ export const listPublicCloudProjectRancherCapabilityPlan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectRancherCapabilityPlan",
 }));
 
 export type ListPublicCloudProjectRancherCapabilityVersionError = OvhOpError;
@@ -6905,6 +7165,8 @@ export const listPublicCloudProjectRancherCapabilityVersion: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectRancherCapabilityVersion",
 }));
 
 export type ListPublicCloudProjectRancherEventError = OvhOpError;
@@ -6920,6 +7182,8 @@ export const listPublicCloudProjectRancherEvent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectRancherEvent",
 }));
 
 export type ListPublicCloudProjectRancherTaskError = OvhOpError;
@@ -6935,6 +7199,8 @@ export const listPublicCloudProjectRancherTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectRancherTask",
 }));
 
 export type ListPublicCloudProjectReferenceInstanceFlavorError = OvhOpError;
@@ -6958,6 +7224,8 @@ export const listPublicCloudProjectReferenceInstanceFlavor: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectReferenceInstanceFlavor",
 }));
 
 export type ListPublicCloudProjectReferenceInstanceImageError = OvhOpError;
@@ -6981,6 +7249,8 @@ export const listPublicCloudProjectReferenceInstanceImage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectReferenceInstanceImage",
 }));
 
 export type ListPublicCloudProjectReferenceRancherPlanError = OvhOpError;
@@ -7000,6 +7270,8 @@ export const listPublicCloudProjectReferenceRancherPlan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectReferenceRancherPlan",
 }));
 
 export type ListPublicCloudProjectReferenceRancherVersionError = OvhOpError;
@@ -7023,6 +7295,8 @@ export const listPublicCloudProjectReferenceRancherVersion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectReferenceRancherVersion",
 }));
 
 export type ListPublicCloudProjectReferenceRegionError = OvhOpError;
@@ -7038,6 +7312,8 @@ export const listPublicCloudProjectReferenceRegion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectReferenceRegion",
 }));
 
 export type ListPublicCloudProjectSecurityGroupError = OvhOpError;
@@ -7053,6 +7329,8 @@ export const listPublicCloudProjectSecurityGroup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectSecurityGroup",
 }));
 
 export type ListPublicCloudProjectSshKeyError = OvhOpError;
@@ -7068,6 +7346,8 @@ export const listPublicCloudProjectSshKey: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectSshKey",
 }));
 
 export type ListPublicCloudProjectStorageBlockBackupError = OvhOpError;
@@ -7083,6 +7363,8 @@ export const listPublicCloudProjectStorageBlockBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageBlockBackup",
 }));
 
 export type ListPublicCloudProjectStorageBlockSnapshotError = OvhOpError;
@@ -7102,6 +7384,8 @@ export const listPublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageBlockSnapshot",
 }));
 
 export type ListPublicCloudProjectStorageBlockVolumeError = OvhOpError;
@@ -7117,6 +7401,8 @@ export const listPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageBlockVolume",
 }));
 
 export type ListPublicCloudProjectStorageFileNetworkError = OvhOpError;
@@ -7132,6 +7418,8 @@ export const listPublicCloudProjectStorageFileNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageFileNetwork",
 }));
 
 export type ListPublicCloudProjectStorageFileShareError = OvhOpError;
@@ -7147,6 +7435,8 @@ export const listPublicCloudProjectStorageFileShare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageFileShare",
 }));
 
 export type ListPublicCloudProjectStorageFileSnapshotError = OvhOpError;
@@ -7162,6 +7452,8 @@ export const listPublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageFileSnapshot",
 }));
 
 export type ListPublicCloudProjectStorageObjectBucketError = OvhOpError;
@@ -7177,6 +7469,8 @@ export const listPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageObjectBucket",
 }));
 
 export type ListPublicCloudProjectStorageObjectBucketLifecycleError = Conflict | OvhOpError;
@@ -7196,6 +7490,8 @@ export const listPublicCloudProjectStorageObjectBucketLifecycle: API.OperationMe
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageObjectBucketLifecycle",
 }));
 
 export type ListPublicCloudProjectStorageObjectBucketReplicationError = Conflict | OvhOpError;
@@ -7215,6 +7511,8 @@ export const listPublicCloudProjectStorageObjectBucketReplication: API.Operation
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicCloudProjectStorageObjectBucketReplication",
 }));
 
 export type PutPublicCloudProjectComputeInstanceError =
@@ -7234,6 +7532,8 @@ export const putPublicCloudProjectComputeInstance: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectComputeInstance",
 }));
 
 export type PutPublicCloudProjectFloatingIpError = NotFound | Conflict | OvhOpError;
@@ -7249,6 +7549,8 @@ export const putPublicCloudProjectFloatingIp: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectFloatingIp",
 }));
 
 export type PutPublicCloudProjectGatewayError = BadRequest | NotFound | Conflict | OvhOpError;
@@ -7264,6 +7566,8 @@ export const putPublicCloudProjectGateway: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectGateway",
 }));
 
 export type PutPublicCloudProjectKeyManagerContainerError = NotFound | Conflict | OvhOpError;
@@ -7279,6 +7583,8 @@ export const putPublicCloudProjectKeyManagerContainer: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectKeyManagerContainer",
 }));
 
 export type PutPublicCloudProjectKeyManagerSecretError =
@@ -7298,6 +7604,8 @@ export const putPublicCloudProjectKeyManagerSecret: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectKeyManagerSecret",
 }));
 
 export type PutPublicCloudProjectLoadbalancerError = NotFound | Conflict | OvhOpError;
@@ -7313,6 +7621,8 @@ export const putPublicCloudProjectLoadbalancer: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectLoadbalancer",
 }));
 
 export type PutPublicCloudProjectLoadbalancerListenerError = NotFound | Conflict | OvhOpError;
@@ -7328,6 +7638,8 @@ export const putPublicCloudProjectLoadbalancerListener: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectLoadbalancerListener",
 }));
 
 export type PutPublicCloudProjectLoadbalancerListenerL7policyError =
@@ -7350,6 +7662,8 @@ export const putPublicCloudProjectLoadbalancerListenerL7policy: API.OperationMet
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectLoadbalancerListenerL7policy",
 }));
 
 export type PutPublicCloudProjectLoadbalancerPoolError = NotFound | Conflict | OvhOpError;
@@ -7365,6 +7679,8 @@ export const putPublicCloudProjectLoadbalancerPool: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectLoadbalancerPool",
 }));
 
 export type PutPublicCloudProjectLoadbalancerPoolMemberError = NotFound | Conflict | OvhOpError;
@@ -7380,6 +7696,8 @@ export const putPublicCloudProjectLoadbalancerPoolMember: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectLoadbalancerPoolMember",
 }));
 
 export type PutPublicCloudProjectNetworkError = NotFound | Conflict | OvhOpError;
@@ -7395,6 +7713,8 @@ export const putPublicCloudProjectNetwork: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectNetwork",
 }));
 
 export type PutPublicCloudProjectNetworkSubnetError = NotFound | Conflict | OvhOpError;
@@ -7410,6 +7730,8 @@ export const putPublicCloudProjectNetworkSubnet: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectNetworkSubnet",
 }));
 
 export type PutPublicCloudProjectPublicIpFloatingError = OvhOpError;
@@ -7425,6 +7747,8 @@ export const putPublicCloudProjectPublicIpFloating: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectPublicIpFloating",
 }));
 
 export type PutPublicCloudProjectQuotaError = BadRequest | Conflict | OvhOpError;
@@ -7440,6 +7764,8 @@ export const putPublicCloudProjectQuota: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectQuota",
 }));
 
 export type PutPublicCloudProjectRancherError = OvhOpError;
@@ -7455,6 +7781,8 @@ export const putPublicCloudProjectRancher: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectRancher",
 }));
 
 export type PutPublicCloudProjectSecurityGroupError = NotFound | Conflict | OvhOpError;
@@ -7470,6 +7798,8 @@ export const putPublicCloudProjectSecurityGroup: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectSecurityGroup",
 }));
 
 export type PutPublicCloudProjectStorageBlockBackupError = NotFound | Conflict | OvhOpError;
@@ -7485,6 +7815,8 @@ export const putPublicCloudProjectStorageBlockBackup: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectStorageBlockBackup",
 }));
 
 export type PutPublicCloudProjectStorageBlockSnapshotError = NotFound | Conflict | OvhOpError;
@@ -7500,6 +7832,8 @@ export const putPublicCloudProjectStorageBlockSnapshot: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectStorageBlockSnapshot",
 }));
 
 export type PutPublicCloudProjectStorageBlockVolumeError =
@@ -7519,6 +7853,8 @@ export const putPublicCloudProjectStorageBlockVolume: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectStorageBlockVolume",
 }));
 
 export type PutPublicCloudProjectStorageFileShareError =
@@ -7538,6 +7874,8 @@ export const putPublicCloudProjectStorageFileShare: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectStorageFileShare",
 }));
 
 export type PutPublicCloudProjectStorageFileSnapshotError = NotFound | Conflict | OvhOpError;
@@ -7553,6 +7891,8 @@ export const putPublicCloudProjectStorageFileSnapshot: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectStorageFileSnapshot",
 }));
 
 export type PutPublicCloudProjectStorageObjectBucketError = NotFound | Conflict | OvhOpError;
@@ -7568,6 +7908,8 @@ export const putPublicCloudProjectStorageObjectBucket: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectStorageObjectBucket",
 }));
 
 export type PutPublicCloudProjectStorageObjectBucketLifecycleError = Conflict | OvhOpError;
@@ -7587,6 +7929,8 @@ export const putPublicCloudProjectStorageObjectBucketLifecycle: API.OperationMet
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectStorageObjectBucketLifecycle",
 }));
 
 export type PutPublicCloudProjectStorageObjectBucketReplicationError = Conflict | OvhOpError;
@@ -7606,6 +7950,8 @@ export const putPublicCloudProjectStorageObjectBucketReplication: API.OperationM
   errors: [Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPublicCloudProjectStorageObjectBucketReplication",
 }));
 
 export type SharePublicCloudProjectStorageFileError = BadRequest | Conflict | OvhOpError;
@@ -7621,6 +7967,8 @@ export const sharePublicCloudProjectStorageFile: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharePublicCloudProjectStorageFile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

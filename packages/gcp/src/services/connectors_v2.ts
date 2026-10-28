@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "connectors" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Connectors",
+  service: "connectors",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1094,6 +1113,8 @@ export const checkReadinessProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckReadinessProjectsLocationsConnections",
 }));
 
 export type CheckStatusProjectsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -1109,6 +1130,8 @@ export const checkStatusProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckStatusProjectsLocationsConnections",
 }));
 
 export type CreateProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1134,6 +1157,8 @@ export const createProjectsLocationsConnectionsEntityTypesEntities: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, EntitiesNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsConnectionsEntityTypesEntities",
 }));
 
 export type DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1158,6 +1183,8 @@ export const deleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities",
 }));
 
 export type DeleteProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1183,6 +1210,8 @@ export const deleteProjectsLocationsConnectionsEntityTypesEntities: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, EntitiesNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsConnectionsEntityTypesEntities",
 }));
 
 export type ExchangeAuthCodeProjectsLocationsConnectionsError =
@@ -1203,6 +1232,8 @@ export const exchangeAuthCodeProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExchangeAuthCodeProjectsLocationsConnections",
 }));
 
 export type ExecuteHttpRequestProjectsLocationsConnectionsError =
@@ -1223,6 +1254,8 @@ export const executeHttpRequestProjectsLocationsConnections: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteHttpRequestProjectsLocationsConnections",
 }));
 
 export type ExecuteProjectsLocationsConnectionsActionsError =
@@ -1243,6 +1276,8 @@ export const executeProjectsLocationsConnectionsActions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteProjectsLocationsConnectionsActions",
 }));
 
 export type ExecuteProjectsLocationsConnectionsToolsError =
@@ -1263,6 +1298,8 @@ export const executeProjectsLocationsConnectionsTools: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteProjectsLocationsConnectionsTools",
 }));
 
 export type ExecuteSqlQueryProjectsLocationsConnectionsError =
@@ -1283,6 +1320,8 @@ export const executeSqlQueryProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteSqlQueryProjectsLocationsConnections",
 }));
 
 export type GenerateConnectionToolspecOverrideProjectsLocationsConnectionsError =
@@ -1307,6 +1346,8 @@ export const generateConnectionToolspecOverrideProjectsLocationsConnections: API
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateConnectionToolspecOverrideProjectsLocationsConnections",
 }));
 
 export type GetProjectsLocationsConnectionsActionsError = NotFound | Forbidden | GcpOpError;
@@ -1322,6 +1363,8 @@ export const getProjectsLocationsConnectionsActions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsConnectionsActions",
 }));
 
 export type GetProjectsLocationsConnectionsEntityTypesError = NotFound | Forbidden | GcpOpError;
@@ -1337,6 +1380,8 @@ export const getProjectsLocationsConnectionsEntityTypes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsConnectionsEntityTypes",
 }));
 
 export type GetProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1360,6 +1405,8 @@ export const getProjectsLocationsConnectionsEntityTypesEntities: API.OperationMe
   errors: [NotFound, Forbidden, EntitiesNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsConnectionsEntityTypesEntities",
 }));
 
 export type GetProjectsLocationsConnectionsResourcesError = NotFound | Forbidden | GcpOpError;
@@ -1375,6 +1422,8 @@ export const getProjectsLocationsConnectionsResources: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsConnectionsResources",
 }));
 
 export type GetResourcePostProjectsLocationsConnectionsResourcesError =
@@ -1399,6 +1448,8 @@ export const getResourcePostProjectsLocationsConnectionsResources: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourcePostProjectsLocationsConnectionsResources",
 }));
 
 export type ListCustomToolNamesProjectsLocationsConnectionsError =
@@ -1421,6 +1472,8 @@ export const listCustomToolNamesProjectsLocationsConnections: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomToolNamesProjectsLocationsConnections",
 }));
 
 export type ListProjectsLocationsConnectionsActionsError = NotFound | Forbidden | GcpOpError;
@@ -1437,6 +1490,8 @@ export const listProjectsLocationsConnectionsActions: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsConnectionsActions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1454,6 +1509,8 @@ export const listProjectsLocationsConnectionsEntityTypes: API.PaginatedOperation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsConnectionsEntityTypes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1479,6 +1536,8 @@ export const listProjectsLocationsConnectionsEntityTypesEntities: API.PaginatedO
   errors: [NotFound, Forbidden, EntitiesNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsConnectionsEntityTypesEntities",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1496,6 +1555,8 @@ export const listProjectsLocationsConnectionsResources: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsConnectionsResources",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1513,6 +1574,8 @@ export const listProjectsLocationsConnectionsTools: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsConnectionsTools",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1539,6 +1602,8 @@ export const patchProjectsLocationsConnectionsEntityTypesEntities: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, EntitiesNotImplemented, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsConnectionsEntityTypesEntities",
 }));
 
 export type RefreshAccessTokenProjectsLocationsConnectionsError =
@@ -1563,6 +1628,8 @@ export const refreshAccessTokenProjectsLocationsConnections: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshAccessTokenProjectsLocationsConnections",
 }));
 
 export type ToolsProjectsLocationsConnectionsError =
@@ -1583,6 +1650,8 @@ export const toolsProjectsLocationsConnections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToolsProjectsLocationsConnections",
 }));
 
 export type UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1607,6 +1676,8 @@ export const updateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

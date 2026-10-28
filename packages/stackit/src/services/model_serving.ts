@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "ModelServing",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -238,6 +251,8 @@ export const createToken: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DeleteTokenError = BadRequest | NotFound | StackitOpError;
@@ -253,6 +268,8 @@ export const deleteToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type GetChatModelError = BadRequest | StackitOpError;
@@ -268,6 +285,8 @@ export const getChatModel: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChatModel",
 }));
 
 export type GetEmbeddingModelError = BadRequest | StackitOpError;
@@ -283,6 +302,8 @@ export const getEmbeddingModel: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmbeddingModel",
 }));
 
 export type GetTokenError = BadRequest | NotFound | StackitOpError;
@@ -298,6 +319,8 @@ export const getToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetToken",
 }));
 
 export type ListModelsError = BadRequest | StackitOpError;
@@ -313,6 +336,8 @@ export const listModels: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModels",
 }));
 
 export type ListTokensError = BadRequest | StackitOpError;
@@ -328,6 +353,8 @@ export const listTokens: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTokens",
 }));
 
 export type PartialUpdateTokenError = BadRequest | NotFound | StackitOpError;
@@ -343,6 +370,8 @@ export const partialUpdateToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

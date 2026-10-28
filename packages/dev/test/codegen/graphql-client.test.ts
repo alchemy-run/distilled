@@ -127,6 +127,26 @@ describe("GraphQL Query SDK generator", () => {
     expect(() => stripTypeScriptTypes(output)).not.toThrow();
   });
 
+  test("leaves out fields that return a root operation type", () => {
+    // GitHub's Relay-compat `Query.relay: Query!`: root types are not
+    // emitted, so the field has nothing to select.
+    const withRelay = {
+      ...fixture,
+      types: fixture.types.map((type) =>
+        type.name === "Query"
+          ? { ...type, fields: [...type.fields!, field("relay", required(named("Query")))] }
+          : type.name === "Project"
+            ? { ...type, fields: [...type.fields!, field("query", required(named("Query")))] }
+            : type,
+      ),
+    };
+    const output = generateGraphQLClient(convertGraphQLClient(withRelay), options);
+    expect(output).not.toContain('"relay"');
+    expect(output).not.toContain("readonly query: Query");
+    expect(output).not.toMatch(/\bquery: \w+Field\("query"/);
+    expect(output).toContain('root("query", "me", User');
+  });
+
   test("declares every field table without top-level statements", () => {
     const output = generateGraphQLClient(convertGraphQLClient(fixture), options);
     const statements = output.split("\n").filter((line) => /^[\w$.]+\(/.test(line));

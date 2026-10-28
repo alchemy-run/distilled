@@ -83,6 +83,7 @@ const gustoSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Gusto Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: () => gustoSpec,

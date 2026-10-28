@@ -41,6 +41,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   updatedAt: "updated_at",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Registrar",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -807,6 +821,8 @@ export const checkRegistrar: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckRegistrar",
 }));
 
 export type CreateRegistrationError = CloudflareOpError;
@@ -822,6 +838,8 @@ export const createRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegistration",
 }));
 
 export type CreateTransferInError = CloudflareOpError;
@@ -837,6 +855,8 @@ export const createTransferIn: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferIn",
 }));
 
 export type EditRegistrationError = CloudflareOpError;
@@ -852,6 +872,8 @@ export const editRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditRegistration",
 }));
 
 export type GetDomainError = Forbidden | CloudflareOpError;
@@ -867,6 +889,8 @@ export const getDomain: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetExtensionError = CloudflareOpError;
@@ -882,6 +906,8 @@ export const getExtension: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExtension",
 }));
 
 export type GetRegistrationError = CloudflareOpError;
@@ -897,6 +923,8 @@ export const getRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistration",
 }));
 
 export type GetRegistrationStatusError = CloudflareOpError;
@@ -912,6 +940,8 @@ export const getRegistrationStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistrationStatus",
 }));
 
 export type GetTransferInStatusError = CloudflareOpError;
@@ -927,6 +957,8 @@ export const getTransferInStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferInStatus",
 }));
 
 export type GetUpdateStatusError = CloudflareOpError;
@@ -942,6 +974,8 @@ export const getUpdateStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUpdateStatus",
 }));
 
 export type ListDomainsError = Forbidden | CloudflareOpError;
@@ -959,6 +993,8 @@ export const listDomains: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDomains",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -977,6 +1013,8 @@ export const listExtensions: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensions",
 }));
 
 export type ListRegistrationsError = CloudflareOpError;
@@ -992,6 +1030,8 @@ export const listRegistrations: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistrations",
 }));
 
 export type PutDomainError =
@@ -1017,6 +1057,8 @@ export const putDomain: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomain",
 }));
 
 export type SearchRegistrarError = CloudflareOpError;
@@ -1032,6 +1074,8 @@ export const searchRegistrar: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchRegistrar",
 }));
 
 export type TransferCheckError = CloudflareOpError;
@@ -1047,6 +1091,8 @@ export const transferCheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferCheck",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ssm-quicksetup.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSMQuickSetup",
+  service: "SSMQuickSetup",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -337,6 +352,8 @@ export const createConfigurationManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationManager",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationManager",
 }));
 
 export type DeleteConfigurationManagerError =
@@ -369,6 +386,8 @@ export const deleteConfigurationManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationManager",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationManager",
 }));
 
 export type GetConfigurationError =
@@ -401,6 +420,8 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetConfigurationManagerError =
@@ -433,6 +454,8 @@ export const getConfigurationManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationManager",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationManager",
 }));
 
 export type GetServiceSettingsError =
@@ -456,6 +479,8 @@ export const getServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
+  telemetry: TELEMETRY,
+  span: "GetServiceSettings",
 }));
 
 export type ListConfigurationManagersError =
@@ -493,6 +518,8 @@ export const listConfigurationManagers: API.PaginatedOperationMethod<
     items: "ConfigurationManagersList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationManagers",
 })) as any;
 
 export type ListConfigurationsError =
@@ -530,6 +557,8 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "ConfigurationsList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 })) as any;
 
 export type ListQuickSetupTypesError =
@@ -553,6 +582,8 @@ export const listQuickSetupTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQuickSetupTypes",
+  telemetry: TELEMETRY,
+  span: "ListQuickSetupTypes",
 }));
 
 export type ListTagsForResourceError =
@@ -585,6 +616,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -617,6 +650,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -649,6 +684,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConfigurationDefinitionError =
@@ -681,6 +718,8 @@ export const updateConfigurationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationDefinition",
 }));
 
 export type UpdateConfigurationManagerError =
@@ -713,6 +752,8 @@ export const updateConfigurationManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationManager",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationManager",
 }));
 
 export type UpdateServiceSettingsError =
@@ -743,6 +784,8 @@ export const updateServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

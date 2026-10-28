@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WorkspacesInstances",
+  service: "WorkspacesInstances",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -615,6 +631,8 @@ export const associateVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVolume",
+  telemetry: TELEMETRY,
+  span: "AssociateVolume",
 }));
 
 export type CreateVolumeError =
@@ -647,6 +665,8 @@ export const createVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVolume",
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type CreateWorkspaceInstanceError =
@@ -679,6 +699,8 @@ export const createWorkspaceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceInstance",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceInstance",
 }));
 
 export type DeleteVolumeError =
@@ -711,6 +733,8 @@ export const deleteVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVolume",
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DeleteWorkspaceInstanceError =
@@ -745,6 +769,8 @@ export const deleteWorkspaceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceInstance",
 }));
 
 export type DisassociateVolumeError =
@@ -777,6 +803,8 @@ export const disassociateVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVolume",
+  telemetry: TELEMETRY,
+  span: "DisassociateVolume",
 }));
 
 export type GetWorkspaceInstanceError =
@@ -807,6 +835,8 @@ export const getWorkspaceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkspaceInstance",
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceInstance",
 }));
 
 export type ListInstanceTypesError =
@@ -842,6 +872,8 @@ export const listInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceTypes",
 })) as any;
 
 export type ListRegionsError =
@@ -877,6 +909,8 @@ export const listRegions: API.PaginatedOperationMethod<
     items: "Regions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -907,6 +941,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkspaceInstancesError =
@@ -942,6 +978,8 @@ export const listWorkspaceInstances: API.PaginatedOperationMethod<
     items: "WorkspaceInstances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceInstances",
 })) as any;
 
 export type TagResourceError =
@@ -972,6 +1010,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1002,6 +1042,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

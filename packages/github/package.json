@@ -40,6 +40,12 @@
       "worker": "./src/protocol.ts",
       "default": "./lib/protocol.js"
     },
+    "./Pagination": {
+      "types": "./lib/pagination.d.ts",
+      "bun": "./src/pagination.ts",
+      "worker": "./src/pagination.ts",
+      "default": "./lib/pagination.js"
+    },
     "./Retry": {
       "types": "./lib/retry.d.ts",
       "bun": "./src/retry.ts",
@@ -51,6 +57,12 @@
       "bun": "./src/traits.ts",
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
+    },
+    "./GraphQL": {
+      "types": "./lib/graphql-index.d.ts",
+      "bun": "./src/graphql-index.ts",
+      "worker": "./src/graphql-index.ts",
+      "default": "./lib/graphql-index.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
@@ -79,7 +91,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-09",
+    "generatedAt": "2026-10-27",
     "specUpdatedAt": "2026-10-04"
   }
 }

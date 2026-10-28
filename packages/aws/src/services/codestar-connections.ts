@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codestar-connections.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeStarconnections",
+  service: "CodeStarconnections",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -600,6 +616,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateHostError = LimitExceededException | CommonErrors;
@@ -624,6 +642,8 @@ export const createHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHost",
+  telemetry: TELEMETRY,
+  span: "CreateHost",
 }));
 
 export type CreateRepositoryLinkError =
@@ -658,6 +678,8 @@ export const createRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepositoryLink",
+  telemetry: TELEMETRY,
+  span: "CreateRepositoryLink",
 }));
 
 export type CreateSyncConfigurationError =
@@ -694,6 +716,8 @@ export const createSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSyncConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSyncConfiguration",
 }));
 
 export type DeleteConnectionError = ResourceNotFoundException | CommonErrors;
@@ -712,6 +736,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteHostError =
@@ -735,6 +761,8 @@ export const deleteHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHost",
+  telemetry: TELEMETRY,
+  span: "DeleteHost",
 }));
 
 export type DeleteRepositoryLinkError =
@@ -771,6 +799,8 @@ export const deleteRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryLink",
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryLink",
 }));
 
 export type DeleteSyncConfigurationError =
@@ -803,6 +833,8 @@ export const deleteSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSyncConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSyncConfiguration",
 }));
 
 export type GetConnectionError =
@@ -824,6 +856,8 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetHostError = ResourceNotFoundException | ResourceUnavailableException | CommonErrors;
@@ -843,6 +877,8 @@ export const getHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHost",
+  telemetry: TELEMETRY,
+  span: "GetHost",
 }));
 
 export type GetRepositoryLinkError =
@@ -876,6 +912,8 @@ export const getRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryLink",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryLink",
 }));
 
 export type GetRepositorySyncStatusError =
@@ -907,6 +945,8 @@ export const getRepositorySyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetRepositorySyncStatus",
 }));
 
 export type GetResourceSyncStatusError =
@@ -938,6 +978,8 @@ export const getResourceSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSyncStatus",
+  telemetry: TELEMETRY,
+  span: "GetResourceSyncStatus",
 }));
 
 export type GetSyncBlockerSummaryError =
@@ -968,6 +1010,8 @@ export const getSyncBlockerSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncBlockerSummary",
+  telemetry: TELEMETRY,
+  span: "GetSyncBlockerSummary",
 }));
 
 export type GetSyncConfigurationError =
@@ -998,6 +1042,8 @@ export const getSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSyncConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetSyncConfiguration",
 }));
 
 export type ListConnectionsError = ResourceNotFoundException | CommonErrors;
@@ -1022,6 +1068,8 @@ export const listConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 })) as any;
 
 export type ListHostsError = CommonErrors;
@@ -1046,6 +1094,8 @@ export const listHosts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHosts",
 })) as any;
 
 export type ListRepositoryLinksError =
@@ -1084,6 +1134,8 @@ export const listRepositoryLinks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryLinks",
 })) as any;
 
 export type ListRepositorySyncDefinitionsError =
@@ -1114,6 +1166,8 @@ export const listRepositorySyncDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRepositorySyncDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListRepositorySyncDefinitions",
 }));
 
 export type ListSyncConfigurationsError =
@@ -1150,6 +1204,8 @@ export const listSyncConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSyncConfigurations",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1168,6 +1224,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError = LimitExceededException | ResourceNotFoundException | CommonErrors;
@@ -1187,6 +1245,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -1205,6 +1265,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateHostError =
@@ -1233,6 +1295,8 @@ export const updateHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHost",
+  telemetry: TELEMETRY,
+  span: "UpdateHost",
 }));
 
 export type UpdateRepositoryLinkError =
@@ -1269,6 +1333,8 @@ export const updateRepositoryLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryLink",
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryLink",
 }));
 
 export type UpdateSyncBlockerError =
@@ -1303,6 +1369,8 @@ export const updateSyncBlocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncBlocker",
+  telemetry: TELEMETRY,
+  span: "UpdateSyncBlocker",
 }));
 
 export type UpdateSyncConfigurationError =
@@ -1337,6 +1405,8 @@ export const updateSyncConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSyncConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSyncConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

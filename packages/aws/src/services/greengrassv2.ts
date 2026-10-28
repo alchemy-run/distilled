@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -103,6 +104,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://greengrass.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GreengrassV2",
+  service: "GreengrassV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -844,6 +859,8 @@ export const associateServiceRoleToAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceRoleToAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateServiceRoleToAccount",
 }));
 
 export type BatchAssociateClientDeviceWithCoreDeviceError =
@@ -884,6 +901,8 @@ export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateClientDeviceWithCoreDevice",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateClientDeviceWithCoreDevice",
 }));
 
 export type BatchDisassociateClientDeviceFromCoreDeviceError =
@@ -920,6 +939,8 @@ export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateClientDeviceFromCoreDevice",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateClientDeviceFromCoreDevice",
 }));
 
 export type CancelDeploymentError =
@@ -954,6 +975,8 @@ export const cancelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDeployment",
+  telemetry: TELEMETRY,
+  span: "CancelDeployment",
 }));
 
 export type CreateComponentVersionError =
@@ -1017,6 +1040,8 @@ export const createComponentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponentVersion",
+  telemetry: TELEMETRY,
+  span: "CreateComponentVersion",
 }));
 
 export type CreateDeploymentError =
@@ -1064,6 +1089,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type DeleteComponentError =
@@ -1101,6 +1128,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteCoreDeviceError =
@@ -1136,6 +1165,8 @@ export const deleteCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreDevice",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreDevice",
 }));
 
 export type DeleteDeploymentError =
@@ -1173,6 +1204,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DescribeComponentError =
@@ -1203,6 +1236,8 @@ export const describeComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponent",
+  telemetry: TELEMETRY,
+  span: "DescribeComponent",
 }));
 
 export type DisassociateServiceRoleFromAccountError = InternalServerException | CommonErrors;
@@ -1224,6 +1259,8 @@ export const disassociateServiceRoleFromAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceRoleFromAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateServiceRoleFromAccount",
 }));
 
 export type GetComponentError =
@@ -1254,6 +1291,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetComponentVersionArtifactError =
@@ -1286,6 +1325,8 @@ export const getComponentVersionArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponentVersionArtifact",
+  telemetry: TELEMETRY,
+  span: "GetComponentVersionArtifact",
 }));
 
 export type GetConnectivityInfoError = InternalServerException | ValidationException | CommonErrors;
@@ -1311,6 +1352,8 @@ export const getConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectivityInfo",
+  telemetry: TELEMETRY,
+  span: "GetConnectivityInfo",
 }));
 
 export type GetCoreDeviceError =
@@ -1360,6 +1403,8 @@ export const getCoreDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDevice",
+  telemetry: TELEMETRY,
+  span: "GetCoreDevice",
 }));
 
 export type GetDeploymentError =
@@ -1390,6 +1435,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetServiceRoleForAccountError = InternalServerException | CommonErrors;
@@ -1411,6 +1458,8 @@ export const getServiceRoleForAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceRoleForAccount",
+  telemetry: TELEMETRY,
+  span: "GetServiceRoleForAccount",
 }));
 
 export type ListClientDevicesAssociatedWithCoreDeviceError =
@@ -1449,6 +1498,8 @@ export const listClientDevicesAssociatedWithCoreDevice: API.PaginatedOperationMe
     items: "associatedClientDevices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClientDevicesAssociatedWithCoreDevice",
 })) as any;
 
 export type ListComponentsError =
@@ -1487,6 +1538,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "components",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListComponentVersionsError =
@@ -1525,6 +1578,8 @@ export const listComponentVersions: API.PaginatedOperationMethod<
     items: "componentVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentVersions",
 })) as any;
 
 export type ListCoreDevicesError =
@@ -1584,6 +1639,8 @@ export const listCoreDevices: API.PaginatedOperationMethod<
     items: "coreDevices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreDevices",
 })) as any;
 
 export type ListDeploymentsError =
@@ -1619,6 +1676,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListEffectiveDeploymentsError =
@@ -1656,6 +1715,8 @@ export const listEffectiveDeployments: API.PaginatedOperationMethod<
     items: "effectiveDeployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEffectiveDeployments",
 })) as any;
 
 export type ListInstalledComponentsError =
@@ -1715,6 +1776,8 @@ export const listInstalledComponents: API.PaginatedOperationMethod<
     items: "installedComponents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstalledComponents",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1737,6 +1800,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResolveComponentCandidatesError =
@@ -1784,6 +1849,8 @@ export const resolveComponentCandidates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveComponentCandidates",
+  telemetry: TELEMETRY,
+  span: "ResolveComponentCandidates",
 }));
 
 export type TagResourceError =
@@ -1807,6 +1874,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1829,6 +1898,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectivityInfoError =
@@ -1857,6 +1928,8 @@ export const updateConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivityInfo",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectivityInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

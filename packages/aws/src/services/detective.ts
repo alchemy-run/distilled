@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -113,6 +114,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.detective.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Detective",
+  service: "Detective",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -653,6 +668,8 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptInvitation",
 }));
 
 export type BatchGetGraphMemberDatasourcesError =
@@ -681,6 +698,8 @@ export const batchGetGraphMemberDatasources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetGraphMemberDatasources",
+  telemetry: TELEMETRY,
+  span: "BatchGetGraphMemberDatasources",
 }));
 
 export type BatchGetMembershipDatasourcesError =
@@ -709,6 +728,8 @@ export const batchGetMembershipDatasources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMembershipDatasources",
+  telemetry: TELEMETRY,
+  span: "BatchGetMembershipDatasources",
 }));
 
 export type CreateGraphError =
@@ -748,6 +769,8 @@ export const createGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraph",
+  telemetry: TELEMETRY,
+  span: "CreateGraph",
 }));
 
 export type CreateMembersError =
@@ -808,6 +831,8 @@ export const createMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembers",
+  telemetry: TELEMETRY,
+  span: "CreateMembers",
 }));
 
 export type DeleteGraphError =
@@ -840,6 +865,8 @@ export const deleteGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraph",
+  telemetry: TELEMETRY,
+  span: "DeleteGraph",
 }));
 
 export type DeleteMembersError =
@@ -885,6 +912,8 @@ export const deleteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembers",
+  telemetry: TELEMETRY,
+  span: "DeleteMembers",
 }));
 
 export type DescribeOrganizationConfigurationError =
@@ -917,6 +946,8 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfiguration",
 }));
 
 export type DisableOrganizationAdminAccountError =
@@ -953,6 +984,8 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationAdminAccount",
 }));
 
 export type DisassociateMembershipError =
@@ -989,6 +1022,8 @@ export const disassociateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMembership",
+  telemetry: TELEMETRY,
+  span: "DisassociateMembership",
 }));
 
 export type EnableOrganizationAdminAccountError =
@@ -1032,6 +1067,8 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationAdminAccount",
 }));
 
 export type GetInvestigationError =
@@ -1062,6 +1099,8 @@ export const getInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigation",
+  telemetry: TELEMETRY,
+  span: "GetInvestigation",
 }));
 
 export type GetMembersError =
@@ -1091,6 +1130,8 @@ export const getMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembers",
+  telemetry: TELEMETRY,
+  span: "GetMembers",
 }));
 
 export type ListDatasourcePackagesError =
@@ -1125,6 +1166,8 @@ export const listDatasourcePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasourcePackages",
 })) as any;
 
 export type ListGraphsError =
@@ -1157,6 +1200,8 @@ export const listGraphs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGraphs",
 })) as any;
 
 export type ListIndicatorsError =
@@ -1187,6 +1232,8 @@ export const listIndicators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIndicators",
+  telemetry: TELEMETRY,
+  span: "ListIndicators",
 }));
 
 export type ListInvestigationsError =
@@ -1222,6 +1269,8 @@ export const listInvestigations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvestigations",
+  telemetry: TELEMETRY,
+  span: "ListInvestigations",
 }));
 
 export type ListInvitationsError =
@@ -1257,6 +1306,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListMembersError =
@@ -1298,6 +1349,8 @@ export const listMembers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListOrganizationAdminAccountsError =
@@ -1333,6 +1386,8 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAdminAccounts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1361,6 +1416,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectInvitationError =
@@ -1397,6 +1454,8 @@ export const rejectInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectInvitation",
 }));
 
 export type StartInvestigationError =
@@ -1427,6 +1486,8 @@ export const startInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInvestigation",
+  telemetry: TELEMETRY,
+  span: "StartInvestigation",
 }));
 
 export type StartMonitoringMemberError =
@@ -1468,6 +1529,8 @@ export const startMonitoringMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitoringMember",
+  telemetry: TELEMETRY,
+  span: "StartMonitoringMember",
 }));
 
 export type TagResourceError =
@@ -1496,6 +1559,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1524,6 +1589,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatasourcePackagesError =
@@ -1554,6 +1621,8 @@ export const updateDatasourcePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasourcePackages",
+  telemetry: TELEMETRY,
+  span: "UpdateDatasourcePackages",
 }));
 
 export type UpdateInvestigationStateError =
@@ -1584,6 +1653,8 @@ export const updateInvestigationState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvestigationState",
+  telemetry: TELEMETRY,
+  span: "UpdateInvestigationState",
 }));
 
 export type UpdateOrganizationConfigurationError =
@@ -1614,6 +1685,8 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

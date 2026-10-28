@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -74,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ssm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSM",
+  service: "SSM",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -5324,6 +5340,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type AssociateOpsItemRelatedItemError =
@@ -5358,6 +5376,8 @@ export const associateOpsItemRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOpsItemRelatedItem",
+  telemetry: TELEMETRY,
+  span: "AssociateOpsItemRelatedItem",
 }));
 
 export type CancelCommandError =
@@ -5382,6 +5402,8 @@ export const cancelCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCommand",
+  telemetry: TELEMETRY,
+  span: "CancelCommand",
 }));
 
 export type CancelMaintenanceWindowExecutionError =
@@ -5405,6 +5427,8 @@ export const cancelMaintenanceWindowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMaintenanceWindowExecution",
+  telemetry: TELEMETRY,
+  span: "CancelMaintenanceWindowExecution",
 }));
 
 export type CreateActivationError = InternalServerError | InvalidParameters | CommonErrors;
@@ -5431,6 +5455,8 @@ export const createActivation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActivation",
+  telemetry: TELEMETRY,
+  span: "CreateActivation",
 }));
 
 export type CreateAssociationError =
@@ -5486,6 +5512,8 @@ export const createAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateAssociation",
 }));
 
 export type CreateAssociationBatchError =
@@ -5538,6 +5566,8 @@ export const createAssociationBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssociationBatch",
+  telemetry: TELEMETRY,
+  span: "CreateAssociationBatch",
 }));
 
 export type CreateCloudConnectorError =
@@ -5561,6 +5591,8 @@ export const createCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudConnector",
+  telemetry: TELEMETRY,
+  span: "CreateCloudConnector",
 }));
 
 export type CreateDocumentError =
@@ -5600,6 +5632,8 @@ export const createDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocument",
+  telemetry: TELEMETRY,
+  span: "CreateDocument",
 }));
 
 export type CreateMaintenanceWindowError =
@@ -5629,6 +5663,8 @@ export const createMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "CreateMaintenanceWindow",
 }));
 
 export type CreateOpsItemError =
@@ -5665,6 +5701,8 @@ export const createOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpsItem",
+  telemetry: TELEMETRY,
+  span: "CreateOpsItem",
 }));
 
 export type CreateOpsMetadataError =
@@ -5696,6 +5734,8 @@ export const createOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpsMetadata",
+  telemetry: TELEMETRY,
+  span: "CreateOpsMetadata",
 }));
 
 export type CreatePatchBaselineError =
@@ -5721,6 +5761,8 @@ export const createPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePatchBaseline",
+  telemetry: TELEMETRY,
+  span: "CreatePatchBaseline",
 }));
 
 export type CreateResourceDataSyncError =
@@ -5771,6 +5813,8 @@ export const createResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDataSync",
+  telemetry: TELEMETRY,
+  span: "CreateResourceDataSync",
 }));
 
 export type DeleteActivationError =
@@ -5796,6 +5840,8 @@ export const deleteActivation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivation",
+  telemetry: TELEMETRY,
+  span: "DeleteActivation",
 }));
 
 export type DeleteAssociationError =
@@ -5833,6 +5879,8 @@ export const deleteAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteAssociation",
 }));
 
 export type DeleteCloudConnectorError =
@@ -5855,6 +5903,8 @@ export const deleteCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudConnector",
 }));
 
 export type DeleteDocumentError =
@@ -5888,6 +5938,8 @@ export const deleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocument",
+  telemetry: TELEMETRY,
+  span: "DeleteDocument",
 }));
 
 export type DeleteInventoryError =
@@ -5919,6 +5971,8 @@ export const deleteInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInventory",
+  telemetry: TELEMETRY,
+  span: "DeleteInventory",
 }));
 
 export type DeleteMaintenanceWindowError = InternalServerError | CommonErrors;
@@ -5937,6 +5991,8 @@ export const deleteMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "DeleteMaintenanceWindow",
 }));
 
 export type DeleteOpsItemError =
@@ -5978,6 +6034,8 @@ export const deleteOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpsItem",
+  telemetry: TELEMETRY,
+  span: "DeleteOpsItem",
 }));
 
 export type DeleteOpsMetadataError =
@@ -6000,6 +6058,8 @@ export const deleteOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpsMetadata",
+  telemetry: TELEMETRY,
+  span: "DeleteOpsMetadata",
 }));
 
 export type DeleteParameterError = InternalServerError | ParameterNotFound | CommonErrors;
@@ -6019,6 +6079,8 @@ export const deleteParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameter",
+  telemetry: TELEMETRY,
+  span: "DeleteParameter",
 }));
 
 export type DeleteParametersError = InternalServerError | CommonErrors;
@@ -6038,6 +6100,8 @@ export const deleteParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameters",
+  telemetry: TELEMETRY,
+  span: "DeleteParameters",
 }));
 
 export type DeletePatchBaselineError = InternalServerError | ResourceInUseException | CommonErrors;
@@ -6056,6 +6120,8 @@ export const deletePatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePatchBaseline",
+  telemetry: TELEMETRY,
+  span: "DeletePatchBaseline",
 }));
 
 export type DeleteResourceDataSyncError =
@@ -6084,6 +6150,8 @@ export const deleteResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceDataSync",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceDataSync",
 }));
 
 export type DeleteResourcePolicyError =
@@ -6128,6 +6196,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeregisterManagedInstanceError = InternalServerError | InvalidInstanceId | CommonErrors;
@@ -6153,6 +6223,8 @@ export const deregisterManagedInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterManagedInstance",
+  telemetry: TELEMETRY,
+  span: "DeregisterManagedInstance",
 }));
 
 export type DeregisterPatchBaselineForPatchGroupError =
@@ -6174,6 +6246,8 @@ export const deregisterPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterPatchBaselineForPatchGroup",
+  telemetry: TELEMETRY,
+  span: "DeregisterPatchBaselineForPatchGroup",
 }));
 
 export type DeregisterTargetFromMaintenanceWindowError =
@@ -6196,6 +6270,8 @@ export const deregisterTargetFromMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargetFromMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "DeregisterTargetFromMaintenanceWindow",
 }));
 
 export type DeregisterTaskFromMaintenanceWindowError =
@@ -6217,6 +6293,8 @@ export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTaskFromMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "DeregisterTaskFromMaintenanceWindow",
 }));
 
 export type DescribeActivationsError =
@@ -6249,6 +6327,8 @@ export const describeActivations: API.PaginatedOperationMethod<
     items: "ActivationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeActivations",
 })) as any;
 
 export type DescribeAssociationError =
@@ -6281,6 +6361,8 @@ export const describeAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssociation",
+  telemetry: TELEMETRY,
+  span: "DescribeAssociation",
 }));
 
 export type DescribeAssociationExecutionsError =
@@ -6310,6 +6392,8 @@ export const describeAssociationExecutions: API.PaginatedOperationMethod<
     items: "AssociationExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAssociationExecutions",
 })) as any;
 
 export type DescribeAssociationExecutionTargetsError =
@@ -6345,6 +6429,8 @@ export const describeAssociationExecutionTargets: API.PaginatedOperationMethod<
     items: "AssociationExecutionTargets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAssociationExecutionTargets",
 })) as any;
 
 export type DescribeAutomationExecutionsError =
@@ -6375,6 +6461,8 @@ export const describeAutomationExecutions: API.PaginatedOperationMethod<
     items: "AutomationExecutionMetadataList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAutomationExecutions",
 })) as any;
 
 export type DescribeAutomationStepExecutionsError =
@@ -6413,6 +6501,8 @@ export const describeAutomationStepExecutions: API.PaginatedOperationMethod<
     items: "StepExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAutomationStepExecutions",
 })) as any;
 
 export type DescribeAvailablePatchesError = InternalServerError | CommonErrors;
@@ -6441,6 +6531,8 @@ export const describeAvailablePatches: API.PaginatedOperationMethod<
     items: "Patches",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAvailablePatches",
 })) as any;
 
 export type DescribeDocumentError =
@@ -6463,6 +6555,8 @@ export const describeDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocument",
+  telemetry: TELEMETRY,
+  span: "DescribeDocument",
 }));
 
 export type DescribeDocumentPermissionError =
@@ -6495,6 +6589,8 @@ export const describeDocumentPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentPermission",
+  telemetry: TELEMETRY,
+  span: "DescribeDocumentPermission",
 }));
 
 export type DescribeEffectiveInstanceAssociationsError =
@@ -6524,6 +6620,8 @@ export const describeEffectiveInstanceAssociations: API.PaginatedOperationMethod
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEffectiveInstanceAssociations",
 })) as any;
 
 export type DescribeEffectivePatchesForPatchBaselineError =
@@ -6560,6 +6658,8 @@ export const describeEffectivePatchesForPatchBaseline: API.PaginatedOperationMet
     items: "EffectivePatches",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEffectivePatchesForPatchBaseline",
 })) as any;
 
 export type DescribeInstanceAssociationsStatusError =
@@ -6589,6 +6689,8 @@ export const describeInstanceAssociationsStatus: API.PaginatedOperationMethod<
     items: "InstanceAssociationStatusInfos",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceAssociationsStatus",
 })) as any;
 
 export type DescribeInstanceInformationError =
@@ -6636,6 +6738,8 @@ export const describeInstanceInformation: API.PaginatedOperationMethod<
     items: "InstanceInformationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceInformation",
 })) as any;
 
 export type DescribeInstancePatchesError =
@@ -6667,6 +6771,8 @@ export const describeInstancePatches: API.PaginatedOperationMethod<
     items: "Patches",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstancePatches",
 })) as any;
 
 export type DescribeInstancePatchStatesError =
@@ -6695,6 +6801,8 @@ export const describeInstancePatchStates: API.PaginatedOperationMethod<
     items: "InstancePatchStates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstancePatchStates",
 })) as any;
 
 export type DescribeInstancePatchStatesForPatchGroupError =
@@ -6725,6 +6833,8 @@ export const describeInstancePatchStatesForPatchGroup: API.PaginatedOperationMet
     items: "InstancePatchStates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstancePatchStatesForPatchGroup",
 })) as any;
 
 export type DescribeInstancePropertiesError =
@@ -6767,6 +6877,8 @@ export const describeInstanceProperties: API.PaginatedOperationMethod<
     items: "InstanceProperties",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceProperties",
 })) as any;
 
 export type DescribeInventoryDeletionsError =
@@ -6796,6 +6908,8 @@ export const describeInventoryDeletions: API.PaginatedOperationMethod<
     items: "InventoryDeletions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInventoryDeletions",
 })) as any;
 
 export type DescribeMaintenanceWindowExecutionsError = InternalServerError | CommonErrors;
@@ -6823,6 +6937,8 @@ export const describeMaintenanceWindowExecutions: API.PaginatedOperationMethod<
     items: "WindowExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowExecutions",
 })) as any;
 
 export type DescribeMaintenanceWindowExecutionTaskInvocationsError =
@@ -6860,6 +6976,8 @@ export const describeMaintenanceWindowExecutionTaskInvocations: API.PaginatedOpe
     items: "WindowExecutionTaskInvocationIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowExecutionTaskInvocations",
 })) as any;
 
 export type DescribeMaintenanceWindowExecutionTasksError =
@@ -6888,6 +7006,8 @@ export const describeMaintenanceWindowExecutionTasks: API.PaginatedOperationMeth
     items: "WindowExecutionTaskIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowExecutionTasks",
 })) as any;
 
 export type DescribeMaintenanceWindowsError = InternalServerError | CommonErrors;
@@ -6913,6 +7033,8 @@ export const describeMaintenanceWindows: API.PaginatedOperationMethod<
     items: "WindowIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindows",
 })) as any;
 
 export type DescribeMaintenanceWindowScheduleError =
@@ -6941,6 +7063,8 @@ export const describeMaintenanceWindowSchedule: API.PaginatedOperationMethod<
     items: "ScheduledWindowExecutions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowSchedule",
 })) as any;
 
 export type DescribeMaintenanceWindowsForTargetError = InternalServerError | CommonErrors;
@@ -6967,6 +7091,8 @@ export const describeMaintenanceWindowsForTarget: API.PaginatedOperationMethod<
     items: "WindowIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowsForTarget",
 })) as any;
 
 export type DescribeMaintenanceWindowTargetsError =
@@ -6995,6 +7121,8 @@ export const describeMaintenanceWindowTargets: API.PaginatedOperationMethod<
     items: "Targets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowTargets",
 })) as any;
 
 export type DescribeMaintenanceWindowTasksError =
@@ -7028,6 +7156,8 @@ export const describeMaintenanceWindowTasks: API.PaginatedOperationMethod<
     items: "Tasks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMaintenanceWindowTasks",
 })) as any;
 
 export type DescribeOpsItemsError = InternalServerError | CommonErrors;
@@ -7059,6 +7189,8 @@ export const describeOpsItems: API.PaginatedOperationMethod<
     items: "OpsItemSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOpsItems",
 })) as any;
 
 export type DescribeParametersError =
@@ -7112,6 +7244,8 @@ export const describeParameters: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeParameters",
 })) as any;
 
 export type DescribePatchBaselinesError = InternalServerError | CommonErrors;
@@ -7137,6 +7271,8 @@ export const describePatchBaselines: API.PaginatedOperationMethod<
     items: "BaselineIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePatchBaselines",
 })) as any;
 
 export type DescribePatchGroupsError = InternalServerError | CommonErrors;
@@ -7162,6 +7298,8 @@ export const describePatchGroups: API.PaginatedOperationMethod<
     items: "Mappings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePatchGroups",
 })) as any;
 
 export type DescribePatchGroupStateError = InternalServerError | InvalidNextToken | CommonErrors;
@@ -7180,6 +7318,8 @@ export const describePatchGroupState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePatchGroupState",
+  telemetry: TELEMETRY,
+  span: "DescribePatchGroupState",
 }));
 
 export type DescribePatchPropertiesError = InternalServerError | CommonErrors;
@@ -7262,6 +7402,8 @@ export const describePatchProperties: API.PaginatedOperationMethod<
     items: "Properties",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePatchProperties",
 })) as any;
 
 export type DescribeSessionsError =
@@ -7292,6 +7434,8 @@ export const describeSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSessions",
 })) as any;
 
 export type DisassociateOpsItemRelatedItemError =
@@ -7324,6 +7468,8 @@ export const disassociateOpsItemRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOpsItemRelatedItem",
+  telemetry: TELEMETRY,
+  span: "DisassociateOpsItemRelatedItem",
 }));
 
 export type GetAccessTokenError =
@@ -7354,6 +7500,8 @@ export const getAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
+  telemetry: TELEMETRY,
+  span: "GetAccessToken",
 }));
 
 export type GetAutomationExecutionError =
@@ -7375,6 +7523,8 @@ export const getAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationExecution",
+  telemetry: TELEMETRY,
+  span: "GetAutomationExecution",
 }));
 
 export type GetCalendarStateError =
@@ -7408,6 +7558,8 @@ export const getCalendarState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalendarState",
+  telemetry: TELEMETRY,
+  span: "GetCalendarState",
 }));
 
 export type GetCloudConnectorError = InternalServerError | ResourceNotFoundException | CommonErrors;
@@ -7426,6 +7578,8 @@ export const getCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudConnector",
+  telemetry: TELEMETRY,
+  span: "GetCloudConnector",
 }));
 
 export type GetCommandInvocationError =
@@ -7465,6 +7619,8 @@ export const getCommandInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommandInvocation",
+  telemetry: TELEMETRY,
+  span: "GetCommandInvocation",
 }));
 
 export type GetConnectionStatusError = InternalServerError | CommonErrors;
@@ -7484,6 +7640,8 @@ export const getConnectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionStatus",
+  telemetry: TELEMETRY,
+  span: "GetConnectionStatus",
 }));
 
 export type GetDefaultPatchBaselineError = InternalServerError | CommonErrors;
@@ -7506,6 +7664,8 @@ export const getDefaultPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultPatchBaseline",
+  telemetry: TELEMETRY,
+  span: "GetDefaultPatchBaseline",
 }));
 
 export type GetDeployablePatchSnapshotForInstanceError =
@@ -7535,6 +7695,8 @@ export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployablePatchSnapshotForInstance",
+  telemetry: TELEMETRY,
+  span: "GetDeployablePatchSnapshotForInstance",
 }));
 
 export type GetDocumentError =
@@ -7557,6 +7719,8 @@ export const getDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocument",
+  telemetry: TELEMETRY,
+  span: "GetDocument",
 }));
 
 export type GetExecutionPreviewError =
@@ -7579,6 +7743,8 @@ export const getExecutionPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecutionPreview",
+  telemetry: TELEMETRY,
+  span: "GetExecutionPreview",
 }));
 
 export type GetInventoryError =
@@ -7621,6 +7787,8 @@ export const getInventory: API.PaginatedOperationMethod<
     items: "Entities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInventory",
 })) as any;
 
 export type GetInventorySchemaError =
@@ -7651,6 +7819,8 @@ export const getInventorySchema: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInventorySchema",
 })) as any;
 
 export type GetMaintenanceWindowError = DoesNotExistException | InternalServerError | CommonErrors;
@@ -7669,6 +7839,8 @@ export const getMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindow",
 }));
 
 export type GetMaintenanceWindowExecutionError =
@@ -7690,6 +7862,8 @@ export const getMaintenanceWindowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecution",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindowExecution",
 }));
 
 export type GetMaintenanceWindowExecutionTaskError =
@@ -7712,6 +7886,8 @@ export const getMaintenanceWindowExecutionTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecutionTask",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindowExecutionTask",
 }));
 
 export type GetMaintenanceWindowExecutionTaskInvocationError =
@@ -7741,6 +7917,8 @@ export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecutionTaskInvocation",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindowExecutionTaskInvocation",
 }));
 
 export type GetMaintenanceWindowTaskError =
@@ -7769,6 +7947,8 @@ export const getMaintenanceWindowTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowTask",
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceWindowTask",
 }));
 
 export type GetOpsItemError =
@@ -7798,6 +7978,8 @@ export const getOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsItem",
+  telemetry: TELEMETRY,
+  span: "GetOpsItem",
 }));
 
 export type GetOpsMetadataError =
@@ -7820,6 +8002,8 @@ export const getOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsMetadata",
+  telemetry: TELEMETRY,
+  span: "GetOpsMetadata",
 }));
 
 export type GetOpsSummaryError =
@@ -7862,6 +8046,8 @@ export const getOpsSummary: API.PaginatedOperationMethod<
     items: "Entities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOpsSummary",
 })) as any;
 
 export type GetParameterError =
@@ -7905,6 +8091,8 @@ export const getParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameter",
+  telemetry: TELEMETRY,
+  span: "GetParameter",
 }));
 
 export type GetParameterHistoryError =
@@ -7943,6 +8131,8 @@ export const getParameterHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetParameterHistory",
 })) as any;
 
 export type GetParametersError = InternalServerError | InvalidKeyId | CommonErrors;
@@ -7982,6 +8172,8 @@ export const getParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameters",
+  telemetry: TELEMETRY,
+  span: "GetParameters",
 }));
 
 export type GetParametersByPathError =
@@ -8031,6 +8223,8 @@ export const getParametersByPath: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetParametersByPath",
 })) as any;
 
 export type GetPatchBaselineError =
@@ -8053,6 +8247,8 @@ export const getPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPatchBaseline",
+  telemetry: TELEMETRY,
+  span: "GetPatchBaseline",
 }));
 
 export type GetPatchBaselineForPatchGroupError = InternalServerError | CommonErrors;
@@ -8071,6 +8267,8 @@ export const getPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPatchBaselineForPatchGroup",
+  telemetry: TELEMETRY,
+  span: "GetPatchBaselineForPatchGroup",
 }));
 
 export type GetResourcePoliciesError =
@@ -8100,6 +8298,8 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicies",
 })) as any;
 
 export type GetServiceSettingError = InternalServerError | ServiceSettingNotFound | CommonErrors;
@@ -8132,6 +8332,8 @@ export const getServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSetting",
+  telemetry: TELEMETRY,
+  span: "GetServiceSetting",
 }));
 
 export type LabelParameterVersionError =
@@ -8193,6 +8395,8 @@ export const labelParameterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LabelParameterVersion",
+  telemetry: TELEMETRY,
+  span: "LabelParameterVersion",
 }));
 
 export type ListAssociationsError = InternalServerError | InvalidNextToken | CommonErrors;
@@ -8220,6 +8424,8 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociations",
 })) as any;
 
 export type ListAssociationVersionsError =
@@ -8249,6 +8455,8 @@ export const listAssociationVersions: API.PaginatedOperationMethod<
     items: "AssociationVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociationVersions",
 })) as any;
 
 export type ListCloudConnectorsError = InternalServerError | CommonErrors;
@@ -8274,6 +8482,8 @@ export const listCloudConnectors: API.PaginatedOperationMethod<
     items: "CloudConnectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudConnectors",
 })) as any;
 
 export type ListCommandInvocationsError =
@@ -8315,6 +8525,8 @@ export const listCommandInvocations: API.PaginatedOperationMethod<
     items: "CommandInvocations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCommandInvocations",
 })) as any;
 
 export type ListCommandsError =
@@ -8352,6 +8564,8 @@ export const listCommands: API.PaginatedOperationMethod<
     items: "Commands",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCommands",
 })) as any;
 
 export type ListComplianceItemsError =
@@ -8391,6 +8605,8 @@ export const listComplianceItems: API.PaginatedOperationMethod<
     items: "ComplianceItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceItems",
 })) as any;
 
 export type ListComplianceSummariesError =
@@ -8422,6 +8638,8 @@ export const listComplianceSummaries: API.PaginatedOperationMethod<
     items: "ComplianceSummaryItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceSummaries",
 })) as any;
 
 export type ListDocumentMetadataHistoryError =
@@ -8449,6 +8667,8 @@ export const listDocumentMetadataHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDocumentMetadataHistory",
+  telemetry: TELEMETRY,
+  span: "ListDocumentMetadataHistory",
 }));
 
 export type ListDocumentsError =
@@ -8479,6 +8699,8 @@ export const listDocuments: API.PaginatedOperationMethod<
     items: "DocumentIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocuments",
 })) as any;
 
 export type ListDocumentVersionsError =
@@ -8508,6 +8730,8 @@ export const listDocumentVersions: API.PaginatedOperationMethod<
     items: "DocumentVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocumentVersions",
 })) as any;
 
 export type ListInventoryEntriesError =
@@ -8538,6 +8762,8 @@ export const listInventoryEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInventoryEntries",
+  telemetry: TELEMETRY,
+  span: "ListInventoryEntries",
 }));
 
 export type ListNodesError =
@@ -8575,6 +8801,8 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "Nodes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodes",
 })) as any;
 
 export type ListNodesSummaryError =
@@ -8615,6 +8843,8 @@ export const listNodesSummary: API.PaginatedOperationMethod<
     items: "Summary",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodesSummary",
 })) as any;
 
 export type ListOpsItemEventsError =
@@ -8651,6 +8881,8 @@ export const listOpsItemEvents: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpsItemEvents",
 })) as any;
 
 export type ListOpsItemRelatedItemsError =
@@ -8680,6 +8912,8 @@ export const listOpsItemRelatedItems: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpsItemRelatedItems",
 })) as any;
 
 export type ListOpsMetadataError =
@@ -8709,6 +8943,8 @@ export const listOpsMetadata: API.PaginatedOperationMethod<
     items: "OpsMetadataList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpsMetadata",
 })) as any;
 
 export type ListResourceComplianceSummariesError =
@@ -8740,6 +8976,8 @@ export const listResourceComplianceSummaries: API.PaginatedOperationMethod<
     items: "ResourceComplianceSummaryItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceComplianceSummaries",
 })) as any;
 
 export type ListResourceDataSyncError =
@@ -8778,6 +9016,8 @@ export const listResourceDataSync: API.PaginatedOperationMethod<
     items: "ResourceDataSyncItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceDataSync",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -8802,6 +9042,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyDocumentPermissionError =
@@ -8835,6 +9077,8 @@ export const modifyDocumentPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDocumentPermission",
+  telemetry: TELEMETRY,
+  span: "ModifyDocumentPermission",
 }));
 
 export type PutComplianceItemsError =
@@ -8915,6 +9159,8 @@ export const putComplianceItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComplianceItems",
+  telemetry: TELEMETRY,
+  span: "PutComplianceItems",
 }));
 
 export type PutInventoryError =
@@ -8961,6 +9207,8 @@ export const putInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInventory",
+  telemetry: TELEMETRY,
+  span: "PutInventory",
 }));
 
 export type PutParameterError =
@@ -9025,6 +9273,8 @@ export const putParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutParameter",
+  telemetry: TELEMETRY,
+  span: "PutParameter",
 }));
 
 export type PutResourcePolicyError =
@@ -9094,6 +9344,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterDefaultPatchBaselineError =
@@ -9121,6 +9373,8 @@ export const registerDefaultPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDefaultPatchBaseline",
+  telemetry: TELEMETRY,
+  span: "RegisterDefaultPatchBaseline",
 }));
 
 export type RegisterPatchBaselineForPatchGroupError =
@@ -9151,6 +9405,8 @@ export const registerPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPatchBaselineForPatchGroup",
+  telemetry: TELEMETRY,
+  span: "RegisterPatchBaselineForPatchGroup",
 }));
 
 export type RegisterTargetWithMaintenanceWindowError =
@@ -9179,6 +9435,8 @@ export const registerTargetWithMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargetWithMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "RegisterTargetWithMaintenanceWindow",
 }));
 
 export type RegisterTaskWithMaintenanceWindowError =
@@ -9209,6 +9467,8 @@ export const registerTaskWithMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTaskWithMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "RegisterTaskWithMaintenanceWindow",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -9232,6 +9492,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type ResetServiceSettingError =
@@ -9269,6 +9531,8 @@ export const resetServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetServiceSetting",
+  telemetry: TELEMETRY,
+  span: "ResetServiceSetting",
 }));
 
 export type ResumeSessionError = DoesNotExistException | InternalServerError | CommonErrors;
@@ -9291,6 +9555,8 @@ export const resumeSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeSession",
+  telemetry: TELEMETRY,
+  span: "ResumeSession",
 }));
 
 export type SendAutomationSignalError =
@@ -9320,6 +9586,8 @@ export const sendAutomationSignal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAutomationSignal",
+  telemetry: TELEMETRY,
+  span: "SendAutomationSignal",
 }));
 
 export type SendCommandError =
@@ -9362,6 +9630,8 @@ export const sendCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCommand",
+  telemetry: TELEMETRY,
+  span: "SendCommand",
 }));
 
 export type StartAccessRequestError =
@@ -9394,6 +9664,8 @@ export const startAccessRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccessRequest",
+  telemetry: TELEMETRY,
+  span: "StartAccessRequest",
 }));
 
 export type StartAssociationsOnceError =
@@ -9416,6 +9688,8 @@ export const startAssociationsOnce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssociationsOnce",
+  telemetry: TELEMETRY,
+  span: "StartAssociationsOnce",
 }));
 
 export type StartAutomationExecutionError =
@@ -9450,6 +9724,8 @@ export const startAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationExecution",
+  telemetry: TELEMETRY,
+  span: "StartAutomationExecution",
 }));
 
 export type StartChangeRequestExecutionError =
@@ -9492,6 +9768,8 @@ export const startChangeRequestExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChangeRequestExecution",
+  telemetry: TELEMETRY,
+  span: "StartChangeRequestExecution",
 }));
 
 export type StartExecutionPreviewError = InternalServerError | ValidationException | CommonErrors;
@@ -9511,6 +9789,8 @@ export const startExecutionPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExecutionPreview",
+  telemetry: TELEMETRY,
+  span: "StartExecutionPreview",
 }));
 
 export type StartSessionError =
@@ -9542,6 +9822,8 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  telemetry: TELEMETRY,
+  span: "StartSession",
 }));
 
 export type StopAutomationExecutionError =
@@ -9568,6 +9850,8 @@ export const stopAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutomationExecution",
+  telemetry: TELEMETRY,
+  span: "StopAutomationExecution",
 }));
 
 export type TerminateSessionError = InternalServerError | CommonErrors;
@@ -9587,6 +9871,8 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  telemetry: TELEMETRY,
+  span: "TerminateSession",
 }));
 
 export type UnlabelParameterVersionError =
@@ -9614,6 +9900,8 @@ export const unlabelParameterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlabelParameterVersion",
+  telemetry: TELEMETRY,
+  span: "UnlabelParameterVersion",
 }));
 
 export type UpdateAssociationError =
@@ -9677,6 +9965,8 @@ export const updateAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateAssociation",
 }));
 
 export type UpdateAssociationStatusError =
@@ -9714,6 +10004,8 @@ export const updateAssociationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociationStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAssociationStatus",
 }));
 
 export type UpdateCloudConnectorError =
@@ -9736,6 +10028,8 @@ export const updateCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudConnector",
 }));
 
 export type UpdateDocumentError =
@@ -9776,6 +10070,8 @@ export const updateDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocument",
+  telemetry: TELEMETRY,
+  span: "UpdateDocument",
 }));
 
 export type UpdateDocumentDefaultVersionError =
@@ -9808,6 +10104,8 @@ export const updateDocumentDefaultVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentDefaultVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentDefaultVersion",
 }));
 
 export type UpdateDocumentMetadataError =
@@ -9843,6 +10141,8 @@ export const updateDocumentMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentMetadata",
 }));
 
 export type UpdateMaintenanceWindowError =
@@ -9871,6 +10171,8 @@ export const updateMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindow",
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceWindow",
 }));
 
 export type UpdateMaintenanceWindowTargetError =
@@ -9908,6 +10210,8 @@ export const updateMaintenanceWindowTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindowTarget",
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceWindowTarget",
 }));
 
 export type UpdateMaintenanceWindowTaskError =
@@ -9964,6 +10268,8 @@ export const updateMaintenanceWindowTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindowTask",
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceWindowTask",
 }));
 
 export type UpdateManagedInstanceRoleError = InternalServerError | InvalidInstanceId | CommonErrors;
@@ -9984,6 +10290,8 @@ export const updateManagedInstanceRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedInstanceRole",
+  telemetry: TELEMETRY,
+  span: "UpdateManagedInstanceRole",
 }));
 
 export type UpdateOpsItemError =
@@ -10024,6 +10332,8 @@ export const updateOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpsItem",
+  telemetry: TELEMETRY,
+  span: "UpdateOpsItem",
 }));
 
 export type UpdateOpsMetadataError =
@@ -10054,6 +10364,8 @@ export const updateOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpsMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateOpsMetadata",
 }));
 
 export type UpdatePatchBaselineError = DoesNotExistException | InternalServerError | CommonErrors;
@@ -10076,6 +10388,8 @@ export const updatePatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePatchBaseline",
+  telemetry: TELEMETRY,
+  span: "UpdatePatchBaseline",
 }));
 
 export type UpdateResourceDataSyncError =
@@ -10112,6 +10426,8 @@ export const updateResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceDataSync",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceDataSync",
 }));
 
 export type UpdateServiceSettingError =
@@ -10148,6 +10464,8 @@ export const updateServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSetting",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSetting",
 }));
 
 export type ValidateCloudConnectorError =
@@ -10176,6 +10494,8 @@ export const validateCloudConnector: API.PaginatedOperationMethod<
     items: "ValidationFindings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ValidateCloudConnector",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

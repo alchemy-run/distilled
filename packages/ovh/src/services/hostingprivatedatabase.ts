@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Hostingprivatedatabase",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -1156,6 +1170,8 @@ export const confirmHostingPrivateDatabaseTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmHostingPrivateDatabaseTermination",
 }));
 
 export type CopyHostingPrivateDatabaseDatabaseError = OvhOpError;
@@ -1171,6 +1187,8 @@ export const copyHostingPrivateDatabaseDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyHostingPrivateDatabaseDatabase",
 }));
 
 export type CopyHostingPrivateDatabaseDatabaseRestoreError = OvhOpError;
@@ -1186,6 +1204,8 @@ export const copyHostingPrivateDatabaseDatabaseRestore: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyHostingPrivateDatabaseDatabaseRestore",
 }));
 
 export type CreateHostingPrivateDatabaseChangeContactError = OvhOpError;
@@ -1201,6 +1221,8 @@ export const createHostingPrivateDatabaseChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseChangeContact",
 }));
 
 export type CreateHostingPrivateDatabaseChangeFtpPasswordError = OvhOpError;
@@ -1220,6 +1242,8 @@ export const createHostingPrivateDatabaseChangeFtpPassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseChangeFtpPassword",
 }));
 
 export type CreateHostingPrivateDatabaseChangeVersionError = OvhOpError;
@@ -1235,6 +1259,8 @@ export const createHostingPrivateDatabaseChangeVersion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseChangeVersion",
 }));
 
 export type CreateHostingPrivateDatabaseDatabaseError = OvhOpError;
@@ -1250,6 +1276,8 @@ export const createHostingPrivateDatabaseDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseDatabase",
 }));
 
 export type CreateHostingPrivateDatabaseDatabaseDumpError = OvhOpError;
@@ -1265,6 +1293,8 @@ export const createHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseDatabaseDump",
 }));
 
 export type CreateHostingPrivateDatabaseDatabaseWizardError = OvhOpError;
@@ -1280,6 +1310,8 @@ export const createHostingPrivateDatabaseDatabaseWizard: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseDatabaseWizard",
 }));
 
 export type CreateHostingPrivateDatabaseLogSubscriptionError = OvhOpError;
@@ -1295,6 +1327,8 @@ export const createHostingPrivateDatabaseLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseLogSubscription",
 }));
 
 export type CreateHostingPrivateDatabaseLogUrlError = OvhOpError;
@@ -1310,6 +1344,8 @@ export const createHostingPrivateDatabaseLogUrl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseLogUrl",
 }));
 
 export type CreateHostingPrivateDatabaseQuotaRefreshError = OvhOpError;
@@ -1325,6 +1361,8 @@ export const createHostingPrivateDatabaseQuotaRefresh: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseQuotaRefresh",
 }));
 
 export type CreateHostingPrivateDatabaseUserError = OvhOpError;
@@ -1340,6 +1378,8 @@ export const createHostingPrivateDatabaseUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseUser",
 }));
 
 export type CreateHostingPrivateDatabaseUserChangePasswordError = OvhOpError;
@@ -1355,6 +1395,8 @@ export const createHostingPrivateDatabaseUserChangePassword: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseUserChangePassword",
 }));
 
 export type CreateHostingPrivateDatabaseUserGrantError = OvhOpError;
@@ -1370,6 +1412,8 @@ export const createHostingPrivateDatabaseUserGrant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseUserGrant",
 }));
 
 export type CreateHostingPrivateDatabaseWebhostingNetworkError = OvhOpError;
@@ -1385,6 +1429,8 @@ export const createHostingPrivateDatabaseWebhostingNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseWebhostingNetwork",
 }));
 
 export type CreateHostingPrivateDatabaseWhitelistError = OvhOpError;
@@ -1400,6 +1446,8 @@ export const createHostingPrivateDatabaseWhitelist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingPrivateDatabaseWhitelist",
 }));
 
 export type DeleteHostingPrivateDatabaseDatabaseError = OvhOpError;
@@ -1415,6 +1463,8 @@ export const deleteHostingPrivateDatabaseDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseDatabase",
 }));
 
 export type DeleteHostingPrivateDatabaseDatabaseCopyError = OvhOpError;
@@ -1430,6 +1480,8 @@ export const deleteHostingPrivateDatabaseDatabaseCopy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseDatabaseCopy",
 }));
 
 export type DeleteHostingPrivateDatabaseDatabaseDumpError = OvhOpError;
@@ -1445,6 +1497,8 @@ export const deleteHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseDatabaseDump",
 }));
 
 export type DeleteHostingPrivateDatabaseDumpError = OvhOpError;
@@ -1460,6 +1514,8 @@ export const deleteHostingPrivateDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseDump",
 }));
 
 export type DeleteHostingPrivateDatabaseLogSubscriptionError = OvhOpError;
@@ -1475,6 +1531,8 @@ export const deleteHostingPrivateDatabaseLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseLogSubscription",
 }));
 
 export type DeleteHostingPrivateDatabaseUserError = OvhOpError;
@@ -1490,6 +1548,8 @@ export const deleteHostingPrivateDatabaseUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseUser",
 }));
 
 export type DeleteHostingPrivateDatabaseUserGrantError = OvhOpError;
@@ -1505,6 +1565,8 @@ export const deleteHostingPrivateDatabaseUserGrant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseUserGrant",
 }));
 
 export type DeleteHostingPrivateDatabaseWebhostingNetworkError = OvhOpError;
@@ -1524,6 +1586,8 @@ export const deleteHostingPrivateDatabaseWebhostingNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseWebhostingNetwork",
 }));
 
 export type DeleteHostingPrivateDatabaseWhitelistError = OvhOpError;
@@ -1539,6 +1603,8 @@ export const deleteHostingPrivateDatabaseWhitelist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingPrivateDatabaseWhitelist",
 }));
 
 export type DisableHostingPrivateDatabaseDatabaseExtensionError = OvhOpError;
@@ -1558,6 +1624,8 @@ export const disableHostingPrivateDatabaseDatabaseExtension: API.OperationMethod
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableHostingPrivateDatabaseDatabaseExtension",
 }));
 
 export type EnableHostingPrivateDatabaseDatabaseExtensionError = OvhOpError;
@@ -1577,6 +1645,8 @@ export const enableHostingPrivateDatabaseDatabaseExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableHostingPrivateDatabaseDatabaseExtension",
 }));
 
 export type GenerateHostingPrivateDatabaseTemporaryLogsLinkError = OvhOpError;
@@ -1596,6 +1666,8 @@ export const generateHostingPrivateDatabaseTemporaryLogsLink: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateHostingPrivateDatabaseTemporaryLogsLink",
 }));
 
 export type GetHostingPrivateDatabaseError = OvhOpError;
@@ -1611,6 +1683,8 @@ export const getHostingPrivateDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabase",
 }));
 
 export type GetHostingPrivateDatabaseDatabaseError = OvhOpError;
@@ -1626,6 +1700,8 @@ export const getHostingPrivateDatabaseDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseDatabase",
 }));
 
 export type GetHostingPrivateDatabaseDatabaseCopyError = OvhOpError;
@@ -1641,6 +1717,8 @@ export const getHostingPrivateDatabaseDatabaseCopy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseDatabaseCopy",
 }));
 
 export type GetHostingPrivateDatabaseDatabaseDumpError = OvhOpError;
@@ -1656,6 +1734,8 @@ export const getHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseDatabaseDump",
 }));
 
 export type GetHostingPrivateDatabaseDatabaseExtensionError = OvhOpError;
@@ -1671,6 +1751,8 @@ export const getHostingPrivateDatabaseDatabaseExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseDatabaseExtension",
 }));
 
 export type GetHostingPrivateDatabaseDumpError = OvhOpError;
@@ -1686,6 +1768,8 @@ export const getHostingPrivateDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseDump",
 }));
 
 export type GetHostingPrivateDatabaseLogKindError = OvhOpError;
@@ -1701,6 +1785,8 @@ export const getHostingPrivateDatabaseLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseLogKind",
 }));
 
 export type GetHostingPrivateDatabaseLogSubscriptionError = OvhOpError;
@@ -1716,6 +1802,8 @@ export const getHostingPrivateDatabaseLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseLogSubscription",
 }));
 
 export type GetHostingPrivateDatabaseMetricsTokenError = OvhOpError;
@@ -1731,6 +1819,8 @@ export const getHostingPrivateDatabaseMetricsToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseMetricsToken",
 }));
 
 export type GetHostingPrivateDatabaseServiceInfosError = OvhOpError;
@@ -1746,6 +1836,8 @@ export const getHostingPrivateDatabaseServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseServiceInfos",
 }));
 
 export type GetHostingPrivateDatabaseTaskError = OvhOpError;
@@ -1761,6 +1853,8 @@ export const getHostingPrivateDatabaseTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseTask",
 }));
 
 export type GetHostingPrivateDatabaseUserError = OvhOpError;
@@ -1776,6 +1870,8 @@ export const getHostingPrivateDatabaseUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseUser",
 }));
 
 export type GetHostingPrivateDatabaseUserGrantError = OvhOpError;
@@ -1791,6 +1887,8 @@ export const getHostingPrivateDatabaseUserGrant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseUserGrant",
 }));
 
 export type GetHostingPrivateDatabaseWebhostingNetworkError = OvhOpError;
@@ -1806,6 +1904,8 @@ export const getHostingPrivateDatabaseWebhostingNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseWebhostingNetwork",
 }));
 
 export type GetHostingPrivateDatabaseWhitelistError = OvhOpError;
@@ -1821,6 +1921,8 @@ export const getHostingPrivateDatabaseWhitelist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingPrivateDatabaseWhitelist",
 }));
 
 export type ImportHostingPrivateDatabaseDatabaseError = OvhOpError;
@@ -1836,6 +1938,8 @@ export const importHostingPrivateDatabaseDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportHostingPrivateDatabaseDatabase",
 }));
 
 export type ListHostingPrivateDatabaseError = OvhOpError;
@@ -1851,6 +1955,8 @@ export const listHostingPrivateDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabase",
 }));
 
 export type ListHostingPrivateDatabaseAvailableOrderCapacitiesError = OvhOpError;
@@ -1870,6 +1976,8 @@ export const listHostingPrivateDatabaseAvailableOrderCapacities: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseAvailableOrderCapacities",
 }));
 
 export type ListHostingPrivateDatabaseAvailableVersionsError = OvhOpError;
@@ -1889,6 +1997,8 @@ export const listHostingPrivateDatabaseAvailableVersions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseAvailableVersions",
 }));
 
 export type ListHostingPrivateDatabaseConfigError = OvhOpError;
@@ -1904,6 +2014,8 @@ export const listHostingPrivateDatabaseConfig: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseConfig",
 }));
 
 export type ListHostingPrivateDatabaseCpuThrottleError = OvhOpError;
@@ -1919,6 +2031,8 @@ export const listHostingPrivateDatabaseCpuThrottle: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseCpuThrottle",
 }));
 
 export type ListHostingPrivateDatabaseDatabaseError = OvhOpError;
@@ -1934,6 +2048,8 @@ export const listHostingPrivateDatabaseDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseDatabase",
 }));
 
 export type ListHostingPrivateDatabaseDatabaseCopyError = OvhOpError;
@@ -1949,6 +2065,8 @@ export const listHostingPrivateDatabaseDatabaseCopy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseDatabaseCopy",
 }));
 
 export type ListHostingPrivateDatabaseDatabaseDumpError = OvhOpError;
@@ -1964,6 +2082,8 @@ export const listHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseDatabaseDump",
 }));
 
 export type ListHostingPrivateDatabaseDatabaseExtensionError = OvhOpError;
@@ -1983,6 +2103,8 @@ export const listHostingPrivateDatabaseDatabaseExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseDatabaseExtension",
 }));
 
 export type ListHostingPrivateDatabaseDumpError = OvhOpError;
@@ -1998,6 +2120,8 @@ export const listHostingPrivateDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseDump",
 }));
 
 export type ListHostingPrivateDatabaseLogKindError = OvhOpError;
@@ -2013,6 +2137,8 @@ export const listHostingPrivateDatabaseLogKind: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseLogKind",
 }));
 
 export type ListHostingPrivateDatabaseLogSubscriptionError = OvhOpError;
@@ -2028,6 +2154,8 @@ export const listHostingPrivateDatabaseLogSubscription: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseLogSubscription",
 }));
 
 export type ListHostingPrivateDatabaseOomError = OvhOpError;
@@ -2043,6 +2171,8 @@ export const listHostingPrivateDatabaseOom: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseOom",
 }));
 
 export type ListHostingPrivateDatabaseTasksError = OvhOpError;
@@ -2058,6 +2188,8 @@ export const listHostingPrivateDatabaseTasks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseTasks",
 }));
 
 export type ListHostingPrivateDatabaseUserError = OvhOpError;
@@ -2073,6 +2205,8 @@ export const listHostingPrivateDatabaseUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseUser",
 }));
 
 export type ListHostingPrivateDatabaseUserGrantError = OvhOpError;
@@ -2088,6 +2222,8 @@ export const listHostingPrivateDatabaseUserGrant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseUserGrant",
 }));
 
 export type ListHostingPrivateDatabaseWebsError = OvhOpError;
@@ -2103,6 +2239,8 @@ export const listHostingPrivateDatabaseWebs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseWebs",
 }));
 
 export type ListHostingPrivateDatabaseWhitelistError = OvhOpError;
@@ -2118,6 +2256,8 @@ export const listHostingPrivateDatabaseWhitelist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingPrivateDatabaseWhitelist",
 }));
 
 export type PutHostingPrivateDatabaseError = OvhOpError;
@@ -2133,6 +2273,8 @@ export const putHostingPrivateDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingPrivateDatabase",
 }));
 
 export type PutHostingPrivateDatabaseServiceInfosError = OvhOpError;
@@ -2148,6 +2290,8 @@ export const putHostingPrivateDatabaseServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingPrivateDatabaseServiceInfos",
 }));
 
 export type PutHostingPrivateDatabaseWhitelistError = OvhOpError;
@@ -2163,6 +2307,8 @@ export const putHostingPrivateDatabaseWhitelist: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingPrivateDatabaseWhitelist",
 }));
 
 export type RestartHostingPrivateDatabaseError = OvhOpError;
@@ -2178,6 +2324,8 @@ export const restartHostingPrivateDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartHostingPrivateDatabase",
 }));
 
 export type RestoreHostingPrivateDatabaseDatabaseDumpError = OvhOpError;
@@ -2193,6 +2341,8 @@ export const restoreHostingPrivateDatabaseDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreHostingPrivateDatabaseDatabaseDump",
 }));
 
 export type RestoreHostingPrivateDatabaseDumpError = OvhOpError;
@@ -2208,6 +2358,8 @@ export const restoreHostingPrivateDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreHostingPrivateDatabaseDump",
 }));
 
 export type TerminateHostingPrivateDatabaseError = OvhOpError;
@@ -2223,6 +2375,8 @@ export const terminateHostingPrivateDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateHostingPrivateDatabase",
 }));
 
 export type UpdateHostingPrivateDatabaseConfigError = OvhOpError;
@@ -2238,6 +2392,8 @@ export const updateHostingPrivateDatabaseConfig: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingPrivateDatabaseConfig",
 }));
 
 export type UpdateHostingPrivateDatabaseUserGrantError = OvhOpError;
@@ -2253,6 +2409,8 @@ export const updateHostingPrivateDatabaseUserGrant: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostingPrivateDatabaseUserGrant",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

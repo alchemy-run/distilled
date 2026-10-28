@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://amplify.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Amplify",
+  service: "Amplify",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -876,6 +891,8 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateBackendEnvironmentError =
@@ -914,6 +931,8 @@ export const createBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateBackendEnvironment",
 }));
 
 export type CreateBranchError =
@@ -948,6 +967,8 @@ export const createBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBranch",
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type CreateDeploymentError =
@@ -984,6 +1005,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDomainAssociationError =
@@ -1019,6 +1042,8 @@ export const createDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateDomainAssociation",
 }));
 
 export type CreateWebhookError =
@@ -1053,6 +1078,8 @@ export const createWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebhook",
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteAppError =
@@ -1085,6 +1112,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteBackendEnvironmentError =
@@ -1123,6 +1152,8 @@ export const deleteBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendEnvironment",
 }));
 
 export type DeleteBranchError =
@@ -1155,6 +1186,8 @@ export const deleteBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBranch",
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteDomainAssociationError =
@@ -1187,6 +1220,8 @@ export const deleteDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainAssociation",
 }));
 
 export type DeleteJobError =
@@ -1219,6 +1254,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteWebhookError =
@@ -1251,6 +1288,8 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type GenerateAccessLogsError =
@@ -1281,6 +1320,8 @@ export const generateAccessLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateAccessLogs",
+  telemetry: TELEMETRY,
+  span: "GenerateAccessLogs",
 }));
 
 export type GetAppError =
@@ -1311,6 +1352,8 @@ export const getApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApp",
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetArtifactUrlError =
@@ -1343,6 +1386,8 @@ export const getArtifactUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArtifactUrl",
+  telemetry: TELEMETRY,
+  span: "GetArtifactUrl",
 }));
 
 export type GetBackendEnvironmentError =
@@ -1379,6 +1424,8 @@ export const getBackendEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetBackendEnvironment",
 }));
 
 export type GetBranchError =
@@ -1409,6 +1456,8 @@ export const getBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBranch",
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetDomainAssociationError =
@@ -1439,6 +1488,8 @@ export const getDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "GetDomainAssociation",
 }));
 
 export type GetJobError =
@@ -1471,6 +1522,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetWebhookError =
@@ -1503,6 +1556,8 @@ export const getWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebhook",
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ListAppsError =
@@ -1533,6 +1588,8 @@ export const listApps: API.PaginatedOperationMethod<
     items: "apps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 })) as any;
 
 export type ListArtifactsError =
@@ -1570,6 +1627,8 @@ export const listArtifacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListArtifacts",
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 }));
 
 export type ListBackendEnvironmentsError =
@@ -1599,6 +1658,8 @@ export const listBackendEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendEnvironments",
+  telemetry: TELEMETRY,
+  span: "ListBackendEnvironments",
 }));
 
 export type ListBranchesError =
@@ -1629,6 +1690,8 @@ export const listBranches: API.PaginatedOperationMethod<
     items: "branches",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBranches",
 })) as any;
 
 export type ListDomainAssociationsError =
@@ -1659,6 +1722,8 @@ export const listDomainAssociations: API.PaginatedOperationMethod<
     items: "domainAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainAssociations",
 })) as any;
 
 export type ListJobsError =
@@ -1696,6 +1761,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1724,6 +1791,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWebhooksError =
@@ -1754,6 +1823,8 @@ export const listWebhooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebhooks",
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type StartDeploymentError =
@@ -1792,6 +1863,8 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  telemetry: TELEMETRY,
+  span: "StartDeployment",
 }));
 
 export type StartJobError =
@@ -1824,6 +1897,8 @@ export const startJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJob",
+  telemetry: TELEMETRY,
+  span: "StartJob",
 }));
 
 export type StopJobError =
@@ -1856,6 +1931,8 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  telemetry: TELEMETRY,
+  span: "StopJob",
 }));
 
 export type TagResourceError =
@@ -1884,6 +1961,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1912,6 +1991,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppError =
@@ -1942,6 +2023,8 @@ export const updateApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApp",
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateBranchError =
@@ -1974,6 +2057,8 @@ export const updateBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBranch",
+  telemetry: TELEMETRY,
+  span: "UpdateBranch",
 }));
 
 export type UpdateDomainAssociationError =
@@ -2006,6 +2091,8 @@ export const updateDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainAssociation",
 }));
 
 export type UpdateWebhookError =
@@ -2038,6 +2125,8 @@ export const updateWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebhook",
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

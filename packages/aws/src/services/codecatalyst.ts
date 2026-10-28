@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeCatalyst",
+  service: "CodeCatalyst",
+  propagate: TxXray.propagate,
+} as const;
 
 export type AccessTokenName = string;
 export interface CreateAccessTokenRequest {
@@ -737,6 +752,8 @@ export const createAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessToken",
+  telemetry: TELEMETRY,
+  span: "CreateAccessToken",
 }));
 
 export type CreateDevEnvironmentError = CommonErrors;
@@ -759,6 +776,8 @@ export const createDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateDevEnvironment",
 }));
 
 export type CreateProjectError = CommonErrors;
@@ -777,6 +796,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateSourceRepositoryError = CommonErrors;
@@ -796,6 +817,8 @@ export const createSourceRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceRepository",
+  telemetry: TELEMETRY,
+  span: "CreateSourceRepository",
 }));
 
 export type CreateSourceRepositoryBranchError = CommonErrors;
@@ -816,6 +839,8 @@ export const createSourceRepositoryBranch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceRepositoryBranch",
+  telemetry: TELEMETRY,
+  span: "CreateSourceRepositoryBranch",
 }));
 
 export type DeleteAccessTokenError = CommonErrors;
@@ -834,6 +859,8 @@ export const deleteAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessToken",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessToken",
 }));
 
 export type DeleteDevEnvironmentError = CommonErrors;
@@ -852,6 +879,8 @@ export const deleteDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteDevEnvironment",
 }));
 
 export type DeleteProjectError = CommonErrors;
@@ -870,6 +899,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteSourceRepositoryError = CommonErrors;
@@ -888,6 +919,8 @@ export const deleteSourceRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceRepository",
 }));
 
 export type DeleteSpaceError = CommonErrors;
@@ -908,6 +941,8 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
+  telemetry: TELEMETRY,
+  span: "DeleteSpace",
 }));
 
 export type GetDevEnvironmentError = CommonErrors;
@@ -926,6 +961,8 @@ export const getDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetDevEnvironment",
 }));
 
 export type GetProjectError = CommonErrors;
@@ -944,6 +981,8 @@ export const getProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetSourceRepositoryError = CommonErrors;
@@ -962,6 +1001,8 @@ export const getSourceRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceRepository",
+  telemetry: TELEMETRY,
+  span: "GetSourceRepository",
 }));
 
 export type GetSourceRepositoryCloneUrlsError = CommonErrors;
@@ -981,6 +1022,8 @@ export const getSourceRepositoryCloneUrls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceRepositoryCloneUrls",
+  telemetry: TELEMETRY,
+  span: "GetSourceRepositoryCloneUrls",
 }));
 
 export type GetSpaceError = CommonErrors;
@@ -999,6 +1042,8 @@ export const getSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpace",
+  telemetry: TELEMETRY,
+  span: "GetSpace",
 }));
 
 export type GetSubscriptionError = CommonErrors;
@@ -1018,6 +1063,8 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type GetUserDetailsError = CommonErrors;
@@ -1036,6 +1083,8 @@ export const getUserDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserDetails",
+  telemetry: TELEMETRY,
+  span: "GetUserDetails",
 }));
 
 export type GetWorkflowError = CommonErrors;
@@ -1054,6 +1103,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowRunError = CommonErrors;
@@ -1072,6 +1123,8 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRun",
 }));
 
 export type ListAccessTokensError = CommonErrors;
@@ -1097,6 +1150,8 @@ export const listAccessTokens: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessTokens",
 })) as any;
 
 export type ListDevEnvironmentsError = CommonErrors;
@@ -1122,6 +1177,8 @@ export const listDevEnvironments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevEnvironments",
 })) as any;
 
 export type ListDevEnvironmentSessionsError = CommonErrors;
@@ -1147,6 +1204,8 @@ export const listDevEnvironmentSessions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevEnvironmentSessions",
 })) as any;
 
 export type ListEventLogsError = CommonErrors;
@@ -1180,6 +1239,8 @@ export const listEventLogs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventLogs",
 })) as any;
 
 export type ListProjectsError = CommonErrors;
@@ -1205,6 +1266,8 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListSourceRepositoriesError = CommonErrors;
@@ -1230,6 +1293,8 @@ export const listSourceRepositories: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceRepositories",
 })) as any;
 
 export type ListSourceRepositoryBranchesError = CommonErrors;
@@ -1255,6 +1320,8 @@ export const listSourceRepositoryBranches: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceRepositoryBranches",
 })) as any;
 
 export type ListSpacesError = CommonErrors;
@@ -1275,6 +1342,8 @@ export const listSpaces: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSpaces",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "items" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpaces",
 })) as any;
 
 export type ListWorkflowRunsError = CommonErrors;
@@ -1300,6 +1369,8 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRuns",
 })) as any;
 
 export type ListWorkflowsError = CommonErrors;
@@ -1325,6 +1396,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type StartDevEnvironmentError = CommonErrors;
@@ -1343,6 +1416,8 @@ export const startDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "StartDevEnvironment",
 }));
 
 export type StartDevEnvironmentSessionError = CommonErrors;
@@ -1361,6 +1436,8 @@ export const startDevEnvironmentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDevEnvironmentSession",
+  telemetry: TELEMETRY,
+  span: "StartDevEnvironmentSession",
 }));
 
 export type StartWorkflowRunError = CommonErrors;
@@ -1379,6 +1456,8 @@ export const startWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "StartWorkflowRun",
 }));
 
 export type StopDevEnvironmentError = CommonErrors;
@@ -1397,6 +1476,8 @@ export const stopDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "StopDevEnvironment",
 }));
 
 export type StopDevEnvironmentSessionError = CommonErrors;
@@ -1415,6 +1496,8 @@ export const stopDevEnvironmentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDevEnvironmentSession",
+  telemetry: TELEMETRY,
+  span: "StopDevEnvironmentSession",
 }));
 
 export type UpdateDevEnvironmentError = CommonErrors;
@@ -1433,6 +1516,8 @@ export const updateDevEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateDevEnvironment",
 }));
 
 export type UpdateProjectError = CommonErrors;
@@ -1451,6 +1536,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateSpaceError = CommonErrors;
@@ -1469,6 +1556,8 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
+  telemetry: TELEMETRY,
+  span: "UpdateSpace",
 }));
 
 export type VerifySessionError = CommonErrors;
@@ -1487,6 +1576,8 @@ export const verifySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySession",
+  telemetry: TELEMETRY,
+  span: "VerifySession",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

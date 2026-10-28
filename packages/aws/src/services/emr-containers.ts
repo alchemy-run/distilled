@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -83,6 +84,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://emr-containers.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EMRcontainers",
+  service: "EMRcontainers",
+  propagate: TxXray.propagate,
+} as const;
 
 export class EksClusterConnectionUpdating
   extends /*@__PURE__*/ S.TaggedError<EksClusterConnectionUpdating>()(
@@ -717,6 +732,8 @@ export const cancelJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobRun",
+  telemetry: TELEMETRY,
+  span: "CancelJobRun",
 }));
 
 export type CreateJobTemplateError =
@@ -748,6 +765,8 @@ export const createJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateJobTemplate",
 }));
 
 export type CreateManagedEndpointError =
@@ -777,6 +796,8 @@ export const createManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateManagedEndpoint",
 }));
 
 export type CreateSecurityConfigurationError =
@@ -802,6 +823,8 @@ export const createSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityConfiguration",
 }));
 
 export type CreateVirtualClusterError =
@@ -837,6 +860,8 @@ export const createVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualCluster",
+  telemetry: TELEMETRY,
+  span: "CreateVirtualCluster",
 }));
 
 export type DeleteJobTemplateError =
@@ -862,6 +887,8 @@ export const deleteJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteJobTemplate",
 }));
 
 export type DeleteManagedEndpointError =
@@ -885,6 +912,8 @@ export const deleteManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteManagedEndpoint",
 }));
 
 export type DeleteSecurityConfigurationError =
@@ -906,6 +935,8 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityConfiguration",
 }));
 
 export type DeleteVirtualClusterError =
@@ -931,6 +962,8 @@ export const deleteVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualCluster",
 }));
 
 export type DescribeJobRunError =
@@ -960,6 +993,8 @@ export const describeJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobRun",
+  telemetry: TELEMETRY,
+  span: "DescribeJobRun",
 }));
 
 export type DescribeJobTemplateError =
@@ -991,6 +1026,8 @@ export const describeJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobTemplate",
+  telemetry: TELEMETRY,
+  span: "DescribeJobTemplate",
 }));
 
 export type DescribeManagedEndpointError =
@@ -1020,6 +1057,8 @@ export const describeManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeManagedEndpoint",
 }));
 
 export type DescribeSecurityConfigurationError =
@@ -1052,6 +1091,8 @@ export const describeSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeSecurityConfiguration",
 }));
 
 export type DescribeVirtualClusterError =
@@ -1085,6 +1126,8 @@ export const describeVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeVirtualCluster",
 }));
 
 export type GetManagedEndpointSessionCredentialsError =
@@ -1115,6 +1158,8 @@ export const getManagedEndpointSessionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedEndpointSessionCredentials",
+  telemetry: TELEMETRY,
+  span: "GetManagedEndpointSessionCredentials",
 }));
 
 export type ListJobRunsError =
@@ -1145,6 +1190,8 @@ export const listJobRuns: API.PaginatedOperationMethod<
     items: "jobRuns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobRuns",
 })) as any;
 
 export type ListJobTemplatesError =
@@ -1177,6 +1224,8 @@ export const listJobTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobTemplates",
 })) as any;
 
 export type ListManagedEndpointsError =
@@ -1207,6 +1256,8 @@ export const listManagedEndpoints: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedEndpoints",
 })) as any;
 
 export type ListSecurityConfigurationsError =
@@ -1240,6 +1291,8 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
     items: "securityConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityConfigurations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1268,6 +1321,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVirtualClustersError =
@@ -1302,6 +1357,8 @@ export const listVirtualClusters: API.PaginatedOperationMethod<
     items: "virtualClusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualClusters",
 })) as any;
 
 export type StartJobRunError =
@@ -1331,6 +1388,8 @@ export const startJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
+  telemetry: TELEMETRY,
+  span: "StartJobRun",
 }));
 
 export type TagResourceError =
@@ -1369,6 +1428,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1399,6 +1460,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateVirtualClusterError =
@@ -1424,6 +1487,8 @@ export const updateVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualCluster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

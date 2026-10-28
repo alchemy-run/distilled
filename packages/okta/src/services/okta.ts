@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { OktaOpError, OktaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "okta-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Okta",
+  service: "Okta",
+  labels: "okta",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -14577,6 +14590,8 @@ export const activateAgentPoolsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateAgentPoolsUpdate",
 }));
 
 export type ActivateApiServiceIntegrationInstanceSecretError = Forbidden | NotFound | OktaOpError;
@@ -14596,6 +14611,8 @@ export const activateApiServiceIntegrationInstanceSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateApiServiceIntegrationInstanceSecret",
 }));
 
 export type ActivateApplicationError = Forbidden | NotFound | OktaOpError;
@@ -14611,6 +14628,8 @@ export const activateApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateApplication",
 }));
 
 export type ActivateAuthenticatorError = Forbidden | NotFound | OktaOpError;
@@ -14626,6 +14645,8 @@ export const activateAuthenticator: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateAuthenticator",
 }));
 
 export type ActivateAuthenticatorMethodError = Forbidden | NotFound | OktaOpError;
@@ -14641,6 +14662,8 @@ export const activateAuthenticatorMethod: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateAuthenticatorMethod",
 }));
 
 export type ActivateAuthorizationServerError = Forbidden | NotFound | OktaOpError;
@@ -14656,6 +14679,8 @@ export const activateAuthorizationServer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateAuthorizationServer",
 }));
 
 export type ActivateAuthorizationServerPolicyError = Forbidden | NotFound | OktaOpError;
@@ -14671,6 +14696,8 @@ export const activateAuthorizationServerPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateAuthorizationServerPolicy",
 }));
 
 export type ActivateAuthorizationServerPolicyRuleError = Forbidden | NotFound | OktaOpError;
@@ -14686,6 +14713,8 @@ export const activateAuthorizationServerPolicyRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateAuthorizationServerPolicyRule",
 }));
 
 export type ActivateBehaviorDetectionRuleError = Forbidden | NotFound | OktaOpError;
@@ -14701,6 +14730,8 @@ export const activateBehaviorDetectionRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateBehaviorDetectionRule",
 }));
 
 export type ActivateCustomTelephonyCredentialError = Forbidden | NotFound | OktaOpError;
@@ -14716,6 +14747,8 @@ export const activateCustomTelephonyCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateCustomTelephonyCredential",
 }));
 
 export type ActivateDefaultProvisioningConnectionForApplicationError =
@@ -14742,6 +14775,8 @@ export const activateDefaultProvisioningConnectionForApplication: API.OperationM
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateDefaultProvisioningConnectionForApplication",
 }));
 
 export type ActivateDeviceError = Forbidden | NotFound | OktaOpError;
@@ -14757,6 +14792,8 @@ export const activateDevice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateDevice",
 }));
 
 export type ActivateDeviceIntegrationError = Forbidden | NotFound | OktaOpError;
@@ -14772,6 +14809,8 @@ export const activateDeviceIntegration: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateDeviceIntegration",
 }));
 
 export type ActivateEventHookError = Forbidden | NotFound | OktaOpError;
@@ -14787,6 +14826,8 @@ export const activateEventHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateEventHook",
 }));
 
 export type ActivateFactorError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -14802,6 +14843,8 @@ export const activateFactor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateFactor",
 }));
 
 export type ActivateGroupRuleError = Forbidden | NotFound | OktaOpError;
@@ -14817,6 +14860,8 @@ export const activateGroupRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateGroupRule",
 }));
 
 export type ActivateIdentityProviderError = Forbidden | NotFound | OktaOpError;
@@ -14832,6 +14877,8 @@ export const activateIdentityProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateIdentityProvider",
 }));
 
 export type ActivateInlineHookError = Forbidden | NotFound | OktaOpError;
@@ -14847,6 +14894,8 @@ export const activateInlineHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateInlineHook",
 }));
 
 export type ActivateLogStreamError = Forbidden | NotFound | OktaOpError;
@@ -14862,6 +14911,8 @@ export const activateLogStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateLogStream",
 }));
 
 export type ActivateNetworkZoneError = Forbidden | NotFound | OktaOpError;
@@ -14877,6 +14928,8 @@ export const activateNetworkZone: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateNetworkZone",
 }));
 
 export type ActivateOAuth2ClientJsonWebKeyError = Forbidden | NotFound | OktaOpError;
@@ -14892,6 +14945,8 @@ export const activateOAuth2ClientJsonWebKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateOAuth2ClientJsonWebKey",
 }));
 
 export type ActivateOAuth2ClientSecretError = Forbidden | NotFound | OktaOpError;
@@ -14907,6 +14962,8 @@ export const activateOAuth2ClientSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateOAuth2ClientSecret",
 }));
 
 export type ActivateOAuth2ResourceServerJsonWebKeyError = Forbidden | NotFound | OktaOpError;
@@ -14922,6 +14979,8 @@ export const activateOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateOAuth2ResourceServerJsonWebKey",
 }));
 
 export type ActivatePolicyError = Forbidden | NotFound | OktaOpError;
@@ -14937,6 +14996,8 @@ export const activatePolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivatePolicy",
 }));
 
 export type ActivatePolicyRuleError = Forbidden | NotFound | OktaOpError;
@@ -14952,6 +15013,8 @@ export const activatePolicyRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivatePolicyRule",
 }));
 
 export type ActivatePreregistrationEnrollmentError =
@@ -14971,6 +15034,8 @@ export const activatePreregistrationEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivatePreregistrationEnrollment",
 }));
 
 export type ActivateRealmAssignmentError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -14986,6 +15051,8 @@ export const activateRealmAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateRealmAssignment",
 }));
 
 export type ActivateSecurityEventsProviderInstanceError = Forbidden | NotFound | OktaOpError;
@@ -15001,6 +15068,8 @@ export const activateSecurityEventsProviderInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateSecurityEventsProviderInstance",
 }));
 
 export type ActivateTrustedOriginError = Forbidden | NotFound | OktaOpError;
@@ -15016,6 +15085,8 @@ export const activateTrustedOrigin: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateTrustedOrigin",
 }));
 
 export type ActivateUserError = Forbidden | NotFound | OktaOpError;
@@ -15031,6 +15102,8 @@ export const activateUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateUser",
 }));
 
 export type AddGroupError = BadRequest | Forbidden | OktaOpError;
@@ -15042,6 +15115,8 @@ export const addGroup: API.OperationMethod<AddGroupRequest, Group, AddGroupError
     errors: [BadRequest, Forbidden, UnknownOktaError],
     protocol: OktaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "AddGroup",
   }));
 
 export type AddJwkError = BadRequest | Forbidden | OktaOpError;
@@ -15057,6 +15132,8 @@ export const addJwk: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddJwk",
 }));
 
 export type AddMembersToBindingError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15072,6 +15149,8 @@ export const addMembersToBinding: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddMembersToBinding",
 }));
 
 export type AddOAuth2ResourceServerJsonWebKeyError = BadRequest | Forbidden | OktaOpError;
@@ -15087,6 +15166,8 @@ export const addOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOAuth2ResourceServerJsonWebKey",
 }));
 
 export type AddResourceSetResourceError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15102,6 +15183,8 @@ export const addResourceSetResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddResourceSetResource",
 }));
 
 export type AddResourceSetResourcesError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15117,6 +15200,8 @@ export const addResourceSetResources: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddResourceSetResources",
 }));
 
 export type AssignAllAppsAsTargetToRoleForUserError = Forbidden | NotFound | OktaOpError;
@@ -15132,6 +15217,8 @@ export const assignAllAppsAsTargetToRoleForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAllAppsAsTargetToRoleForUser",
 }));
 
 export type AssignAppInstanceTargetToAppAdminRoleForGroupError = Forbidden | NotFound | OktaOpError;
@@ -15155,6 +15242,8 @@ export const assignAppInstanceTargetToAppAdminRoleForGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAppInstanceTargetToAppAdminRoleForGroup",
 }));
 
 export type AssignAppInstanceTargetToAppAdminRoleForUserError = Forbidden | NotFound | OktaOpError;
@@ -15178,6 +15267,8 @@ export const assignAppInstanceTargetToAppAdminRoleForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAppInstanceTargetToAppAdminRoleForUser",
 }));
 
 export type AssignApplicationPolicyError = Forbidden | NotFound | OktaOpError;
@@ -15193,6 +15284,8 @@ export const assignApplicationPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignApplicationPolicy",
 }));
 
 export type AssignAppTargetInstanceRoleForClientError = Forbidden | NotFound | OktaOpError;
@@ -15208,6 +15301,8 @@ export const assignAppTargetInstanceRoleForClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAppTargetInstanceRoleForClient",
 }));
 
 export type AssignAppTargetRoleToClientError = Forbidden | NotFound | OktaOpError;
@@ -15223,6 +15318,8 @@ export const assignAppTargetRoleToClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAppTargetRoleToClient",
 }));
 
 export type AssignAppTargetToAdminRoleForGroupError = Forbidden | NotFound | OktaOpError;
@@ -15238,6 +15335,8 @@ export const assignAppTargetToAdminRoleForGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAppTargetToAdminRoleForGroup",
 }));
 
 export type AssignAppTargetToAdminRoleForUserError = Forbidden | NotFound | OktaOpError;
@@ -15253,6 +15352,8 @@ export const assignAppTargetToAdminRoleForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignAppTargetToAdminRoleForUser",
 }));
 
 export type AssignClientPrivilegesSettingError = Forbidden | OktaOpError;
@@ -15268,6 +15369,8 @@ export const assignClientPrivilegesSetting: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignClientPrivilegesSetting",
 }));
 
 export type AssignFulfillmentErrorWebAuthnPreregistrationFactorError =
@@ -15294,6 +15397,8 @@ export const assignFulfillmentErrorWebAuthnPreregistrationFactor: API.OperationM
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignFulfillmentErrorWebAuthnPreregistrationFactor",
 }));
 
 export type AssignGroupOwnerError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15309,6 +15414,8 @@ export const assignGroupOwner: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignGroupOwner",
 }));
 
 export type AssignGroupTargetRoleForClientError = Forbidden | NotFound | OktaOpError;
@@ -15324,6 +15431,8 @@ export const assignGroupTargetRoleForClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignGroupTargetRoleForClient",
 }));
 
 export type AssignGroupTargetToGroupAdminRoleError = Forbidden | NotFound | OktaOpError;
@@ -15339,6 +15448,8 @@ export const assignGroupTargetToGroupAdminRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignGroupTargetToGroupAdminRole",
 }));
 
 export type AssignGroupTargetToUserRoleError = Forbidden | NotFound | OktaOpError;
@@ -15354,6 +15465,8 @@ export const assignGroupTargetToUserRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignGroupTargetToUserRole",
 }));
 
 export type AssignGroupToApplicationError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15369,6 +15482,8 @@ export const assignGroupToApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignGroupToApplication",
 }));
 
 export type AssignLinkedObjectValueForPrimaryError = Forbidden | NotFound | OktaOpError;
@@ -15384,6 +15499,8 @@ export const assignLinkedObjectValueForPrimary: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignLinkedObjectValueForPrimary",
 }));
 
 export type AssignRoleToClientError = Forbidden | NotFound | OktaOpError;
@@ -15399,6 +15516,8 @@ export const assignRoleToClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignRoleToClient",
 }));
 
 export type AssignRoleToGroupError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15414,6 +15533,8 @@ export const assignRoleToGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignRoleToGroup",
 }));
 
 export type AssignRoleToUserError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15429,6 +15550,8 @@ export const assignRoleToUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignRoleToUser",
 }));
 
 export type AssignUserToApplicationError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15444,6 +15567,8 @@ export const assignUserToApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignUserToApplication",
 }));
 
 export type AssignUserToGroupError = Forbidden | NotFound | OktaOpError;
@@ -15459,6 +15584,8 @@ export const assignUserToGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignUserToGroup",
 }));
 
 export type BulkRemoveEmailAddressBouncesError = BadRequest | Forbidden | OktaOpError;
@@ -15474,6 +15601,8 @@ export const bulkRemoveEmailAddressBounces: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkRemoveEmailAddressBounces",
 }));
 
 export type ChangePasswordError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15489,6 +15618,8 @@ export const changePassword: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangePassword",
 }));
 
 export type ChangeRecoveryQuestionError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15504,6 +15635,8 @@ export const changeRecoveryQuestion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeRecoveryQuestion",
 }));
 
 export type CloneApplicationKeyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15519,6 +15652,8 @@ export const cloneApplicationKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneApplicationKey",
 }));
 
 export type CloneIdentityProviderKeyError = Forbidden | NotFound | OktaOpError;
@@ -15534,6 +15669,8 @@ export const cloneIdentityProviderKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneIdentityProviderKey",
 }));
 
 export type ClonePolicyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15549,6 +15686,8 @@ export const clonePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClonePolicy",
 }));
 
 export type CreateAgentPoolsUpdateError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15564,6 +15703,8 @@ export const createAgentPoolsUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentPoolsUpdate",
 }));
 
 export type CreateApiServiceIntegrationInstanceError = BadRequest | Forbidden | OktaOpError;
@@ -15579,6 +15720,8 @@ export const createApiServiceIntegrationInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiServiceIntegrationInstance",
 }));
 
 export type CreateApiServiceIntegrationInstanceSecretError = BadRequest | Forbidden | OktaOpError;
@@ -15594,6 +15737,8 @@ export const createApiServiceIntegrationInstanceSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiServiceIntegrationInstanceSecret",
 }));
 
 export type CreateApplicationError = BadRequest | Forbidden | OktaOpError;
@@ -15609,6 +15754,8 @@ export const createApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateAppServiceAccountError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15624,6 +15771,8 @@ export const createAppServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppServiceAccount",
 }));
 
 export type CreateAssociatedServersError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15639,6 +15788,8 @@ export const createAssociatedServers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAssociatedServers",
 }));
 
 export type CreateAuthenticatorError = BadRequest | Forbidden | OktaOpError;
@@ -15654,6 +15805,8 @@ export const createAuthenticator: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthenticator",
 }));
 
 export type CreateAuthenticatorEnrollmentError = BadRequest | Forbidden | OktaOpError;
@@ -15669,6 +15822,8 @@ export const createAuthenticatorEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthenticatorEnrollment",
 }));
 
 export type CreateAuthorizationServerError = BadRequest | Forbidden | OktaOpError;
@@ -15684,6 +15839,8 @@ export const createAuthorizationServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationServer",
 }));
 
 export type CreateAuthorizationServerPolicyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15699,6 +15856,8 @@ export const createAuthorizationServerPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationServerPolicy",
 }));
 
 export type CreateAuthorizationServerPolicyRuleError =
@@ -15718,6 +15877,8 @@ export const createAuthorizationServerPolicyRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationServerPolicyRule",
 }));
 
 export type CreateBehaviorDetectionRuleError = BadRequest | Forbidden | OktaOpError;
@@ -15733,6 +15894,8 @@ export const createBehaviorDetectionRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBehaviorDetectionRule",
 }));
 
 export type CreateBrandError = BadRequest | Forbidden | Conflict | OktaOpError;
@@ -15748,6 +15911,8 @@ export const createBrand: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBrand",
 }));
 
 export type CreateCaptchaInstanceError = BadRequest | Forbidden | OktaOpError;
@@ -15763,6 +15928,8 @@ export const createCaptchaInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCaptchaInstance",
 }));
 
 export type CreateChildOrgError = BadRequest | Forbidden | OktaOpError;
@@ -15778,6 +15945,8 @@ export const createChildOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateChildOrg",
 }));
 
 export type CreateCrossAppAccessConnectionError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -15793,6 +15962,8 @@ export const createCrossAppAccessConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCrossAppAccessConnection",
 }));
 
 export type CreateCustomAAGUIDError = Forbidden | NotFound | OktaOpError;
@@ -15808,6 +15979,8 @@ export const createCustomAAGUID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomAAGUID",
 }));
 
 export type CreateCustomDomainError = BadRequest | Forbidden | OktaOpError;
@@ -15823,6 +15996,8 @@ export const createCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomDomain",
 }));
 
 export type CreateCustomTelephonyProviderCredentialsError = Forbidden | OktaOpError;
@@ -15838,6 +16013,8 @@ export const createCustomTelephonyProviderCredentials: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomTelephonyProviderCredentials",
 }));
 
 export type CreateDeviceAssurancePolicyError = BadRequest | Forbidden | OktaOpError;
@@ -15853,6 +16030,8 @@ export const createDeviceAssurancePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceAssurancePolicy",
 }));
 
 export type CreateDevicePostureCheckError = BadRequest | Forbidden | OktaOpError;
@@ -15868,6 +16047,8 @@ export const createDevicePostureCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevicePostureCheck",
 }));
 
 export type CreateEmailCustomizationError =
@@ -15888,6 +16069,8 @@ export const createEmailCustomization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailCustomization",
 }));
 
 export type CreateEmailDomainError = BadRequest | Forbidden | NotFound | Conflict | OktaOpError;
@@ -15903,6 +16086,8 @@ export const createEmailDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailDomain",
 }));
 
 export type CreateEmailServerError = BadRequest | Forbidden | OktaOpError;
@@ -15918,6 +16103,8 @@ export const createEmailServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailServer",
 }));
 
 export type CreateEventHookError = BadRequest | Forbidden | OktaOpError;
@@ -15933,6 +16120,8 @@ export const createEventHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEventHook",
 }));
 
 export type CreateFederatedClaimError = BadRequest | Forbidden | OktaOpError;
@@ -15948,6 +16137,8 @@ export const createFederatedClaim: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFederatedClaim",
 }));
 
 export type CreateGovernanceBundleError = BadRequest | Forbidden | OktaOpError;
@@ -15963,6 +16154,8 @@ export const createGovernanceBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGovernanceBundle",
 }));
 
 export type CreateGroupPushMappingError = BadRequest | Forbidden | OktaOpError;
@@ -15978,6 +16171,8 @@ export const createGroupPushMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupPushMapping",
 }));
 
 export type CreateGroupRuleError = BadRequest | Forbidden | OktaOpError;
@@ -15993,6 +16188,8 @@ export const createGroupRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupRule",
 }));
 
 export type CreateHookKeyError = BadRequest | Forbidden | OktaOpError;
@@ -16008,6 +16205,8 @@ export const createHookKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHookKey",
 }));
 
 export type CreateIdentityProviderError = BadRequest | Forbidden | OktaOpError;
@@ -16023,6 +16222,8 @@ export const createIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProvider",
 }));
 
 export type CreateIdentityProviderKeyError = BadRequest | Forbidden | OktaOpError;
@@ -16038,6 +16239,8 @@ export const createIdentityProviderKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProviderKey",
 }));
 
 export type CreateIdentitySourceGroupsError = Forbidden | NotFound | OktaOpError;
@@ -16053,6 +16256,8 @@ export const createIdentitySourceGroups: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentitySourceGroups",
 }));
 
 export type CreateIdentitySourceGroupsMembershipsError =
@@ -16072,6 +16277,8 @@ export const createIdentitySourceGroupsMemberships: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentitySourceGroupsMemberships",
 }));
 
 export type CreateIdentitySourceSessionError = Forbidden | NotFound | OktaOpError;
@@ -16087,6 +16294,8 @@ export const createIdentitySourceSession: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentitySourceSession",
 }));
 
 export type CreateIdentitySourceUserError = Forbidden | NotFound | OktaOpError;
@@ -16102,6 +16311,8 @@ export const createIdentitySourceUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentitySourceUser",
 }));
 
 export type CreateInlineHookError = BadRequest | Forbidden | OktaOpError;
@@ -16117,6 +16328,8 @@ export const createInlineHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInlineHook",
 }));
 
 export type CreateInterclientTrustMappingError = BadRequest | Forbidden | OktaOpError;
@@ -16132,6 +16345,8 @@ export const createInterclientTrustMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInterclientTrustMapping",
 }));
 
 export type CreateLinkedObjectDefinitionError = BadRequest | Forbidden | Conflict | OktaOpError;
@@ -16147,6 +16362,8 @@ export const createLinkedObjectDefinition: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLinkedObjectDefinition",
 }));
 
 export type CreateLogStreamError = BadRequest | Forbidden | OktaOpError;
@@ -16162,6 +16379,8 @@ export const createLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogStream",
 }));
 
 export type CreateNetworkZoneError = BadRequest | Forbidden | OktaOpError;
@@ -16177,6 +16396,8 @@ export const createNetworkZone: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkZone",
 }));
 
 export type CreateOAuth2ClaimError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16192,6 +16413,8 @@ export const createOAuth2Claim: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2Claim",
 }));
 
 export type CreateOAuth2ClientSecretError = BadRequest | Forbidden | OktaOpError;
@@ -16207,6 +16430,8 @@ export const createOAuth2ClientSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2ClientSecret",
 }));
 
 export type CreateOAuth2ScopeError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16222,6 +16447,8 @@ export const createOAuth2Scope: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2Scope",
 }));
 
 export type CreateOktaManagedUserAccountError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16237,6 +16464,8 @@ export const createOktaManagedUserAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOktaManagedUserAccount",
 }));
 
 export type CreatePolicyError = BadRequest | Forbidden | OktaOpError;
@@ -16252,6 +16481,8 @@ export const createPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type CreatePolicyRuleError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16267,6 +16498,8 @@ export const createPolicyRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicyRule",
 }));
 
 export type CreatePolicySimulationError = Forbidden | NotFound | OktaOpError;
@@ -16282,6 +16515,8 @@ export const createPolicySimulation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicySimulation",
 }));
 
 export type CreatePrincipalRateLimitEntityError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16297,6 +16532,8 @@ export const createPrincipalRateLimitEntity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrincipalRateLimitEntity",
 }));
 
 export type CreatePushProviderError = BadRequest | Forbidden | OktaOpError;
@@ -16312,6 +16549,8 @@ export const createPushProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePushProvider",
 }));
 
 export type CreateRealmError = BadRequest | Forbidden | OktaOpError;
@@ -16327,6 +16566,8 @@ export const createRealm: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRealm",
 }));
 
 export type CreateRealmAssignmentError = BadRequest | Forbidden | OktaOpError;
@@ -16342,6 +16583,8 @@ export const createRealmAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRealmAssignment",
 }));
 
 export type CreateResourceSetError = BadRequest | Forbidden | OktaOpError;
@@ -16357,6 +16600,8 @@ export const createResourceSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceSet",
 }));
 
 export type CreateResourceSetBindingError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16372,6 +16617,8 @@ export const createResourceSetBinding: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceSetBinding",
 }));
 
 export type CreateRoleError = BadRequest | Forbidden | OktaOpError;
@@ -16387,6 +16634,8 @@ export const createRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRole",
 }));
 
 export type CreateRolePermissionError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16402,6 +16651,8 @@ export const createRolePermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRolePermission",
 }));
 
 export type CreateSecurityEventsProviderInstanceError = BadRequest | Forbidden | OktaOpError;
@@ -16417,6 +16668,8 @@ export const createSecurityEventsProviderInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecurityEventsProviderInstance",
 }));
 
 export type CreateSmsTemplateError = BadRequest | Forbidden | OktaOpError;
@@ -16432,6 +16685,8 @@ export const createSmsTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSmsTemplate",
 }));
 
 export type CreateSsfStreamError = BadRequest | Forbidden | Conflict | OktaOpError;
@@ -16447,6 +16702,8 @@ export const createSsfStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSsfStream",
 }));
 
 export type CreateTacAuthenticatorEnrollmentError = BadRequest | Forbidden | OktaOpError;
@@ -16462,6 +16719,8 @@ export const createTacAuthenticatorEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTacAuthenticatorEnrollment",
 }));
 
 export type CreateTrustedOriginError = BadRequest | Forbidden | OktaOpError;
@@ -16477,6 +16736,8 @@ export const createTrustedOrigin: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrustedOrigin",
 }));
 
 export type CreateUISchemaError = BadRequest | Forbidden | OktaOpError;
@@ -16492,6 +16753,8 @@ export const createUISchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUISchema",
 }));
 
 export type CreateUserError = BadRequest | Forbidden | OktaOpError;
@@ -16507,6 +16770,8 @@ export const createUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserTypeError = BadRequest | Forbidden | OktaOpError;
@@ -16522,6 +16787,8 @@ export const createUserType: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserType",
 }));
 
 export type DeactivateAgentPoolsUpdateError = Forbidden | NotFound | OktaOpError;
@@ -16537,6 +16804,8 @@ export const deactivateAgentPoolsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateAgentPoolsUpdate",
 }));
 
 export type DeactivateApiServiceIntegrationInstanceSecretError = Forbidden | NotFound | OktaOpError;
@@ -16556,6 +16825,8 @@ export const deactivateApiServiceIntegrationInstanceSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateApiServiceIntegrationInstanceSecret",
 }));
 
 export type DeactivateApplicationError = Forbidden | NotFound | OktaOpError;
@@ -16571,6 +16842,8 @@ export const deactivateApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateApplication",
 }));
 
 export type DeactivateAuthenticatorError = Forbidden | NotFound | OktaOpError;
@@ -16586,6 +16859,8 @@ export const deactivateAuthenticator: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateAuthenticator",
 }));
 
 export type DeactivateAuthenticatorMethodError = Forbidden | NotFound | OktaOpError;
@@ -16601,6 +16876,8 @@ export const deactivateAuthenticatorMethod: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateAuthenticatorMethod",
 }));
 
 export type DeactivateAuthorizationServerError = Forbidden | NotFound | OktaOpError;
@@ -16616,6 +16893,8 @@ export const deactivateAuthorizationServer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateAuthorizationServer",
 }));
 
 export type DeactivateAuthorizationServerPolicyError = Forbidden | NotFound | OktaOpError;
@@ -16631,6 +16910,8 @@ export const deactivateAuthorizationServerPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateAuthorizationServerPolicy",
 }));
 
 export type DeactivateAuthorizationServerPolicyRuleError = Forbidden | NotFound | OktaOpError;
@@ -16646,6 +16927,8 @@ export const deactivateAuthorizationServerPolicyRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateAuthorizationServerPolicyRule",
 }));
 
 export type DeactivateBehaviorDetectionRuleError = Forbidden | NotFound | OktaOpError;
@@ -16661,6 +16944,8 @@ export const deactivateBehaviorDetectionRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateBehaviorDetectionRule",
 }));
 
 export type DeactivateCustomTelephonyCredentialError = Forbidden | NotFound | OktaOpError;
@@ -16676,6 +16961,8 @@ export const deactivateCustomTelephonyCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateCustomTelephonyCredential",
 }));
 
 export type DeactivateDefaultProvisioningConnectionForApplicationError =
@@ -16702,6 +16989,8 @@ export const deactivateDefaultProvisioningConnectionForApplication: API.Operatio
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateDefaultProvisioningConnectionForApplication",
 }));
 
 export type DeactivateDeviceError = Forbidden | NotFound | OktaOpError;
@@ -16717,6 +17006,8 @@ export const deactivateDevice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateDevice",
 }));
 
 export type DeactivateDeviceIntegrationError = Forbidden | NotFound | OktaOpError;
@@ -16732,6 +17023,8 @@ export const deactivateDeviceIntegration: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateDeviceIntegration",
 }));
 
 export type DeactivateEventHookError = Forbidden | NotFound | OktaOpError;
@@ -16747,6 +17040,8 @@ export const deactivateEventHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateEventHook",
 }));
 
 export type DeactivateGroupRuleError = Forbidden | NotFound | OktaOpError;
@@ -16762,6 +17057,8 @@ export const deactivateGroupRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateGroupRule",
 }));
 
 export type DeactivateIdentityProviderError = Forbidden | NotFound | OktaOpError;
@@ -16777,6 +17074,8 @@ export const deactivateIdentityProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateIdentityProvider",
 }));
 
 export type DeactivateInlineHookError = Forbidden | NotFound | OktaOpError;
@@ -16792,6 +17091,8 @@ export const deactivateInlineHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateInlineHook",
 }));
 
 export type DeactivateLogStreamError = Forbidden | NotFound | OktaOpError;
@@ -16807,6 +17108,8 @@ export const deactivateLogStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateLogStream",
 }));
 
 export type DeactivateNetworkZoneError = Forbidden | NotFound | OktaOpError;
@@ -16822,6 +17125,8 @@ export const deactivateNetworkZone: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateNetworkZone",
 }));
 
 export type DeactivateOAuth2ClientJsonWebKeyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16837,6 +17142,8 @@ export const deactivateOAuth2ClientJsonWebKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateOAuth2ClientJsonWebKey",
 }));
 
 export type DeactivateOAuth2ClientSecretError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16852,6 +17159,8 @@ export const deactivateOAuth2ClientSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateOAuth2ClientSecret",
 }));
 
 export type DeactivateOAuth2ResourceServerJsonWebKeyError =
@@ -16871,6 +17180,8 @@ export const deactivateOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateOAuth2ResourceServerJsonWebKey",
 }));
 
 export type DeactivatePolicyError = Forbidden | NotFound | OktaOpError;
@@ -16886,6 +17197,8 @@ export const deactivatePolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivatePolicy",
 }));
 
 export type DeactivatePolicyRuleError = Forbidden | NotFound | OktaOpError;
@@ -16901,6 +17214,8 @@ export const deactivatePolicyRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivatePolicyRule",
 }));
 
 export type DeactivateRealmAssignmentError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -16916,6 +17231,8 @@ export const deactivateRealmAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateRealmAssignment",
 }));
 
 export type DeactivateSecurityEventsProviderInstanceError = Forbidden | NotFound | OktaOpError;
@@ -16931,6 +17248,8 @@ export const deactivateSecurityEventsProviderInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateSecurityEventsProviderInstance",
 }));
 
 export type DeactivateTrustedOriginError = Forbidden | NotFound | OktaOpError;
@@ -16946,6 +17265,8 @@ export const deactivateTrustedOrigin: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateTrustedOrigin",
 }));
 
 export type DeactivateUserError = Forbidden | NotFound | OktaOpError;
@@ -16961,6 +17282,8 @@ export const deactivateUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateUser",
 }));
 
 export type DeleteAgentPoolsUpdateError = Forbidden | NotFound | OktaOpError;
@@ -16976,6 +17299,8 @@ export const deleteAgentPoolsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentPoolsUpdate",
 }));
 
 export type DeleteAllCustomizationsError = Forbidden | NotFound | OktaOpError;
@@ -16991,6 +17316,8 @@ export const deleteAllCustomizations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllCustomizations",
 }));
 
 export type DeleteApiServiceIntegrationInstanceError = Forbidden | NotFound | OktaOpError;
@@ -17006,6 +17333,8 @@ export const deleteApiServiceIntegrationInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiServiceIntegrationInstance",
 }));
 
 export type DeleteApiServiceIntegrationInstanceSecretError = Forbidden | NotFound | OktaOpError;
@@ -17025,6 +17354,8 @@ export const deleteApiServiceIntegrationInstanceSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiServiceIntegrationInstanceSecret",
 }));
 
 export type DeleteApplicationError = Forbidden | NotFound | OktaOpError;
@@ -17040,6 +17371,8 @@ export const deleteApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteAppServiceAccountError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -17055,6 +17388,8 @@ export const deleteAppServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppServiceAccount",
 }));
 
 export type DeleteAssociatedServerError = Forbidden | NotFound | OktaOpError;
@@ -17070,6 +17405,8 @@ export const deleteAssociatedServer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAssociatedServer",
 }));
 
 export type DeleteAuthenticatorEnrollmentError = Forbidden | NotFound | OktaOpError;
@@ -17085,6 +17422,8 @@ export const deleteAuthenticatorEnrollment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthenticatorEnrollment",
 }));
 
 export type DeleteAuthorizationServerError = Forbidden | NotFound | OktaOpError;
@@ -17100,6 +17439,8 @@ export const deleteAuthorizationServer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizationServer",
 }));
 
 export type DeleteAuthorizationServerPolicyError = Forbidden | NotFound | OktaOpError;
@@ -17115,6 +17456,8 @@ export const deleteAuthorizationServerPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizationServerPolicy",
 }));
 
 export type DeleteAuthorizationServerPolicyRuleError = Forbidden | NotFound | OktaOpError;
@@ -17130,6 +17473,8 @@ export const deleteAuthorizationServerPolicyRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizationServerPolicyRule",
 }));
 
 export type DeleteBehaviorDetectionRuleError = Forbidden | NotFound | OktaOpError;
@@ -17145,6 +17490,8 @@ export const deleteBehaviorDetectionRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBehaviorDetectionRule",
 }));
 
 export type DeleteBindingError = Forbidden | NotFound | OktaOpError;
@@ -17160,6 +17507,8 @@ export const deleteBinding: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBinding",
 }));
 
 export type DeleteBrandError = Forbidden | NotFound | Conflict | OktaOpError;
@@ -17175,6 +17524,8 @@ export const deleteBrand: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrand",
 }));
 
 export type DeleteBrandThemeBackgroundImageError = Forbidden | NotFound | OktaOpError;
@@ -17190,6 +17541,8 @@ export const deleteBrandThemeBackgroundImage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrandThemeBackgroundImage",
 }));
 
 export type DeleteBrandThemeFaviconError = Forbidden | NotFound | OktaOpError;
@@ -17205,6 +17558,8 @@ export const deleteBrandThemeFavicon: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrandThemeFavicon",
 }));
 
 export type DeleteBrandThemeLogoError = Forbidden | NotFound | OktaOpError;
@@ -17220,6 +17575,8 @@ export const deleteBrandThemeLogo: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrandThemeLogo",
 }));
 
 export type DeleteCaptchaInstanceError = Forbidden | NotFound | OktaOpError;
@@ -17235,6 +17592,8 @@ export const deleteCaptchaInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCaptchaInstance",
 }));
 
 export type DeleteCrossAppAccessConnectionError = Forbidden | NotFound | OktaOpError;
@@ -17250,6 +17609,8 @@ export const deleteCrossAppAccessConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCrossAppAccessConnection",
 }));
 
 export type DeleteCustomAAGUIDError = Forbidden | NotFound | OktaOpError;
@@ -17265,6 +17626,8 @@ export const deleteCustomAAGUID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomAAGUID",
 }));
 
 export type DeleteCustomDomainError = Forbidden | NotFound | OktaOpError;
@@ -17280,6 +17643,8 @@ export const deleteCustomDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDomain",
 }));
 
 export type DeleteCustomizedErrorPageError = Forbidden | NotFound | OktaOpError;
@@ -17295,6 +17660,8 @@ export const deleteCustomizedErrorPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomizedErrorPage",
 }));
 
 export type DeleteCustomizedSignInPageError = Forbidden | NotFound | OktaOpError;
@@ -17310,6 +17677,8 @@ export const deleteCustomizedSignInPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomizedSignInPage",
 }));
 
 export type DeleteCustomTelephonyProviderCredentialError = Forbidden | NotFound | OktaOpError;
@@ -17325,6 +17694,8 @@ export const deleteCustomTelephonyProviderCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomTelephonyProviderCredential",
 }));
 
 export type DeleteDeviceError = Forbidden | NotFound | OktaOpError;
@@ -17340,6 +17711,8 @@ export const deleteDevice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevice",
 }));
 
 export type DeleteDeviceAssurancePolicyError = Forbidden | NotFound | Conflict | OktaOpError;
@@ -17355,6 +17728,8 @@ export const deleteDeviceAssurancePolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceAssurancePolicy",
 }));
 
 export type DeleteDevicePostureCheckError = Forbidden | NotFound | Conflict | OktaOpError;
@@ -17370,6 +17745,8 @@ export const deleteDevicePostureCheck: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevicePostureCheck",
 }));
 
 export type DeleteEmailCustomizationError = Forbidden | NotFound | Conflict | OktaOpError;
@@ -17385,6 +17762,8 @@ export const deleteEmailCustomization: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailCustomization",
 }));
 
 export type DeleteEmailDomainError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -17400,6 +17779,8 @@ export const deleteEmailDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailDomain",
 }));
 
 export type DeleteEmailServerError = Forbidden | NotFound | OktaOpError;
@@ -17415,6 +17796,8 @@ export const deleteEmailServer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailServer",
 }));
 
 export type DeleteEventHookError = Forbidden | NotFound | OktaOpError;
@@ -17430,6 +17813,8 @@ export const deleteEventHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEventHook",
 }));
 
 export type DeleteFederatedClaimError = Forbidden | NotFound | OktaOpError;
@@ -17445,6 +17830,8 @@ export const deleteFederatedClaim: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFederatedClaim",
 }));
 
 export type DeleteGovernanceBundleError = Forbidden | OktaOpError;
@@ -17460,6 +17847,8 @@ export const deleteGovernanceBundle: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGovernanceBundle",
 }));
 
 export type DeleteGroupError = Forbidden | NotFound | OktaOpError;
@@ -17475,6 +17864,8 @@ export const deleteGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteGroupOwnerError = Forbidden | NotFound | OktaOpError;
@@ -17490,6 +17881,8 @@ export const deleteGroupOwner: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupOwner",
 }));
 
 export type DeleteGroupPushMappingError = Forbidden | NotFound | OktaOpError;
@@ -17505,6 +17898,8 @@ export const deleteGroupPushMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupPushMapping",
 }));
 
 export type DeleteGroupRuleError = Forbidden | NotFound | OktaOpError;
@@ -17520,6 +17915,8 @@ export const deleteGroupRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupRule",
 }));
 
 export type DeleteHookKeyError = Forbidden | NotFound | OktaOpError;
@@ -17535,6 +17932,8 @@ export const deleteHookKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHookKey",
 }));
 
 export type DeleteIdentityProviderError = Forbidden | NotFound | OktaOpError;
@@ -17550,6 +17949,8 @@ export const deleteIdentityProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProvider",
 }));
 
 export type DeleteIdentityProviderKeyError = Forbidden | NotFound | OktaOpError;
@@ -17565,6 +17966,8 @@ export const deleteIdentityProviderKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProviderKey",
 }));
 
 export type DeleteIdentitySourceGroupError = Forbidden | NotFound | OktaOpError;
@@ -17580,6 +17983,8 @@ export const deleteIdentitySourceGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentitySourceGroup",
 }));
 
 export type DeleteIdentitySourceGroupMembershipsError = Forbidden | NotFound | OktaOpError;
@@ -17595,6 +18000,8 @@ export const deleteIdentitySourceGroupMemberships: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentitySourceGroupMemberships",
 }));
 
 export type DeleteIdentitySourceSessionError = Forbidden | NotFound | OktaOpError;
@@ -17610,6 +18017,8 @@ export const deleteIdentitySourceSession: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentitySourceSession",
 }));
 
 export type DeleteIdentitySourceUserError = Forbidden | NotFound | OktaOpError;
@@ -17625,6 +18034,8 @@ export const deleteIdentitySourceUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentitySourceUser",
 }));
 
 export type DeleteInlineHookError = Forbidden | NotFound | OktaOpError;
@@ -17640,6 +18051,8 @@ export const deleteInlineHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInlineHook",
 }));
 
 export type DeleteInterclientTrustMappingError = Forbidden | NotFound | OktaOpError;
@@ -17655,6 +18068,8 @@ export const deleteInterclientTrustMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInterclientTrustMapping",
 }));
 
 export type DeletejwkError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -17670,6 +18085,8 @@ export const deletejwk: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Deletejwk",
 }));
 
 export type DeleteLinkedObjectDefinitionError = Forbidden | NotFound | OktaOpError;
@@ -17685,6 +18102,8 @@ export const deleteLinkedObjectDefinition: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLinkedObjectDefinition",
 }));
 
 export type DeleteLinkedObjectForUserError = Forbidden | NotFound | OktaOpError;
@@ -17700,6 +18119,8 @@ export const deleteLinkedObjectForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLinkedObjectForUser",
 }));
 
 export type DeleteLogStreamError = Forbidden | NotFound | OktaOpError;
@@ -17715,6 +18136,8 @@ export const deleteLogStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogStream",
 }));
 
 export type DeleteNetworkZoneError = Forbidden | NotFound | OktaOpError;
@@ -17730,6 +18153,8 @@ export const deleteNetworkZone: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkZone",
 }));
 
 export type DeleteOAuth2ClaimError = Forbidden | NotFound | OktaOpError;
@@ -17745,6 +18170,8 @@ export const deleteOAuth2Claim: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOAuth2Claim",
 }));
 
 export type DeleteOAuth2ClientSecretError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -17760,6 +18187,8 @@ export const deleteOAuth2ClientSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOAuth2ClientSecret",
 }));
 
 export type DeleteOAuth2ResourceServerJsonWebKeyError =
@@ -17779,6 +18208,8 @@ export const deleteOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOAuth2ResourceServerJsonWebKey",
 }));
 
 export type DeleteOAuth2ScopeError = Forbidden | NotFound | OktaOpError;
@@ -17794,6 +18225,8 @@ export const deleteOAuth2Scope: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOAuth2Scope",
 }));
 
 export type DeleteOktaManagedUserAccountError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -17809,6 +18242,8 @@ export const deleteOktaManagedUserAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOktaManagedUserAccount",
 }));
 
 export type DeleteOrgCaptchaSettingsError = Forbidden | NotFound | OktaOpError;
@@ -17824,6 +18259,8 @@ export const deleteOrgCaptchaSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgCaptchaSettings",
 }));
 
 export type DeletePolicyError = Forbidden | NotFound | OktaOpError;
@@ -17839,6 +18276,8 @@ export const deletePolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeletePolicyResourceMappingError = Forbidden | NotFound | OktaOpError;
@@ -17854,6 +18293,8 @@ export const deletePolicyResourceMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicyResourceMapping",
 }));
 
 export type DeletePolicyRuleError = Forbidden | NotFound | OktaOpError;
@@ -17869,6 +18310,8 @@ export const deletePolicyRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicyRule",
 }));
 
 export type DeletePreviewErrorPageError = Forbidden | NotFound | OktaOpError;
@@ -17884,6 +18327,8 @@ export const deletePreviewErrorPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePreviewErrorPage",
 }));
 
 export type DeletePreviewSignInPageError = Forbidden | NotFound | OktaOpError;
@@ -17899,6 +18344,8 @@ export const deletePreviewSignInPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePreviewSignInPage",
 }));
 
 export type DeletePushProviderError = Forbidden | NotFound | Conflict | OktaOpError;
@@ -17914,6 +18361,8 @@ export const deletePushProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePushProvider",
 }));
 
 export type DeleteRealmError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -17929,6 +18378,8 @@ export const deleteRealm: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRealm",
 }));
 
 export type DeleteRealmAssignmentError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -17944,6 +18395,8 @@ export const deleteRealmAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRealmAssignment",
 }));
 
 export type DeleteResourceSetError = Forbidden | NotFound | OktaOpError;
@@ -17959,6 +18412,8 @@ export const deleteResourceSet: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceSet",
 }));
 
 export type DeleteResourceSetResourceError = Forbidden | NotFound | OktaOpError;
@@ -17974,6 +18429,8 @@ export const deleteResourceSetResource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceSetResource",
 }));
 
 export type DeleteRoleError = Forbidden | NotFound | OktaOpError;
@@ -17989,6 +18446,8 @@ export const deleteRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRole",
 }));
 
 export type DeleteRoleFromClientError = Forbidden | NotFound | OktaOpError;
@@ -18004,6 +18463,8 @@ export const deleteRoleFromClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoleFromClient",
 }));
 
 export type DeleteRolePermissionError = Forbidden | NotFound | OktaOpError;
@@ -18019,6 +18480,8 @@ export const deleteRolePermission: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRolePermission",
 }));
 
 export type DeleteSecurityEventsProviderInstanceError = Forbidden | NotFound | OktaOpError;
@@ -18034,6 +18497,8 @@ export const deleteSecurityEventsProviderInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityEventsProviderInstance",
 }));
 
 export type DeleteSmsTemplateError = Forbidden | NotFound | OktaOpError;
@@ -18049,6 +18514,8 @@ export const deleteSmsTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmsTemplate",
 }));
 
 export type DeleteSsfStreamError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18064,6 +18531,8 @@ export const deleteSsfStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSsfStream",
 }));
 
 export type DeleteTrustedOriginError = Forbidden | NotFound | OktaOpError;
@@ -18079,6 +18548,8 @@ export const deleteTrustedOrigin: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrustedOrigin",
 }));
 
 export type DeleteUISchemasError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18094,6 +18565,8 @@ export const deleteUISchemas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUISchemas",
 }));
 
 export type DeleteUserError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18109,6 +18582,8 @@ export const deleteUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserTypeError = Forbidden | NotFound | OktaOpError;
@@ -18124,6 +18599,8 @@ export const deleteUserType: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserType",
 }));
 
 export type DeleteWebAuthnPreregistrationFactorError = Forbidden | NotFound | OktaOpError;
@@ -18139,6 +18616,8 @@ export const deleteWebAuthnPreregistrationFactor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebAuthnPreregistrationFactor",
 }));
 
 export type EnrollFactorError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18154,6 +18633,8 @@ export const enrollFactor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrollFactor",
 }));
 
 export type EnrollPreregistrationEnrollmentError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18169,6 +18650,8 @@ export const enrollPreregistrationEnrollment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnrollPreregistrationEnrollment",
 }));
 
 export type ExecuteInlineHookError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18184,6 +18667,8 @@ export const executeInlineHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteInlineHook",
 }));
 
 export type ExecuteRealmAssignmentError = BadRequest | Forbidden | OktaOpError;
@@ -18199,6 +18684,8 @@ export const executeRealmAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteRealmAssignment",
 }));
 
 export type ExpirePasswordError = Forbidden | NotFound | OktaOpError;
@@ -18214,6 +18701,8 @@ export const expirePassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExpirePassword",
 }));
 
 export type ExpirePasswordWithTempPasswordError = Forbidden | NotFound | OktaOpError;
@@ -18229,6 +18718,8 @@ export const expirePasswordWithTempPassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExpirePasswordWithTempPassword",
 }));
 
 export type ForgotPasswordError = Forbidden | NotFound | OktaOpError;
@@ -18244,6 +18735,8 @@ export const forgotPassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForgotPassword",
 }));
 
 export type ForgotPasswordSetNewPasswordError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18259,6 +18752,8 @@ export const forgotPasswordSetNewPassword: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForgotPasswordSetNewPassword",
 }));
 
 export type GenerateApplicationKeyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18274,6 +18769,8 @@ export const generateApplicationKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateApplicationKey",
 }));
 
 export type GenerateCsrForApplicationError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18289,6 +18786,8 @@ export const generateCsrForApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCsrForApplication",
 }));
 
 export type GenerateCsrForIdentityProviderError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18304,6 +18803,8 @@ export const generateCsrForIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCsrForIdentityProvider",
 }));
 
 export type GenerateFulfillmentRequestError = Forbidden | NotFound | OktaOpError;
@@ -18319,6 +18820,8 @@ export const generateFulfillmentRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateFulfillmentRequest",
 }));
 
 export type GenerateIdentityProviderSigningKeyError = Forbidden | NotFound | OktaOpError;
@@ -18334,6 +18837,8 @@ export const generateIdentityProviderSigningKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateIdentityProviderSigningKey",
 }));
 
 export type GetAerialConsentError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18349,6 +18854,8 @@ export const getAerialConsent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAerialConsent",
 }));
 
 export type GetAgentPoolsUpdateInstanceError = Forbidden | NotFound | OktaOpError;
@@ -18364,6 +18871,8 @@ export const getAgentPoolsUpdateInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentPoolsUpdateInstance",
 }));
 
 export type GetAgentPoolsUpdateSettingsError = Forbidden | NotFound | OktaOpError;
@@ -18379,6 +18888,8 @@ export const getAgentPoolsUpdateSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentPoolsUpdateSettings",
 }));
 
 export type GetAllCrossAppAccessConnectionsError = Forbidden | NotFound | OktaOpError;
@@ -18394,6 +18905,8 @@ export const getAllCrossAppAccessConnections: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllCrossAppAccessConnections",
 }));
 
 export type GetAllWellKnownURIsError = Forbidden | NotFound | OktaOpError;
@@ -18409,6 +18922,8 @@ export const getAllWellKnownURIs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllWellKnownURIs",
 }));
 
 export type GetApiServiceIntegrationInstanceError = Forbidden | NotFound | OktaOpError;
@@ -18424,6 +18939,8 @@ export const getApiServiceIntegrationInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiServiceIntegrationInstance",
 }));
 
 export type GetApiTokenError = Forbidden | NotFound | OktaOpError;
@@ -18439,6 +18956,8 @@ export const getApiToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiToken",
 }));
 
 export type GetAppleAppSiteAssociationWellKnownURIError = OktaOpError;
@@ -18454,6 +18973,8 @@ export const getAppleAppSiteAssociationWellKnownURI: API.OperationMethod<
   errors: [UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppleAppSiteAssociationWellKnownURI",
 }));
 
 export type GetApplicationError = Forbidden | NotFound | OktaOpError;
@@ -18469,6 +18990,8 @@ export const getApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationGroupAssignmentError = Forbidden | NotFound | OktaOpError;
@@ -18484,6 +19007,8 @@ export const getApplicationGroupAssignment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationGroupAssignment",
 }));
 
 export type GetApplicationKeyError = Forbidden | NotFound | OktaOpError;
@@ -18499,6 +19024,8 @@ export const getApplicationKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationKey",
 }));
 
 export type GetApplicationUserError = Forbidden | NotFound | OktaOpError;
@@ -18514,6 +19041,8 @@ export const getApplicationUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationUser",
 }));
 
 export type GetApplicationUserSchemaError = Forbidden | NotFound | OktaOpError;
@@ -18529,6 +19058,8 @@ export const getApplicationUserSchema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationUserSchema",
 }));
 
 export type GetAppServiceAccountError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18544,6 +19075,8 @@ export const getAppServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppServiceAccount",
 }));
 
 export type GetAssetLinksWellKnownURIError = NotFound | OktaOpError;
@@ -18559,6 +19092,8 @@ export const getAssetLinksWellKnownURI: API.OperationMethod<
   errors: [NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssetLinksWellKnownURI",
 }));
 
 export type GetAuthenticatorError = Forbidden | NotFound | OktaOpError;
@@ -18574,6 +19109,8 @@ export const getAuthenticator: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticator",
 }));
 
 export type GetAuthenticatorEnrollmentError = Forbidden | NotFound | OktaOpError;
@@ -18589,6 +19126,8 @@ export const getAuthenticatorEnrollment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticatorEnrollment",
 }));
 
 export type GetAuthenticatorMethodError = Forbidden | NotFound | OktaOpError;
@@ -18604,6 +19143,8 @@ export const getAuthenticatorMethod: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticatorMethod",
 }));
 
 export type GetAuthenticatorSettingsError = Forbidden | OktaOpError;
@@ -18619,6 +19160,8 @@ export const getAuthenticatorSettings: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticatorSettings",
 }));
 
 export type GetAuthorizationServerError = Forbidden | NotFound | OktaOpError;
@@ -18634,6 +19177,8 @@ export const getAuthorizationServer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationServer",
 }));
 
 export type GetAuthorizationServerKeyError = Forbidden | NotFound | OktaOpError;
@@ -18649,6 +19194,8 @@ export const getAuthorizationServerKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationServerKey",
 }));
 
 export type GetAuthorizationServerPolicyError = Forbidden | NotFound | OktaOpError;
@@ -18664,6 +19211,8 @@ export const getAuthorizationServerPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationServerPolicy",
 }));
 
 export type GetAuthorizationServerPolicyRuleError = Forbidden | NotFound | OktaOpError;
@@ -18679,6 +19228,8 @@ export const getAuthorizationServerPolicyRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationServerPolicyRule",
 }));
 
 export type GetAutoAssignAdminAppSettingError = Forbidden | OktaOpError;
@@ -18694,6 +19245,8 @@ export const getAutoAssignAdminAppSetting: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoAssignAdminAppSetting",
 }));
 
 export type GetBehaviorDetectionRuleError = Forbidden | NotFound | OktaOpError;
@@ -18709,6 +19262,8 @@ export const getBehaviorDetectionRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBehaviorDetectionRule",
 }));
 
 export type GetBindingError = Forbidden | NotFound | OktaOpError;
@@ -18724,6 +19279,8 @@ export const getBinding: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBinding",
 }));
 
 export type GetBotProtectionConfigurationError = Forbidden | OktaOpError;
@@ -18739,6 +19296,8 @@ export const getBotProtectionConfiguration: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBotProtectionConfiguration",
 }));
 
 export type GetBrandError = Forbidden | NotFound | OktaOpError;
@@ -18754,6 +19313,8 @@ export const getBrand: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrand",
 }));
 
 export type GetBrandThemeError = Forbidden | NotFound | OktaOpError;
@@ -18769,6 +19330,8 @@ export const getBrandTheme: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrandTheme",
 }));
 
 export type GetBrandWellKnownURIError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -18784,6 +19347,8 @@ export const getBrandWellKnownURI: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrandWellKnownURI",
 }));
 
 export type GetCaptchaInstanceError = Forbidden | NotFound | OktaOpError;
@@ -18799,6 +19364,8 @@ export const getCaptchaInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCaptchaInstance",
 }));
 
 export type GetClientPrivilegesSettingError = Forbidden | OktaOpError;
@@ -18814,6 +19381,8 @@ export const getClientPrivilegesSetting: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClientPrivilegesSetting",
 }));
 
 export type GetClientRoleError = Forbidden | NotFound | OktaOpError;
@@ -18829,6 +19398,8 @@ export const getClientRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClientRole",
 }));
 
 export type GetCrossAppAccessConnectionError = Forbidden | NotFound | OktaOpError;
@@ -18844,6 +19415,8 @@ export const getCrossAppAccessConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCrossAppAccessConnection",
 }));
 
 export type GetCsrForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -18859,6 +19432,8 @@ export const getCsrForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCsrForApplication",
 }));
 
 export type GetCsrForIdentityProviderError = Forbidden | NotFound | OktaOpError;
@@ -18874,6 +19449,8 @@ export const getCsrForIdentityProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCsrForIdentityProvider",
 }));
 
 export type GetCurrentConfigurationError = Forbidden | OktaOpError;
@@ -18889,6 +19466,8 @@ export const getCurrentConfiguration: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentConfiguration",
 }));
 
 export type GetCustomAAGUIDError = Forbidden | NotFound | OktaOpError;
@@ -18904,6 +19483,8 @@ export const getCustomAAGUID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomAAGUID",
 }));
 
 export type GetCustomDomainError = Forbidden | NotFound | OktaOpError;
@@ -18919,6 +19500,8 @@ export const getCustomDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomDomain",
 }));
 
 export type GetCustomizationPreviewError = Forbidden | NotFound | OktaOpError;
@@ -18934,6 +19517,8 @@ export const getCustomizationPreview: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomizationPreview",
 }));
 
 export type GetCustomizedErrorPageError = Forbidden | NotFound | OktaOpError;
@@ -18949,6 +19534,8 @@ export const getCustomizedErrorPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomizedErrorPage",
 }));
 
 export type GetCustomizedSignInPageError = Forbidden | NotFound | OktaOpError;
@@ -18964,6 +19551,8 @@ export const getCustomizedSignInPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomizedSignInPage",
 }));
 
 export type GetCustomTelephonyProviderCredentialError = Forbidden | NotFound | OktaOpError;
@@ -18979,6 +19568,8 @@ export const getCustomTelephonyProviderCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomTelephonyProviderCredential",
 }));
 
 export type GetDefaultErrorPageError = Forbidden | NotFound | OktaOpError;
@@ -18994,6 +19585,8 @@ export const getDefaultErrorPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultErrorPage",
 }));
 
 export type GetDefaultProvisioningConnectionForApplicationError =
@@ -19016,6 +19609,8 @@ export const getDefaultProvisioningConnectionForApplication: API.OperationMethod
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultProvisioningConnectionForApplication",
 }));
 
 export type GetDefaultSignInPageError = Forbidden | NotFound | OktaOpError;
@@ -19031,6 +19626,8 @@ export const getDefaultSignInPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultSignInPage",
 }));
 
 export type GetDeviceError = Forbidden | NotFound | OktaOpError;
@@ -19046,6 +19643,8 @@ export const getDevice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetDeviceAssurancePolicyError = Forbidden | NotFound | OktaOpError;
@@ -19061,6 +19660,8 @@ export const getDeviceAssurancePolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceAssurancePolicy",
 }));
 
 export type GetDeviceIntegrationError = Forbidden | OktaOpError;
@@ -19076,6 +19677,8 @@ export const getDeviceIntegration: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceIntegration",
 }));
 
 export type GetDeviceOSAccountError = Forbidden | NotFound | OktaOpError;
@@ -19091,6 +19694,8 @@ export const getDeviceOSAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceOSAccount",
 }));
 
 export type GetDevicePostureCheckError = Forbidden | NotFound | OktaOpError;
@@ -19106,6 +19711,8 @@ export const getDevicePostureCheck: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevicePostureCheck",
 }));
 
 export type GetDRStatusError = BadRequest | Forbidden | OktaOpError;
@@ -19121,6 +19728,8 @@ export const getDRStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDRStatus",
 }));
 
 export type GetDRStatusByDomainError = BadRequest | Forbidden | OktaOpError;
@@ -19136,6 +19745,8 @@ export const getDRStatusByDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDRStatusByDomain",
 }));
 
 export type GetEmailCustomizationError = Forbidden | NotFound | OktaOpError;
@@ -19151,6 +19762,8 @@ export const getEmailCustomization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailCustomization",
 }));
 
 export type GetEmailDefaultContentError = Forbidden | NotFound | OktaOpError;
@@ -19166,6 +19779,8 @@ export const getEmailDefaultContent: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDefaultContent",
 }));
 
 export type GetEmailDefaultPreviewError = Forbidden | NotFound | OktaOpError;
@@ -19181,6 +19796,8 @@ export const getEmailDefaultPreview: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDefaultPreview",
 }));
 
 export type GetEmailDomainError = Forbidden | NotFound | OktaOpError;
@@ -19196,6 +19813,8 @@ export const getEmailDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailDomain",
 }));
 
 export type GetEmailServerError = Forbidden | NotFound | OktaOpError;
@@ -19211,6 +19830,8 @@ export const getEmailServer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailServer",
 }));
 
 export type GetEmailSettingsError = Forbidden | NotFound | OktaOpError;
@@ -19226,6 +19847,8 @@ export const getEmailSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailSettings",
 }));
 
 export type GetEmailTemplateError = Forbidden | NotFound | OktaOpError;
@@ -19241,6 +19864,8 @@ export const getEmailTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailTemplate",
 }));
 
 export type GetErrorPageError = Forbidden | NotFound | OktaOpError;
@@ -19256,6 +19881,8 @@ export const getErrorPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorPage",
 }));
 
 export type GetEventHookError = Forbidden | NotFound | OktaOpError;
@@ -19271,6 +19898,8 @@ export const getEventHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventHook",
 }));
 
 export type GetFactorError = Forbidden | NotFound | OktaOpError;
@@ -19286,6 +19915,8 @@ export const getFactor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactor",
 }));
 
 export type GetFactorTransactionStatusError = Forbidden | NotFound | OktaOpError;
@@ -19301,6 +19932,8 @@ export const getFactorTransactionStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFactorTransactionStatus",
 }));
 
 export type GetFeatureError = Forbidden | NotFound | OktaOpError;
@@ -19316,6 +19949,8 @@ export const getFeature: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeature",
 }));
 
 export type GetFeatureForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -19331,6 +19966,8 @@ export const getFeatureForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureForApplication",
 }));
 
 export type GetFederatedClaimError = Forbidden | NotFound | OktaOpError;
@@ -19346,6 +19983,8 @@ export const getFederatedClaim: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFederatedClaim",
 }));
 
 export type GetFirstPartyAppSettingsError = Forbidden | OktaOpError;
@@ -19361,6 +20000,8 @@ export const getFirstPartyAppSettings: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirstPartyAppSettings",
 }));
 
 export type GetGovernanceBundleError = BadRequest | Forbidden | OktaOpError;
@@ -19376,6 +20017,8 @@ export const getGovernanceBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGovernanceBundle",
 }));
 
 export type GetGroupError = Forbidden | NotFound | OktaOpError;
@@ -19387,6 +20030,8 @@ export const getGroup: API.OperationMethod<GetGroupRequest, Group, GetGroupError
     errors: [Forbidden, NotFound, UnknownOktaError],
     protocol: OktaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetGroup",
   }));
 
 export type GetGroupAssignedRoleError = Forbidden | NotFound | OktaOpError;
@@ -19402,6 +20047,8 @@ export const getGroupAssignedRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAssignedRole",
 }));
 
 export type GetGroupAttributeQueryResultError = NotFound | OktaOpError;
@@ -19417,6 +20064,8 @@ export const getGroupAttributeQueryResult: API.OperationMethod<
   errors: [NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupAttributeQueryResult",
 }));
 
 export type GetGroupPushMappingError = Forbidden | NotFound | OktaOpError;
@@ -19432,6 +20081,8 @@ export const getGroupPushMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupPushMapping",
 }));
 
 export type GetGroupRuleError = Forbidden | NotFound | OktaOpError;
@@ -19447,6 +20098,8 @@ export const getGroupRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupRule",
 }));
 
 export type GetGroupSchemaError = Forbidden | OktaOpError;
@@ -19462,6 +20115,8 @@ export const getGroupSchema: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupSchema",
 }));
 
 export type GetHookKeyError = Forbidden | NotFound | OktaOpError;
@@ -19477,6 +20132,8 @@ export const getHookKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHookKey",
 }));
 
 export type GetIdentityProviderError = Forbidden | NotFound | OktaOpError;
@@ -19492,6 +20149,8 @@ export const getIdentityProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProvider",
 }));
 
 export type GetIdentityProviderApplicationUserError = Forbidden | NotFound | OktaOpError;
@@ -19507,6 +20166,8 @@ export const getIdentityProviderApplicationUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderApplicationUser",
 }));
 
 export type GetIdentityProviderKeyError = Forbidden | NotFound | OktaOpError;
@@ -19522,6 +20183,8 @@ export const getIdentityProviderKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderKey",
 }));
 
 export type GetIdentityProviderSigningKeyError = Forbidden | NotFound | OktaOpError;
@@ -19537,6 +20200,8 @@ export const getIdentityProviderSigningKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderSigningKey",
 }));
 
 export type GetIdentitySourceGroupError = Forbidden | NotFound | OktaOpError;
@@ -19552,6 +20217,8 @@ export const getIdentitySourceGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentitySourceGroup",
 }));
 
 export type GetIdentitySourceGroupMembershipsError = Forbidden | NotFound | OktaOpError;
@@ -19567,6 +20234,8 @@ export const getIdentitySourceGroupMemberships: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentitySourceGroupMemberships",
 }));
 
 export type GetIdentitySourceSessionError = Forbidden | NotFound | OktaOpError;
@@ -19582,6 +20251,8 @@ export const getIdentitySourceSession: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentitySourceSession",
 }));
 
 export type GetIdentitySourceUserError = Forbidden | NotFound | OktaOpError;
@@ -19597,6 +20268,8 @@ export const getIdentitySourceUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentitySourceUser",
 }));
 
 export type GetInlineHookError = Forbidden | NotFound | OktaOpError;
@@ -19612,6 +20285,8 @@ export const getInlineHook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInlineHook",
 }));
 
 export type GetJwkError = Forbidden | NotFound | OktaOpError;
@@ -19627,6 +20302,8 @@ export const getJwk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJwk",
 }));
 
 export type GetLinkedObjectDefinitionError = Forbidden | NotFound | OktaOpError;
@@ -19642,6 +20319,8 @@ export const getLinkedObjectDefinition: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinkedObjectDefinition",
 }));
 
 export type GetLogStreamError = Forbidden | NotFound | OktaOpError;
@@ -19657,6 +20336,8 @@ export const getLogStream: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogStream",
 }));
 
 export type GetLogStreamSchemaError = Forbidden | NotFound | OktaOpError;
@@ -19672,6 +20353,8 @@ export const getLogStreamSchema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogStreamSchema",
 }));
 
 export type GetMemberOfBindingError = Forbidden | NotFound | OktaOpError;
@@ -19687,6 +20370,8 @@ export const getMemberOfBinding: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMemberOfBinding",
 }));
 
 export type GetNetworkZoneError = Forbidden | NotFound | OktaOpError;
@@ -19702,6 +20387,8 @@ export const getNetworkZone: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkZone",
 }));
 
 export type GetOAuth2ClaimError = Forbidden | NotFound | OktaOpError;
@@ -19717,6 +20404,8 @@ export const getOAuth2Claim: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuth2Claim",
 }));
 
 export type GetOAuth2ClientSecretError = Forbidden | NotFound | OktaOpError;
@@ -19732,6 +20421,8 @@ export const getOAuth2ClientSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuth2ClientSecret",
 }));
 
 export type GetOAuth2ResourceServerJsonWebKeyError = Forbidden | NotFound | OktaOpError;
@@ -19747,6 +20438,8 @@ export const getOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuth2ResourceServerJsonWebKey",
 }));
 
 export type GetOAuth2ScopeError = Forbidden | NotFound | OktaOpError;
@@ -19762,6 +20455,8 @@ export const getOAuth2Scope: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuth2Scope",
 }));
 
 export type GetOAuth2TokenForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -19777,6 +20472,8 @@ export const getOAuth2TokenForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuth2TokenForApplication",
 }));
 
 export type GetOktaCommunicationSettingsError = Forbidden | OktaOpError;
@@ -19792,6 +20489,8 @@ export const getOktaCommunicationSettings: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOktaCommunicationSettings",
 }));
 
 export type GetOktaManagedUserAccountError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -19807,6 +20506,8 @@ export const getOktaManagedUserAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOktaManagedUserAccount",
 }));
 
 export type GetOptInStatusError = Forbidden | OktaOpError;
@@ -19822,6 +20523,8 @@ export const getOptInStatus: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOptInStatus",
 }));
 
 export type GetOrgCaptchaSettingsError = Forbidden | OktaOpError;
@@ -19837,6 +20540,8 @@ export const getOrgCaptchaSettings: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgCaptchaSettings",
 }));
 
 export type GetOrgContactUserError = Forbidden | NotFound | OktaOpError;
@@ -19852,6 +20557,8 @@ export const getOrgContactUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgContactUser",
 }));
 
 export type GetOrgOktaSupportSettingsError = Forbidden | OktaOpError;
@@ -19867,6 +20574,8 @@ export const getOrgOktaSupportSettings: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgOktaSupportSettings",
 }));
 
 export type GetOrgPreferencesError = Forbidden | OktaOpError;
@@ -19882,6 +20591,8 @@ export const getOrgPreferences: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgPreferences",
 }));
 
 export type GetOrgSettingsError = Forbidden | OktaOpError;
@@ -19897,6 +20608,8 @@ export const getOrgSettings: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgSettings",
 }));
 
 export type GetPolicyError = Forbidden | NotFound | OktaOpError;
@@ -19912,6 +20625,8 @@ export const getPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetPolicyMappingError = Forbidden | NotFound | OktaOpError;
@@ -19927,6 +20642,8 @@ export const getPolicyMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyMapping",
 }));
 
 export type GetPolicyRuleError = Forbidden | NotFound | OktaOpError;
@@ -19942,6 +20659,8 @@ export const getPolicyRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyRule",
 }));
 
 export type GetPreviewErrorPageError = Forbidden | NotFound | OktaOpError;
@@ -19957,6 +20676,8 @@ export const getPreviewErrorPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewErrorPage",
 }));
 
 export type GetPreviewSignInPageError = Forbidden | NotFound | OktaOpError;
@@ -19972,6 +20693,8 @@ export const getPreviewSignInPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewSignInPage",
 }));
 
 export type GetPrincipalRateLimitEntityError = Forbidden | NotFound | OktaOpError;
@@ -19987,6 +20710,8 @@ export const getPrincipalRateLimitEntity: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrincipalRateLimitEntity",
 }));
 
 export type GetProfileMappingError = Forbidden | NotFound | OktaOpError;
@@ -20002,6 +20727,8 @@ export const getProfileMapping: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProfileMapping",
 }));
 
 export type GetPublicKeyError = Forbidden | NotFound | OktaOpError;
@@ -20017,6 +20744,8 @@ export const getPublicKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicKey",
 }));
 
 export type GetPushProviderError = Forbidden | NotFound | OktaOpError;
@@ -20032,6 +20761,8 @@ export const getPushProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPushProvider",
 }));
 
 export type GetRateLimitSettingsAdminNotificationsError = Forbidden | OktaOpError;
@@ -20047,6 +20778,8 @@ export const getRateLimitSettingsAdminNotifications: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRateLimitSettingsAdminNotifications",
 }));
 
 export type GetRateLimitSettingsPerClientError = Forbidden | OktaOpError;
@@ -20062,6 +20795,8 @@ export const getRateLimitSettingsPerClient: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRateLimitSettingsPerClient",
 }));
 
 export type GetRateLimitSettingsWarningThresholdError = Forbidden | OktaOpError;
@@ -20077,6 +20812,8 @@ export const getRateLimitSettingsWarningThreshold: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRateLimitSettingsWarningThreshold",
 }));
 
 export type GetRealmError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -20088,6 +20825,8 @@ export const getRealm: API.OperationMethod<GetRealmRequest, Realm, GetRealmError
     errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
     protocol: OktaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetRealm",
   }));
 
 export type GetRealmAssignmentError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -20103,6 +20842,8 @@ export const getRealmAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRealmAssignment",
 }));
 
 export type GetRefreshTokenForAuthorizationServerAndClientError =
@@ -20125,6 +20866,8 @@ export const getRefreshTokenForAuthorizationServerAndClient: API.OperationMethod
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRefreshTokenForAuthorizationServerAndClient",
 }));
 
 export type GetRefreshTokenForUserAndClientError = Forbidden | NotFound | OktaOpError;
@@ -20140,6 +20883,8 @@ export const getRefreshTokenForUserAndClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRefreshTokenForUserAndClient",
 }));
 
 export type GetResourceSetError = Forbidden | NotFound | OktaOpError;
@@ -20155,6 +20900,8 @@ export const getResourceSet: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceSet",
 }));
 
 export type GetResourceSetResourceError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -20170,6 +20917,8 @@ export const getResourceSetResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceSetResource",
 }));
 
 export type GetRoleError = Forbidden | NotFound | OktaOpError;
@@ -20181,6 +20930,8 @@ export const getRole: API.OperationMethod<GetRoleRequest, IamRole, GetRoleError,
     errors: [Forbidden, NotFound, UnknownOktaError],
     protocol: OktaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetRole",
   }));
 
 export type GetRoleAssignmentGovernanceGrantError = Forbidden | NotFound | OktaOpError;
@@ -20196,6 +20947,8 @@ export const getRoleAssignmentGovernanceGrant: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleAssignmentGovernanceGrant",
 }));
 
 export type GetRoleAssignmentGovernanceGrantResourcesError = Forbidden | NotFound | OktaOpError;
@@ -20211,6 +20964,8 @@ export const getRoleAssignmentGovernanceGrantResources: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleAssignmentGovernanceGrantResources",
 }));
 
 export type GetRolePermissionError = Forbidden | NotFound | OktaOpError;
@@ -20226,6 +20981,8 @@ export const getRolePermission: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRolePermission",
 }));
 
 export type GetRoleTargetsByUserIdAndRoleIdError = Forbidden | NotFound | OktaOpError;
@@ -20241,6 +20998,8 @@ export const getRoleTargetsByUserIdAndRoleId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleTargetsByUserIdAndRoleId",
 }));
 
 export type GetRootBrandWellKnownURIError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -20256,6 +21015,8 @@ export const getRootBrandWellKnownURI: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRootBrandWellKnownURI",
 }));
 
 export type GetScopeConsentGrantError = Forbidden | NotFound | OktaOpError;
@@ -20271,6 +21032,8 @@ export const getScopeConsentGrant: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScopeConsentGrant",
 }));
 
 export type GetSecurityEventsProviderInstanceError = Forbidden | NotFound | OktaOpError;
@@ -20286,6 +21049,8 @@ export const getSecurityEventsProviderInstance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityEventsProviderInstance",
 }));
 
 export type GetSessionError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -20301,6 +21066,8 @@ export const getSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSignInPageError = Forbidden | NotFound | OktaOpError;
@@ -20316,6 +21083,8 @@ export const getSignInPage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignInPage",
 }));
 
 export type GetSignOutPageSettingsError = Forbidden | NotFound | OktaOpError;
@@ -20331,6 +21100,8 @@ export const getSignOutPageSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignOutPageSettings",
 }));
 
 export type GetSmsTemplateError = Forbidden | NotFound | OktaOpError;
@@ -20346,6 +21117,8 @@ export const getSmsTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmsTemplate",
 }));
 
 export type GetSsfStreamsError = Forbidden | NotFound | OktaOpError;
@@ -20361,6 +21134,8 @@ export const getSsfStreams: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSsfStreams",
 }));
 
 export type GetSsfStreamStatusError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -20376,6 +21151,8 @@ export const getSsfStreamStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSsfStreamStatus",
 }));
 
 export type GetSubscriptionsNotificationTypeRoleError = Forbidden | NotFound | OktaOpError;
@@ -20391,6 +21168,8 @@ export const getSubscriptionsNotificationTypeRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionsNotificationTypeRole",
 }));
 
 export type GetSubscriptionsNotificationTypeUserError = Forbidden | NotFound | OktaOpError;
@@ -20406,6 +21185,8 @@ export const getSubscriptionsNotificationTypeUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionsNotificationTypeUser",
 }));
 
 export type GetThirdPartyAdminSettingError = Forbidden | OktaOpError;
@@ -20421,6 +21202,8 @@ export const getThirdPartyAdminSetting: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThirdPartyAdminSetting",
 }));
 
 export type GetTrustedOriginError = Forbidden | NotFound | OktaOpError;
@@ -20436,6 +21219,8 @@ export const getTrustedOrigin: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrustedOrigin",
 }));
 
 export type GetUISchemaError = Forbidden | NotFound | OktaOpError;
@@ -20451,6 +21236,8 @@ export const getUISchema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUISchema",
 }));
 
 export type GetUserError = Forbidden | NotFound | OktaOpError;
@@ -20466,6 +21253,8 @@ export const getUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserAssignedRoleError = Forbidden | NotFound | OktaOpError;
@@ -20481,6 +21270,8 @@ export const getUserAssignedRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAssignedRole",
 }));
 
 export type GetUserAssignedRoleGovernanceError = Forbidden | NotFound | OktaOpError;
@@ -20496,6 +21287,8 @@ export const getUserAssignedRoleGovernance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAssignedRoleGovernance",
 }));
 
 export type GetUserClassificationError = Forbidden | NotFound | OktaOpError;
@@ -20511,6 +21304,8 @@ export const getUserClassification: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserClassification",
 }));
 
 export type GetUserGrantError = Forbidden | NotFound | OktaOpError;
@@ -20526,6 +21321,8 @@ export const getUserGrant: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserGrant",
 }));
 
 export type GetUserLockoutSettingsError = Forbidden | OktaOpError;
@@ -20541,6 +21338,8 @@ export const getUserLockoutSettings: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserLockoutSettings",
 }));
 
 export type GetUserProvisioningConnectionJWKSError = NotFound | OktaOpError;
@@ -20556,6 +21355,8 @@ export const getUserProvisioningConnectionJWKS: API.OperationMethod<
   errors: [NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserProvisioningConnectionJWKS",
 }));
 
 export type GetUserRiskError = Forbidden | NotFound | OktaOpError;
@@ -20571,6 +21372,8 @@ export const getUserRisk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRisk",
 }));
 
 export type GetUserSchemaError = Forbidden | NotFound | OktaOpError;
@@ -20586,6 +21389,8 @@ export const getUserSchema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserSchema",
 }));
 
 export type GetUserTypeError = Forbidden | NotFound | OktaOpError;
@@ -20601,6 +21406,8 @@ export const getUserType: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserType",
 }));
 
 export type GetWebAuthnWellKnownURIError = NotFound | OktaOpError;
@@ -20616,6 +21423,8 @@ export const getWebAuthnWellKnownURI: API.OperationMethod<
   errors: [NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebAuthnWellKnownURI",
 }));
 
 export type GetWellKnownAppAuthenticatorConfigurationError = BadRequest | OktaOpError;
@@ -20635,6 +21444,8 @@ export const getWellKnownAppAuthenticatorConfiguration: API.OperationMethod<
   errors: [BadRequest, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWellKnownAppAuthenticatorConfiguration",
 }));
 
 export type GetWellknownOrgMetadataError = OktaOpError;
@@ -20650,6 +21461,8 @@ export const getWellknownOrgMetadata: API.OperationMethod<
   errors: [UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWellknownOrgMetadata",
 }));
 
 export type GetWellknownSsfMetadataError = Forbidden | NotFound | OktaOpError;
@@ -20665,6 +21478,8 @@ export const getWellknownSsfMetadata: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWellknownSsfMetadata",
 }));
 
 export type GetYubikeyOtpTokenByIdError = Forbidden | NotFound | OktaOpError;
@@ -20680,6 +21495,8 @@ export const getYubikeyOtpTokenById: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetYubikeyOtpTokenById",
 }));
 
 export type GrantAerialConsentError = BadRequest | Forbidden | OktaOpError;
@@ -20695,6 +21512,8 @@ export const grantAerialConsent: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GrantAerialConsent",
 }));
 
 export type GrantConsentToScopeError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -20710,6 +21529,8 @@ export const grantConsentToScope: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GrantConsentToScope",
 }));
 
 export type LinkUserToIdentityProviderError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -20725,6 +21546,8 @@ export const linkUserToIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkUserToIdentityProvider",
 }));
 
 export type ListActiveIdentityProviderSigningKeyError = OktaOpError;
@@ -20740,6 +21563,8 @@ export const listActiveIdentityProviderSigningKey: API.OperationMethod<
   errors: [UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActiveIdentityProviderSigningKey",
 }));
 
 export type ListAgentPoolsError = Forbidden | OktaOpError;
@@ -20755,6 +21580,8 @@ export const listAgentPools: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentPools",
 }));
 
 export type ListAgentPoolsUpdatesError = Forbidden | NotFound | OktaOpError;
@@ -20770,6 +21597,8 @@ export const listAgentPoolsUpdates: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentPoolsUpdates",
 }));
 
 export type ListAllCustomAAGUIDsError = Forbidden | NotFound | OktaOpError;
@@ -20785,6 +21614,8 @@ export const listAllCustomAAGUIDs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllCustomAAGUIDs",
 }));
 
 export type ListAllCustomTelephonyProviderCredentialsError = Forbidden | NotFound | OktaOpError;
@@ -20804,6 +21635,8 @@ export const listAllCustomTelephonyProviderCredentials: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllCustomTelephonyProviderCredentials",
 }));
 
 export type ListAllSignInWidgetVersionsError = Forbidden | NotFound | OktaOpError;
@@ -20819,6 +21652,8 @@ export const listAllSignInWidgetVersions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllSignInWidgetVersions",
 }));
 
 export type ListApiServiceIntegrationInstancesError = Forbidden | OktaOpError;
@@ -20834,6 +21669,8 @@ export const listApiServiceIntegrationInstances: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiServiceIntegrationInstances",
 }));
 
 export type ListApiServiceIntegrationInstanceSecretsError = Forbidden | NotFound | OktaOpError;
@@ -20853,6 +21690,8 @@ export const listApiServiceIntegrationInstanceSecrets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiServiceIntegrationInstanceSecrets",
 }));
 
 export type ListApiTokensError = Forbidden | OktaOpError;
@@ -20868,6 +21707,8 @@ export const listApiTokens: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiTokens",
 }));
 
 export type ListApplicationGroupAssignmentsError = Forbidden | NotFound | OktaOpError;
@@ -20883,6 +21724,8 @@ export const listApplicationGroupAssignments: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationGroupAssignments",
 }));
 
 export type ListApplicationKeysError = Forbidden | NotFound | OktaOpError;
@@ -20898,6 +21741,8 @@ export const listApplicationKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationKeys",
 }));
 
 export type ListApplicationsError = Forbidden | OktaOpError;
@@ -20913,6 +21758,8 @@ export const listApplications: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 }));
 
 export type ListApplicationTargetsForApplicationAdministratorRoleForGroupError =
@@ -20939,6 +21786,8 @@ export const listApplicationTargetsForApplicationAdministratorRoleForGroup: API.
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationTargetsForApplicationAdministratorRoleForGroup",
 }));
 
 export type ListApplicationTargetsForApplicationAdministratorRoleForUserError =
@@ -20965,6 +21814,8 @@ export const listApplicationTargetsForApplicationAdministratorRoleForUser: API.O
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationTargetsForApplicationAdministratorRoleForUser",
 }));
 
 export type ListApplicationUsersError = Forbidden | NotFound | OktaOpError;
@@ -20980,6 +21831,8 @@ export const listApplicationUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationUsers",
 }));
 
 export type ListAppLinksError = Forbidden | NotFound | OktaOpError;
@@ -20995,6 +21848,8 @@ export const listAppLinks: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppLinks",
 }));
 
 export type ListAppServiceAccountsError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -21010,6 +21865,8 @@ export const listAppServiceAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppServiceAccounts",
 }));
 
 export type ListAppTargetRoleToClientError = Forbidden | NotFound | OktaOpError;
@@ -21025,6 +21882,8 @@ export const listAppTargetRoleToClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppTargetRoleToClient",
 }));
 
 export type ListAssignedApplicationsForGroupError = Forbidden | NotFound | OktaOpError;
@@ -21040,6 +21899,8 @@ export const listAssignedApplicationsForGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssignedApplicationsForGroup",
 }));
 
 export type ListAssignedRolesForUserError = Forbidden | NotFound | OktaOpError;
@@ -21055,6 +21916,8 @@ export const listAssignedRolesForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssignedRolesForUser",
 }));
 
 export type ListAssociatedServersByTrustedTypeError = Forbidden | NotFound | OktaOpError;
@@ -21070,6 +21933,8 @@ export const listAssociatedServersByTrustedType: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedServersByTrustedType",
 }));
 
 export type ListAuthenticatorEnrollmentsError = Forbidden | NotFound | OktaOpError;
@@ -21085,6 +21950,8 @@ export const listAuthenticatorEnrollments: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthenticatorEnrollments",
 }));
 
 export type ListAuthenticatorMethodsError = Forbidden | NotFound | OktaOpError;
@@ -21100,6 +21967,8 @@ export const listAuthenticatorMethods: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthenticatorMethods",
 }));
 
 export type ListAuthenticatorsError = Forbidden | OktaOpError;
@@ -21115,6 +21984,8 @@ export const listAuthenticators: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthenticators",
 }));
 
 export type ListAuthorizationServerKeysError = Forbidden | NotFound | OktaOpError;
@@ -21130,6 +22001,8 @@ export const listAuthorizationServerKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationServerKeys",
 }));
 
 export type ListAuthorizationServerPoliciesError = Forbidden | NotFound | OktaOpError;
@@ -21145,6 +22018,8 @@ export const listAuthorizationServerPolicies: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationServerPolicies",
 }));
 
 export type ListAuthorizationServerPolicyRulesError = Forbidden | NotFound | OktaOpError;
@@ -21160,6 +22035,8 @@ export const listAuthorizationServerPolicyRules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationServerPolicyRules",
 }));
 
 export type ListAuthorizationServersError = Forbidden | OktaOpError;
@@ -21175,6 +22052,8 @@ export const listAuthorizationServers: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthorizationServers",
 }));
 
 export type ListBehaviorDetectionRulesError = Forbidden | OktaOpError;
@@ -21190,6 +22069,8 @@ export const listBehaviorDetectionRules: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBehaviorDetectionRules",
 }));
 
 export type ListBindingsError = Forbidden | NotFound | OktaOpError;
@@ -21205,6 +22086,8 @@ export const listBindings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBindings",
 }));
 
 export type ListBrandDomainsError = Forbidden | NotFound | OktaOpError;
@@ -21220,6 +22103,8 @@ export const listBrandDomains: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrandDomains",
 }));
 
 export type ListBrandsError = Forbidden | OktaOpError;
@@ -21235,6 +22120,8 @@ export const listBrands: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrands",
 }));
 
 export type ListBrandThemesError = Forbidden | NotFound | OktaOpError;
@@ -21250,6 +22137,8 @@ export const listBrandThemes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrandThemes",
 }));
 
 export type ListBundleEntitlementsError = Forbidden | OktaOpError;
@@ -21265,6 +22154,8 @@ export const listBundleEntitlements: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBundleEntitlements",
 }));
 
 export type ListBundleEntitlementValuesError = Forbidden | OktaOpError;
@@ -21280,6 +22171,8 @@ export const listBundleEntitlementValues: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBundleEntitlementValues",
 }));
 
 export type ListCaptchaInstancesError = Forbidden | OktaOpError;
@@ -21295,6 +22188,8 @@ export const listCaptchaInstances: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaptchaInstances",
 }));
 
 export type ListCsrsForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -21310,6 +22205,8 @@ export const listCsrsForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCsrsForApplication",
 }));
 
 export type ListCsrsForIdentityProviderError = Forbidden | NotFound | OktaOpError;
@@ -21325,6 +22222,8 @@ export const listCsrsForIdentityProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCsrsForIdentityProvider",
 }));
 
 export type ListCustomDomainsError = Forbidden | OktaOpError;
@@ -21340,6 +22239,8 @@ export const listCustomDomains: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomDomains",
 }));
 
 export type ListDefaultDevicePostureChecksError = Forbidden | OktaOpError;
@@ -21355,6 +22256,8 @@ export const listDefaultDevicePostureChecks: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDefaultDevicePostureChecks",
 }));
 
 export type ListDeviceAssurancePoliciesError = Forbidden | OktaOpError;
@@ -21370,6 +22273,8 @@ export const listDeviceAssurancePolicies: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeviceAssurancePolicies",
 }));
 
 export type ListDeviceIntegrationsError = Forbidden | OktaOpError;
@@ -21385,6 +22290,8 @@ export const listDeviceIntegrations: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeviceIntegrations",
 }));
 
 export type ListDeviceOSAccountsError = Forbidden | NotFound | OktaOpError;
@@ -21400,6 +22307,8 @@ export const listDeviceOSAccounts: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeviceOSAccounts",
 }));
 
 export type ListDevicePostureChecksError = Forbidden | OktaOpError;
@@ -21415,6 +22324,8 @@ export const listDevicePostureChecks: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevicePostureChecks",
 }));
 
 export type ListDevicesError = Forbidden | OktaOpError;
@@ -21430,6 +22341,8 @@ export const listDevices: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 }));
 
 export type ListDeviceUsersError = Forbidden | NotFound | OktaOpError;
@@ -21445,6 +22358,8 @@ export const listDeviceUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeviceUsers",
 }));
 
 export type ListEmailCustomizationsError = Forbidden | NotFound | OktaOpError;
@@ -21460,6 +22375,8 @@ export const listEmailCustomizations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailCustomizations",
 }));
 
 export type ListEmailDomainsError = Forbidden | OktaOpError;
@@ -21475,6 +22392,8 @@ export const listEmailDomains: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailDomains",
 }));
 
 export type ListEmailServersError = Forbidden | OktaOpError;
@@ -21490,6 +22409,8 @@ export const listEmailServers: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailServers",
 }));
 
 export type ListEmailTemplatesError = Forbidden | NotFound | OktaOpError;
@@ -21505,6 +22426,8 @@ export const listEmailTemplates: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailTemplates",
 }));
 
 export type ListEventHooksError = Forbidden | OktaOpError;
@@ -21520,6 +22443,8 @@ export const listEventHooks: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventHooks",
 }));
 
 export type ListFactorsError = Forbidden | NotFound | OktaOpError;
@@ -21535,6 +22460,8 @@ export const listFactors: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFactors",
 }));
 
 export type ListFeatureDependenciesError = Forbidden | NotFound | OktaOpError;
@@ -21550,6 +22477,8 @@ export const listFeatureDependencies: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureDependencies",
 }));
 
 export type ListFeatureDependentsError = Forbidden | NotFound | OktaOpError;
@@ -21565,6 +22494,8 @@ export const listFeatureDependents: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureDependents",
 }));
 
 export type ListFeaturesError = Forbidden | OktaOpError;
@@ -21580,6 +22511,8 @@ export const listFeatures: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatures",
 }));
 
 export type ListFeaturesForApplicationError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -21595,6 +22528,8 @@ export const listFeaturesForApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeaturesForApplication",
 }));
 
 export type ListFederatedClaimsError = Forbidden | NotFound | OktaOpError;
@@ -21610,6 +22545,8 @@ export const listFederatedClaims: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFederatedClaims",
 }));
 
 export type ListGovernanceBundlesError = Forbidden | OktaOpError;
@@ -21625,6 +22562,8 @@ export const listGovernanceBundles: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGovernanceBundles",
 }));
 
 export type ListGrantsForUserAndClientError = Forbidden | NotFound | OktaOpError;
@@ -21640,6 +22579,8 @@ export const listGrantsForUserAndClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGrantsForUserAndClient",
 }));
 
 export type ListGroupAssignedRolesError = Forbidden | NotFound | OktaOpError;
@@ -21655,6 +22596,8 @@ export const listGroupAssignedRoles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupAssignedRoles",
 }));
 
 export type ListGroupOwnersError = Forbidden | NotFound | OktaOpError;
@@ -21670,6 +22613,8 @@ export const listGroupOwners: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupOwners",
 }));
 
 export type ListGroupPushMappingsError = Forbidden | OktaOpError;
@@ -21685,6 +22630,8 @@ export const listGroupPushMappings: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupPushMappings",
 }));
 
 export type ListGroupRulesError = Forbidden | OktaOpError;
@@ -21700,6 +22647,8 @@ export const listGroupRules: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupRules",
 }));
 
 export type ListGroupsError = Forbidden | OktaOpError;
@@ -21715,6 +22664,8 @@ export const listGroups: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListGroupTargetRoleForClientError = Forbidden | NotFound | OktaOpError;
@@ -21730,6 +22681,8 @@ export const listGroupTargetRoleForClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupTargetRoleForClient",
 }));
 
 export type ListGroupTargetsForGroupRoleError = Forbidden | NotFound | OktaOpError;
@@ -21745,6 +22698,8 @@ export const listGroupTargetsForGroupRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupTargetsForGroupRole",
 }));
 
 export type ListGroupTargetsForRoleError = Forbidden | NotFound | OktaOpError;
@@ -21760,6 +22715,8 @@ export const listGroupTargetsForRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupTargetsForRole",
 }));
 
 export type ListGroupUsersError = Forbidden | NotFound | OktaOpError;
@@ -21775,6 +22732,8 @@ export const listGroupUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupUsers",
 }));
 
 export type ListHookKeysError = Forbidden | OktaOpError;
@@ -21790,6 +22749,8 @@ export const listHookKeys: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHookKeys",
 }));
 
 export type ListIdentityProviderApplicationUsersError = Forbidden | NotFound | OktaOpError;
@@ -21805,6 +22766,8 @@ export const listIdentityProviderApplicationUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviderApplicationUsers",
 }));
 
 export type ListIdentityProviderKeysError = Forbidden | OktaOpError;
@@ -21820,6 +22783,8 @@ export const listIdentityProviderKeys: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviderKeys",
 }));
 
 export type ListIdentityProvidersError = Forbidden | OktaOpError;
@@ -21835,6 +22800,8 @@ export const listIdentityProviders: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviders",
 }));
 
 export type ListIdentityProviderSigningKeysError = Forbidden | NotFound | OktaOpError;
@@ -21850,6 +22817,8 @@ export const listIdentityProviderSigningKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviderSigningKeys",
 }));
 
 export type ListIdentitySourceSessionsError = Forbidden | NotFound | OktaOpError;
@@ -21865,6 +22834,8 @@ export const listIdentitySourceSessions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentitySourceSessions",
 }));
 
 export type ListInlineHooksError = Forbidden | OktaOpError;
@@ -21880,6 +22851,8 @@ export const listInlineHooks: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInlineHooks",
 }));
 
 export type ListInterclientAllowedApplicationsError = Forbidden | NotFound | OktaOpError;
@@ -21895,6 +22868,8 @@ export const listInterclientAllowedApplications: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInterclientAllowedApplications",
 }));
 
 export type ListInterclientTargetApplicationsError = Forbidden | NotFound | OktaOpError;
@@ -21910,6 +22885,8 @@ export const listInterclientTargetApplications: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInterclientTargetApplications",
 }));
 
 export type ListJwkError = Forbidden | NotFound | OktaOpError;
@@ -21925,6 +22902,8 @@ export const listJwk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJwk",
 }));
 
 export type ListLinkedObjectDefinitionsError = Forbidden | OktaOpError;
@@ -21940,6 +22919,8 @@ export const listLinkedObjectDefinitions: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLinkedObjectDefinitions",
 }));
 
 export type ListLinkedObjectsForUserError = Forbidden | NotFound | OktaOpError;
@@ -21955,6 +22936,8 @@ export const listLinkedObjectsForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLinkedObjectsForUser",
 }));
 
 export type ListLogEventsError = BadRequest | Forbidden | OktaOpError;
@@ -21970,6 +22953,8 @@ export const listLogEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogEvents",
 }));
 
 export type ListLogStreamsError = Forbidden | OktaOpError;
@@ -21985,6 +22970,8 @@ export const listLogStreams: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogStreams",
 }));
 
 export type ListLogStreamSchemasError = Forbidden | OktaOpError;
@@ -22000,6 +22987,8 @@ export const listLogStreamSchemas: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogStreamSchemas",
 }));
 
 export type ListMembersOfBindingError = Forbidden | NotFound | OktaOpError;
@@ -22015,6 +23004,8 @@ export const listMembersOfBinding: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembersOfBinding",
 }));
 
 export type ListNetworkZonesError = Forbidden | OktaOpError;
@@ -22030,6 +23021,8 @@ export const listNetworkZones: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkZones",
 }));
 
 export type ListOAuth2ClaimsError = Forbidden | NotFound | OktaOpError;
@@ -22045,6 +23038,8 @@ export const listOAuth2Claims: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuth2Claims",
 }));
 
 export type ListOAuth2ClientSecretsError = Forbidden | NotFound | OktaOpError;
@@ -22060,6 +23055,8 @@ export const listOAuth2ClientSecrets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuth2ClientSecrets",
 }));
 
 export type ListOAuth2ClientsForAuthorizationServerError = Forbidden | NotFound | OktaOpError;
@@ -22075,6 +23072,8 @@ export const listOAuth2ClientsForAuthorizationServer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuth2ClientsForAuthorizationServer",
 }));
 
 export type ListOAuth2ResourceServerJsonWebKeysError = Forbidden | NotFound | OktaOpError;
@@ -22090,6 +23089,8 @@ export const listOAuth2ResourceServerJsonWebKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuth2ResourceServerJsonWebKeys",
 }));
 
 export type ListOAuth2ScopesError = Forbidden | NotFound | OktaOpError;
@@ -22105,6 +23106,8 @@ export const listOAuth2Scopes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuth2Scopes",
 }));
 
 export type ListOAuth2TokensForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -22120,6 +23123,8 @@ export const listOAuth2TokensForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuth2TokensForApplication",
 }));
 
 export type ListOktaManagedUserAccountsError = BadRequest | Forbidden | OktaOpError;
@@ -22135,6 +23140,8 @@ export const listOktaManagedUserAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOktaManagedUserAccounts",
 }));
 
 export type ListOktaSupportCasesError = Forbidden | OktaOpError;
@@ -22150,6 +23157,8 @@ export const listOktaSupportCases: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOktaSupportCases",
 }));
 
 export type ListOrgContactTypesError = Forbidden | OktaOpError;
@@ -22165,6 +23174,8 @@ export const listOrgContactTypes: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgContactTypes",
 }));
 
 export type ListPoliciesError = Forbidden | OktaOpError;
@@ -22180,6 +23191,8 @@ export const listPolicies: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 }));
 
 export type ListPolicyMappingsError = Forbidden | NotFound | OktaOpError;
@@ -22195,6 +23208,8 @@ export const listPolicyMappings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyMappings",
 }));
 
 export type ListPolicyRulesError = Forbidden | NotFound | OktaOpError;
@@ -22210,6 +23225,8 @@ export const listPolicyRules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyRules",
 }));
 
 export type ListPrincipalRateLimitEntitiesError = BadRequest | Forbidden | OktaOpError;
@@ -22225,6 +23242,8 @@ export const listPrincipalRateLimitEntities: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrincipalRateLimitEntities",
 }));
 
 export type ListProfileMappings2Error = Forbidden | OktaOpError;
@@ -22240,6 +23259,8 @@ export const listProfileMappings2: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProfileMappings2",
 }));
 
 export type ListPushProvidersError = Forbidden | OktaOpError;
@@ -22255,6 +23276,8 @@ export const listPushProviders: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPushProviders",
 }));
 
 export type ListRealmAssignmentOperationsError = Forbidden | OktaOpError;
@@ -22270,6 +23293,8 @@ export const listRealmAssignmentOperations: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRealmAssignmentOperations",
 }));
 
 export type ListRealmAssignmentsError = Forbidden | OktaOpError;
@@ -22285,6 +23310,8 @@ export const listRealmAssignments: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRealmAssignments",
 }));
 
 export type ListRealmsError = Forbidden | OktaOpError;
@@ -22300,6 +23327,8 @@ export const listRealms: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRealms",
 }));
 
 export type ListRefreshTokensForAuthorizationServerAndClientError =
@@ -22326,6 +23355,8 @@ export const listRefreshTokensForAuthorizationServerAndClient: API.OperationMeth
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRefreshTokensForAuthorizationServerAndClient",
 }));
 
 export type ListRefreshTokensForUserAndClientError = Forbidden | NotFound | OktaOpError;
@@ -22341,6 +23372,8 @@ export const listRefreshTokensForUserAndClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRefreshTokensForUserAndClient",
 }));
 
 export type ListResourceSetResourcesError = Forbidden | NotFound | OktaOpError;
@@ -22356,6 +23389,8 @@ export const listResourceSetResources: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceSetResources",
 }));
 
 export type ListResourceSetsError = Forbidden | OktaOpError;
@@ -22371,6 +23406,8 @@ export const listResourceSets: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceSets",
 }));
 
 export type ListRolePermissionsError = Forbidden | NotFound | OktaOpError;
@@ -22386,6 +23423,8 @@ export const listRolePermissions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRolePermissions",
 }));
 
 export type ListRolesError = Forbidden | OktaOpError;
@@ -22401,6 +23440,8 @@ export const listRoles: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoles",
 }));
 
 export type ListRolesForClientError = Forbidden | NotFound | OktaOpError;
@@ -22416,6 +23457,8 @@ export const listRolesForClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRolesForClient",
 }));
 
 export type ListScopeConsentGrantsError = Forbidden | NotFound | OktaOpError;
@@ -22431,6 +23474,8 @@ export const listScopeConsentGrants: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScopeConsentGrants",
 }));
 
 export type ListSecurityEventsProviderInstancesError = Forbidden | OktaOpError;
@@ -22446,6 +23491,8 @@ export const listSecurityEventsProviderInstances: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityEventsProviderInstances",
 }));
 
 export type ListSmsTemplatesError = Forbidden | OktaOpError;
@@ -22461,6 +23508,8 @@ export const listSmsTemplates: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmsTemplates",
 }));
 
 export type ListSocialAuthTokensError = Forbidden | NotFound | OktaOpError;
@@ -22476,6 +23525,8 @@ export const listSocialAuthTokens: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSocialAuthTokens",
 }));
 
 export type ListSubscriptionsRoleError = Forbidden | NotFound | OktaOpError;
@@ -22491,6 +23542,8 @@ export const listSubscriptionsRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionsRole",
 }));
 
 export type ListSubscriptionsUserError = Forbidden | NotFound | OktaOpError;
@@ -22506,6 +23559,8 @@ export const listSubscriptionsUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionsUser",
 }));
 
 export type ListSupportedFactorsError = Forbidden | NotFound | OktaOpError;
@@ -22521,6 +23576,8 @@ export const listSupportedFactors: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupportedFactors",
 }));
 
 export type ListSupportedSecurityQuestionsError = Forbidden | NotFound | OktaOpError;
@@ -22536,6 +23593,8 @@ export const listSupportedSecurityQuestions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupportedSecurityQuestions",
 }));
 
 export type ListTrustedOriginsError = Forbidden | OktaOpError;
@@ -22551,6 +23610,8 @@ export const listTrustedOrigins: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTrustedOrigins",
 }));
 
 export type ListUISchemasError = Forbidden | OktaOpError;
@@ -22566,6 +23627,8 @@ export const listUISchemas: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUISchemas",
 }));
 
 export type ListUserBlocksError = Forbidden | NotFound | OktaOpError;
@@ -22581,6 +23644,8 @@ export const listUserBlocks: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserBlocks",
 }));
 
 export type ListUserClientsError = Forbidden | NotFound | OktaOpError;
@@ -22596,6 +23661,8 @@ export const listUserClients: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserClients",
 }));
 
 export type ListUserDevicesError = BadRequest | Forbidden | OktaOpError;
@@ -22611,6 +23678,8 @@ export const listUserDevices: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserDevices",
 }));
 
 export type ListUserGrantsError = Forbidden | NotFound | OktaOpError;
@@ -22626,6 +23695,8 @@ export const listUserGrants: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserGrants",
 }));
 
 export type ListUserGroupsError = Forbidden | NotFound | OktaOpError;
@@ -22641,6 +23712,8 @@ export const listUserGroups: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserGroups",
 }));
 
 export type ListUserIdentityProvidersError = Forbidden | NotFound | OktaOpError;
@@ -22656,6 +23729,8 @@ export const listUserIdentityProviders: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserIdentityProviders",
 }));
 
 export type ListUsersError = Forbidden | OktaOpError;
@@ -22671,6 +23746,8 @@ export const listUsers: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type ListUsersWithRoleAssignmentsError = Forbidden | OktaOpError;
@@ -22686,6 +23763,8 @@ export const listUsersWithRoleAssignments: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersWithRoleAssignments",
 }));
 
 export type ListUserTypesError = Forbidden | OktaOpError;
@@ -22701,6 +23780,8 @@ export const listUserTypes: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserTypes",
 }));
 
 export type ListWebAuthnPreregistrationFactorsError = Forbidden | NotFound | OktaOpError;
@@ -22716,6 +23797,8 @@ export const listWebAuthnPreregistrationFactors: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebAuthnPreregistrationFactors",
 }));
 
 export type ListYubikeyOtpTokensError = Forbidden | NotFound | OktaOpError;
@@ -22731,6 +23814,8 @@ export const listYubikeyOtpTokens: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListYubikeyOtpTokens",
 }));
 
 export type MapResourceToPolicyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -22746,6 +23831,8 @@ export const mapResourceToPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MapResourceToPolicy",
 }));
 
 export type OptInError = Forbidden | OktaOpError;
@@ -22761,6 +23848,8 @@ export const optIn: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OptIn",
 }));
 
 export type OptInUsersToOktaCommunicationEmailsError = Forbidden | OktaOpError;
@@ -22776,6 +23865,8 @@ export const optInUsersToOktaCommunicationEmails: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OptInUsersToOktaCommunicationEmails",
 }));
 
 export type OptOutError = Forbidden | OktaOpError;
@@ -22791,6 +23882,8 @@ export const optOut: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OptOut",
 }));
 
 export type OptOutUsersFromOktaCommunicationEmailsError = Forbidden | OktaOpError;
@@ -22806,6 +23899,8 @@ export const optOutUsersFromOktaCommunicationEmails: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OptOutUsersFromOktaCommunicationEmails",
 }));
 
 export type PreviewSAMLmetadataForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -22821,6 +23916,8 @@ export const previewSAMLmetadataForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewSAMLmetadataForApplication",
 }));
 
 export type PublishCsrForIdentityProviderError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -22836,6 +23933,8 @@ export const publishCsrForIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishCsrForIdentityProvider",
 }));
 
 export type PublishCsrFromApplicationError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -22851,6 +23950,8 @@ export const publishCsrFromApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishCsrFromApplication",
 }));
 
 export type PublishSecurityEventTokensError = BadRequest | OktaOpError;
@@ -22866,6 +23967,8 @@ export const publishSecurityEventTokens: API.OperationMethod<
   errors: [BadRequest, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishSecurityEventTokens",
 }));
 
 export type ReactivateUserError = Forbidden | NotFound | OktaOpError;
@@ -22881,6 +23984,8 @@ export const reactivateUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactivateUser",
 }));
 
 export type RefreshSessionError = Forbidden | NotFound | OktaOpError;
@@ -22896,6 +24001,8 @@ export const refreshSession: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshSession",
 }));
 
 export type RemoveAppTargetInstanceRoleForClientError = Forbidden | NotFound | OktaOpError;
@@ -22911,6 +24018,8 @@ export const removeAppTargetInstanceRoleForClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAppTargetInstanceRoleForClient",
 }));
 
 export type RemoveAppTargetRoleFromClientError = Forbidden | NotFound | OktaOpError;
@@ -22926,6 +24035,8 @@ export const removeAppTargetRoleFromClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAppTargetRoleFromClient",
 }));
 
 export type RemoveGroupTargetRoleFromClientError = Forbidden | NotFound | OktaOpError;
@@ -22941,6 +24052,8 @@ export const removeGroupTargetRoleFromClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGroupTargetRoleFromClient",
 }));
 
 export type ReplaceApplicationError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -22956,6 +24069,8 @@ export const replaceApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceApplication",
 }));
 
 export type ReplaceAuthenticatorError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -22971,6 +24086,8 @@ export const replaceAuthenticator: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAuthenticator",
 }));
 
 export type ReplaceAuthenticatorMethodError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -22986,6 +24103,8 @@ export const replaceAuthenticatorMethod: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAuthenticatorMethod",
 }));
 
 export type ReplaceAuthenticatorSettingsError = BadRequest | Forbidden | OktaOpError;
@@ -23001,6 +24120,8 @@ export const replaceAuthenticatorSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAuthenticatorSettings",
 }));
 
 export type ReplaceAuthorizationServerError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23016,6 +24137,8 @@ export const replaceAuthorizationServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAuthorizationServer",
 }));
 
 export type ReplaceAuthorizationServerPolicyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23031,6 +24154,8 @@ export const replaceAuthorizationServerPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAuthorizationServerPolicy",
 }));
 
 export type ReplaceAuthorizationServerPolicyRuleError =
@@ -23050,6 +24175,8 @@ export const replaceAuthorizationServerPolicyRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAuthorizationServerPolicyRule",
 }));
 
 export type ReplaceBehaviorDetectionRuleError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23065,6 +24192,8 @@ export const replaceBehaviorDetectionRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceBehaviorDetectionRule",
 }));
 
 export type ReplaceBrandError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23080,6 +24209,8 @@ export const replaceBrand: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceBrand",
 }));
 
 export type ReplaceBrandThemeError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23095,6 +24226,8 @@ export const replaceBrandTheme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceBrandTheme",
 }));
 
 export type ReplaceBrandWellKnownURIError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23110,6 +24243,8 @@ export const replaceBrandWellKnownURI: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceBrandWellKnownURI",
 }));
 
 export type ReplaceCaptchaInstanceError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23125,6 +24260,8 @@ export const replaceCaptchaInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCaptchaInstance",
 }));
 
 export type ReplaceCustomAAGUIDError = Forbidden | NotFound | OktaOpError;
@@ -23140,6 +24277,8 @@ export const replaceCustomAAGUID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCustomAAGUID",
 }));
 
 export type ReplaceCustomDomainError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23155,6 +24294,8 @@ export const replaceCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCustomDomain",
 }));
 
 export type ReplaceCustomizedErrorPageError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23170,6 +24311,8 @@ export const replaceCustomizedErrorPage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCustomizedErrorPage",
 }));
 
 export type ReplaceCustomizedSignInPageError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23185,6 +24328,8 @@ export const replaceCustomizedSignInPage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCustomizedSignInPage",
 }));
 
 export type ReplaceDeviceAssurancePolicyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23200,6 +24345,8 @@ export const replaceDeviceAssurancePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceDeviceAssurancePolicy",
 }));
 
 export type ReplaceDevicePostureCheckError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23215,6 +24362,8 @@ export const replaceDevicePostureCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceDevicePostureCheck",
 }));
 
 export type ReplaceEmailCustomizationError =
@@ -23235,6 +24384,8 @@ export const replaceEmailCustomization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceEmailCustomization",
 }));
 
 export type ReplaceEmailDomainError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23250,6 +24401,8 @@ export const replaceEmailDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceEmailDomain",
 }));
 
 export type ReplaceEmailSettingsError =
@@ -23271,6 +24424,8 @@ export const replaceEmailSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceEmailSettings",
 }));
 
 export type ReplaceEventHookError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23286,6 +24441,8 @@ export const replaceEventHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceEventHook",
 }));
 
 export type ReplaceExistingIdentitySourceUserError = Forbidden | NotFound | OktaOpError;
@@ -23301,6 +24458,8 @@ export const replaceExistingIdentitySourceUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceExistingIdentitySourceUser",
 }));
 
 export type ReplaceFederatedClaimError = BadRequest | Forbidden | OktaOpError;
@@ -23316,6 +24475,8 @@ export const replaceFederatedClaim: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceFederatedClaim",
 }));
 
 export type ReplaceFirstPartyAppSettingsError = BadRequest | Forbidden | OktaOpError;
@@ -23331,6 +24492,8 @@ export const replaceFirstPartyAppSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceFirstPartyAppSettings",
 }));
 
 export type ReplaceGovernanceBundleError = BadRequest | Forbidden | OktaOpError;
@@ -23346,6 +24509,8 @@ export const replaceGovernanceBundle: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceGovernanceBundle",
 }));
 
 export type ReplaceGroupError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23361,6 +24526,8 @@ export const replaceGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceGroup",
 }));
 
 export type ReplaceGroupRuleError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23376,6 +24543,8 @@ export const replaceGroupRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceGroupRule",
 }));
 
 export type ReplaceHookKeyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23391,6 +24560,8 @@ export const replaceHookKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceHookKey",
 }));
 
 export type ReplaceIdentityProviderError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23406,6 +24577,8 @@ export const replaceIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceIdentityProvider",
 }));
 
 export type ReplaceIdentityProviderKeyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23421,6 +24594,8 @@ export const replaceIdentityProviderKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceIdentityProviderKey",
 }));
 
 export type ReplaceInlineHookError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23436,6 +24611,8 @@ export const replaceInlineHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceInlineHook",
 }));
 
 export type ReplaceLogStreamError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23451,6 +24628,8 @@ export const replaceLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceLogStream",
 }));
 
 export type ReplaceNetworkZoneError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23466,6 +24645,8 @@ export const replaceNetworkZone: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNetworkZone",
 }));
 
 export type ReplaceOAuth2ClaimError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23481,6 +24662,8 @@ export const replaceOAuth2Claim: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceOAuth2Claim",
 }));
 
 export type ReplaceOAuth2ScopeError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23496,6 +24679,8 @@ export const replaceOAuth2Scope: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceOAuth2Scope",
 }));
 
 export type ReplaceOrgContactUserError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23511,6 +24696,8 @@ export const replaceOrgContactUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceOrgContactUser",
 }));
 
 export type ReplaceOrgSettingsError = BadRequest | Forbidden | OktaOpError;
@@ -23526,6 +24713,8 @@ export const replaceOrgSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceOrgSettings",
 }));
 
 export type ReplacePolicyError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23541,6 +24730,8 @@ export const replacePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePolicy",
 }));
 
 export type ReplacePolicyRuleError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23556,6 +24747,8 @@ export const replacePolicyRule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePolicyRule",
 }));
 
 export type ReplacePreviewErrorPageError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23571,6 +24764,8 @@ export const replacePreviewErrorPage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePreviewErrorPage",
 }));
 
 export type ReplacePreviewSignInPageError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23586,6 +24781,8 @@ export const replacePreviewSignInPage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePreviewSignInPage",
 }));
 
 export type ReplacePrincipalRateLimitEntityError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23601,6 +24798,8 @@ export const replacePrincipalRateLimitEntity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePrincipalRateLimitEntity",
 }));
 
 export type ReplacePushProviderError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23616,6 +24815,8 @@ export const replacePushProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacePushProvider",
 }));
 
 export type ReplaceRateLimitSettingsAdminNotificationsError = BadRequest | Forbidden | OktaOpError;
@@ -23635,6 +24836,8 @@ export const replaceRateLimitSettingsAdminNotifications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRateLimitSettingsAdminNotifications",
 }));
 
 export type ReplaceRateLimitSettingsPerClientError = BadRequest | Forbidden | OktaOpError;
@@ -23650,6 +24853,8 @@ export const replaceRateLimitSettingsPerClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRateLimitSettingsPerClient",
 }));
 
 export type ReplaceRateLimitSettingsWarningThresholdError = BadRequest | Forbidden | OktaOpError;
@@ -23665,6 +24870,8 @@ export const replaceRateLimitSettingsWarningThreshold: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRateLimitSettingsWarningThreshold",
 }));
 
 export type ReplaceRealmError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23680,6 +24887,8 @@ export const replaceRealm: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRealm",
 }));
 
 export type ReplaceRealmAssignmentError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23695,6 +24904,8 @@ export const replaceRealmAssignment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRealmAssignment",
 }));
 
 export type ReplaceResourceSetError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23710,6 +24921,8 @@ export const replaceResourceSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceSet",
 }));
 
 export type ReplaceResourceSetResourceError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23725,6 +24938,8 @@ export const replaceResourceSetResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceResourceSetResource",
 }));
 
 export type ReplaceRoleError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23740,6 +24955,8 @@ export const replaceRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRole",
 }));
 
 export type ReplaceRolePermissionError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23755,6 +24972,8 @@ export const replaceRolePermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRolePermission",
 }));
 
 export type ReplaceSecurityEventsProviderInstanceError =
@@ -23774,6 +24993,8 @@ export const replaceSecurityEventsProviderInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSecurityEventsProviderInstance",
 }));
 
 export type ReplaceSignOutPageSettingsError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23789,6 +25010,8 @@ export const replaceSignOutPageSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSignOutPageSettings",
 }));
 
 export type ReplaceSmsTemplateError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23804,6 +25027,8 @@ export const replaceSmsTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSmsTemplate",
 }));
 
 export type ReplacesOrgCaptchaSettingsError = BadRequest | Forbidden | OktaOpError;
@@ -23819,6 +25044,8 @@ export const replacesOrgCaptchaSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplacesOrgCaptchaSettings",
 }));
 
 export type ReplaceSsfStreamError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23834,6 +25061,8 @@ export const replaceSsfStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSsfStream",
 }));
 
 export type ReplaceTrustedOriginError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23849,6 +25078,8 @@ export const replaceTrustedOrigin: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceTrustedOrigin",
 }));
 
 export type ReplaceUISchemasError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23864,6 +25095,8 @@ export const replaceUISchemas: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceUISchemas",
 }));
 
 export type ReplaceUserError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23879,6 +25112,8 @@ export const replaceUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceUser",
 }));
 
 export type ReplaceUserClassificationError = Forbidden | NotFound | OktaOpError;
@@ -23894,6 +25129,8 @@ export const replaceUserClassification: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceUserClassification",
 }));
 
 export type ReplaceUserLockoutSettingsError = BadRequest | Forbidden | OktaOpError;
@@ -23909,6 +25146,8 @@ export const replaceUserLockoutSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceUserLockoutSettings",
 }));
 
 export type ReplaceUserTypeError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23924,6 +25163,8 @@ export const replaceUserType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceUserType",
 }));
 
 export type ResendEnrollFactorError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -23939,6 +25180,8 @@ export const resendEnrollFactor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendEnrollFactor",
 }));
 
 export type ResetFactorsError = Forbidden | NotFound | OktaOpError;
@@ -23954,6 +25197,8 @@ export const resetFactors: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetFactors",
 }));
 
 export type ResetPasswordError = Forbidden | NotFound | OktaOpError;
@@ -23969,6 +25214,8 @@ export const resetPassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetPassword",
 }));
 
 export type ResumeAgentPoolsUpdateError = Forbidden | NotFound | OktaOpError;
@@ -23984,6 +25231,8 @@ export const resumeAgentPoolsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeAgentPoolsUpdate",
 }));
 
 export type RetryAgentPoolsUpdateError = Forbidden | NotFound | OktaOpError;
@@ -23999,6 +25248,8 @@ export const retryAgentPoolsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryAgentPoolsUpdate",
 }));
 
 export type RevokeAerialConsentError = BadRequest | Forbidden | OktaOpError;
@@ -24014,6 +25265,8 @@ export const revokeAerialConsent: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAerialConsent",
 }));
 
 export type RevokeApiTokenError = Forbidden | NotFound | OktaOpError;
@@ -24029,6 +25282,8 @@ export const revokeApiToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeApiToken",
 }));
 
 export type RevokeCsrForIdentityProviderError = Forbidden | NotFound | OktaOpError;
@@ -24044,6 +25299,8 @@ export const revokeCsrForIdentityProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCsrForIdentityProvider",
 }));
 
 export type RevokeCsrFromApplicationError = Forbidden | NotFound | OktaOpError;
@@ -24059,6 +25316,8 @@ export const revokeCsrFromApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCsrFromApplication",
 }));
 
 export type RevokeCurrentApiTokenError = Forbidden | OktaOpError;
@@ -24074,6 +25333,8 @@ export const revokeCurrentApiToken: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCurrentApiToken",
 }));
 
 export type RevokeGrantsForUserAndClientError = Forbidden | NotFound | OktaOpError;
@@ -24089,6 +25350,8 @@ export const revokeGrantsForUserAndClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeGrantsForUserAndClient",
 }));
 
 export type RevokeOAuth2TokenForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -24104,6 +25367,8 @@ export const revokeOAuth2TokenForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOAuth2TokenForApplication",
 }));
 
 export type RevokeOAuth2TokensForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -24119,6 +25384,8 @@ export const revokeOAuth2TokensForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOAuth2TokensForApplication",
 }));
 
 export type RevokeRefreshTokenForAuthorizationServerAndClientError =
@@ -24145,6 +25412,8 @@ export const revokeRefreshTokenForAuthorizationServerAndClient: API.OperationMet
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeRefreshTokenForAuthorizationServerAndClient",
 }));
 
 export type RevokeRefreshTokensForAuthorizationServerAndClientError =
@@ -24171,6 +25440,8 @@ export const revokeRefreshTokensForAuthorizationServerAndClient: API.OperationMe
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeRefreshTokensForAuthorizationServerAndClient",
 }));
 
 export type RevokeScopeConsentGrantError = Forbidden | NotFound | OktaOpError;
@@ -24186,6 +25457,8 @@ export const revokeScopeConsentGrant: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeScopeConsentGrant",
 }));
 
 export type RevokeSessionError = Forbidden | NotFound | OktaOpError;
@@ -24201,6 +25474,8 @@ export const revokeSession: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSession",
 }));
 
 export type RevokeTokenForUserAndClientError = Forbidden | NotFound | OktaOpError;
@@ -24216,6 +25491,8 @@ export const revokeTokenForUserAndClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeTokenForUserAndClient",
 }));
 
 export type RevokeTokensForUserAndClientError = Forbidden | NotFound | OktaOpError;
@@ -24231,6 +25508,8 @@ export const revokeTokensForUserAndClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeTokensForUserAndClient",
 }));
 
 export type RevokeUserGrantError = Forbidden | NotFound | OktaOpError;
@@ -24246,6 +25525,8 @@ export const revokeUserGrant: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUserGrant",
 }));
 
 export type RevokeUserGrantsError = Forbidden | NotFound | OktaOpError;
@@ -24261,6 +25542,8 @@ export const revokeUserGrants: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUserGrants",
 }));
 
 export type RevokeUserSessionsError = Forbidden | NotFound | OktaOpError;
@@ -24276,6 +25559,8 @@ export const revokeUserSessions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUserSessions",
 }));
 
 export type RotateAuthorizationServerKeysError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24291,6 +25576,8 @@ export const rotateAuthorizationServerKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAuthorizationServerKeys",
 }));
 
 export type SendPinError = Forbidden | NotFound | OktaOpError;
@@ -24306,6 +25593,8 @@ export const sendPin: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendPin",
 }));
 
 export type SendTestCustomTelephonyProviderCredentialError = BadRequest | Forbidden | OktaOpError;
@@ -24325,6 +25614,8 @@ export const sendTestCustomTelephonyProviderCredential: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendTestCustomTelephonyProviderCredential",
 }));
 
 export type SendTestEmailError = Forbidden | NotFound | OktaOpError;
@@ -24340,6 +25631,8 @@ export const sendTestEmail: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendTestEmail",
 }));
 
 export type SetAsPrimaryCustomTelephonyCredentialError = Forbidden | NotFound | OktaOpError;
@@ -24355,6 +25648,8 @@ export const setAsPrimaryCustomTelephonyCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAsPrimaryCustomTelephonyCredential",
 }));
 
 export type SetOrgHideOktaUIFooterError = Forbidden | OktaOpError;
@@ -24370,6 +25665,8 @@ export const setOrgHideOktaUIFooter: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrgHideOktaUIFooter",
 }));
 
 export type SetOrgShowOktaUIFooterError = Forbidden | OktaOpError;
@@ -24385,6 +25682,8 @@ export const setOrgShowOktaUIFooter: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrgShowOktaUIFooter",
 }));
 
 export type StartImportFromIdentitySourceError = Forbidden | NotFound | OktaOpError;
@@ -24400,6 +25699,8 @@ export const startImportFromIdentitySource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartImportFromIdentitySource",
 }));
 
 export type StartOrgFailbackError = BadRequest | Forbidden | OktaOpError;
@@ -24415,6 +25716,8 @@ export const startOrgFailback: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartOrgFailback",
 }));
 
 export type StartOrgFailoverError = BadRequest | Forbidden | OktaOpError;
@@ -24430,6 +25733,8 @@ export const startOrgFailover: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartOrgFailover",
 }));
 
 export type StopAgentPoolsUpdateError = Forbidden | NotFound | OktaOpError;
@@ -24445,6 +25750,8 @@ export const stopAgentPoolsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopAgentPoolsUpdate",
 }));
 
 export type SubmitGroupAttributeQueryError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24460,6 +25767,8 @@ export const submitGroupAttributeQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitGroupAttributeQuery",
 }));
 
 export type SubscribeByNotificationTypeRoleError = Forbidden | NotFound | OktaOpError;
@@ -24475,6 +25784,8 @@ export const subscribeByNotificationTypeRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeByNotificationTypeRole",
 }));
 
 export type SubscribeByNotificationTypeUserError = Forbidden | NotFound | OktaOpError;
@@ -24490,6 +25801,8 @@ export const subscribeByNotificationTypeUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeByNotificationTypeUser",
 }));
 
 export type SuspendDeviceError = Forbidden | NotFound | OktaOpError;
@@ -24505,6 +25818,8 @@ export const suspendDevice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendDevice",
 }));
 
 export type SuspendUserError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24520,6 +25835,8 @@ export const suspendUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendUser",
 }));
 
 export type TestEmailServerError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24535,6 +25852,8 @@ export const testEmailServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestEmailServer",
 }));
 
 export type UnassignAppInstanceTargetFromAdminRoleForUserError = Forbidden | NotFound | OktaOpError;
@@ -24558,6 +25877,8 @@ export const unassignAppInstanceTargetFromAdminRoleForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignAppInstanceTargetFromAdminRoleForUser",
 }));
 
 export type UnassignAppInstanceTargetToAppAdminRoleForGroupError =
@@ -24584,6 +25905,8 @@ export const unassignAppInstanceTargetToAppAdminRoleForGroup: API.OperationMetho
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignAppInstanceTargetToAppAdminRoleForGroup",
 }));
 
 export type UnassignApplicationFromGroupError = Forbidden | NotFound | OktaOpError;
@@ -24599,6 +25922,8 @@ export const unassignApplicationFromGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignApplicationFromGroup",
 }));
 
 export type UnassignAppTargetFromAppAdminRoleForUserError = Forbidden | NotFound | OktaOpError;
@@ -24618,6 +25943,8 @@ export const unassignAppTargetFromAppAdminRoleForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignAppTargetFromAppAdminRoleForUser",
 }));
 
 export type UnassignAppTargetToAdminRoleForGroupError = Forbidden | NotFound | OktaOpError;
@@ -24633,6 +25960,8 @@ export const unassignAppTargetToAdminRoleForGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignAppTargetToAdminRoleForGroup",
 }));
 
 export type UnassignGroupTargetFromGroupAdminRoleError = Forbidden | NotFound | OktaOpError;
@@ -24648,6 +25977,8 @@ export const unassignGroupTargetFromGroupAdminRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignGroupTargetFromGroupAdminRole",
 }));
 
 export type UnassignGroupTargetFromUserAdminRoleError = Forbidden | NotFound | OktaOpError;
@@ -24663,6 +25994,8 @@ export const unassignGroupTargetFromUserAdminRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignGroupTargetFromUserAdminRole",
 }));
 
 export type UnassignMemberFromBindingError = Forbidden | NotFound | OktaOpError;
@@ -24678,6 +26011,8 @@ export const unassignMemberFromBinding: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignMemberFromBinding",
 }));
 
 export type UnassignRoleFromGroupError = Forbidden | NotFound | OktaOpError;
@@ -24693,6 +26028,8 @@ export const unassignRoleFromGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignRoleFromGroup",
 }));
 
 export type UnassignRoleFromUserError = Forbidden | NotFound | OktaOpError;
@@ -24708,6 +26045,8 @@ export const unassignRoleFromUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignRoleFromUser",
 }));
 
 export type UnassignUserFromApplicationError = Forbidden | NotFound | OktaOpError;
@@ -24723,6 +26062,8 @@ export const unassignUserFromApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignUserFromApplication",
 }));
 
 export type UnassignUserFromGroupError = Forbidden | NotFound | OktaOpError;
@@ -24738,6 +26079,8 @@ export const unassignUserFromGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignUserFromGroup",
 }));
 
 export type UnenrollFactorError = Forbidden | NotFound | OktaOpError;
@@ -24753,6 +26096,8 @@ export const unenrollFactor: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnenrollFactor",
 }));
 
 export type UnlinkUserFromIdentityProviderError = Forbidden | NotFound | OktaOpError;
@@ -24768,6 +26113,8 @@ export const unlinkUserFromIdentityProvider: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkUserFromIdentityProvider",
 }));
 
 export type UnlockUserError = Forbidden | NotFound | OktaOpError;
@@ -24783,6 +26130,8 @@ export const unlockUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockUser",
 }));
 
 export type UnsubscribeByNotificationTypeRoleError = Forbidden | NotFound | OktaOpError;
@@ -24798,6 +26147,8 @@ export const unsubscribeByNotificationTypeRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeByNotificationTypeRole",
 }));
 
 export type UnsubscribeByNotificationTypeUserError = Forbidden | NotFound | OktaOpError;
@@ -24813,6 +26164,8 @@ export const unsubscribeByNotificationTypeUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeByNotificationTypeUser",
 }));
 
 export type UnsuspendDeviceError = Forbidden | NotFound | OktaOpError;
@@ -24828,6 +26181,8 @@ export const unsuspendDevice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsuspendDevice",
 }));
 
 export type UnsuspendUserError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24843,6 +26198,8 @@ export const unsuspendUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsuspendUser",
 }));
 
 export type UpdateAgentPoolsUpdateError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24858,6 +26215,8 @@ export const updateAgentPoolsUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentPoolsUpdate",
 }));
 
 export type UpdateAgentPoolsUpdateSettingsError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24873,6 +26232,8 @@ export const updateAgentPoolsUpdateSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAgentPoolsUpdateSettings",
 }));
 
 export type UpdateApplicationUserError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24888,6 +26249,8 @@ export const updateApplicationUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationUser",
 }));
 
 export type UpdateApplicationUserProfileError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24903,6 +26266,8 @@ export const updateApplicationUserProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationUserProfile",
 }));
 
 export type UpdateAppServiceAccountError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24918,6 +26283,8 @@ export const updateAppServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppServiceAccount",
 }));
 
 export type UpdateAutoAssignAdminAppSettingError = Forbidden | OktaOpError;
@@ -24933,6 +26300,8 @@ export const updateAutoAssignAdminAppSetting: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoAssignAdminAppSetting",
 }));
 
 export type UpdateBotProtectionConfigurationError = BadRequest | Forbidden | OktaOpError;
@@ -24948,6 +26317,8 @@ export const updateBotProtectionConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBotProtectionConfiguration",
 }));
 
 export type UpdateCaptchaInstanceError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24963,6 +26334,8 @@ export const updateCaptchaInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCaptchaInstance",
 }));
 
 export type UpdateConfigurationError = BadRequest | Forbidden | OktaOpError;
@@ -24978,6 +26351,8 @@ export const updateConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateCrossAppAccessConnectionError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -24993,6 +26368,8 @@ export const updateCrossAppAccessConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCrossAppAccessConnection",
 }));
 
 export type UpdateCustomAAGUIDError = Forbidden | NotFound | OktaOpError;
@@ -25008,6 +26385,8 @@ export const updateCustomAAGUID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomAAGUID",
 }));
 
 export type UpdateCustomTelephonyProviderCredentialError = Forbidden | NotFound | OktaOpError;
@@ -25023,6 +26402,8 @@ export const updateCustomTelephonyProviderCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomTelephonyProviderCredential",
 }));
 
 export type UpdateDefaultProvisioningConnectionForApplicationError =
@@ -25046,6 +26427,8 @@ export const updateDefaultProvisioningConnectionForApplication: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDefaultProvisioningConnectionForApplication",
 }));
 
 export type UpdateEmailServerError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25061,6 +26444,8 @@ export const updateEmailServer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmailServer",
 }));
 
 export type UpdateFeatureForApplicationError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25076,6 +26461,8 @@ export const updateFeatureForApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureForApplication",
 }));
 
 export type UpdateFeatureLifecycleError = Forbidden | NotFound | OktaOpError;
@@ -25091,6 +26478,8 @@ export const updateFeatureLifecycle: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureLifecycle",
 }));
 
 export type UpdateGroupAssignmentToApplicationError =
@@ -25110,6 +26499,8 @@ export const updateGroupAssignmentToApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupAssignmentToApplication",
 }));
 
 export type UpdateGroupMembershipError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25125,6 +26516,8 @@ export const updateGroupMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupMembership",
 }));
 
 export type UpdateGroupPushMappingError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25140,6 +26533,8 @@ export const updateGroupPushMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupPushMapping",
 }));
 
 export type UpdateGroupSchemaError = BadRequest | Forbidden | OktaOpError;
@@ -25155,6 +26550,8 @@ export const updateGroupSchema: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupSchema",
 }));
 
 export type UpdateIdentitySourceGroupsError = Forbidden | NotFound | OktaOpError;
@@ -25170,6 +26567,8 @@ export const updateIdentitySourceGroups: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentitySourceGroups",
 }));
 
 export type UpdateIdentitySourceUsersError = Forbidden | NotFound | OktaOpError;
@@ -25185,6 +26584,8 @@ export const updateIdentitySourceUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentitySourceUsers",
 }));
 
 export type UpdateInlineHookError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25200,6 +26601,8 @@ export const updateInlineHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInlineHook",
 }));
 
 export type UpdateOktaManagedUserAccountError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25215,6 +26618,8 @@ export const updateOktaManagedUserAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOktaManagedUserAccount",
 }));
 
 export type UpdateOktaSupportCaseError = Forbidden | OktaOpError;
@@ -25230,6 +26635,8 @@ export const updateOktaSupportCase: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOktaSupportCase",
 }));
 
 export type UpdateOrgSettingsError = BadRequest | Forbidden | OktaOpError;
@@ -25245,6 +26652,8 @@ export const updateOrgSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgSettings",
 }));
 
 export type UpdatePauseAgentPoolError = Forbidden | NotFound | OktaOpError;
@@ -25260,6 +26669,8 @@ export const updatePauseAgentPool: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePauseAgentPool",
 }));
 
 export type UpdateProfileMappingError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25275,6 +26686,8 @@ export const updateProfileMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProfileMapping",
 }));
 
 export type UpdateSmsTemplateError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25290,6 +26703,8 @@ export const updateSmsTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSmsTemplate",
 }));
 
 export type UpdateSsfStreamError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25305,6 +26720,8 @@ export const updateSsfStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSsfStream",
 }));
 
 export type UpdateThirdPartyAdminSettingError = Forbidden | OktaOpError;
@@ -25320,6 +26737,8 @@ export const updateThirdPartyAdminSetting: API.OperationMethod<
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateThirdPartyAdminSetting",
 }));
 
 export type UpdateUserError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25335,6 +26754,8 @@ export const updateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserProfileError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25350,6 +26771,8 @@ export const updateUserProfile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserProfile",
 }));
 
 export type UpdateUserTypeError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25365,6 +26788,8 @@ export const updateUserType: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserType",
 }));
 
 export type UploadApplicationLogoError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25380,6 +26805,8 @@ export const uploadApplicationLogo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadApplicationLogo",
 }));
 
 export type UploadBrandThemeBackgroundImageError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25395,6 +26822,8 @@ export const uploadBrandThemeBackgroundImage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadBrandThemeBackgroundImage",
 }));
 
 export type UploadBrandThemeFaviconError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25410,6 +26839,8 @@ export const uploadBrandThemeFavicon: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadBrandThemeFavicon",
 }));
 
 export type UploadBrandThemeLogoError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25425,6 +26856,8 @@ export const uploadBrandThemeLogo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadBrandThemeLogo",
 }));
 
 export type UploadIdentitySourceDataForDeleteError =
@@ -25444,6 +26877,8 @@ export const uploadIdentitySourceDataForDelete: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadIdentitySourceDataForDelete",
 }));
 
 export type UploadIdentitySourceDataForUpsertError =
@@ -25463,6 +26898,8 @@ export const uploadIdentitySourceDataForUpsert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadIdentitySourceDataForUpsert",
 }));
 
 export type UploadIdentitySourceGroupMembershipsForDeleteError =
@@ -25490,6 +26927,8 @@ export const uploadIdentitySourceGroupMembershipsForDelete: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadIdentitySourceGroupMembershipsForDelete",
 }));
 
 export type UploadIdentitySourceGroupMembershipsForUpsertError =
@@ -25517,6 +26956,8 @@ export const uploadIdentitySourceGroupMembershipsForUpsert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadIdentitySourceGroupMembershipsForUpsert",
 }));
 
 export type UploadIdentitySourceGroupsDataForDeleteError =
@@ -25536,6 +26977,8 @@ export const uploadIdentitySourceGroupsDataForDelete: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadIdentitySourceGroupsDataForDelete",
 }));
 
 export type UploadIdentitySourceGroupsForUpsertError =
@@ -25555,6 +26998,8 @@ export const uploadIdentitySourceGroupsForUpsert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadIdentitySourceGroupsForUpsert",
 }));
 
 export type UploadYubikeyOtpTokenSeedError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25570,6 +27015,8 @@ export const uploadYubikeyOtpTokenSeed: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadYubikeyOtpTokenSeed",
 }));
 
 export type UpsertApiTokenError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25585,6 +27032,8 @@ export const upsertApiToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertApiToken",
 }));
 
 export type UpsertCertificateError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25600,6 +27049,8 @@ export const upsertCertificate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertCertificate",
 }));
 
 export type UpsertUserRiskError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25615,6 +27066,8 @@ export const upsertUserRisk: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertUserRisk",
 }));
 
 export type VerifyDomainError = Forbidden | NotFound | OktaOpError;
@@ -25630,6 +27083,8 @@ export const verifyDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyDomain",
 }));
 
 export type VerifyEmailDomainError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25645,6 +27100,8 @@ export const verifyEmailDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyEmailDomain",
 }));
 
 export type VerifyEventHookError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25660,6 +27117,8 @@ export const verifyEventHook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyEventHook",
 }));
 
 export type VerifyFactorError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25675,6 +27134,8 @@ export const verifyFactor: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyFactor",
 }));
 
 export type VerifyProvisioningConnectionForApplicationError = Forbidden | NotFound | OktaOpError;
@@ -25698,6 +27159,8 @@ export const verifyProvisioningConnectionForApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyProvisioningConnectionForApplication",
 }));
 
 export type VerifyRpIdDomainError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25713,6 +27176,8 @@ export const verifyRpIdDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyRpIdDomain",
 }));
 
 export type VerifySsfStreamError = BadRequest | Forbidden | NotFound | OktaOpError;
@@ -25728,6 +27193,8 @@ export const verifySsfStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifySsfStream",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

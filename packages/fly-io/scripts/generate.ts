@@ -254,6 +254,7 @@ const machinesSpec = restSpec({
 
 runGeneratorCli({
   description: "Generate the Fly.io Effect SDK from Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: (model) => {

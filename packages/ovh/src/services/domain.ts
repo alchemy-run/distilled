@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Domain",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** Type of claim notice */
 export type DomainApproveTypeEnum = "accept" | "reject";
 export interface ApproveDomainOutgoingTransferRequest {
@@ -2768,6 +2782,8 @@ export const approveDomainOutgoingTransfer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveDomainOutgoingTransfer",
 }));
 
 export type CancelDomainTaskError = OvhOpError;
@@ -2783,6 +2799,8 @@ export const cancelDomainTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDomainTask",
 }));
 
 export type CancelDomainZoneTaskError = OvhOpError;
@@ -2798,6 +2816,8 @@ export const cancelDomainZoneTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDomainZoneTask",
 }));
 
 export type ChangePasswordDynDnsLoginError = OvhOpError;
@@ -2813,6 +2833,8 @@ export const changePasswordDynDnsLogin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangePasswordDynDnsLogin",
 }));
 
 export type CheckDomainConfigurationRuleError = OvhOpError;
@@ -2828,6 +2850,8 @@ export const checkDomainConfigurationRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDomainConfigurationRule",
 }));
 
 export type ConfirmDomainZoneTerminationError = OvhOpError;
@@ -2843,6 +2867,8 @@ export const confirmDomainZoneTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmDomainZoneTermination",
 }));
 
 export type CreateContactError = OvhOpError;
@@ -2858,6 +2884,8 @@ export const createContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContact",
 }));
 
 export type CreateDomainChangeContactError = OvhOpError;
@@ -2873,6 +2901,8 @@ export const createDomainChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainChangeContact",
 }));
 
 export type CreateDomainDataSmdError = OvhOpError;
@@ -2888,6 +2918,8 @@ export const createDomainDataSmd: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainDataSmd",
 }));
 
 export type CreateDomainDsRecordError = OvhOpError;
@@ -2903,6 +2935,8 @@ export const createDomainDsRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainDsRecord",
 }));
 
 export type CreateDomainGlueRecordError = OvhOpError;
@@ -2918,6 +2952,8 @@ export const createDomainGlueRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainGlueRecord",
 }));
 
 export type CreateDomainNameServerError = OvhOpError;
@@ -2933,6 +2969,8 @@ export const createDomainNameServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainNameServer",
 }));
 
 export type CreateDomainOrderError = OvhOpError;
@@ -2948,6 +2986,8 @@ export const createDomainOrder: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainOrder",
 }));
 
 export type CreateDomainTaskAccelerateError = OvhOpError;
@@ -2963,6 +3003,8 @@ export const createDomainTaskAccelerate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainTaskAccelerate",
 }));
 
 export type CreateDomainTaskRelaunchError = OvhOpError;
@@ -2978,6 +3020,8 @@ export const createDomainTaskRelaunch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainTaskRelaunch",
 }));
 
 export type CreateDomainUkOutgoingTransferError = OvhOpError;
@@ -2993,6 +3037,8 @@ export const createDomainUkOutgoingTransfer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainUkOutgoingTransfer",
 }));
 
 export type CreateDomainZoneChangeContactError = OvhOpError;
@@ -3008,6 +3054,8 @@ export const createDomainZoneChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainZoneChangeContact",
 }));
 
 export type CreateDomainZoneTaskAccelerateError = OvhOpError;
@@ -3023,6 +3071,8 @@ export const createDomainZoneTaskAccelerate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainZoneTaskAccelerate",
 }));
 
 export type CreateDomainZoneTaskRelaunchError = OvhOpError;
@@ -3038,6 +3088,8 @@ export const createDomainZoneTaskRelaunch: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainZoneTaskRelaunch",
 }));
 
 export type CreateDynDnsLoginError = OvhOpError;
@@ -3053,6 +3105,8 @@ export const createDynDnsLogin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynDnsLogin",
 }));
 
 export type CreateDynDnsRecordError = OvhOpError;
@@ -3068,6 +3122,8 @@ export const createDynDnsRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDynDnsRecord",
 }));
 
 export type CreateRecordError = OvhOpError;
@@ -3083,6 +3139,8 @@ export const createRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRecord",
 }));
 
 export type CreateRedirectionError = OvhOpError;
@@ -3098,6 +3156,8 @@ export const createRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRedirection",
 }));
 
 export type DeleteDomainDataSmdError = OvhOpError;
@@ -3113,6 +3173,8 @@ export const deleteDomainDataSmd: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainDataSmd",
 }));
 
 export type DeleteDomainGlueRecordError = OvhOpError;
@@ -3128,6 +3190,8 @@ export const deleteDomainGlueRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainGlueRecord",
 }));
 
 export type DeleteDomainNameServerError = OvhOpError;
@@ -3143,6 +3207,8 @@ export const deleteDomainNameServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainNameServer",
 }));
 
 export type DeleteDomainOptionError = OvhOpError;
@@ -3158,6 +3224,8 @@ export const deleteDomainOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainOption",
 }));
 
 export type DeleteDynHostLoginError = OvhOpError;
@@ -3173,6 +3241,8 @@ export const deleteDynHostLogin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynHostLogin",
 }));
 
 export type DeleteDynHostRecordError = OvhOpError;
@@ -3188,6 +3258,8 @@ export const deleteDynHostRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynHostRecord",
 }));
 
 export type DeleteRecordError = OvhOpError;
@@ -3203,6 +3275,8 @@ export const deleteRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecord",
 }));
 
 export type DeleteRedirectionError = OvhOpError;
@@ -3218,6 +3292,8 @@ export const deleteRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRedirection",
 }));
 
 export type DisableDNSSECError = OvhOpError;
@@ -3233,6 +3309,8 @@ export const disableDNSSEC: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableDNSSEC",
 }));
 
 export type EditDomainError = OvhOpError;
@@ -3248,6 +3326,8 @@ export const editDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditDomain",
 }));
 
 export type EditDynDnsLoginError = OvhOpError;
@@ -3263,6 +3343,8 @@ export const editDynDnsLogin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditDynDnsLogin",
 }));
 
 export type EditDynDnsRecordError = OvhOpError;
@@ -3278,6 +3360,8 @@ export const editDynDnsRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditDynDnsRecord",
 }));
 
 export type EditRecordError = OvhOpError;
@@ -3293,6 +3377,8 @@ export const editRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditRecord",
 }));
 
 export type EditRedirectionError = OvhOpError;
@@ -3308,6 +3394,8 @@ export const editRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditRedirection",
 }));
 
 export type EnableDNSSECError = OvhOpError;
@@ -3323,6 +3411,8 @@ export const enableDNSSEC: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableDNSSEC",
 }));
 
 export type GetContactError = OvhOpError;
@@ -3338,6 +3428,8 @@ export const getContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContact",
 }));
 
 export type GetContactsError = OvhOpError;
@@ -3353,6 +3445,8 @@ export const getContacts: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContacts",
 }));
 
 export type GetDNSSECStatusError = OvhOpError;
@@ -3368,6 +3462,8 @@ export const getDNSSECStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDNSSECStatus",
 }));
 
 export type GetDomainError = OvhOpError;
@@ -3383,6 +3479,8 @@ export const getDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainAuthInfoError = OvhOpError;
@@ -3398,6 +3496,8 @@ export const getDomainAuthInfo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainAuthInfo",
 }));
 
 export type GetDomainConfigurationDataError = OvhOpError;
@@ -3413,6 +3513,8 @@ export const getDomainConfigurationData: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainConfigurationData",
 }));
 
 export type GetDomainConfigurationRuleError = OvhOpError;
@@ -3428,6 +3530,8 @@ export const getDomainConfigurationRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainConfigurationRule",
 }));
 
 export type GetDomainDataClaimNoticeError = OvhOpError;
@@ -3443,6 +3547,8 @@ export const getDomainDataClaimNotice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainDataClaimNotice",
 }));
 
 export type GetDomainDataSmdError = OvhOpError;
@@ -3458,6 +3564,8 @@ export const getDomainDataSmd: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainDataSmd",
 }));
 
 export type GetDomainDsRecordError = OvhOpError;
@@ -3473,6 +3581,8 @@ export const getDomainDsRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainDsRecord",
 }));
 
 export type GetDomainExtensionError = OvhOpError;
@@ -3488,6 +3598,8 @@ export const getDomainExtension: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainExtension",
 }));
 
 export type GetDomainExtensionRegistryConfigurationsError = OvhOpError;
@@ -3507,6 +3619,8 @@ export const getDomainExtensionRegistryConfigurations: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainExtensionRegistryConfigurations",
 }));
 
 export type GetDomainGlueRecordError = OvhOpError;
@@ -3522,6 +3636,8 @@ export const getDomainGlueRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainGlueRecord",
 }));
 
 export type GetDomainNameServerError = OvhOpError;
@@ -3537,6 +3653,8 @@ export const getDomainNameServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainNameServer",
 }));
 
 export type GetDomainNameServerStatusError = OvhOpError;
@@ -3552,6 +3670,8 @@ export const getDomainNameServerStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainNameServerStatus",
 }));
 
 export type GetDomainOptionError = OvhOpError;
@@ -3567,6 +3687,8 @@ export const getDomainOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainOption",
 }));
 
 export type GetDomainOptionsError = OvhOpError;
@@ -3582,6 +3704,8 @@ export const getDomainOptions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainOptions",
 }));
 
 export type GetDomainsError = OvhOpError;
@@ -3597,6 +3721,8 @@ export const getDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomains",
 }));
 
 export type GetDomainServiceInfosError = OvhOpError;
@@ -3612,6 +3738,8 @@ export const getDomainServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainServiceInfos",
 }));
 
 export type GetDomainTaskError = OvhOpError;
@@ -3627,6 +3755,8 @@ export const getDomainTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainTask",
 }));
 
 export type GetDomainZoneCapabilitiesError = OvhOpError;
@@ -3642,6 +3772,8 @@ export const getDomainZoneCapabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainZoneCapabilities",
 }));
 
 export type GetDomainZoneExportError = OvhOpError;
@@ -3657,6 +3789,8 @@ export const getDomainZoneExport: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainZoneExport",
 }));
 
 export type GetDomainZoneHistoryError = OvhOpError;
@@ -3672,6 +3806,8 @@ export const getDomainZoneHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainZoneHistory",
 }));
 
 export type GetDomainZoneOptionError = OvhOpError;
@@ -3687,6 +3823,8 @@ export const getDomainZoneOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainZoneOption",
 }));
 
 export type GetDomainZoneOptionServiceInfosError = OvhOpError;
@@ -3702,6 +3840,8 @@ export const getDomainZoneOptionServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainZoneOptionServiceInfos",
 }));
 
 export type GetDomainZoneServiceInfosError = OvhOpError;
@@ -3717,6 +3857,8 @@ export const getDomainZoneServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainZoneServiceInfos",
 }));
 
 export type GetDomainZoneSoaError = OvhOpError;
@@ -3732,6 +3874,8 @@ export const getDomainZoneSoa: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainZoneSoa",
 }));
 
 export type GetDomainZoneTaskError = OvhOpError;
@@ -3747,6 +3891,8 @@ export const getDomainZoneTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainZoneTask",
 }));
 
 export type GetDynHostLoginError = OvhOpError;
@@ -3762,6 +3908,8 @@ export const getDynHostLogin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynHostLogin",
 }));
 
 export type GetDynHostLoginsError = OvhOpError;
@@ -3777,6 +3925,8 @@ export const getDynHostLogins: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynHostLogins",
 }));
 
 export type GetDynHostRecordError = OvhOpError;
@@ -3792,6 +3942,8 @@ export const getDynHostRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynHostRecord",
 }));
 
 export type GetDynHostRecordsError = OvhOpError;
@@ -3807,6 +3959,8 @@ export const getDynHostRecords: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynHostRecords",
 }));
 
 export type GetRecordError = OvhOpError;
@@ -3822,6 +3976,8 @@ export const getRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecord",
 }));
 
 export type GetRecordsError = OvhOpError;
@@ -3837,6 +3993,8 @@ export const getRecords: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecords",
 }));
 
 export type GetRedirectionError = OvhOpError;
@@ -3852,6 +4010,8 @@ export const getRedirection: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedirection",
 }));
 
 export type GetRedirectionsError = OvhOpError;
@@ -3867,6 +4027,8 @@ export const getRedirections: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedirections",
 }));
 
 export type GetZoneError = OvhOpError;
@@ -3882,6 +4044,8 @@ export const getZone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZone",
 }));
 
 export type GetZonesError = OvhOpError;
@@ -3897,6 +4061,8 @@ export const getZones: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZones",
 }));
 
 export type ImportDomainZoneError = OvhOpError;
@@ -3912,6 +4078,8 @@ export const importDomainZone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDomainZone",
 }));
 
 export type ListDomainConfigurationObfuscatedEmailsError = OvhOpError;
@@ -3927,6 +4095,8 @@ export const listDomainConfigurationObfuscatedEmails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainConfigurationObfuscatedEmails",
 }));
 
 export type ListDomainConfigurationOptinError = OvhOpError;
@@ -3942,6 +4112,8 @@ export const listDomainConfigurationOptin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainConfigurationOptin",
 }));
 
 export type ListDomainDataSmdError = OvhOpError;
@@ -3957,6 +4129,8 @@ export const listDomainDataSmd: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainDataSmd",
 }));
 
 export type ListDomainDsRecordError = OvhOpError;
@@ -3972,6 +4146,8 @@ export const listDomainDsRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainDsRecord",
 }));
 
 export type ListDomainExtensionByCategoryError = OvhOpError;
@@ -3987,6 +4163,8 @@ export const listDomainExtensionByCategory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainExtensionByCategory",
 }));
 
 export type ListDomainExtensionHighlightedError = OvhOpError;
@@ -4002,6 +4180,8 @@ export const listDomainExtensionHighlighted: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainExtensionHighlighted",
 }));
 
 export type ListDomainExtensionPricingAttributesError = OvhOpError;
@@ -4017,6 +4197,8 @@ export const listDomainExtensionPricingAttributes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainExtensionPricingAttributes",
 }));
 
 export type ListDomainExtensionsError = OvhOpError;
@@ -4032,6 +4214,8 @@ export const listDomainExtensions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainExtensions",
 }));
 
 export type ListDomainGlueRecordError = OvhOpError;
@@ -4047,6 +4231,8 @@ export const listDomainGlueRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainGlueRecord",
 }));
 
 export type ListDomainNameServerError = OvhOpError;
@@ -4062,6 +4248,8 @@ export const listDomainNameServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainNameServer",
 }));
 
 export type ListDomainOptionError = OvhOpError;
@@ -4077,6 +4265,8 @@ export const listDomainOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainOption",
 }));
 
 export type ListDomainRuleEmailsObfuscationError = OvhOpError;
@@ -4092,6 +4282,8 @@ export const listDomainRuleEmailsObfuscation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainRuleEmailsObfuscation",
 }));
 
 export type ListDomainRuleOptinError = OvhOpError;
@@ -4107,6 +4299,8 @@ export const listDomainRuleOptin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainRuleOptin",
 }));
 
 export type ListDomainTaskError = OvhOpError;
@@ -4122,6 +4316,8 @@ export const listDomainTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainTask",
 }));
 
 export type ListDomainUkRegistrarsError = OvhOpError;
@@ -4137,6 +4333,8 @@ export const listDomainUkRegistrars: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainUkRegistrars",
 }));
 
 export type ListDomainZoneHistoryError = OvhOpError;
@@ -4152,6 +4350,8 @@ export const listDomainZoneHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainZoneHistory",
 }));
 
 export type ListDomainZoneOptionError = OvhOpError;
@@ -4167,6 +4367,8 @@ export const listDomainZoneOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainZoneOption",
 }));
 
 export type ListDomainZoneStatusError = OvhOpError;
@@ -4182,6 +4384,8 @@ export const listDomainZoneStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainZoneStatus",
 }));
 
 export type ListDomainZoneTaskError = OvhOpError;
@@ -4197,6 +4401,8 @@ export const listDomainZoneTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainZoneTask",
 }));
 
 export type PutDomainConfigurationDataError = OvhOpError;
@@ -4212,6 +4418,8 @@ export const putDomainConfigurationData: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomainConfigurationData",
 }));
 
 export type PutDomainConfigurationObfuscatedEmailsError = OvhOpError;
@@ -4227,6 +4435,8 @@ export const putDomainConfigurationObfuscatedEmails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomainConfigurationObfuscatedEmails",
 }));
 
 export type PutDomainConfigurationOptinError = OvhOpError;
@@ -4242,6 +4452,8 @@ export const putDomainConfigurationOptin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomainConfigurationOptin",
 }));
 
 export type PutDomainDataSmdError = OvhOpError;
@@ -4257,6 +4469,8 @@ export const putDomainDataSmd: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomainDataSmd",
 }));
 
 export type PutDomainServiceInfosError = OvhOpError;
@@ -4272,6 +4486,8 @@ export const putDomainServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomainServiceInfos",
 }));
 
 export type PutDomainZoneOptionServiceInfosError = OvhOpError;
@@ -4287,6 +4503,8 @@ export const putDomainZoneOptionServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomainZoneOptionServiceInfos",
 }));
 
 export type PutDomainZoneServiceInfosError = OvhOpError;
@@ -4302,6 +4520,8 @@ export const putDomainZoneServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomainZoneServiceInfos",
 }));
 
 export type PutDomainZoneSoaError = OvhOpError;
@@ -4317,6 +4537,8 @@ export const putDomainZoneSoa: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomainZoneSoa",
 }));
 
 export type RefreshDomainConfigurationsObfuscatedEmailError = OvhOpError;
@@ -4332,6 +4554,8 @@ export const refreshDomainConfigurationsObfuscatedEmail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshDomainConfigurationsObfuscatedEmail",
 }));
 
 export type RefreshZoneError = OvhOpError;
@@ -4347,6 +4571,8 @@ export const refreshZone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshZone",
 }));
 
 export type ResetDomainZoneError = OvhOpError;
@@ -4362,6 +4588,8 @@ export const resetDomainZone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetDomainZone",
 }));
 
 export type RestoreDomainZoneHistoryError = OvhOpError;
@@ -4377,6 +4605,8 @@ export const restoreDomainZoneHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDomainZoneHistory",
 }));
 
 export type TerminateDomainZoneError = OvhOpError;
@@ -4392,6 +4622,8 @@ export const terminateDomainZone: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateDomainZone",
 }));
 
 export type UpdateContactError = OvhOpError;
@@ -4407,6 +4639,8 @@ export const updateContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContact",
 }));
 
 export type UpdateDomainGlueRecordError = OvhOpError;
@@ -4422,6 +4656,8 @@ export const updateDomainGlueRecord: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainGlueRecord",
 }));
 
 export type UpdateDomainNameServerError = OvhOpError;
@@ -4437,6 +4673,8 @@ export const updateDomainNameServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainNameServer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

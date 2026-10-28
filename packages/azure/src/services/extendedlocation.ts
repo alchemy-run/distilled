@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ExtendedLocation" },
+  prefix: "Extendedlocation",
+  service: "Extendedlocation",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CustomLocationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The identity type. */
@@ -439,6 +460,8 @@ export const CustomLocationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomLocationsCreateOrUpdate",
 }));
 
 export type DeleteCustomLocationError = AzureOpError;
@@ -454,6 +477,8 @@ export const DeleteCustomLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomLocation",
 }));
 
 export type GetCustomLocationError = AzureOpError;
@@ -469,6 +494,8 @@ export const GetCustomLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomLocation",
 }));
 
 export type ListCustomLocationByResourceGroupError = AzureOpError;
@@ -484,6 +511,8 @@ export const ListCustomLocationByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomLocationByResourceGroup",
 }));
 
 export type ListCustomLocationBySubscriptionError = AzureOpError;
@@ -499,6 +528,8 @@ export const ListCustomLocationBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomLocationBySubscription",
 }));
 
 export type ListCustomLocationEnabledResourceTypesError = AzureOpError;
@@ -514,6 +545,8 @@ export const ListCustomLocationEnabledResourceTypes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomLocationEnabledResourceTypes",
 }));
 
 export type ListCustomLocationOperationsError = AzureOpError;
@@ -529,6 +562,8 @@ export const ListCustomLocationOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomLocationOperations",
 }));
 
 export type UpdateCustomLocationError = AzureOpError;
@@ -544,6 +579,8 @@ export const UpdateCustomLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomLocation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

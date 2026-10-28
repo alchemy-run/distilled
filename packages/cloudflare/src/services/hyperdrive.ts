@@ -31,6 +31,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   staleWhileRevalidate: "stale_while_revalidate",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Hyperdrive",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class HyperdriveConfigAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<HyperdriveConfigAlreadyExists>()("HyperdriveConfigAlreadyExists", {
@@ -900,6 +914,8 @@ export const createConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfig",
 }));
 
 export type DeleteConfigError =
@@ -927,6 +943,8 @@ export const deleteConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfig",
 }));
 
 export type GetConfigError =
@@ -952,6 +970,8 @@ export const getConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type ListConfigsError = PrivateHostNotAllowed | InvalidObjectIdentifier | CloudflareOpError;
@@ -974,6 +994,8 @@ export const listConfigs: API.PaginatedOperationMethod<
     ],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConfigs",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1012,6 +1034,8 @@ export const patchConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchConfig",
 }));
 
 export type RestartConfigError = CloudflareOpError;
@@ -1027,6 +1051,8 @@ export const restartConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartConfig",
 }));
 
 export type UpdateConfigError =
@@ -1056,6 +1082,8 @@ export const updateConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

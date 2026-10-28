@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -74,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://glacier.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Glacier",
+  service: "Glacier",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InsufficientCapacityException
   extends /*@__PURE__*/ S.TaggedError<InsufficientCapacityException>()(
@@ -646,6 +661,8 @@ export const abortMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartUpload",
+  telemetry: TELEMETRY,
+  span: "AbortMultipartUpload",
 }));
 
 export type AbortVaultLockError =
@@ -691,6 +708,8 @@ export const abortVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortVaultLock",
+  telemetry: TELEMETRY,
+  span: "AbortVaultLock",
 }));
 
 export type AddTagsToVaultError =
@@ -727,6 +746,8 @@ export const addTagsToVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToVault",
+  telemetry: TELEMETRY,
+  span: "AddTagsToVault",
 }));
 
 export type CompleteMultipartUploadError =
@@ -795,6 +816,8 @@ export const completeMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
+  telemetry: TELEMETRY,
+  span: "CompleteMultipartUpload",
 }));
 
 export type CompleteVaultLockError =
@@ -840,6 +863,8 @@ export const completeVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteVaultLock",
+  telemetry: TELEMETRY,
+  span: "CompleteVaultLock",
 }));
 
 export type CreateVaultError =
@@ -891,6 +916,8 @@ export const createVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVault",
+  telemetry: TELEMETRY,
+  span: "CreateVault",
 }));
 
 export type DeleteArchiveError =
@@ -944,6 +971,8 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
+  telemetry: TELEMETRY,
+  span: "DeleteArchive",
 }));
 
 export type DeleteVaultError =
@@ -994,6 +1023,8 @@ export const deleteVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVault",
+  telemetry: TELEMETRY,
+  span: "DeleteVault",
 }));
 
 export type DeleteVaultAccessPolicyError =
@@ -1031,6 +1062,8 @@ export const deleteVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteVaultAccessPolicy",
 }));
 
 export type DeleteVaultNotificationsError =
@@ -1074,6 +1107,8 @@ export const deleteVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "DeleteVaultNotifications",
 }));
 
 export type DescribeJobError =
@@ -1125,6 +1160,8 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
+  telemetry: TELEMETRY,
+  span: "DescribeJob",
 }));
 
 export type DescribeVaultError =
@@ -1173,6 +1210,8 @@ export const describeVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVault",
+  telemetry: TELEMETRY,
+  span: "DescribeVault",
 }));
 
 export type GetDataRetrievalPolicyError =
@@ -1203,6 +1242,8 @@ export const getDataRetrievalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataRetrievalPolicy",
+  telemetry: TELEMETRY,
+  span: "GetDataRetrievalPolicy",
 }));
 
 export type GetJobOutputError =
@@ -1272,6 +1313,8 @@ export const getJobOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobOutput",
+  telemetry: TELEMETRY,
+  span: "GetJobOutput",
 }));
 
 export type GetVaultAccessPolicyError =
@@ -1307,6 +1350,8 @@ export const getVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "GetVaultAccessPolicy",
 }));
 
 export type GetVaultLockError =
@@ -1359,6 +1404,8 @@ export const getVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultLock",
+  telemetry: TELEMETRY,
+  span: "GetVaultLock",
 }));
 
 export type GetVaultNotificationsError =
@@ -1405,6 +1452,8 @@ export const getVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "GetVaultNotifications",
 }));
 
 export type InitiateJobError =
@@ -1442,6 +1491,8 @@ export const initiateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateJob",
+  telemetry: TELEMETRY,
+  span: "InitiateJob",
 }));
 
 export type InitiateMultipartUploadError =
@@ -1504,6 +1555,8 @@ export const initiateMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateMultipartUpload",
+  telemetry: TELEMETRY,
+  span: "InitiateMultipartUpload",
 }));
 
 export type InitiateVaultLockError =
@@ -1565,6 +1618,8 @@ export const initiateVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateVaultLock",
+  telemetry: TELEMETRY,
+  span: "InitiateVaultLock",
 }));
 
 export type ListJobsError =
@@ -1635,6 +1690,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "JobList",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListMultipartUploadsError =
@@ -1697,6 +1754,8 @@ export const listMultipartUploads: API.PaginatedOperationMethod<
     items: "UploadsList",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMultipartUploads",
 })) as any;
 
 export type ListPartsError =
@@ -1756,6 +1815,8 @@ export const listParts: API.PaginatedOperationMethod<
     items: "Parts",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParts",
 })) as any;
 
 export type ListProvisionedCapacityError =
@@ -1785,6 +1846,8 @@ export const listProvisionedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedCapacity",
+  telemetry: TELEMETRY,
+  span: "ListProvisionedCapacity",
 }));
 
 export type ListTagsForVaultError =
@@ -1817,6 +1880,8 @@ export const listTagsForVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForVault",
+  telemetry: TELEMETRY,
+  span: "ListTagsForVault",
 }));
 
 export type ListVaultsError =
@@ -1873,6 +1938,8 @@ export const listVaults: API.PaginatedOperationMethod<
     items: "VaultList",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVaults",
 })) as any;
 
 export type PurchaseProvisionedCapacityError =
@@ -1903,6 +1970,8 @@ export const purchaseProvisionedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseProvisionedCapacity",
+  telemetry: TELEMETRY,
+  span: "PurchaseProvisionedCapacity",
 }));
 
 export type RemoveTagsFromVaultError =
@@ -1936,6 +2005,8 @@ export const removeTagsFromVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromVault",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromVault",
 }));
 
 export type SetDataRetrievalPolicyError =
@@ -1970,6 +2041,8 @@ export const setDataRetrievalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDataRetrievalPolicy",
+  telemetry: TELEMETRY,
+  span: "SetDataRetrievalPolicy",
 }));
 
 export type SetVaultAccessPolicyError =
@@ -2005,6 +2078,8 @@ export const setVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "SetVaultAccessPolicy",
 }));
 
 export type SetVaultNotificationsError =
@@ -2065,6 +2140,8 @@ export const setVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "SetVaultNotifications",
 }));
 
 export type UploadArchiveError =
@@ -2129,6 +2206,8 @@ export const uploadArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadArchive",
+  telemetry: TELEMETRY,
+  span: "UploadArchive",
 }));
 
 export type UploadMultipartPartError =
@@ -2202,6 +2281,8 @@ export const uploadMultipartPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadMultipartPart",
+  telemetry: TELEMETRY,
+  span: "UploadMultipartPart",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

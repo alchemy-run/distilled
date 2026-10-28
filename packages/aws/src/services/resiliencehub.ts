@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://resiliencehub.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "resiliencehub",
+  service: "resiliencehub",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1458,6 +1473,8 @@ export const acceptResourceGroupingRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptResourceGroupingRecommendations",
+  telemetry: TELEMETRY,
+  span: "AcceptResourceGroupingRecommendations",
 }));
 
 export type AddDraftAppVersionResourceMappingsError =
@@ -1497,6 +1514,8 @@ export const addDraftAppVersionResourceMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDraftAppVersionResourceMappings",
+  telemetry: TELEMETRY,
+  span: "AddDraftAppVersionResourceMappings",
 }));
 
 export type BatchUpdateRecommendationStatusError =
@@ -1527,6 +1546,8 @@ export const batchUpdateRecommendationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateRecommendationStatus",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateRecommendationStatus",
 }));
 
 export type CreateAppError =
@@ -1572,6 +1593,8 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateAppVersionAppComponentError =
@@ -1610,6 +1633,8 @@ export const createAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppVersionAppComponent",
+  telemetry: TELEMETRY,
+  span: "CreateAppVersionAppComponent",
 }));
 
 export type CreateAppVersionResourceError =
@@ -1655,6 +1680,8 @@ export const createAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppVersionResource",
+  telemetry: TELEMETRY,
+  span: "CreateAppVersionResource",
 }));
 
 export type CreateRecommendationTemplateError =
@@ -1689,6 +1716,8 @@ export const createRecommendationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommendationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateRecommendationTemplate",
 }));
 
 export type CreateResiliencyPolicyError =
@@ -1729,6 +1758,8 @@ export const createResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResiliencyPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateResiliencyPolicy",
 }));
 
 export type DeleteAppError =
@@ -1760,6 +1791,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteAppAssessmentError =
@@ -1793,6 +1826,8 @@ export const deleteAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppAssessment",
+  telemetry: TELEMETRY,
+  span: "DeleteAppAssessment",
 }));
 
 export type DeleteAppInputSourceError =
@@ -1826,6 +1861,8 @@ export const deleteAppInputSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInputSource",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInputSource",
 }));
 
 export type DeleteAppVersionAppComponentError =
@@ -1865,6 +1902,8 @@ export const deleteAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppVersionAppComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteAppVersionAppComponent",
 }));
 
 export type DeleteAppVersionResourceError =
@@ -1906,6 +1945,8 @@ export const deleteAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppVersionResource",
+  telemetry: TELEMETRY,
+  span: "DeleteAppVersionResource",
 }));
 
 export type DeleteRecommendationTemplateError =
@@ -1937,6 +1978,8 @@ export const deleteRecommendationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommendationTemplate",
 }));
 
 export type DeleteResiliencyPolicyError =
@@ -1969,6 +2012,8 @@ export const deleteResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResiliencyPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResiliencyPolicy",
 }));
 
 export type DescribeAppError =
@@ -1999,6 +2044,8 @@ export const describeApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApp",
+  telemetry: TELEMETRY,
+  span: "DescribeApp",
 }));
 
 export type DescribeAppAssessmentError =
@@ -2029,6 +2076,8 @@ export const describeAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppAssessment",
+  telemetry: TELEMETRY,
+  span: "DescribeAppAssessment",
 }));
 
 export type DescribeAppVersionError =
@@ -2059,6 +2108,8 @@ export const describeAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersion",
 }));
 
 export type DescribeAppVersionAppComponentError =
@@ -2091,6 +2142,8 @@ export const describeAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionAppComponent",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersionAppComponent",
 }));
 
 export type DescribeAppVersionResourceError =
@@ -2132,6 +2185,8 @@ export const describeAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionResource",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersionResource",
 }));
 
 export type DescribeAppVersionResourcesResolutionStatusError =
@@ -2168,6 +2223,8 @@ export const describeAppVersionResourcesResolutionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionResourcesResolutionStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersionResourcesResolutionStatus",
 }));
 
 export type DescribeAppVersionTemplateError =
@@ -2198,6 +2255,8 @@ export const describeAppVersionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionTemplate",
+  telemetry: TELEMETRY,
+  span: "DescribeAppVersionTemplate",
 }));
 
 export type DescribeDraftAppVersionResourcesImportStatusError =
@@ -2238,6 +2297,8 @@ export const describeDraftAppVersionResourcesImportStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDraftAppVersionResourcesImportStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeDraftAppVersionResourcesImportStatus",
 }));
 
 export type DescribeMetricsExportError =
@@ -2268,6 +2329,8 @@ export const describeMetricsExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricsExport",
+  telemetry: TELEMETRY,
+  span: "DescribeMetricsExport",
 }));
 
 export type DescribeResiliencyPolicyError =
@@ -2300,6 +2363,8 @@ export const describeResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResiliencyPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResiliencyPolicy",
 }));
 
 export type DescribeResourceGroupingRecommendationTaskError =
@@ -2330,6 +2395,8 @@ export const describeResourceGroupingRecommendationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceGroupingRecommendationTask",
+  telemetry: TELEMETRY,
+  span: "DescribeResourceGroupingRecommendationTask",
 }));
 
 export type ImportResourcesToDraftAppVersionError =
@@ -2366,6 +2433,8 @@ export const importResourcesToDraftAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportResourcesToDraftAppVersion",
+  telemetry: TELEMETRY,
+  span: "ImportResourcesToDraftAppVersion",
 }));
 
 export type ListAlarmRecommendationsError =
@@ -2402,6 +2471,8 @@ export const listAlarmRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAlarmRecommendations",
 })) as any;
 
 export type ListAppAssessmentComplianceDriftsError =
@@ -2437,6 +2508,8 @@ export const listAppAssessmentComplianceDrifts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppAssessmentComplianceDrifts",
 })) as any;
 
 export type ListAppAssessmentResourceDriftsError =
@@ -2473,6 +2546,8 @@ export const listAppAssessmentResourceDrifts: API.PaginatedOperationMethod<
     items: "resourceDrifts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppAssessmentResourceDrifts",
 })) as any;
 
 export type ListAppAssessmentsError =
@@ -2510,6 +2585,8 @@ export const listAppAssessments: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppAssessments",
 })) as any;
 
 export type ListAppComponentCompliancesError =
@@ -2546,6 +2623,8 @@ export const listAppComponentCompliances: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppComponentCompliances",
 })) as any;
 
 export type ListAppComponentRecommendationsError =
@@ -2582,6 +2661,8 @@ export const listAppComponentRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppComponentRecommendations",
 })) as any;
 
 export type ListAppInputSourcesError =
@@ -2620,6 +2701,8 @@ export const listAppInputSources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInputSources",
 })) as any;
 
 export type ListAppsError =
@@ -2661,6 +2744,8 @@ export const listApps: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 })) as any;
 
 export type ListAppVersionAppComponentsError =
@@ -2699,6 +2784,8 @@ export const listAppVersionAppComponents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppVersionAppComponents",
 })) as any;
 
 export type ListAppVersionResourceMappingsError =
@@ -2737,6 +2824,8 @@ export const listAppVersionResourceMappings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppVersionResourceMappings",
 })) as any;
 
 export type ListAppVersionResourcesError =
@@ -2775,6 +2864,8 @@ export const listAppVersionResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppVersionResources",
 })) as any;
 
 export type ListAppVersionsError =
@@ -2809,6 +2900,8 @@ export const listAppVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppVersions",
 })) as any;
 
 export type ListMetricsError =
@@ -2844,6 +2937,8 @@ export const listMetrics: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetrics",
 })) as any;
 
 export type ListRecommendationTemplatesError =
@@ -2878,6 +2973,8 @@ export const listRecommendationTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendationTemplates",
 })) as any;
 
 export type ListResiliencyPoliciesError =
@@ -2914,6 +3011,8 @@ export const listResiliencyPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResiliencyPolicies",
 })) as any;
 
 export type ListResourceGroupingRecommendationsError =
@@ -2951,6 +3050,8 @@ export const listResourceGroupingRecommendations: API.PaginatedOperationMethod<
     items: "groupingRecommendations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceGroupingRecommendations",
 })) as any;
 
 export type ListSopRecommendationsError =
@@ -2989,6 +3090,8 @@ export const listSopRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSopRecommendations",
 })) as any;
 
 export type ListSuggestedResiliencyPoliciesError =
@@ -3026,6 +3129,8 @@ export const listSuggestedResiliencyPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuggestedResiliencyPolicies",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3056,6 +3161,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTestRecommendationsError =
@@ -3094,6 +3201,8 @@ export const listTestRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestRecommendations",
 })) as any;
 
 export type ListUnsupportedAppVersionResourcesError =
@@ -3134,6 +3243,8 @@ export const listUnsupportedAppVersionResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUnsupportedAppVersionResources",
 })) as any;
 
 export type PublishAppVersionError =
@@ -3166,6 +3277,8 @@ export const publishAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishAppVersion",
+  telemetry: TELEMETRY,
+  span: "PublishAppVersion",
 }));
 
 export type PutDraftAppVersionTemplateError =
@@ -3199,6 +3312,8 @@ export const putDraftAppVersionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDraftAppVersionTemplate",
+  telemetry: TELEMETRY,
+  span: "PutDraftAppVersionTemplate",
 }));
 
 export type RejectResourceGroupingRecommendationsError =
@@ -3229,6 +3344,8 @@ export const rejectResourceGroupingRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectResourceGroupingRecommendations",
+  telemetry: TELEMETRY,
+  span: "RejectResourceGroupingRecommendations",
 }));
 
 export type RemoveDraftAppVersionResourceMappingsError =
@@ -3261,6 +3378,8 @@ export const removeDraftAppVersionResourceMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveDraftAppVersionResourceMappings",
+  telemetry: TELEMETRY,
+  span: "RemoveDraftAppVersionResourceMappings",
 }));
 
 export type ResolveAppVersionResourcesError =
@@ -3293,6 +3412,8 @@ export const resolveAppVersionResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveAppVersionResources",
+  telemetry: TELEMETRY,
+  span: "ResolveAppVersionResources",
 }));
 
 export type StartAppAssessmentError =
@@ -3327,6 +3448,8 @@ export const startAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAppAssessment",
+  telemetry: TELEMETRY,
+  span: "StartAppAssessment",
 }));
 
 export type StartMetricsExportError =
@@ -3359,6 +3482,8 @@ export const startMetricsExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetricsExport",
+  telemetry: TELEMETRY,
+  span: "StartMetricsExport",
 }));
 
 export type StartResourceGroupingRecommendationTaskError =
@@ -3391,6 +3516,8 @@ export const startResourceGroupingRecommendationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceGroupingRecommendationTask",
+  telemetry: TELEMETRY,
+  span: "StartResourceGroupingRecommendationTask",
 }));
 
 export type TagResourceError =
@@ -3421,6 +3548,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3451,6 +3580,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppError =
@@ -3483,6 +3614,8 @@ export const updateApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApp",
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateAppVersionError =
@@ -3519,6 +3652,8 @@ export const updateAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateAppVersion",
 }));
 
 export type UpdateAppVersionAppComponentError =
@@ -3555,6 +3690,8 @@ export const updateAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersionAppComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateAppVersionAppComponent",
 }));
 
 export type UpdateAppVersionResourceError =
@@ -3598,6 +3735,8 @@ export const updateAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersionResource",
+  telemetry: TELEMETRY,
+  span: "UpdateAppVersionResource",
 }));
 
 export type UpdateResiliencyPolicyError =
@@ -3638,6 +3777,8 @@ export const updateResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResiliencyPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateResiliencyPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

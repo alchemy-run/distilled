@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { IntercomOpError, IntercomOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "intercom-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Intercom",
+  service: "Intercom",
+  labels: "intercom",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -9327,6 +9340,8 @@ export const archiveContact: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveContact",
 }));
 
 export type AskFinError = BadRequest | IntercomOpError;
@@ -9342,6 +9357,8 @@ export const askFin: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AskFin",
 }));
 
 export type AttachContactToACompanyError = BadRequest | NotFound | IntercomOpError;
@@ -9357,6 +9374,8 @@ export const attachContactToACompany: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachContactToACompany",
 }));
 
 export type AttachContactToConversationError = Forbidden | NotFound | IntercomOpError;
@@ -9372,6 +9391,8 @@ export const attachContactToConversation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachContactToConversation",
 }));
 
 export type AttachSubscriptionTypeToContactError = NotFound | IntercomOpError;
@@ -9387,6 +9408,8 @@ export const attachSubscriptionTypeToContact: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachSubscriptionTypeToContact",
 }));
 
 export type AttachTagToArticleError = Forbidden | NotFound | IntercomOpError;
@@ -9402,6 +9425,8 @@ export const attachTagToArticle: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTagToArticle",
 }));
 
 export type AttachTagToContactError = NotFound | IntercomOpError;
@@ -9417,6 +9442,8 @@ export const attachTagToContact: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTagToContact",
 }));
 
 export type AttachTagToContentSnippetError = Forbidden | NotFound | IntercomOpError;
@@ -9432,6 +9459,8 @@ export const attachTagToContentSnippet: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTagToContentSnippet",
 }));
 
 export type AttachTagToConversationError = NotFound | IntercomOpError;
@@ -9447,6 +9476,8 @@ export const attachTagToConversation: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTagToConversation",
 }));
 
 export type AttachTagToInternalArticleError = Forbidden | NotFound | IntercomOpError;
@@ -9462,6 +9493,8 @@ export const attachTagToInternalArticle: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTagToInternalArticle",
 }));
 
 export type AttachTagToTicketError = NotFound | IntercomOpError;
@@ -9477,6 +9510,8 @@ export const attachTagToTicket: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTagToTicket",
 }));
 
 export type BlockContactError = IntercomOpError;
@@ -9492,6 +9527,8 @@ export const blockContact: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlockContact",
 }));
 
 export type BulkContentActionsError = Forbidden | UnprocessableEntity | IntercomOpError;
@@ -9507,6 +9544,8 @@ export const bulkContentActions: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkContentActions",
 }));
 
 export type CancelDataExportError = IntercomOpError;
@@ -9522,6 +9561,8 @@ export const cancelDataExport: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDataExport",
 }));
 
 export type ChangeTicketTypeError = BadRequest | NotFound | IntercomOpError;
@@ -9537,6 +9578,8 @@ export const changeTicketType: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeTicketType",
 }));
 
 export type CollectFinVoiceCallByExternalIdError = NotFound | IntercomOpError;
@@ -9552,6 +9595,8 @@ export const collectFinVoiceCallByExternalId: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CollectFinVoiceCallByExternalId",
 }));
 
 export type CollectFinVoiceCallByIdError = NotFound | IntercomOpError;
@@ -9567,6 +9612,8 @@ export const collectFinVoiceCallById: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CollectFinVoiceCallById",
 }));
 
 export type CollectFinVoiceCallByPhoneNumberError = NotFound | IntercomOpError;
@@ -9582,6 +9629,8 @@ export const collectFinVoiceCallByPhoneNumber: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CollectFinVoiceCallByPhoneNumber",
 }));
 
 export type CollectFinVoiceCallsByConversationIdError = IntercomOpError;
@@ -9597,6 +9646,8 @@ export const collectFinVoiceCallsByConversationId: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CollectFinVoiceCallsByConversationId",
 }));
 
 export type ConvertConversationToTicketError = BadRequest | IntercomOpError;
@@ -9612,6 +9663,8 @@ export const convertConversationToTicket: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertConversationToTicket",
 }));
 
 export type ConvertVisitorError = IntercomOpError;
@@ -9627,6 +9680,8 @@ export const convertVisitor: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertVisitor",
 }));
 
 export type CreateArticleError = BadRequest | IntercomOpError;
@@ -9642,6 +9697,8 @@ export const createArticle: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArticle",
 }));
 
 export type CreateAudienceError = UnprocessableEntity | IntercomOpError;
@@ -9657,6 +9714,8 @@ export const createAudience: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAudience",
 }));
 
 export type CreateCollectionError = BadRequest | IntercomOpError;
@@ -9672,6 +9731,8 @@ export const createCollection: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type CreateCompanyNoteError = NotFound | IntercomOpError;
@@ -9687,6 +9748,8 @@ export const createCompanyNote: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyNote",
 }));
 
 export type CreateContactError = IntercomOpError;
@@ -9702,6 +9765,8 @@ export const createContact: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContact",
 }));
 
 export type CreateContentImportSourceError = IntercomOpError;
@@ -9717,6 +9782,8 @@ export const createContentImportSource: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContentImportSource",
 }));
 
 export type CreateContentSnippetError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -9732,6 +9799,8 @@ export const createContentSnippet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContentSnippet",
 }));
 
 export type CreateConversationError = Forbidden | NotFound | IntercomOpError;
@@ -9747,6 +9816,8 @@ export const createConversation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversation",
 }));
 
 export type CreateConversationAttributeError = UnprocessableEntity | IntercomOpError;
@@ -9762,6 +9833,8 @@ export const createConversationAttribute: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationAttribute",
 }));
 
 export type CreateConversationAttributeOptionError =
@@ -9780,6 +9853,8 @@ export const createConversationAttributeOption: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationAttributeOption",
 }));
 
 export type CreateCustomObjectInstancesError = NotFound | IntercomOpError;
@@ -9795,6 +9870,8 @@ export const createCustomObjectInstances: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomObjectInstances",
 }));
 
 export type CreateDataAttributeError = BadRequest | IntercomOpError;
@@ -9810,6 +9887,8 @@ export const createDataAttribute: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataAttribute",
 }));
 
 export type CreateDataConnectorError = UnprocessableEntity | IntercomOpError;
@@ -9825,6 +9904,8 @@ export const createDataConnector: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataConnector",
 }));
 
 export type CreateDataEventError = IntercomOpError;
@@ -9840,6 +9921,8 @@ export const createDataEvent: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataEvent",
 }));
 
 export type CreateDataExportError = IntercomOpError;
@@ -9855,6 +9938,8 @@ export const createDataExport: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataExport",
 }));
 
 export type CreateExportReportingDataEnqueueError = BadRequest | IntercomOpError;
@@ -9870,6 +9955,8 @@ export const createExportReportingDataEnqueue: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExportReportingDataEnqueue",
 }));
 
 export type CreateExternalPageError = IntercomOpError;
@@ -9885,6 +9972,8 @@ export const createExternalPage: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalPage",
 }));
 
 export type CreateHelpCenterRedirectError =
@@ -9905,6 +9994,8 @@ export const createHelpCenterRedirect: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHelpCenterRedirect",
 }));
 
 export type CreateInternalArticleError = BadRequest | IntercomOpError;
@@ -9920,6 +10011,8 @@ export const createInternalArticle: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInternalArticle",
 }));
 
 export type CreateMessageError = BadRequest | Forbidden | UnprocessableEntity | IntercomOpError;
@@ -9935,6 +10028,8 @@ export const createMessage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMessage",
 }));
 
 export type CreateNewsItemError = IntercomOpError;
@@ -9950,6 +10045,8 @@ export const createNewsItem: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNewsItem",
 }));
 
 export type CreateNoteError = NotFound | IntercomOpError;
@@ -9965,6 +10062,8 @@ export const createNote: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNote",
 }));
 
 export type CreateOfficeHoursExceptionError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -9980,6 +10079,8 @@ export const createOfficeHoursException: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOfficeHoursException",
 }));
 
 export type CreateOfficeHoursScheduleError = UnprocessableEntity | IntercomOpError;
@@ -9995,6 +10096,8 @@ export const createOfficeHoursSchedule: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOfficeHoursSchedule",
 }));
 
 export type CreateOrUpdateCompanyError = BadRequest | IntercomOpError;
@@ -10010,6 +10113,8 @@ export const createOrUpdateCompany: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateCompany",
 }));
 
 export type CreatePhoneSwitchError = BadRequest | UnprocessableEntity | IntercomOpError;
@@ -10025,6 +10130,8 @@ export const createPhoneSwitch: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePhoneSwitch",
 }));
 
 export type CreateTagError = BadRequest | IntercomOpError;
@@ -10040,6 +10147,8 @@ export const createTag: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTag",
 }));
 
 export type CreateTicketError = IntercomOpError;
@@ -10055,6 +10164,8 @@ export const createTicket: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicket",
 }));
 
 export type CreateTicketTypeError = IntercomOpError;
@@ -10070,6 +10181,8 @@ export const createTicketType: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketType",
 }));
 
 export type CreateTicketTypeAttributeError = IntercomOpError;
@@ -10085,6 +10198,8 @@ export const createTicketTypeAttribute: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTicketTypeAttribute",
 }));
 
 export type DataEventSummariesError = IntercomOpError;
@@ -10100,6 +10215,8 @@ export const dataEventSummaries: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataEventSummaries",
 }));
 
 export type DeleteArticleError = NotFound | IntercomOpError;
@@ -10115,6 +10232,8 @@ export const deleteArticle: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteArticle",
 }));
 
 export type DeleteAudienceError = NotFound | IntercomOpError;
@@ -10130,6 +10249,8 @@ export const deleteAudience: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAudience",
 }));
 
 export type DeleteCollectionError = NotFound | IntercomOpError;
@@ -10145,6 +10266,8 @@ export const deleteCollection: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteCompanyError = NotFound | IntercomOpError;
@@ -10160,6 +10283,8 @@ export const deleteCompany: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompany",
 }));
 
 export type DeleteContactError = IntercomOpError;
@@ -10175,6 +10300,8 @@ export const deleteContact: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContact",
 }));
 
 export type DeleteContentImportSourceError = IntercomOpError;
@@ -10190,6 +10317,8 @@ export const deleteContentImportSource: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContentImportSource",
 }));
 
 export type DeleteContentSnippetError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -10205,6 +10334,8 @@ export const deleteContentSnippet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContentSnippet",
 }));
 
 export type DeleteConversationError = Forbidden | IntercomOpError;
@@ -10220,6 +10351,8 @@ export const deleteConversation: API.OperationMethod<
   errors: [Forbidden, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConversation",
 }));
 
 export type DeleteConversationAttributeError = NotFound | IntercomOpError;
@@ -10235,6 +10368,8 @@ export const deleteConversationAttribute: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConversationAttribute",
 }));
 
 export type DeleteConversationAttributeOptionError =
@@ -10253,6 +10388,8 @@ export const deleteConversationAttributeOption: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConversationAttributeOption",
 }));
 
 export type DeleteCustomObjectInstancesByExternalIdError = NotFound | IntercomOpError;
@@ -10268,6 +10405,8 @@ export const deleteCustomObjectInstancesByExternalId: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomObjectInstancesByExternalId",
 }));
 
 export type DeleteCustomObjectInstancesByIdError = NotFound | IntercomOpError;
@@ -10283,6 +10422,8 @@ export const deleteCustomObjectInstancesById: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomObjectInstancesById",
 }));
 
 export type DeleteDataConnectorError = NotFound | Conflict | IntercomOpError;
@@ -10298,6 +10439,8 @@ export const deleteDataConnector: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataConnector",
 }));
 
 export type DeleteExternalPageError = IntercomOpError;
@@ -10313,6 +10456,8 @@ export const deleteExternalPage: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExternalPage",
 }));
 
 export type DeleteHelpCenterRedirectError = NotFound | IntercomOpError;
@@ -10328,6 +10473,8 @@ export const deleteHelpCenterRedirect: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHelpCenterRedirect",
 }));
 
 export type DeleteInternalArticleError = NotFound | IntercomOpError;
@@ -10343,6 +10490,8 @@ export const deleteInternalArticle: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInternalArticle",
 }));
 
 export type DeleteNewsItemError = NotFound | IntercomOpError;
@@ -10358,6 +10507,8 @@ export const deleteNewsItem: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNewsItem",
 }));
 
 export type DeleteOfficeHoursExceptionError = NotFound | IntercomOpError;
@@ -10373,6 +10524,8 @@ export const deleteOfficeHoursException: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOfficeHoursException",
 }));
 
 export type DeleteOfficeHoursScheduleError = NotFound | IntercomOpError;
@@ -10388,6 +10541,8 @@ export const deleteOfficeHoursSchedule: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOfficeHoursSchedule",
 }));
 
 export type DeleteTagError = BadRequest | NotFound | IntercomOpError;
@@ -10403,6 +10558,8 @@ export const deleteTag: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag",
 }));
 
 export type DeleteTicketError = Forbidden | NotFound | IntercomOpError;
@@ -10418,6 +10575,8 @@ export const deleteTicket: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTicket",
 }));
 
 export type DetachContactFromACompanyError = NotFound | IntercomOpError;
@@ -10433,6 +10592,8 @@ export const detachContactFromACompany: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachContactFromACompany",
 }));
 
 export type DetachContactFromConversationError =
@@ -10452,6 +10613,8 @@ export const detachContactFromConversation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachContactFromConversation",
 }));
 
 export type DetachSubscriptionTypeToContactError = NotFound | IntercomOpError;
@@ -10467,6 +10630,8 @@ export const detachSubscriptionTypeToContact: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachSubscriptionTypeToContact",
 }));
 
 export type DetachTagFromArticleError = Forbidden | NotFound | IntercomOpError;
@@ -10482,6 +10647,8 @@ export const detachTagFromArticle: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachTagFromArticle",
 }));
 
 export type DetachTagFromContactError = NotFound | IntercomOpError;
@@ -10497,6 +10664,8 @@ export const detachTagFromContact: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachTagFromContact",
 }));
 
 export type DetachTagFromContentSnippetError = Forbidden | NotFound | IntercomOpError;
@@ -10512,6 +10681,8 @@ export const detachTagFromContentSnippet: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachTagFromContentSnippet",
 }));
 
 export type DetachTagFromConversationError = NotFound | IntercomOpError;
@@ -10527,6 +10698,8 @@ export const detachTagFromConversation: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachTagFromConversation",
 }));
 
 export type DetachTagFromInternalArticleError = Forbidden | NotFound | IntercomOpError;
@@ -10542,6 +10715,8 @@ export const detachTagFromInternalArticle: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachTagFromInternalArticle",
 }));
 
 export type DetachTagFromTicketError = NotFound | IntercomOpError;
@@ -10557,6 +10732,8 @@ export const detachTagFromTicket: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachTagFromTicket",
 }));
 
 export type DismissContactBannerError = NotFound | IntercomOpError;
@@ -10572,6 +10749,8 @@ export const dismissContactBanner: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissContactBanner",
 }));
 
 export type DownloadDataExportError = IntercomOpError;
@@ -10587,6 +10766,8 @@ export const downloadDataExport: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadDataExport",
 }));
 
 export type EnqueueCreateTicketError = BadRequest | IntercomOpError;
@@ -10602,6 +10783,8 @@ export const enqueueCreateTicket: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnqueueCreateTicket",
 }));
 
 export type EscalateFinConversationError = BadRequest | IntercomOpError;
@@ -10617,6 +10800,8 @@ export const escalateFinConversation: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EscalateFinConversation",
 }));
 
 export type ExportWorkflowError = Forbidden | NotFound | IntercomOpError;
@@ -10632,6 +10817,8 @@ export const exportWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportWorkflow",
 }));
 
 export type FindTagError = NotFound | IntercomOpError;
@@ -10647,6 +10834,8 @@ export const findTag: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindTag",
 }));
 
 export type GetACompanyByIdError = NotFound | IntercomOpError;
@@ -10662,6 +10851,8 @@ export const getACompanyById: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetACompanyById",
 }));
 
 export type GetAdminError = NotFound | IntercomOpError;
@@ -10677,6 +10868,8 @@ export const getAdmin: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdmin",
 }));
 
 export type GetArticleError = NotFound | IntercomOpError;
@@ -10692,6 +10885,8 @@ export const getArticle: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArticle",
 }));
 
 export type GetArticleDraftError = NotFound | IntercomOpError;
@@ -10707,6 +10902,8 @@ export const getArticleDraft: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArticleDraft",
 }));
 
 export type GetArticleVersionError = BadRequest | NotFound | IntercomOpError;
@@ -10722,6 +10919,8 @@ export const getArticleVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArticleVersion",
 }));
 
 export type GetAudienceError = NotFound | IntercomOpError;
@@ -10737,6 +10936,8 @@ export const getAudience: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAudience",
 }));
 
 export type GetBrandError = NotFound | IntercomOpError;
@@ -10752,6 +10953,8 @@ export const getBrand: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrand",
 }));
 
 export type GetCallError = NotFound | IntercomOpError;
@@ -10763,6 +10966,8 @@ export const getCall: API.OperationMethod<GetCallRequest, Call, GetCallError, In
     errors: [NotFound, UnknownIntercomError],
     protocol: IntercomProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetCall",
   }));
 
 export type GetCallRecordingError = NotFound | IntercomOpError;
@@ -10778,6 +10983,8 @@ export const getCallRecording: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCallRecording",
 }));
 
 export type GetCallTranscriptError = NotFound | IntercomOpError;
@@ -10793,6 +11000,8 @@ export const getCallTranscript: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCallTranscript",
 }));
 
 export type GetCollectionError = NotFound | IntercomOpError;
@@ -10808,6 +11017,8 @@ export const getCollection: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollection",
 }));
 
 export type GetCompanyError = NotFound | IntercomOpError;
@@ -10823,6 +11034,8 @@ export const getCompany: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompany",
 }));
 
 export type GetContactError = IntercomOpError;
@@ -10838,6 +11051,8 @@ export const getContact: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContact",
 }));
 
 export type GetContactByExternalIdError = IntercomOpError;
@@ -10853,6 +11068,8 @@ export const getContactByExternalId: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContactByExternalId",
 }));
 
 export type GetContentImportSourceError = IntercomOpError;
@@ -10868,6 +11085,8 @@ export const getContentImportSource: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContentImportSource",
 }));
 
 export type GetContentSnippetError = NotFound | IntercomOpError;
@@ -10883,6 +11102,8 @@ export const getContentSnippet: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContentSnippet",
 }));
 
 export type GetConversationError = Forbidden | NotFound | IntercomOpError;
@@ -10898,6 +11119,8 @@ export const getConversation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversation",
 }));
 
 export type GetConversationAttributeError = NotFound | IntercomOpError;
@@ -10913,6 +11136,8 @@ export const getConversationAttribute: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationAttribute",
 }));
 
 export type GetCustomObjectInstanceError = NotFound | IntercomOpError;
@@ -10928,6 +11153,8 @@ export const getCustomObjectInstance: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomObjectInstance",
 }));
 
 export type GetDataConnectorError = BadRequest | NotFound | IntercomOpError;
@@ -10943,6 +11170,8 @@ export const getDataConnector: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataConnector",
 }));
 
 export type GetDataConnectorExecutionResultError = NotFound | IntercomOpError;
@@ -10958,6 +11187,8 @@ export const getDataConnectorExecutionResult: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataConnectorExecutionResult",
 }));
 
 export type GetDataExportError = IntercomOpError;
@@ -10973,6 +11204,8 @@ export const getDataExport: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataExport",
 }));
 
 export type GetDownloadReportingDataError = NotFound | IntercomOpError;
@@ -10988,6 +11221,8 @@ export const getDownloadReportingData: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDownloadReportingData",
 }));
 
 export type GetEmailError = NotFound | IntercomOpError;
@@ -11003,6 +11238,8 @@ export const getEmail: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmail",
 }));
 
 export type GetExportReportingDataError = NotFound | IntercomOpError;
@@ -11018,6 +11255,8 @@ export const getExportReportingData: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExportReportingData",
 }));
 
 export type GetExternalPageError = IntercomOpError;
@@ -11033,6 +11272,8 @@ export const getExternalPage: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExternalPage",
 }));
 
 export type GetHelpCenterError = NotFound | IntercomOpError;
@@ -11048,6 +11289,8 @@ export const getHelpCenter: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHelpCenter",
 }));
 
 export type GetHelpCenterRedirectError = NotFound | IntercomOpError;
@@ -11063,6 +11306,8 @@ export const getHelpCenterRedirect: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHelpCenterRedirect",
 }));
 
 export type GetInternalArticleError = NotFound | IntercomOpError;
@@ -11078,6 +11323,8 @@ export const getInternalArticle: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInternalArticle",
 }));
 
 export type GetIpAllowlistError = IntercomOpError;
@@ -11093,6 +11340,8 @@ export const getIpAllowlist: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpAllowlist",
 }));
 
 export type GetMacroError = Forbidden | NotFound | IntercomOpError;
@@ -11108,6 +11357,8 @@ export const getMacro: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMacro",
 }));
 
 export type GetNewsfeedError = IntercomOpError;
@@ -11123,6 +11374,8 @@ export const getNewsfeed: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsfeed",
 }));
 
 export type GetNewsItemError = NotFound | IntercomOpError;
@@ -11138,6 +11391,8 @@ export const getNewsItem: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsItem",
 }));
 
 export type GetNoteError = NotFound | IntercomOpError;
@@ -11149,6 +11404,8 @@ export const getNote: API.OperationMethod<GetNoteRequest, Note, GetNoteError, In
     errors: [NotFound, UnknownIntercomError],
     protocol: IntercomProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetNote",
   }));
 
 export type GetOfficeHoursExceptionError = NotFound | IntercomOpError;
@@ -11164,6 +11421,8 @@ export const getOfficeHoursException: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOfficeHoursException",
 }));
 
 export type GetOfficeHoursScheduleError = NotFound | IntercomOpError;
@@ -11179,6 +11438,8 @@ export const getOfficeHoursSchedule: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOfficeHoursSchedule",
 }));
 
 export type GetSegmentError = NotFound | IntercomOpError;
@@ -11194,6 +11455,8 @@ export const getSegment: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetTeamError = NotFound | IntercomOpError;
@@ -11205,6 +11468,8 @@ export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, In
     errors: [NotFound, UnknownIntercomError],
     protocol: IntercomProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTeam",
   }));
 
 export type GetTeamMetricsError = Forbidden | NotFound | IntercomOpError;
@@ -11220,6 +11485,8 @@ export const getTeamMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamMetrics",
 }));
 
 export type GetTicketError = IntercomOpError;
@@ -11235,6 +11502,8 @@ export const getTicket: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicket",
 }));
 
 export type GetTicketTypeError = IntercomOpError;
@@ -11250,6 +11519,8 @@ export const getTicketType: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTicketType",
 }));
 
 export type GetVisitorWithUserIdError = NotFound | IntercomOpError;
@@ -11265,6 +11536,8 @@ export const getVisitorWithUserId: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisitorWithUserId",
 }));
 
 export type GetWhatsAppMessageStatusError = BadRequest | NotFound | IntercomOpError;
@@ -11280,6 +11553,8 @@ export const getWhatsAppMessageStatus: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppMessageStatus",
 }));
 
 export type GetWhatsAppMessageStatus2Error = BadRequest | Forbidden | IntercomOpError;
@@ -11295,6 +11570,8 @@ export const getWhatsAppMessageStatus2: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppMessageStatus2",
 }));
 
 export type IdentifyAdminError = IntercomOpError;
@@ -11310,6 +11587,8 @@ export const identifyAdmin: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IdentifyAdmin",
 }));
 
 export type JobsStatus2Error = NotFound | IntercomOpError;
@@ -11325,6 +11604,8 @@ export const jobsStatus2: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JobsStatus2",
 }));
 
 export type LinkConversationToTicketError = BadRequest | NotFound | IntercomOpError;
@@ -11340,6 +11621,8 @@ export const linkConversationToTicket: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkConversationToTicket",
 }));
 
 export type LisDataAttributesError = UnprocessableEntity | IntercomOpError;
@@ -11355,6 +11638,8 @@ export const lisDataAttributes: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LisDataAttributes",
 }));
 
 export type LisDataEventsError = IntercomOpError;
@@ -11370,6 +11655,8 @@ export const lisDataEvents: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LisDataEvents",
 }));
 
 export type ListActivityLogEventTypesError = IntercomOpError;
@@ -11385,6 +11672,8 @@ export const listActivityLogEventTypes: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActivityLogEventTypes",
 }));
 
 export type ListActivityLogsError = IntercomOpError;
@@ -11400,6 +11689,8 @@ export const listActivityLogs: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActivityLogs",
 }));
 
 export type ListAdminsError = IntercomOpError;
@@ -11415,6 +11706,8 @@ export const listAdmins: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmins",
 }));
 
 export type ListAllCollectionsError = IntercomOpError;
@@ -11430,6 +11723,8 @@ export const listAllCollections: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllCollections",
 }));
 
 export type ListAllCompaniesError = IntercomOpError;
@@ -11445,6 +11740,8 @@ export const listAllCompanies: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllCompanies",
 }));
 
 export type ListArticlesError = IntercomOpError;
@@ -11460,6 +11757,8 @@ export const listArticles: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArticles",
 }));
 
 export type ListArticleVersionsError = BadRequest | NotFound | IntercomOpError;
@@ -11475,6 +11774,8 @@ export const listArticleVersions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArticleVersions",
 }));
 
 export type ListAttachedContactsError = NotFound | IntercomOpError;
@@ -11490,6 +11791,8 @@ export const listAttachedContacts: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttachedContacts",
 }));
 
 export type ListAttachedSegmentsForCompaniesError = NotFound | IntercomOpError;
@@ -11505,6 +11808,8 @@ export const listAttachedSegmentsForCompanies: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttachedSegmentsForCompanies",
 }));
 
 export type ListAudiencesError = IntercomOpError;
@@ -11520,6 +11825,8 @@ export const listAudiences: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAudiences",
 }));
 
 export type ListAwayStatusReasonsError = IntercomOpError;
@@ -11535,6 +11842,8 @@ export const listAwayStatusReasons: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAwayStatusReasons",
 }));
 
 export type ListBrandsError = IntercomOpError;
@@ -11550,6 +11859,8 @@ export const listBrands: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrands",
 }));
 
 export type ListCallsError = IntercomOpError;
@@ -11565,6 +11876,8 @@ export const listCalls: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCalls",
 }));
 
 export type ListCallsWithTranscriptsError = BadRequest | IntercomOpError;
@@ -11580,6 +11893,8 @@ export const listCallsWithTranscripts: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCallsWithTranscripts",
 }));
 
 export type ListCompaniesForAContactError = NotFound | IntercomOpError;
@@ -11595,6 +11910,8 @@ export const listCompaniesForAContact: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCompaniesForAContact",
 }));
 
 export type ListCompanyNotesError = NotFound | IntercomOpError;
@@ -11610,6 +11927,8 @@ export const listCompanyNotes: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCompanyNotes",
 }));
 
 export type ListContactBannersError = NotFound | IntercomOpError;
@@ -11625,6 +11944,8 @@ export const listContactBanners: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContactBanners",
 }));
 
 export type ListContactMergeHistoryError = NotFound | IntercomOpError;
@@ -11640,6 +11961,8 @@ export const listContactMergeHistory: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContactMergeHistory",
 }));
 
 export type ListContactsError = IntercomOpError;
@@ -11655,6 +11978,8 @@ export const listContacts: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContacts",
 }));
 
 export type ListContentImportSourcesError = IntercomOpError;
@@ -11670,6 +11995,8 @@ export const listContentImportSources: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContentImportSources",
 }));
 
 export type ListContentSnippetsError = IntercomOpError;
@@ -11685,6 +12012,8 @@ export const listContentSnippets: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContentSnippets",
 }));
 
 export type ListConversationAttributesError = IntercomOpError;
@@ -11700,6 +12029,8 @@ export const listConversationAttributes: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConversationAttributes",
 }));
 
 export type ListConversationsError = Forbidden | IntercomOpError;
@@ -11715,6 +12046,8 @@ export const listConversations: API.OperationMethod<
   errors: [Forbidden, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConversations",
 }));
 
 export type ListCustomObjectInstancesError = NotFound | IntercomOpError;
@@ -11730,6 +12063,8 @@ export const listCustomObjectInstances: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomObjectInstances",
 }));
 
 export type ListDataConnectorExecutionResultsError = BadRequest | NotFound | IntercomOpError;
@@ -11745,6 +12080,8 @@ export const listDataConnectorExecutionResults: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataConnectorExecutionResults",
 }));
 
 export type ListDataConnectorsError = BadRequest | IntercomOpError;
@@ -11760,6 +12097,8 @@ export const listDataConnectors: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataConnectors",
 }));
 
 export type ListDeletedConversationIdsError = BadRequest | IntercomOpError;
@@ -11775,6 +12114,8 @@ export const listDeletedConversationIds: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletedConversationIds",
 }));
 
 export type ListEmailsError = IntercomOpError;
@@ -11790,6 +12131,8 @@ export const listEmails: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmails",
 }));
 
 export type ListExportReportingDataGetDatasetsError = IntercomOpError;
@@ -11805,6 +12148,8 @@ export const listExportReportingDataGetDatasets: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExportReportingDataGetDatasets",
 }));
 
 export type ListExternalPagesError = IntercomOpError;
@@ -11820,6 +12165,8 @@ export const listExternalPages: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExternalPages",
 }));
 
 export type ListFinCapabilitiesError = BadRequest | IntercomOpError;
@@ -11835,6 +12182,8 @@ export const listFinCapabilities: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFinCapabilities",
 }));
 
 export type ListHandlingEventsError = NotFound | IntercomOpError;
@@ -11850,6 +12199,8 @@ export const listHandlingEvents: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHandlingEvents",
 }));
 
 export type ListHelpCenterRedirectsError = NotFound | IntercomOpError;
@@ -11865,6 +12216,8 @@ export const listHelpCenterRedirects: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHelpCenterRedirects",
 }));
 
 export type ListHelpCentersError = IntercomOpError;
@@ -11880,6 +12233,8 @@ export const listHelpCenters: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHelpCenters",
 }));
 
 export type ListInternalArticlesError = IntercomOpError;
@@ -11895,6 +12250,8 @@ export const listInternalArticles: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInternalArticles",
 }));
 
 export type ListLiveNewsfeedItemsError = IntercomOpError;
@@ -11910,6 +12267,8 @@ export const listLiveNewsfeedItems: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLiveNewsfeedItems",
 }));
 
 export type ListMacrosError = BadRequest | Forbidden | IntercomOpError;
@@ -11925,6 +12284,8 @@ export const listMacros: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMacros",
 }));
 
 export type ListNewsfeedsError = IntercomOpError;
@@ -11940,6 +12301,8 @@ export const listNewsfeeds: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNewsfeeds",
 }));
 
 export type ListNewsItemsError = IntercomOpError;
@@ -11955,6 +12318,8 @@ export const listNewsItems: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNewsItems",
 }));
 
 export type ListNotesError = NotFound | IntercomOpError;
@@ -11970,6 +12335,8 @@ export const listNotes: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotes",
 }));
 
 export type ListOfficeHoursExceptionsError = NotFound | IntercomOpError;
@@ -11985,6 +12352,8 @@ export const listOfficeHoursExceptions: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfficeHoursExceptions",
 }));
 
 export type ListOfficeHoursSchedulesError = IntercomOpError;
@@ -12000,6 +12369,8 @@ export const listOfficeHoursSchedules: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfficeHoursSchedules",
 }));
 
 export type ListSegmentsError = IntercomOpError;
@@ -12015,6 +12386,8 @@ export const listSegments: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSegments",
 }));
 
 export type ListSegmentsForAContactError = NotFound | IntercomOpError;
@@ -12030,6 +12403,8 @@ export const listSegmentsForAContact: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSegmentsForAContact",
 }));
 
 export type ListSideConversationsError = NotFound | IntercomOpError;
@@ -12045,6 +12420,8 @@ export const listSideConversations: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSideConversations",
 }));
 
 export type ListSubscriptionsForAContactError = NotFound | IntercomOpError;
@@ -12060,6 +12437,8 @@ export const listSubscriptionsForAContact: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionsForAContact",
 }));
 
 export type ListSubscriptionTypesError = IntercomOpError;
@@ -12075,6 +12454,8 @@ export const listSubscriptionTypes: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionTypes",
 }));
 
 export type ListTagsError = IntercomOpError;
@@ -12090,6 +12471,8 @@ export const listTags: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListTagsForAContactError = NotFound | IntercomOpError;
@@ -12105,6 +12488,8 @@ export const listTagsForAContact: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTagsForAContact",
 }));
 
 export type ListTeamsError = IntercomOpError;
@@ -12120,6 +12505,8 @@ export const listTeams: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeams",
 }));
 
 export type ListTicketStatesError = IntercomOpError;
@@ -12135,6 +12522,8 @@ export const listTicketStates: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketStates",
 }));
 
 export type ListTicketTypesError = IntercomOpError;
@@ -12150,6 +12539,8 @@ export const listTicketTypes: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTicketTypes",
 }));
 
 export type ManageConversationError = Forbidden | NotFound | IntercomOpError;
@@ -12165,6 +12556,8 @@ export const manageConversation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManageConversation",
 }));
 
 export type MergeContactError = BadRequest | IntercomOpError;
@@ -12180,6 +12573,8 @@ export const mergeContact: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeContact",
 }));
 
 export type MergeConversationError = BadRequest | Forbidden | UnprocessableEntity | IntercomOpError;
@@ -12195,6 +12590,8 @@ export const mergeConversation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeConversation",
 }));
 
 export type PublishArticleDraftError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -12210,6 +12607,8 @@ export const publishArticleDraft: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishArticleDraft",
 }));
 
 export type RedactConversationError = NotFound | IntercomOpError;
@@ -12225,6 +12624,8 @@ export const redactConversation: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedactConversation",
 }));
 
 export type RegisterFinVoiceCallError = BadRequest | Conflict | IntercomOpError;
@@ -12240,6 +12641,8 @@ export const registerFinVoiceCall: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterFinVoiceCall",
 }));
 
 export type ReplyConversationError = Forbidden | NotFound | IntercomOpError;
@@ -12255,6 +12658,8 @@ export const replyConversation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyConversation",
 }));
 
 export type ReplyTicketError = BadRequest | NotFound | IntercomOpError;
@@ -12270,6 +12675,8 @@ export const replyTicket: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyTicket",
 }));
 
 export type ReplyToFinError = BadRequest | IntercomOpError;
@@ -12285,6 +12692,8 @@ export const replyToFin: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyToFin",
 }));
 
 export type RunFinProcedureError = BadRequest | IntercomOpError;
@@ -12300,6 +12709,8 @@ export const runFinProcedure: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunFinProcedure",
 }));
 
 export type ScrollOverAllCompaniesError = IntercomOpError;
@@ -12315,6 +12726,8 @@ export const scrollOverAllCompanies: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScrollOverAllCompanies",
 }));
 
 export type SearchActivityLogsError = IntercomOpError;
@@ -12330,6 +12743,8 @@ export const searchActivityLogs: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchActivityLogs",
 }));
 
 export type SearchArticlesError = IntercomOpError;
@@ -12345,6 +12760,8 @@ export const searchArticles: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchArticles",
 }));
 
 export type SearchContactsError = BadRequest | IntercomOpError;
@@ -12360,6 +12777,8 @@ export const searchContacts: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchContacts",
 }));
 
 export type SearchContentError = UnprocessableEntity | IntercomOpError;
@@ -12375,6 +12794,8 @@ export const searchContent: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchContent",
 }));
 
 export type SearchConversationsError = IntercomOpError;
@@ -12390,6 +12811,8 @@ export const searchConversations: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchConversations",
 }));
 
 export type SearchInternalArticlesError = IntercomOpError;
@@ -12405,6 +12828,8 @@ export const searchInternalArticles: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchInternalArticles",
 }));
 
 export type SearchTicketsError = IntercomOpError;
@@ -12420,6 +12845,8 @@ export const searchTickets: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTickets",
 }));
 
 export type SetAwayAdminError = BadRequest | NotFound | IntercomOpError;
@@ -12435,6 +12862,8 @@ export const setAwayAdmin: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAwayAdmin",
 }));
 
 export type StageArticleDraftError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -12450,6 +12879,8 @@ export const stageArticleDraft: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StageArticleDraft",
 }));
 
 export type StartFinConversationError = BadRequest | IntercomOpError;
@@ -12465,6 +12896,8 @@ export const startFinConversation: API.OperationMethod<
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartFinConversation",
 }));
 
 export type SubmitFinCsatError = UnprocessableEntity | IntercomOpError;
@@ -12480,6 +12913,8 @@ export const submitFinCsat: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitFinCsat",
 }));
 
 export type UnarchiveContactError = IntercomOpError;
@@ -12495,6 +12930,8 @@ export const unarchiveContact: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveContact",
 }));
 
 export type UnlinkConversationFromTicketError = BadRequest | NotFound | IntercomOpError;
@@ -12510,6 +12947,8 @@ export const unlinkConversationFromTicket: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkConversationFromTicket",
 }));
 
 export type UpdateArticleError = NotFound | IntercomOpError;
@@ -12525,6 +12964,8 @@ export const updateArticle: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateArticle",
 }));
 
 export type UpdateAudienceError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -12540,6 +12981,8 @@ export const updateAudience: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAudience",
 }));
 
 export type UpdateCollectionError = NotFound | IntercomOpError;
@@ -12555,6 +12998,8 @@ export const updateCollection: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCollection",
 }));
 
 export type UpdateCompanyError = NotFound | IntercomOpError;
@@ -12570,6 +13015,8 @@ export const updateCompany: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCompany",
 }));
 
 export type UpdateContactError = IntercomOpError;
@@ -12585,6 +13032,8 @@ export const updateContact: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContact",
 }));
 
 export type UpdateContentImportSourceError = IntercomOpError;
@@ -12600,6 +13049,8 @@ export const updateContentImportSource: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContentImportSource",
 }));
 
 export type UpdateContentSnippetError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -12615,6 +13066,8 @@ export const updateContentSnippet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContentSnippet",
 }));
 
 export type UpdateConversationError = Forbidden | NotFound | IntercomOpError;
@@ -12630,6 +13083,8 @@ export const updateConversation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversation",
 }));
 
 export type UpdateConversationAttributeError = NotFound | IntercomOpError;
@@ -12645,6 +13100,8 @@ export const updateConversationAttribute: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationAttribute",
 }));
 
 export type UpdateConversationAttributeOptionError =
@@ -12663,6 +13120,8 @@ export const updateConversationAttributeOption: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationAttributeOption",
 }));
 
 export type UpdateDataAttributeError =
@@ -12682,6 +13141,8 @@ export const updateDataAttribute: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataAttribute",
 }));
 
 export type UpdateDataConnectorError = NotFound | Conflict | UnprocessableEntity | IntercomOpError;
@@ -12697,6 +13158,8 @@ export const updateDataConnector: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataConnector",
 }));
 
 export type UpdateExternalPageError = IntercomOpError;
@@ -12712,6 +13175,8 @@ export const updateExternalPage: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExternalPage",
 }));
 
 export type UpdateInternalArticleError = NotFound | IntercomOpError;
@@ -12727,6 +13192,8 @@ export const updateInternalArticle: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInternalArticle",
 }));
 
 export type UpdateIpAllowlistError = UnprocessableEntity | IntercomOpError;
@@ -12742,6 +13209,8 @@ export const updateIpAllowlist: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIpAllowlist",
 }));
 
 export type UpdateNewsItemError = NotFound | IntercomOpError;
@@ -12757,6 +13226,8 @@ export const updateNewsItem: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNewsItem",
 }));
 
 export type UpdateOfficeHoursExceptionError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -12772,6 +13243,8 @@ export const updateOfficeHoursException: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOfficeHoursException",
 }));
 
 export type UpdateOfficeHoursScheduleError = NotFound | UnprocessableEntity | IntercomOpError;
@@ -12787,6 +13260,8 @@ export const updateOfficeHoursSchedule: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOfficeHoursSchedule",
 }));
 
 export type UpdateTicketError = BadRequest | NotFound | IntercomOpError;
@@ -12802,6 +13277,8 @@ export const updateTicket: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTicket",
 }));
 
 export type UpdateTicketTypeError = IntercomOpError;
@@ -12817,6 +13294,8 @@ export const updateTicketType: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTicketType",
 }));
 
 export type UpdateTicketTypeAttributeError = IntercomOpError;
@@ -12832,6 +13311,8 @@ export const updateTicketTypeAttribute: API.OperationMethod<
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTicketTypeAttribute",
 }));
 
 export type UpdateVisitorError = NotFound | IntercomOpError;
@@ -12847,6 +13328,8 @@ export const updateVisitor: API.OperationMethod<
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVisitor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

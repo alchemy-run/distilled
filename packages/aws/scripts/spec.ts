@@ -2253,6 +2253,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           ? [`endpointHostPrefix: ${JSON.stringify(endpointHostPrefix)}`]
           : []),
         ...(paginatedTrait ? [`pagination: ${JSON.stringify(paginatedTrait)} as const`] : []),
+        ...ctx.telemetry,
       ];
       const metaObject = `{ ${metaParts.join(", ")} }`;
 

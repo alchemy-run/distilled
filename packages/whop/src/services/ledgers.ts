@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Ledgers",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1403,6 +1415,8 @@ export const getFinancialReport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinancialReport",
 }));
 
 export type GetFinancialReportBreakdownError = BadRequest | Forbidden | WhopOpError;
@@ -1418,6 +1432,8 @@ export const getFinancialReportBreakdown: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFinancialReportBreakdown",
 }));
 
 export type ListFinancialActivityError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -1433,6 +1449,8 @@ export const listFinancialActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFinancialActivity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

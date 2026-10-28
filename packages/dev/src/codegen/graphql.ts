@@ -40,6 +40,7 @@
  */
 
 import { toVerbNoun } from "./rewrite-operation-ids.ts";
+import { OPERATION_TRAIT } from "./telemetry.ts";
 
 // ============================================================================
 // GraphQL introspection types (subset of the canonical spec)
@@ -1053,6 +1054,14 @@ export const convertGraphQLToSmithy = (options: GraphQLConvertOptions): GraphQLC
         opTraits["smithy.api#documentation"] = op.description;
       }
       if (op.type === "query") opTraits["smithy.api#readonly"] = {};
+      // The span facts only the GraphQL document knows; finalize fills in
+      // the span name (see ./telemetry.ts).
+      opTraits[OPERATION_TRAIT] = {
+        attributes: {
+          "graphql.operation.name": op.functionName,
+          "graphql.operation.type": op.type,
+        },
+      };
 
       // Relay connections paginate. The operation must accept the cursor and
       // page-size arguments AND return a connection; anything else (a plain

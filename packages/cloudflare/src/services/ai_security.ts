@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "AiSecurity",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AiSecurityNotEntitled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AiSecurityNotEntitled>()("AiSecurityNotEntitled", {
@@ -116,6 +130,8 @@ export const getAiSecurity: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiSecurity",
 }));
 
 export type GetCustomTopicError =
@@ -141,6 +157,8 @@ export const getCustomTopic: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomTopic",
 }));
 
 export type PutAiSecurityError =
@@ -166,6 +184,8 @@ export const putAiSecurity: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAiSecurity",
 }));
 
 export type PutCustomTopicError =
@@ -191,6 +211,8 @@ export const putCustomTopic: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCustomTopic",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

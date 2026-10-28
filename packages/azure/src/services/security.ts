@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Security" },
+  prefix: "Security",
+  service: "Security",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Type of managed service identity (either system assigned, or none). */
 export type SystemAssignedServiceIdentityType = "None" | "SystemAssigned";
 /** Managed service identity (either system assigned, or none) */
@@ -140,6 +160,13 @@ export const DataScannersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DataScannersCreateOrUpdate",
+    attributes: {
+      "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+    },
+  },
 }));
 
 export type DeleteDataScannerError = AzureOpError;
@@ -155,6 +182,13 @@ export const DeleteDataScanner: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDataScanner",
+    attributes: {
+      "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+    },
+  },
 }));
 
 export type GetDataScannerError = AzureOpError;
@@ -170,6 +204,13 @@ export const GetDataScanner: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDataScanner",
+    attributes: {
+      "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+    },
+  },
 }));
 
 export type ListDataScannersError = AzureOpError;
@@ -185,6 +226,11 @@ export const ListDataScanners: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDataScanners",
+    attributes: { "url.template": "/{scopeId}/providers/Microsoft.Security/dataScanners" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

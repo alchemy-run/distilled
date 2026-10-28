@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "tagmanager" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Tagmanager",
+  service: "tagmanager",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2286,6 +2305,8 @@ export const bulkUpdateAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateAccountsContainersWorkspaces",
 }));
 
 export type CombineAccountsContainersError =
@@ -2307,6 +2328,8 @@ export const combineAccountsContainers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CombineAccountsContainers",
 }));
 
 export type CreateAccountsContainersError =
@@ -2328,6 +2351,8 @@ export const createAccountsContainers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainers",
 }));
 
 export type CreateAccountsContainersEnvironmentsError =
@@ -2349,6 +2374,8 @@ export const createAccountsContainersEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersEnvironments",
 }));
 
 export type CreateAccountsContainersWorkspacesError =
@@ -2370,6 +2397,8 @@ export const createAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspaces",
 }));
 
 export type CreateAccountsContainersWorkspacesBuilt_in_variablesError =
@@ -2395,6 +2424,8 @@ export const createAccountsContainersWorkspacesBuilt_in_variables: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesBuilt_in_variables",
 }));
 
 export type CreateAccountsContainersWorkspacesClientsError =
@@ -2416,6 +2447,8 @@ export const createAccountsContainersWorkspacesClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesClients",
 }));
 
 export type CreateAccountsContainersWorkspacesFoldersError =
@@ -2437,6 +2470,8 @@ export const createAccountsContainersWorkspacesFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesFolders",
 }));
 
 export type CreateAccountsContainersWorkspacesGtag_configError =
@@ -2462,6 +2497,8 @@ export const createAccountsContainersWorkspacesGtag_config: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesGtag_config",
 }));
 
 export type CreateAccountsContainersWorkspacesTagsError =
@@ -2483,6 +2520,8 @@ export const createAccountsContainersWorkspacesTags: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesTags",
 }));
 
 export type CreateAccountsContainersWorkspacesTemplatesError =
@@ -2504,6 +2543,8 @@ export const createAccountsContainersWorkspacesTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesTemplates",
 }));
 
 export type CreateAccountsContainersWorkspacesTransformationsError =
@@ -2529,6 +2570,8 @@ export const createAccountsContainersWorkspacesTransformations: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesTransformations",
 }));
 
 export type CreateAccountsContainersWorkspacesTriggersError =
@@ -2550,6 +2593,8 @@ export const createAccountsContainersWorkspacesTriggers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesTriggers",
 }));
 
 export type CreateAccountsContainersWorkspacesVariablesError =
@@ -2571,6 +2616,8 @@ export const createAccountsContainersWorkspacesVariables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesVariables",
 }));
 
 export type CreateAccountsContainersWorkspacesZonesError =
@@ -2592,6 +2639,8 @@ export const createAccountsContainersWorkspacesZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsContainersWorkspacesZones",
 }));
 
 export type CreateAccountsUser_permissionsError =
@@ -2613,6 +2662,8 @@ export const createAccountsUser_permissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsUser_permissions",
 }));
 
 export type CreateVersionAccountsContainersWorkspacesError =
@@ -2634,6 +2685,8 @@ export const createVersionAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVersionAccountsContainersWorkspaces",
 }));
 
 export type DeleteAccountsContainersError =
@@ -2655,6 +2708,8 @@ export const deleteAccountsContainers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainers",
 }));
 
 export type DeleteAccountsContainersEnvironmentsError =
@@ -2676,6 +2731,8 @@ export const deleteAccountsContainersEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersEnvironments",
 }));
 
 export type DeleteAccountsContainersVersionsError =
@@ -2697,6 +2754,8 @@ export const deleteAccountsContainersVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersVersions",
 }));
 
 export type DeleteAccountsContainersWorkspacesError =
@@ -2718,6 +2777,8 @@ export const deleteAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspaces",
 }));
 
 export type DeleteAccountsContainersWorkspacesBuilt_in_variablesError =
@@ -2747,6 +2808,8 @@ export const deleteAccountsContainersWorkspacesBuilt_in_variables: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesBuilt_in_variables",
 }));
 
 export type DeleteAccountsContainersWorkspacesClientsError =
@@ -2768,6 +2831,8 @@ export const deleteAccountsContainersWorkspacesClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesClients",
 }));
 
 export type DeleteAccountsContainersWorkspacesFoldersError =
@@ -2789,6 +2854,8 @@ export const deleteAccountsContainersWorkspacesFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesFolders",
 }));
 
 export type DeleteAccountsContainersWorkspacesGtag_configError =
@@ -2818,6 +2885,8 @@ export const deleteAccountsContainersWorkspacesGtag_config: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesGtag_config",
 }));
 
 export type DeleteAccountsContainersWorkspacesTagsError =
@@ -2839,6 +2908,8 @@ export const deleteAccountsContainersWorkspacesTags: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesTags",
 }));
 
 export type DeleteAccountsContainersWorkspacesTemplatesError =
@@ -2864,6 +2935,8 @@ export const deleteAccountsContainersWorkspacesTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesTemplates",
 }));
 
 export type DeleteAccountsContainersWorkspacesTransformationsError =
@@ -2893,6 +2966,8 @@ export const deleteAccountsContainersWorkspacesTransformations: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesTransformations",
 }));
 
 export type DeleteAccountsContainersWorkspacesTriggersError =
@@ -2914,6 +2989,8 @@ export const deleteAccountsContainersWorkspacesTriggers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesTriggers",
 }));
 
 export type DeleteAccountsContainersWorkspacesVariablesError =
@@ -2939,6 +3016,8 @@ export const deleteAccountsContainersWorkspacesVariables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesVariables",
 }));
 
 export type DeleteAccountsContainersWorkspacesZonesError =
@@ -2960,6 +3039,8 @@ export const deleteAccountsContainersWorkspacesZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsContainersWorkspacesZones",
 }));
 
 export type DeleteAccountsUser_permissionsError =
@@ -2981,6 +3062,8 @@ export const deleteAccountsUser_permissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountsUser_permissions",
 }));
 
 export type EntitiesAccountsContainersWorkspacesFoldersError =
@@ -3003,6 +3086,8 @@ export const entitiesAccountsContainersWorkspacesFolders: API.PaginatedOperation
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EntitiesAccountsContainersWorkspacesFolders",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3019,6 +3104,8 @@ export const getAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type GetAccountsContainersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3034,6 +3121,8 @@ export const getAccountsContainers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainers",
 }));
 
 export type GetAccountsContainersDestinationsError =
@@ -3053,6 +3142,8 @@ export const getAccountsContainersDestinations: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersDestinations",
 }));
 
 export type GetAccountsContainersEnvironmentsError =
@@ -3072,6 +3163,8 @@ export const getAccountsContainersEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersEnvironments",
 }));
 
 export type GetAccountsContainersVersionsError =
@@ -3091,6 +3184,8 @@ export const getAccountsContainersVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersVersions",
 }));
 
 export type GetAccountsContainersWorkspacesError =
@@ -3110,6 +3205,8 @@ export const getAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspaces",
 }));
 
 export type GetAccountsContainersWorkspacesClientsError =
@@ -3129,6 +3226,8 @@ export const getAccountsContainersWorkspacesClients: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesClients",
 }));
 
 export type GetAccountsContainersWorkspacesFoldersError =
@@ -3148,6 +3247,8 @@ export const getAccountsContainersWorkspacesFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesFolders",
 }));
 
 export type GetAccountsContainersWorkspacesGtag_configError =
@@ -3167,6 +3268,8 @@ export const getAccountsContainersWorkspacesGtag_config: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesGtag_config",
 }));
 
 export type GetAccountsContainersWorkspacesTagsError =
@@ -3186,6 +3289,8 @@ export const getAccountsContainersWorkspacesTags: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesTags",
 }));
 
 export type GetAccountsContainersWorkspacesTemplatesError =
@@ -3205,6 +3310,8 @@ export const getAccountsContainersWorkspacesTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesTemplates",
 }));
 
 export type GetAccountsContainersWorkspacesTransformationsError =
@@ -3228,6 +3335,8 @@ export const getAccountsContainersWorkspacesTransformations: API.OperationMethod
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesTransformations",
 }));
 
 export type GetAccountsContainersWorkspacesTriggersError =
@@ -3247,6 +3356,8 @@ export const getAccountsContainersWorkspacesTriggers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesTriggers",
 }));
 
 export type GetAccountsContainersWorkspacesVariablesError =
@@ -3266,6 +3377,8 @@ export const getAccountsContainersWorkspacesVariables: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesVariables",
 }));
 
 export type GetAccountsContainersWorkspacesZonesError =
@@ -3285,6 +3398,8 @@ export const getAccountsContainersWorkspacesZones: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsContainersWorkspacesZones",
 }));
 
 export type GetAccountsUser_permissionsError =
@@ -3304,6 +3419,8 @@ export const getAccountsUser_permissions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsUser_permissions",
 }));
 
 export type GetStatusAccountsContainersWorkspacesError =
@@ -3323,6 +3440,8 @@ export const getStatusAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatusAccountsContainersWorkspaces",
 }));
 
 export type ImportFromGalleryAccountsContainersWorkspacesTemplatesError =
@@ -3348,6 +3467,8 @@ export const importFromGalleryAccountsContainersWorkspacesTemplates: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportFromGalleryAccountsContainersWorkspacesTemplates",
 }));
 
 export type LatestAccountsContainersVersion_headersError =
@@ -3367,6 +3488,8 @@ export const latestAccountsContainersVersion_headers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LatestAccountsContainersVersion_headers",
 }));
 
 export type LinkAccountsContainersDestinationsError =
@@ -3388,6 +3511,8 @@ export const linkAccountsContainersDestinations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkAccountsContainersDestinations",
 }));
 
 export type ListAccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3404,6 +3529,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3421,6 +3548,8 @@ export const listAccountsContainers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3441,6 +3570,8 @@ export const listAccountsContainersDestinations: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersDestinations",
 }));
 
 export type ListAccountsContainersEnvironmentsError =
@@ -3461,6 +3592,8 @@ export const listAccountsContainersEnvironments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersEnvironments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3482,6 +3615,8 @@ export const listAccountsContainersVersion_headers: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersVersion_headers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3503,6 +3638,8 @@ export const listAccountsContainersWorkspaces: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspaces",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3528,6 +3665,8 @@ export const listAccountsContainersWorkspacesBuilt_in_variables: API.PaginatedOp
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesBuilt_in_variables",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3549,6 +3688,8 @@ export const listAccountsContainersWorkspacesClients: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesClients",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3570,6 +3711,8 @@ export const listAccountsContainersWorkspacesFolders: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesFolders",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3591,6 +3734,8 @@ export const listAccountsContainersWorkspacesGtag_config: API.PaginatedOperation
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesGtag_config",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3612,6 +3757,8 @@ export const listAccountsContainersWorkspacesTags: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesTags",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3633,6 +3780,8 @@ export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesTemplates",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3658,6 +3807,8 @@ export const listAccountsContainersWorkspacesTransformations: API.PaginatedOpera
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesTransformations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3679,6 +3830,8 @@ export const listAccountsContainersWorkspacesTriggers: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesTriggers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3700,6 +3853,8 @@ export const listAccountsContainersWorkspacesVariables: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesVariables",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3721,6 +3876,8 @@ export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsContainersWorkspacesZones",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3742,6 +3899,8 @@ export const listAccountsUser_permissions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsUser_permissions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3762,6 +3921,8 @@ export const liveAccountsContainersVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LiveAccountsContainersVersions",
 }));
 
 export type LookupAccountsContainersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -3777,6 +3938,8 @@ export const lookupAccountsContainers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupAccountsContainers",
 }));
 
 export type MoveEntitiesToFolderAccountsContainersWorkspacesFoldersError =
@@ -3806,6 +3969,8 @@ export const moveEntitiesToFolderAccountsContainersWorkspacesFolders: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveEntitiesToFolderAccountsContainersWorkspacesFolders",
 }));
 
 export type MoveTagIdAccountsContainersError =
@@ -3827,6 +3992,8 @@ export const moveTagIdAccountsContainers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveTagIdAccountsContainers",
 }));
 
 export type PreviewQuickAccountsContainersWorkspacesError =
@@ -3848,6 +4015,8 @@ export const previewQuickAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewQuickAccountsContainersWorkspaces",
 }));
 
 export type PublishAccountsContainersVersionsError =
@@ -3869,6 +4038,8 @@ export const publishAccountsContainersVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishAccountsContainersVersions",
 }));
 
 export type ReauthorizeAccountsContainersEnvironmentsError =
@@ -3890,6 +4061,8 @@ export const reauthorizeAccountsContainersEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReauthorizeAccountsContainersEnvironments",
 }));
 
 export type Resolve_conflictAccountsContainersWorkspacesError =
@@ -3919,6 +4092,8 @@ export const resolve_conflictAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Resolve_conflictAccountsContainersWorkspaces",
 }));
 
 export type RevertAccountsContainersWorkspacesBuilt_in_variablesError =
@@ -3944,6 +4119,8 @@ export const revertAccountsContainersWorkspacesBuilt_in_variables: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesBuilt_in_variables",
 }));
 
 export type RevertAccountsContainersWorkspacesClientsError =
@@ -3965,6 +4142,8 @@ export const revertAccountsContainersWorkspacesClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesClients",
 }));
 
 export type RevertAccountsContainersWorkspacesFoldersError =
@@ -3986,6 +4165,8 @@ export const revertAccountsContainersWorkspacesFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesFolders",
 }));
 
 export type RevertAccountsContainersWorkspacesTagsError =
@@ -4007,6 +4188,8 @@ export const revertAccountsContainersWorkspacesTags: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesTags",
 }));
 
 export type RevertAccountsContainersWorkspacesTemplatesError =
@@ -4032,6 +4215,8 @@ export const revertAccountsContainersWorkspacesTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesTemplates",
 }));
 
 export type RevertAccountsContainersWorkspacesTransformationsError =
@@ -4057,6 +4242,8 @@ export const revertAccountsContainersWorkspacesTransformations: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesTransformations",
 }));
 
 export type RevertAccountsContainersWorkspacesTriggersError =
@@ -4078,6 +4265,8 @@ export const revertAccountsContainersWorkspacesTriggers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesTriggers",
 }));
 
 export type RevertAccountsContainersWorkspacesVariablesError =
@@ -4103,6 +4292,8 @@ export const revertAccountsContainersWorkspacesVariables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesVariables",
 }));
 
 export type RevertAccountsContainersWorkspacesZonesError =
@@ -4124,6 +4315,8 @@ export const revertAccountsContainersWorkspacesZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevertAccountsContainersWorkspacesZones",
 }));
 
 export type Set_latestAccountsContainersVersionsError =
@@ -4145,6 +4338,8 @@ export const set_latestAccountsContainersVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Set_latestAccountsContainersVersions",
 }));
 
 export type SnippetAccountsContainersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -4160,6 +4355,8 @@ export const snippetAccountsContainers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SnippetAccountsContainers",
 }));
 
 export type SyncAccountsContainersWorkspacesError =
@@ -4181,6 +4378,8 @@ export const syncAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAccountsContainersWorkspaces",
 }));
 
 export type UndeleteAccountsContainersVersionsError =
@@ -4202,6 +4401,8 @@ export const undeleteAccountsContainersVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteAccountsContainersVersions",
 }));
 
 export type UpdateAccountsError =
@@ -4223,6 +4424,8 @@ export const updateAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccounts",
 }));
 
 export type UpdateAccountsContainersError =
@@ -4244,6 +4447,8 @@ export const updateAccountsContainers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainers",
 }));
 
 export type UpdateAccountsContainersEnvironmentsError =
@@ -4265,6 +4470,8 @@ export const updateAccountsContainersEnvironments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersEnvironments",
 }));
 
 export type UpdateAccountsContainersVersionsError =
@@ -4286,6 +4493,8 @@ export const updateAccountsContainersVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersVersions",
 }));
 
 export type UpdateAccountsContainersWorkspacesError =
@@ -4307,6 +4516,8 @@ export const updateAccountsContainersWorkspaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspaces",
 }));
 
 export type UpdateAccountsContainersWorkspacesClientsError =
@@ -4328,6 +4539,8 @@ export const updateAccountsContainersWorkspacesClients: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesClients",
 }));
 
 export type UpdateAccountsContainersWorkspacesFoldersError =
@@ -4349,6 +4562,8 @@ export const updateAccountsContainersWorkspacesFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesFolders",
 }));
 
 export type UpdateAccountsContainersWorkspacesGtag_configError =
@@ -4370,6 +4585,8 @@ export const updateAccountsContainersWorkspacesGtag_config: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesGtag_config",
 }));
 
 export type UpdateAccountsContainersWorkspacesTagsError =
@@ -4391,6 +4608,8 @@ export const updateAccountsContainersWorkspacesTags: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesTags",
 }));
 
 export type UpdateAccountsContainersWorkspacesTemplatesError =
@@ -4412,6 +4631,8 @@ export const updateAccountsContainersWorkspacesTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesTemplates",
 }));
 
 export type UpdateAccountsContainersWorkspacesTransformationsError =
@@ -4437,6 +4658,8 @@ export const updateAccountsContainersWorkspacesTransformations: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesTransformations",
 }));
 
 export type UpdateAccountsContainersWorkspacesTriggersError =
@@ -4458,6 +4681,8 @@ export const updateAccountsContainersWorkspacesTriggers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesTriggers",
 }));
 
 export type UpdateAccountsContainersWorkspacesVariablesError =
@@ -4479,6 +4704,8 @@ export const updateAccountsContainersWorkspacesVariables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesVariables",
 }));
 
 export type UpdateAccountsContainersWorkspacesZonesError =
@@ -4500,6 +4727,8 @@ export const updateAccountsContainersWorkspacesZones: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsContainersWorkspacesZones",
 }));
 
 export type UpdateAccountsUser_permissionsError =
@@ -4521,6 +4750,8 @@ export const updateAccountsUser_permissions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsUser_permissions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

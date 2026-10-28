@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { ClerkOpError, ClerkOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "clerk-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Clerk",
+  service: "Clerk",
+  labels: "clerk",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -6075,6 +6088,8 @@ export const addDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDomain",
 }));
 
 export type AddRolesToRoleSetError =
@@ -6095,6 +6110,8 @@ export const addRolesToRoleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRolesToRoleSet",
 }));
 
 export type AdjustOrganizationBillingCreditBalanceError =
@@ -6116,6 +6133,8 @@ export const adjustOrganizationBillingCreditBalance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdjustOrganizationBillingCreditBalance",
 }));
 
 export type AdjustUserBillingCreditBalanceError =
@@ -6137,6 +6156,8 @@ export const adjustUserBillingCreditBalance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdjustUserBillingCreditBalance",
 }));
 
 export type ApplyBillingSubscriptionItemDiscountError =
@@ -6158,6 +6179,8 @@ export const applyBillingSubscriptionItemDiscount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyBillingSubscriptionItemDiscount",
 }));
 
 export type AssignPermissionToOrganizationRoleError =
@@ -6177,6 +6200,8 @@ export const assignPermissionToOrganizationRole: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignPermissionToOrganizationRole",
 }));
 
 export type AttemptEmailAddressVerificationError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -6192,6 +6217,8 @@ export const attemptEmailAddressVerification: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttemptEmailAddressVerification",
 }));
 
 export type AttemptPhoneNumberVerificationError =
@@ -6212,6 +6239,8 @@ export const attemptPhoneNumberVerification: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttemptPhoneNumberVerification",
 }));
 
 export type BanUserError = ClerkOpError;
@@ -6223,6 +6252,8 @@ export const banUser: API.OperationMethod<BanUserRequest, User, BanUserError, Cl
     errors: [UnknownClerkError],
     protocol: ClerkProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BanUser",
   }));
 
 export type BanUser2Error = BadRequest | ClerkOpError;
@@ -6238,6 +6269,8 @@ export const banUser2: API.OperationMethod<
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BanUser2",
 }));
 
 export type CancelCommerceSubscriptionItemError =
@@ -6258,6 +6291,8 @@ export const cancelCommerceSubscriptionItem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCommerceSubscriptionItem",
 }));
 
 export type ChangeProductionInstanceDomainError =
@@ -6277,6 +6312,8 @@ export const changeProductionInstanceDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeProductionInstanceDomain",
 }));
 
 export type CreateActorTokenError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -6292,6 +6329,8 @@ export const createActorToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateActorToken",
 }));
 
 export type CreateAdminPortalLinkTokenError = BadRequest | Forbidden | Conflict | ClerkOpError;
@@ -6307,6 +6346,8 @@ export const createAdminPortalLinkToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdminPortalLinkToken",
 }));
 
 export type CreateAgentTaskError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -6322,6 +6363,8 @@ export const createAgentTask: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAgentTask",
 }));
 
 export type CreateAllowlistIdentifierError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -6337,6 +6380,8 @@ export const createAllowlistIdentifier: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAllowlistIdentifier",
 }));
 
 export type CreateApiKeyError = BadRequest | Conflict | ClerkOpError;
@@ -6352,6 +6397,8 @@ export const createApiKey: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type CreateBillingPriceError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -6367,6 +6414,8 @@ export const createBillingPrice: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingPrice",
 }));
 
 export type CreateBillingPriceTransitionError =
@@ -6388,6 +6437,8 @@ export const createBillingPriceTransition: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingPriceTransition",
 }));
 
 export type CreateBlocklistIdentifierError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -6403,6 +6454,8 @@ export const createBlocklistIdentifier: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBlocklistIdentifier",
 }));
 
 export type CreateBulkInvitationsError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -6418,6 +6471,8 @@ export const createBulkInvitations: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBulkInvitations",
 }));
 
 export type CreateBulkWaitlistEntriesError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -6433,6 +6488,8 @@ export const createBulkWaitlistEntries: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBulkWaitlistEntries",
 }));
 
 export type CreateDirectoryError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -6448,6 +6505,8 @@ export const createDirectory: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDirectory",
 }));
 
 export type CreateDirectoryGroupRoleMappingError =
@@ -6468,6 +6527,8 @@ export const createDirectoryGroupRoleMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDirectoryGroupRoleMapping",
 }));
 
 export type CreateEmailAddressError =
@@ -6489,6 +6550,8 @@ export const createEmailAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailAddress",
 }));
 
 export type CreateEnterpriseConnectionError =
@@ -6509,6 +6572,8 @@ export const createEnterpriseConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnterpriseConnection",
 }));
 
 export type CreateEnterpriseConnectionTestRunError = Forbidden | NotFound | ClerkOpError;
@@ -6524,6 +6589,8 @@ export const createEnterpriseConnectionTestRun: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnterpriseConnectionTestRun",
 }));
 
 export type CreateInvitationError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -6539,6 +6606,8 @@ export const createInvitation: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvitation",
 }));
 
 export type CreateJWTTemplateError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -6554,6 +6623,8 @@ export const createJWTTemplate: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJWTTemplate",
 }));
 
 export type CreateM2MTokenError = BadRequest | Conflict | ClerkOpError;
@@ -6569,6 +6640,8 @@ export const createM2MToken: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateM2MToken",
 }));
 
 export type CreateMachineError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -6584,6 +6657,8 @@ export const createMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMachine",
 }));
 
 export type CreateMachineScopeError =
@@ -6605,6 +6680,8 @@ export const createMachineScope: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMachineScope",
 }));
 
 export type CreateOAuthApplicationError =
@@ -6624,6 +6701,8 @@ export const createOAuthApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOAuthApplication",
 }));
 
 export type CreateOrganizationError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -6639,6 +6718,8 @@ export const createOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateOrganizationDomainError =
@@ -6659,6 +6740,8 @@ export const createOrganizationDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationDomain",
 }));
 
 export type CreateOrganizationInvitationError =
@@ -6679,6 +6762,8 @@ export const createOrganizationInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationInvitation",
 }));
 
 export type CreateOrganizationInvitationBulkError =
@@ -6699,6 +6784,8 @@ export const createOrganizationInvitationBulk: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationInvitationBulk",
 }));
 
 export type CreateOrganizationMembershipError =
@@ -6719,6 +6806,8 @@ export const createOrganizationMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationMembership",
 }));
 
 export type CreateOrganizationPermissionError =
@@ -6738,6 +6827,8 @@ export const createOrganizationPermission: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationPermission",
 }));
 
 export type CreateOrganizationRoleError =
@@ -6758,6 +6849,8 @@ export const createOrganizationRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationRole",
 }));
 
 export type CreatePhoneNumberError =
@@ -6778,6 +6871,8 @@ export const createPhoneNumber: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePhoneNumber",
 }));
 
 export type CreateRedirectURLError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -6793,6 +6888,8 @@ export const createRedirectURL: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRedirectURL",
 }));
 
 export type CreateRoleSetError =
@@ -6813,6 +6910,8 @@ export const createRoleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRoleSet",
 }));
 
 export type CreateSCIMDirectoryError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -6828,6 +6927,8 @@ export const createSCIMDirectory: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSCIMDirectory",
 }));
 
 export type CreateSCIMGroupRoleMappingError =
@@ -6848,6 +6949,8 @@ export const createSCIMGroupRoleMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSCIMGroupRoleMapping",
 }));
 
 export type CreateSessionError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -6863,6 +6966,8 @@ export const createSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type CreateSessionTokenError = NotFound | ClerkOpError;
@@ -6878,6 +6983,8 @@ export const createSessionToken: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionToken",
 }));
 
 export type CreateSessionTokenFromTemplateError = NotFound | ClerkOpError;
@@ -6893,6 +7000,8 @@ export const createSessionTokenFromTemplate: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionTokenFromTemplate",
 }));
 
 export type CreateSignInTokenError = Forbidden | NotFound | UnprocessableEntity | ClerkOpError;
@@ -6908,6 +7017,8 @@ export const createSignInToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignInToken",
 }));
 
 export type CreateSSOBypassAllowlistUserError =
@@ -6927,6 +7038,8 @@ export const createSSOBypassAllowlistUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSSOBypassAllowlistUser",
 }));
 
 export type CreateSvixAppError = BadRequest | ClerkOpError;
@@ -6942,6 +7055,8 @@ export const createSvixApp: API.OperationMethod<
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSvixApp",
 }));
 
 export type CreateTestingTokenError = ClerkOpError;
@@ -6957,6 +7072,8 @@ export const createTestingToken: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTestingToken",
 }));
 
 export type CreateUserError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -6972,6 +7089,8 @@ export const createUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateWaitlistEntryError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -6987,6 +7106,8 @@ export const createWaitlistEntry: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWaitlistEntry",
 }));
 
 export type DeleteAllowlistIdentifierError = NotFound | ClerkOpError;
@@ -7002,6 +7123,8 @@ export const deleteAllowlistIdentifier: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllowlistIdentifier",
 }));
 
 export type DeleteApiKeyError = BadRequest | NotFound | ClerkOpError;
@@ -7017,6 +7140,8 @@ export const deleteApiKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiKey",
 }));
 
 export type DeleteBackupCodeError = NotFound | ClerkOpError;
@@ -7032,6 +7157,8 @@ export const deleteBackupCode: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupCode",
 }));
 
 export type DeleteBlocklistIdentifierError = NotFound | ClerkOpError;
@@ -7047,6 +7174,8 @@ export const deleteBlocklistIdentifier: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBlocklistIdentifier",
 }));
 
 export type DeleteDirectoryError = Forbidden | NotFound | ClerkOpError;
@@ -7062,6 +7191,8 @@ export const deleteDirectory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDirectory",
 }));
 
 export type DeleteDirectoryGroupRoleMappingError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7077,6 +7208,8 @@ export const deleteDirectoryGroupRoleMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDirectoryGroupRoleMapping",
 }));
 
 export type DeleteDomainError = Forbidden | NotFound | ClerkOpError;
@@ -7092,6 +7225,8 @@ export const deleteDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteEmailAddressError = BadRequest | Forbidden | NotFound | Conflict | ClerkOpError;
@@ -7107,6 +7242,8 @@ export const deleteEmailAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailAddress",
 }));
 
 export type DeleteEnterpriseConnectionError = Forbidden | NotFound | ClerkOpError;
@@ -7122,6 +7259,8 @@ export const deleteEnterpriseConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnterpriseConnection",
 }));
 
 export type DeleteExternalAccountError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7137,6 +7276,8 @@ export const deleteExternalAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExternalAccount",
 }));
 
 export type DeleteInvitationError = NotFound | ClerkOpError;
@@ -7152,6 +7293,8 @@ export const deleteInvitation: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvitation",
 }));
 
 export type DeleteJWTTemplateError = Forbidden | NotFound | ClerkOpError;
@@ -7167,6 +7310,8 @@ export const deleteJWTTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJWTTemplate",
 }));
 
 export type DeleteMachineError =
@@ -7187,6 +7332,8 @@ export const deleteMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMachine",
 }));
 
 export type DeleteMachineScopeError =
@@ -7207,6 +7354,8 @@ export const deleteMachineScope: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMachineScope",
 }));
 
 export type DeleteOAuthApplicationError = Forbidden | NotFound | ClerkOpError;
@@ -7222,6 +7371,8 @@ export const deleteOAuthApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOAuthApplication",
 }));
 
 export type DeleteOrganizationError = NotFound | ClerkOpError;
@@ -7237,6 +7388,8 @@ export const deleteOrganization: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteOrganizationDomainError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7252,6 +7405,8 @@ export const deleteOrganizationDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationDomain",
 }));
 
 export type DeleteOrganizationLogoError = NotFound | ClerkOpError;
@@ -7267,6 +7422,8 @@ export const deleteOrganizationLogo: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationLogo",
 }));
 
 export type DeleteOrganizationMembershipError = NotFound | UnprocessableEntity | ClerkOpError;
@@ -7282,6 +7439,8 @@ export const deleteOrganizationMembership: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationMembership",
 }));
 
 export type DeleteOrganizationPermissionError = Forbidden | NotFound | ClerkOpError;
@@ -7297,6 +7456,8 @@ export const deleteOrganizationPermission: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationPermission",
 }));
 
 export type DeleteOrganizationRoleError = Forbidden | NotFound | UnprocessableEntity | ClerkOpError;
@@ -7312,6 +7473,8 @@ export const deleteOrganizationRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationRole",
 }));
 
 export type DeletePhoneNumberError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7327,6 +7490,8 @@ export const deletePhoneNumber: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePhoneNumber",
 }));
 
 export type DeleteRedirectURLError = NotFound | ClerkOpError;
@@ -7342,6 +7507,8 @@ export const deleteRedirectURL: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRedirectURL",
 }));
 
 export type DeleteSCIMDirectoryError = Forbidden | NotFound | ClerkOpError;
@@ -7357,6 +7524,8 @@ export const deleteSCIMDirectory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSCIMDirectory",
 }));
 
 export type DeleteSCIMGroupRoleMappingError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7372,6 +7541,8 @@ export const deleteSCIMGroupRoleMapping: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSCIMGroupRoleMapping",
 }));
 
 export type DeleteSSOBypassAllowlistUserError = Forbidden | NotFound | ClerkOpError;
@@ -7387,6 +7558,8 @@ export const deleteSSOBypassAllowlistUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSSOBypassAllowlistUser",
 }));
 
 export type DeleteSvixAppError = BadRequest | ClerkOpError;
@@ -7402,6 +7575,8 @@ export const deleteSvixApp: API.OperationMethod<
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSvixApp",
 }));
 
 export type DeleteTOTPError = NotFound | ClerkOpError;
@@ -7417,6 +7592,8 @@ export const deleteTOTP: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTOTP",
 }));
 
 export type DeleteUserError = BadRequest | NotFound | ClerkOpError;
@@ -7432,6 +7609,8 @@ export const deleteUser: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserPasskeyError = Forbidden | NotFound | ClerkOpError;
@@ -7447,6 +7626,8 @@ export const deleteUserPasskey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserPasskey",
 }));
 
 export type DeleteUserProfileImageError = NotFound | ClerkOpError;
@@ -7462,6 +7643,8 @@ export const deleteUserProfileImage: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserProfileImage",
 }));
 
 export type DeleteUserWeb3WalletError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7477,6 +7660,8 @@ export const deleteUserWeb3Wallet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserWeb3Wallet",
 }));
 
 export type DeleteWaitlistEntryError =
@@ -7497,6 +7682,8 @@ export const deleteWaitlistEntry: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWaitlistEntry",
 }));
 
 export type DisableMFAError = NotFound | ClerkOpError;
@@ -7512,6 +7699,8 @@ export const disableMFA: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableMFA",
 }));
 
 export type ExtendBillingSubscriptionItemFreeTrialError =
@@ -7532,6 +7721,8 @@ export const extendBillingSubscriptionItemFreeTrial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendBillingSubscriptionItemFreeTrial",
 }));
 
 export type GenerateSvixAuthURLError = BadRequest | ClerkOpError;
@@ -7547,6 +7738,8 @@ export const generateSvixAuthURL: API.OperationMethod<
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateSvixAuthURL",
 }));
 
 export type GetApiKeyError = BadRequest | NotFound | ClerkOpError;
@@ -7562,6 +7755,8 @@ export const getApiKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiKey",
 }));
 
 export type GetApiKeysError = BadRequest | NotFound | ClerkOpError;
@@ -7577,6 +7772,8 @@ export const getApiKeys: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiKeys",
 }));
 
 export type GetApiKeySecretError = BadRequest | NotFound | ClerkOpError;
@@ -7592,6 +7789,8 @@ export const getApiKeySecret: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiKeySecret",
 }));
 
 export type GetBillingPriceListError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -7607,6 +7806,8 @@ export const getBillingPriceList: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingPriceList",
 }));
 
 export type GetBillingStatementError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -7622,6 +7823,8 @@ export const getBillingStatement: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingStatement",
 }));
 
 export type GetBillingStatementListError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -7637,6 +7840,8 @@ export const getBillingStatementList: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingStatementList",
 }));
 
 export type GetBillingStatementPaymentAttemptsError =
@@ -7656,6 +7861,8 @@ export const getBillingStatementPaymentAttempts: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingStatementPaymentAttempts",
 }));
 
 export type GetClientError = BadRequest | NotFound | ClerkOpError;
@@ -7671,6 +7878,8 @@ export const getClient: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClient",
 }));
 
 export type GetCommercePlanListError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -7686,6 +7895,8 @@ export const getCommercePlanList: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommercePlanList",
 }));
 
 export type GetCommerceSubscriptionItemListError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -7701,6 +7912,8 @@ export const getCommerceSubscriptionItemList: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommerceSubscriptionItemList",
 }));
 
 export type GetDirectoryError = Forbidden | NotFound | ClerkOpError;
@@ -7716,6 +7929,8 @@ export const getDirectory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDirectory",
 }));
 
 export type GetEmailAddressError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7731,6 +7946,8 @@ export const getEmailAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailAddress",
 }));
 
 export type GetEnterpriseConnectionError = Forbidden | NotFound | ClerkOpError;
@@ -7746,6 +7963,8 @@ export const getEnterpriseConnection: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterpriseConnection",
 }));
 
 export type GetInstanceError = ClerkOpError;
@@ -7761,6 +7980,8 @@ export const getInstance: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetInstanceCommunicationError = ClerkOpError;
@@ -7776,6 +7997,8 @@ export const getInstanceCommunication: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceCommunication",
 }));
 
 export type GetInstanceOAuthApplicationSettingsError = ClerkOpError;
@@ -7791,6 +8014,8 @@ export const getInstanceOAuthApplicationSettings: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceOAuthApplicationSettings",
 }));
 
 export type GetInstanceOrganizationSettingsError = NotFound | UnprocessableEntity | ClerkOpError;
@@ -7806,6 +8031,8 @@ export const getInstanceOrganizationSettings: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceOrganizationSettings",
 }));
 
 export type GetInstanceProtectError = ClerkOpError;
@@ -7821,6 +8048,8 @@ export const getInstanceProtect: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceProtect",
 }));
 
 export type GetInterstitialError = BadRequest | ClerkOpError;
@@ -7836,6 +8065,8 @@ export const getInterstitial: API.OperationMethod<
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInterstitial",
 }));
 
 export type GetJWKSError = ClerkOpError;
@@ -7847,6 +8078,8 @@ export const getJWKS: API.OperationMethod<GetJWKSRequest, JWKS, GetJWKSError, Cl
     errors: [UnknownClerkError],
     protocol: ClerkProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetJWKS",
   }));
 
 export type GetJWTTemplateError = NotFound | ClerkOpError;
@@ -7862,6 +8095,8 @@ export const getJWTTemplate: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJWTTemplate",
 }));
 
 export type GetM2MTokensError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7877,6 +8112,8 @@ export const getM2MTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetM2MTokens",
 }));
 
 export type GetMachineError =
@@ -7897,6 +8134,8 @@ export const getMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachine",
 }));
 
 export type GetMachineSecretKeyError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -7912,6 +8151,8 @@ export const getMachineSecretKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachineSecretKey",
 }));
 
 export type GetOAuthAccessTokenError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -7927,6 +8168,8 @@ export const getOAuthAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuthAccessToken",
 }));
 
 export type GetOAuthApplicationError = Forbidden | NotFound | ClerkOpError;
@@ -7942,6 +8185,8 @@ export const getOAuthApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuthApplication",
 }));
 
 export type GetOrganizationError = Forbidden | NotFound | ClerkOpError;
@@ -7957,6 +8202,8 @@ export const getOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationBillingCreditBalanceError =
@@ -7977,6 +8224,8 @@ export const getOrganizationBillingCreditBalance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationBillingCreditBalance",
 }));
 
 export type GetOrganizationBillingSubscriptionError =
@@ -7997,6 +8246,8 @@ export const getOrganizationBillingSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationBillingSubscription",
 }));
 
 export type GetOrganizationInvitationError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -8012,6 +8263,8 @@ export const getOrganizationInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationInvitation",
 }));
 
 export type GetOrganizationPermissionError = NotFound | ClerkOpError;
@@ -8027,6 +8280,8 @@ export const getOrganizationPermission: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationPermission",
 }));
 
 export type GetOrganizationRoleError = Forbidden | NotFound | ClerkOpError;
@@ -8042,6 +8297,8 @@ export const getOrganizationRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationRole",
 }));
 
 export type GetPhoneNumberError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -8057,6 +8314,8 @@ export const getPhoneNumber: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumber",
 }));
 
 export type GetRedirectURLError = NotFound | ClerkOpError;
@@ -8072,6 +8331,8 @@ export const getRedirectURL: API.OperationMethod<
   errors: [NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedirectURL",
 }));
 
 export type GetReverificationError = BadRequest | NotFound | ClerkOpError;
@@ -8087,6 +8348,8 @@ export const getReverification: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReverification",
 }));
 
 export type GetRoleSetError = Forbidden | NotFound | ClerkOpError;
@@ -8102,6 +8365,8 @@ export const getRoleSet: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleSet",
 }));
 
 export type GetSCIMDirectoryError = Forbidden | NotFound | ClerkOpError;
@@ -8117,6 +8382,8 @@ export const getSCIMDirectory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSCIMDirectory",
 }));
 
 export type GetSessionError = BadRequest | NotFound | ClerkOpError;
@@ -8132,6 +8399,8 @@ export const getSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionListError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -8147,6 +8416,8 @@ export const getSessionList: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionList",
 }));
 
 export type GetSignUpError = Forbidden | ClerkOpError;
@@ -8162,6 +8433,8 @@ export const getSignUp: API.OperationMethod<
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignUp",
 }));
 
 export type GetUserError = BadRequest | NotFound | ClerkOpError;
@@ -8173,6 +8446,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Cl
     errors: [BadRequest, NotFound, UnknownClerkError],
     protocol: ClerkProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUser",
   }));
 
 export type GetUserBillingCreditBalanceError =
@@ -8193,6 +8468,8 @@ export const getUserBillingCreditBalance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserBillingCreditBalance",
 }));
 
 export type GetUserBillingSubscriptionError =
@@ -8213,6 +8490,8 @@ export const getUserBillingSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserBillingSubscription",
 }));
 
 export type GetUserListError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -8228,6 +8507,8 @@ export const getUserList: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserList",
 }));
 
 export type GetUsersCountError = UnprocessableEntity | ClerkOpError;
@@ -8243,6 +8524,8 @@ export const getUsersCount: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersCount",
 }));
 
 export type InstanceGetOrganizationMembershipsError =
@@ -8261,6 +8544,8 @@ export const instanceGetOrganizationMemberships: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstanceGetOrganizationMemberships",
 }));
 
 export type InviteWaitlistEntryError =
@@ -8281,6 +8566,8 @@ export const inviteWaitlistEntry: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteWaitlistEntry",
 }));
 
 export type ListAllOrganizationDomainsError = Forbidden | UnprocessableEntity | ClerkOpError;
@@ -8296,6 +8583,8 @@ export const listAllOrganizationDomains: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllOrganizationDomains",
 }));
 
 export type ListAllowlistIdentifiersError = ClerkOpError;
@@ -8311,6 +8600,8 @@ export const listAllowlistIdentifiers: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllowlistIdentifiers",
 }));
 
 export type ListBlocklistIdentifiersError = ClerkOpError;
@@ -8326,6 +8617,8 @@ export const listBlocklistIdentifiers: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlocklistIdentifiers",
 }));
 
 export type ListDirectoriesError = Forbidden | ClerkOpError;
@@ -8341,6 +8634,8 @@ export const listDirectories: API.OperationMethod<
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDirectories",
 }));
 
 export type ListDirectoryGroupRoleMappingsError = Forbidden | NotFound | ClerkOpError;
@@ -8356,6 +8651,8 @@ export const listDirectoryGroupRoleMappings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDirectoryGroupRoleMappings",
 }));
 
 export type ListDomainsError = ClerkOpError;
@@ -8371,6 +8668,8 @@ export const listDomains: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 }));
 
 export type ListEnterpriseConnectionsError = Forbidden | UnprocessableEntity | ClerkOpError;
@@ -8386,6 +8685,8 @@ export const listEnterpriseConnections: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterpriseConnections",
 }));
 
 export type ListEnterpriseConnectionTestRunsError =
@@ -8405,6 +8706,8 @@ export const listEnterpriseConnectionTestRuns: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterpriseConnectionTestRuns",
 }));
 
 export type ListInstanceOrganizationInvitationsError =
@@ -8424,6 +8727,8 @@ export const listInstanceOrganizationInvitations: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstanceOrganizationInvitations",
 }));
 
 export type ListInvitationsError = ClerkOpError;
@@ -8439,6 +8744,8 @@ export const listInvitations: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 }));
 
 export type ListJWTTemplatesError = ClerkOpError;
@@ -8454,6 +8761,8 @@ export const listJWTTemplates: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJWTTemplates",
 }));
 
 export type ListMachinesError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -8469,6 +8778,8 @@ export const listMachines: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachines",
 }));
 
 export type ListOAuthApplicationsError =
@@ -8488,6 +8799,8 @@ export const listOAuthApplications: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOAuthApplications",
 }));
 
 export type ListOrganizationDomainsError = UnprocessableEntity | ClerkOpError;
@@ -8503,6 +8816,8 @@ export const listOrganizationDomains: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationDomains",
 }));
 
 export type ListOrganizationInvitationsError =
@@ -8522,6 +8837,8 @@ export const listOrganizationInvitations: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationInvitations",
 }));
 
 export type ListOrganizationMembershipsError = UnprocessableEntity | ClerkOpError;
@@ -8537,6 +8854,8 @@ export const listOrganizationMemberships: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMemberships",
 }));
 
 export type ListOrganizationPermissionsError = UnprocessableEntity | ClerkOpError;
@@ -8552,6 +8871,8 @@ export const listOrganizationPermissions: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationPermissions",
 }));
 
 export type ListOrganizationRolesError =
@@ -8571,6 +8892,8 @@ export const listOrganizationRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRoles",
 }));
 
 export type ListOrganizationsError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -8586,6 +8909,8 @@ export const listOrganizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
 }));
 
 export type ListRedirectURLsError = ClerkOpError;
@@ -8601,6 +8926,8 @@ export const listRedirectURLs: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedirectURLs",
 }));
 
 export type ListRoleSetsError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
@@ -8616,6 +8943,8 @@ export const listRoleSets: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoleSets",
 }));
 
 export type ListSCIMDirectoriesError = Forbidden | ClerkOpError;
@@ -8631,6 +8960,8 @@ export const listSCIMDirectories: API.OperationMethod<
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSCIMDirectories",
 }));
 
 export type ListSCIMGroupRoleMappingsError = Forbidden | NotFound | ClerkOpError;
@@ -8646,6 +8977,8 @@ export const listSCIMGroupRoleMappings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSCIMGroupRoleMappings",
 }));
 
 export type ListSSOBypassAllowlistUsersError = Forbidden | NotFound | ClerkOpError;
@@ -8661,6 +8994,8 @@ export const listSSOBypassAllowlistUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSSOBypassAllowlistUsers",
 }));
 
 export type ListUserBiometricCredentialsError = Forbidden | NotFound | ClerkOpError;
@@ -8676,6 +9011,8 @@ export const listUserBiometricCredentials: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserBiometricCredentials",
 }));
 
 export type ListWaitlistEntriesError = ClerkOpError;
@@ -8691,6 +9028,8 @@ export const listWaitlistEntries: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWaitlistEntries",
 }));
 
 export type LockUserError = Forbidden | ClerkOpError;
@@ -8702,6 +9041,8 @@ export const lockUser: API.OperationMethod<LockUserRequest, User, LockUserError,
     errors: [Forbidden, UnknownClerkError],
     protocol: ClerkProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "LockUser",
   }));
 
 export type MergeOrganizationMetadataError =
@@ -8721,6 +9062,8 @@ export const mergeOrganizationMetadata: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeOrganizationMetadata",
 }));
 
 export type PrepareEmailAddressVerificationError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -8736,6 +9079,8 @@ export const prepareEmailAddressVerification: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrepareEmailAddressVerification",
 }));
 
 export type PreparePhoneNumberVerificationError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -8751,6 +9096,8 @@ export const preparePhoneNumberVerification: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreparePhoneNumberVerification",
 }));
 
 export type RefreshSessionError = BadRequest | ClerkOpError;
@@ -8766,6 +9113,8 @@ export const refreshSession: API.OperationMethod<
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshSession",
 }));
 
 export type RejectWaitlistEntryError =
@@ -8786,6 +9135,8 @@ export const rejectWaitlistEntry: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectWaitlistEntry",
 }));
 
 export type RemoveBillingSubscriptionItemDiscountError =
@@ -8807,6 +9158,8 @@ export const removeBillingSubscriptionItemDiscount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveBillingSubscriptionItemDiscount",
 }));
 
 export type RemovePermissionFromOrganizationRoleError =
@@ -8826,6 +9179,8 @@ export const removePermissionFromOrganizationRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePermissionFromOrganizationRole",
 }));
 
 export type RemoveUserPasswordError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -8841,6 +9196,8 @@ export const removeUserPassword: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUserPassword",
 }));
 
 export type ReplaceDirectoryGroupRoleMappingsError =
@@ -8861,6 +9218,8 @@ export const replaceDirectoryGroupRoleMappings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceDirectoryGroupRoleMappings",
 }));
 
 export type ReplaceOrganizationMetadataError =
@@ -8880,6 +9239,8 @@ export const replaceOrganizationMetadata: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceOrganizationMetadata",
 }));
 
 export type ReplaceRoleInRoleSetError =
@@ -8900,6 +9261,8 @@ export const replaceRoleInRoleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRoleInRoleSet",
 }));
 
 export type ReplaceRoleSetError =
@@ -8920,6 +9283,8 @@ export const replaceRoleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRoleSet",
 }));
 
 export type ReplaceSCIMGroupRoleMappingsError =
@@ -8940,6 +9305,8 @@ export const replaceSCIMGroupRoleMappings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSCIMGroupRoleMappings",
 }));
 
 export type ReplaceUserEmailAddressError =
@@ -8960,6 +9327,8 @@ export const replaceUserEmailAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceUserEmailAddress",
 }));
 
 export type ReplaceUserMetadataError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -8975,6 +9344,8 @@ export const replaceUserMetadata: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceUserMetadata",
 }));
 
 export type ReplaceUserPhoneNumberError =
@@ -8995,6 +9366,8 @@ export const replaceUserPhoneNumber: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceUserPhoneNumber",
 }));
 
 export type RevokeActorTokenError = BadRequest | NotFound | ClerkOpError;
@@ -9010,6 +9383,8 @@ export const revokeActorToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeActorToken",
 }));
 
 export type RevokeAdminPortalLinkTokenError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -9025,6 +9400,8 @@ export const revokeAdminPortalLinkToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAdminPortalLinkToken",
 }));
 
 export type RevokeAgentTaskError = BadRequest | NotFound | ClerkOpError;
@@ -9040,6 +9417,8 @@ export const revokeAgentTask: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAgentTask",
 }));
 
 export type RevokeApiKeyError = BadRequest | NotFound | ClerkOpError;
@@ -9055,6 +9434,8 @@ export const revokeApiKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeApiKey",
 }));
 
 export type RevokeInvitationError = BadRequest | NotFound | ClerkOpError;
@@ -9070,6 +9451,8 @@ export const revokeInvitation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeInvitation",
 }));
 
 export type RevokeM2MTokenError = BadRequest | NotFound | ClerkOpError;
@@ -9085,6 +9468,8 @@ export const revokeM2MToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeM2MToken",
 }));
 
 export type RevokeOAuthApplicationTokenError =
@@ -9105,6 +9490,8 @@ export const revokeOAuthApplicationToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOAuthApplicationToken",
 }));
 
 export type RevokeOrganizationInvitationError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -9120,6 +9507,8 @@ export const revokeOrganizationInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOrganizationInvitation",
 }));
 
 export type RevokeSessionError = BadRequest | NotFound | ClerkOpError;
@@ -9135,6 +9524,8 @@ export const revokeSession: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSession",
 }));
 
 export type RevokeSignInTokenError = BadRequest | NotFound | ClerkOpError;
@@ -9150,6 +9541,8 @@ export const revokeSignInToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSignInToken",
 }));
 
 export type RevokeUserBiometricCredentialError = Forbidden | NotFound | ClerkOpError;
@@ -9165,6 +9558,8 @@ export const revokeUserBiometricCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUserBiometricCredential",
 }));
 
 export type RotateDirectoryAPIKeyError = Forbidden | NotFound | UnprocessableEntity | ClerkOpError;
@@ -9180,6 +9575,8 @@ export const rotateDirectoryAPIKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateDirectoryAPIKey",
 }));
 
 export type RotateMachineSecretKeyError =
@@ -9200,6 +9597,8 @@ export const rotateMachineSecretKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateMachineSecretKey",
 }));
 
 export type RotateOAuthApplicationSecretError = Forbidden | NotFound | ClerkOpError;
@@ -9215,6 +9614,8 @@ export const rotateOAuthApplicationSecret: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateOAuthApplicationSecret",
 }));
 
 export type RotateSCIMDirectoryAPIKeyError =
@@ -9234,6 +9635,8 @@ export const rotateSCIMDirectoryAPIKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSCIMDirectoryAPIKey",
 }));
 
 export type SetUserPasswordCompromisedError =
@@ -9254,6 +9657,8 @@ export const setUserPasswordCompromised: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetUserPasswordCompromised",
 }));
 
 export type SetUserProfileImageError = BadRequest | NotFound | ClerkOpError;
@@ -9269,6 +9674,8 @@ export const setUserProfileImage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetUserProfileImage",
 }));
 
 export type UnbanUserError = ClerkOpError;
@@ -9284,6 +9691,8 @@ export const unbanUser: API.OperationMethod<
   errors: [UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnbanUser",
 }));
 
 export type UnbanUser2Error = BadRequest | ClerkOpError;
@@ -9299,6 +9708,8 @@ export const unbanUser2: API.OperationMethod<
   errors: [BadRequest, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnbanUser2",
 }));
 
 export type UnlockUserError = Forbidden | ClerkOpError;
@@ -9314,6 +9725,8 @@ export const unlockUser: API.OperationMethod<
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockUser",
 }));
 
 export type UnsetUserPasswordCompromisedError =
@@ -9334,6 +9747,8 @@ export const unsetUserPasswordCompromised: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsetUserPasswordCompromised",
 }));
 
 export type UpdateApiKeyError = BadRequest | NotFound | ClerkOpError;
@@ -9349,6 +9764,8 @@ export const updateApiKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApiKey",
 }));
 
 export type UpdateDirectoryError =
@@ -9369,6 +9786,8 @@ export const updateDirectory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDirectory",
 }));
 
 export type UpdateDomainError =
@@ -9389,6 +9808,8 @@ export const updateDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateEmailAddressError = BadRequest | Forbidden | NotFound | Conflict | ClerkOpError;
@@ -9404,6 +9825,8 @@ export const updateEmailAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmailAddress",
 }));
 
 export type UpdateEnterpriseConnectionError =
@@ -9424,6 +9847,8 @@ export const updateEnterpriseConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnterpriseConnection",
 }));
 
 export type UpdateInstanceError = UnprocessableEntity | ClerkOpError;
@@ -9439,6 +9864,8 @@ export const updateInstance: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 export type UpdateInstanceAuthConfigError = UnprocessableEntity | ClerkOpError;
@@ -9454,6 +9881,8 @@ export const updateInstanceAuthConfig: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceAuthConfig",
 }));
 
 export type UpdateInstanceCommunicationError = UnprocessableEntity | ClerkOpError;
@@ -9469,6 +9898,8 @@ export const updateInstanceCommunication: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceCommunication",
 }));
 
 export type UpdateInstanceOAuthApplicationSettingsError = UnprocessableEntity | ClerkOpError;
@@ -9484,6 +9915,8 @@ export const updateInstanceOAuthApplicationSettings: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceOAuthApplicationSettings",
 }));
 
 export type UpdateInstanceOrganizationSettingsError =
@@ -9504,6 +9937,8 @@ export const updateInstanceOrganizationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceOrganizationSettings",
 }));
 
 export type UpdateInstanceProtectError = UnprocessableEntity | ClerkOpError;
@@ -9519,6 +9954,8 @@ export const updateInstanceProtect: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceProtect",
 }));
 
 export type UpdateInstanceRestrictionsError = UnprocessableEntity | ClerkOpError;
@@ -9534,6 +9971,8 @@ export const updateInstanceRestrictions: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceRestrictions",
 }));
 
 export type UpdateJWTTemplateError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -9549,6 +9988,8 @@ export const updateJWTTemplate: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJWTTemplate",
 }));
 
 export type UpdateMachineError =
@@ -9569,6 +10010,8 @@ export const updateMachine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMachine",
 }));
 
 export type UpdateOAuthApplicationError =
@@ -9589,6 +10032,8 @@ export const updateOAuthApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOAuthApplication",
 }));
 
 export type UpdateOrganizationError =
@@ -9609,6 +10054,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type UpdateOrganizationDomainError =
@@ -9629,6 +10076,8 @@ export const updateOrganizationDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationDomain",
 }));
 
 export type UpdateOrganizationMembershipError = NotFound | UnprocessableEntity | ClerkOpError;
@@ -9644,6 +10093,8 @@ export const updateOrganizationMembership: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationMembership",
 }));
 
 export type UpdateOrganizationMembershipMetadataError =
@@ -9663,6 +10114,8 @@ export const updateOrganizationMembershipMetadata: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationMembershipMetadata",
 }));
 
 export type UpdateOrganizationPermissionError =
@@ -9683,6 +10136,8 @@ export const updateOrganizationPermission: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationPermission",
 }));
 
 export type UpdateOrganizationRoleError =
@@ -9703,6 +10158,8 @@ export const updateOrganizationRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationRole",
 }));
 
 export type UpdatePhoneNumberError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -9718,6 +10175,8 @@ export const updatePhoneNumber: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumber",
 }));
 
 export type UpdateRoleSetError =
@@ -9738,6 +10197,8 @@ export const updateRoleSet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRoleSet",
 }));
 
 export type UpdateSCIMDirectoryError =
@@ -9758,6 +10219,8 @@ export const updateSCIMDirectory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSCIMDirectory",
 }));
 
 export type UpdateSignUpError = Forbidden | ClerkOpError;
@@ -9773,6 +10236,8 @@ export const updateSignUp: API.OperationMethod<
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignUp",
 }));
 
 export type UpdateUserError = BadRequest | NotFound | Conflict | UnprocessableEntity | ClerkOpError;
@@ -9788,6 +10253,8 @@ export const updateUser: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserMetadataError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -9803,6 +10270,8 @@ export const updateUserMetadata: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserMetadata",
 }));
 
 export type UploadOAuthApplicationLogoError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -9818,6 +10287,8 @@ export const uploadOAuthApplicationLogo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadOAuthApplicationLogo",
 }));
 
 export type UploadOrganizationLogoError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -9833,6 +10304,8 @@ export const uploadOrganizationLogo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadOrganizationLogo",
 }));
 
 export type UsersGetOrganizationInvitationsError = BadRequest | Forbidden | NotFound | ClerkOpError;
@@ -9848,6 +10321,8 @@ export const usersGetOrganizationInvitations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersGetOrganizationInvitations",
 }));
 
 export type UsersGetOrganizationMembershipsError = Forbidden | ClerkOpError;
@@ -9863,6 +10338,8 @@ export const usersGetOrganizationMemberships: API.OperationMethod<
   errors: [Forbidden, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersGetOrganizationMemberships",
 }));
 
 export type VerifyApiKeyError = BadRequest | NotFound | ClerkOpError;
@@ -9878,6 +10355,8 @@ export const verifyApiKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyApiKey",
 }));
 
 export type VerifyClientError = BadRequest | NotFound | ClerkOpError;
@@ -9893,6 +10372,8 @@ export const verifyClient: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyClient",
 }));
 
 export type VerifyDomainProxyError = BadRequest | UnprocessableEntity | ClerkOpError;
@@ -9908,6 +10389,8 @@ export const verifyDomainProxy: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyDomainProxy",
 }));
 
 export type VerifyM2MTokenError = BadRequest | NotFound | ClerkOpError;
@@ -9923,6 +10406,8 @@ export const verifyM2MToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyM2MToken",
 }));
 
 export type VerifyOAuthAccessTokenError = BadRequest | NotFound | ClerkOpError;
@@ -9938,6 +10423,8 @@ export const verifyOAuthAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyOAuthAccessToken",
 }));
 
 export type VerifyOrganizationDomainOwnershipError = Forbidden | NotFound | ClerkOpError;
@@ -9953,6 +10440,8 @@ export const verifyOrganizationDomainOwnership: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyOrganizationDomainOwnership",
 }));
 
 export type VerifyPasswordError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -9968,6 +10457,8 @@ export const verifyPassword: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyPassword",
 }));
 
 export type VerifyTOTPError = BadRequest | NotFound | UnprocessableEntity | ClerkOpError;
@@ -9983,6 +10474,8 @@ export const verifyTOTP: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyTOTP",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

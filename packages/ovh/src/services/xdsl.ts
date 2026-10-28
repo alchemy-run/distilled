@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Xdsl",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface AddDHCPStaticAddressRequest {
   /** Service name */
   serviceName: string;
@@ -3061,6 +3075,8 @@ export const addDHCPStaticAddress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDHCPStaticAddress",
 }));
 
 export type AddMonitoringNotificationError = OvhOpError;
@@ -3076,6 +3092,8 @@ export const addMonitoringNotification: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddMonitoringNotification",
 }));
 
 export type AddPortMappingError = OvhOpError;
@@ -3091,6 +3109,8 @@ export const addPortMapping: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPortMapping",
 }));
 
 export type ApplyTemplateModemError = OvhOpError;
@@ -3106,6 +3126,8 @@ export const applyTemplateModem: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyTemplateModem",
 }));
 
 export type ArchiveXdslTaskError = OvhOpError;
@@ -3121,6 +3143,8 @@ export const archiveXdslTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveXdslTask",
 }));
 
 export type BookMeetingError = OvhOpError;
@@ -3136,6 +3160,8 @@ export const bookMeeting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BookMeeting",
 }));
 
 export type CancelXdslLinesDiagnosticError = OvhOpError;
@@ -3151,6 +3177,8 @@ export const cancelXdslLinesDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelXdslLinesDiagnostic",
 }));
 
 export type CancelXdslResiliationError = OvhOpError;
@@ -3166,6 +3194,8 @@ export const cancelXdslResiliation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelXdslResiliation",
 }));
 
 export type ChangeContactError = OvhOpError;
@@ -3181,6 +3211,8 @@ export const changeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeContact",
 }));
 
 export type ChangeEmailPasswordError = OvhOpError;
@@ -3196,6 +3228,8 @@ export const changeEmailPassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeEmailPassword",
 }));
 
 export type ChangeLineDSLAMProfileError = OvhOpError;
@@ -3211,6 +3245,8 @@ export const changeLineDSLAMProfile: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeLineDSLAMProfile",
 }));
 
 export type CreateModemTemplateError = OvhOpError;
@@ -3226,6 +3262,8 @@ export const createModemTemplate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateModemTemplate",
 }));
 
 export type CreateXdslAddressMoveExtraIpRangeMoveError = OvhOpError;
@@ -3241,6 +3279,8 @@ export const createXdslAddressMoveExtraIpRangeMove: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateXdslAddressMoveExtraIpRangeMove",
 }));
 
 export type CreateXdslDiagnosticError = OvhOpError;
@@ -3256,6 +3296,8 @@ export const createXdslDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateXdslDiagnostic",
 }));
 
 export type CreateXdslIpsError = OvhOpError;
@@ -3271,6 +3313,8 @@ export const createXdslIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateXdslIps",
 }));
 
 export type CreateXdslModemReconfigureVoipError = OvhOpError;
@@ -3286,6 +3330,8 @@ export const createXdslModemReconfigureVoip: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateXdslModemReconfigureVoip",
 }));
 
 export type CreateXdslRequestPPPLoginMailError = OvhOpError;
@@ -3301,6 +3347,8 @@ export const createXdslRequestPPPLoginMail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateXdslRequestPPPLoginMail",
 }));
 
 export type CreateXdslSpareReturnMerchandiseError = OvhOpError;
@@ -3316,6 +3364,8 @@ export const createXdslSpareReturnMerchandise: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateXdslSpareReturnMerchandise",
 }));
 
 export type DeleteModemTemplateError = OvhOpError;
@@ -3331,6 +3381,8 @@ export const deleteModemTemplate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteModemTemplate",
 }));
 
 export type DeleteXdslEmailProError = OvhOpError;
@@ -3346,6 +3398,8 @@ export const deleteXdslEmailPro: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteXdslEmailPro",
 }));
 
 export type DeleteXdslIpsError = OvhOpError;
@@ -3361,6 +3415,8 @@ export const deleteXdslIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteXdslIps",
 }));
 
 export type DeleteXdslRmaError = OvhOpError;
@@ -3376,6 +3432,8 @@ export const deleteXdslRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteXdslRma",
 }));
 
 export type DeleteXdslSpareError = OvhOpError;
@@ -3391,6 +3449,8 @@ export const deleteXdslSpare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteXdslSpare",
 }));
 
 export type GetAccessModemReplacementError = OvhOpError;
@@ -3406,6 +3466,8 @@ export const getAccessModemReplacement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessModemReplacement",
 }));
 
 export type GetBlocIPStatusError = OvhOpError;
@@ -3421,6 +3483,8 @@ export const getBlocIPStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlocIPStatus",
 }));
 
 export type GetContentSharingStatusError = OvhOpError;
@@ -3436,6 +3500,8 @@ export const getContentSharingStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContentSharingStatus",
 }));
 
 export type GetDHCPStaticAddressError = OvhOpError;
@@ -3451,6 +3517,8 @@ export const getDHCPStaticAddress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDHCPStaticAddress",
 }));
 
 export type GetDHCPStaticAddressesError = OvhOpError;
@@ -3466,6 +3534,8 @@ export const getDHCPStaticAddresses: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDHCPStaticAddresses",
 }));
 
 export type GetFirmwareVersionError = OvhOpError;
@@ -3481,6 +3551,8 @@ export const getFirmwareVersion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirmwareVersion",
 }));
 
 export type GetFTPStatusError = OvhOpError;
@@ -3496,6 +3568,8 @@ export const getFTPStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFTPStatus",
 }));
 
 export type GetIpsecAlgStatusError = OvhOpError;
@@ -3511,6 +3585,8 @@ export const getIpsecAlgStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpsecAlgStatus",
 }));
 
 export type GetModemCallWaitingStatusError = OvhOpError;
@@ -3526,6 +3602,8 @@ export const getModemCallWaitingStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModemCallWaitingStatus",
 }));
 
 export type GetModemTemplateError = OvhOpError;
@@ -3541,6 +3619,8 @@ export const getModemTemplate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModemTemplate",
 }));
 
 export type GetModemTemplatesError = OvhOpError;
@@ -3556,6 +3636,8 @@ export const getModemTemplates: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModemTemplates",
 }));
 
 export type GetMonitoringNotificationError = OvhOpError;
@@ -3571,6 +3653,8 @@ export const getMonitoringNotification: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringNotification",
 }));
 
 export type GetMonitoringNotificationsError = OvhOpError;
@@ -3586,6 +3670,8 @@ export const getMonitoringNotifications: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitoringNotifications",
 }));
 
 export type GetPortMappingError = OvhOpError;
@@ -3601,6 +3687,8 @@ export const getPortMapping: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPortMapping",
 }));
 
 export type GetPortMappingsError = OvhOpError;
@@ -3616,6 +3704,8 @@ export const getPortMappings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPortMappings",
 }));
 
 export type GetSipAlgStatusError = OvhOpError;
@@ -3631,6 +3721,8 @@ export const getSipAlgStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSipAlgStatus",
 }));
 
 export type GetUpnpStatusError = OvhOpError;
@@ -3646,6 +3738,8 @@ export const getUpnpStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUpnpStatus",
 }));
 
 export type GetWifiMeshStatusError = OvhOpError;
@@ -3661,6 +3755,8 @@ export const getWifiMeshStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWifiMeshStatus",
 }));
 
 export type GetWifiOneSsidStatusError = OvhOpError;
@@ -3676,6 +3772,8 @@ export const getWifiOneSsidStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWifiOneSsidStatus",
 }));
 
 export type GetXdslError = OvhOpError;
@@ -3691,6 +3789,8 @@ export const getXdsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdsl",
 }));
 
 export type GetXdslAddressMoveExtraIpRangeError = OvhOpError;
@@ -3706,6 +3806,8 @@ export const getXdslAddressMoveExtraIpRange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslAddressMoveExtraIpRange",
 }));
 
 export type GetXdslAntiSpamError = OvhOpError;
@@ -3721,6 +3823,8 @@ export const getXdslAntiSpam: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslAntiSpam",
 }));
 
 export type GetXdslCanCancelResiliationError = OvhOpError;
@@ -3736,6 +3840,8 @@ export const getXdslCanCancelResiliation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslCanCancelResiliation",
 }));
 
 export type GetXdslDiagnosticError = OvhOpError;
@@ -3751,6 +3857,8 @@ export const getXdslDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslDiagnostic",
 }));
 
 export type GetXdslEmailProError = OvhOpError;
@@ -3766,6 +3874,8 @@ export const getXdslEmailPro: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslEmailPro",
 }));
 
 export type GetXdslFiberEligibilityError = OvhOpError;
@@ -3781,6 +3891,8 @@ export const getXdslFiberEligibility: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslFiberEligibility",
 }));
 
 export type GetXdslIncidentError = OvhOpError;
@@ -3796,6 +3908,8 @@ export const getXdslIncident: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslIncident",
 }));
 
 export type GetXdslIncident2Error = OvhOpError;
@@ -3811,6 +3925,8 @@ export const getXdslIncident2: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslIncident2",
 }));
 
 export type GetXdslIpsError = OvhOpError;
@@ -3826,6 +3942,8 @@ export const getXdslIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslIps",
 }));
 
 export type GetXdslLineError = OvhOpError;
@@ -3841,6 +3959,8 @@ export const getXdslLine: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslLine",
 }));
 
 export type GetXdslLineDslamPortError = OvhOpError;
@@ -3856,6 +3976,8 @@ export const getXdslLineDslamPort: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslLineDslamPort",
 }));
 
 export type GetXdslModemError = OvhOpError;
@@ -3871,6 +3993,8 @@ export const getXdslModem: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslModem",
 }));
 
 export type GetXdslModemConnectedDeviceError = OvhOpError;
@@ -3886,6 +4010,8 @@ export const getXdslModemConnectedDevice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslModemConnectedDevice",
 }));
 
 export type GetXdslModemInfoError = OvhOpError;
@@ -3901,6 +4027,8 @@ export const getXdslModemInfo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslModemInfo",
 }));
 
 export type GetXdslModemLanError = OvhOpError;
@@ -3916,6 +4044,8 @@ export const getXdslModemLan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslModemLan",
 }));
 
 export type GetXdslModemLanDhcpError = OvhOpError;
@@ -3931,6 +4061,8 @@ export const getXdslModemLanDhcp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslModemLanDhcp",
 }));
 
 export type GetXdslModemWifiError = OvhOpError;
@@ -3946,6 +4078,8 @@ export const getXdslModemWifi: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslModemWifi",
 }));
 
 export type GetXdslModemWifiQrCodeError = OvhOpError;
@@ -3961,6 +4095,8 @@ export const getXdslModemWifiQrCode: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslModemWifiQrCode",
 }));
 
 export type GetXdslModemWifiRadioError = OvhOpError;
@@ -3976,6 +4112,8 @@ export const getXdslModemWifiRadio: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslModemWifiRadio",
 }));
 
 export type GetXdslOntError = OvhOpError;
@@ -3991,6 +4129,8 @@ export const getXdslOnt: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslOnt",
 }));
 
 export type GetXdslPendingActionError = OvhOpError;
@@ -4006,6 +4146,8 @@ export const getXdslPendingAction: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslPendingAction",
 }));
 
 export type GetXdslResiliationFollowupError = OvhOpError;
@@ -4021,6 +4163,8 @@ export const getXdslResiliationFollowup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslResiliationFollowup",
 }));
 
 export type GetXdslResiliationTermsError = OvhOpError;
@@ -4036,6 +4180,8 @@ export const getXdslResiliationTerms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslResiliationTerms",
 }));
 
 export type GetXdslRmaError = OvhOpError;
@@ -4051,6 +4197,8 @@ export const getXdslRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslRma",
 }));
 
 export type GetXdslServiceInfosError = OvhOpError;
@@ -4066,6 +4214,8 @@ export const getXdslServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslServiceInfos",
 }));
 
 export type GetXdslSpareError = OvhOpError;
@@ -4081,6 +4231,8 @@ export const getXdslSpare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslSpare",
 }));
 
 export type GetXdslSpareServiceInfosError = OvhOpError;
@@ -4096,6 +4248,8 @@ export const getXdslSpareServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslSpareServiceInfos",
 }));
 
 export type GetXdslTaskError = OvhOpError;
@@ -4111,6 +4265,8 @@ export const getXdslTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslTask",
 }));
 
 export type GetXdslTotalDeconsolidationTermsError = OvhOpError;
@@ -4126,6 +4282,8 @@ export const getXdslTotalDeconsolidationTerms: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetXdslTotalDeconsolidationTerms",
 }));
 
 export type InstallFrimwareError = OvhOpError;
@@ -4141,6 +4299,8 @@ export const installFrimware: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallFrimware",
 }));
 
 export type ListXdslError = OvhOpError;
@@ -4156,6 +4316,8 @@ export const listXdsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdsl",
 }));
 
 export type ListXdslAntiSpamEvidencesError = OvhOpError;
@@ -4171,6 +4333,8 @@ export const listXdslAntiSpamEvidences: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslAntiSpamEvidences",
 }));
 
 export type ListXdslAntiSpamsError = OvhOpError;
@@ -4186,6 +4350,8 @@ export const listXdslAntiSpams: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslAntiSpams",
 }));
 
 export type ListXdslEmailProError = OvhOpError;
@@ -4201,6 +4367,8 @@ export const listXdslEmailPro: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslEmailPro",
 }));
 
 export type ListXdslFiberEligibilitiesError = OvhOpError;
@@ -4216,6 +4384,8 @@ export const listXdslFiberEligibilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslFiberEligibilities",
 }));
 
 export type ListXdslIncidentsError = OvhOpError;
@@ -4231,6 +4401,8 @@ export const listXdslIncidents: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslIncidents",
 }));
 
 export type ListXdslIpsError = OvhOpError;
@@ -4246,6 +4418,8 @@ export const listXdslIps: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslIps",
 }));
 
 export type ListXdslLineDslamPortAvailableProfilesError = OvhOpError;
@@ -4261,6 +4435,8 @@ export const listXdslLineDslamPortAvailableProfiles: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslLineDslamPortAvailableProfiles",
 }));
 
 export type ListXdslLineDslamPortLogsError = OvhOpError;
@@ -4276,6 +4452,8 @@ export const listXdslLineDslamPortLogs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslLineDslamPortLogs",
 }));
 
 export type ListXdslLinesError = OvhOpError;
@@ -4291,6 +4469,8 @@ export const listXdslLines: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslLines",
 }));
 
 export type ListXdslLineStatisticsError = OvhOpError;
@@ -4306,6 +4486,8 @@ export const listXdslLineStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslLineStatistics",
 }));
 
 export type ListXdslModemAvailableACSBackendError = OvhOpError;
@@ -4321,6 +4503,8 @@ export const listXdslModemAvailableACSBackend: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslModemAvailableACSBackend",
 }));
 
 export type ListXdslModemAvailableWLANChannelError = OvhOpError;
@@ -4336,6 +4520,8 @@ export const listXdslModemAvailableWLANChannel: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslModemAvailableWLANChannel",
 }));
 
 export type ListXdslModemConnectedDevicesError = OvhOpError;
@@ -4351,6 +4537,8 @@ export const listXdslModemConnectedDevices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslModemConnectedDevices",
 }));
 
 export type ListXdslModemFirmwareAvailableError = OvhOpError;
@@ -4366,6 +4554,8 @@ export const listXdslModemFirmwareAvailable: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslModemFirmwareAvailable",
 }));
 
 export type ListXdslModemLanError = OvhOpError;
@@ -4381,6 +4571,8 @@ export const listXdslModemLan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslModemLan",
 }));
 
 export type ListXdslModemLanDhcpError = OvhOpError;
@@ -4396,6 +4588,8 @@ export const listXdslModemLanDhcp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslModemLanDhcp",
 }));
 
 export type ListXdslModemWifiError = OvhOpError;
@@ -4411,6 +4605,8 @@ export const listXdslModemWifi: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslModemWifi",
 }));
 
 export type ListXdslModemWifiRadioError = OvhOpError;
@@ -4426,6 +4622,8 @@ export const listXdslModemWifiRadio: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslModemWifiRadio",
 }));
 
 export type ListXdslOrderFollowupError = OvhOpError;
@@ -4441,6 +4639,8 @@ export const listXdslOrderFollowup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslOrderFollowup",
 }));
 
 export type ListXdslRadiusConnectionLogsError = OvhOpError;
@@ -4456,6 +4656,8 @@ export const listXdslRadiusConnectionLogs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslRadiusConnectionLogs",
 }));
 
 export type ListXdslRmaError = OvhOpError;
@@ -4471,6 +4673,8 @@ export const listXdslRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslRma",
 }));
 
 export type ListXdslSpareError = OvhOpError;
@@ -4486,6 +4690,8 @@ export const listXdslSpare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslSpare",
 }));
 
 export type ListXdslSpareBrandsError = OvhOpError;
@@ -4501,6 +4707,8 @@ export const listXdslSpareBrands: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslSpareBrands",
 }));
 
 export type ListXdslSpareCompatibleReplacementError = OvhOpError;
@@ -4516,6 +4724,8 @@ export const listXdslSpareCompatibleReplacement: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslSpareCompatibleReplacement",
 }));
 
 export type ListXdslStatisticsError = OvhOpError;
@@ -4531,6 +4741,8 @@ export const listXdslStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslStatistics",
 }));
 
 export type ListXdslTasksError = OvhOpError;
@@ -4546,6 +4758,8 @@ export const listXdslTasks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListXdslTasks",
 }));
 
 export type PutXdslError = OvhOpError;
@@ -4561,6 +4775,8 @@ export const putXdsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdsl",
 }));
 
 export type PutXdslEmailProError = OvhOpError;
@@ -4576,6 +4792,8 @@ export const putXdslEmailPro: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslEmailPro",
 }));
 
 export type PutXdslModemError = OvhOpError;
@@ -4591,6 +4809,8 @@ export const putXdslModem: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslModem",
 }));
 
 export type PutXdslModemLanError = OvhOpError;
@@ -4606,6 +4826,8 @@ export const putXdslModemLan: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslModemLan",
 }));
 
 export type PutXdslModemLanDhcpError = OvhOpError;
@@ -4621,6 +4843,8 @@ export const putXdslModemLanDhcp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslModemLanDhcp",
 }));
 
 export type PutXdslModemWifiError = OvhOpError;
@@ -4636,6 +4860,8 @@ export const putXdslModemWifi: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslModemWifi",
 }));
 
 export type PutXdslModemWifiRadioError = OvhOpError;
@@ -4651,6 +4877,8 @@ export const putXdslModemWifiRadio: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslModemWifiRadio",
 }));
 
 export type PutXdslRmaError = OvhOpError;
@@ -4666,6 +4894,8 @@ export const putXdslRma: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslRma",
 }));
 
 export type PutXdslServiceInfosError = OvhOpError;
@@ -4681,6 +4911,8 @@ export const putXdslServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslServiceInfos",
 }));
 
 export type PutXdslSpareServiceInfosError = OvhOpError;
@@ -4696,6 +4928,8 @@ export const putXdslSpareServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutXdslSpareServiceInfos",
 }));
 
 export type RebootModemError = OvhOpError;
@@ -4711,6 +4945,8 @@ export const rebootModem: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebootModem",
 }));
 
 export type RefreshXdslModemConnectedDevicesError = OvhOpError;
@@ -4726,6 +4962,8 @@ export const refreshXdslModemConnectedDevices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshXdslModemConnectedDevices",
 }));
 
 export type RemoveDHCPStaticAddressError = OvhOpError;
@@ -4741,6 +4979,8 @@ export const removeDHCPStaticAddress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDHCPStaticAddress",
 }));
 
 export type RemoveMonitoringNotificationError = OvhOpError;
@@ -4756,6 +4996,8 @@ export const removeMonitoringNotification: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveMonitoringNotification",
 }));
 
 export type RemovePortMappingError = OvhOpError;
@@ -4771,6 +5013,8 @@ export const removePortMapping: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePortMapping",
 }));
 
 export type ReplaceAccessModemError = OvhOpError;
@@ -4786,6 +5030,8 @@ export const replaceAccessModem: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAccessModem",
 }));
 
 export type ReplaceModemBySpareError = OvhOpError;
@@ -4801,6 +5047,8 @@ export const replaceModemBySpare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceModemBySpare",
 }));
 
 export type RequestTotalDeconsolidationError = OvhOpError;
@@ -4816,6 +5064,8 @@ export const requestTotalDeconsolidation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestTotalDeconsolidation",
 }));
 
 export type ResetModemConfigurationError = OvhOpError;
@@ -4831,6 +5081,8 @@ export const resetModemConfiguration: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetModemConfiguration",
 }));
 
 export type ResetXdslLinesDslamPortError = OvhOpError;
@@ -4846,6 +5098,8 @@ export const resetXdslLinesDslamPort: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetXdslLinesDslamPort",
 }));
 
 export type ResetXdslModemPortMappingConfigError = OvhOpError;
@@ -4861,6 +5115,8 @@ export const resetXdslModemPortMappingConfig: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetXdslModemPortMappingConfig",
 }));
 
 export type ResiliateAccessError = OvhOpError;
@@ -4876,6 +5132,8 @@ export const resiliateAccess: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResiliateAccess",
 }));
 
 export type SearchXdslOrderMeetingsError = OvhOpError;
@@ -4891,6 +5149,8 @@ export const searchXdslOrderMeetings: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchXdslOrderMeetings",
 }));
 
 export type SendXdslOrderToProviderError = OvhOpError;
@@ -4906,6 +5166,8 @@ export const sendXdslOrderToProvider: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendXdslOrderToProvider",
 }));
 
 export type SetWifiMeshStatusError = OvhOpError;
@@ -4921,6 +5183,8 @@ export const setWifiMeshStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWifiMeshStatus",
 }));
 
 export type SetWifiOneSsidStatusError = OvhOpError;
@@ -4936,6 +5200,8 @@ export const setWifiOneSsidStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWifiOneSsidStatus",
 }));
 
 export type UpdateBlocIPStatusError = OvhOpError;
@@ -4951,6 +5217,8 @@ export const updateBlocIPStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBlocIPStatus",
 }));
 
 export type UpdateContentSharingStatusError = OvhOpError;
@@ -4966,6 +5234,8 @@ export const updateContentSharingStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContentSharingStatus",
 }));
 
 export type UpdateDHCPStaticAddressError = OvhOpError;
@@ -4981,6 +5251,8 @@ export const updateDHCPStaticAddress: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDHCPStaticAddress",
 }));
 
 export type UpdateFTPStatusError = OvhOpError;
@@ -4996,6 +5268,8 @@ export const updateFTPStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFTPStatus",
 }));
 
 export type UpdateIpError = OvhOpError;
@@ -5007,6 +5281,8 @@ export const updateIp: API.OperationMethod<UpdateIpRequest, XdslTask, UpdateIpEr
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UpdateIp",
   }));
 
 export type UpdateIpsecAlgStatusError = OvhOpError;
@@ -5022,6 +5298,8 @@ export const updateIpsecAlgStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIpsecAlgStatus",
 }));
 
 export type UpdateLineDiagnosticError = OvhOpError;
@@ -5037,6 +5315,8 @@ export const updateLineDiagnostic: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLineDiagnostic",
 }));
 
 export type UpdateMailSendingError = OvhOpError;
@@ -5052,6 +5332,8 @@ export const updateMailSending: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMailSending",
 }));
 
 export type UpdateModemCallWaitingError = OvhOpError;
@@ -5067,6 +5349,8 @@ export const updateModemCallWaiting: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateModemCallWaiting",
 }));
 
 export type UpdateModemTemplateError = OvhOpError;
@@ -5082,6 +5366,8 @@ export const updateModemTemplate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateModemTemplate",
 }));
 
 export type UpdateMonitoringNotificationError = OvhOpError;
@@ -5097,6 +5383,8 @@ export const updateMonitoringNotification: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoringNotification",
 }));
 
 export type UpdatePortMappingError = OvhOpError;
@@ -5112,6 +5400,8 @@ export const updatePortMapping: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePortMapping",
 }));
 
 export type UpdateRIOError = OvhOpError;
@@ -5127,6 +5417,8 @@ export const updateRIO: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRIO",
 }));
 
 export type UpdateRMATypeError = OvhOpError;
@@ -5142,6 +5434,8 @@ export const updateRMAType: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRMAType",
 }));
 
 export type UpdateSipAlgStatusError = OvhOpError;
@@ -5157,6 +5451,8 @@ export const updateSipAlgStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSipAlgStatus",
 }));
 
 export type UpdateUpnpStatusError = OvhOpError;
@@ -5172,6 +5468,8 @@ export const updateUpnpStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUpnpStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

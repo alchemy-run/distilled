@@ -81,6 +81,7 @@ const kubernetesSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Kubernetes Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds Swagger-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.

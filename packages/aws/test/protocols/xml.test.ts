@@ -472,6 +472,23 @@ describe("AwsProtocol REST-XML empty values", () => {
 
 const object = { Bucket: "examplebucket", Key: "reports/part.md" };
 
+describe("Region.fromEnv", () => {
+  it("fails the operation with MissingRegion when no region is set", async () => {
+    const saved = [process.env.AWS_REGION, process.env.AWS_DEFAULT_REGION];
+    delete process.env.AWS_REGION;
+    delete process.env.AWS_DEFAULT_REGION;
+    try {
+      const error = await Effect.runPromise(
+        Effect.flip(capture(S3.headBucket({ Bucket: "b" }), undefined, Region.fromEnv())),
+      );
+      assert.equal(error._tag, "Alchemy::AWS::MissingRegion");
+    } finally {
+      if (saved[0] !== undefined) process.env.AWS_REGION = saved[0];
+      if (saved[1] !== undefined) process.env.AWS_DEFAULT_REGION = saved[1];
+    }
+  });
+});
+
 // A dotted name cannot be virtual-hosted, so the endpoint rules pick path
 // style and the resolved endpoint already ends in `/{Bucket}`.
 describe("AwsProtocol S3 path-style addressing", () => {

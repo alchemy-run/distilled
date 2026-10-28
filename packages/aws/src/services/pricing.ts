@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.pricing.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Pricing",
+  service: "Pricing",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -268,6 +284,8 @@ export const describeServices: API.PaginatedOperationMethod<
     items: "Services",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServices",
 })) as any;
 
 export type GetAttributeValuesError =
@@ -309,6 +327,8 @@ export const getAttributeValues: API.PaginatedOperationMethod<
     items: "AttributeValues",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAttributeValues",
 })) as any;
 
 export type GetPriceListFileUrlError =
@@ -343,6 +363,8 @@ export const getPriceListFileUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPriceListFileUrl",
+  telemetry: TELEMETRY,
+  span: "GetPriceListFileUrl",
 }));
 
 export type GetProductsError =
@@ -384,6 +406,8 @@ export const getProducts: API.PaginatedOperationMethod<
     items: "PriceList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetProducts",
 })) as any;
 
 export type ListPriceListsError =
@@ -429,6 +453,8 @@ export const listPriceLists: API.PaginatedOperationMethod<
     items: "PriceLists",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPriceLists",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

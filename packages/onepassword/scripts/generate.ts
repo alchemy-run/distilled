@@ -134,6 +134,7 @@ const onepasswordSpec = (api: Api): SdkSpec => ({
 
 runGeneratorCli({
   description: "Generate the 1Password Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // Smithy patches apply in scripts/convert.ts (finalizeConvert).
   patchesDir: false,

@@ -1,5 +1,7 @@
+import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
+import { InvalidInput } from "../src/errors.ts";
 import { buildRequest, mapKeys } from "../src/protocol-http.ts";
 import { SensitiveValue, wrapSensitive } from "../src/protocol-rest.ts";
 import * as S from "../src/schema.ts";
@@ -24,11 +26,13 @@ const JsonInput = S.Struct({
 }).pipe(T.Http({ method: "POST", uri: "/things" }));
 
 const jsonBodyOf = (input: unknown): unknown => {
-  const request = buildRequest({
-    input,
-    inputAst: JsonInput.ast,
-    baseUrl: "https://example.test",
-  });
+  const request = Effect.runSync(
+    buildRequest({
+      input,
+      inputAst: JsonInput.ast,
+      baseUrl: "https://example.test",
+    }),
+  );
   const body = request.body as { readonly body?: string };
   return JSON.parse(body.body ?? "{}");
 };
@@ -72,11 +76,13 @@ describe("URI label encoding", () => {
           : S.String.pipe(T.Label(), T.LabelEncoding({ preserve })),
     }).pipe(T.Http({ method: "POST", uri: "/runtime/{scope}" }));
   const url = (scope: string, preserve?: string) =>
-    buildRequest({
-      input: { scope },
-      inputAst: input(preserve).ast,
-      baseUrl: "https://example.test",
-    }).url;
+    Effect.runSync(
+      buildRequest({
+        input: { scope },
+        inputAst: input(preserve).ast,
+        baseUrl: "https://example.test",
+      }),
+    ).url;
 
   test("keeps the existing escaping unless a model opts in", () => {
     expect(url("__KV:abc")).toBe("https://example.test/runtime/__KV%3Aabc");
@@ -171,11 +177,13 @@ describe("greedy labels", () => {
   }).pipe(T.Http({ method: "GET", uri: "/{scope+}/providers/Things/{name}" }));
 
   const urlOf = (input: unknown) =>
-    buildRequest({
-      input,
-      inputAst: ScopedInput.ast,
-      baseUrl: "https://example.test",
-    }).url;
+    Effect.runSync(
+      buildRequest({
+        input,
+        inputAst: ScopedInput.ast,
+        baseUrl: "https://example.test",
+      }),
+    ).url;
 
   test("keeps slashes and drops the leading slash of the value", () => {
     expect(urlOf({ scope: "/subscriptions/abc/resourceGroups/my rg", name: "a/b" })).toBe(
@@ -194,14 +202,17 @@ describe("dot-segment labels", () => {
   const schema = S.Struct({ id: S.String.pipe(T.Label()) }).pipe(
     T.Http({ method: "DELETE", uri: "/things/{id}" }),
   );
-  const build = (id: string) =>
+  const request = (id: string) =>
     buildRequest({ input: { id }, inputAst: schema.ast, baseUrl: "https://example.test" });
+  const build = (id: string) => Effect.runSync(request(id));
 
   // The URL parser resolves a `.` or `..` segment, so `DELETE /things/..`
   // would go out as `DELETE /`.
-  test("a `.` or `..` label throws before anything is sent", () => {
+  test("a `.` or `..` label fails with InvalidInput before anything is sent", () => {
     for (const id of [".", ".."]) {
-      expect(() => build(id)).toThrow(/: id$/);
+      const error = Effect.runSync(Effect.flip(request(id)));
+      expect(error).toBeInstanceOf(InvalidInput);
+      expect(error.member).toBe("id");
     }
   });
 
@@ -219,11 +230,13 @@ describe("multipart binary parts", () => {
   test("preserves typed-array slices and an already JSON-encoded environment", async () => {
     const input = new Uint8Array([99, 80, 75, 0, 255, 99]).subarray(1, 5);
     const environment = JSON.stringify({ SECRET: "value", REMOVED: "" });
-    const request = buildRequest({
-      input: { zip: input, environment },
-      inputAst: schema.ast,
-      baseUrl: "https://example.test",
-    });
+    const request = Effect.runSync(
+      buildRequest({
+        input: { zip: input, environment },
+        inputAst: schema.ast,
+        baseUrl: "https://example.test",
+      }),
+    );
     if (request.body._tag !== "FormData") throw new Error("Expected multipart");
     const part = request.body.formData.get("zip");
     expect(part).toBeInstanceOf(File);
@@ -241,11 +254,13 @@ describe("multipart binary parts", () => {
       new File([new Uint8Array([80, 75, 255])], "bundle.zip"),
       new Uint8Array([80, 75, 255]).buffer,
     ]) {
-      const request = buildRequest({
-        input: { zip, environment: "{}" },
-        inputAst: schema.ast,
-        baseUrl: "https://example.test",
-      });
+      const request = Effect.runSync(
+        buildRequest({
+          input: { zip, environment: "{}" },
+          inputAst: schema.ast,
+          baseUrl: "https://example.test",
+        }),
+      );
       if (request.body._tag !== "FormData") throw new Error("Expected multipart");
       const part = request.body.formData.get("zip") as File;
       expect(part.name).toBe(zip instanceof File ? "bundle.zip" : "zip");

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -71,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://m2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "m2",
+  service: "m2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -922,6 +937,8 @@ export const cancelBatchJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBatchJobExecution",
+  telemetry: TELEMETRY,
+  span: "CancelBatchJobExecution",
 }));
 
 export type CreateApplicationError =
@@ -955,6 +972,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateDataSetExportTaskError =
@@ -989,6 +1008,8 @@ export const createDataSetExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSetExportTask",
+  telemetry: TELEMETRY,
+  span: "CreateDataSetExportTask",
 }));
 
 export type CreateDataSetImportTaskError =
@@ -1023,6 +1044,8 @@ export const createDataSetImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSetImportTask",
+  telemetry: TELEMETRY,
+  span: "CreateDataSetImportTask",
 }));
 
 export type CreateDeploymentError =
@@ -1058,6 +1081,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateEnvironmentError =
@@ -1090,6 +1115,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type DeleteApplicationError =
@@ -1120,6 +1147,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationFromEnvironmentError =
@@ -1155,6 +1184,8 @@ export const deleteApplicationFromEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationFromEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationFromEnvironment",
 }));
 
 export type DeleteEnvironmentError =
@@ -1187,6 +1218,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type GetApplicationError =
@@ -1217,6 +1250,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationVersionError =
@@ -1247,6 +1282,8 @@ export const getApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "GetApplicationVersion",
 }));
 
 export type GetBatchJobExecutionError =
@@ -1277,6 +1314,8 @@ export const getBatchJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchJobExecution",
+  telemetry: TELEMETRY,
+  span: "GetBatchJobExecution",
 }));
 
 export type GetDataSetDetailsError =
@@ -1313,6 +1352,8 @@ export const getDataSetDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSetDetails",
+  telemetry: TELEMETRY,
+  span: "GetDataSetDetails",
 }));
 
 export type GetDataSetExportTaskError =
@@ -1343,6 +1384,8 @@ export const getDataSetExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSetExportTask",
+  telemetry: TELEMETRY,
+  span: "GetDataSetExportTask",
 }));
 
 export type GetDataSetImportTaskError =
@@ -1373,6 +1416,8 @@ export const getDataSetImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSetImportTask",
+  telemetry: TELEMETRY,
+  span: "GetDataSetImportTask",
 }));
 
 export type GetDeploymentError =
@@ -1403,6 +1448,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetEnvironmentError =
@@ -1433,6 +1480,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetSignedBluinsightsUrlError =
@@ -1455,6 +1504,8 @@ export const getSignedBluinsightsUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignedBluinsightsUrl",
+  telemetry: TELEMETRY,
+  span: "GetSignedBluinsightsUrl",
 }));
 
 export type ListApplicationsError =
@@ -1492,6 +1543,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListApplicationVersionsError =
@@ -1529,6 +1582,8 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
     items: "applicationVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationVersions",
 })) as any;
 
 export type ListBatchJobDefinitionsError =
@@ -1568,6 +1623,8 @@ export const listBatchJobDefinitions: API.PaginatedOperationMethod<
     items: "batchJobDefinitions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchJobDefinitions",
 })) as any;
 
 export type ListBatchJobExecutionsError =
@@ -1606,6 +1663,8 @@ export const listBatchJobExecutions: API.PaginatedOperationMethod<
     items: "batchJobExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchJobExecutions",
 })) as any;
 
 export type ListBatchJobRestartPointsError =
@@ -1638,6 +1697,8 @@ export const listBatchJobRestartPoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBatchJobRestartPoints",
+  telemetry: TELEMETRY,
+  span: "ListBatchJobRestartPoints",
 }));
 
 export type ListDataSetExportHistoryError =
@@ -1675,6 +1736,8 @@ export const listDataSetExportHistory: API.PaginatedOperationMethod<
     items: "dataSetExportTasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSetExportHistory",
 })) as any;
 
 export type ListDataSetImportHistoryError =
@@ -1712,6 +1775,8 @@ export const listDataSetImportHistory: API.PaginatedOperationMethod<
     items: "dataSetImportTasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSetImportHistory",
 })) as any;
 
 export type ListDataSetsError =
@@ -1757,6 +1822,8 @@ export const listDataSets: API.PaginatedOperationMethod<
     items: "dataSets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSets",
 })) as any;
 
 export type ListDeploymentsError =
@@ -1796,6 +1863,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListEngineVersionsError =
@@ -1831,6 +1900,8 @@ export const listEngineVersions: API.PaginatedOperationMethod<
     items: "engineVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngineVersions",
 })) as any;
 
 export type ListEnvironmentsError =
@@ -1866,6 +1937,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1896,6 +1969,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartApplicationError =
@@ -1928,6 +2003,8 @@ export const startApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
+  telemetry: TELEMETRY,
+  span: "StartApplication",
 }));
 
 export type StartBatchJobError =
@@ -1961,6 +2038,8 @@ export const startBatchJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchJob",
+  telemetry: TELEMETRY,
+  span: "StartBatchJob",
 }));
 
 export type StopApplicationError =
@@ -1993,6 +2072,8 @@ export const stopApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
+  telemetry: TELEMETRY,
+  span: "StopApplication",
 }));
 
 export type TagResourceError =
@@ -2025,6 +2106,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2055,6 +2138,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -2087,6 +2172,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateEnvironmentError =
@@ -2121,6 +2208,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -82,6 +82,7 @@ const atlasSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the MongoDB Atlas Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ (if it ever exists) holds OpenAPI-document patches consumed by
   // scripts/convert.ts; there is no smithy-model patch chain.

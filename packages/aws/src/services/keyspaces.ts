@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -76,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cassandra.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Keyspaces",
+  service: "Keyspaces",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -544,6 +560,8 @@ export const createKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyspace",
+  telemetry: TELEMETRY,
+  span: "CreateKeyspace",
 }));
 
 export type CreateTableError =
@@ -580,6 +598,8 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  telemetry: TELEMETRY,
+  span: "CreateTable",
 }));
 
 export type CreateTypeError =
@@ -616,6 +636,8 @@ export const createType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateType",
+  telemetry: TELEMETRY,
+  span: "CreateType",
 }));
 
 export type DeleteKeyspaceError =
@@ -648,6 +670,8 @@ export const deleteKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyspace",
+  telemetry: TELEMETRY,
+  span: "DeleteKeyspace",
 }));
 
 export type DeleteTableError =
@@ -680,6 +704,8 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  telemetry: TELEMETRY,
+  span: "DeleteTable",
 }));
 
 export type DeleteTypeError =
@@ -714,6 +740,8 @@ export const deleteType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteType",
+  telemetry: TELEMETRY,
+  span: "DeleteType",
 }));
 
 export type GetKeyspaceError =
@@ -744,6 +772,8 @@ export const getKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyspace",
+  telemetry: TELEMETRY,
+  span: "GetKeyspace",
 }));
 
 export type GetTableError =
@@ -776,6 +806,8 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type GetTableAutoScalingSettingsError =
@@ -816,6 +848,8 @@ export const getTableAutoScalingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableAutoScalingSettings",
+  telemetry: TELEMETRY,
+  span: "GetTableAutoScalingSettings",
 }));
 
 export type GetTypeError =
@@ -848,6 +882,8 @@ export const getType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetType",
+  telemetry: TELEMETRY,
+  span: "GetType",
 }));
 
 export type ListKeyspacesError =
@@ -885,6 +921,8 @@ export const listKeyspaces: API.PaginatedOperationMethod<
     items: "keyspaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyspaces",
 })) as any;
 
 export type ListTablesError =
@@ -924,6 +962,8 @@ export const listTables: API.PaginatedOperationMethod<
     items: "tables",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -963,6 +1003,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTypesError =
@@ -1002,6 +1044,8 @@ export const listTypes: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypes",
 })) as any;
 
 export type RestoreTableError =
@@ -1060,6 +1104,8 @@ export const restoreTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTable",
+  telemetry: TELEMETRY,
+  span: "RestoreTable",
 }));
 
 export type TagResourceError =
@@ -1094,6 +1140,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1126,6 +1174,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateKeyspaceError =
@@ -1198,6 +1248,8 @@ export const updateKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyspace",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyspace",
 }));
 
 export type UpdateTableError =
@@ -1230,6 +1282,8 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  telemetry: TELEMETRY,
+  span: "UpdateTable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

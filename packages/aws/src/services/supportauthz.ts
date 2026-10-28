@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -67,6 +68,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SupportAuthZ",
+  service: "SupportAuthZ",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -348,6 +363,8 @@ export const createSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSupportPermit",
+  telemetry: TELEMETRY,
+  span: "CreateSupportPermit",
 }));
 
 export type DeleteSupportPermitError =
@@ -378,6 +395,8 @@ export const deleteSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSupportPermit",
+  telemetry: TELEMETRY,
+  span: "DeleteSupportPermit",
 }));
 
 export type GetActionError =
@@ -408,6 +427,8 @@ export const getAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAction",
+  telemetry: TELEMETRY,
+  span: "GetAction",
 }));
 
 export type GetSupportPermitError =
@@ -438,6 +459,8 @@ export const getSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSupportPermit",
+  telemetry: TELEMETRY,
+  span: "GetSupportPermit",
 }));
 
 export type ListActionsError =
@@ -473,6 +496,8 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActions",
 })) as any;
 
 export type ListSupportPermitRequestsError =
@@ -508,6 +533,8 @@ export const listSupportPermitRequests: API.PaginatedOperationMethod<
     items: "supportPermitRequests",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSupportPermitRequests",
 })) as any;
 
 export type ListSupportPermitsError =
@@ -543,6 +570,8 @@ export const listSupportPermits: API.PaginatedOperationMethod<
     items: "supportPermits",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSupportPermits",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -573,6 +602,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectSupportPermitRequestError =
@@ -605,6 +636,8 @@ export const rejectSupportPermitRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectSupportPermitRequest",
+  telemetry: TELEMETRY,
+  span: "RejectSupportPermitRequest",
 }));
 
 export type TagResourceError =
@@ -635,6 +668,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -665,6 +700,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

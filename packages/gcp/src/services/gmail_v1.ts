@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "gmail" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Gmail",
+  service: "gmail",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1206,6 +1225,8 @@ export const batchDeleteUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteUsersMessages",
 }));
 
 export type BatchModifyUsersMessagesError =
@@ -1226,6 +1247,8 @@ export const batchModifyUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchModifyUsersMessages",
 }));
 
 export type CreateUsersDraftsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1241,6 +1264,8 @@ export const createUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersDrafts",
 }));
 
 export type CreateUsersLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1256,6 +1281,8 @@ export const createUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersLabels",
 }));
 
 export type CreateUsersSettingsCseIdentitiesError =
@@ -1276,6 +1303,8 @@ export const createUsersSettingsCseIdentities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsCseIdentities",
 }));
 
 export type CreateUsersSettingsCseKeypairsError =
@@ -1296,6 +1325,8 @@ export const createUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsCseKeypairs",
 }));
 
 export type CreateUsersSettingsDelegatesError =
@@ -1316,6 +1347,8 @@ export const createUsersSettingsDelegates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsDelegates",
 }));
 
 export type CreateUsersSettingsFiltersError =
@@ -1336,6 +1369,8 @@ export const createUsersSettingsFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsFilters",
 }));
 
 export type CreateUsersSettingsForwardingAddressesError =
@@ -1356,6 +1391,8 @@ export const createUsersSettingsForwardingAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsForwardingAddresses",
 }));
 
 export type CreateUsersSettingsSendAsError =
@@ -1376,6 +1413,8 @@ export const createUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSettingsSendAs",
 }));
 
 export type DeleteUsersDraftsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1391,6 +1430,8 @@ export const deleteUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersDrafts",
 }));
 
 export type DeleteUsersLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1406,6 +1447,8 @@ export const deleteUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersLabels",
 }));
 
 export type DeleteUsersMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1421,6 +1464,8 @@ export const deleteUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersMessages",
 }));
 
 export type DeleteUsersSettingsCseIdentitiesError =
@@ -1441,6 +1486,8 @@ export const deleteUsersSettingsCseIdentities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsCseIdentities",
 }));
 
 export type DeleteUsersSettingsDelegatesError =
@@ -1461,6 +1508,8 @@ export const deleteUsersSettingsDelegates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsDelegates",
 }));
 
 export type DeleteUsersSettingsFiltersError =
@@ -1481,6 +1530,8 @@ export const deleteUsersSettingsFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsFilters",
 }));
 
 export type DeleteUsersSettingsForwardingAddressesError =
@@ -1501,6 +1552,8 @@ export const deleteUsersSettingsForwardingAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsForwardingAddresses",
 }));
 
 export type DeleteUsersSettingsSendAsError =
@@ -1521,6 +1574,8 @@ export const deleteUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsSendAs",
 }));
 
 export type DeleteUsersSettingsSendAsSmimeInfoError =
@@ -1541,6 +1596,8 @@ export const deleteUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSettingsSendAsSmimeInfo",
 }));
 
 export type DeleteUsersThreadsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1556,6 +1613,8 @@ export const deleteUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersThreads",
 }));
 
 export type DisableUsersSettingsCseKeypairsError =
@@ -1576,6 +1635,8 @@ export const disableUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableUsersSettingsCseKeypairs",
 }));
 
 export type EnableUsersSettingsCseKeypairsError =
@@ -1596,6 +1657,8 @@ export const enableUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableUsersSettingsCseKeypairs",
 }));
 
 export type GetAutoForwardingUsersSettingsError = NotFound | Forbidden | GcpOpError;
@@ -1611,6 +1674,8 @@ export const getAutoForwardingUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoForwardingUsersSettings",
 }));
 
 export type GetImapUsersSettingsError = NotFound | Forbidden | GcpOpError;
@@ -1626,6 +1691,8 @@ export const getImapUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImapUsersSettings",
 }));
 
 export type GetLanguageUsersSettingsError = NotFound | Forbidden | GcpOpError;
@@ -1641,6 +1708,8 @@ export const getLanguageUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLanguageUsersSettings",
 }));
 
 export type GetPopUsersSettingsError = NotFound | Forbidden | GcpOpError;
@@ -1656,6 +1725,8 @@ export const getPopUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPopUsersSettings",
 }));
 
 export type GetProfileUsersError = NotFound | Forbidden | GcpOpError;
@@ -1671,6 +1742,8 @@ export const getProfileUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProfileUsers",
 }));
 
 export type GetUsersDraftsError = NotFound | Forbidden | GcpOpError;
@@ -1686,6 +1759,8 @@ export const getUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersDrafts",
 }));
 
 export type GetUsersLabelsError = NotFound | Forbidden | GcpOpError;
@@ -1701,6 +1776,8 @@ export const getUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersLabels",
 }));
 
 export type GetUsersMessagesError = NotFound | Forbidden | GcpOpError;
@@ -1716,6 +1793,8 @@ export const getUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersMessages",
 }));
 
 export type GetUsersMessagesAttachmentsError = NotFound | Forbidden | GcpOpError;
@@ -1731,6 +1810,8 @@ export const getUsersMessagesAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersMessagesAttachments",
 }));
 
 export type GetUsersSettingsCseIdentitiesError = NotFound | Forbidden | GcpOpError;
@@ -1746,6 +1827,8 @@ export const getUsersSettingsCseIdentities: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsCseIdentities",
 }));
 
 export type GetUsersSettingsCseKeypairsError = NotFound | Forbidden | GcpOpError;
@@ -1761,6 +1844,8 @@ export const getUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsCseKeypairs",
 }));
 
 export type GetUsersSettingsDelegatesError = NotFound | Forbidden | GcpOpError;
@@ -1776,6 +1861,8 @@ export const getUsersSettingsDelegates: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsDelegates",
 }));
 
 export type GetUsersSettingsFiltersError = NotFound | Forbidden | GcpOpError;
@@ -1791,6 +1878,8 @@ export const getUsersSettingsFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsFilters",
 }));
 
 export type GetUsersSettingsForwardingAddressesError = NotFound | Forbidden | GcpOpError;
@@ -1806,6 +1895,8 @@ export const getUsersSettingsForwardingAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsForwardingAddresses",
 }));
 
 export type GetUsersSettingsSendAsError = NotFound | Forbidden | GcpOpError;
@@ -1821,6 +1912,8 @@ export const getUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsSendAs",
 }));
 
 export type GetUsersSettingsSendAsSmimeInfoError = NotFound | Forbidden | GcpOpError;
@@ -1836,6 +1929,8 @@ export const getUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSettingsSendAsSmimeInfo",
 }));
 
 export type GetUsersThreadsError = NotFound | Forbidden | GcpOpError;
@@ -1851,6 +1946,8 @@ export const getUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersThreads",
 }));
 
 export type GetVacationUsersSettingsError = NotFound | Forbidden | GcpOpError;
@@ -1866,6 +1963,8 @@ export const getVacationUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVacationUsersSettings",
 }));
 
 export type ImportUsersMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1881,6 +1980,8 @@ export const importUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportUsersMessages",
 }));
 
 export type InsertUsersMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1896,6 +1997,8 @@ export const insertUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertUsersMessages",
 }));
 
 export type InsertUsersSettingsSendAsSmimeInfoError =
@@ -1916,6 +2019,8 @@ export const insertUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertUsersSettingsSendAsSmimeInfo",
 }));
 
 export type ListUsersDraftsError = NotFound | Forbidden | GcpOpError;
@@ -1932,6 +2037,8 @@ export const listUsersDrafts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersDrafts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1949,6 +2056,8 @@ export const listUsersHistory: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersHistory",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1965,6 +2074,8 @@ export const listUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersLabels",
 }));
 
 export type ListUsersMessagesError = NotFound | Forbidden | GcpOpError;
@@ -1981,6 +2092,8 @@ export const listUsersMessages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersMessages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1998,6 +2111,8 @@ export const listUsersSettingsCseIdentities: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsCseIdentities",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2015,6 +2130,8 @@ export const listUsersSettingsCseKeypairs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsCseKeypairs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2031,6 +2148,8 @@ export const listUsersSettingsDelegates: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsDelegates",
 }));
 
 export type ListUsersSettingsFiltersError = NotFound | Forbidden | GcpOpError;
@@ -2046,6 +2165,8 @@ export const listUsersSettingsFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsFilters",
 }));
 
 export type ListUsersSettingsForwardingAddressesError = NotFound | Forbidden | GcpOpError;
@@ -2061,6 +2182,8 @@ export const listUsersSettingsForwardingAddresses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsForwardingAddresses",
 }));
 
 export type ListUsersSettingsSendAsError = NotFound | Forbidden | GcpOpError;
@@ -2076,6 +2199,8 @@ export const listUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsSendAs",
 }));
 
 export type ListUsersSettingsSendAsSmimeInfoError = NotFound | Forbidden | GcpOpError;
@@ -2091,6 +2216,8 @@ export const listUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSettingsSendAsSmimeInfo",
 }));
 
 export type ListUsersThreadsError = NotFound | Forbidden | GcpOpError;
@@ -2107,6 +2234,8 @@ export const listUsersThreads: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersThreads",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2123,6 +2252,8 @@ export const modifyUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyUsersMessages",
 }));
 
 export type ModifyUsersThreadsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2138,6 +2269,8 @@ export const modifyUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyUsersThreads",
 }));
 
 export type ObliterateUsersSettingsCseKeypairsError =
@@ -2158,6 +2291,8 @@ export const obliterateUsersSettingsCseKeypairs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ObliterateUsersSettingsCseKeypairs",
 }));
 
 export type PatchUsersLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2173,6 +2308,8 @@ export const patchUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersLabels",
 }));
 
 export type PatchUsersSettingsCseIdentitiesError =
@@ -2193,6 +2330,8 @@ export const patchUsersSettingsCseIdentities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersSettingsCseIdentities",
 }));
 
 export type PatchUsersSettingsSendAsError =
@@ -2213,6 +2352,8 @@ export const patchUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersSettingsSendAs",
 }));
 
 export type SendUsersDraftsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2228,6 +2369,8 @@ export const sendUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUsersDrafts",
 }));
 
 export type SendUsersMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2243,6 +2386,8 @@ export const sendUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUsersMessages",
 }));
 
 export type SetDefaultUsersSettingsSendAsSmimeInfoError =
@@ -2263,6 +2408,8 @@ export const setDefaultUsersSettingsSendAsSmimeInfo: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultUsersSettingsSendAsSmimeInfo",
 }));
 
 export type StopUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2278,6 +2425,8 @@ export const stopUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopUsers",
 }));
 
 export type TrashUsersMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2293,6 +2442,8 @@ export const trashUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrashUsersMessages",
 }));
 
 export type TrashUsersThreadsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2308,6 +2459,8 @@ export const trashUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrashUsersThreads",
 }));
 
 export type UntrashUsersMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2323,6 +2476,8 @@ export const untrashUsersMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UntrashUsersMessages",
 }));
 
 export type UntrashUsersThreadsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2338,6 +2493,8 @@ export const untrashUsersThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UntrashUsersThreads",
 }));
 
 export type UpdateAutoForwardingUsersSettingsError =
@@ -2358,6 +2515,8 @@ export const updateAutoForwardingUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoForwardingUsersSettings",
 }));
 
 export type UpdateImapUsersSettingsError =
@@ -2378,6 +2537,8 @@ export const updateImapUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImapUsersSettings",
 }));
 
 export type UpdateLanguageUsersSettingsError =
@@ -2398,6 +2559,8 @@ export const updateLanguageUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLanguageUsersSettings",
 }));
 
 export type UpdatePopUsersSettingsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2413,6 +2576,8 @@ export const updatePopUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePopUsersSettings",
 }));
 
 export type UpdateUsersDraftsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2428,6 +2593,8 @@ export const updateUsersDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersDrafts",
 }));
 
 export type UpdateUsersLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2443,6 +2610,8 @@ export const updateUsersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersLabels",
 }));
 
 export type UpdateUsersSettingsSendAsError =
@@ -2463,6 +2632,8 @@ export const updateUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersSettingsSendAs",
 }));
 
 export type UpdateVacationUsersSettingsError =
@@ -2483,6 +2654,8 @@ export const updateVacationUsersSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVacationUsersSettings",
 }));
 
 export type VerifyUsersSettingsSendAsError =
@@ -2503,6 +2676,8 @@ export const verifyUsersSettingsSendAs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyUsersSettingsSendAs",
 }));
 
 export type WatchUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2518,6 +2693,8 @@ export const watchUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchUsers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

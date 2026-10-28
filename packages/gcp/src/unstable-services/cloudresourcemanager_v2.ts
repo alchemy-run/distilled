@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudresourcemanager" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudresourcemanager",
+  service: "cloudresourcemanager",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -307,6 +326,8 @@ export const createFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFolders",
 }));
 
 export type DeleteFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -322,6 +343,8 @@ export const deleteFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFolders",
 }));
 
 export type GetFoldersError = NotFound | Forbidden | GcpOpError;
@@ -337,6 +360,8 @@ export const getFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFolders",
 }));
 
 export type GetIamPolicyFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -352,6 +377,8 @@ export const getIamPolicyFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyFolders",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -367,6 +394,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type ListFoldersError = NotFound | Forbidden | GcpOpError;
@@ -383,6 +412,8 @@ export const listFolders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFolders",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -399,6 +430,8 @@ export const moveFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveFolders",
 }));
 
 export type PatchFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -414,6 +447,8 @@ export const patchFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFolders",
 }));
 
 export type SearchFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -429,6 +464,8 @@ export const searchFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchFolders",
 }));
 
 export type SetIamPolicyFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -444,6 +481,8 @@ export const setIamPolicyFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyFolders",
 }));
 
 export type TestIamPermissionsFoldersError =
@@ -464,6 +503,8 @@ export const testIamPermissionsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsFolders",
 }));
 
 export type UndeleteFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -479,6 +520,8 @@ export const undeleteFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteFolders",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Support" },
+  prefix: "Support",
+  service: "Support",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The type of resource. */
 export type Type = "Microsoft.Support/supportTickets" | "Microsoft.Support/communications";
 export interface CheckCommunicationNameAvailabilityRequest {
@@ -1093,6 +1113,8 @@ export const CheckCommunicationNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCommunicationNameAvailability",
 }));
 
 export type CheckCommunicationsNoSubscriptionNameAvailabilityError = AzureOpError;
@@ -1112,6 +1134,8 @@ export const CheckCommunicationsNoSubscriptionNameAvailability: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCommunicationsNoSubscriptionNameAvailability",
 }));
 
 export type CheckSupportTicketNameAvailabilityError = AzureOpError;
@@ -1127,6 +1151,8 @@ export const CheckSupportTicketNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSupportTicketNameAvailability",
 }));
 
 export type CheckSupportTicketsNoSubscriptionNameAvailabilityError = AzureOpError;
@@ -1146,6 +1172,8 @@ export const CheckSupportTicketsNoSubscriptionNameAvailability: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSupportTicketsNoSubscriptionNameAvailability",
 }));
 
 export type CreateCommunicationError = AzureOpError;
@@ -1161,6 +1189,8 @@ export const CreateCommunication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommunication",
 }));
 
 export type CreateCommunicationsNoSubscriptionError = AzureOpError;
@@ -1176,6 +1206,8 @@ export const CreateCommunicationsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommunicationsNoSubscription",
 }));
 
 export type CreateFileError = AzureOpError;
@@ -1191,6 +1223,8 @@ export const CreateFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFile",
 }));
 
 export type CreateFilesNoSubscriptionError = AzureOpError;
@@ -1206,6 +1240,8 @@ export const CreateFilesNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFilesNoSubscription",
 }));
 
 export type CreateFileWorkspaceError = AzureOpError;
@@ -1221,6 +1257,8 @@ export const CreateFileWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFileWorkspace",
 }));
 
 export type CreateFileWorkspacesNoSubscriptionError = AzureOpError;
@@ -1236,6 +1274,8 @@ export const CreateFileWorkspacesNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFileWorkspacesNoSubscription",
 }));
 
 export type CreateSupportTicketError = AzureOpError;
@@ -1251,6 +1291,8 @@ export const CreateSupportTicket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupportTicket",
 }));
 
 export type CreateSupportTicketsNoSubscriptionError = AzureOpError;
@@ -1266,6 +1308,8 @@ export const CreateSupportTicketsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSupportTicketsNoSubscription",
 }));
 
 export type GetChatTranscriptError = AzureOpError;
@@ -1281,6 +1325,8 @@ export const GetChatTranscript: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChatTranscript",
 }));
 
 export type GetChatTranscriptsNoSubscriptionError = AzureOpError;
@@ -1296,6 +1342,8 @@ export const GetChatTranscriptsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChatTranscriptsNoSubscription",
 }));
 
 export type GetCommunicationError = AzureOpError;
@@ -1311,6 +1359,8 @@ export const GetCommunication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommunication",
 }));
 
 export type GetCommunicationsNoSubscriptionError = AzureOpError;
@@ -1326,6 +1376,8 @@ export const GetCommunicationsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommunicationsNoSubscription",
 }));
 
 export type GetFileError = AzureOpError;
@@ -1341,6 +1393,8 @@ export const GetFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFile",
 }));
 
 export type GetFilesNoSubscriptionError = AzureOpError;
@@ -1356,6 +1410,8 @@ export const GetFilesNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFilesNoSubscription",
 }));
 
 export type GetFileWorkspaceError = AzureOpError;
@@ -1371,6 +1427,8 @@ export const GetFileWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileWorkspace",
 }));
 
 export type GetFileWorkspacesNoSubscriptionError = AzureOpError;
@@ -1386,6 +1444,8 @@ export const GetFileWorkspacesNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileWorkspacesNoSubscription",
 }));
 
 export type GetProblemClassificationError = AzureOpError;
@@ -1401,6 +1461,8 @@ export const GetProblemClassification: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProblemClassification",
 }));
 
 export type GetServiceError = AzureOpError;
@@ -1416,6 +1478,8 @@ export const GetService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetSupportTicketError = AzureOpError;
@@ -1431,6 +1495,8 @@ export const GetSupportTicket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportTicket",
 }));
 
 export type GetSupportTicketsNoSubscriptionError = AzureOpError;
@@ -1446,6 +1512,8 @@ export const GetSupportTicketsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSupportTicketsNoSubscription",
 }));
 
 export type ListChatTranscriptsError = AzureOpError;
@@ -1461,6 +1529,8 @@ export const ListChatTranscripts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChatTranscripts",
 }));
 
 export type ListChatTranscriptsNoSubscriptionError = AzureOpError;
@@ -1476,6 +1546,8 @@ export const ListChatTranscriptsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChatTranscriptsNoSubscription",
 }));
 
 export type ListCommunicationsError = AzureOpError;
@@ -1491,6 +1563,8 @@ export const ListCommunications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunications",
 }));
 
 export type ListCommunicationsNoSubscriptionError = AzureOpError;
@@ -1506,6 +1580,8 @@ export const ListCommunicationsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunicationsNoSubscription",
 }));
 
 export type ListFilesError = AzureOpError;
@@ -1521,6 +1597,8 @@ export const ListFiles: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFiles",
 }));
 
 export type ListFilesNoSubscriptionError = AzureOpError;
@@ -1536,6 +1614,8 @@ export const ListFilesNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFilesNoSubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1551,6 +1631,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProblemClassificationsError = AzureOpError;
@@ -1566,6 +1648,8 @@ export const ListProblemClassifications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProblemClassifications",
 }));
 
 export type ListServicesError = AzureOpError;
@@ -1581,6 +1665,8 @@ export const ListServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 }));
 
 export type ListSupportTicketsError = AzureOpError;
@@ -1596,6 +1682,8 @@ export const ListSupportTickets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupportTickets",
 }));
 
 export type ListSupportTicketsNoSubscriptionError = AzureOpError;
@@ -1611,6 +1699,8 @@ export const ListSupportTicketsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSupportTicketsNoSubscription",
 }));
 
 export type UpdateSupportTicketError = AzureOpError;
@@ -1626,6 +1716,8 @@ export const UpdateSupportTicket: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSupportTicket",
 }));
 
 export type UpdateSupportTicketsNoSubscriptionError = AzureOpError;
@@ -1641,6 +1733,8 @@ export const UpdateSupportTicketsNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSupportTicketsNoSubscription",
 }));
 
 export type UploadFileError = AzureOpError;
@@ -1656,6 +1750,8 @@ export const UploadFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadFile",
 }));
 
 export type UploadFilesNoSubscriptionError = AzureOpError;
@@ -1671,6 +1767,8 @@ export const UploadFilesNoSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadFilesNoSubscription",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

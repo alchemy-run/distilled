@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://launchwizard.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LaunchWizard",
+  service: "LaunchWizard",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -420,6 +435,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type DeleteDeploymentError =
@@ -448,6 +465,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type GetDeploymentError =
@@ -470,6 +489,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentPatternVersionError =
@@ -491,6 +512,8 @@ export const getDeploymentPatternVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentPatternVersion",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentPatternVersion",
 }));
 
 export type GetWorkloadError =
@@ -513,6 +536,8 @@ export const getWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkload",
+  telemetry: TELEMETRY,
+  span: "GetWorkload",
 }));
 
 export type GetWorkloadDeploymentPatternError =
@@ -535,6 +560,8 @@ export const getWorkloadDeploymentPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadDeploymentPattern",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadDeploymentPattern",
 }));
 
 export type ListDeploymentEventsError =
@@ -564,6 +591,8 @@ export const listDeploymentEvents: API.PaginatedOperationMethod<
     items: "deploymentEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentEvents",
 })) as any;
 
 export type ListDeploymentPatternVersionsError =
@@ -593,6 +622,8 @@ export const listDeploymentPatternVersions: API.PaginatedOperationMethod<
     items: "deploymentPatternVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentPatternVersions",
 })) as any;
 
 export type ListDeploymentsError = InternalServerException | ValidationException | CommonErrors;
@@ -618,6 +649,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -640,6 +673,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkloadDeploymentPatternsError =
@@ -669,6 +704,8 @@ export const listWorkloadDeploymentPatterns: API.PaginatedOperationMethod<
     items: "workloadDeploymentPatterns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadDeploymentPatterns",
 })) as any;
 
 export type ListWorkloadsError = InternalServerException | ValidationException | CommonErrors;
@@ -694,6 +731,8 @@ export const listWorkloads: API.PaginatedOperationMethod<
     items: "workloads",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloads",
 })) as any;
 
 export type TagResourceError =
@@ -716,6 +755,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -738,6 +779,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeploymentError =
@@ -766,6 +809,8 @@ export const updateDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
+  telemetry: TELEMETRY,
+  span: "UpdateDeployment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

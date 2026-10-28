@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Vrack",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -879,6 +893,8 @@ export const confirmVrackTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmVrackTermination",
 }));
 
 export type CreateVrackChangeContactError = OvhOpError;
@@ -894,6 +910,8 @@ export const createVrackChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackChangeContact",
 }));
 
 export type CreateVrackCloudProjectError = OvhOpError;
@@ -909,6 +927,8 @@ export const createVrackCloudProject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackCloudProject",
 }));
 
 export type CreateVrackDedicatedCloudError = OvhOpError;
@@ -924,6 +944,8 @@ export const createVrackDedicatedCloud: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackDedicatedCloud",
 }));
 
 export type CreateVrackDedicatedConnectError = OvhOpError;
@@ -939,6 +961,8 @@ export const createVrackDedicatedConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackDedicatedConnect",
 }));
 
 export type CreateVrackDedicatedServerError = OvhOpError;
@@ -954,6 +978,8 @@ export const createVrackDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackDedicatedServer",
 }));
 
 export type CreateVrackDedicatedServerInterfaceError = OvhOpError;
@@ -969,6 +995,8 @@ export const createVrackDedicatedServerInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackDedicatedServerInterface",
 }));
 
 export type CreateVrackIpError = OvhOpError;
@@ -984,6 +1012,8 @@ export const createVrackIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackIp",
 }));
 
 export type CreateVrackIpLoadbalancingError = OvhOpError;
@@ -999,6 +1029,8 @@ export const createVrackIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackIpLoadbalancing",
 }));
 
 export type CreateVrackIpv6Error = OvhOpError;
@@ -1014,6 +1046,8 @@ export const createVrackIpv6: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackIpv6",
 }));
 
 export type CreateVrackIpv6RoutedSubrangeError = OvhOpError;
@@ -1029,6 +1063,8 @@ export const createVrackIpv6RoutedSubrange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackIpv6RoutedSubrange",
 }));
 
 export type CreateVrackLegacyVrackError = OvhOpError;
@@ -1044,6 +1080,8 @@ export const createVrackLegacyVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackLegacyVrack",
 }));
 
 export type CreateVrackOvhCloudConnectError = OvhOpError;
@@ -1059,6 +1097,8 @@ export const createVrackOvhCloudConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackOvhCloudConnect",
 }));
 
 export type CreateVrackVmwareCloudDirectorVirtualDataCenterError = OvhOpError;
@@ -1078,6 +1118,8 @@ export const createVrackVmwareCloudDirectorVirtualDataCenter: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackVmwareCloudDirectorVirtualDataCenter",
 }));
 
 export type CreateVrackVrackServiceError = OvhOpError;
@@ -1093,6 +1135,8 @@ export const createVrackVrackService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVrackVrackService",
 }));
 
 export type DeleteVrackCloudProjectError = OvhOpError;
@@ -1108,6 +1152,8 @@ export const deleteVrackCloudProject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackCloudProject",
 }));
 
 export type DeleteVrackDedicatedCloudError = OvhOpError;
@@ -1123,6 +1169,8 @@ export const deleteVrackDedicatedCloud: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackDedicatedCloud",
 }));
 
 export type DeleteVrackDedicatedConnectError = OvhOpError;
@@ -1138,6 +1186,8 @@ export const deleteVrackDedicatedConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackDedicatedConnect",
 }));
 
 export type DeleteVrackDedicatedServerError = OvhOpError;
@@ -1153,6 +1203,8 @@ export const deleteVrackDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackDedicatedServer",
 }));
 
 export type DeleteVrackDedicatedServerInterfaceError = OvhOpError;
@@ -1168,6 +1220,8 @@ export const deleteVrackDedicatedServerInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackDedicatedServerInterface",
 }));
 
 export type DeleteVrackIpError = OvhOpError;
@@ -1183,6 +1237,8 @@ export const deleteVrackIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackIp",
 }));
 
 export type DeleteVrackIpLoadbalancingError = OvhOpError;
@@ -1198,6 +1254,8 @@ export const deleteVrackIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackIpLoadbalancing",
 }));
 
 export type DeleteVrackIpv6Error = OvhOpError;
@@ -1213,6 +1271,8 @@ export const deleteVrackIpv6: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackIpv6",
 }));
 
 export type DeleteVrackIpv6RoutedSubrangeError = OvhOpError;
@@ -1228,6 +1288,8 @@ export const deleteVrackIpv6RoutedSubrange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackIpv6RoutedSubrange",
 }));
 
 export type DeleteVrackLegacyVrackError = OvhOpError;
@@ -1243,6 +1305,8 @@ export const deleteVrackLegacyVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackLegacyVrack",
 }));
 
 export type DeleteVrackOvhCloudConnectError = OvhOpError;
@@ -1258,6 +1322,8 @@ export const deleteVrackOvhCloudConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackOvhCloudConnect",
 }));
 
 export type DeleteVrackVmwareCloudDirectorVirtualDataCenterError = OvhOpError;
@@ -1277,6 +1343,8 @@ export const deleteVrackVmwareCloudDirectorVirtualDataCenter: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackVmwareCloudDirectorVirtualDataCenter",
 }));
 
 export type DeleteVrackVrackServiceError = OvhOpError;
@@ -1292,6 +1360,8 @@ export const deleteVrackVrackService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVrackVrackService",
 }));
 
 export type GetVrackError = OvhOpError;
@@ -1307,6 +1377,8 @@ export const getVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrack",
 }));
 
 export type GetVrackCloudProjectError = OvhOpError;
@@ -1322,6 +1394,8 @@ export const getVrackCloudProject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackCloudProject",
 }));
 
 export type GetVrackDedicatedCloudError = OvhOpError;
@@ -1337,6 +1411,8 @@ export const getVrackDedicatedCloud: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackDedicatedCloud",
 }));
 
 export type GetVrackDedicatedCloudDatacenterError = OvhOpError;
@@ -1352,6 +1428,8 @@ export const getVrackDedicatedCloudDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackDedicatedCloudDatacenter",
 }));
 
 export type GetVrackDedicatedConnectError = OvhOpError;
@@ -1367,6 +1445,8 @@ export const getVrackDedicatedConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackDedicatedConnect",
 }));
 
 export type GetVrackDedicatedServerError = OvhOpError;
@@ -1382,6 +1462,8 @@ export const getVrackDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackDedicatedServer",
 }));
 
 export type GetVrackDedicatedServerInterfaceError = OvhOpError;
@@ -1397,6 +1479,8 @@ export const getVrackDedicatedServerInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackDedicatedServerInterface",
 }));
 
 export type GetVrackIpError = OvhOpError;
@@ -1412,6 +1496,8 @@ export const getVrackIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackIp",
 }));
 
 export type GetVrackIpLoadbalancingError = OvhOpError;
@@ -1427,6 +1513,8 @@ export const getVrackIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackIpLoadbalancing",
 }));
 
 export type GetVrackIpv6Error = OvhOpError;
@@ -1442,6 +1530,8 @@ export const getVrackIpv6: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackIpv6",
 }));
 
 export type GetVrackIpv6BridgedSubrangeError = OvhOpError;
@@ -1457,6 +1547,8 @@ export const getVrackIpv6BridgedSubrange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackIpv6BridgedSubrange",
 }));
 
 export type GetVrackIpv6RoutedSubrangeError = OvhOpError;
@@ -1472,6 +1564,8 @@ export const getVrackIpv6RoutedSubrange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackIpv6RoutedSubrange",
 }));
 
 export type GetVrackLegacyVrackError = OvhOpError;
@@ -1487,6 +1581,8 @@ export const getVrackLegacyVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackLegacyVrack",
 }));
 
 export type GetVrackOvhCloudConnectError = OvhOpError;
@@ -1502,6 +1598,8 @@ export const getVrackOvhCloudConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackOvhCloudConnect",
 }));
 
 export type GetVrackPublicRoutingOptionError = OvhOpError;
@@ -1517,6 +1615,8 @@ export const getVrackPublicRoutingOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackPublicRoutingOption",
 }));
 
 export type GetVrackServiceInfosError = OvhOpError;
@@ -1532,6 +1632,8 @@ export const getVrackServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackServiceInfos",
 }));
 
 export type GetVrackTaskError = OvhOpError;
@@ -1547,6 +1649,8 @@ export const getVrackTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackTask",
 }));
 
 export type GetVrackVmwareCloudDirectorVirtualDataCenterError = OvhOpError;
@@ -1562,6 +1666,8 @@ export const getVrackVmwareCloudDirectorVirtualDataCenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackVmwareCloudDirectorVirtualDataCenter",
 }));
 
 export type GetVrackVrackServiceError = OvhOpError;
@@ -1577,6 +1683,8 @@ export const getVrackVrackService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVrackVrackService",
 }));
 
 export type ListVrackError = OvhOpError;
@@ -1592,6 +1700,8 @@ export const listVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrack",
 }));
 
 export type ListVrackAllowedServicesError = OvhOpError;
@@ -1607,6 +1717,8 @@ export const listVrackAllowedServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackAllowedServices",
 }));
 
 export type ListVrackCloudProjectError = OvhOpError;
@@ -1622,6 +1734,8 @@ export const listVrackCloudProject: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackCloudProject",
 }));
 
 export type ListVrackDedicatedCloudError = OvhOpError;
@@ -1637,6 +1751,8 @@ export const listVrackDedicatedCloud: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackDedicatedCloud",
 }));
 
 export type ListVrackDedicatedCloudDatacenterError = OvhOpError;
@@ -1652,6 +1768,8 @@ export const listVrackDedicatedCloudDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackDedicatedCloudDatacenter",
 }));
 
 export type ListVrackDedicatedCloudDatacenterAllowedVrackError = OvhOpError;
@@ -1675,6 +1793,8 @@ export const listVrackDedicatedCloudDatacenterAllowedVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackDedicatedCloudDatacenterAllowedVrack",
 }));
 
 export type ListVrackDedicatedConnectError = OvhOpError;
@@ -1690,6 +1810,8 @@ export const listVrackDedicatedConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackDedicatedConnect",
 }));
 
 export type ListVrackDedicatedServerError = OvhOpError;
@@ -1705,6 +1827,8 @@ export const listVrackDedicatedServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackDedicatedServer",
 }));
 
 export type ListVrackDedicatedServerInterfaceError = OvhOpError;
@@ -1720,6 +1844,8 @@ export const listVrackDedicatedServerInterface: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackDedicatedServerInterface",
 }));
 
 export type ListVrackDedicatedServerInterfaceDetailsError = OvhOpError;
@@ -1735,6 +1861,8 @@ export const listVrackDedicatedServerInterfaceDetails: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackDedicatedServerInterfaceDetails",
 }));
 
 export type ListVrackEligibleServicesError = OvhOpError;
@@ -1750,6 +1878,8 @@ export const listVrackEligibleServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackEligibleServices",
 }));
 
 export type ListVrackIpError = OvhOpError;
@@ -1765,6 +1895,8 @@ export const listVrackIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackIp",
 }));
 
 export type ListVrackIpLoadbalancingError = OvhOpError;
@@ -1780,6 +1912,8 @@ export const listVrackIpLoadbalancing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackIpLoadbalancing",
 }));
 
 export type ListVrackIpv6Error = OvhOpError;
@@ -1795,6 +1929,8 @@ export const listVrackIpv6: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackIpv6",
 }));
 
 export type ListVrackIpv6BridgedSubrangeError = OvhOpError;
@@ -1810,6 +1946,8 @@ export const listVrackIpv6BridgedSubrange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackIpv6BridgedSubrange",
 }));
 
 export type ListVrackIpv6RoutedSubrangeError = OvhOpError;
@@ -1825,6 +1963,8 @@ export const listVrackIpv6RoutedSubrange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackIpv6RoutedSubrange",
 }));
 
 export type ListVrackLegacyVrackError = OvhOpError;
@@ -1840,6 +1980,8 @@ export const listVrackLegacyVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackLegacyVrack",
 }));
 
 export type ListVrackOvhCloudConnectError = OvhOpError;
@@ -1855,6 +1997,8 @@ export const listVrackOvhCloudConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackOvhCloudConnect",
 }));
 
 export type ListVrackTaskError = OvhOpError;
@@ -1870,6 +2014,8 @@ export const listVrackTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackTask",
 }));
 
 export type ListVrackVmwareCloudDirectorVirtualDataCenterError = OvhOpError;
@@ -1893,6 +2039,8 @@ export const listVrackVmwareCloudDirectorVirtualDataCenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackVmwareCloudDirectorVirtualDataCenter",
 }));
 
 export type ListVrackVrackServicesError = OvhOpError;
@@ -1908,6 +2056,8 @@ export const listVrackVrackServices: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVrackVrackServices",
 }));
 
 export type MoveVrackDedicatedCloudDatacenterError = OvhOpError;
@@ -1923,6 +2073,8 @@ export const moveVrackDedicatedCloudDatacenter: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveVrackDedicatedCloudDatacenter",
 }));
 
 export type PutVrackError = OvhOpError;
@@ -1938,6 +2090,8 @@ export const putVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVrack",
 }));
 
 export type PutVrackDedicatedConnectError = OvhOpError;
@@ -1953,6 +2107,8 @@ export const putVrackDedicatedConnect: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVrackDedicatedConnect",
 }));
 
 export type PutVrackIpv6BridgedSubrangeError = OvhOpError;
@@ -1968,6 +2124,8 @@ export const putVrackIpv6BridgedSubrange: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVrackIpv6BridgedSubrange",
 }));
 
 export type TerminateVrackError = OvhOpError;
@@ -1983,6 +2141,8 @@ export const terminateVrack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateVrack",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

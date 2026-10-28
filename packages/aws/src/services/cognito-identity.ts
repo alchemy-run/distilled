@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -93,6 +94,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cognito-identity.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CognitoIdentity",
+  service: "CognitoIdentity",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -483,6 +499,8 @@ export const createIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityPool",
+  telemetry: TELEMETRY,
+  span: "CreateIdentityPool",
 }));
 
 export type DeleteIdentitiesError =
@@ -509,6 +527,8 @@ export const deleteIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentities",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentities",
 }));
 
 export type DeleteIdentityPoolError =
@@ -543,6 +563,8 @@ export const deleteIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPool",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityPool",
 }));
 
 export type DescribeIdentityError =
@@ -577,6 +599,8 @@ export const describeIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentity",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentity",
 }));
 
 export type DescribeIdentityPoolError =
@@ -611,6 +635,8 @@ export const describeIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityPool",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityPool",
 }));
 
 export type GetCredentialsForIdentityError =
@@ -651,6 +677,8 @@ export const getCredentialsForIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentialsForIdentity",
+  telemetry: TELEMETRY,
+  span: "GetCredentialsForIdentity",
 }));
 
 export type GetIdError =
@@ -690,6 +718,8 @@ export const getId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetId",
+  telemetry: TELEMETRY,
+  span: "GetId",
 }));
 
 export type GetIdentityPoolRolesError =
@@ -725,6 +755,8 @@ export const getIdentityPoolRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPoolRoles",
+  telemetry: TELEMETRY,
+  span: "GetIdentityPoolRoles",
 }));
 
 export type GetOpenIdTokenError =
@@ -765,6 +797,8 @@ export const getOpenIdToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIdToken",
+  telemetry: TELEMETRY,
+  span: "GetOpenIdToken",
 }));
 
 export type GetOpenIdTokenForDeveloperIdentityError =
@@ -814,6 +848,8 @@ export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIdTokenForDeveloperIdentity",
+  telemetry: TELEMETRY,
+  span: "GetOpenIdTokenForDeveloperIdentity",
 }));
 
 export type GetPrincipalTagAttributeMapError =
@@ -845,6 +881,8 @@ export const getPrincipalTagAttributeMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrincipalTagAttributeMap",
+  telemetry: TELEMETRY,
+  span: "GetPrincipalTagAttributeMap",
 }));
 
 export type ListIdentitiesError =
@@ -878,6 +916,8 @@ export const listIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentities",
+  telemetry: TELEMETRY,
+  span: "ListIdentities",
 }));
 
 export type ListIdentityPoolsError =
@@ -918,6 +958,8 @@ export const listIdentityPools: API.PaginatedOperationMethod<
     items: "IdentityPools",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityPools",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -953,6 +995,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type LookupDeveloperIdentityError =
@@ -1003,6 +1047,8 @@ export const lookupDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LookupDeveloperIdentity",
+  telemetry: TELEMETRY,
+  span: "LookupDeveloperIdentity",
 }));
 
 export type MergeDeveloperIdentitiesError =
@@ -1050,6 +1096,8 @@ export const mergeDeveloperIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeDeveloperIdentities",
+  telemetry: TELEMETRY,
+  span: "MergeDeveloperIdentities",
 }));
 
 export type SetIdentityPoolRolesError =
@@ -1087,6 +1135,8 @@ export const setIdentityPoolRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityPoolRoles",
+  telemetry: TELEMETRY,
+  span: "SetIdentityPoolRoles",
 }));
 
 export type SetPrincipalTagAttributeMapError =
@@ -1118,6 +1168,8 @@ export const setPrincipalTagAttributeMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetPrincipalTagAttributeMap",
+  telemetry: TELEMETRY,
+  span: "SetPrincipalTagAttributeMap",
 }));
 
 export type TagResourceError =
@@ -1165,6 +1217,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnlinkDeveloperIdentityError =
@@ -1203,6 +1257,8 @@ export const unlinkDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlinkDeveloperIdentity",
+  telemetry: TELEMETRY,
+  span: "UnlinkDeveloperIdentity",
 }));
 
 export type UnlinkIdentityError =
@@ -1241,6 +1297,8 @@ export const unlinkIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlinkIdentity",
+  telemetry: TELEMETRY,
+  span: "UnlinkIdentity",
 }));
 
 export type UntagResourceError =
@@ -1272,6 +1330,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIdentityPoolError =
@@ -1313,6 +1373,8 @@ export const updateIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityPool",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityPool",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://transfer.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Transfer",
+  service: "Transfer",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1517,6 +1533,8 @@ export const createAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccess",
+  telemetry: TELEMETRY,
+  span: "CreateAccess",
 }));
 
 export type CreateAgreementError =
@@ -1553,6 +1571,8 @@ export const createAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgreement",
+  telemetry: TELEMETRY,
+  span: "CreateAgreement",
 }));
 
 export type CreateConnectorError =
@@ -1587,6 +1607,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateProfileError =
@@ -1617,6 +1639,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateServerError =
@@ -1651,6 +1675,8 @@ export const createServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServer",
+  telemetry: TELEMETRY,
+  span: "CreateServer",
 }));
 
 export type CreateUserError =
@@ -1681,6 +1707,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateWebAppError =
@@ -1713,6 +1741,8 @@ export const createWebApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebApp",
+  telemetry: TELEMETRY,
+  span: { op: "CreateWebApp", attributes: { "url.template": "/createWebApp" } },
 }));
 
 export type CreateWorkflowError =
@@ -1745,6 +1775,8 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type DeleteAccessError =
@@ -1773,6 +1805,8 @@ export const deleteAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccess",
+  telemetry: TELEMETRY,
+  span: "DeleteAccess",
 }));
 
 export type DeleteAgreementError =
@@ -1801,6 +1835,8 @@ export const deleteAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgreement",
+  telemetry: TELEMETRY,
+  span: "DeleteAgreement",
 }));
 
 export type DeleteCertificateError =
@@ -1829,6 +1865,8 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type DeleteConnectorError =
@@ -1857,6 +1895,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteHostKeyError =
@@ -1887,6 +1927,8 @@ export const deleteHostKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostKey",
+  telemetry: TELEMETRY,
+  span: "DeleteHostKey",
 }));
 
 export type DeleteProfileError =
@@ -1915,6 +1957,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteServerError =
@@ -1947,6 +1991,8 @@ export const deleteServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServer",
+  telemetry: TELEMETRY,
+  span: "DeleteServer",
 }));
 
 export type DeleteSshPublicKeyError =
@@ -1977,6 +2023,8 @@ export const deleteSshPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSshPublicKey",
+  telemetry: TELEMETRY,
+  span: "DeleteSshPublicKey",
 }));
 
 export type DeleteUserError =
@@ -2009,6 +2057,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteWebAppError =
@@ -2039,6 +2089,8 @@ export const deleteWebApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebApp",
+  telemetry: TELEMETRY,
+  span: { op: "DeleteWebApp", attributes: { "url.template": "/deleteWebApp" } },
 }));
 
 export type DeleteWebAppCustomizationError =
@@ -2071,6 +2123,11 @@ export const deleteWebAppCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebAppCustomization",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteWebAppCustomization",
+    attributes: { "url.template": "/deleteWebAppCustomization" },
+  },
 }));
 
 export type DeleteWorkflowError =
@@ -2101,6 +2158,8 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DescribeAccessError =
@@ -2131,6 +2190,8 @@ export const describeAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccess",
+  telemetry: TELEMETRY,
+  span: "DescribeAccess",
 }));
 
 export type DescribeAgreementError =
@@ -2159,6 +2220,8 @@ export const describeAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgreement",
+  telemetry: TELEMETRY,
+  span: "DescribeAgreement",
 }));
 
 export type DescribeCertificateError =
@@ -2189,6 +2252,8 @@ export const describeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificate",
+  telemetry: TELEMETRY,
+  span: "DescribeCertificate",
 }));
 
 export type DescribeConnectorError =
@@ -2217,6 +2282,8 @@ export const describeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnector",
+  telemetry: TELEMETRY,
+  span: "DescribeConnector",
 }));
 
 export type DescribeExecutionError =
@@ -2249,6 +2316,8 @@ export const describeExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeExecution",
 }));
 
 export type DescribeHostKeyError =
@@ -2277,6 +2346,8 @@ export const describeHostKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHostKey",
+  telemetry: TELEMETRY,
+  span: "DescribeHostKey",
 }));
 
 export type DescribeProfileError =
@@ -2305,6 +2376,8 @@ export const describeProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProfile",
+  telemetry: TELEMETRY,
+  span: "DescribeProfile",
 }));
 
 export type DescribeSecurityPolicyError =
@@ -2333,6 +2406,8 @@ export const describeSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeSecurityPolicy",
 }));
 
 export type DescribeServerError =
@@ -2363,6 +2438,8 @@ export const describeServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServer",
+  telemetry: TELEMETRY,
+  span: "DescribeServer",
 }));
 
 export type DescribeUserError =
@@ -2393,6 +2470,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type DescribeWebAppError =
@@ -2425,6 +2504,8 @@ export const describeWebApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWebApp",
+  telemetry: TELEMETRY,
+  span: { op: "DescribeWebApp", attributes: { "url.template": "/describeWebApp" } },
 }));
 
 export type DescribeWebAppCustomizationError =
@@ -2455,6 +2536,11 @@ export const describeWebAppCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWebAppCustomization",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeWebAppCustomization",
+    attributes: { "url.template": "/describeWebAppCustomization" },
+  },
 }));
 
 export type DescribeWorkflowError =
@@ -2483,6 +2569,8 @@ export const describeWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkflow",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkflow",
 }));
 
 export type ImportCertificateError =
@@ -2531,6 +2619,8 @@ export const importCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificate",
+  telemetry: TELEMETRY,
+  span: "ImportCertificate",
 }));
 
 export type ImportHostKeyError =
@@ -2563,6 +2653,8 @@ export const importHostKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportHostKey",
+  telemetry: TELEMETRY,
+  span: "ImportHostKey",
 }));
 
 export type ImportSshPublicKeyError =
@@ -2597,6 +2689,8 @@ export const importSshPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSshPublicKey",
+  telemetry: TELEMETRY,
+  span: "ImportSshPublicKey",
 }));
 
 export type ListAccessesError =
@@ -2634,6 +2728,8 @@ export const listAccesses: API.PaginatedOperationMethod<
     items: "Accesses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccesses",
 })) as any;
 
 export type ListAgreementsError =
@@ -2671,6 +2767,8 @@ export const listAgreements: API.PaginatedOperationMethod<
     items: "Agreements",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgreements",
 })) as any;
 
 export type ListCertificatesError =
@@ -2708,6 +2806,8 @@ export const listCertificates: API.PaginatedOperationMethod<
     items: "Certificates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCertificates",
 })) as any;
 
 export type ListConnectorsError =
@@ -2745,6 +2845,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "Connectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListExecutionsError =
@@ -2784,6 +2886,8 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "Executions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutions",
 })) as any;
 
 export type ListFileTransferResultsError =
@@ -2821,6 +2925,11 @@ export const listFileTransferResults: API.PaginatedOperationMethod<
     items: "FileTransferResults",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListFileTransferResults",
+    attributes: { "url.template": "/listFileTransferResults" },
+  },
 })) as any;
 
 export type ListHostKeysError =
@@ -2851,6 +2960,8 @@ export const listHostKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHostKeys",
+  telemetry: TELEMETRY,
+  span: "ListHostKeys",
 }));
 
 export type ListProfilesError =
@@ -2888,6 +2999,8 @@ export const listProfiles: API.PaginatedOperationMethod<
     items: "Profiles",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfiles",
 })) as any;
 
 export type ListSecurityPoliciesError =
@@ -2923,6 +3036,8 @@ export const listSecurityPolicies: API.PaginatedOperationMethod<
     items: "SecurityPolicyNames",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityPolicies",
 })) as any;
 
 export type ListServersError =
@@ -2958,6 +3073,8 @@ export const listServers: API.PaginatedOperationMethod<
     items: "Servers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2993,6 +3110,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListUsersError =
@@ -3030,6 +3149,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type ListWebAppsError =
@@ -3067,6 +3188,8 @@ export const listWebApps: API.PaginatedOperationMethod<
     items: "WebApps",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListWebApps", attributes: { "url.template": "/listWebApps" } },
 })) as any;
 
 export type ListWorkflowsError =
@@ -3102,6 +3225,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "Workflows",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type SendWorkflowStepStateError =
@@ -3136,6 +3261,8 @@ export const sendWorkflowStepState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWorkflowStepState",
+  telemetry: TELEMETRY,
+  span: "SendWorkflowStepState",
 }));
 
 export type StartDirectoryListingError =
@@ -3180,6 +3307,8 @@ export const startDirectoryListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDirectoryListing",
+  telemetry: TELEMETRY,
+  span: "StartDirectoryListing",
 }));
 
 export type StartFileTransferError =
@@ -3218,6 +3347,8 @@ export const startFileTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFileTransfer",
+  telemetry: TELEMETRY,
+  span: "StartFileTransfer",
 }));
 
 export type StartRemoteDeleteError =
@@ -3248,6 +3379,8 @@ export const startRemoteDelete: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRemoteDelete",
+  telemetry: TELEMETRY,
+  span: { op: "StartRemoteDelete", attributes: { "url.template": "/startRemoteDelete" } },
 }));
 
 export type StartRemoteMoveError =
@@ -3278,6 +3411,8 @@ export const startRemoteMove: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRemoteMove",
+  telemetry: TELEMETRY,
+  span: { op: "StartRemoteMove", attributes: { "url.template": "/startRemoteMove" } },
 }));
 
 export type StartServerError =
@@ -3312,6 +3447,8 @@ export const startServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartServer",
+  telemetry: TELEMETRY,
+  span: "StartServer",
 }));
 
 export type StopServerError =
@@ -3348,6 +3485,8 @@ export const stopServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopServer",
+  telemetry: TELEMETRY,
+  span: "StopServer",
 }));
 
 export type TagResourceError =
@@ -3378,6 +3517,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestConnectionError =
@@ -3406,6 +3547,8 @@ export const testConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnection",
+  telemetry: TELEMETRY,
+  span: "TestConnection",
 }));
 
 export type TestIdentityProviderError =
@@ -3456,6 +3599,8 @@ export const testIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestIdentityProvider",
+  telemetry: TELEMETRY,
+  span: "TestIdentityProvider",
 }));
 
 export type UntagResourceError =
@@ -3486,6 +3631,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessError =
@@ -3518,6 +3665,8 @@ export const updateAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccess",
+  telemetry: TELEMETRY,
+  span: "UpdateAccess",
 }));
 
 export type UpdateAgreementError =
@@ -3554,6 +3703,8 @@ export const updateAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgreement",
+  telemetry: TELEMETRY,
+  span: "UpdateAgreement",
 }));
 
 export type UpdateCertificateError =
@@ -3584,6 +3735,8 @@ export const updateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificate",
+  telemetry: TELEMETRY,
+  span: "UpdateCertificate",
 }));
 
 export type UpdateConnectorError =
@@ -3616,6 +3769,8 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 export type UpdateHostKeyError =
@@ -3646,6 +3801,8 @@ export const updateHostKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHostKey",
+  telemetry: TELEMETRY,
+  span: "UpdateHostKey",
 }));
 
 export type UpdateProfileError =
@@ -3676,6 +3833,8 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UpdateServerError =
@@ -3714,6 +3873,8 @@ export const updateServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServer",
+  telemetry: TELEMETRY,
+  span: "UpdateServer",
 }));
 
 export type UpdateUserError =
@@ -3752,6 +3913,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateWebAppError =
@@ -3786,6 +3949,8 @@ export const updateWebApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebApp",
+  telemetry: TELEMETRY,
+  span: { op: "UpdateWebApp", attributes: { "url.template": "/updateWebApp" } },
 }));
 
 export type UpdateWebAppCustomizationError =
@@ -3818,6 +3983,11 @@ export const updateWebAppCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebAppCustomization",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateWebAppCustomization",
+    attributes: { "url.template": "/updateWebAppCustomization" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

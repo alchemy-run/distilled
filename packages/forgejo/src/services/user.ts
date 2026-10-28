@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoUser",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1314,6 +1327,8 @@ export const createUserVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserVariable",
 }));
 
 export type DeleteUserRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -1329,6 +1344,8 @@ export const deleteUserRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserRunner",
 }));
 
 export type DeleteUserSecretError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1344,6 +1361,8 @@ export const deleteUserSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserSecret",
 }));
 
 export type DeleteUserVariableError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1359,6 +1378,8 @@ export const deleteUserVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserVariable",
 }));
 
 export type FollowUserCurrentActivityPubError = Forbidden | NotFound | ForgejoOpError;
@@ -1374,6 +1395,8 @@ export const followUserCurrentActivityPub: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FollowUserCurrentActivityPub",
 }));
 
 export type GetUserError = NotFound | ForgejoOpError;
@@ -1385,6 +1408,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Fo
     errors: [NotFound],
     protocol: ForgejoProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUser",
   }));
 
 export type GetUserRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -1400,6 +1425,8 @@ export const getUserRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRunner",
 }));
 
 export type GetUserRunnersError = BadRequest | NotFound | ForgejoOpError;
@@ -1415,6 +1442,8 @@ export const getUserRunners: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRunners",
 }));
 
 export type GetUserSettingsError = Forbidden | ForgejoOpError;
@@ -1430,6 +1459,8 @@ export const getUserSettings: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserSettings",
 }));
 
 export type GetUserVariableError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1445,6 +1476,8 @@ export const getUserVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserVariable",
 }));
 
 export type GetUserVariablesListError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1460,6 +1493,8 @@ export const getUserVariablesList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserVariablesList",
 }));
 
 export type GetVerificationTokenError = Forbidden | NotFound | ForgejoOpError;
@@ -1475,6 +1510,8 @@ export const getVerificationToken: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVerificationToken",
 }));
 
 export type RegisterUserRunnerError = BadRequest | NotFound | ForgejoOpError;
@@ -1490,6 +1527,8 @@ export const registerUserRunner: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterUserRunner",
 }));
 
 export type SearchUserError = ForgejoOpError;
@@ -1505,6 +1544,8 @@ export const searchUser: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchUser",
 }));
 
 export type UnblockUserError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1520,6 +1561,8 @@ export const unblockUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnblockUser",
 }));
 
 export type UpdateUserSecretError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1535,6 +1578,8 @@ export const updateUserSecret: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserSecret",
 }));
 
 export type UpdateUserSettingsError = Forbidden | ForgejoOpError;
@@ -1550,6 +1595,8 @@ export const updateUserSettings: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserSettings",
 }));
 
 export type UpdateUserVariableError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1565,6 +1612,8 @@ export const updateUserVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserVariable",
 }));
 
 export type UserAddEmailError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -1580,6 +1629,8 @@ export const userAddEmail: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserAddEmail",
 }));
 
 export type UserBlockUserError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -1595,6 +1646,8 @@ export const userBlockUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserBlockUser",
 }));
 
 export type UserCheckFollowingError = NotFound | ForgejoOpError;
@@ -1610,6 +1663,8 @@ export const userCheckFollowing: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCheckFollowing",
 }));
 
 export type UserCheckQuotaError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -1625,6 +1680,8 @@ export const userCheckQuota: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCheckQuota",
 }));
 
 export type UserCreateHookError = Forbidden | ForgejoOpError;
@@ -1640,6 +1697,8 @@ export const userCreateHook: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCreateHook",
 }));
 
 export type UserCreateOAuth2ApplicationError = BadRequest | Forbidden | ForgejoOpError;
@@ -1655,6 +1714,8 @@ export const userCreateOAuth2Application: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCreateOAuth2Application",
 }));
 
 export type UserCreateTokenError = BadRequest | Forbidden | NotFound | ForgejoOpError;
@@ -1670,6 +1731,8 @@ export const userCreateToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCreateToken",
 }));
 
 export type UserCurrentCheckFollowingError = Forbidden | NotFound | ForgejoOpError;
@@ -1685,6 +1748,8 @@ export const userCurrentCheckFollowing: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentCheckFollowing",
 }));
 
 export type UserCurrentCheckStarringError = Forbidden | NotFound | ForgejoOpError;
@@ -1700,6 +1765,8 @@ export const userCurrentCheckStarring: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentCheckStarring",
 }));
 
 export type UserCurrentDeleteFollowError = Forbidden | NotFound | ForgejoOpError;
@@ -1715,6 +1782,8 @@ export const userCurrentDeleteFollow: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentDeleteFollow",
 }));
 
 export type UserCurrentDeleteGPGKeyError = Forbidden | NotFound | ForgejoOpError;
@@ -1730,6 +1799,8 @@ export const userCurrentDeleteGPGKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentDeleteGPGKey",
 }));
 
 export type UserCurrentDeleteKeyError = Forbidden | NotFound | ForgejoOpError;
@@ -1745,6 +1816,8 @@ export const userCurrentDeleteKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentDeleteKey",
 }));
 
 export type UserCurrentDeleteStarError = Forbidden | NotFound | ForgejoOpError;
@@ -1760,6 +1833,8 @@ export const userCurrentDeleteStar: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentDeleteStar",
 }));
 
 export type UserCurrentGetGPGKeyError = Forbidden | NotFound | ForgejoOpError;
@@ -1775,6 +1850,8 @@ export const userCurrentGetGPGKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentGetGPGKey",
 }));
 
 export type UserCurrentGetKeyError = Forbidden | NotFound | ForgejoOpError;
@@ -1790,6 +1867,8 @@ export const userCurrentGetKey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentGetKey",
 }));
 
 export type UserCurrentListFollowersError = Forbidden | ForgejoOpError;
@@ -1805,6 +1884,8 @@ export const userCurrentListFollowers: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentListFollowers",
 }));
 
 export type UserCurrentListFollowingError = Forbidden | ForgejoOpError;
@@ -1820,6 +1901,8 @@ export const userCurrentListFollowing: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentListFollowing",
 }));
 
 export type UserCurrentListGPGKeysError = Forbidden | ForgejoOpError;
@@ -1835,6 +1918,8 @@ export const userCurrentListGPGKeys: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentListGPGKeys",
 }));
 
 export type UserCurrentListKeysError = Forbidden | ForgejoOpError;
@@ -1850,6 +1935,8 @@ export const userCurrentListKeys: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentListKeys",
 }));
 
 export type UserCurrentListReposError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -1865,6 +1952,8 @@ export const userCurrentListRepos: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentListRepos",
 }));
 
 export type UserCurrentListStarredError = Forbidden | ForgejoOpError;
@@ -1880,6 +1969,8 @@ export const userCurrentListStarred: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentListStarred",
 }));
 
 export type UserCurrentListSubscriptionsError = Forbidden | ForgejoOpError;
@@ -1895,6 +1986,8 @@ export const userCurrentListSubscriptions: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentListSubscriptions",
 }));
 
 export type UserCurrentPostGPGKeyError =
@@ -1914,6 +2007,8 @@ export const userCurrentPostGPGKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentPostGPGKey",
 }));
 
 export type UserCurrentPostKeyError = Forbidden | UnprocessableEntity | ForgejoOpError;
@@ -1929,6 +2024,8 @@ export const userCurrentPostKey: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentPostKey",
 }));
 
 export type UserCurrentPutFollowError = Forbidden | NotFound | ForgejoOpError;
@@ -1944,6 +2041,8 @@ export const userCurrentPutFollow: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentPutFollow",
 }));
 
 export type UserCurrentPutStarError = Forbidden | NotFound | ForgejoOpError;
@@ -1959,6 +2058,8 @@ export const userCurrentPutStar: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentPutStar",
 }));
 
 export type UserCurrentTrackedTimesError = Forbidden | ForgejoOpError;
@@ -1974,6 +2075,8 @@ export const userCurrentTrackedTimes: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserCurrentTrackedTimes",
 }));
 
 export type UserDeleteAccessTokenError =
@@ -1993,6 +2096,8 @@ export const userDeleteAccessToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserDeleteAccessToken",
 }));
 
 export type UserDeleteAvatarError = Forbidden | ForgejoOpError;
@@ -2008,6 +2113,8 @@ export const userDeleteAvatar: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserDeleteAvatar",
 }));
 
 export type UserDeleteEmailError = Forbidden | NotFound | ForgejoOpError;
@@ -2023,6 +2130,8 @@ export const userDeleteEmail: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserDeleteEmail",
 }));
 
 export type UserDeleteHookError = Forbidden | ForgejoOpError;
@@ -2038,6 +2147,8 @@ export const userDeleteHook: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserDeleteHook",
 }));
 
 export type UserDeleteOAuth2ApplicationError = Forbidden | NotFound | ForgejoOpError;
@@ -2053,6 +2164,8 @@ export const userDeleteOAuth2Application: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserDeleteOAuth2Application",
 }));
 
 export type UserEditHookError = Forbidden | ForgejoOpError;
@@ -2068,6 +2181,8 @@ export const userEditHook: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserEditHook",
 }));
 
 export type UserGetCurrentError = Forbidden | ForgejoOpError;
@@ -2083,6 +2198,8 @@ export const userGetCurrent: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserGetCurrent",
 }));
 
 export type UserGetHeatmapDataError = NotFound | ForgejoOpError;
@@ -2098,6 +2215,8 @@ export const userGetHeatmapData: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserGetHeatmapData",
 }));
 
 export type UserGetHookError = Forbidden | ForgejoOpError;
@@ -2113,6 +2232,8 @@ export const userGetHook: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserGetHook",
 }));
 
 export type UserGetOAuth2ApplicationError = Forbidden | NotFound | ForgejoOpError;
@@ -2128,6 +2249,8 @@ export const userGetOAuth2Application: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserGetOAuth2Application",
 }));
 
 export type UserGetOAuth2ApplicationsError = Forbidden | ForgejoOpError;
@@ -2143,6 +2266,8 @@ export const userGetOAuth2Applications: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserGetOAuth2Applications",
 }));
 
 export type UserGetQuotaError = Forbidden | ForgejoOpError;
@@ -2158,6 +2283,8 @@ export const userGetQuota: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserGetQuota",
 }));
 
 export type UserGetStopWatchesError = Forbidden | ForgejoOpError;
@@ -2173,6 +2300,8 @@ export const userGetStopWatches: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserGetStopWatches",
 }));
 
 export type UserGetTokensError = Forbidden | NotFound | ForgejoOpError;
@@ -2188,6 +2317,8 @@ export const userGetTokens: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserGetTokens",
 }));
 
 export type UserListActivityFeedsError = NotFound | ForgejoOpError;
@@ -2203,6 +2334,8 @@ export const userListActivityFeeds: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListActivityFeeds",
 }));
 
 export type UserListBlockedUsersError = Forbidden | ForgejoOpError;
@@ -2218,6 +2351,8 @@ export const userListBlockedUsers: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListBlockedUsers",
 }));
 
 export type UserListEmailsError = Forbidden | ForgejoOpError;
@@ -2233,6 +2368,8 @@ export const userListEmails: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListEmails",
 }));
 
 export type UserListFollowersError = NotFound | ForgejoOpError;
@@ -2248,6 +2385,8 @@ export const userListFollowers: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListFollowers",
 }));
 
 export type UserListFollowingError = NotFound | ForgejoOpError;
@@ -2263,6 +2402,8 @@ export const userListFollowing: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListFollowing",
 }));
 
 export type UserListGPGKeysError = NotFound | ForgejoOpError;
@@ -2278,6 +2419,8 @@ export const userListGPGKeys: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListGPGKeys",
 }));
 
 export type UserListHooksError = Forbidden | ForgejoOpError;
@@ -2293,6 +2436,8 @@ export const userListHooks: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListHooks",
 }));
 
 export type UserListKeysError = NotFound | ForgejoOpError;
@@ -2308,6 +2453,8 @@ export const userListKeys: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListKeys",
 }));
 
 export type UserListQuotaArtifactsError = Forbidden | ForgejoOpError;
@@ -2323,6 +2470,8 @@ export const userListQuotaArtifacts: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListQuotaArtifacts",
 }));
 
 export type UserListQuotaAttachmentsError = Forbidden | ForgejoOpError;
@@ -2338,6 +2487,8 @@ export const userListQuotaAttachments: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListQuotaAttachments",
 }));
 
 export type UserListQuotaPackagesError = Forbidden | ForgejoOpError;
@@ -2353,6 +2504,8 @@ export const userListQuotaPackages: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListQuotaPackages",
 }));
 
 export type UserListReposError = NotFound | ForgejoOpError;
@@ -2368,6 +2521,8 @@ export const userListRepos: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListRepos",
 }));
 
 export type UserListStarredError = NotFound | ForgejoOpError;
@@ -2383,6 +2538,8 @@ export const userListStarred: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListStarred",
 }));
 
 export type UserListSubscriptionsError = NotFound | ForgejoOpError;
@@ -2398,6 +2555,8 @@ export const userListSubscriptions: API.OperationMethod<
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListSubscriptions",
 }));
 
 export type UserListTeamsError = Forbidden | ForgejoOpError;
@@ -2413,6 +2572,8 @@ export const userListTeams: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserListTeams",
 }));
 
 export type UserSearchRunJobsError = Forbidden | ForgejoOpError;
@@ -2428,6 +2589,8 @@ export const userSearchRunJobs: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserSearchRunJobs",
 }));
 
 export type UserUpdateAvatarError = Forbidden | ForgejoOpError;
@@ -2443,6 +2606,8 @@ export const userUpdateAvatar: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserUpdateAvatar",
 }));
 
 export type UserUpdateOAuth2ApplicationError = Forbidden | NotFound | ForgejoOpError;
@@ -2458,6 +2623,8 @@ export const userUpdateOAuth2Application: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserUpdateOAuth2Application",
 }));
 
 export type UserVerifyGPGKeyError = Forbidden | NotFound | UnprocessableEntity | ForgejoOpError;
@@ -2473,6 +2640,8 @@ export const userVerifyGPGKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserVerifyGPGKey",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

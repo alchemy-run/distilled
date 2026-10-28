@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { PolarOpError, PolarOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "polar-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Polar",
+  service: "Polar",
+  labels: "polar",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -13896,6 +13909,8 @@ export const benefitGrantsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BenefitGrantsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -13920,6 +13935,8 @@ export const benefitsCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BenefitsCreate",
 }));
 
 export type BenefitsDeleteError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
@@ -13935,6 +13952,8 @@ export const benefitsDelete: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BenefitsDelete",
 }));
 
 export type BenefitsFilesError = NotFound | UnprocessableEntity | PolarOpError;
@@ -13952,6 +13971,8 @@ export const benefitsFiles: API.PaginatedOperationMethod<
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BenefitsFiles",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -13976,6 +13997,8 @@ export const benefitsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BenefitsGet",
 }));
 
 export type BenefitsGrantsError = NotFound | UnprocessableEntity | PolarOpError;
@@ -13993,6 +14016,8 @@ export const benefitsGrants: API.PaginatedOperationMethod<
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BenefitsGrants",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14019,6 +14044,8 @@ export const benefitsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BenefitsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14043,6 +14070,8 @@ export const benefitsUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BenefitsUpdate",
 }));
 
 export type CheckoutLinksCreateError = UnprocessableEntity | PolarOpError;
@@ -14058,6 +14087,8 @@ export const checkoutLinksCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckoutLinksCreate",
 }));
 
 export type CheckoutLinksDeleteError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14073,6 +14104,8 @@ export const checkoutLinksDelete: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckoutLinksDelete",
 }));
 
 export type CheckoutLinksGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14088,6 +14121,8 @@ export const checkoutLinksGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckoutLinksGet",
 }));
 
 export type CheckoutLinksListError = UnprocessableEntity | PolarOpError;
@@ -14105,6 +14140,8 @@ export const checkoutLinksList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CheckoutLinksList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14129,6 +14166,8 @@ export const checkoutLinksUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckoutLinksUpdate",
 }));
 
 export type CheckoutsCreateError = UnprocessableEntity | PolarOpError;
@@ -14144,6 +14183,8 @@ export const checkoutsCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckoutsCreate",
 }));
 
 export type CheckoutsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14159,6 +14200,8 @@ export const checkoutsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckoutsGet",
 }));
 
 export type CheckoutsListError = UnprocessableEntity | PolarOpError;
@@ -14176,6 +14219,8 @@ export const checkoutsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CheckoutsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14200,6 +14245,8 @@ export const checkoutsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckoutsUpdate",
 }));
 
 export type ClaimCustomerSeatsGetInfoError =
@@ -14220,6 +14267,8 @@ export const claimCustomerSeatsGetInfo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimCustomerSeatsGetInfo",
 }));
 
 export type ConfirmCheckoutsClientError =
@@ -14241,6 +14290,8 @@ export const confirmCheckoutsClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmCheckoutsClient",
 }));
 
 export type CustomerMetersGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14256,6 +14307,8 @@ export const customerMetersGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerMetersGet",
 }));
 
 export type CustomerMetersListError = UnprocessableEntity | PolarOpError;
@@ -14273,6 +14326,8 @@ export const customerMetersList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerMetersList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14297,6 +14352,8 @@ export const customerPortalBenefitGrantsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalBenefitGrantsGet",
 }));
 
 export type CustomerPortalBenefitGrantsListError = UnprocessableEntity | PolarOpError;
@@ -14314,6 +14371,8 @@ export const customerPortalBenefitGrantsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalBenefitGrantsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14342,6 +14401,8 @@ export const customerPortalBenefitGrantsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalBenefitGrantsUpdate",
 }));
 
 export type CustomerPortalCustomerMetersGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14357,6 +14418,8 @@ export const customerPortalCustomerMetersGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalCustomerMetersGet",
 }));
 
 export type CustomerPortalCustomerMetersListError = UnprocessableEntity | PolarOpError;
@@ -14374,6 +14437,8 @@ export const customerPortalCustomerMetersList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalCustomerMetersList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14401,6 +14466,8 @@ export const customerPortalCustomersAddPaymentMethod: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalCustomersAddPaymentMethod",
 }));
 
 export type CustomerPortalCustomersConfirmPaymentMethodError =
@@ -14427,6 +14494,8 @@ export const customerPortalCustomersConfirmPaymentMethod: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalCustomersConfirmPaymentMethod",
 }));
 
 export type CustomerPortalCustomersDeletePaymentMethodError =
@@ -14450,6 +14519,8 @@ export const customerPortalCustomersDeletePaymentMethod: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalCustomersDeletePaymentMethod",
 }));
 
 export type CustomerPortalCustomerSessionGetAuthenticatedUserError = PolarOpError;
@@ -14469,6 +14540,8 @@ export const customerPortalCustomerSessionGetAuthenticatedUser: API.OperationMet
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalCustomerSessionGetAuthenticatedUser",
 }));
 
 export type CustomerPortalCustomerSessionIntrospectError = PolarOpError;
@@ -14484,6 +14557,8 @@ export const customerPortalCustomerSessionIntrospect: API.OperationMethod<
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalCustomerSessionIntrospect",
 }));
 
 export type CustomerPortalCustomersGetError = PolarOpError;
@@ -14499,6 +14574,8 @@ export const customerPortalCustomersGet: API.OperationMethod<
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalCustomersGet",
 }));
 
 export type CustomerPortalCustomersListPaymentMethodsError = UnprocessableEntity | PolarOpError;
@@ -14520,6 +14597,8 @@ export const customerPortalCustomersListPaymentMethods: API.PaginatedOperationMe
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalCustomersListPaymentMethods",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14544,6 +14623,8 @@ export const customerPortalCustomersUpdate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalCustomersUpdate",
 }));
 
 export type CustomerPortalDownloadablesListError = UnprocessableEntity | PolarOpError;
@@ -14561,6 +14642,8 @@ export const customerPortalDownloadablesList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalDownloadablesList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14589,6 +14672,8 @@ export const customerPortalLicenseKeysActivate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalLicenseKeysActivate",
 }));
 
 export type CustomerPortalLicenseKeysDeactivateError =
@@ -14607,6 +14692,8 @@ export const customerPortalLicenseKeysDeactivate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalLicenseKeysDeactivate",
 }));
 
 export type CustomerPortalLicenseKeysGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14622,6 +14709,8 @@ export const customerPortalLicenseKeysGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalLicenseKeysGet",
 }));
 
 export type CustomerPortalLicenseKeysListError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14639,6 +14728,8 @@ export const customerPortalLicenseKeysList: API.PaginatedOperationMethod<
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalLicenseKeysList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14667,6 +14758,8 @@ export const customerPortalLicenseKeysRotate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalLicenseKeysRotate",
 }));
 
 export type CustomerPortalLicenseKeysValidateError =
@@ -14686,6 +14779,8 @@ export const customerPortalLicenseKeysValidate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalLicenseKeysValidate",
 }));
 
 export type CustomerPortalMembersAddMemberError =
@@ -14705,6 +14800,8 @@ export const customerPortalMembersAddMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalMembersAddMember",
 }));
 
 export type CustomerPortalMembersListMembersError = Forbidden | UnprocessableEntity | PolarOpError;
@@ -14722,6 +14819,8 @@ export const customerPortalMembersListMembers: API.PaginatedOperationMethod<
     errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalMembersListMembers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14751,6 +14850,8 @@ export const customerPortalMembersRemoveMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalMembersRemoveMember",
 }));
 
 export type CustomerPortalMembersUpdateMemberError =
@@ -14771,6 +14872,8 @@ export const customerPortalMembersUpdateMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalMembersUpdateMember",
 }));
 
 export type CustomerPortalOrdersGenerateInvoiceError =
@@ -14790,6 +14893,8 @@ export const customerPortalOrdersGenerateInvoice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalOrdersGenerateInvoice",
 }));
 
 export type CustomerPortalOrdersGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14805,6 +14910,8 @@ export const customerPortalOrdersGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalOrdersGet",
 }));
 
 export type CustomerPortalOrdersGetPaymentStatusError =
@@ -14823,6 +14930,8 @@ export const customerPortalOrdersGetPaymentStatus: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalOrdersGetPaymentStatus",
 }));
 
 export type CustomerPortalOrdersInvoiceError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14838,6 +14947,8 @@ export const customerPortalOrdersInvoice: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalOrdersInvoice",
 }));
 
 export type CustomerPortalOrdersListError = UnprocessableEntity | PolarOpError;
@@ -14855,6 +14966,8 @@ export const customerPortalOrdersList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalOrdersList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14879,6 +14992,8 @@ export const customerPortalOrdersReceipt: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalOrdersReceipt",
 }));
 
 export type CustomerPortalOrdersUpdateError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14894,6 +15009,8 @@ export const customerPortalOrdersUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalOrdersUpdate",
 }));
 
 export type CustomerPortalOrganizationsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14909,6 +15026,8 @@ export const customerPortalOrganizationsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalOrganizationsGet",
 }));
 
 export type CustomerPortalSeatsAssignSeatError =
@@ -14929,6 +15048,8 @@ export const customerPortalSeatsAssignSeat: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalSeatsAssignSeat",
 }));
 
 export type CustomerPortalSeatsListClaimedSubscriptionsError = UnprocessableEntity | PolarOpError;
@@ -14950,6 +15071,8 @@ export const customerPortalSeatsListClaimedSubscriptions: API.PaginatedOperation
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalSeatsListClaimedSubscriptions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14978,6 +15101,8 @@ export const customerPortalSeatsListSeats: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalSeatsListSeats",
 }));
 
 export type CustomerPortalSeatsResendInvitationError =
@@ -14998,6 +15123,8 @@ export const customerPortalSeatsResendInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalSeatsResendInvitation",
 }));
 
 export type CustomerPortalSeatsRevokeSeatError =
@@ -15017,6 +15144,8 @@ export const customerPortalSeatsRevokeSeat: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalSeatsRevokeSeat",
 }));
 
 export type CustomerPortalSubscriptionsCancelError =
@@ -15036,6 +15165,8 @@ export const customerPortalSubscriptionsCancel: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalSubscriptionsCancel",
 }));
 
 export type CustomerPortalSubscriptionsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15051,6 +15182,8 @@ export const customerPortalSubscriptionsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalSubscriptionsGet",
 }));
 
 export type CustomerPortalSubscriptionsListError = UnprocessableEntity | PolarOpError;
@@ -15068,6 +15201,8 @@ export const customerPortalSubscriptionsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalSubscriptionsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15097,6 +15232,8 @@ export const customerPortalSubscriptionsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalSubscriptionsUpdate",
 }));
 
 export type CustomerPortalWalletsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15112,6 +15249,8 @@ export const customerPortalWalletsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerPortalWalletsGet",
 }));
 
 export type CustomerPortalWalletsListError = UnprocessableEntity | PolarOpError;
@@ -15129,6 +15268,8 @@ export const customerPortalWalletsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomerPortalWalletsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15153,6 +15294,8 @@ export const customersCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersCreate",
 }));
 
 export type CustomersDeleteError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15168,6 +15311,8 @@ export const customersDelete: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersDelete",
 }));
 
 export type CustomersDeleteExternalError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15183,6 +15328,8 @@ export const customersDeleteExternal: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersDeleteExternal",
 }));
 
 export type CustomerSeatsAssignSeatError =
@@ -15203,6 +15350,8 @@ export const customerSeatsAssignSeat: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerSeatsAssignSeat",
 }));
 
 export type CustomerSeatsClaimSeatError =
@@ -15222,6 +15371,8 @@ export const customerSeatsClaimSeat: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerSeatsClaimSeat",
 }));
 
 export type CustomerSeatsListSeatsError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
@@ -15237,6 +15388,8 @@ export const customerSeatsListSeats: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerSeatsListSeats",
 }));
 
 export type CustomerSeatsResendInvitationError =
@@ -15257,6 +15410,8 @@ export const customerSeatsResendInvitation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerSeatsResendInvitation",
 }));
 
 export type CustomerSeatsRevokeSeatError =
@@ -15276,6 +15431,8 @@ export const customerSeatsRevokeSeat: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerSeatsRevokeSeat",
 }));
 
 export type CustomerSessionsCreateError = Conflict | UnprocessableEntity | PolarOpError;
@@ -15291,6 +15448,8 @@ export const customerSessionsCreate: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerSessionsCreate",
 }));
 
 export type CustomersExportError = UnprocessableEntity | PolarOpError;
@@ -15306,6 +15465,8 @@ export const customersExport: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersExport",
 }));
 
 export type CustomersGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15321,6 +15482,8 @@ export const customersGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersGet",
 }));
 
 export type CustomersGetExternalError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15336,6 +15499,8 @@ export const customersGetExternal: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersGetExternal",
 }));
 
 export type CustomersGetStateError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15351,6 +15516,8 @@ export const customersGetState: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersGetState",
 }));
 
 export type CustomersGetStateExternalError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15366,6 +15533,8 @@ export const customersGetStateExternal: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersGetStateExternal",
 }));
 
 export type CustomersListError = UnprocessableEntity | PolarOpError;
@@ -15383,6 +15552,8 @@ export const customersList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomersList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15409,6 +15580,8 @@ export const customersListPaymentMethods: API.PaginatedOperationMethod<
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomersListPaymentMethods",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15438,6 +15611,8 @@ export const customersListPaymentMethodsExternal: API.PaginatedOperationMethod<
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomersListPaymentMethodsExternal",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15462,6 +15637,8 @@ export const customersMembersCreate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersMembersCreate",
 }));
 
 export type CustomersMembersCreateExternalError =
@@ -15482,6 +15659,8 @@ export const customersMembersCreateExternal: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersMembersCreateExternal",
 }));
 
 export type CustomersMembersDeleteError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15497,6 +15676,8 @@ export const customersMembersDelete: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersMembersDelete",
 }));
 
 export type CustomersMembersDeleteExternalError =
@@ -15516,6 +15697,8 @@ export const customersMembersDeleteExternal: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersMembersDeleteExternal",
 }));
 
 export type CustomersMembersGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15531,6 +15714,8 @@ export const customersMembersGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersMembersGet",
 }));
 
 export type CustomersMembersGetExternalError =
@@ -15550,6 +15735,8 @@ export const customersMembersGetExternal: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersMembersGetExternal",
 }));
 
 export type CustomersMembersListError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15567,6 +15754,8 @@ export const customersMembersList: API.PaginatedOperationMethod<
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomersMembersList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15597,6 +15786,8 @@ export const customersMembersListExternal: API.PaginatedOperationMethod<
     errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomersMembersListExternal",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15621,6 +15812,8 @@ export const customersMembersUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersMembersUpdate",
 }));
 
 export type CustomersMembersUpdateExternalError =
@@ -15640,6 +15833,8 @@ export const customersMembersUpdateExternal: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersMembersUpdateExternal",
 }));
 
 export type CustomersUpdateError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15655,6 +15850,8 @@ export const customersUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersUpdate",
 }));
 
 export type CustomersUpdateExternalError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15670,6 +15867,8 @@ export const customersUpdateExternal: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomersUpdateExternal",
 }));
 
 export type CustomFieldsCreateError = UnprocessableEntity | PolarOpError;
@@ -15685,6 +15884,8 @@ export const customFieldsCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomFieldsCreate",
 }));
 
 export type CustomFieldsDeleteError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15700,6 +15901,8 @@ export const customFieldsDelete: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomFieldsDelete",
 }));
 
 export type CustomFieldsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15715,6 +15918,8 @@ export const customFieldsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomFieldsGet",
 }));
 
 export type CustomFieldsListError = UnprocessableEntity | PolarOpError;
@@ -15732,6 +15937,8 @@ export const customFieldsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CustomFieldsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15756,6 +15963,8 @@ export const customFieldsUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomFieldsUpdate",
 }));
 
 export type DiscountsCreateError = UnprocessableEntity | PolarOpError;
@@ -15771,6 +15980,8 @@ export const discountsCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiscountsCreate",
 }));
 
 export type DiscountsDeleteError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15786,6 +15997,8 @@ export const discountsDelete: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiscountsDelete",
 }));
 
 export type DiscountsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15801,6 +16014,8 @@ export const discountsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiscountsGet",
 }));
 
 export type DiscountsListError = UnprocessableEntity | PolarOpError;
@@ -15818,6 +16033,8 @@ export const discountsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DiscountsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15842,6 +16059,8 @@ export const discountsUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiscountsUpdate",
 }));
 
 export type DisputesAcceptError = NotFound | Conflict | UnprocessableEntity | PolarOpError;
@@ -15857,6 +16076,8 @@ export const disputesAccept: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesAccept",
 }));
 
 export type DisputesGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -15872,6 +16093,8 @@ export const disputesGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesGet",
 }));
 
 export type DisputesListError = UnprocessableEntity | PolarOpError;
@@ -15889,6 +16112,8 @@ export const disputesList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DisputesList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15913,6 +16138,8 @@ export const eventsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventsGet",
 }));
 
 export type EventsIngestError = UnprocessableEntity | PolarOpError;
@@ -15928,6 +16155,8 @@ export const eventsIngest: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventsIngest",
 }));
 
 export type EventsListError = UnprocessableEntity | PolarOpError;
@@ -15943,6 +16172,8 @@ export const eventsList: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventsList",
 }));
 
 export type EventsListNamesError = UnprocessableEntity | PolarOpError;
@@ -15960,6 +16191,8 @@ export const eventsListNames: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "EventsListNames",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15986,6 +16219,8 @@ export const eventTypesList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "EventTypesList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16010,6 +16245,8 @@ export const eventTypesUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventTypesUpdate",
 }));
 
 export type FilesCreateError = UnprocessableEntity | PolarOpError;
@@ -16025,6 +16262,8 @@ export const filesCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FilesCreate",
 }));
 
 export type FilesDeleteError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
@@ -16040,6 +16279,8 @@ export const filesDelete: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FilesDelete",
 }));
 
 export type FilesListError = UnprocessableEntity | PolarOpError;
@@ -16057,6 +16298,8 @@ export const filesList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "FilesList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16081,6 +16324,8 @@ export const filesUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FilesUpdate",
 }));
 
 export type FilesUploadedError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
@@ -16096,6 +16341,8 @@ export const filesUploaded: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FilesUploaded",
 }));
 
 export type GetCheckoutsClientError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
@@ -16111,6 +16358,8 @@ export const getCheckoutsClient: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCheckoutsClient",
 }));
 
 export type LicenseKeysActivateError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
@@ -16126,6 +16375,8 @@ export const licenseKeysActivate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseKeysActivate",
 }));
 
 export type LicenseKeysDeactivateError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16141,6 +16392,8 @@ export const licenseKeysDeactivate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseKeysDeactivate",
 }));
 
 export type LicenseKeysGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16156,6 +16409,8 @@ export const licenseKeysGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseKeysGet",
 }));
 
 export type LicenseKeysGetActivationError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16171,6 +16426,8 @@ export const licenseKeysGetActivation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseKeysGetActivation",
 }));
 
 export type LicenseKeysListError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16188,6 +16445,8 @@ export const licenseKeysList: API.PaginatedOperationMethod<
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "LicenseKeysList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16212,6 +16471,8 @@ export const licenseKeysRotate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseKeysRotate",
 }));
 
 export type LicenseKeysUpdateError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16227,6 +16488,8 @@ export const licenseKeysUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseKeysUpdate",
 }));
 
 export type LicenseKeysValidateError = BadRequest | NotFound | UnprocessableEntity | PolarOpError;
@@ -16242,6 +16505,8 @@ export const licenseKeysValidate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LicenseKeysValidate",
 }));
 
 export type MetersCreateError = UnprocessableEntity | PolarOpError;
@@ -16257,6 +16522,8 @@ export const metersCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetersCreate",
 }));
 
 export type MetersGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16272,6 +16539,8 @@ export const metersGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetersGet",
 }));
 
 export type MetersListError = UnprocessableEntity | PolarOpError;
@@ -16289,6 +16558,8 @@ export const metersList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "MetersList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16313,6 +16584,8 @@ export const metersQuantities: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetersQuantities",
 }));
 
 export type MetersUpdateError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16328,6 +16601,8 @@ export const metersUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetersUpdate",
 }));
 
 export type MetricsCreateDashboardError = UnprocessableEntity | PolarOpError;
@@ -16343,6 +16618,8 @@ export const metricsCreateDashboard: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsCreateDashboard",
 }));
 
 export type MetricsDeleteDashboardError = UnprocessableEntity | PolarOpError;
@@ -16358,6 +16635,8 @@ export const metricsDeleteDashboard: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsDeleteDashboard",
 }));
 
 export type MetricsExportError = UnprocessableEntity | PolarOpError;
@@ -16373,6 +16652,8 @@ export const metricsExport: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsExport",
 }));
 
 export type MetricsGetError = UnprocessableEntity | PolarOpError;
@@ -16388,6 +16669,8 @@ export const metricsGet: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsGet",
 }));
 
 export type MetricsGetDashboardError = UnprocessableEntity | PolarOpError;
@@ -16403,6 +16686,8 @@ export const metricsGetDashboard: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsGetDashboard",
 }));
 
 export type MetricsLimits2Error = PolarOpError;
@@ -16418,6 +16703,8 @@ export const metricsLimits2: API.OperationMethod<
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsLimits2",
 }));
 
 export type MetricsListDashboardsError = UnprocessableEntity | PolarOpError;
@@ -16433,6 +16720,8 @@ export const metricsListDashboards: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsListDashboards",
 }));
 
 export type MetricsUpdateDashboardError = UnprocessableEntity | PolarOpError;
@@ -16448,6 +16737,8 @@ export const metricsUpdateDashboard: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetricsUpdateDashboard",
 }));
 
 export type Oauth2AuthorizeError = PolarOpError;
@@ -16463,6 +16754,8 @@ export const oauth2Authorize: API.OperationMethod<
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2Authorize",
 }));
 
 export type Oauth2ClientsOauth2CreateClientError = UnprocessableEntity | PolarOpError;
@@ -16478,6 +16771,8 @@ export const oauth2ClientsOauth2CreateClient: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2ClientsOauth2CreateClient",
 }));
 
 export type Oauth2ClientsOauth2DeleteClientError = UnprocessableEntity | PolarOpError;
@@ -16493,6 +16788,8 @@ export const oauth2ClientsOauth2DeleteClient: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2ClientsOauth2DeleteClient",
 }));
 
 export type Oauth2ClientsOauth2GetClientError = UnprocessableEntity | PolarOpError;
@@ -16508,6 +16805,8 @@ export const oauth2ClientsOauth2GetClient: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2ClientsOauth2GetClient",
 }));
 
 export type Oauth2ClientsOauth2UpdateClientError = UnprocessableEntity | PolarOpError;
@@ -16523,6 +16822,8 @@ export const oauth2ClientsOauth2UpdateClient: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2ClientsOauth2UpdateClient",
 }));
 
 export type Oauth2IntrospectTokenError = PolarOpError;
@@ -16538,6 +16839,8 @@ export const oauth2IntrospectToken: API.OperationMethod<
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2IntrospectToken",
 }));
 
 export type Oauth2RequestTokenError = PolarOpError;
@@ -16553,6 +16856,8 @@ export const oauth2RequestToken: API.OperationMethod<
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2RequestToken",
 }));
 
 export type Oauth2RevokeTokenError = PolarOpError;
@@ -16568,6 +16873,8 @@ export const oauth2RevokeToken: API.OperationMethod<
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2RevokeToken",
 }));
 
 export type Oauth2UserinfoError = PolarOpError;
@@ -16583,6 +16890,8 @@ export const oauth2Userinfo: API.OperationMethod<
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Oauth2Userinfo",
 }));
 
 export type OrdersCreateError = UnprocessableEntity | PolarOpError;
@@ -16598,6 +16907,8 @@ export const ordersCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrdersCreate",
 }));
 
 export type OrdersExportError = UnprocessableEntity | PolarOpError;
@@ -16613,6 +16924,8 @@ export const ordersExport: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrdersExport",
 }));
 
 export type OrdersFinalizeError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
@@ -16628,6 +16941,8 @@ export const ordersFinalize: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrdersFinalize",
 }));
 
 export type OrdersGenerateInvoiceError = NotFound | Conflict | UnprocessableEntity | PolarOpError;
@@ -16643,6 +16958,8 @@ export const ordersGenerateInvoice: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrdersGenerateInvoice",
 }));
 
 export type OrdersGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16658,6 +16975,8 @@ export const ordersGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrdersGet",
 }));
 
 export type OrdersInvoiceError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16673,6 +16992,8 @@ export const ordersInvoice: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrdersInvoice",
 }));
 
 export type OrdersListError = UnprocessableEntity | PolarOpError;
@@ -16690,6 +17011,8 @@ export const ordersList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "OrdersList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16714,6 +17037,8 @@ export const ordersReceipt: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrdersReceipt",
 }));
 
 export type OrdersUpdateError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16729,6 +17054,8 @@ export const ordersUpdate: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrdersUpdate",
 }));
 
 export type OrganizationsCreateError = Forbidden | UnprocessableEntity | PolarOpError;
@@ -16744,6 +17071,8 @@ export const organizationsCreate: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsCreate",
 }));
 
 export type OrganizationsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16759,6 +17088,8 @@ export const organizationsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsGet",
 }));
 
 export type OrganizationsListError = UnprocessableEntity | PolarOpError;
@@ -16776,6 +17107,8 @@ export const organizationsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "OrganizationsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16805,6 +17138,8 @@ export const organizationsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OrganizationsUpdate",
 }));
 
 export type PaymentsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16820,6 +17155,8 @@ export const paymentsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PaymentsGet",
 }));
 
 export type PaymentsListError = UnprocessableEntity | PolarOpError;
@@ -16837,6 +17174,8 @@ export const paymentsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PaymentsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16861,6 +17200,8 @@ export const productsCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductsCreate",
 }));
 
 export type ProductsDeleteError =
@@ -16881,6 +17222,8 @@ export const productsDelete: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductsDelete",
 }));
 
 export type ProductsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -16896,6 +17239,8 @@ export const productsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductsGet",
 }));
 
 export type ProductsListError = UnprocessableEntity | PolarOpError;
@@ -16913,6 +17258,8 @@ export const productsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ProductsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16937,6 +17284,8 @@ export const productsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductsUpdate",
 }));
 
 export type ProductsUpdateBenefitsError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
@@ -16952,6 +17301,8 @@ export const productsUpdateBenefits: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductsUpdateBenefits",
 }));
 
 export type RefundsCreateError = Forbidden | UnprocessableEntity | PolarOpError;
@@ -16967,6 +17318,8 @@ export const refundsCreate: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefundsCreate",
 }));
 
 export type RefundsListError = UnprocessableEntity | PolarOpError;
@@ -16984,6 +17337,8 @@ export const refundsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "RefundsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17012,6 +17367,8 @@ export const retryCustomerPortalOrdersConfirmPayment: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryCustomerPortalOrdersConfirmPayment",
 }));
 
 export type SubscriptionsCreateError = UnprocessableEntity | PolarOpError;
@@ -17027,6 +17384,8 @@ export const subscriptionsCreate: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsCreate",
 }));
 
 export type SubscriptionsExportError = UnprocessableEntity | PolarOpError;
@@ -17042,6 +17401,8 @@ export const subscriptionsExport: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsExport",
 }));
 
 export type SubscriptionsGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -17057,6 +17418,8 @@ export const subscriptionsGet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsGet",
 }));
 
 export type SubscriptionsListError = UnprocessableEntity | PolarOpError;
@@ -17074,6 +17437,8 @@ export const subscriptionsList: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SubscriptionsList",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17103,6 +17468,8 @@ export const subscriptionsRevoke: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsRevoke",
 }));
 
 export type SubscriptionsUpdateError =
@@ -17123,6 +17490,8 @@ export const subscriptionsUpdate: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsUpdate",
 }));
 
 export type UpdateCheckoutsClientError =
@@ -17143,6 +17512,8 @@ export const updateCheckoutsClient: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCheckoutsClient",
 }));
 
 export type UpdateCustomerPortalCustomersCheckEmailError = UnprocessableEntity | PolarOpError;
@@ -17158,6 +17529,8 @@ export const updateCustomerPortalCustomersCheckEmail: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerPortalCustomersCheckEmail",
 }));
 
 export type UpdateCustomerPortalCustomersRequestEmailError = UnprocessableEntity | PolarOpError;
@@ -17177,6 +17550,8 @@ export const updateCustomerPortalCustomersRequestEmail: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerPortalCustomersRequestEmail",
 }));
 
 export type UpdateCustomerPortalCustomersVerifyEmailError = UnprocessableEntity | PolarOpError;
@@ -17192,6 +17567,8 @@ export const updateCustomerPortalCustomersVerifyEmail: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomerPortalCustomersVerifyEmail",
 }));
 
 export type WebhooksCreateWebhookEndpointError = UnprocessableEntity | PolarOpError;
@@ -17207,6 +17584,8 @@ export const webhooksCreateWebhookEndpoint: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhooksCreateWebhookEndpoint",
 }));
 
 export type WebhooksDeleteWebhookEndpointError = NotFound | UnprocessableEntity | PolarOpError;
@@ -17222,6 +17601,8 @@ export const webhooksDeleteWebhookEndpoint: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhooksDeleteWebhookEndpoint",
 }));
 
 export type WebhooksGetWebhookEndpointError = NotFound | UnprocessableEntity | PolarOpError;
@@ -17237,6 +17618,8 @@ export const webhooksGetWebhookEndpoint: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhooksGetWebhookEndpoint",
 }));
 
 export type WebhooksListWebhookDeliveriesError = UnprocessableEntity | PolarOpError;
@@ -17254,6 +17637,8 @@ export const webhooksListWebhookDeliveries: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "WebhooksListWebhookDeliveries",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17280,6 +17665,8 @@ export const webhooksListWebhookEndpoints: API.PaginatedOperationMethod<
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "WebhooksListWebhookEndpoints",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17304,6 +17691,8 @@ export const webhooksRedeliverWebhookEvent: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhooksRedeliverWebhookEvent",
 }));
 
 export type WebhooksResetWebhookEndpointSecretError = NotFound | UnprocessableEntity | PolarOpError;
@@ -17319,6 +17708,8 @@ export const webhooksResetWebhookEndpointSecret: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhooksResetWebhookEndpointSecret",
 }));
 
 export type WebhooksUpdateWebhookEndpointError = NotFound | UnprocessableEntity | PolarOpError;
@@ -17334,6 +17725,8 @@ export const webhooksUpdateWebhookEndpoint: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhooksUpdateWebhookEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

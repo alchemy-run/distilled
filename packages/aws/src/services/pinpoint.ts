@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -85,6 +86,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pinpoint.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Pinpoint",
+  service: "Pinpoint",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -5345,6 +5360,8 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateCampaignError =
@@ -5379,6 +5396,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type CreateEmailTemplateError =
@@ -5409,6 +5428,8 @@ export const createEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateEmailTemplate",
 }));
 
 export type CreateExportJobError =
@@ -5443,6 +5464,8 @@ export const createExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExportJob",
+  telemetry: TELEMETRY,
+  span: "CreateExportJob",
 }));
 
 export type CreateImportJobError =
@@ -5477,6 +5500,8 @@ export const createImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateImportJob",
 }));
 
 export type CreateInAppTemplateError =
@@ -5507,6 +5532,8 @@ export const createInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInAppTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateInAppTemplate",
 }));
 
 export type CreateJourneyError =
@@ -5541,6 +5568,8 @@ export const createJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJourney",
+  telemetry: TELEMETRY,
+  span: "CreateJourney",
 }));
 
 export type CreatePushTemplateError =
@@ -5571,6 +5600,8 @@ export const createPushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePushTemplate",
+  telemetry: TELEMETRY,
+  span: "CreatePushTemplate",
 }));
 
 export type CreateRecommenderConfigurationError =
@@ -5605,6 +5636,8 @@ export const createRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateRecommenderConfiguration",
 }));
 
 export type CreateSegmentError =
@@ -5639,6 +5672,8 @@ export const createSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegment",
+  telemetry: TELEMETRY,
+  span: "CreateSegment",
 }));
 
 export type CreateSmsTemplateError =
@@ -5669,6 +5704,8 @@ export const createSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSmsTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateSmsTemplate",
 }));
 
 export type CreateVoiceTemplateError =
@@ -5699,6 +5736,8 @@ export const createVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateVoiceTemplate",
 }));
 
 export type DeleteAdmChannelError =
@@ -5733,6 +5772,8 @@ export const deleteAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdmChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteAdmChannel",
 }));
 
 export type DeleteApnsChannelError =
@@ -5767,6 +5808,8 @@ export const deleteApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteApnsChannel",
 }));
 
 export type DeleteApnsSandboxChannelError =
@@ -5801,6 +5844,8 @@ export const deleteApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteApnsSandboxChannel",
 }));
 
 export type DeleteApnsVoipChannelError =
@@ -5835,6 +5880,8 @@ export const deleteApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsVoipChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteApnsVoipChannel",
 }));
 
 export type DeleteApnsVoipSandboxChannelError =
@@ -5869,6 +5916,8 @@ export const deleteApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsVoipSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteApnsVoipSandboxChannel",
 }));
 
 export type DeleteAppError =
@@ -5903,6 +5952,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteBaiduChannelError =
@@ -5937,6 +5988,8 @@ export const deleteBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBaiduChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteBaiduChannel",
 }));
 
 export type DeleteCampaignError =
@@ -5971,6 +6024,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteEmailChannelError =
@@ -6005,6 +6060,8 @@ export const deleteEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteEmailChannel",
 }));
 
 export type DeleteEmailTemplateError =
@@ -6039,6 +6096,8 @@ export const deleteEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteEmailTemplate",
 }));
 
 export type DeleteEndpointError =
@@ -6073,6 +6132,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeleteEventStreamError =
@@ -6107,6 +6168,8 @@ export const deleteEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventStream",
+  telemetry: TELEMETRY,
+  span: "DeleteEventStream",
 }));
 
 export type DeleteGcmChannelError =
@@ -6141,6 +6204,8 @@ export const deleteGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGcmChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteGcmChannel",
 }));
 
 export type DeleteInAppTemplateError =
@@ -6175,6 +6240,8 @@ export const deleteInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInAppTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteInAppTemplate",
 }));
 
 export type DeleteJourneyError =
@@ -6209,6 +6276,8 @@ export const deleteJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJourney",
+  telemetry: TELEMETRY,
+  span: "DeleteJourney",
 }));
 
 export type DeletePushTemplateError =
@@ -6243,6 +6312,8 @@ export const deletePushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePushTemplate",
+  telemetry: TELEMETRY,
+  span: "DeletePushTemplate",
 }));
 
 export type DeleteRecommenderConfigurationError =
@@ -6277,6 +6348,8 @@ export const deleteRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommenderConfiguration",
 }));
 
 export type DeleteSegmentError =
@@ -6311,6 +6384,8 @@ export const deleteSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegment",
+  telemetry: TELEMETRY,
+  span: "DeleteSegment",
 }));
 
 export type DeleteSmsChannelError =
@@ -6345,6 +6420,8 @@ export const deleteSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSmsChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteSmsChannel",
 }));
 
 export type DeleteSmsTemplateError =
@@ -6379,6 +6456,8 @@ export const deleteSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSmsTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteSmsTemplate",
 }));
 
 export type DeleteUserEndpointsError =
@@ -6413,6 +6492,8 @@ export const deleteUserEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserEndpoints",
+  telemetry: TELEMETRY,
+  span: "DeleteUserEndpoints",
 }));
 
 export type DeleteVoiceChannelError =
@@ -6447,6 +6528,8 @@ export const deleteVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceChannel",
 }));
 
 export type DeleteVoiceTemplateError =
@@ -6481,6 +6564,8 @@ export const deleteVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceTemplate",
 }));
 
 export type GetAdmChannelError =
@@ -6515,6 +6600,8 @@ export const getAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdmChannel",
+  telemetry: TELEMETRY,
+  span: "GetAdmChannel",
 }));
 
 export type GetApnsChannelError =
@@ -6549,6 +6636,8 @@ export const getApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsChannel",
+  telemetry: TELEMETRY,
+  span: "GetApnsChannel",
 }));
 
 export type GetApnsSandboxChannelError =
@@ -6583,6 +6672,8 @@ export const getApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "GetApnsSandboxChannel",
 }));
 
 export type GetApnsVoipChannelError =
@@ -6617,6 +6708,8 @@ export const getApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsVoipChannel",
+  telemetry: TELEMETRY,
+  span: "GetApnsVoipChannel",
 }));
 
 export type GetApnsVoipSandboxChannelError =
@@ -6651,6 +6744,8 @@ export const getApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsVoipSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "GetApnsVoipSandboxChannel",
 }));
 
 export type GetAppError =
@@ -6685,6 +6780,8 @@ export const getApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApp",
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetApplicationDateRangeKpiError =
@@ -6719,6 +6816,8 @@ export const getApplicationDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationDateRangeKpi",
+  telemetry: TELEMETRY,
+  span: "GetApplicationDateRangeKpi",
 }));
 
 export type GetApplicationSettingsError =
@@ -6753,6 +6852,8 @@ export const getApplicationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationSettings",
+  telemetry: TELEMETRY,
+  span: "GetApplicationSettings",
 }));
 
 export type GetAppsError =
@@ -6787,6 +6888,8 @@ export const getApps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApps",
+  telemetry: TELEMETRY,
+  span: "GetApps",
 }));
 
 export type GetBaiduChannelError =
@@ -6821,6 +6924,8 @@ export const getBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaiduChannel",
+  telemetry: TELEMETRY,
+  span: "GetBaiduChannel",
 }));
 
 export type GetCampaignError =
@@ -6855,6 +6960,8 @@ export const getCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaign",
+  telemetry: TELEMETRY,
+  span: "GetCampaign",
 }));
 
 export type GetCampaignActivitiesError =
@@ -6889,6 +6996,8 @@ export const getCampaignActivities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignActivities",
+  telemetry: TELEMETRY,
+  span: "GetCampaignActivities",
 }));
 
 export type GetCampaignDateRangeKpiError =
@@ -6923,6 +7032,8 @@ export const getCampaignDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignDateRangeKpi",
+  telemetry: TELEMETRY,
+  span: "GetCampaignDateRangeKpi",
 }));
 
 export type GetCampaignsError =
@@ -6957,6 +7068,8 @@ export const getCampaigns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaigns",
+  telemetry: TELEMETRY,
+  span: "GetCampaigns",
 }));
 
 export type GetCampaignVersionError =
@@ -6991,6 +7104,8 @@ export const getCampaignVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignVersion",
+  telemetry: TELEMETRY,
+  span: "GetCampaignVersion",
 }));
 
 export type GetCampaignVersionsError =
@@ -7025,6 +7140,8 @@ export const getCampaignVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignVersions",
+  telemetry: TELEMETRY,
+  span: "GetCampaignVersions",
 }));
 
 export type GetChannelsError =
@@ -7059,6 +7176,8 @@ export const getChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannels",
+  telemetry: TELEMETRY,
+  span: "GetChannels",
 }));
 
 export type GetEmailChannelError =
@@ -7093,6 +7212,8 @@ export const getEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailChannel",
+  telemetry: TELEMETRY,
+  span: "GetEmailChannel",
 }));
 
 export type GetEmailTemplateError =
@@ -7127,6 +7248,8 @@ export const getEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "GetEmailTemplate",
 }));
 
 export type GetEndpointError =
@@ -7161,6 +7284,8 @@ export const getEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetEndpoint",
 }));
 
 export type GetEventStreamError =
@@ -7195,6 +7320,8 @@ export const getEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventStream",
+  telemetry: TELEMETRY,
+  span: "GetEventStream",
 }));
 
 export type GetExportJobError =
@@ -7229,6 +7356,8 @@ export const getExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportJob",
+  telemetry: TELEMETRY,
+  span: "GetExportJob",
 }));
 
 export type GetExportJobsError =
@@ -7263,6 +7392,8 @@ export const getExportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportJobs",
+  telemetry: TELEMETRY,
+  span: "GetExportJobs",
 }));
 
 export type GetGcmChannelError =
@@ -7297,6 +7428,8 @@ export const getGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGcmChannel",
+  telemetry: TELEMETRY,
+  span: "GetGcmChannel",
 }));
 
 export type GetImportJobError =
@@ -7331,6 +7464,8 @@ export const getImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
+  telemetry: TELEMETRY,
+  span: "GetImportJob",
 }));
 
 export type GetImportJobsError =
@@ -7365,6 +7500,8 @@ export const getImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJobs",
+  telemetry: TELEMETRY,
+  span: "GetImportJobs",
 }));
 
 export type GetInAppMessagesError =
@@ -7399,6 +7536,8 @@ export const getInAppMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInAppMessages",
+  telemetry: TELEMETRY,
+  span: "GetInAppMessages",
 }));
 
 export type GetInAppTemplateError =
@@ -7433,6 +7572,8 @@ export const getInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInAppTemplate",
+  telemetry: TELEMETRY,
+  span: "GetInAppTemplate",
 }));
 
 export type GetJourneyError =
@@ -7467,6 +7608,8 @@ export const getJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourney",
+  telemetry: TELEMETRY,
+  span: "GetJourney",
 }));
 
 export type GetJourneyDateRangeKpiError =
@@ -7501,6 +7644,8 @@ export const getJourneyDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyDateRangeKpi",
+  telemetry: TELEMETRY,
+  span: "GetJourneyDateRangeKpi",
 }));
 
 export type GetJourneyExecutionActivityMetricsError =
@@ -7535,6 +7680,8 @@ export const getJourneyExecutionActivityMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyExecutionActivityMetrics",
+  telemetry: TELEMETRY,
+  span: "GetJourneyExecutionActivityMetrics",
 }));
 
 export type GetJourneyExecutionMetricsError =
@@ -7569,6 +7716,8 @@ export const getJourneyExecutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyExecutionMetrics",
+  telemetry: TELEMETRY,
+  span: "GetJourneyExecutionMetrics",
 }));
 
 export type GetJourneyRunExecutionActivityMetricsError =
@@ -7603,6 +7752,8 @@ export const getJourneyRunExecutionActivityMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRunExecutionActivityMetrics",
+  telemetry: TELEMETRY,
+  span: "GetJourneyRunExecutionActivityMetrics",
 }));
 
 export type GetJourneyRunExecutionMetricsError =
@@ -7637,6 +7788,8 @@ export const getJourneyRunExecutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRunExecutionMetrics",
+  telemetry: TELEMETRY,
+  span: "GetJourneyRunExecutionMetrics",
 }));
 
 export type GetJourneyRunsError =
@@ -7671,6 +7824,8 @@ export const getJourneyRuns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRuns",
+  telemetry: TELEMETRY,
+  span: "GetJourneyRuns",
 }));
 
 export type GetPushTemplateError =
@@ -7705,6 +7860,8 @@ export const getPushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPushTemplate",
+  telemetry: TELEMETRY,
+  span: "GetPushTemplate",
 }));
 
 export type GetRecommenderConfigurationError =
@@ -7739,6 +7896,8 @@ export const getRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetRecommenderConfiguration",
 }));
 
 export type GetRecommenderConfigurationsError =
@@ -7773,6 +7932,8 @@ export const getRecommenderConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderConfigurations",
+  telemetry: TELEMETRY,
+  span: "GetRecommenderConfigurations",
 }));
 
 export type GetSegmentError =
@@ -7807,6 +7968,8 @@ export const getSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegment",
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetSegmentExportJobsError =
@@ -7841,6 +8004,8 @@ export const getSegmentExportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentExportJobs",
+  telemetry: TELEMETRY,
+  span: "GetSegmentExportJobs",
 }));
 
 export type GetSegmentImportJobsError =
@@ -7875,6 +8040,8 @@ export const getSegmentImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentImportJobs",
+  telemetry: TELEMETRY,
+  span: "GetSegmentImportJobs",
 }));
 
 export type GetSegmentsError =
@@ -7909,6 +8076,8 @@ export const getSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegments",
+  telemetry: TELEMETRY,
+  span: "GetSegments",
 }));
 
 export type GetSegmentVersionError =
@@ -7943,6 +8112,8 @@ export const getSegmentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentVersion",
+  telemetry: TELEMETRY,
+  span: "GetSegmentVersion",
 }));
 
 export type GetSegmentVersionsError =
@@ -7977,6 +8148,8 @@ export const getSegmentVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentVersions",
+  telemetry: TELEMETRY,
+  span: "GetSegmentVersions",
 }));
 
 export type GetSmsChannelError =
@@ -8011,6 +8184,8 @@ export const getSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSmsChannel",
+  telemetry: TELEMETRY,
+  span: "GetSmsChannel",
 }));
 
 export type GetSmsTemplateError =
@@ -8045,6 +8220,8 @@ export const getSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSmsTemplate",
+  telemetry: TELEMETRY,
+  span: "GetSmsTemplate",
 }));
 
 export type GetUserEndpointsError =
@@ -8079,6 +8256,8 @@ export const getUserEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserEndpoints",
+  telemetry: TELEMETRY,
+  span: "GetUserEndpoints",
 }));
 
 export type GetVoiceChannelError =
@@ -8113,6 +8292,8 @@ export const getVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceChannel",
+  telemetry: TELEMETRY,
+  span: "GetVoiceChannel",
 }));
 
 export type GetVoiceTemplateError =
@@ -8147,6 +8328,8 @@ export const getVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceTemplate",
+  telemetry: TELEMETRY,
+  span: "GetVoiceTemplate",
 }));
 
 export type ListJourneysError =
@@ -8181,6 +8364,8 @@ export const listJourneys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJourneys",
+  telemetry: TELEMETRY,
+  span: "ListJourneys",
 }));
 
 export type ListTagsForResourceError = CommonErrors;
@@ -8199,6 +8384,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplatesError =
@@ -8229,6 +8416,8 @@ export const listTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplates",
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 }));
 
 export type ListTemplateVersionsError =
@@ -8263,6 +8452,8 @@ export const listTemplateVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplateVersions",
+  telemetry: TELEMETRY,
+  span: "ListTemplateVersions",
 }));
 
 export type PhoneNumberValidateError =
@@ -8297,6 +8488,8 @@ export const phoneNumberValidate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PhoneNumberValidate",
+  telemetry: TELEMETRY,
+  span: "PhoneNumberValidate",
 }));
 
 export type PutEventsError =
@@ -8331,6 +8524,8 @@ export const putEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
+  telemetry: TELEMETRY,
+  span: "PutEvents",
 }));
 
 export type PutEventStreamError =
@@ -8365,6 +8560,8 @@ export const putEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventStream",
+  telemetry: TELEMETRY,
+  span: "PutEventStream",
 }));
 
 export type RemoveAttributesError =
@@ -8399,6 +8596,8 @@ export const removeAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttributes",
+  telemetry: TELEMETRY,
+  span: "RemoveAttributes",
 }));
 
 export type SendMessagesError =
@@ -8433,6 +8632,8 @@ export const sendMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessages",
+  telemetry: TELEMETRY,
+  span: "SendMessages",
 }));
 
 export type SendOTPMessageError =
@@ -8467,6 +8668,8 @@ export const sendOTPMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendOTPMessage",
+  telemetry: TELEMETRY,
+  span: "SendOTPMessage",
 }));
 
 export type SendUsersMessagesError =
@@ -8501,6 +8704,8 @@ export const sendUsersMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendUsersMessages",
+  telemetry: TELEMETRY,
+  span: "SendUsersMessages",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -8519,6 +8724,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -8537,6 +8744,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAdmChannelError =
@@ -8571,6 +8780,8 @@ export const updateAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAdmChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateAdmChannel",
 }));
 
 export type UpdateApnsChannelError =
@@ -8605,6 +8816,8 @@ export const updateApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateApnsChannel",
 }));
 
 export type UpdateApnsSandboxChannelError =
@@ -8639,6 +8852,8 @@ export const updateApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateApnsSandboxChannel",
 }));
 
 export type UpdateApnsVoipChannelError =
@@ -8673,6 +8888,8 @@ export const updateApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsVoipChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateApnsVoipChannel",
 }));
 
 export type UpdateApnsVoipSandboxChannelError =
@@ -8707,6 +8924,8 @@ export const updateApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsVoipSandboxChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateApnsVoipSandboxChannel",
 }));
 
 export type UpdateApplicationSettingsError =
@@ -8741,6 +8960,8 @@ export const updateApplicationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationSettings",
 }));
 
 export type UpdateBaiduChannelError =
@@ -8775,6 +8996,8 @@ export const updateBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBaiduChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateBaiduChannel",
 }));
 
 export type UpdateCampaignError =
@@ -8809,6 +9032,8 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaign",
 }));
 
 export type UpdateEmailChannelError =
@@ -8843,6 +9068,8 @@ export const updateEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmailChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateEmailChannel",
 }));
 
 export type UpdateEmailTemplateError =
@@ -8877,6 +9104,8 @@ export const updateEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateEmailTemplate",
 }));
 
 export type UpdateEndpointError =
@@ -8911,6 +9140,8 @@ export const updateEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpoint",
 }));
 
 export type UpdateEndpointsBatchError =
@@ -8945,6 +9176,8 @@ export const updateEndpointsBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointsBatch",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpointsBatch",
 }));
 
 export type UpdateGcmChannelError =
@@ -8979,6 +9212,8 @@ export const updateGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGcmChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateGcmChannel",
 }));
 
 export type UpdateInAppTemplateError =
@@ -9013,6 +9248,8 @@ export const updateInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInAppTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateInAppTemplate",
 }));
 
 export type UpdateJourneyError =
@@ -9049,6 +9286,8 @@ export const updateJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJourney",
+  telemetry: TELEMETRY,
+  span: "UpdateJourney",
 }));
 
 export type UpdateJourneyStateError =
@@ -9083,6 +9322,8 @@ export const updateJourneyState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJourneyState",
+  telemetry: TELEMETRY,
+  span: "UpdateJourneyState",
 }));
 
 export type UpdatePushTemplateError =
@@ -9117,6 +9358,8 @@ export const updatePushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePushTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdatePushTemplate",
 }));
 
 export type UpdateRecommenderConfigurationError =
@@ -9151,6 +9394,8 @@ export const updateRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommenderConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateRecommenderConfiguration",
 }));
 
 export type UpdateSegmentError =
@@ -9185,6 +9430,8 @@ export const updateSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSegment",
+  telemetry: TELEMETRY,
+  span: "UpdateSegment",
 }));
 
 export type UpdateSmsChannelError =
@@ -9219,6 +9466,8 @@ export const updateSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSmsChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateSmsChannel",
 }));
 
 export type UpdateSmsTemplateError =
@@ -9253,6 +9502,8 @@ export const updateSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSmsTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateSmsTemplate",
 }));
 
 export type UpdateTemplateActiveVersionError =
@@ -9287,6 +9538,8 @@ export const updateTemplateActiveVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateActiveVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplateActiveVersion",
 }));
 
 export type UpdateVoiceChannelError =
@@ -9321,6 +9574,8 @@ export const updateVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceChannel",
 }));
 
 export type UpdateVoiceTemplateError =
@@ -9355,6 +9610,8 @@ export const updateVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceTemplate",
 }));
 
 export type VerifyOTPMessageError =
@@ -9389,6 +9646,8 @@ export const verifyOTPMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyOTPMessage",
+  telemetry: TELEMETRY,
+  span: "VerifyOTPMessage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

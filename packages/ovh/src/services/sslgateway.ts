@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Sslgateway",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -428,6 +442,8 @@ export const confirmSslGatewayTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmSslGatewayTermination",
 }));
 
 export type CreateSslGatewayChangeContactError = OvhOpError;
@@ -443,6 +459,8 @@ export const createSslGatewayChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSslGatewayChangeContact",
 }));
 
 export type CreateSslGatewayDomainError = OvhOpError;
@@ -458,6 +476,8 @@ export const createSslGatewayDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSslGatewayDomain",
 }));
 
 export type CreateSslGatewayServerError = OvhOpError;
@@ -473,6 +493,8 @@ export const createSslGatewayServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSslGatewayServer",
 }));
 
 export type DeleteSslGatewayDomainError = OvhOpError;
@@ -488,6 +510,8 @@ export const deleteSslGatewayDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSslGatewayDomain",
 }));
 
 export type DeleteSslGatewayServerError = OvhOpError;
@@ -503,6 +527,8 @@ export const deleteSslGatewayServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSslGatewayServer",
 }));
 
 export type GetSslGatewayError = OvhOpError;
@@ -518,6 +544,8 @@ export const getSslGateway: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSslGateway",
 }));
 
 export type GetSslGatewayDomainError = OvhOpError;
@@ -533,6 +561,8 @@ export const getSslGatewayDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSslGatewayDomain",
 }));
 
 export type GetSslGatewayServerError = OvhOpError;
@@ -548,6 +578,8 @@ export const getSslGatewayServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSslGatewayServer",
 }));
 
 export type GetSslGatewayServiceInfosError = OvhOpError;
@@ -563,6 +595,8 @@ export const getSslGatewayServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSslGatewayServiceInfos",
 }));
 
 export type GetSslGatewayTaskError = OvhOpError;
@@ -578,6 +612,8 @@ export const getSslGatewayTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSslGatewayTask",
 }));
 
 export type ListSslGatewayError = OvhOpError;
@@ -593,6 +629,8 @@ export const listSslGateway: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSslGateway",
 }));
 
 export type ListSslGatewayAvailableZonesError = OvhOpError;
@@ -608,6 +646,8 @@ export const listSslGatewayAvailableZones: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSslGatewayAvailableZones",
 }));
 
 export type ListSslGatewayDomainError = OvhOpError;
@@ -623,6 +663,8 @@ export const listSslGatewayDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSslGatewayDomain",
 }));
 
 export type ListSslGatewayEligibilityError = OvhOpError;
@@ -638,6 +680,8 @@ export const listSslGatewayEligibility: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSslGatewayEligibility",
 }));
 
 export type ListSslGatewayNatIpError = OvhOpError;
@@ -653,6 +697,8 @@ export const listSslGatewayNatIp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSslGatewayNatIp",
 }));
 
 export type ListSslGatewayServerError = OvhOpError;
@@ -668,6 +714,8 @@ export const listSslGatewayServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSslGatewayServer",
 }));
 
 export type ListSslGatewayTaskError = OvhOpError;
@@ -683,6 +731,8 @@ export const listSslGatewayTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSslGatewayTask",
 }));
 
 export type PutSslGatewayError = OvhOpError;
@@ -698,6 +748,8 @@ export const putSslGateway: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSslGateway",
 }));
 
 export type PutSslGatewayServerError = OvhOpError;
@@ -713,6 +765,8 @@ export const putSslGatewayServer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSslGatewayServer",
 }));
 
 export type PutSslGatewayServiceInfosError = OvhOpError;
@@ -728,6 +782,8 @@ export const putSslGatewayServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSslGatewayServiceInfos",
 }));
 
 export type RenewSslGatewayCertificateError = OvhOpError;
@@ -743,6 +799,8 @@ export const renewSslGatewayCertificate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewSslGatewayCertificate",
 }));
 
 export type TerminateSslGatewayError = OvhOpError;
@@ -758,6 +816,8 @@ export const terminateSslGateway: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateSslGateway",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

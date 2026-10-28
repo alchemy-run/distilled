@@ -76,6 +76,7 @@ const modrinthSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Modrinth Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: () => modrinthSpec,

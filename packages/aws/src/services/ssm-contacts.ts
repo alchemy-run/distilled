@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ssm-contacts.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSMContacts",
+  service: "SSMContacts",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -787,6 +803,8 @@ export const acceptPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPage",
+  telemetry: TELEMETRY,
+  span: "AcceptPage",
 }));
 
 export type ActivateContactChannelError =
@@ -820,6 +838,8 @@ export const activateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateContactChannel",
+  telemetry: TELEMETRY,
+  span: "ActivateContactChannel",
 }));
 
 export type CreateContactError =
@@ -858,6 +878,8 @@ export const createContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContact",
+  telemetry: TELEMETRY,
+  span: "CreateContact",
 }));
 
 export type CreateContactChannelError =
@@ -892,6 +914,8 @@ export const createContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContactChannel",
+  telemetry: TELEMETRY,
+  span: "CreateContactChannel",
 }));
 
 export type CreateRotationError =
@@ -928,6 +952,8 @@ export const createRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRotation",
+  telemetry: TELEMETRY,
+  span: "CreateRotation",
 }));
 
 export type CreateRotationOverrideError =
@@ -964,6 +990,8 @@ export const createRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRotationOverride",
+  telemetry: TELEMETRY,
+  span: "CreateRotationOverride",
 }));
 
 export type DeactivateContactChannelError =
@@ -997,6 +1025,8 @@ export const deactivateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateContactChannel",
+  telemetry: TELEMETRY,
+  span: "DeactivateContactChannel",
 }));
 
 export type DeleteContactError =
@@ -1035,6 +1065,8 @@ export const deleteContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContact",
+  telemetry: TELEMETRY,
+  span: "DeleteContact",
 }));
 
 export type DeleteContactChannelError =
@@ -1071,6 +1103,8 @@ export const deleteContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContactChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteContactChannel",
 }));
 
 export type DeleteRotationError =
@@ -1108,6 +1142,8 @@ export const deleteRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRotation",
+  telemetry: TELEMETRY,
+  span: "DeleteRotation",
 }));
 
 export type DeleteRotationOverrideError =
@@ -1142,6 +1178,8 @@ export const deleteRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRotationOverride",
+  telemetry: TELEMETRY,
+  span: "DeleteRotationOverride",
 }));
 
 export type DescribeEngagementError =
@@ -1177,6 +1215,8 @@ export const describeEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEngagement",
+  telemetry: TELEMETRY,
+  span: "DescribeEngagement",
 }));
 
 export type DescribePageError =
@@ -1211,6 +1251,8 @@ export const describePage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePage",
+  telemetry: TELEMETRY,
+  span: "DescribePage",
 }));
 
 export type GetContactError =
@@ -1245,6 +1287,8 @@ export const getContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContact",
+  telemetry: TELEMETRY,
+  span: "GetContact",
 }));
 
 export type GetContactChannelError =
@@ -1279,6 +1323,8 @@ export const getContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactChannel",
+  telemetry: TELEMETRY,
+  span: "GetContactChannel",
 }));
 
 export type GetContactPolicyError =
@@ -1312,6 +1358,8 @@ export const getContactPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactPolicy",
+  telemetry: TELEMETRY,
+  span: "GetContactPolicy",
 }));
 
 export type GetRotationError =
@@ -1346,6 +1394,8 @@ export const getRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRotation",
+  telemetry: TELEMETRY,
+  span: "GetRotation",
 }));
 
 export type GetRotationOverrideError =
@@ -1380,6 +1430,8 @@ export const getRotationOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRotationOverride",
+  telemetry: TELEMETRY,
+  span: "GetRotationOverride",
 }));
 
 export type ListContactChannelsError =
@@ -1421,6 +1473,8 @@ export const listContactChannels: API.PaginatedOperationMethod<
     items: "ContactChannels",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactChannels",
 })) as any;
 
 export type ListContactsError =
@@ -1458,6 +1512,8 @@ export const listContacts: API.PaginatedOperationMethod<
     items: "Contacts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContacts",
 })) as any;
 
 export type ListEngagementsError =
@@ -1495,6 +1551,8 @@ export const listEngagements: API.PaginatedOperationMethod<
     items: "Engagements",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagements",
 })) as any;
 
 export type ListPageReceiptsError =
@@ -1534,6 +1592,8 @@ export const listPageReceipts: API.PaginatedOperationMethod<
     items: "Receipts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPageReceipts",
 })) as any;
 
 export type ListPageResolutionsError =
@@ -1576,6 +1636,8 @@ export const listPageResolutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PageResolutions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPageResolutions",
 })) as any;
 
 export type ListPagesByContactError =
@@ -1615,6 +1677,8 @@ export const listPagesByContact: API.PaginatedOperationMethod<
     items: "Pages",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPagesByContact",
 })) as any;
 
 export type ListPagesByEngagementError =
@@ -1654,6 +1718,8 @@ export const listPagesByEngagement: API.PaginatedOperationMethod<
     items: "Pages",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPagesByEngagement",
 })) as any;
 
 export type ListPreviewRotationShiftsError =
@@ -1693,6 +1759,8 @@ export const listPreviewRotationShifts: API.PaginatedOperationMethod<
     items: "RotationShifts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPreviewRotationShifts",
 })) as any;
 
 export type ListRotationOverridesError =
@@ -1734,6 +1802,8 @@ export const listRotationOverrides: API.PaginatedOperationMethod<
     items: "RotationOverrides",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRotationOverrides",
 })) as any;
 
 export type ListRotationsError =
@@ -1773,6 +1843,8 @@ export const listRotations: API.PaginatedOperationMethod<
     items: "Rotations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRotations",
 })) as any;
 
 export type ListRotationShiftsError =
@@ -1816,6 +1888,8 @@ export const listRotationShifts: API.PaginatedOperationMethod<
     items: "RotationShifts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRotationShifts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1848,6 +1922,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutContactPolicyError =
@@ -1884,6 +1960,8 @@ export const putContactPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContactPolicy",
+  telemetry: TELEMETRY,
+  span: "PutContactPolicy",
 }));
 
 export type SendActivationCodeError =
@@ -1922,6 +2000,8 @@ export const sendActivationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendActivationCode",
+  telemetry: TELEMETRY,
+  span: "SendActivationCode",
 }));
 
 export type StartEngagementError =
@@ -1957,6 +2037,8 @@ export const startEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagement",
+  telemetry: TELEMETRY,
+  span: "StartEngagement",
 }));
 
 export type StopEngagementError =
@@ -1990,6 +2072,8 @@ export const stopEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEngagement",
+  telemetry: TELEMETRY,
+  span: "StopEngagement",
 }));
 
 export type TagResourceError =
@@ -2025,6 +2109,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2057,6 +2143,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateContactError =
@@ -2093,6 +2181,8 @@ export const updateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContact",
+  telemetry: TELEMETRY,
+  span: "UpdateContact",
 }));
 
 export type UpdateContactChannelError =
@@ -2129,6 +2219,8 @@ export const updateContactChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContactChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateContactChannel",
 }));
 
 export type UpdateRotationError =
@@ -2165,6 +2257,8 @@ export const updateRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRotation",
+  telemetry: TELEMETRY,
+  span: "UpdateRotation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

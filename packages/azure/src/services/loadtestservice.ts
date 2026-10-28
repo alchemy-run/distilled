@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.LoadTestService" },
+  prefix: "Loadtestservice",
+  service: "Loadtestservice",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckPlaywrightWorkspaceNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -854,6 +875,8 @@ export const CheckPlaywrightWorkspaceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPlaywrightWorkspaceNameAvailability",
 }));
 
 export type CheckQuotasAvailabilityError = AzureOpError;
@@ -869,6 +892,8 @@ export const CheckQuotasAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckQuotasAvailability",
 }));
 
 export type DeleteLoadTestError = AzureOpError;
@@ -884,6 +909,8 @@ export const DeleteLoadTest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLoadTest",
 }));
 
 export type DeletePlaywrightWorkspaceError = AzureOpError;
@@ -899,6 +926,8 @@ export const DeletePlaywrightWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlaywrightWorkspace",
 }));
 
 export type GetLoadTestError = AzureOpError;
@@ -914,6 +943,8 @@ export const GetLoadTest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadTest",
 }));
 
 export type GetPlaywrightQuotasError = AzureOpError;
@@ -929,6 +960,8 @@ export const GetPlaywrightQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlaywrightQuotas",
 }));
 
 export type GetPlaywrightWorkspaceError = AzureOpError;
@@ -944,6 +977,8 @@ export const GetPlaywrightWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlaywrightWorkspace",
 }));
 
 export type GetPlaywrightWorkspaceQuotasError = AzureOpError;
@@ -959,6 +994,8 @@ export const GetPlaywrightWorkspaceQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlaywrightWorkspaceQuotas",
 }));
 
 export type GetQuotasError = AzureOpError;
@@ -974,6 +1011,8 @@ export const GetQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuotas",
 }));
 
 export type ListLoadTestByResourceGroupError = AzureOpError;
@@ -989,6 +1028,8 @@ export const ListLoadTestByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoadTestByResourceGroup",
 }));
 
 export type ListLoadTestBySubscriptionError = AzureOpError;
@@ -1004,6 +1045,8 @@ export const ListLoadTestBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoadTestBySubscription",
 }));
 
 export type ListLoadTestOutboundNetworkDependenciesEndpointsError = AzureOpError;
@@ -1023,6 +1066,8 @@ export const ListLoadTestOutboundNetworkDependenciesEndpoints: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoadTestOutboundNetworkDependenciesEndpoints",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1038,6 +1083,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPlaywrightQuotasBySubscriptionError = AzureOpError;
@@ -1053,6 +1100,8 @@ export const ListPlaywrightQuotasBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlaywrightQuotasBySubscription",
 }));
 
 export type ListPlaywrightWorkspaceByResourceGroupError = AzureOpError;
@@ -1068,6 +1117,8 @@ export const ListPlaywrightWorkspaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlaywrightWorkspaceByResourceGroup",
 }));
 
 export type ListPlaywrightWorkspaceBySubscriptionError = AzureOpError;
@@ -1083,6 +1134,8 @@ export const ListPlaywrightWorkspaceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlaywrightWorkspaceBySubscription",
 }));
 
 export type ListPlaywrightWorkspaceQuotasByPlaywrightWorkspaceError = AzureOpError;
@@ -1102,6 +1155,8 @@ export const ListPlaywrightWorkspaceQuotasByPlaywrightWorkspace: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlaywrightWorkspaceQuotasByPlaywrightWorkspace",
 }));
 
 export type ListQuotasError = AzureOpError;
@@ -1117,6 +1172,8 @@ export const ListQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQuotas",
 }));
 
 export type LoadTestsCreateOrUpdateError = AzureOpError;
@@ -1132,6 +1189,8 @@ export const LoadTestsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoadTestsCreateOrUpdate",
 }));
 
 export type PlaywrightWorkspacesCreateOrUpdateError = AzureOpError;
@@ -1147,6 +1206,8 @@ export const PlaywrightWorkspacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PlaywrightWorkspacesCreateOrUpdate",
 }));
 
 export type UpdateLoadTestError = AzureOpError;
@@ -1162,6 +1223,8 @@ export const UpdateLoadTest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoadTest",
 }));
 
 export type UpdatePlaywrightWorkspaceError = AzureOpError;
@@ -1177,6 +1240,8 @@ export const UpdatePlaywrightWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlaywrightWorkspace",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

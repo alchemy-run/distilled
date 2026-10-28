@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AzureStack" },
+  prefix: "Azurestack",
+  service: "Azurestack",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Customer subscription properties. */
 export interface CustomerSubscriptionProperties {
   /** Tenant Id. */
@@ -683,6 +703,8 @@ export const CreateCustomerSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerSubscription",
 }));
 
 export type CreateDeploymentLicenseError = AzureOpError;
@@ -698,6 +720,8 @@ export const CreateDeploymentLicense: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentLicense",
 }));
 
 export type DeleteCustomerSubscriptionError = AzureOpError;
@@ -713,6 +737,8 @@ export const DeleteCustomerSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomerSubscription",
 }));
 
 export type DeleteRegistrationError = AzureOpError;
@@ -728,6 +754,8 @@ export const DeleteRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistration",
 }));
 
 export type EnableRegistrationRemoteManagementError = AzureOpError;
@@ -743,6 +771,8 @@ export const EnableRegistrationRemoteManagement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableRegistrationRemoteManagement",
 }));
 
 export type GetCloudManifestFileError = AzureOpError;
@@ -758,6 +788,8 @@ export const GetCloudManifestFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudManifestFile",
 }));
 
 export type GetCustomerSubscriptionError = AzureOpError;
@@ -773,6 +805,8 @@ export const GetCustomerSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerSubscription",
 }));
 
 export type GetProductError = AzureOpError;
@@ -788,6 +822,8 @@ export const GetProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProduct",
 }));
 
 export type GetProductProductError = AzureOpError;
@@ -803,6 +839,8 @@ export const GetProductProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductProduct",
 }));
 
 export type GetProductProductsError = AzureOpError;
@@ -818,6 +856,8 @@ export const GetProductProducts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductProducts",
 }));
 
 export type GetRegistrationError = AzureOpError;
@@ -833,6 +873,8 @@ export const GetRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistration",
 }));
 
 export type GetRegistrationActivationKeyError = AzureOpError;
@@ -848,6 +890,8 @@ export const GetRegistrationActivationKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistrationActivationKey",
 }));
 
 export type ListCloudManifestFileError = AzureOpError;
@@ -863,6 +907,8 @@ export const ListCloudManifestFile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudManifestFile",
 }));
 
 export type ListCustomerSubscriptionsError = AzureOpError;
@@ -878,6 +924,8 @@ export const ListCustomerSubscriptions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomerSubscriptions",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -893,6 +941,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProductDetailsError = AzureOpError;
@@ -908,6 +958,8 @@ export const ListProductDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductDetails",
 }));
 
 export type ListProductProductsError = AzureOpError;
@@ -923,6 +975,8 @@ export const ListProductProducts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductProducts",
 }));
 
 export type ListProductsError = AzureOpError;
@@ -938,6 +992,8 @@ export const ListProducts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProducts",
 }));
 
 export type ListRegistrationBySubscriptionError = AzureOpError;
@@ -953,6 +1009,8 @@ export const ListRegistrationBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistrationBySubscription",
 }));
 
 export type ListRegistrationsError = AzureOpError;
@@ -968,6 +1026,8 @@ export const ListRegistrations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistrations",
 }));
 
 export type RegistrationsCreateOrUpdateError = AzureOpError;
@@ -983,6 +1043,8 @@ export const RegistrationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegistrationsCreateOrUpdate",
 }));
 
 export type UpdateRegistrationError = AzureOpError;
@@ -998,6 +1060,8 @@ export const UpdateRegistration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRegistration",
 }));
 
 export type UploadProductLogError = AzureOpError;
@@ -1013,6 +1077,8 @@ export const UploadProductLog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadProductLog",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

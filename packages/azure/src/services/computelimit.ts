@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ComputeLimit" },
+  prefix: "Computelimit",
+  service: "Computelimit",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Properties for guest subscription. */
 export interface GuestSubscriptionPropertiesInput {}
 export interface CreateGuestSubscriptionRequest {
@@ -789,6 +809,8 @@ export const CreateGuestSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGuestSubscription",
 }));
 
 export type CreateSharedLimitError = AzureOpError;
@@ -804,6 +826,8 @@ export const CreateSharedLimit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSharedLimit",
 }));
 
 export type CreateTrustedHostSubscriptionError = AzureOpError;
@@ -819,6 +843,8 @@ export const CreateTrustedHostSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrustedHostSubscription",
 }));
 
 export type DeleteGuestSubscriptionError = AzureOpError;
@@ -834,6 +860,8 @@ export const DeleteGuestSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuestSubscription",
 }));
 
 export type DeleteMemberCapOverrideError = AzureOpError;
@@ -849,6 +877,8 @@ export const DeleteMemberCapOverride: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMemberCapOverride",
 }));
 
 export type DeleteSharedLimitError = AzureOpError;
@@ -864,6 +894,8 @@ export const DeleteSharedLimit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSharedLimit",
 }));
 
 export type DeleteSharedLimitCapError = AzureOpError;
@@ -879,6 +911,8 @@ export const DeleteSharedLimitCap: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSharedLimitCap",
 }));
 
 export type DeleteTrustedHostSubscriptionError = AzureOpError;
@@ -894,6 +928,8 @@ export const DeleteTrustedHostSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrustedHostSubscription",
 }));
 
 export type DisableFeatureError = AzureOpError;
@@ -909,6 +945,8 @@ export const DisableFeature: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableFeature",
 }));
 
 export type EnableFeatureError = AzureOpError;
@@ -924,6 +962,8 @@ export const EnableFeature: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableFeature",
 }));
 
 export type GetFeatureError = AzureOpError;
@@ -939,6 +979,8 @@ export const GetFeature: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeature",
 }));
 
 export type GetGuestSubscriptionError = AzureOpError;
@@ -954,6 +996,8 @@ export const GetGuestSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestSubscription",
 }));
 
 export type GetMemberCapOverrideError = AzureOpError;
@@ -969,6 +1013,8 @@ export const GetMemberCapOverride: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMemberCapOverride",
 }));
 
 export type GetSharedLimitError = AzureOpError;
@@ -984,6 +1030,8 @@ export const GetSharedLimit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedLimit",
 }));
 
 export type GetSharedLimitCapError = AzureOpError;
@@ -999,6 +1047,8 @@ export const GetSharedLimitCap: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedLimitCap",
 }));
 
 export type GetTrustedHostSubscriptionError = AzureOpError;
@@ -1014,6 +1064,8 @@ export const GetTrustedHostSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrustedHostSubscription",
 }));
 
 export type GetVmFamilyError = AzureOpError;
@@ -1029,6 +1081,8 @@ export const GetVmFamily: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmFamily",
 }));
 
 export type ListFeatureBySubscriptionLocationResourceError = AzureOpError;
@@ -1044,6 +1098,8 @@ export const ListFeatureBySubscriptionLocationResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureBySubscriptionLocationResource",
 }));
 
 export type ListGuestSubscriptionBySubscriptionLocationResourceError = AzureOpError;
@@ -1063,6 +1119,8 @@ export const ListGuestSubscriptionBySubscriptionLocationResource: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestSubscriptionBySubscriptionLocationResource",
 }));
 
 export type ListMemberCapOverrideByParentError = AzureOpError;
@@ -1078,6 +1136,8 @@ export const ListMemberCapOverrideByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMemberCapOverrideByParent",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1093,6 +1153,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSharedLimitBySubscriptionLocationResourceError = AzureOpError;
@@ -1112,6 +1174,8 @@ export const ListSharedLimitBySubscriptionLocationResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedLimitBySubscriptionLocationResource",
 }));
 
 export type ListSharedLimitCapBySubscriptionLocationResourceError = AzureOpError;
@@ -1131,6 +1195,8 @@ export const ListSharedLimitCapBySubscriptionLocationResource: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedLimitCapBySubscriptionLocationResource",
 }));
 
 export type ListTrustedHostSubscriptionBySubscriptionLocationResourceError = AzureOpError;
@@ -1150,6 +1216,8 @@ export const ListTrustedHostSubscriptionBySubscriptionLocationResource: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTrustedHostSubscriptionBySubscriptionLocationResource",
 }));
 
 export type ListVmFamilyBySubscriptionLocationResourceError = AzureOpError;
@@ -1165,6 +1233,8 @@ export const ListVmFamilyBySubscriptionLocationResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmFamilyBySubscriptionLocationResource",
 }));
 
 export type MemberCapOverridesCreateOrUpdateError = AzureOpError;
@@ -1180,6 +1250,8 @@ export const MemberCapOverridesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MemberCapOverridesCreateOrUpdate",
 }));
 
 export type SetSharedLimitCapMemberCapOverridesError = AzureOpError;
@@ -1195,6 +1267,8 @@ export const SetSharedLimitCapMemberCapOverrides: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSharedLimitCapMemberCapOverrides",
 }));
 
 export type SharedLimitCapsCreateOrUpdateError = AzureOpError;
@@ -1210,6 +1284,8 @@ export const SharedLimitCapsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SharedLimitCapsCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

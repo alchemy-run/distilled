@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectHealth",
+  service: "ConnectHealth",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -586,6 +601,8 @@ export const activateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateSubscription",
+  telemetry: TELEMETRY,
+  span: "ActivateSubscription",
 }));
 
 export type CreateDomainError = ServiceQuotaExceededException | CommonErrors;
@@ -604,6 +621,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateSubscriptionError =
@@ -634,6 +653,8 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type DeactivateSubscriptionError =
@@ -662,6 +683,8 @@ export const deactivateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateSubscription",
+  telemetry: TELEMETRY,
+  span: "DeactivateSubscription",
 }));
 
 export type DeleteDomainError = ResourceNotFoundException | CommonErrors;
@@ -680,6 +703,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type GetDomainError = ResourceNotFoundException | CommonErrors;
@@ -698,6 +723,8 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetMedicalScribeListeningSessionError =
@@ -729,6 +756,8 @@ export const getMedicalScribeListeningSession: API.OperationMethod<
   retry: Retry,
   operationName: "GetMedicalScribeListeningSession",
   endpointHostPrefix: "streaming.",
+  telemetry: TELEMETRY,
+  span: "GetMedicalScribeListeningSession",
 }));
 
 export type GetPatientInsightsJobError =
@@ -760,6 +789,8 @@ export const getPatientInsightsJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetPatientInsightsJob",
   endpointHostPrefix: "runtime.",
+  telemetry: TELEMETRY,
+  span: "GetPatientInsightsJob",
 }));
 
 export type GetSubscriptionError =
@@ -788,6 +819,8 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type ListDomainsError = CommonErrors;
@@ -813,6 +846,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domains",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListSubscriptionsError =
@@ -848,6 +883,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -866,6 +903,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartMedicalScribeListeningSessionError =
@@ -899,6 +938,8 @@ export const startMedicalScribeListeningSession: API.OperationMethod<
   retry: Retry,
   operationName: "StartMedicalScribeListeningSession",
   endpointHostPrefix: "streaming.",
+  telemetry: TELEMETRY,
+  span: "StartMedicalScribeListeningSession",
 }));
 
 export type StartPatientInsightsJobError =
@@ -932,6 +973,8 @@ export const startPatientInsightsJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartPatientInsightsJob",
   endpointHostPrefix: "runtime.",
+  telemetry: TELEMETRY,
+  span: "StartPatientInsightsJob",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -950,6 +993,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -968,6 +1013,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

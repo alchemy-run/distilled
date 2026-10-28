@@ -37,6 +37,7 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import {
   API_VERSION_TRAIT,
   convertOpenApiToSmithy,
@@ -750,8 +751,7 @@ async function main() {
     process.exit(1);
   }
 
-  fs.rmSync(outDir, { recursive: true, force: true });
-  fs.mkdirSync(outDir, { recursive: true });
+  clearModels(outDir);
 
   // Group by service, preserving discovery order.
   const byService = new Map<string, SpecFile[]>();
@@ -889,7 +889,7 @@ async function main() {
     const upstreamModel = withUpstreamNames(model, merged.upstream);
 
     const outPath = path.join(outDir, `${sanitizeNsSegment(service)}.json`);
-    fs.writeFileSync(outPath, JSON.stringify(upstreamModel, null, 2) + "\n");
+    writeModel(outPath, upstreamModel);
     serviceCount++;
     totalOps += merged.ops.length;
     totalSkipped += merged.skippedOps;
@@ -914,4 +914,4 @@ async function main() {
   await finalizeConvert({ root: rootDir });
 }
 
-main();
+await main();

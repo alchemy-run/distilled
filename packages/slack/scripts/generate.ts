@@ -106,6 +106,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Slack Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   spec: (model) => {
     // The converter records non-JSON request encodings as an operation trait

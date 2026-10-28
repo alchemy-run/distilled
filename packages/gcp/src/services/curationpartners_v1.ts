@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "curationpartners" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Curationpartners",
+  service: "curationpartners",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -909,6 +928,8 @@ export const activateCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateCuratorsCuratedPackages",
 }));
 
 export type ActivateCuratorsDataSegmentsError =
@@ -929,6 +950,8 @@ export const activateCuratorsDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateCuratorsDataSegments",
 }));
 
 export type CreateCuratorsCuratedPackagesError =
@@ -949,6 +972,8 @@ export const createCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCuratorsCuratedPackages",
 }));
 
 export type CreateCuratorsDataSegmentsError =
@@ -969,6 +994,8 @@ export const createCuratorsDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCuratorsDataSegments",
 }));
 
 export type CreateCuratorsReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -984,6 +1011,8 @@ export const createCuratorsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCuratorsReports",
 }));
 
 export type DeactivateCuratorsCuratedPackagesError =
@@ -1004,6 +1033,8 @@ export const deactivateCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateCuratorsCuratedPackages",
 }));
 
 export type DeactivateCuratorsDataSegmentsError =
@@ -1024,6 +1055,8 @@ export const deactivateCuratorsDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateCuratorsDataSegments",
 }));
 
 export type DeleteCuratorsReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1039,6 +1072,8 @@ export const deleteCuratorsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCuratorsReports",
 }));
 
 export type FetchRowsCuratorsReportsResultsError = NotFound | Forbidden | GcpOpError;
@@ -1055,6 +1090,8 @@ export const fetchRowsCuratorsReportsResults: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchRowsCuratorsReportsResults",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1071,6 +1108,8 @@ export const getCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCuratorsCuratedPackages",
 }));
 
 export type GetCuratorsDataSegmentsError = NotFound | Forbidden | GcpOpError;
@@ -1086,6 +1125,8 @@ export const getCuratorsDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCuratorsDataSegments",
 }));
 
 export type GetCuratorsReportsError = NotFound | Forbidden | GcpOpError;
@@ -1101,6 +1142,8 @@ export const getCuratorsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCuratorsReports",
 }));
 
 export type GetCuratorsReportsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1116,6 +1159,8 @@ export const getCuratorsReportsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCuratorsReportsOperations",
 }));
 
 export type ListCuratorsCuratedPackagesError = NotFound | Forbidden | GcpOpError;
@@ -1132,6 +1177,8 @@ export const listCuratorsCuratedPackages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCuratorsCuratedPackages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1149,6 +1196,8 @@ export const listCuratorsDataSegments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCuratorsDataSegments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1166,6 +1215,8 @@ export const listCuratorsReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCuratorsReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1183,6 +1234,8 @@ export const listMediaPlanners: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMediaPlanners",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1204,6 +1257,8 @@ export const patchCuratorsCuratedPackages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCuratorsCuratedPackages",
 }));
 
 export type PatchCuratorsDataSegmentsError =
@@ -1224,6 +1279,8 @@ export const patchCuratorsDataSegments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCuratorsDataSegments",
 }));
 
 export type PatchCuratorsReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1239,6 +1296,8 @@ export const patchCuratorsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCuratorsReports",
 }));
 
 export type RunCuratorsReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1254,6 +1313,8 @@ export const runCuratorsReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunCuratorsReports",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

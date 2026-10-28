@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * GustoProtocol -- hand-written.
@@ -37,7 +37,8 @@ export type GustoOpError =
   | UnknownGustoError
   | ConfigError
   | HttpClientError.HttpClientError
-  | GustoParseError;
+  | GustoParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Gusto operation. */
 export type GustoOpContext = Credentials | HttpClient.HttpClient;

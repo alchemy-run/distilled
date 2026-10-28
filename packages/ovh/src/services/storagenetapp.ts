@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Storagenetapp",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -725,6 +739,8 @@ export const confirmStorageNetappTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmStorageNetappTermination",
 }));
 
 export type CreateStorageNetappChangeContactError = OvhOpError;
@@ -740,6 +756,8 @@ export const createStorageNetappChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageNetappChangeContact",
 }));
 
 export type CreateStorageNetappShareAclError = OvhOpError;
@@ -755,6 +773,8 @@ export const createStorageNetappShareAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageNetappShareAcl",
 }));
 
 export type CreateStorageNetappShareRevertError = OvhOpError;
@@ -770,6 +790,8 @@ export const createStorageNetappShareRevert: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageNetappShareRevert",
 }));
 
 export type CreateStorageNetappShareShrinkError = OvhOpError;
@@ -785,6 +807,8 @@ export const createStorageNetappShareShrink: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageNetappShareShrink",
 }));
 
 export type CreateStorageNetappShareSnapshotError = OvhOpError;
@@ -800,6 +824,8 @@ export const createStorageNetappShareSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageNetappShareSnapshot",
 }));
 
 export type CreateStorageNetappShareSnapshotHoldError = OvhOpError;
@@ -815,6 +841,8 @@ export const createStorageNetappShareSnapshotHold: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageNetappShareSnapshotHold",
 }));
 
 export type CreateStorageNetappSnapshotPolicyError = OvhOpError;
@@ -830,6 +858,8 @@ export const createStorageNetappSnapshotPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageNetappSnapshotPolicy",
 }));
 
 export type DeleteStorageNetappShareError = OvhOpError;
@@ -845,6 +875,8 @@ export const deleteStorageNetappShare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageNetappShare",
 }));
 
 export type DeleteStorageNetappShareAclError = OvhOpError;
@@ -860,6 +892,8 @@ export const deleteStorageNetappShareAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageNetappShareAcl",
 }));
 
 export type DeleteStorageNetappShareSnapshotError = OvhOpError;
@@ -875,6 +909,8 @@ export const deleteStorageNetappShareSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageNetappShareSnapshot",
 }));
 
 export type DeleteStorageNetappSnapshotPolicyError = OvhOpError;
@@ -890,6 +926,8 @@ export const deleteStorageNetappSnapshotPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageNetappSnapshotPolicy",
 }));
 
 export type ExtendStorageNetappShareError = OvhOpError;
@@ -905,6 +943,8 @@ export const extendStorageNetappShare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendStorageNetappShare",
 }));
 
 export type GetStorageNetappError = OvhOpError;
@@ -920,6 +960,8 @@ export const getStorageNetapp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetapp",
 }));
 
 export type GetStorageNetappMetricsTokenError = OvhOpError;
@@ -935,6 +977,8 @@ export const getStorageNetappMetricsToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappMetricsToken",
 }));
 
 export type GetStorageNetappNetworkError = OvhOpError;
@@ -950,6 +994,8 @@ export const getStorageNetappNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappNetwork",
 }));
 
 export type GetStorageNetappServiceInfosError = OvhOpError;
@@ -965,6 +1011,8 @@ export const getStorageNetappServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappServiceInfos",
 }));
 
 export type GetStorageNetappShareError = OvhOpError;
@@ -980,6 +1028,8 @@ export const getStorageNetappShare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappShare",
 }));
 
 export type GetStorageNetappShareAccessPathError = OvhOpError;
@@ -995,6 +1045,8 @@ export const getStorageNetappShareAccessPath: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappShareAccessPath",
 }));
 
 export type GetStorageNetappShareAclError = OvhOpError;
@@ -1010,6 +1062,8 @@ export const getStorageNetappShareAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappShareAcl",
 }));
 
 export type GetStorageNetappShareSnapshotError = OvhOpError;
@@ -1025,6 +1079,8 @@ export const getStorageNetappShareSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappShareSnapshot",
 }));
 
 export type GetStorageNetappShareSnapshotPolicyError = OvhOpError;
@@ -1040,6 +1096,8 @@ export const getStorageNetappShareSnapshotPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappShareSnapshotPolicy",
 }));
 
 export type GetStorageNetappShareSnapshotReserveError = OvhOpError;
@@ -1055,6 +1113,8 @@ export const getStorageNetappShareSnapshotReserve: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappShareSnapshotReserve",
 }));
 
 export type GetStorageNetappSnapshotPolicyError = OvhOpError;
@@ -1070,6 +1130,8 @@ export const getStorageNetappSnapshotPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageNetappSnapshotPolicy",
 }));
 
 export type ListStorageNetappError = OvhOpError;
@@ -1085,6 +1147,8 @@ export const listStorageNetapp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageNetapp",
 }));
 
 export type ListStorageNetappNetworkError = OvhOpError;
@@ -1100,6 +1164,8 @@ export const listStorageNetappNetwork: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageNetappNetwork",
 }));
 
 export type ListStorageNetappShareError = OvhOpError;
@@ -1115,6 +1181,8 @@ export const listStorageNetappShare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageNetappShare",
 }));
 
 export type ListStorageNetappShareAccessPathError = OvhOpError;
@@ -1130,6 +1198,8 @@ export const listStorageNetappShareAccessPath: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageNetappShareAccessPath",
 }));
 
 export type ListStorageNetappShareAclError = OvhOpError;
@@ -1145,6 +1215,8 @@ export const listStorageNetappShareAcl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageNetappShareAcl",
 }));
 
 export type ListStorageNetappShareSnapshotError = OvhOpError;
@@ -1160,6 +1232,8 @@ export const listStorageNetappShareSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageNetappShareSnapshot",
 }));
 
 export type ListStorageNetappSnapshotPolicyError = OvhOpError;
@@ -1175,6 +1249,8 @@ export const listStorageNetappSnapshotPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageNetappSnapshotPolicy",
 }));
 
 export type PutStorageNetappError = OvhOpError;
@@ -1190,6 +1266,8 @@ export const putStorageNetapp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutStorageNetapp",
 }));
 
 export type PutStorageNetappServiceInfosError = OvhOpError;
@@ -1205,6 +1283,8 @@ export const putStorageNetappServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutStorageNetappServiceInfos",
 }));
 
 export type PutStorageNetappShareError = OvhOpError;
@@ -1220,6 +1300,8 @@ export const putStorageNetappShare: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutStorageNetappShare",
 }));
 
 export type PutStorageNetappShareSnapshotError = OvhOpError;
@@ -1235,6 +1317,8 @@ export const putStorageNetappShareSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutStorageNetappShareSnapshot",
 }));
 
 export type PutStorageNetappShareSnapshotPolicyError = OvhOpError;
@@ -1250,6 +1334,8 @@ export const putStorageNetappShareSnapshotPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutStorageNetappShareSnapshotPolicy",
 }));
 
 export type PutStorageNetappShareSnapshotReserveError = OvhOpError;
@@ -1265,6 +1351,8 @@ export const putStorageNetappShareSnapshotReserve: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutStorageNetappShareSnapshotReserve",
 }));
 
 export type PutStorageNetappSnapshotPolicyError = OvhOpError;
@@ -1280,6 +1368,8 @@ export const putStorageNetappSnapshotPolicy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutStorageNetappSnapshotPolicy",
 }));
 
 export type ShareStorageNetappError = OvhOpError;
@@ -1295,6 +1385,8 @@ export const shareStorageNetapp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareStorageNetapp",
 }));
 
 export type TerminateStorageNetappError = OvhOpError;
@@ -1310,6 +1402,8 @@ export const terminateStorageNetapp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateStorageNetapp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

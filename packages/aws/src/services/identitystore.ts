@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -80,6 +81,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://identitystore.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "identitystore",
+  service: "identitystore",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -608,6 +624,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateGroupMembershipError =
@@ -636,6 +654,8 @@ export const createGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupMembership",
+  telemetry: TELEMETRY,
+  span: "CreateGroupMembership",
 }));
 
 export type CreateUserError =
@@ -664,6 +684,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteGroupError =
@@ -686,6 +708,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteGroupMembershipError =
@@ -708,6 +732,8 @@ export const deleteGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteGroupMembership",
 }));
 
 export type DeleteUserError =
@@ -730,6 +756,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeGroupError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -750,6 +778,8 @@ export const describeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeGroup",
 }));
 
 export type DescribeGroupMembershipError =
@@ -773,6 +803,8 @@ export const describeGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroupMembership",
+  telemetry: TELEMETRY,
+  span: "DescribeGroupMembership",
 }));
 
 export type DescribeIdentityStoreError =
@@ -794,6 +826,8 @@ export const describeIdentityStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityStore",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityStore",
 }));
 
 export type DescribeUserError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -814,6 +848,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type GetGroupIdError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -834,6 +870,8 @@ export const getGroupId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupId",
+  telemetry: TELEMETRY,
+  span: "GetGroupId",
 }));
 
 export type GetGroupMembershipIdError =
@@ -857,6 +895,8 @@ export const getGroupMembershipId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupMembershipId",
+  telemetry: TELEMETRY,
+  span: "GetGroupMembershipId",
 }));
 
 export type GetUserIdError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -877,6 +917,8 @@ export const getUserId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserId",
+  telemetry: TELEMETRY,
+  span: "GetUserId",
 }));
 
 export type IsMemberInGroupsError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -897,6 +939,8 @@ export const isMemberInGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsMemberInGroups",
+  telemetry: TELEMETRY,
+  span: "IsMemberInGroups",
 }));
 
 export type ListGroupMembershipsError =
@@ -927,6 +971,8 @@ export const listGroupMemberships: API.PaginatedOperationMethod<
     items: "GroupMemberships",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupMemberships",
 })) as any;
 
 export type ListGroupMembershipsForMemberError =
@@ -957,6 +1003,8 @@ export const listGroupMembershipsForMember: API.PaginatedOperationMethod<
     items: "GroupMemberships",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupMembershipsForMember",
 })) as any;
 
 export type ListGroupsError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -984,6 +1032,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListIdentityStoresError = ValidationException | CommonErrors;
@@ -1011,6 +1061,8 @@ export const listIdentityStores: API.PaginatedOperationMethod<
     items: "IdentityStores",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityStores",
 })) as any;
 
 export type ListUsersError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1038,6 +1090,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type UpdateGroupError =
@@ -1066,6 +1120,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateIdentityStoreError =
@@ -1088,6 +1144,8 @@ export const updateIdentityStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityStore",
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityStore",
 }));
 
 export type UpdateUserError =
@@ -1116,6 +1174,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Zones",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** Mode of the [Zone](#tag/zones). For more information, see [Zone Modes](#tag/zones/zone-modes). */
 export type CreateZoneRequestMode = "primary" | "secondary";
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
@@ -412,6 +425,8 @@ export const createZone: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateZone",
 }));
 
 export type DeleteZoneError = HetznerOpError;
@@ -427,6 +442,8 @@ export const deleteZone: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZone",
 }));
 
 export type GetZoneError = HetznerOpError;
@@ -442,6 +459,8 @@ export const getZone: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZone",
 }));
 
 export type GetZoneZonefileError = HetznerOpError;
@@ -457,6 +476,8 @@ export const getZoneZonefile: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZoneZonefile",
 }));
 
 export type ListZonesError = HetznerOpError;
@@ -474,6 +495,8 @@ export const listZones: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListZones",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -498,6 +521,8 @@ export const updateZone: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateZone",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

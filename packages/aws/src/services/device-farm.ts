@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://devicefarm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DeviceFarm",
+  service: "DeviceFarm",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ArgumentException
   extends /*@__PURE__*/ S.TaggedError<ArgumentException>()("ArgumentException", {
@@ -1513,6 +1529,8 @@ export const createDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevicePool",
+  telemetry: TELEMETRY,
+  span: "CreateDevicePool",
 }));
 
 export type CreateInstanceProfileError =
@@ -1537,6 +1555,8 @@ export const createInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "CreateInstanceProfile",
 }));
 
 export type CreateNetworkProfileError =
@@ -1560,6 +1580,8 @@ export const createNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "CreateNetworkProfile",
 }));
 
 export type CreateProjectError =
@@ -1590,6 +1612,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRemoteAccessSessionError =
@@ -1613,6 +1637,8 @@ export const createRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "CreateRemoteAccessSession",
 }));
 
 export type CreateTestGridProjectError =
@@ -1636,6 +1662,8 @@ export const createTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestGridProject",
+  telemetry: TELEMETRY,
+  span: "CreateTestGridProject",
 }));
 
 export type CreateTestGridUrlError =
@@ -1659,6 +1687,8 @@ export const createTestGridUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestGridUrl",
+  telemetry: TELEMETRY,
+  span: "CreateTestGridUrl",
 }));
 
 export type CreateUploadError =
@@ -1682,6 +1712,8 @@ export const createUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUpload",
+  telemetry: TELEMETRY,
+  span: "CreateUpload",
 }));
 
 export type CreateVPCEConfigurationError =
@@ -1705,6 +1737,8 @@ export const createVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateVPCEConfiguration",
 }));
 
 export type DeleteDevicePoolError =
@@ -1729,6 +1763,8 @@ export const deleteDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevicePool",
+  telemetry: TELEMETRY,
+  span: "DeleteDevicePool",
 }));
 
 export type DeleteInstanceProfileError =
@@ -1752,6 +1788,8 @@ export const deleteInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceProfile",
 }));
 
 export type DeleteNetworkProfileError =
@@ -1775,6 +1813,8 @@ export const deleteNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkProfile",
 }));
 
 export type DeleteProjectError =
@@ -1800,6 +1840,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteRemoteAccessSessionError =
@@ -1825,6 +1867,8 @@ export const deleteRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "DeleteRemoteAccessSession",
 }));
 
 export type DeleteRunError =
@@ -1850,6 +1894,8 @@ export const deleteRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRun",
+  telemetry: TELEMETRY,
+  span: "DeleteRun",
 }));
 
 export type DeleteTestGridProjectError =
@@ -1875,6 +1921,8 @@ export const deleteTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestGridProject",
+  telemetry: TELEMETRY,
+  span: "DeleteTestGridProject",
 }));
 
 export type DeleteUploadError =
@@ -1898,6 +1946,8 @@ export const deleteUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUpload",
+  telemetry: TELEMETRY,
+  span: "DeleteUpload",
 }));
 
 export type DeleteVPCEConfigurationError =
@@ -1926,6 +1976,8 @@ export const deleteVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteVPCEConfiguration",
 }));
 
 export type GetAccountSettingsError =
@@ -1950,6 +2002,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetDeviceError =
@@ -1973,6 +2027,8 @@ export const getDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetDeviceInstanceError =
@@ -1996,6 +2052,8 @@ export const getDeviceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceInstance",
+  telemetry: TELEMETRY,
+  span: "GetDeviceInstance",
 }));
 
 export type GetDevicePoolError =
@@ -2019,6 +2077,8 @@ export const getDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevicePool",
+  telemetry: TELEMETRY,
+  span: "GetDevicePool",
 }));
 
 export type GetDevicePoolCompatibilityError =
@@ -2042,6 +2102,8 @@ export const getDevicePoolCompatibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevicePoolCompatibility",
+  telemetry: TELEMETRY,
+  span: "GetDevicePoolCompatibility",
 }));
 
 export type GetInstanceProfileError =
@@ -2065,6 +2127,8 @@ export const getInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "GetInstanceProfile",
 }));
 
 export type GetJobError =
@@ -2088,6 +2152,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetNetworkProfileError =
@@ -2111,6 +2177,8 @@ export const getNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "GetNetworkProfile",
 }));
 
 export type GetOfferingStatusError =
@@ -2146,6 +2214,8 @@ export const getOfferingStatus: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetOfferingStatus",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetOfferingStatus",
 })) as any;
 
 export type GetProjectError =
@@ -2169,6 +2239,8 @@ export const getProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProject",
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetRemoteAccessSessionError =
@@ -2192,6 +2264,8 @@ export const getRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "GetRemoteAccessSession",
 }));
 
 export type GetRunError =
@@ -2215,6 +2289,8 @@ export const getRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRun",
+  telemetry: TELEMETRY,
+  span: "GetRun",
 }));
 
 export type GetSuiteError =
@@ -2238,6 +2314,8 @@ export const getSuite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSuite",
+  telemetry: TELEMETRY,
+  span: "GetSuite",
 }));
 
 export type GetTestError =
@@ -2261,6 +2339,8 @@ export const getTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTest",
+  telemetry: TELEMETRY,
+  span: "GetTest",
 }));
 
 export type GetTestGridProjectError =
@@ -2283,6 +2363,8 @@ export const getTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestGridProject",
+  telemetry: TELEMETRY,
+  span: "GetTestGridProject",
 }));
 
 export type GetTestGridSessionError =
@@ -2310,6 +2392,8 @@ export const getTestGridSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestGridSession",
+  telemetry: TELEMETRY,
+  span: "GetTestGridSession",
 }));
 
 export type GetUploadError =
@@ -2333,6 +2417,8 @@ export const getUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpload",
+  telemetry: TELEMETRY,
+  span: "GetUpload",
 }));
 
 export type GetVPCEConfigurationError =
@@ -2356,6 +2442,8 @@ export const getVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetVPCEConfiguration",
 }));
 
 export type InstallToRemoteAccessSessionError =
@@ -2381,6 +2469,8 @@ export const installToRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InstallToRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "InstallToRemoteAccessSession",
 }));
 
 export type ListArtifactsError =
@@ -2406,6 +2496,8 @@ export const listArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "artifacts" } as const,
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 })) as any;
 
 export type ListDeviceInstancesError =
@@ -2430,6 +2522,8 @@ export const listDeviceInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceInstances",
+  telemetry: TELEMETRY,
+  span: "ListDeviceInstances",
 }));
 
 export type ListDevicePoolsError =
@@ -2455,6 +2549,8 @@ export const listDevicePools: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDevicePools",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "devicePools" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevicePools",
 })) as any;
 
 export type ListDevicesError =
@@ -2480,6 +2576,8 @@ export const listDevices: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDevices",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "devices" } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 })) as any;
 
 export type ListInstanceProfilesError =
@@ -2503,6 +2601,8 @@ export const listInstanceProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceProfiles",
+  telemetry: TELEMETRY,
+  span: "ListInstanceProfiles",
 }));
 
 export type ListJobsError =
@@ -2528,6 +2628,8 @@ export const listJobs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListJobs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "jobs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListNetworkProfilesError =
@@ -2551,6 +2653,8 @@ export const listNetworkProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNetworkProfiles",
+  telemetry: TELEMETRY,
+  span: "ListNetworkProfiles",
 }));
 
 export type ListOfferingPromotionsError =
@@ -2583,6 +2687,8 @@ export const listOfferingPromotions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOfferingPromotions",
+  telemetry: TELEMETRY,
+  span: "ListOfferingPromotions",
 }));
 
 export type ListOfferingsError =
@@ -2618,6 +2724,8 @@ export const listOfferings: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListOfferings",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "offerings" } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferings",
 })) as any;
 
 export type ListOfferingTransactionsError =
@@ -2657,6 +2765,8 @@ export const listOfferingTransactions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "offeringTransactions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOfferingTransactions",
 })) as any;
 
 export type ListProjectsError =
@@ -2682,6 +2792,8 @@ export const listProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "projects" } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListRemoteAccessSessionsError =
@@ -2705,6 +2817,8 @@ export const listRemoteAccessSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRemoteAccessSessions",
+  telemetry: TELEMETRY,
+  span: "ListRemoteAccessSessions",
 }));
 
 export type ListRunsError =
@@ -2730,6 +2844,8 @@ export const listRuns: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListRuns",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "runs" } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuns",
 })) as any;
 
 export type ListSamplesError =
@@ -2757,6 +2873,8 @@ export const listSamples: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSamples",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "samples" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSamples",
 })) as any;
 
 export type ListSuitesError =
@@ -2782,6 +2900,8 @@ export const listSuites: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSuites",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "suites" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSuites",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2804,6 +2924,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTestGridProjectsError = ArgumentException | InternalServiceException | CommonErrors;
@@ -2824,6 +2946,8 @@ export const listTestGridProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridProjects",
 })) as any;
 
 export type ListTestGridSessionActionsError =
@@ -2848,6 +2972,8 @@ export const listTestGridSessionActions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessionActions",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessionActions",
 })) as any;
 
 export type ListTestGridSessionArtifactsError =
@@ -2872,6 +2998,8 @@ export const listTestGridSessionArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessionArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessionArtifacts",
 })) as any;
 
 export type ListTestGridSessionsError =
@@ -2896,6 +3024,8 @@ export const listTestGridSessions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTestGridSessions",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "maxResult" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestGridSessions",
 })) as any;
 
 export type ListTestsError =
@@ -2921,6 +3051,8 @@ export const listTests: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTests",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "tests" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTests",
 })) as any;
 
 export type ListUniqueProblemsError =
@@ -2955,6 +3087,8 @@ export const listUniqueProblems: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "uniqueProblems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUniqueProblems",
 })) as any;
 
 export type ListUploadsError =
@@ -2980,6 +3114,8 @@ export const listUploads: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListUploads",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "uploads" } as const,
+  telemetry: TELEMETRY,
+  span: "ListUploads",
 })) as any;
 
 export type ListVPCEConfigurationsError =
@@ -3002,6 +3138,8 @@ export const listVPCEConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVPCEConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListVPCEConfigurations",
 }));
 
 export type PurchaseOfferingError =
@@ -3035,6 +3173,8 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseOffering",
 }));
 
 export type RenewOfferingError =
@@ -3067,6 +3207,8 @@ export const renewOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewOffering",
+  telemetry: TELEMETRY,
+  span: "RenewOffering",
 }));
 
 export type ScheduleRunError =
@@ -3097,6 +3239,8 @@ export const scheduleRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScheduleRun",
+  telemetry: TELEMETRY,
+  span: "ScheduleRun",
 }));
 
 export type StopJobError =
@@ -3123,6 +3267,8 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  telemetry: TELEMETRY,
+  span: "StopJob",
 }));
 
 export type StopRemoteAccessSessionError =
@@ -3146,6 +3292,8 @@ export const stopRemoteAccessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRemoteAccessSession",
+  telemetry: TELEMETRY,
+  span: "StopRemoteAccessSession",
 }));
 
 export type StopRunError =
@@ -3172,6 +3320,8 @@ export const stopRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRun",
+  telemetry: TELEMETRY,
+  span: "StopRun",
 }));
 
 export type TagResourceError =
@@ -3204,6 +3354,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3226,6 +3378,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeviceInstanceError =
@@ -3249,6 +3403,8 @@ export const updateDeviceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceInstance",
 }));
 
 export type UpdateDevicePoolError =
@@ -3274,6 +3430,8 @@ export const updateDevicePool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevicePool",
+  telemetry: TELEMETRY,
+  span: "UpdateDevicePool",
 }));
 
 export type UpdateInstanceProfileError =
@@ -3297,6 +3455,8 @@ export const updateInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceProfile",
 }));
 
 export type UpdateNetworkProfileError =
@@ -3320,6 +3480,8 @@ export const updateNetworkProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkProfile",
 }));
 
 export type UpdateProjectError =
@@ -3344,6 +3506,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateTestGridProjectError =
@@ -3367,6 +3531,8 @@ export const updateTestGridProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTestGridProject",
+  telemetry: TELEMETRY,
+  span: "UpdateTestGridProject",
 }));
 
 export type UpdateUploadError =
@@ -3390,6 +3556,8 @@ export const updateUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUpload",
+  telemetry: TELEMETRY,
+  span: "UpdateUpload",
 }));
 
 export type UpdateVPCEConfigurationError =
@@ -3418,6 +3586,8 @@ export const updateVPCEConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVPCEConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateVPCEConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

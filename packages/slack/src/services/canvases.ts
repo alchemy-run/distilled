@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Canvases",
+  propagate: "w3c",
+} as const;
+
 export interface CreateCanvaseRequest {
   /** Title of the newly created canvas */
   title?: string;
@@ -143,6 +156,8 @@ export const createCanvase: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvase",
 }));
 
 export type DeleteAccessError = SlackOpError;
@@ -158,6 +173,8 @@ export const deleteAccess: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccess",
 }));
 
 export type DeleteCanvaseError = SlackOpError;
@@ -173,6 +190,8 @@ export const deleteCanvase: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCanvase",
 }));
 
 export type EditCanvaseError = SlackOpError;
@@ -188,6 +207,8 @@ export const editCanvase: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditCanvase",
 }));
 
 export type GetContentError = SlackOpError;
@@ -203,6 +224,8 @@ export const getContent: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContent",
 }));
 
 export type LookupSectionError = SlackOpError;
@@ -218,6 +241,8 @@ export const lookupSection: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupSection",
 }));
 
 export type SetAccessError = SlackOpError;
@@ -233,6 +258,8 @@ export const setAccess: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAccess",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

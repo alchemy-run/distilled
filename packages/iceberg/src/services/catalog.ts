@@ -133,6 +133,19 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   write_order: "write-order",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "iceberg-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Iceberg",
+  service: "Catalog",
+  labels: "iceberg",
+  propagate: "w3c",
+} as const;
+
 export class AlreadyExistsException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()("AlreadyExistsException", {
@@ -1624,6 +1637,8 @@ export const cancelPlanning: API.OperationMethod<
   errors: [NoSuchNamespaceException, NoSuchPlanIdException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPlanning",
 }));
 
 export type CommitTransactionError =
@@ -1643,6 +1658,8 @@ export const commitTransaction: API.OperationMethod<
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitTransaction",
 }));
 
 export type CreateNamespaceError =
@@ -1661,6 +1678,8 @@ export const createNamespace: API.OperationMethod<
   errors: [AlreadyExistsException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespace",
 }));
 
 export type CreateTableError = AlreadyExistsException | NoSuchNamespaceException | IcebergOpError;
@@ -1676,6 +1695,8 @@ export const createTable: API.OperationMethod<
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTable",
 }));
 
 export type CreateViewError = AlreadyExistsException | NoSuchNamespaceException | IcebergOpError;
@@ -1691,6 +1712,8 @@ export const createView: API.OperationMethod<
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateView",
 }));
 
 export type DropNamespaceError =
@@ -1709,6 +1732,8 @@ export const dropNamespace: API.OperationMethod<
   errors: [NamespaceNotEmptyException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DropNamespace",
 }));
 
 export type DropTableError = NoSuchTableException | IcebergOpError;
@@ -1724,6 +1749,8 @@ export const dropTable: API.OperationMethod<
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DropTable",
 }));
 
 export type DropViewError = NoSuchViewException | IcebergOpError;
@@ -1739,6 +1766,8 @@ export const dropView: API.OperationMethod<
   errors: [NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DropView",
 }));
 
 export type FetchPlanningResultError =
@@ -1758,6 +1787,8 @@ export const fetchPlanningResult: API.OperationMethod<
   errors: [NoSuchNamespaceException, NoSuchPlanIdException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchPlanningResult",
 }));
 
 export type FetchScanTasksError =
@@ -1777,6 +1808,8 @@ export const fetchScanTasks: API.OperationMethod<
   errors: [NoSuchNamespaceException, NoSuchPlanTaskException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchScanTasks",
 }));
 
 export type GetConfigError = NoSuchWarehouseException | IcebergOpError;
@@ -1792,6 +1825,8 @@ export const getConfig: API.OperationMethod<
   errors: [NoSuchWarehouseException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type ListFunctionsError = NoSuchNamespaceException | IcebergOpError;
@@ -1809,6 +1844,8 @@ export const listFunctions: API.PaginatedOperationMethod<
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFunctions",
     pagination: {
       mode: "token",
       inputToken: "pageToken",
@@ -1835,6 +1872,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNamespaces",
     pagination: {
       mode: "token",
       inputToken: "pageToken",
@@ -1861,6 +1900,8 @@ export const listTables: API.PaginatedOperationMethod<
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTables",
     pagination: {
       mode: "token",
       inputToken: "pageToken",
@@ -1887,6 +1928,8 @@ export const listViews: API.PaginatedOperationMethod<
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListViews",
     pagination: {
       mode: "token",
       inputToken: "pageToken",
@@ -1911,6 +1954,8 @@ export const loadCredentials: API.OperationMethod<
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoadCredentials",
 }));
 
 export type LoadFunctionError = NoSuchFunctionException | NoSuchNamespaceException | IcebergOpError;
@@ -1926,6 +1971,8 @@ export const loadFunction: API.OperationMethod<
   errors: [NoSuchFunctionException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoadFunction",
 }));
 
 export type LoadNamespaceMetadataError = NoSuchNamespaceException | IcebergOpError;
@@ -1941,6 +1988,8 @@ export const loadNamespaceMetadata: API.OperationMethod<
   errors: [NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoadNamespaceMetadata",
 }));
 
 export type LoadTableError = NoSuchTableException | IcebergOpError;
@@ -1956,6 +2005,8 @@ export const loadTable: API.OperationMethod<
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoadTable",
 }));
 
 export type LoadViewError = NoSuchViewException | IcebergOpError;
@@ -1971,6 +2022,8 @@ export const loadView: API.OperationMethod<
   errors: [NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoadView",
 }));
 
 export type NamespaceExistsError = IcebergOpError;
@@ -1986,6 +2039,8 @@ export const namespaceExists: API.OperationMethod<
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespaceExists",
 }));
 
 export type PlanTableScanError =
@@ -2005,6 +2060,8 @@ export const planTableScan: API.OperationMethod<
   errors: [NoSuchNamespaceException, NoSuchTableException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PlanTableScan",
 }));
 
 export type RegisterTableError = AlreadyExistsException | NoSuchNamespaceException | IcebergOpError;
@@ -2020,6 +2077,8 @@ export const registerTable: API.OperationMethod<
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterTable",
 }));
 
 export type RegisterViewError = AlreadyExistsException | NoSuchNamespaceException | IcebergOpError;
@@ -2035,6 +2094,8 @@ export const registerView: API.OperationMethod<
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterView",
 }));
 
 export type RenameTableError =
@@ -2054,6 +2115,8 @@ export const renameTable: API.OperationMethod<
   errors: [NoSuchNamespaceException, NoSuchTableException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameTable",
 }));
 
 export type RenameViewError =
@@ -2073,6 +2136,8 @@ export const renameView: API.OperationMethod<
   errors: [NoSuchNamespaceException, NoSuchViewException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameView",
 }));
 
 export type ReplaceViewError =
@@ -2092,6 +2157,8 @@ export const replaceView: API.OperationMethod<
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceView",
 }));
 
 export type ReportMetricsError = NoSuchTableException | IcebergOpError;
@@ -2107,6 +2174,8 @@ export const reportMetrics: API.OperationMethod<
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportMetrics",
 }));
 
 export type SignRequestError = IcebergOpError;
@@ -2122,6 +2191,8 @@ export const signRequest: API.OperationMethod<
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignRequest",
 }));
 
 export type TableExistsError = IcebergOpError;
@@ -2137,6 +2208,8 @@ export const tableExists: API.OperationMethod<
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TableExists",
 }));
 
 export type UnregisterTableError = NoSuchTableException | IcebergOpError;
@@ -2152,6 +2225,8 @@ export const unregisterTable: API.OperationMethod<
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnregisterTable",
 }));
 
 export type UpdatePropertiesError =
@@ -2171,6 +2246,8 @@ export const updateProperties: API.OperationMethod<
   errors: [NoSuchNamespaceException, UnprocessableEntityException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProperties",
 }));
 
 export type UpdateTableError =
@@ -2190,6 +2267,8 @@ export const updateTable: API.OperationMethod<
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTable",
 }));
 
 export type ViewExistsError = IcebergOpError;
@@ -2205,6 +2284,8 @@ export const viewExists: API.OperationMethod<
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ViewExists",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

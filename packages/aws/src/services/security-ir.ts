@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SecurityIR",
+  service: "SecurityIR",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -619,6 +634,8 @@ export const batchGetMemberAccountDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMemberAccountDetails",
+  telemetry: TELEMETRY,
+  span: "BatchGetMemberAccountDetails",
 }));
 
 export type CancelMembershipError = CommonErrors;
@@ -637,6 +654,8 @@ export const cancelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMembership",
+  telemetry: TELEMETRY,
+  span: "CancelMembership",
 }));
 
 export type CloseCaseError = CommonErrors;
@@ -655,6 +674,8 @@ export const closeCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseCase",
+  telemetry: TELEMETRY,
+  span: "CloseCase",
 }));
 
 export type CreateCaseError = CommonErrors;
@@ -673,6 +694,8 @@ export const createCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
+  telemetry: TELEMETRY,
+  span: "CreateCase",
 }));
 
 export type CreateCaseCommentError = CommonErrors;
@@ -691,6 +714,8 @@ export const createCaseComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCaseComment",
+  telemetry: TELEMETRY,
+  span: "CreateCaseComment",
 }));
 
 export type CreateMembershipError = CommonErrors;
@@ -709,6 +734,8 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
+  telemetry: TELEMETRY,
+  span: "CreateMembership",
 }));
 
 export type GetCaseError = CommonErrors;
@@ -727,6 +754,8 @@ export const getCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCase",
+  telemetry: TELEMETRY,
+  span: "GetCase",
 }));
 
 export type GetCaseAttachmentDownloadUrlError = CommonErrors;
@@ -745,6 +774,8 @@ export const getCaseAttachmentDownloadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAttachmentDownloadUrl",
+  telemetry: TELEMETRY,
+  span: "GetCaseAttachmentDownloadUrl",
 }));
 
 export type GetCaseAttachmentUploadUrlError = CommonErrors;
@@ -763,6 +794,8 @@ export const getCaseAttachmentUploadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseAttachmentUploadUrl",
+  telemetry: TELEMETRY,
+  span: "GetCaseAttachmentUploadUrl",
 }));
 
 export type GetMembershipError = CommonErrors;
@@ -781,6 +814,8 @@ export const getMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembership",
+  telemetry: TELEMETRY,
+  span: "GetMembership",
 }));
 
 export type ListCaseEditsError = CommonErrors;
@@ -806,6 +841,8 @@ export const listCaseEdits: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCaseEdits",
 })) as any;
 
 export type ListCasesError = CommonErrors;
@@ -831,6 +868,8 @@ export const listCases: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCases",
 })) as any;
 
 export type ListCommentsError = CommonErrors;
@@ -856,6 +895,8 @@ export const listComments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComments",
 })) as any;
 
 export type ListInvestigationsError = CommonErrors;
@@ -881,6 +922,8 @@ export const listInvestigations: API.PaginatedOperationMethod<
     items: "investigationActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvestigations",
 })) as any;
 
 export type ListMembershipsError = CommonErrors;
@@ -906,6 +949,8 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberships",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -928,6 +973,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SendFeedbackError = CommonErrors;
@@ -946,6 +993,8 @@ export const sendFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendFeedback",
+  telemetry: TELEMETRY,
+  span: "SendFeedback",
 }));
 
 export type TagResourceError =
@@ -968,6 +1017,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -990,6 +1041,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCaseError = CommonErrors;
@@ -1008,6 +1061,8 @@ export const updateCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCase",
+  telemetry: TELEMETRY,
+  span: "UpdateCase",
 }));
 
 export type UpdateCaseCommentError = CommonErrors;
@@ -1026,6 +1081,8 @@ export const updateCaseComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseComment",
+  telemetry: TELEMETRY,
+  span: "UpdateCaseComment",
 }));
 
 export type UpdateCaseStatusError = CommonErrors;
@@ -1064,6 +1121,8 @@ export const updateCaseStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateCaseStatus",
 }));
 
 export type UpdateMembershipError = CommonErrors;
@@ -1082,6 +1141,8 @@ export const updateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMembership",
+  telemetry: TELEMETRY,
+  span: "UpdateMembership",
 }));
 
 export type UpdateResolverTypeError = CommonErrors;
@@ -1102,6 +1163,8 @@ export const updateResolverType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverType",
+  telemetry: TELEMETRY,
+  span: "UpdateResolverType",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

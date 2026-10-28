@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -82,6 +83,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudtrail.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudTrail",
+  service: "CloudTrail",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2040,6 +2056,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type CancelQueryError =
@@ -2087,6 +2105,8 @@ export const cancelQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuery",
+  telemetry: TELEMETRY,
+  span: "CancelQuery",
 }));
 
 export type CreateChannelError =
@@ -2135,6 +2155,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateDashboardError =
@@ -2189,6 +2211,8 @@ export const createDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDashboard",
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateEventDataStoreError =
@@ -2251,6 +2275,8 @@ export const createEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventDataStore",
+  telemetry: TELEMETRY,
+  span: "CreateEventDataStore",
 }));
 
 export type CreateTrailError =
@@ -2337,6 +2363,8 @@ export const createTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrail",
+  telemetry: TELEMETRY,
+  span: "CreateTrail",
 }));
 
 export type DeleteChannelError =
@@ -2367,6 +2395,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteDashboardError =
@@ -2391,6 +2421,8 @@ export const deleteDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboard",
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteEventDataStoreError =
@@ -2452,6 +2484,8 @@ export const deleteEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventDataStore",
+  telemetry: TELEMETRY,
+  span: "DeleteEventDataStore",
 }));
 
 export type DeleteResourcePolicyError =
@@ -2486,6 +2520,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteTrailError =
@@ -2540,6 +2576,8 @@ export const deleteTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrail",
+  telemetry: TELEMETRY,
+  span: "DeleteTrail",
 }));
 
 export type DeregisterOrganizationDelegatedAdminError =
@@ -2583,6 +2621,8 @@ export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterOrganizationDelegatedAdmin",
+  telemetry: TELEMETRY,
+  span: "DeregisterOrganizationDelegatedAdmin",
 }));
 
 export type DescribeQueryError =
@@ -2628,6 +2668,8 @@ export const describeQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuery",
+  telemetry: TELEMETRY,
+  span: "DescribeQuery",
 }));
 
 export type DescribeTrailsError =
@@ -2659,6 +2701,8 @@ export const describeTrails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrails",
+  telemetry: TELEMETRY,
+  span: "DescribeTrails",
 }));
 
 export type DisableFederationError =
@@ -2713,6 +2757,8 @@ export const disableFederation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableFederation",
+  telemetry: TELEMETRY,
+  span: "DisableFederation",
 }));
 
 export type EnableFederationError =
@@ -2776,6 +2822,8 @@ export const enableFederation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableFederation",
+  telemetry: TELEMETRY,
+  span: "EnableFederation",
 }));
 
 export type GenerateQueryError =
@@ -2829,6 +2877,8 @@ export const generateQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateQuery",
+  telemetry: TELEMETRY,
+  span: "GenerateQuery",
 }));
 
 export type GetChannelError =
@@ -2859,6 +2909,8 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetDashboardError =
@@ -2882,6 +2934,8 @@ export const getDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetEventConfigurationError =
@@ -2926,6 +2980,8 @@ export const getEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEventConfiguration",
 }));
 
 export type GetEventDataStoreError =
@@ -2961,6 +3017,8 @@ export const getEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventDataStore",
+  telemetry: TELEMETRY,
+  span: "GetEventDataStore",
 }));
 
 export type GetEventSelectorsError =
@@ -3014,6 +3072,8 @@ export const getEventSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventSelectors",
+  telemetry: TELEMETRY,
+  span: "GetEventSelectors",
 }));
 
 export type GetImportError =
@@ -3044,6 +3104,8 @@ export const getImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImport",
+  telemetry: TELEMETRY,
+  span: "GetImport",
 }));
 
 export type GetInsightSelectorsError =
@@ -3093,6 +3155,8 @@ export const getInsightSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightSelectors",
+  telemetry: TELEMETRY,
+  span: "GetInsightSelectors",
 }));
 
 export type GetQueryResultsError =
@@ -3140,6 +3204,8 @@ export const getQueryResults: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetQueryResults",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResults",
 })) as any;
 
 export type GetResourcePolicyError =
@@ -3172,6 +3238,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetTrailError =
@@ -3202,6 +3270,8 @@ export const getTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrail",
+  telemetry: TELEMETRY,
+  span: "GetTrail",
 }));
 
 export type GetTrailStatusError =
@@ -3236,6 +3306,8 @@ export const getTrailStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrailStatus",
+  telemetry: TELEMETRY,
+  span: "GetTrailStatus",
 }));
 
 export type ListChannelsError =
@@ -3270,6 +3342,8 @@ export const listChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListDashboardsError = UnsupportedOperationException | CommonErrors;
@@ -3290,6 +3364,8 @@ export const listDashboards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDashboards",
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 }));
 
 export type ListEventDataStoresError =
@@ -3329,6 +3405,8 @@ export const listEventDataStores: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventDataStores",
 })) as any;
 
 export type ListImportFailuresError =
@@ -3366,6 +3444,8 @@ export const listImportFailures: API.PaginatedOperationMethod<
     items: "Failures",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportFailures",
 })) as any;
 
 export type ListImportsError =
@@ -3406,6 +3486,8 @@ export const listImports: API.PaginatedOperationMethod<
     items: "Imports",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImports",
 })) as any;
 
 export type ListInsightsDataError =
@@ -3459,6 +3541,8 @@ export const listInsightsData: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInsightsData",
 })) as any;
 
 export type ListInsightsMetricDataError =
@@ -3517,6 +3601,8 @@ export const listInsightsMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInsightsMetricData",
 })) as any;
 
 export type ListPublicKeysError =
@@ -3558,6 +3644,8 @@ export const listPublicKeys: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PublicKeyList",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPublicKeys",
 })) as any;
 
 export type ListQueriesError =
@@ -3614,6 +3702,8 @@ export const listQueries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueries",
 })) as any;
 
 export type ListTagsError =
@@ -3664,6 +3754,8 @@ export const listTags: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ResourceTagList",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 })) as any;
 
 export type ListTrailsError =
@@ -3687,6 +3779,8 @@ export const listTrails: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTrails",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Trails" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrails",
 })) as any;
 
 export type LookupEventsError =
@@ -3765,6 +3859,8 @@ export const lookupEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "LookupEvents",
 })) as any;
 
 export type PutEventConfigurationError =
@@ -3823,6 +3919,8 @@ export const putEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutEventConfiguration",
 }));
 
 export type PutEventSelectorsError =
@@ -3922,6 +4020,8 @@ export const putEventSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventSelectors",
+  telemetry: TELEMETRY,
+  span: "PutEventSelectors",
 }));
 
 export type PutInsightSelectorsError =
@@ -4002,6 +4102,8 @@ export const putInsightSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInsightSelectors",
+  telemetry: TELEMETRY,
+  span: "PutInsightSelectors",
 }));
 
 export type PutResourcePolicyError =
@@ -4038,6 +4140,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterOrganizationDelegatedAdminError =
@@ -4086,6 +4190,8 @@ export const registerOrganizationDelegatedAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOrganizationDelegatedAdmin",
+  telemetry: TELEMETRY,
+  span: "RegisterOrganizationDelegatedAdmin",
 }));
 
 export type RemoveTagsError =
@@ -4136,6 +4242,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type RestoreEventDataStoreError =
@@ -4187,6 +4295,8 @@ export const restoreEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreEventDataStore",
+  telemetry: TELEMETRY,
+  span: "RestoreEventDataStore",
 }));
 
 export type SearchSampleQueriesError =
@@ -4216,6 +4326,8 @@ export const searchSampleQueries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchSampleQueries",
+  telemetry: TELEMETRY,
+  span: "SearchSampleQueries",
 }));
 
 export type StartDashboardRefreshError =
@@ -4251,6 +4363,8 @@ export const startDashboardRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDashboardRefresh",
+  telemetry: TELEMETRY,
+  span: "StartDashboardRefresh",
 }));
 
 export type StartEventDataStoreIngestionError =
@@ -4296,6 +4410,8 @@ export const startEventDataStoreIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEventDataStoreIngestion",
+  telemetry: TELEMETRY,
+  span: "StartEventDataStoreIngestion",
 }));
 
 export type StartImportError =
@@ -4359,6 +4475,8 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
+  telemetry: TELEMETRY,
+  span: "StartImport",
 }));
 
 export type StartLoggingError =
@@ -4404,6 +4522,8 @@ export const startLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLogging",
+  telemetry: TELEMETRY,
+  span: "StartLogging",
 }));
 
 export type StartQueryError =
@@ -4460,6 +4580,8 @@ export const startQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuery",
+  telemetry: TELEMETRY,
+  span: "StartQuery",
 }));
 
 export type StopEventDataStoreIngestionError =
@@ -4505,6 +4627,8 @@ export const stopEventDataStoreIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEventDataStoreIngestion",
+  telemetry: TELEMETRY,
+  span: "StopEventDataStoreIngestion",
 }));
 
 export type StopImportError =
@@ -4535,6 +4659,8 @@ export const stopImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopImport",
+  telemetry: TELEMETRY,
+  span: "StopImport",
 }));
 
 export type StopLoggingError =
@@ -4583,6 +4709,8 @@ export const stopLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopLogging",
+  telemetry: TELEMETRY,
+  span: "StopLogging",
 }));
 
 export type UpdateChannelError =
@@ -4625,6 +4753,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateDashboardError =
@@ -4670,6 +4800,8 @@ export const updateDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboard",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateEventDataStoreError =
@@ -4747,6 +4879,8 @@ export const updateEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventDataStore",
+  telemetry: TELEMETRY,
+  span: "UpdateEventDataStore",
 }));
 
 export type UpdateTrailError =
@@ -4838,6 +4972,8 @@ export const updateTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrail",
+  telemetry: TELEMETRY,
+  span: "UpdateTrail",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

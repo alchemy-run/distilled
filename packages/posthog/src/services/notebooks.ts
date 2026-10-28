@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Notebooks",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1417,6 +1430,8 @@ export const attachNotebooksWidget: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachNotebooksWidget",
 }));
 
 export type CancelNotebooksWidgetError = BadRequest | NotFound | PosthogOpError;
@@ -1432,6 +1447,8 @@ export const cancelNotebooksWidget: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelNotebooksWidget",
 }));
 
 export type CreateNotebookError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1447,6 +1464,8 @@ export const createNotebook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebook",
 }));
 
 export type CreateNotebooksCollabMarkdownSaveError = PosthogOpError;
@@ -1462,6 +1481,8 @@ export const createNotebooksCollabMarkdownSave: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksCollabMarkdownSave",
 }));
 
 export type CreateNotebooksCollabPresenceError = PosthogOpError;
@@ -1477,6 +1498,8 @@ export const createNotebooksCollabPresence: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksCollabPresence",
 }));
 
 export type CreateNotebooksCollabSaveError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1492,6 +1515,8 @@ export const createNotebooksCollabSave: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksCollabSave",
 }));
 
 export type CreateNotebooksKernelCompleteError = PosthogOpError;
@@ -1507,6 +1532,8 @@ export const createNotebooksKernelComplete: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksKernelComplete",
 }));
 
 export type CreateNotebooksKernelConfigError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1522,6 +1549,8 @@ export const createNotebooksKernelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksKernelConfig",
 }));
 
 export type CreateNotebooksKernelInspectError = PosthogOpError;
@@ -1537,6 +1566,8 @@ export const createNotebooksKernelInspect: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksKernelInspect",
 }));
 
 export type CreateNotebooksRunError = PosthogOpError;
@@ -1552,6 +1583,8 @@ export const createNotebooksRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksRun",
 }));
 
 export type CreateNotebooksRunsInterruptError = PosthogOpError;
@@ -1567,6 +1600,8 @@ export const createNotebooksRunsInterrupt: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksRunsInterrupt",
 }));
 
 export type CreateNotebooksSharingPasswordError = PosthogOpError;
@@ -1582,6 +1617,8 @@ export const createNotebooksSharingPassword: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksSharingPassword",
 }));
 
 export type CreateNotebooksSqlV2RunError = Conflict | PosthogOpError;
@@ -1597,6 +1634,8 @@ export const createNotebooksSqlV2Run: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksSqlV2Run",
 }));
 
 export type CreateNotebooksSqlV2RunsInterruptError = PosthogOpError;
@@ -1612,6 +1651,8 @@ export const createNotebooksSqlV2RunsInterrupt: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksSqlV2RunsInterrupt",
 }));
 
 export type CreateNotebooksWidgetSnapshotError = BadRequest | Conflict | PosthogOpError;
@@ -1627,6 +1668,8 @@ export const createNotebooksWidgetSnapshot: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotebooksWidgetSnapshot",
 }));
 
 export type ForkNotebooksWidgetError = BadRequest | NotFound | Conflict | PosthogOpError;
@@ -1642,6 +1685,8 @@ export const forkNotebooksWidget: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForkNotebooksWidget",
 }));
 
 export type GenerateNotebooksWidgetError =
@@ -1662,6 +1707,8 @@ export const generateNotebooksWidget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateNotebooksWidget",
 }));
 
 export type GetNotebookError = Forbidden | NotFound | PosthogOpError;
@@ -1677,6 +1724,8 @@ export const getNotebook: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebook",
 }));
 
 export type GetNotebooksActivityError = Forbidden | NotFound | PosthogOpError;
@@ -1692,6 +1741,8 @@ export const getNotebooksActivity: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksActivity",
 }));
 
 export type GetNotebooksAllActivityError = Forbidden | NotFound | PosthogOpError;
@@ -1707,6 +1758,8 @@ export const getNotebooksAllActivity: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksAllActivity",
 }));
 
 export type GetNotebooksCollabStreamError = Forbidden | NotFound | PosthogOpError;
@@ -1722,6 +1775,8 @@ export const getNotebooksCollabStream: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksCollabStream",
 }));
 
 export type GetNotebooksKernelComputeOptionError = PosthogOpError;
@@ -1737,6 +1792,8 @@ export const getNotebooksKernelComputeOption: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksKernelComputeOption",
 }));
 
 export type GetNotebooksKernelStatusError = Forbidden | NotFound | PosthogOpError;
@@ -1752,6 +1809,8 @@ export const getNotebooksKernelStatus: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksKernelStatus",
 }));
 
 export type GetNotebooksRecordingCommentError = Forbidden | NotFound | PosthogOpError;
@@ -1767,6 +1826,8 @@ export const getNotebooksRecordingComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksRecordingComment",
 }));
 
 export type GetNotebooksRunError = PosthogOpError;
@@ -1782,6 +1843,8 @@ export const getNotebooksRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksRun",
 }));
 
 export type GetNotebooksSqlV2RunError = PosthogOpError;
@@ -1797,6 +1860,8 @@ export const getNotebooksSqlV2Run: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksSqlV2Run",
 }));
 
 export type GetNotebooksSqlV2StateError = PosthogOpError;
@@ -1812,6 +1877,8 @@ export const getNotebooksSqlV2State: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksSqlV2State",
 }));
 
 export type GetNotebooksWidgetSnapshotError = PosthogOpError;
@@ -1827,6 +1894,8 @@ export const getNotebooksWidgetSnapshot: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebooksWidgetSnapshot",
 }));
 
 export type ListNotebooksError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1842,6 +1911,8 @@ export const listNotebooks: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotebooks",
 }));
 
 export type ListNotebooksSharingError = PosthogOpError;
@@ -1856,6 +1927,8 @@ export const listNotebooksSharing: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotebooksSharing",
 }));
 
 export type NotebooksDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -1871,6 +1944,8 @@ export const notebooksDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksDestroy",
 }));
 
 export type NotebooksKernelExecuteCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1886,6 +1961,8 @@ export const notebooksKernelExecuteCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksKernelExecuteCreate",
 }));
 
 export type NotebooksKernelRestartCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1901,6 +1978,8 @@ export const notebooksKernelRestartCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksKernelRestartCreate",
 }));
 
 export type NotebooksKernelStartCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1916,6 +1995,8 @@ export const notebooksKernelStartCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksKernelStartCreate",
 }));
 
 export type NotebooksKernelStopCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1931,6 +2012,8 @@ export const notebooksKernelStopCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksKernelStopCreate",
 }));
 
 export type NotebooksSharingPasswordsDestroyError = PosthogOpError;
@@ -1946,6 +2029,8 @@ export const notebooksSharingPasswordsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksSharingPasswordsDestroy",
 }));
 
 export type NotebooksSharingRefreshCreateError = PosthogOpError;
@@ -1960,6 +2045,8 @@ export const notebooksSharingRefreshCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksSharingRefreshCreate",
 }));
 
 export type NotebooksWidgetFrameError = Forbidden | NotFound | Conflict | PosthogOpError;
@@ -1975,6 +2062,8 @@ export const notebooksWidgetFrame: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksWidgetFrame",
 }));
 
 export type NotebooksWidgetRevertError = BadRequest | NotFound | Conflict | PosthogOpError;
@@ -1990,6 +2079,8 @@ export const notebooksWidgetRevert: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksWidgetRevert",
 }));
 
 export type NotebooksWidgetSnapshotFrameError = PosthogOpError;
@@ -2005,6 +2096,8 @@ export const notebooksWidgetSnapshotFrame: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksWidgetSnapshotFrame",
 }));
 
 export type NotebooksWidgetSourceError = BadRequest | NotFound | PosthogOpError;
@@ -2020,6 +2113,8 @@ export const notebooksWidgetSource: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksWidgetSource",
 }));
 
 export type NotebooksWidgetStatusError = NotFound | PosthogOpError;
@@ -2035,6 +2130,8 @@ export const notebooksWidgetStatus: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksWidgetStatus",
 }));
 
 export type NotebooksWidgetVersionsError = NotFound | PosthogOpError;
@@ -2050,6 +2147,8 @@ export const notebooksWidgetVersions: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotebooksWidgetVersions",
 }));
 
 export type PinNotebooksWidgetError = BadRequest | NotFound | PosthogOpError;
@@ -2065,6 +2164,8 @@ export const pinNotebooksWidget: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PinNotebooksWidget",
 }));
 
 export type PublishNotebooksWidgetError =
@@ -2085,6 +2186,8 @@ export const publishNotebooksWidget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishNotebooksWidget",
 }));
 
 export type PublishNotebooksWidgetSnapshotError = BadRequest | Conflict | PosthogOpError;
@@ -2100,6 +2203,8 @@ export const publishNotebooksWidgetSnapshot: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishNotebooksWidgetSnapshot",
 }));
 
 export type UpdateNotebookError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2115,6 +2220,8 @@ export const updateNotebook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNotebook",
 }));
 
 export type UpdateNotebooksPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2130,6 +2237,8 @@ export const updateNotebooksPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNotebooksPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

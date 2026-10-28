@@ -82,6 +82,7 @@ const CORE_GROUPS: Record<string, string[]> = {
     "response-validation",
     "response-validation-strict",
     "schema-lite-impl",
+    "schema-lite-typed",
   ],
   // REST/JSON SDKs (everything but AWS).
   rest: [
@@ -216,6 +217,13 @@ const sdkPlan = (dir: string): Plan | undefined => {
       if (m && existsSync(join(src, `${m[1]}.ts`))) publicMods.add(m[1]!);
     }
   }
+  // Package `imports` (`#md5`, ...) stay bare in the bundle (see `external`) so
+  // the consumer's bundler picks the variant; their targets stay entries.
+  for (const value of Object.values(pkg.imports ?? {}))
+    for (const t of exportTargets(value)) {
+      const m = /^\.\/lib\/(.+)\.js$/.exec(t);
+      if (m && existsSync(join(src, `${m[1]}.ts`))) publicMods.add(m[1]!);
+    }
   const services = [...serviceDirs].flatMap((d) =>
     walk(join(src, d))
       .map((p) => rel(src, p))
@@ -572,6 +580,38 @@ const toLatin1 = (lib: string, output: { type: string; fileName: string; latin1?
   }
 };
 
+/**
+ * Bundle a package's browser entry and one service the way a browser bundler
+ * does (the `browser` condition and package.json field): no `node:` import
+ * and no missing export may remain.
+ */
+const checkBrowser = async (plan: Plan, lib: string) => {
+  const service = plan.serviceDirs.includes("services")
+    ? readdirSync(join(lib, "services")).find((f) => f.endsWith(".js"))
+    : undefined;
+  const input = [
+    join(lib, "index.browser.js"),
+    ...(service ? [join(lib, "services", service)] : []),
+  ];
+  const nodeImports = new Set<string>();
+  const bundle = await rolldown({
+    input: input.filter((f) => existsSync(f)),
+    cwd: plan.dir,
+    platform: "browser",
+    logLevel: "silent",
+    external: (id: string) => {
+      if (id.startsWith("node:")) nodeImports.add(id);
+      return id.startsWith("node:") || id === "effect" || id.startsWith("effect/");
+    },
+  });
+  await bundle.generate({ format: "es" });
+  await bundle.close();
+  if (nodeImports.size)
+    throw new Error(
+      `bundle-lib: ${plan.name}: the browser build reaches ${[...nodeImports].sort().join(", ")}`,
+    );
+};
+
 const buildPackage = async (
   plan: Plan,
   corePlan: Plan,
@@ -823,22 +863,109 @@ const buildPackage = async (
         : `import "${group}";`;
     },
   });
-  const build = async (service?: string) => {
+  // Browser twin. A group module with a `.browser` sibling in the group
+  // (`credentials` next to `credentials.browser`) is Node-only; so is any
+  // module that reaches a `node:` import. A second build, written under
+  // `lib/_browser/`, holds the group and every other entry of the shared build
+  // with each Node-only group module swapped for its sibling. Chunks of one
+  // build agree on the names they import from each other; services and
+  // facades import the group only by its fixed aliases, which the twin group
+  // exports too. The package.json `browser` field sends each of those files
+  // to its twin, so a browser bundler loads the twins and Node, which never
+  // reads that field, loads the same files as without them.
+  const sdkGroup = plan.groups.get(SDK_GROUP) ?? [];
+  const nodeOnly = new Set(sdkGroup.filter((m) => sdkGroup.includes(`${m}.browser`)));
+  const twinOf = (m: string) => (nodeOnly.has(m) ? `${m}.browser` : m);
+  // Scans the sources itself: the parsed graph leaves out the modules of
+  // wildcard-exported directories. Type-only imports do not count.
+  const reachesNode = (m: string, seen = new Set<string>()): boolean => {
+    m = twinOf(m);
+    const file = join(src, `${m}.ts`);
+    if (seen.has(m) || !existsSync(file)) return false;
+    seen.add(m);
+    const code = readFileSync(file, "utf8");
+    if (/^\s*(?:import|export)\s+(?!type\b)[^;]*?from\s*"node:|\bimport\(\s*"node:/m.test(code))
+      return true;
+    return [
+      ...code.matchAll(
+        /^\s*(?:import|export)\s+(?!type\b)[^;]*?from\s*"(\.\.?\/[^"]+)"|^\s*import\s*"(\.\.?\/[^"]+)"|\bimport\(\s*"(\.\.?\/[^"]+)"\s*\)/gm,
+      ),
+    ].some((i) => reachesNode(noExt(rel(src, join(dirname(file), i[1] ?? i[2] ?? i[3]!))), seen));
+  };
+  const twinEntries = nodeOnly.size
+    ? Object.entries(shared).filter(
+        ([m, v]) =>
+          !v.startsWith(VIRTUAL) &&
+          !nodeOnly.has(m) &&
+          !sdkGroup.includes(`${m}.browser`) &&
+          !existsSync(join(src, `${m}.browser.ts`)) &&
+          !reachesNode(m),
+      )
+    : [];
+  const browserMap = Object.fromEntries(
+    [fileOf(SDK_GROUP), ...twinEntries.map(([m]) => m)]
+      .sort()
+      .map((m) => [`./lib/${m}.js`, `./lib/_browser/${m}.js`]),
+  );
+  const browserTwin = {
+    name: "distilled-browser-twin",
+    resolveId(source: string, importer: string | undefined) {
+      if (!importer || !source.startsWith(".") || !inside(src, importer)) return;
+      const m = noExt(rel(src, join(dirname(importer), source)));
+      if (nodeOnly.has(m)) return join(src, `${m}.browser.ts`);
+    },
+    load(id: string) {
+      if (id !== `\0${VIRTUAL}${SDK_GROUP}`) return;
+      // A Node-only module's line keeps the names its sibling also exports;
+      // any other group module that reaches Node is left out.
+      return (bundlePlugin.load(id) as string)
+        .split("\n")
+        .flatMap((line) => {
+          const file = /^(?:export \{[^}]*\} from|import) "([^"]+)";$/.exec(line)?.[1];
+          if (!file || !inside(src, file)) return [line];
+          const m = noExt(rel(src, file));
+          if (!nodeOnly.has(m)) return reachesNode(m) ? [] : [line];
+          const has = new Set(exportsOf.get(`${m}.browser`) ?? []);
+          const names = exportsOf.get(m)!.filter((e) => has.has(e));
+          return names.length
+            ? [
+                `export { ${names.map((e) => `${e} as ${exportName(m, e)}`).join(", ")} } from ${JSON.stringify(join(src, `${m}.browser.ts`))};`,
+              ]
+            : [];
+        })
+        .join("\n");
+    },
+  };
+  const build = async (service?: string, twin = false) => {
     const bundle = await rolldown({
       ...COMMON_INPUT,
-      input: service ? { [service]: join(src, `${service}.ts`) } : shared,
+      input: service
+        ? { [service]: join(src, `${service}.ts`) }
+        : twin
+          ? { [fileOf(SDK_GROUP)]: VIRTUAL + SDK_GROUP, ...Object.fromEntries(twinEntries) }
+          : shared,
       external,
-      plugins: [service ? builtGroups(service) : servicesByPackage, bundlePlugin, ...plugins],
+      plugins: [
+        ...(service
+          ? [builtGroups(service)]
+          : twin
+            ? [browserTwin, servicesByPackage]
+            : [servicesByPackage]),
+        bundlePlugin,
+        ...plugins,
+      ],
       preserveEntrySignatures: "allow-extension",
     });
+    const options = twin ? { ...outputOptions, dir: join(lib, "_browser") } : outputOptions;
+    const out = (fileName: string) => (twin ? `_browser/${fileName}` : fileName);
     const pretty = minify
       ? new Map(
-          (await bundle.generate({ ...outputOptions, sourcemap: false })).output
+          (await bundle.generate({ ...options, sourcemap: false })).output
             .filter((c: any) => c.type === "chunk")
             .map((c: any) => [key(c), c.code]),
         )
       : undefined;
-    const generated = (await bundle.generate({ ...outputOptions, minify })).output;
+    const generated = (await bundle.generate({ ...options, minify })).output;
     await bundle.close();
     if (service) datafied.delete(join(src, `${service}.ts`));
     const chunks = generated.filter((c: any) => c.type === "chunk");
@@ -861,10 +988,10 @@ const buildPackage = async (
       }
     }
     for (const c of generated) {
-      const file = join(lib, c.fileName);
+      const file = join(lib, out(c.fileName));
       mkdirSync(dirname(file), { recursive: true });
       if (c.type !== "chunk") {
-        output.push({ type: c.type, fileName: c.fileName });
+        output.push({ type: c.type, fileName: out(c.fileName) });
         // Chunk source maps are written below, after reannotate shifts them.
         if (!c.fileName.endsWith(".js.map")) writeFileSync(file, c.source);
         continue;
@@ -875,14 +1002,14 @@ const buildPackage = async (
       if (map) writeFileSync(`${file}.map`, JSON.stringify(map));
       output.push({
         type: c.type,
-        fileName: c.fileName,
+        fileName: out(c.fileName),
         isEntry: c.isEntry,
         name: c.name,
         moduleIds: c.moduleIds,
         rendered: Object.fromEntries(
           c.moduleIds.map((id: string) => [id, c.modules[id]?.renderedLength ?? 0]),
         ),
-        sourcemapFileName: c.sourcemapFileName,
+        sourcemapFileName: c.sourcemapFileName && out(c.sourcemapFileName),
         latin1: !/[^\x00-\xff]/.test(c.code),
       });
     }
@@ -902,6 +1029,13 @@ const buildPackage = async (
   }
   await Promise.all(running);
   await build();
+  if (nodeOnly.size) {
+    if (JSON.stringify(pkgJson.browser) !== JSON.stringify(browserMap))
+      throw new Error(
+        `bundle-lib: ${plan.name}: ${[...nodeOnly].join(", ")} ha${nodeOnly.size > 1 ? "ve" : "s"} a .browser sibling, so package.json needs, after "exports":\n"browser": ${JSON.stringify(browserMap, null, 2)}`,
+      );
+    await build(undefined, true);
+  }
 
   // A group that split into several chunks would duplicate nothing, but costs modules; fail loudly.
   const written = new Set<string>();
@@ -910,6 +1044,7 @@ const buildPackage = async (
     written.add(c.fileName);
     if (c.type !== "chunk") continue;
     if (c.sourcemapFileName) written.add(c.sourcemapFileName);
+    if (c.fileName.startsWith("_browser/")) continue;
     const own = groupNames.find((g) => c.isEntry && c.name === fileOf(g));
     for (const id of c.moduleIds!) {
       if (!inside(src, id)) continue;
@@ -971,6 +1106,8 @@ const buildPackage = async (
       `bundle-lib: ${plan.name}: ${r.stubs} lazy service stubs${r.kept ? `, ${r.kept} kept whole` : ""}${r.twins.length ? `, twins: ${r.twins.join(", ")}` : ""}`,
     );
   }
+
+  if (nodeOnly.size) await checkBrowser(plan, lib);
 
   // Drop tsc's per-file output that no entry point reaches any more.
   let removed = 0;
