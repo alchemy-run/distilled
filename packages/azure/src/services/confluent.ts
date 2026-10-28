@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Confluent" },
+  prefix: "Confluent",
+  service: "Confluent",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Search filters for the request */
 export type AccessListRoleBindingNameListRequestSearchFiltersMap = {
   [key: string]: string | undefined;
@@ -1660,6 +1681,8 @@ export const AccessListRoleBindingNameList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccessListRoleBindingNameList",
 }));
 
 export type ClusterCreateOrUpdateError = AzureOpError;
@@ -1675,6 +1698,8 @@ export const ClusterCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterCreateOrUpdate",
 }));
 
 export type ConnectorCreateOrUpdateError = AzureOpError;
@@ -1690,6 +1715,8 @@ export const ConnectorCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectorCreateOrUpdate",
 }));
 
 export type CreateAccessRoleBindingError = AzureOpError;
@@ -1705,6 +1732,8 @@ export const CreateAccessRoleBinding: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessRoleBinding",
 }));
 
 export type CreateMarketplaceAgreementError = AzureOpError;
@@ -1720,6 +1749,8 @@ export const CreateMarketplaceAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMarketplaceAgreement",
 }));
 
 export type CreateOrganizationError = AzureOpError;
@@ -1735,6 +1766,8 @@ export const CreateOrganization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganization",
 }));
 
 export type CreateOrganizationAPIKeyError = AzureOpError;
@@ -1750,6 +1783,8 @@ export const CreateOrganizationAPIKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationAPIKey",
 }));
 
 export type CreateTopicError = AzureOpError;
@@ -1765,6 +1800,8 @@ export const CreateTopic: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTopic",
 }));
 
 export type DeleteAccessRoleBindingError = AzureOpError;
@@ -1780,6 +1817,8 @@ export const DeleteAccessRoleBinding: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessRoleBinding",
 }));
 
 export type DeleteClusterError = AzureOpError;
@@ -1795,6 +1834,8 @@ export const DeleteCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteConnectorError = AzureOpError;
@@ -1810,6 +1851,8 @@ export const DeleteConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteEnvironmentError = AzureOpError;
@@ -1825,6 +1868,8 @@ export const DeleteEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteOrganizationError = AzureOpError;
@@ -1840,6 +1885,8 @@ export const DeleteOrganization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganization",
 }));
 
 export type DeleteOrganizationClusterAPIKeyError = AzureOpError;
@@ -1855,6 +1902,8 @@ export const DeleteOrganizationClusterAPIKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationClusterAPIKey",
 }));
 
 export type DeleteTopicError = AzureOpError;
@@ -1870,6 +1919,8 @@ export const DeleteTopic: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTopic",
 }));
 
 export type EnvironmentCreateOrUpdateError = AzureOpError;
@@ -1885,6 +1936,8 @@ export const EnvironmentCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentCreateOrUpdate",
 }));
 
 export type GetConnectorError = AzureOpError;
@@ -1900,6 +1953,8 @@ export const GetConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetOrganizationError = AzureOpError;
@@ -1915,6 +1970,8 @@ export const GetOrganization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationClusterAPIKeyError = AzureOpError;
@@ -1930,6 +1987,8 @@ export const GetOrganizationClusterAPIKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationClusterAPIKey",
 }));
 
 export type GetOrganizationClusterByIdError = AzureOpError;
@@ -1945,6 +2004,8 @@ export const GetOrganizationClusterById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationClusterById",
 }));
 
 export type GetOrganizationEnvironmentByIdError = AzureOpError;
@@ -1960,6 +2021,8 @@ export const GetOrganizationEnvironmentById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationEnvironmentById",
 }));
 
 export type GetOrganizationSchemaRegistryClusterByIdError = AzureOpError;
@@ -1975,6 +2038,8 @@ export const GetOrganizationSchemaRegistryClusterById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSchemaRegistryClusterById",
 }));
 
 export type GetTopicError = AzureOpError;
@@ -1990,6 +2055,8 @@ export const GetTopic: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTopic",
 }));
 
 export type InviteAccessUserError = AzureOpError;
@@ -2005,6 +2072,8 @@ export const InviteAccessUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteAccessUser",
 }));
 
 export type ListAccessClustersError = AzureOpError;
@@ -2020,6 +2089,8 @@ export const ListAccessClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessClusters",
 }));
 
 export type ListAccessEnvironmentsError = AzureOpError;
@@ -2035,6 +2106,8 @@ export const ListAccessEnvironments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessEnvironments",
 }));
 
 export type ListAccessInvitationsError = AzureOpError;
@@ -2050,6 +2123,8 @@ export const ListAccessInvitations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessInvitations",
 }));
 
 export type ListAccessRoleBindingsError = AzureOpError;
@@ -2065,6 +2140,8 @@ export const ListAccessRoleBindings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessRoleBindings",
 }));
 
 export type ListAccessServiceAccountsError = AzureOpError;
@@ -2080,6 +2157,8 @@ export const ListAccessServiceAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessServiceAccounts",
 }));
 
 export type ListAccessUsersError = AzureOpError;
@@ -2095,6 +2174,8 @@ export const ListAccessUsers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessUsers",
 }));
 
 export type ListConnectorError = AzureOpError;
@@ -2110,6 +2191,8 @@ export const ListConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnector",
 }));
 
 export type ListMarketplaceAgreementsError = AzureOpError;
@@ -2125,6 +2208,8 @@ export const ListMarketplaceAgreements: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceAgreements",
 }));
 
 export type ListOrganizationByResourceGroupError = AzureOpError;
@@ -2140,6 +2225,8 @@ export const ListOrganizationByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationByResourceGroup",
 }));
 
 export type ListOrganizationBySubscriptionError = AzureOpError;
@@ -2155,6 +2242,8 @@ export const ListOrganizationBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationBySubscription",
 }));
 
 export type ListOrganizationClustersError = AzureOpError;
@@ -2170,6 +2259,8 @@ export const ListOrganizationClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationClusters",
 }));
 
 export type ListOrganizationEnvironmentsError = AzureOpError;
@@ -2185,6 +2276,8 @@ export const ListOrganizationEnvironments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationEnvironments",
 }));
 
 export type ListOrganizationOperationsError = AzureOpError;
@@ -2200,6 +2293,8 @@ export const ListOrganizationOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationOperations",
 }));
 
 export type ListOrganizationRegionsError = AzureOpError;
@@ -2215,6 +2310,8 @@ export const ListOrganizationRegions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRegions",
 }));
 
 export type ListOrganizationSchemaRegistryClustersError = AzureOpError;
@@ -2230,6 +2327,8 @@ export const ListOrganizationSchemaRegistryClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSchemaRegistryClusters",
 }));
 
 export type ListTopicsError = AzureOpError;
@@ -2245,6 +2344,8 @@ export const ListTopics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTopics",
 }));
 
 export type UpdateOrganizationError = AzureOpError;
@@ -2260,6 +2361,8 @@ export const UpdateOrganization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type ValidateValidationOrganizationError = AzureOpError;
@@ -2275,6 +2378,8 @@ export const ValidateValidationOrganization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateValidationOrganization",
 }));
 
 export type ValidateValidationOrganizationV2Error = AzureOpError;
@@ -2290,6 +2395,8 @@ export const ValidateValidationOrganizationV2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateValidationOrganizationV2",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

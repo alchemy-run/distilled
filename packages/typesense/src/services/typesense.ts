@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { TypesenseOpError, TypesenseOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "typesense-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Typesense",
+  service: "Typesense",
+  labels: "typesense",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2304,6 +2317,8 @@ export const clearCache: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearCache",
 }));
 
 export type CompactDbError = TypesenseOpError;
@@ -2319,6 +2334,8 @@ export const compactDb: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompactDb",
 }));
 
 export type CreateAnalyticsEventError = BadRequest | TypesenseOpError;
@@ -2334,6 +2351,8 @@ export const createAnalyticsEvent: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnalyticsEvent",
 }));
 
 export type CreateAnalyticsRuleError = BadRequest | TypesenseOpError;
@@ -2349,6 +2368,8 @@ export const createAnalyticsRule: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnalyticsRule",
 }));
 
 export type CreateCollectionError = BadRequest | Conflict | TypesenseOpError;
@@ -2364,6 +2385,8 @@ export const createCollection: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type CreateConversationModelError = BadRequest | TypesenseOpError;
@@ -2379,6 +2402,8 @@ export const createConversationModel: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationModel",
 }));
 
 export type CreateKeyError = BadRequest | Conflict | TypesenseOpError;
@@ -2394,6 +2419,8 @@ export const createKey: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type CreateNLSearchModelError = BadRequest | TypesenseOpError;
@@ -2409,6 +2436,8 @@ export const createNLSearchModel: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNLSearchModel",
 }));
 
 export type DebugError = TypesenseOpError;
@@ -2424,6 +2453,8 @@ export const debug: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Debug",
 }));
 
 export type DeleteAliasError = NotFound | TypesenseOpError;
@@ -2439,6 +2470,8 @@ export const deleteAlias: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlias",
 }));
 
 export type DeleteAnalyticsRuleError = NotFound | TypesenseOpError;
@@ -2454,6 +2487,8 @@ export const deleteAnalyticsRule: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnalyticsRule",
 }));
 
 export type DeleteCollectionError = NotFound | TypesenseOpError;
@@ -2469,6 +2504,8 @@ export const deleteCollection: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteConversationModelError = NotFound | TypesenseOpError;
@@ -2484,6 +2521,8 @@ export const deleteConversationModel: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConversationModel",
 }));
 
 export type DeleteCurationSetError = NotFound | TypesenseOpError;
@@ -2499,6 +2538,8 @@ export const deleteCurationSet: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCurationSet",
 }));
 
 export type DeleteCurationSetItemError = NotFound | TypesenseOpError;
@@ -2514,6 +2555,8 @@ export const deleteCurationSetItem: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCurationSetItem",
 }));
 
 export type DeleteDocumentError = NotFound | TypesenseOpError;
@@ -2529,6 +2572,8 @@ export const deleteDocument: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDocument",
 }));
 
 export type DeleteDocumentsError = NotFound | TypesenseOpError;
@@ -2544,6 +2589,8 @@ export const deleteDocuments: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDocuments",
 }));
 
 export type DeleteKeyError = BadRequest | NotFound | TypesenseOpError;
@@ -2559,6 +2606,8 @@ export const deleteKey: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeleteNLSearchModelError = NotFound | TypesenseOpError;
@@ -2574,6 +2623,8 @@ export const deleteNLSearchModel: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNLSearchModel",
 }));
 
 export type DeletePresetError = NotFound | TypesenseOpError;
@@ -2589,6 +2640,8 @@ export const deletePreset: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePreset",
 }));
 
 export type DeleteStopwordsSetError = NotFound | TypesenseOpError;
@@ -2604,6 +2657,8 @@ export const deleteStopwordsSet: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStopwordsSet",
 }));
 
 export type DeleteSynonymSetError = NotFound | TypesenseOpError;
@@ -2619,6 +2674,8 @@ export const deleteSynonymSet: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSynonymSet",
 }));
 
 export type DeleteSynonymSetItemError = NotFound | TypesenseOpError;
@@ -2634,6 +2691,8 @@ export const deleteSynonymSetItem: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSynonymSetItem",
 }));
 
 export type ExportDocumentsError = NotFound | TypesenseOpError;
@@ -2649,6 +2708,8 @@ export const exportDocuments: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportDocuments",
 }));
 
 export type FlushAnalyticsError = TypesenseOpError;
@@ -2664,6 +2725,8 @@ export const flushAnalytics: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushAnalytics",
 }));
 
 export type GetAliasError = NotFound | TypesenseOpError;
@@ -2679,6 +2742,8 @@ export const getAlias: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlias",
 }));
 
 export type GetAliasesError = TypesenseOpError;
@@ -2694,6 +2759,8 @@ export const getAliases: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAliases",
 }));
 
 export type GetAllConversationModelsError = TypesenseOpError;
@@ -2709,6 +2776,8 @@ export const getAllConversationModels: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllConversationModels",
 }));
 
 export type GetAllNLSearchModelsError = TypesenseOpError;
@@ -2724,6 +2793,8 @@ export const getAllNLSearchModels: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllNLSearchModels",
 }));
 
 export type GetAllPresetsError = TypesenseOpError;
@@ -2739,6 +2810,8 @@ export const getAllPresets: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllPresets",
 }));
 
 export type GetAnalyticsEventsError = BadRequest | TypesenseOpError;
@@ -2754,6 +2827,8 @@ export const getAnalyticsEvents: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticsEvents",
 }));
 
 export type GetAnalyticsRuleError = NotFound | TypesenseOpError;
@@ -2769,6 +2844,8 @@ export const getAnalyticsRule: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticsRule",
 }));
 
 export type GetAnalyticsRulesError = TypesenseOpError;
@@ -2784,6 +2861,8 @@ export const getAnalyticsRules: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticsRules",
 }));
 
 export type GetAnalyticsStatusError = TypesenseOpError;
@@ -2799,6 +2878,8 @@ export const getAnalyticsStatus: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnalyticsStatus",
 }));
 
 export type GetAPIStatsError = TypesenseOpError;
@@ -2814,6 +2895,8 @@ export const getAPIStats: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAPIStats",
 }));
 
 export type GetCollectionError = NotFound | TypesenseOpError;
@@ -2829,6 +2912,8 @@ export const getCollection: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollection",
 }));
 
 export type GetCollectionsError = TypesenseOpError;
@@ -2844,6 +2929,8 @@ export const getCollections: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollections",
 }));
 
 export type GetConversationModelError = NotFound | TypesenseOpError;
@@ -2859,6 +2946,8 @@ export const getConversationModel: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationModel",
 }));
 
 export type GetCurationSetError = NotFound | TypesenseOpError;
@@ -2874,6 +2963,8 @@ export const getCurationSet: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurationSet",
 }));
 
 export type GetCurationSetItemError = NotFound | TypesenseOpError;
@@ -2889,6 +2980,8 @@ export const getCurationSetItem: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurationSetItem",
 }));
 
 export type GetCurationSetItemsError = NotFound | TypesenseOpError;
@@ -2904,6 +2997,8 @@ export const getCurationSetItems: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurationSetItems",
 }));
 
 export type GetCurationSetsError = TypesenseOpError;
@@ -2919,6 +3014,8 @@ export const getCurationSets: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurationSets",
 }));
 
 export type GetDocumentError = NotFound | TypesenseOpError;
@@ -2934,6 +3031,8 @@ export const getDocument: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocument",
 }));
 
 export type GetKeyError = NotFound | TypesenseOpError;
@@ -2949,6 +3048,8 @@ export const getKey: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKey",
 }));
 
 export type GetKeysError = TypesenseOpError;
@@ -2964,6 +3065,8 @@ export const getKeys: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeys",
 }));
 
 export type GetMetricsError = TypesenseOpError;
@@ -2979,6 +3082,8 @@ export const getMetrics: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetrics",
 }));
 
 export type GetNLSearchModelError = NotFound | TypesenseOpError;
@@ -2994,6 +3099,8 @@ export const getNLSearchModel: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNLSearchModel",
 }));
 
 export type GetPresetError = NotFound | TypesenseOpError;
@@ -3009,6 +3116,8 @@ export const getPreset: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreset",
 }));
 
 export type GetSchemaChangesError = TypesenseOpError;
@@ -3024,6 +3133,8 @@ export const getSchemaChanges: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchemaChanges",
 }));
 
 export type GetStemmingDictionaryError = NotFound | TypesenseOpError;
@@ -3039,6 +3150,8 @@ export const getStemmingDictionary: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStemmingDictionary",
 }));
 
 export type GetStopwordsSetError = NotFound | TypesenseOpError;
@@ -3054,6 +3167,8 @@ export const getStopwordsSet: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStopwordsSet",
 }));
 
 export type GetStopwordsSetsError = TypesenseOpError;
@@ -3069,6 +3184,8 @@ export const getStopwordsSets: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStopwordsSets",
 }));
 
 export type GetSynonymSetError = NotFound | TypesenseOpError;
@@ -3084,6 +3201,8 @@ export const getSynonymSet: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynonymSet",
 }));
 
 export type GetSynonymSetItemError = NotFound | TypesenseOpError;
@@ -3099,6 +3218,8 @@ export const getSynonymSetItem: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynonymSetItem",
 }));
 
 export type GetSynonymSetItemsError = NotFound | TypesenseOpError;
@@ -3114,6 +3235,8 @@ export const getSynonymSetItems: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynonymSetItems",
 }));
 
 export type GetSynonymSetsError = TypesenseOpError;
@@ -3129,6 +3252,8 @@ export const getSynonymSets: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynonymSets",
 }));
 
 export type HealthError = TypesenseOpError;
@@ -3144,6 +3269,8 @@ export const health: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Health",
 }));
 
 export type ImportDocumentsError = BadRequest | NotFound | TypesenseOpError;
@@ -3159,6 +3286,8 @@ export const importDocuments: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDocuments",
 }));
 
 export type ImportStemmingDictionaryError = BadRequest | TypesenseOpError;
@@ -3174,6 +3303,8 @@ export const importStemmingDictionary: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportStemmingDictionary",
 }));
 
 export type IndexDocumentError = NotFound | TypesenseOpError;
@@ -3189,6 +3320,8 @@ export const indexDocument: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndexDocument",
 }));
 
 export type ListStemmingDictionariesError = TypesenseOpError;
@@ -3204,6 +3337,8 @@ export const listStemmingDictionaries: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStemmingDictionaries",
 }));
 
 export type SearchCollectionError = BadRequest | NotFound | TypesenseOpError;
@@ -3219,6 +3354,8 @@ export const searchCollection: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCollection",
 }));
 
 export type SearchMultiError = BadRequest | TypesenseOpError;
@@ -3234,6 +3371,8 @@ export const searchMulti: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchMulti",
 }));
 
 export type TakeSnapshotError = TypesenseOpError;
@@ -3249,6 +3388,8 @@ export const takeSnapshot: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TakeSnapshot",
 }));
 
 export type ToggleSlowRequestLogError = TypesenseOpError;
@@ -3264,6 +3405,8 @@ export const toggleSlowRequestLog: API.OperationMethod<
   errors: [],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleSlowRequestLog",
 }));
 
 export type UpdateCollectionError = BadRequest | NotFound | TypesenseOpError;
@@ -3279,6 +3422,8 @@ export const updateCollection: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCollection",
 }));
 
 export type UpdateConversationModelError = BadRequest | NotFound | TypesenseOpError;
@@ -3294,6 +3439,8 @@ export const updateConversationModel: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationModel",
 }));
 
 export type UpdateDocumentError = NotFound | TypesenseOpError;
@@ -3309,6 +3456,8 @@ export const updateDocument: API.OperationMethod<
   errors: [NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDocument",
 }));
 
 export type UpdateDocumentsError = BadRequest | NotFound | TypesenseOpError;
@@ -3324,6 +3473,8 @@ export const updateDocuments: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDocuments",
 }));
 
 export type UpdateNLSearchModelError = BadRequest | NotFound | TypesenseOpError;
@@ -3339,6 +3490,8 @@ export const updateNLSearchModel: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNLSearchModel",
 }));
 
 export type UpsertAliasError = BadRequest | NotFound | TypesenseOpError;
@@ -3354,6 +3507,8 @@ export const upsertAlias: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertAlias",
 }));
 
 export type UpsertAnalyticsRuleError = BadRequest | TypesenseOpError;
@@ -3369,6 +3524,8 @@ export const upsertAnalyticsRule: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertAnalyticsRule",
 }));
 
 export type UpsertCurationSetError = BadRequest | TypesenseOpError;
@@ -3384,6 +3541,8 @@ export const upsertCurationSet: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertCurationSet",
 }));
 
 export type UpsertCurationSetItemError = BadRequest | TypesenseOpError;
@@ -3399,6 +3558,8 @@ export const upsertCurationSetItem: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertCurationSetItem",
 }));
 
 export type UpsertPresetError = BadRequest | TypesenseOpError;
@@ -3414,6 +3575,8 @@ export const upsertPreset: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertPreset",
 }));
 
 export type UpsertStopwordsSetError = BadRequest | TypesenseOpError;
@@ -3429,6 +3592,8 @@ export const upsertStopwordsSet: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertStopwordsSet",
 }));
 
 export type UpsertSynonymSetError = BadRequest | TypesenseOpError;
@@ -3444,6 +3609,8 @@ export const upsertSynonymSet: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertSynonymSet",
 }));
 
 export type UpsertSynonymSetItemError = BadRequest | TypesenseOpError;
@@ -3459,6 +3626,8 @@ export const upsertSynonymSetItem: API.OperationMethod<
   errors: [BadRequest],
   protocol: TypesenseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertSynonymSetItem",
 }));
 
 export type VoteError = TypesenseOpError;
@@ -3470,6 +3639,8 @@ export const vote: API.OperationMethod<VoteRequest, SuccessStatus, VoteError, Ty
     errors: [],
     protocol: TypesenseProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Vote",
   }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

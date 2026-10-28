@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://config.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConfigService",
+  service: "ConfigService",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
@@ -2786,6 +2802,8 @@ export const associateResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceTypes",
+  telemetry: TELEMETRY,
+  span: "AssociateResourceTypes",
 }));
 
 export type BatchGetAggregateResourceConfigError =
@@ -2812,6 +2830,8 @@ export const batchGetAggregateResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAggregateResourceConfig",
+  telemetry: TELEMETRY,
+  span: "BatchGetAggregateResourceConfig",
 }));
 
 export type BatchGetResourceConfigError =
@@ -2845,6 +2865,8 @@ export const batchGetResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetResourceConfig",
+  telemetry: TELEMETRY,
+  span: "BatchGetResourceConfig",
 }));
 
 export type DeleteAggregationAuthorizationError = InvalidParameterValueException | CommonErrors;
@@ -2864,6 +2886,8 @@ export const deleteAggregationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAggregationAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteAggregationAuthorization",
 }));
 
 export type DeleteConfigRuleError =
@@ -2907,6 +2931,8 @@ export const deleteConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigRule",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigRule",
 }));
 
 export type DeleteConfigurationAggregatorError =
@@ -2928,6 +2954,8 @@ export const deleteConfigurationAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationAggregator",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationAggregator",
 }));
 
 export type DeleteConfigurationRecorderError =
@@ -2956,6 +2984,8 @@ export const deleteConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationRecorder",
 }));
 
 export type DeleteConformancePackError =
@@ -2993,6 +3023,8 @@ export const deleteConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConformancePack",
+  telemetry: TELEMETRY,
+  span: "DeleteConformancePack",
 }));
 
 export type DeleteConnectorError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -3011,6 +3043,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteDeliveryChannelError =
@@ -3034,6 +3068,8 @@ export const deleteDeliveryChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteDeliveryChannel",
 }));
 
 export type DeleteEvaluationResultsError =
@@ -3058,6 +3094,8 @@ export const deleteEvaluationResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluationResults",
+  telemetry: TELEMETRY,
+  span: "DeleteEvaluationResults",
 }));
 
 export type DeleteOrganizationConfigRuleError =
@@ -3103,6 +3141,8 @@ export const deleteOrganizationConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationConfigRule",
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationConfigRule",
 }));
 
 export type DeleteOrganizationConformancePackError =
@@ -3149,6 +3189,8 @@ export const deleteOrganizationConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationConformancePack",
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationConformancePack",
 }));
 
 export type DeletePendingAggregationRequestError = InvalidParameterValueException | CommonErrors;
@@ -3168,6 +3210,8 @@ export const deletePendingAggregationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePendingAggregationRequest",
+  telemetry: TELEMETRY,
+  span: "DeletePendingAggregationRequest",
 }));
 
 export type DeleteRemediationConfigurationError =
@@ -3196,6 +3240,8 @@ export const deleteRemediationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemediationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteRemediationConfiguration",
 }));
 
 export type DeleteRemediationExceptionsError = NoSuchRemediationExceptionException | CommonErrors;
@@ -3217,6 +3263,8 @@ export const deleteRemediationExceptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemediationExceptions",
+  telemetry: TELEMETRY,
+  span: "DeleteRemediationExceptions",
 }));
 
 export type DeleteResourceConfigError =
@@ -3238,6 +3286,8 @@ export const deleteResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceConfig",
 }));
 
 export type DeleteRetentionConfigurationError =
@@ -3259,6 +3309,8 @@ export const deleteRetentionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetentionConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteRetentionConfiguration",
 }));
 
 export type DeleteServiceLinkedConfigurationRecorderError =
@@ -3291,6 +3343,8 @@ export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceLinkedConfigurationRecorder",
 }));
 
 export type DeleteStoredQueryError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -3309,6 +3363,8 @@ export const deleteStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStoredQuery",
+  telemetry: TELEMETRY,
+  span: "DeleteStoredQuery",
 }));
 
 export type DeliverConfigSnapshotError =
@@ -3346,6 +3402,8 @@ export const deliverConfigSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeliverConfigSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeliverConfigSnapshot",
 }));
 
 export type DescribeAggregateComplianceByConfigRulesError =
@@ -3381,6 +3439,8 @@ export const describeAggregateComplianceByConfigRules: API.PaginatedOperationMet
   retry: Retry,
   operationName: "DescribeAggregateComplianceByConfigRules",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAggregateComplianceByConfigRules",
 })) as any;
 
 export type DescribeAggregateComplianceByConformancePacksError =
@@ -3427,6 +3487,8 @@ export const describeAggregateComplianceByConformancePacks: API.PaginatedOperati
     items: "AggregateComplianceByConformancePacks",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAggregateComplianceByConformancePacks",
 })) as any;
 
 export type DescribeAggregationAuthorizationsError =
@@ -3457,6 +3519,8 @@ export const describeAggregationAuthorizations: API.PaginatedOperationMethod<
     items: "AggregationAuthorizations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAggregationAuthorizations",
 })) as any;
 
 export type DescribeComplianceByConfigRuleError =
@@ -3514,6 +3578,8 @@ export const describeComplianceByConfigRule: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ComplianceByConfigRules",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeComplianceByConfigRule",
 })) as any;
 
 export type DescribeComplianceByResourceError =
@@ -3571,6 +3637,8 @@ export const describeComplianceByResource: API.PaginatedOperationMethod<
     items: "ComplianceByResources",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeComplianceByResource",
 })) as any;
 
 export type DescribeConfigRuleEvaluationStatusError =
@@ -3601,6 +3669,8 @@ export const describeConfigRuleEvaluationStatus: API.PaginatedOperationMethod<
     items: "ConfigRulesEvaluationStatus",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigRuleEvaluationStatus",
 })) as any;
 
 export type DescribeConfigRulesError =
@@ -3625,6 +3695,8 @@ export const describeConfigRules: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeConfigRules",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "ConfigRules" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigRules",
 })) as any;
 
 export type DescribeConfigurationAggregatorsError =
@@ -3663,6 +3735,8 @@ export const describeConfigurationAggregators: API.PaginatedOperationMethod<
     items: "ConfigurationAggregators",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationAggregators",
 })) as any;
 
 export type DescribeConfigurationAggregatorSourcesStatusError =
@@ -3707,6 +3781,8 @@ export const describeConfigurationAggregatorSourcesStatus: API.PaginatedOperatio
     items: "AggregatedSourceStatusList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationAggregatorSourcesStatus",
 })) as any;
 
 export type DescribeConfigurationRecordersError =
@@ -3733,6 +3809,8 @@ export const describeConfigurationRecorders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRecorders",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRecorders",
 }));
 
 export type DescribeConfigurationRecorderStatusError =
@@ -3762,6 +3840,8 @@ export const describeConfigurationRecorderStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRecorderStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRecorderStatus",
 }));
 
 export type DescribeConformancePackComplianceError =
@@ -3801,6 +3881,8 @@ export const describeConformancePackCompliance: API.PaginatedOperationMethod<
     items: "ConformancePackRuleComplianceList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConformancePackCompliance",
 })) as any;
 
 export type DescribeConformancePacksError =
@@ -3836,6 +3918,8 @@ export const describeConformancePacks: API.PaginatedOperationMethod<
     items: "ConformancePackDetails",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConformancePacks",
 })) as any;
 
 export type DescribeConformancePackStatusError =
@@ -3867,6 +3951,8 @@ export const describeConformancePackStatus: API.PaginatedOperationMethod<
     items: "ConformancePackStatusDetails",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConformancePackStatus",
 })) as any;
 
 export type DescribeDeliveryChannelsError = NoSuchDeliveryChannelException | CommonErrors;
@@ -3890,6 +3976,8 @@ export const describeDeliveryChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryChannels",
+  telemetry: TELEMETRY,
+  span: "DescribeDeliveryChannels",
 }));
 
 export type DescribeDeliveryChannelStatusError = NoSuchDeliveryChannelException | CommonErrors;
@@ -3914,6 +4002,8 @@ export const describeDeliveryChannelStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryChannelStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeDeliveryChannelStatus",
 }));
 
 export type DescribeOrganizationConfigRulesError =
@@ -3967,6 +4057,8 @@ export const describeOrganizationConfigRules: API.PaginatedOperationMethod<
     items: "OrganizationConfigRules",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfigRules",
 })) as any;
 
 export type DescribeOrganizationConfigRuleStatusesError =
@@ -4009,6 +4101,8 @@ export const describeOrganizationConfigRuleStatuses: API.PaginatedOperationMetho
     items: "OrganizationConfigRuleStatuses",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfigRuleStatuses",
 })) as any;
 
 export type DescribeOrganizationConformancePacksError =
@@ -4062,6 +4156,8 @@ export const describeOrganizationConformancePacks: API.PaginatedOperationMethod<
     items: "OrganizationConformancePacks",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConformancePacks",
 })) as any;
 
 export type DescribeOrganizationConformancePackStatusesError =
@@ -4112,6 +4208,8 @@ export const describeOrganizationConformancePackStatuses: API.PaginatedOperation
     items: "OrganizationConformancePackStatuses",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConformancePackStatuses",
 })) as any;
 
 export type DescribePendingAggregationRequestsError =
@@ -4141,6 +4239,8 @@ export const describePendingAggregationRequests: API.PaginatedOperationMethod<
     items: "PendingAggregationRequests",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePendingAggregationRequests",
 })) as any;
 
 export type DescribeRemediationConfigurationsError = CommonErrors;
@@ -4159,6 +4259,8 @@ export const describeRemediationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRemediationConfigurations",
+  telemetry: TELEMETRY,
+  span: "DescribeRemediationConfigurations",
 }));
 
 export type DescribeRemediationExceptionsError =
@@ -4190,6 +4292,8 @@ export const describeRemediationExceptions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeRemediationExceptions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRemediationExceptions",
 })) as any;
 
 export type DescribeRemediationExecutionStatusError =
@@ -4224,6 +4328,8 @@ export const describeRemediationExecutionStatus: API.PaginatedOperationMethod<
     items: "RemediationExecutionStatuses",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRemediationExecutionStatus",
 })) as any;
 
 export type DescribeRetentionConfigurationsError =
@@ -4262,6 +4368,8 @@ export const describeRetentionConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "RetentionConfigurations",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRetentionConfigurations",
 })) as any;
 
 export type DisassociateResourceTypesError =
@@ -4286,6 +4394,8 @@ export const disassociateResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceTypes",
+  telemetry: TELEMETRY,
+  span: "DisassociateResourceTypes",
 }));
 
 export type GetAggregateComplianceDetailsByConfigRuleError =
@@ -4328,6 +4438,8 @@ export const getAggregateComplianceDetailsByConfigRule: API.PaginatedOperationMe
     items: "AggregateEvaluationResults",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAggregateComplianceDetailsByConfigRule",
 })) as any;
 
 export type GetAggregateConfigRuleComplianceSummaryError =
@@ -4363,6 +4475,8 @@ export const getAggregateConfigRuleComplianceSummary: API.PaginatedOperationMeth
   retry: Retry,
   operationName: "GetAggregateConfigRuleComplianceSummary",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetAggregateConfigRuleComplianceSummary",
 })) as any;
 
 export type GetAggregateConformancePackComplianceSummaryError =
@@ -4399,6 +4513,8 @@ export const getAggregateConformancePackComplianceSummary: API.PaginatedOperatio
   retry: Retry,
   operationName: "GetAggregateConformancePackComplianceSummary",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetAggregateConformancePackComplianceSummary",
 })) as any;
 
 export type GetAggregateDiscoveredResourceCountsError =
@@ -4432,6 +4548,8 @@ export const getAggregateDiscoveredResourceCounts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetAggregateDiscoveredResourceCounts",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetAggregateDiscoveredResourceCounts",
 })) as any;
 
 export type GetAggregateResourceConfigError =
@@ -4462,6 +4580,8 @@ export const getAggregateResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregateResourceConfig",
+  telemetry: TELEMETRY,
+  span: "GetAggregateResourceConfig",
 }));
 
 export type GetComplianceDetailsByConfigRuleError =
@@ -4494,6 +4614,8 @@ export const getComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
     items: "EvaluationResults",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetComplianceDetailsByConfigRule",
 })) as any;
 
 export type GetComplianceDetailsByResourceError = InvalidParameterValueException | CommonErrors;
@@ -4521,6 +4643,8 @@ export const getComplianceDetailsByResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "EvaluationResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetComplianceDetailsByResource",
 })) as any;
 
 export type GetComplianceSummaryByConfigRuleError = CommonErrors;
@@ -4540,6 +4664,8 @@ export const getComplianceSummaryByConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummaryByConfigRule",
+  telemetry: TELEMETRY,
+  span: "GetComplianceSummaryByConfigRule",
 }));
 
 export type GetComplianceSummaryByResourceTypeError = InvalidParameterValueException | CommonErrors;
@@ -4561,6 +4687,8 @@ export const getComplianceSummaryByResourceType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummaryByResourceType",
+  telemetry: TELEMETRY,
+  span: "GetComplianceSummaryByResourceType",
 }));
 
 export type GetConformancePackComplianceDetailsError =
@@ -4593,6 +4721,8 @@ export const getConformancePackComplianceDetails: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetConformancePackComplianceDetails",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetConformancePackComplianceDetails",
 })) as any;
 
 export type GetConformancePackComplianceSummaryError =
@@ -4622,6 +4752,8 @@ export const getConformancePackComplianceSummary: API.PaginatedOperationMethod<
     items: "ConformancePackComplianceSummaryList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetConformancePackComplianceSummary",
 })) as any;
 
 export type GetConnectorError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -4640,6 +4772,8 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetCustomRulePolicyError = NoSuchConfigRuleException | CommonErrors;
@@ -4658,6 +4792,8 @@ export const getCustomRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomRulePolicy",
+  telemetry: TELEMETRY,
+  span: "GetCustomRulePolicy",
 }));
 
 export type GetDiscoveredResourceCountsError =
@@ -4724,6 +4860,8 @@ export const getDiscoveredResourceCounts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetDiscoveredResourceCounts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "limit" } as const,
+  telemetry: TELEMETRY,
+  span: "GetDiscoveredResourceCounts",
 })) as any;
 
 export type GetOrganizationConfigRuleDetailedStatusError =
@@ -4759,6 +4897,8 @@ export const getOrganizationConfigRuleDetailedStatus: API.PaginatedOperationMeth
     items: "OrganizationConfigRuleDetailedStatus",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationConfigRuleDetailedStatus",
 })) as any;
 
 export type GetOrganizationConformancePackDetailedStatusError =
@@ -4798,6 +4938,8 @@ export const getOrganizationConformancePackDetailedStatus: API.PaginatedOperatio
     items: "OrganizationConformancePackDetailedStatuses",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationConformancePackDetailedStatus",
 })) as any;
 
 export type GetOrganizationCustomRulePolicyError =
@@ -4819,6 +4961,8 @@ export const getOrganizationCustomRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationCustomRulePolicy",
+  telemetry: TELEMETRY,
+  span: "GetOrganizationCustomRulePolicy",
 }));
 
 export type GetResourceConfigHistoryError =
@@ -4886,6 +5030,8 @@ export const getResourceConfigHistory: API.PaginatedOperationMethod<
     items: "configurationItems",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceConfigHistory",
 })) as any;
 
 export type GetResourceEvaluationSummaryError = ResourceNotFoundException | CommonErrors;
@@ -4909,6 +5055,8 @@ export const getResourceEvaluationSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceEvaluationSummary",
+  telemetry: TELEMETRY,
+  span: "GetResourceEvaluationSummary",
 }));
 
 export type GetStoredQueryError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -4927,6 +5075,8 @@ export const getStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStoredQuery",
+  telemetry: TELEMETRY,
+  span: "GetStoredQuery",
 }));
 
 export type ListAggregateDiscoveredResourcesError =
@@ -4966,6 +5116,8 @@ export const listAggregateDiscoveredResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAggregateDiscoveredResources",
 })) as any;
 
 export type ListConfigurationRecordersError = ValidationException | CommonErrors;
@@ -4991,6 +5143,8 @@ export const listConfigurationRecorders: API.PaginatedOperationMethod<
     items: "ConfigurationRecorderSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationRecorders",
 })) as any;
 
 export type ListConformancePackComplianceScoresError =
@@ -5020,6 +5174,8 @@ export const listConformancePackComplianceScores: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListConformancePackComplianceScores",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "ListConformancePackComplianceScores",
 })) as any;
 
 export type ListConnectorsError = ValidationException | CommonErrors;
@@ -5045,6 +5201,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "ConnectorSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListDiscoveredResourcesError =
@@ -5113,6 +5271,8 @@ export const listDiscoveredResources: API.PaginatedOperationMethod<
     items: "resourceIdentifiers",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveredResources",
 })) as any;
 
 export type ListResourceEvaluationsError =
@@ -5142,6 +5302,8 @@ export const listResourceEvaluations: API.PaginatedOperationMethod<
     items: "ResourceEvaluations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceEvaluations",
 })) as any;
 
 export type ListStoredQueriesError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -5166,6 +5328,8 @@ export const listStoredQueries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStoredQueries",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5201,6 +5365,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PutAggregationAuthorizationError = InvalidParameterValueException | CommonErrors;
@@ -5227,6 +5393,8 @@ export const putAggregationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAggregationAuthorization",
+  telemetry: TELEMETRY,
+  span: "PutAggregationAuthorization",
 }));
 
 export type PutConfigRuleError =
@@ -5308,6 +5476,8 @@ export const putConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigRule",
+  telemetry: TELEMETRY,
+  span: "PutConfigRule",
 }));
 
 export type PutConfigurationAggregatorError =
@@ -5361,6 +5531,8 @@ export const putConfigurationAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationAggregator",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationAggregator",
 }));
 
 export type PutConfigurationRecorderError =
@@ -5418,6 +5590,8 @@ export const putConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationRecorder",
 }));
 
 export type PutConformancePackError =
@@ -5475,6 +5649,8 @@ export const putConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConformancePack",
+  telemetry: TELEMETRY,
+  span: "PutConformancePack",
 }));
 
 export type PutConnectorError =
@@ -5515,6 +5691,8 @@ export const putConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConnector",
+  telemetry: TELEMETRY,
+  span: "PutConnector",
 }));
 
 export type PutDeliveryChannelError =
@@ -5563,6 +5741,8 @@ export const putDeliveryChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliveryChannel",
+  telemetry: TELEMETRY,
+  span: "PutDeliveryChannel",
 }));
 
 export type PutEvaluationsError =
@@ -5587,6 +5767,8 @@ export const putEvaluations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvaluations",
+  telemetry: TELEMETRY,
+  span: "PutEvaluations",
 }));
 
 export type PutExternalEvaluationError =
@@ -5609,6 +5791,8 @@ export const putExternalEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutExternalEvaluation",
+  telemetry: TELEMETRY,
+  span: "PutExternalEvaluation",
 }));
 
 export type PutOrganizationConfigRuleError =
@@ -5686,6 +5870,8 @@ export const putOrganizationConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOrganizationConfigRule",
+  telemetry: TELEMETRY,
+  span: "PutOrganizationConfigRule",
 }));
 
 export type PutOrganizationConformancePackError =
@@ -5756,6 +5942,8 @@ export const putOrganizationConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOrganizationConformancePack",
+  telemetry: TELEMETRY,
+  span: "PutOrganizationConformancePack",
 }));
 
 export type PutRemediationConfigurationsError =
@@ -5804,6 +5992,8 @@ export const putRemediationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRemediationConfigurations",
+  telemetry: TELEMETRY,
+  span: "PutRemediationConfigurations",
 }));
 
 export type PutRemediationExceptionsError =
@@ -5858,6 +6048,8 @@ export const putRemediationExceptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRemediationExceptions",
+  telemetry: TELEMETRY,
+  span: "PutRemediationExceptions",
 }));
 
 export type PutResourceConfigError =
@@ -5895,6 +6087,8 @@ export const putResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceConfig",
+  telemetry: TELEMETRY,
+  span: "PutResourceConfig",
 }));
 
 export type PutRetentionConfigurationError =
@@ -5925,6 +6119,8 @@ export const putRetentionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutRetentionConfiguration",
 }));
 
 export type PutServiceLinkedConfigurationRecorderError =
@@ -5969,6 +6165,8 @@ export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutServiceLinkedConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "PutServiceLinkedConfigurationRecorder",
 }));
 
 export type PutStoredQueryError =
@@ -5997,6 +6195,8 @@ export const putStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStoredQuery",
+  telemetry: TELEMETRY,
+  span: "PutStoredQuery",
 }));
 
 export type PutThirdPartyServiceLinkedConfigurationRecorderError =
@@ -6039,6 +6239,8 @@ export const putThirdPartyServiceLinkedConfigurationRecorder: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyServiceLinkedConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "PutThirdPartyServiceLinkedConfigurationRecorder",
 }));
 
 export type SelectAggregateResourceConfigError =
@@ -6086,6 +6288,8 @@ export const selectAggregateResourceConfig: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SelectAggregateResourceConfig",
 })) as any;
 
 export type SelectResourceConfigError =
@@ -6120,6 +6324,8 @@ export const selectResourceConfig: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SelectResourceConfig",
 })) as any;
 
 export type StartConfigRulesEvaluationError =
@@ -6187,6 +6393,8 @@ export const startConfigRulesEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigRulesEvaluation",
+  telemetry: TELEMETRY,
+  span: "StartConfigRulesEvaluation",
 }));
 
 export type StartConfigurationRecorderError =
@@ -6216,6 +6424,8 @@ export const startConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "StartConfigurationRecorder",
 }));
 
 export type StartRemediationExecutionError =
@@ -6244,6 +6454,8 @@ export const startRemediationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRemediationExecution",
+  telemetry: TELEMETRY,
+  span: "StartRemediationExecution",
 }));
 
 export type StartResourceEvaluationError =
@@ -6276,6 +6488,8 @@ export const startResourceEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceEvaluation",
+  telemetry: TELEMETRY,
+  span: "StartResourceEvaluation",
 }));
 
 export type StopConfigurationRecorderError =
@@ -6297,6 +6511,8 @@ export const stopConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopConfigurationRecorder",
+  telemetry: TELEMETRY,
+  span: "StopConfigurationRecorder",
 }));
 
 export type TagResourceError =
@@ -6320,6 +6536,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -6338,6 +6556,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

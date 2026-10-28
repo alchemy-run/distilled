@@ -10,6 +10,18 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Code",
+  propagate: "w3c",
+} as const;
+
 export interface ListCodeSandboxPricingRequest {}
 export interface ComputeRateCard {
   /** Stable identifier for this rate card. */
@@ -44,6 +56,8 @@ export const listCodeSandboxPricing: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCodeSandboxPricing",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

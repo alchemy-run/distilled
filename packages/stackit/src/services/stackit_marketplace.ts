@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "StackitMarketplace",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -253,6 +266,8 @@ export const approveSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveSubscription",
 }));
 
 export type CancelConsumersSubscriptionError =
@@ -273,6 +288,8 @@ export const cancelConsumersSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelConsumersSubscription",
 }));
 
 export type ConsumersSubscriptionsListByOrganizationError = BadRequest | Forbidden | StackitOpError;
@@ -288,6 +305,8 @@ export const consumersSubscriptionsListByOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConsumersSubscriptionsListByOrganization",
 }));
 
 export type ConsumersSubscriptionsListByProjectError = BadRequest | Forbidden | StackitOpError;
@@ -303,6 +322,8 @@ export const consumersSubscriptionsListByProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConsumersSubscriptionsListByProject",
 }));
 
 export type CreateConsumersSubscriptionError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -318,6 +339,8 @@ export const createConsumersSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConsumersSubscription",
 }));
 
 export type GetConsumersSubscriptionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -333,6 +356,8 @@ export const getConsumersSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConsumersSubscription",
 }));
 
 export type GetConsumersSubscriptionsRedirectError = BadRequest | Forbidden | StackitOpError;
@@ -348,6 +373,8 @@ export const getConsumersSubscriptionsRedirect: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConsumersSubscriptionsRedirect",
 }));
 
 export type GetVendorsSubscriptionError = BadRequest | Forbidden | StackitOpError;
@@ -363,6 +390,8 @@ export const getVendorsSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVendorsSubscription",
 }));
 
 export type RejectVendorsSubscriptionError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -378,6 +407,8 @@ export const rejectVendorsSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectVendorsSubscription",
 }));
 
 export type ResolveCustomerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -393,6 +424,8 @@ export const resolveCustomer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveCustomer",
 }));
 
 export type TerminateConsumersSubscriptionError =
@@ -412,6 +445,8 @@ export const terminateConsumersSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateConsumersSubscription",
 }));
 
 export type VendorsSubscriptionsListByOrganizationError = BadRequest | Forbidden | StackitOpError;
@@ -427,6 +462,8 @@ export const vendorsSubscriptionsListByOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VendorsSubscriptionsListByOrganization",
 }));
 
 export type VendorsSubscriptionsListByProjectError = BadRequest | Forbidden | StackitOpError;
@@ -442,6 +479,8 @@ export const vendorsSubscriptionsListByProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VendorsSubscriptionsListByProject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

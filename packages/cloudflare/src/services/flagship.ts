@@ -29,6 +29,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   updatedBy: "updated_by",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Flagship",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class FlagshipAppNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<FlagshipAppNotFound>()("FlagshipAppNotFound", {
@@ -2938,6 +2952,8 @@ export const createApp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateAppFlagError =
@@ -2956,6 +2972,8 @@ export const createAppFlag: API.OperationMethod<
   errors: [FlagshipFlagAlreadyExists, FlagshipAppNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppFlag",
 }));
 
 export type DeleteAppError = FlagshipAppNotFound | CloudflareOpError;
@@ -2971,6 +2989,8 @@ export const deleteApp: API.OperationMethod<
   errors: [FlagshipAppNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteAppFlagError = FlagshipFlagNotFound | FlagshipAppNotFound | CloudflareOpError;
@@ -2986,6 +3006,8 @@ export const deleteAppFlag: API.OperationMethod<
   errors: [FlagshipFlagNotFound, FlagshipAppNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppFlag",
 }));
 
 export type GetAppError = FlagshipAppNotFound | CloudflareOpError;
@@ -3001,6 +3023,8 @@ export const getApp: API.OperationMethod<
   errors: [FlagshipAppNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApp",
 }));
 
 export type GetAppEvaluateError = CloudflareOpError;
@@ -3016,6 +3040,8 @@ export const getAppEvaluate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppEvaluate",
 }));
 
 export type GetAppFlagError = FlagshipFlagNotFound | FlagshipAppNotFound | CloudflareOpError;
@@ -3031,6 +3057,8 @@ export const getAppFlag: API.OperationMethod<
   errors: [FlagshipFlagNotFound, FlagshipAppNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppFlag",
 }));
 
 export type ListAppFlagChangelogsError = CloudflareOpError;
@@ -3048,6 +3076,8 @@ export const listAppFlagChangelogs: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppFlagChangelogs",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3073,6 +3103,8 @@ export const listAppFlags: API.PaginatedOperationMethod<
     errors: [FlagshipAppNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppFlags",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3098,6 +3130,8 @@ export const listApps: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListApps",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -3116,6 +3150,8 @@ export const updateApp: API.OperationMethod<
   errors: [FlagshipAppNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApp",
 }));
 
 export type UpdateAppFlagError = FlagshipFlagNotFound | FlagshipAppNotFound | CloudflareOpError;
@@ -3131,6 +3167,8 @@ export const updateAppFlag: API.OperationMethod<
   errors: [FlagshipFlagNotFound, FlagshipAppNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppFlag",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

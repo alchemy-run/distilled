@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "ServiceEnablement",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -128,6 +141,8 @@ export const disableServiceRegional: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableServiceRegional",
 }));
 
 export type EnableServiceRegionalError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -143,6 +158,8 @@ export const enableServiceRegional: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableServiceRegional",
 }));
 
 export type GetServiceStatusRegionalError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -158,6 +175,8 @@ export const getServiceStatusRegional: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceStatusRegional",
 }));
 
 export type ListServiceStatusRegionalError = BadRequest | Forbidden | StackitOpError;
@@ -173,6 +192,8 @@ export const listServiceStatusRegional: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceStatusRegional",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

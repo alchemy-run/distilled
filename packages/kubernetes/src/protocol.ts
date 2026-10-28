@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * KubernetesProtocol -- hand-written.
@@ -42,7 +42,8 @@ export type KubernetesOpError =
   | UnknownKubernetesError
   | ConfigError
   | HttpClientError.HttpClientError
-  | KubernetesParseError;
+  | KubernetesParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Kubernetes operation. */
 export type KubernetesOpContext = Credentials | HttpClient.HttpClient;

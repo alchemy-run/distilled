@@ -39,18 +39,21 @@ import {
   convertGraphQLToSmithy,
   PRELUDE,
   readIntrospection,
-} from "@distilled.cloud/core/codegen/graphql";
-import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/core/codegen/openapi";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@distilled.cloud/dev/codegen/graphql";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { selectAddons } from "./addons-selection.ts";
 import { selectBuilders } from "./builders-selection.ts";
 import { MACHINES_OPERATION_NAMES } from "./machines-operation-ids.ts";
 import { SPRITES_OPERATION_NAMES, stripSpritesV1 } from "./sprites-operation-ids.ts";
 
+// `convert --resource machines` (run directly) converts machines alone;
+// generate imports this module with its own argv and converts everything.
 const resourceIndex = process.argv.indexOf("--resource");
-const machinesOnly = resourceIndex !== -1;
+const machinesOnly = import.meta.main && resourceIndex !== -1;
 if (machinesOnly && process.argv[resourceIndex + 1] !== "machines") {
   throw new Error("Only --resource machines is supported");
 }
@@ -279,8 +282,7 @@ const addonsResult = convertGraphQLToSmithy({
 });
 
 const addonsOut = path.join(generatedDir, "addons.json");
-await fs.mkdir(generatedDir, { recursive: true });
-await fs.writeFile(addonsOut, `${JSON.stringify(addonsResult.model, null, 2)}\n`);
+writeModel(addonsOut, addonsResult.model);
 console.log(
   `✅ addons: ${addonsResult.converted} GraphQL operations ` +
     `(${addonsResult.paginated} paginated, ${addonsResult.failed} failed, ` +
@@ -305,7 +307,7 @@ const buildersResult = convertGraphQLToSmithy({
 });
 
 const buildersOut = path.join(generatedDir, "builders.json");
-await fs.writeFile(buildersOut, `${JSON.stringify(buildersResult.model, null, 2)}\n`);
+writeModel(buildersOut, buildersResult.model);
 console.log(
   `✅ builders: ${buildersResult.converted} GraphQL operations ` +
     `(${buildersResult.failed} failed, ${buildersResult.shapeCount} shapes) → ${buildersOut}`,

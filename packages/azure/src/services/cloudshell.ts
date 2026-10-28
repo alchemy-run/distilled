@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Portal" },
+  prefix: "Cloudshell",
+  service: "Cloudshell",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteConsoleRequest {
   /** The name of the console */
   consoleName: string;
@@ -224,6 +244,8 @@ export const DeleteConsole: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConsole",
 }));
 
 export type DeleteConsoleWithLocationError = AzureOpError;
@@ -239,6 +261,8 @@ export const DeleteConsoleWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConsoleWithLocation",
 }));
 
 export type DeleteUserSettingsError = AzureOpError;
@@ -254,6 +278,8 @@ export const DeleteUserSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserSettings",
 }));
 
 export type DeleteUserSettingsWithLocationError = AzureOpError;
@@ -269,6 +295,8 @@ export const DeleteUserSettingsWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserSettingsWithLocation",
 }));
 
 export type GetConsoleError = AzureOpError;
@@ -284,6 +312,8 @@ export const GetConsole: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConsole",
 }));
 
 export type GetConsoleWithLocationError = AzureOpError;
@@ -299,6 +329,8 @@ export const GetConsoleWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConsoleWithLocation",
 }));
 
 export type GetUserSettingsError = AzureOpError;
@@ -314,6 +346,8 @@ export const GetUserSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserSettings",
 }));
 
 export type GetUserSettingsWithLocationError = AzureOpError;
@@ -329,6 +363,8 @@ export const GetUserSettingsWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserSettingsWithLocation",
 }));
 
 export type KeepAliveError = AzureOpError;
@@ -344,6 +380,8 @@ export const KeepAlive: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeepAlive",
 }));
 
 export type KeepAliveWithLocationError = AzureOpError;
@@ -359,6 +397,8 @@ export const KeepAliveWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeepAliveWithLocation",
 }));
 
 export type PatchUserSettingsError = AzureOpError;
@@ -374,6 +414,8 @@ export const PatchUserSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUserSettings",
 }));
 
 export type PatchUserSettingsWithLocationError = AzureOpError;
@@ -389,6 +431,8 @@ export const PatchUserSettingsWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUserSettingsWithLocation",
 }));
 
 export type PutConsoleError = AzureOpError;
@@ -404,6 +448,8 @@ export const PutConsole: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConsole",
 }));
 
 export type PutConsoleWithLocationError = AzureOpError;
@@ -419,6 +465,8 @@ export const PutConsoleWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConsoleWithLocation",
 }));
 
 export type PutUserSettingsError = AzureOpError;
@@ -434,6 +482,8 @@ export const PutUserSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserSettings",
 }));
 
 export type PutUserSettingsWithLocationError = AzureOpError;
@@ -449,6 +499,8 @@ export const PutUserSettingsWithLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserSettingsWithLocation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

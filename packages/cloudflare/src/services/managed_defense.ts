@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "ManagedDefense",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface CreateVulnerabilityDiscoveryRepositoryRequest {
   accountId: string;
   idempotencyKey?: string;
@@ -1015,6 +1029,8 @@ export const createVulnerabilityDiscoveryRepository: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVulnerabilityDiscoveryRepository",
 }));
 
 export type CreateVulnerabilityDiscoveryScanError = CloudflareOpError;
@@ -1030,6 +1046,8 @@ export const createVulnerabilityDiscoveryScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVulnerabilityDiscoveryScan",
 }));
 
 export type GetVulnerabilityDiscoveryReportError = CloudflareOpError;
@@ -1045,6 +1063,8 @@ export const getVulnerabilityDiscoveryReport: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVulnerabilityDiscoveryReport",
 }));
 
 export type GetVulnerabilityDiscoveryRepositoryError = CloudflareOpError;
@@ -1060,6 +1080,8 @@ export const getVulnerabilityDiscoveryRepository: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVulnerabilityDiscoveryRepository",
 }));
 
 export type GetVulnerabilityDiscoveryScanError = CloudflareOpError;
@@ -1075,6 +1097,8 @@ export const getVulnerabilityDiscoveryScan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVulnerabilityDiscoveryScan",
 }));
 
 export type ListVulnerabilityDiscoveryRepositoriesError = CloudflareOpError;
@@ -1090,6 +1114,8 @@ export const listVulnerabilityDiscoveryRepositories: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVulnerabilityDiscoveryRepositories",
 }));
 
 export type ListVulnerabilityDiscoveryScansError = CloudflareOpError;
@@ -1105,6 +1131,8 @@ export const listVulnerabilityDiscoveryScans: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVulnerabilityDiscoveryScans",
 }));
 
 export type VulnerabilityDiscoveryScansGetReportError = CloudflareOpError;
@@ -1120,6 +1148,8 @@ export const vulnerabilityDiscoveryScansGetReport: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VulnerabilityDiscoveryScansGetReport",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

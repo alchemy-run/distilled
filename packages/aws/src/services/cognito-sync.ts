@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -76,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cognito-sync.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CognitoSync",
+  service: "CognitoSync",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyStreamedException
   extends /*@__PURE__*/ S.TaggedError<AlreadyStreamedException>()(
@@ -454,6 +469,8 @@ export const bulkPublish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BulkPublish",
+  telemetry: TELEMETRY,
+  span: "BulkPublish",
 }));
 
 export type DeleteDatasetError =
@@ -491,6 +508,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DescribeDatasetError =
@@ -525,6 +544,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeIdentityPoolUsageError =
@@ -598,6 +619,8 @@ export const describeIdentityPoolUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityPoolUsage",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityPoolUsage",
 }));
 
 export type DescribeIdentityUsageError =
@@ -673,6 +696,8 @@ export const describeIdentityUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityUsage",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityUsage",
 }));
 
 export type GetBulkPublishDetailsError =
@@ -703,6 +728,8 @@ export const getBulkPublishDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBulkPublishDetails",
+  telemetry: TELEMETRY,
+  span: "GetBulkPublishDetails",
 }));
 
 export type GetCognitoEventsError =
@@ -735,6 +762,8 @@ export const getCognitoEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCognitoEvents",
+  telemetry: TELEMETRY,
+  span: "GetCognitoEvents",
 }));
 
 export type GetIdentityPoolConfigurationError =
@@ -807,6 +836,8 @@ export const getIdentityPoolConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPoolConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetIdentityPoolConfiguration",
 }));
 
 export type ListDatasetsError =
@@ -889,6 +920,8 @@ export const listDatasets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatasets",
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 }));
 
 export type ListIdentityPoolUsageError =
@@ -971,6 +1004,8 @@ export const listIdentityPoolUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPoolUsage",
+  telemetry: TELEMETRY,
+  span: "ListIdentityPoolUsage",
 }));
 
 export type ListRecordsError =
@@ -1050,6 +1085,8 @@ export const listRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecords",
+  telemetry: TELEMETRY,
+  span: "ListRecords",
 }));
 
 export type RegisterDeviceError =
@@ -1123,6 +1160,8 @@ export const registerDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDevice",
+  telemetry: TELEMETRY,
+  span: "RegisterDevice",
 }));
 
 export type SetCognitoEventsError =
@@ -1155,6 +1194,8 @@ export const setCognitoEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetCognitoEvents",
+  telemetry: TELEMETRY,
+  span: "SetCognitoEvents",
 }));
 
 export type SetIdentityPoolConfigurationError =
@@ -1234,6 +1275,8 @@ export const setIdentityPoolConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityPoolConfiguration",
+  telemetry: TELEMETRY,
+  span: "SetIdentityPoolConfiguration",
 }));
 
 export type SubscribeToDatasetError =
@@ -1306,6 +1349,8 @@ export const subscribeToDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToDataset",
+  telemetry: TELEMETRY,
+  span: "SubscribeToDataset",
 }));
 
 export type UnsubscribeFromDatasetError =
@@ -1379,6 +1424,8 @@ export const unsubscribeFromDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnsubscribeFromDataset",
+  telemetry: TELEMETRY,
+  span: "UnsubscribeFromDataset",
 }));
 
 export type UpdateRecordsError =
@@ -1423,6 +1470,8 @@ export const updateRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecords",
+  telemetry: TELEMETRY,
+  span: "UpdateRecords",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

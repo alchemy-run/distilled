@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -79,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticbeanstalk.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElasticBeanstalk",
+  service: "ElasticBeanstalk",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CodeBuildNotInServiceRegionException
   extends /*@__PURE__*/ S.TaggedError<CodeBuildNotInServiceRegionException>()(
@@ -1292,6 +1308,8 @@ export const abortEnvironmentUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortEnvironmentUpdate",
+  telemetry: TELEMETRY,
+  span: "AbortEnvironmentUpdate",
 }));
 
 export type ApplyEnvironmentManagedActionError =
@@ -1314,6 +1332,8 @@ export const applyEnvironmentManagedAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyEnvironmentManagedAction",
+  telemetry: TELEMETRY,
+  span: "ApplyEnvironmentManagedAction",
 }));
 
 export type AssociateEnvironmentOperationsRoleError =
@@ -1337,6 +1357,8 @@ export const associateEnvironmentOperationsRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEnvironmentOperationsRole",
+  telemetry: TELEMETRY,
+  span: "AssociateEnvironmentOperationsRole",
 }));
 
 export type CheckDNSAvailabilityError = CommonErrors;
@@ -1355,6 +1377,8 @@ export const checkDNSAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDNSAvailability",
+  telemetry: TELEMETRY,
+  span: "CheckDNSAvailability",
 }));
 
 export type ComposeEnvironmentsError =
@@ -1378,6 +1402,8 @@ export const composeEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ComposeEnvironments",
+  telemetry: TELEMETRY,
+  span: "ComposeEnvironments",
 }));
 
 export type CreateApplicationError = TooManyApplicationsException | CommonErrors;
@@ -1397,6 +1423,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationVersionError =
@@ -1439,6 +1467,8 @@ export const createApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationVersion",
 }));
 
 export type CreateConfigurationTemplateError =
@@ -1479,6 +1509,8 @@ export const createConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationTemplate",
 }));
 
 export type CreateEnvironmentError =
@@ -1500,6 +1532,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreatePlatformVersionError =
@@ -1526,6 +1560,8 @@ export const createPlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "CreatePlatformVersion",
 }));
 
 export type CreateStorageLocationError =
@@ -1554,6 +1590,8 @@ export const createStorageLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageLocation",
+  telemetry: TELEMETRY,
+  span: "CreateStorageLocation",
 }));
 
 export type DeleteApplicationError = OperationInProgressException | CommonErrors;
@@ -1575,6 +1613,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationVersionError =
@@ -1605,6 +1645,8 @@ export const deleteApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationVersion",
 }));
 
 export type DeleteConfigurationTemplateError = OperationInProgressException | CommonErrors;
@@ -1627,6 +1669,8 @@ export const deleteConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationTemplate",
 }));
 
 export type DeleteEnvironmentConfigurationError = CommonErrors;
@@ -1651,6 +1695,8 @@ export const deleteEnvironmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentConfiguration",
 }));
 
 export type DeletePlatformVersionError =
@@ -1679,6 +1725,8 @@ export const deletePlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "DeletePlatformVersion",
 }));
 
 export type DescribeAccountAttributesError = InsufficientPrivilegesException | CommonErrors;
@@ -1708,6 +1756,8 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAttributes",
 }));
 
 export type DescribeApplicationsError = CommonErrors;
@@ -1739,6 +1789,8 @@ export const describeApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplications",
+  telemetry: TELEMETRY,
+  span: "DescribeApplications",
 }));
 
 export type DescribeApplicationVersionsError = CommonErrors;
@@ -1766,6 +1818,8 @@ export const describeApplicationVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationVersions",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationVersions",
 }));
 
 export type DescribeConfigurationOptionsError = TooManyBucketsException | CommonErrors;
@@ -1799,6 +1853,8 @@ export const describeConfigurationOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationOptions",
 }));
 
 export type DescribeConfigurationSettingsError = TooManyBucketsException | CommonErrors;
@@ -1840,6 +1896,8 @@ export const describeConfigurationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationSettings",
 }));
 
 export type DescribeEnvironmentHealthError =
@@ -1872,6 +1930,8 @@ export const describeEnvironmentHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentHealth",
 }));
 
 export type DescribeEnvironmentManagedActionHistoryError =
@@ -1899,6 +1959,8 @@ export const describeEnvironmentManagedActionHistory: API.PaginatedOperationMeth
     items: "ManagedActionHistoryItems",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentManagedActionHistory",
 })) as any;
 
 export type DescribeEnvironmentManagedActionsError =
@@ -1929,6 +1991,8 @@ export const describeEnvironmentManagedActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentManagedActions",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentManagedActions",
 }));
 
 export type DescribeEnvironmentResourcesError = InsufficientPrivilegesException | CommonErrors;
@@ -1947,6 +2011,8 @@ export const describeEnvironmentResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentResources",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironmentResources",
 }));
 
 export type DescribeEnvironmentsError = CommonErrors;
@@ -1975,6 +2041,8 @@ export const describeEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironments",
+  telemetry: TELEMETRY,
+  span: "DescribeEnvironments",
 }));
 
 export type DescribeEventsError = CommonErrors;
@@ -2011,6 +2079,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeInstancesHealthError =
@@ -2042,6 +2112,8 @@ export const describeInstancesHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstancesHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeInstancesHealth",
 }));
 
 export type DescribePlatformVersionError =
@@ -2075,6 +2147,8 @@ export const describePlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePlatformVersion",
+  telemetry: TELEMETRY,
+  span: "DescribePlatformVersion",
 }));
 
 export type DisassociateEnvironmentOperationsRoleError =
@@ -2098,6 +2172,8 @@ export const disassociateEnvironmentOperationsRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEnvironmentOperationsRole",
+  telemetry: TELEMETRY,
+  span: "DisassociateEnvironmentOperationsRole",
 }));
 
 export type ListAvailableSolutionStacksError = CommonErrors;
@@ -2125,6 +2201,8 @@ export const listAvailableSolutionStacks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableSolutionStacks",
+  telemetry: TELEMETRY,
+  span: "ListAvailableSolutionStacks",
 }));
 
 export type ListPlatformBranchesError = CommonErrors;
@@ -2160,6 +2238,8 @@ export const listPlatformBranches: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlatformBranches",
 })) as any;
 
 export type ListPlatformVersionsError =
@@ -2201,6 +2281,8 @@ export const listPlatformVersions: API.PaginatedOperationMethod<
     items: "PlatformSummaryList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlatformVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2238,6 +2320,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RebuildEnvironmentError = InsufficientPrivilegesException | CommonErrors;
@@ -2257,6 +2341,8 @@ export const rebuildEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebuildEnvironment",
+  telemetry: TELEMETRY,
+  span: "RebuildEnvironment",
 }));
 
 export type RequestEnvironmentInfoError = CommonErrors;
@@ -2290,6 +2376,8 @@ export const requestEnvironmentInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestEnvironmentInfo",
+  telemetry: TELEMETRY,
+  span: "RequestEnvironmentInfo",
 }));
 
 export type RestartAppServerError = CommonErrors;
@@ -2308,6 +2396,8 @@ export const restartAppServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartAppServer",
+  telemetry: TELEMETRY,
+  span: "RestartAppServer",
 }));
 
 export type RetrieveEnvironmentInfoError = CommonErrors;
@@ -2330,6 +2420,8 @@ export const retrieveEnvironmentInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveEnvironmentInfo",
+  telemetry: TELEMETRY,
+  span: "RetrieveEnvironmentInfo",
 }));
 
 export type SwapEnvironmentCNAMEsError = CommonErrors;
@@ -2348,6 +2440,8 @@ export const swapEnvironmentCNAMEs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwapEnvironmentCNAMEs",
+  telemetry: TELEMETRY,
+  span: "SwapEnvironmentCNAMEs",
 }));
 
 export type TerminateEnvironmentError = InsufficientPrivilegesException | CommonErrors;
@@ -2366,6 +2460,8 @@ export const terminateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateEnvironment",
+  telemetry: TELEMETRY,
+  span: "TerminateEnvironment",
 }));
 
 export type UpdateApplicationError = CommonErrors;
@@ -2387,6 +2483,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateApplicationResourceLifecycleError =
@@ -2407,6 +2505,8 @@ export const updateApplicationResourceLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationResourceLifecycle",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationResourceLifecycle",
 }));
 
 export type UpdateApplicationVersionError = CommonErrors;
@@ -2428,6 +2528,8 @@ export const updateApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationVersion",
 }));
 
 export type UpdateConfigurationTemplateError =
@@ -2457,6 +2559,8 @@ export const updateConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationTemplate",
 }));
 
 export type UpdateEnvironmentError =
@@ -2483,6 +2587,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateTagsForResourceError =
@@ -2530,6 +2636,8 @@ export const updateTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagsForResource",
+  telemetry: TELEMETRY,
+  span: "UpdateTagsForResource",
 }));
 
 export type ValidateConfigurationSettingsError =
@@ -2555,6 +2663,8 @@ export const validateConfigurationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfigurationSettings",
+  telemetry: TELEMETRY,
+  span: "ValidateConfigurationSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

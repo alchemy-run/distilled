@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lakeformation.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LakeFormation",
+  service: "LakeFormation",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1194,6 +1209,8 @@ export const addLFTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddLFTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddLFTagsToResource",
 }));
 
 export type AssumeDecoratedRoleWithSAMLError =
@@ -1239,6 +1256,8 @@ export const assumeDecoratedRoleWithSAML: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeDecoratedRoleWithSAML",
+  telemetry: TELEMETRY,
+  span: "AssumeDecoratedRoleWithSAML",
 }));
 
 export type BatchGrantPermissionsError =
@@ -1260,6 +1279,8 @@ export const batchGrantPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGrantPermissions",
+  telemetry: TELEMETRY,
+  span: "BatchGrantPermissions",
 }));
 
 export type BatchRevokePermissionsError =
@@ -1281,6 +1302,8 @@ export const batchRevokePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRevokePermissions",
+  telemetry: TELEMETRY,
+  span: "BatchRevokePermissions",
 }));
 
 export type CancelTransactionError =
@@ -1315,6 +1338,8 @@ export const cancelTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTransaction",
+  telemetry: TELEMETRY,
+  span: "CancelTransaction",
 }));
 
 export type CommitTransactionError =
@@ -1347,6 +1372,8 @@ export const commitTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CommitTransaction",
+  telemetry: TELEMETRY,
+  span: "CommitTransaction",
 }));
 
 export type CreateDataCellsFilterError =
@@ -1381,6 +1408,8 @@ export const createDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataCellsFilter",
+  telemetry: TELEMETRY,
+  span: "CreateDataCellsFilter",
 }));
 
 export type CreateLakeFormationIdentityCenterConfigurationError =
@@ -1421,6 +1450,8 @@ export const createLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLakeFormationIdentityCenterConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLakeFormationIdentityCenterConfiguration",
 }));
 
 export type CreateLakeFormationOptInError =
@@ -1457,6 +1488,8 @@ export const createLakeFormationOptIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLakeFormationOptIn",
+  telemetry: TELEMETRY,
+  span: "CreateLakeFormationOptIn",
 }));
 
 export type CreateLFTagError =
@@ -1489,6 +1522,8 @@ export const createLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLFTag",
+  telemetry: TELEMETRY,
+  span: "CreateLFTag",
 }));
 
 export type CreateLFTagExpressionError =
@@ -1529,6 +1564,8 @@ export const createLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLFTagExpression",
+  telemetry: TELEMETRY,
+  span: "CreateLFTagExpression",
 }));
 
 export type DeleteDataCellsFilterError =
@@ -1559,6 +1596,8 @@ export const deleteDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataCellsFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteDataCellsFilter",
 }));
 
 export type DeleteLakeFormationIdentityCenterConfigurationError =
@@ -1599,6 +1638,8 @@ export const deleteLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLakeFormationIdentityCenterConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLakeFormationIdentityCenterConfiguration",
 }));
 
 export type DeleteLakeFormationOptInError =
@@ -1633,6 +1674,8 @@ export const deleteLakeFormationOptIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLakeFormationOptIn",
+  telemetry: TELEMETRY,
+  span: "DeleteLakeFormationOptIn",
 }));
 
 export type DeleteLFTagError =
@@ -1669,6 +1712,8 @@ export const deleteLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLFTag",
+  telemetry: TELEMETRY,
+  span: "DeleteLFTag",
 }));
 
 export type DeleteLFTagExpressionError =
@@ -1700,6 +1745,8 @@ export const deleteLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLFTagExpression",
+  telemetry: TELEMETRY,
+  span: "DeleteLFTagExpression",
 }));
 
 export type DeleteObjectsOnCancelError =
@@ -1741,6 +1788,8 @@ export const deleteObjectsOnCancel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectsOnCancel",
+  telemetry: TELEMETRY,
+  span: "DeleteObjectsOnCancel",
 }));
 
 export type DeregisterResourceError =
@@ -1773,6 +1822,8 @@ export const deregisterResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterResource",
+  telemetry: TELEMETRY,
+  span: "DeregisterResource",
 }));
 
 export type DescribeLakeFormationIdentityCenterConfigurationError =
@@ -1811,6 +1862,8 @@ export const describeLakeFormationIdentityCenterConfiguration: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLakeFormationIdentityCenterConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeLakeFormationIdentityCenterConfiguration",
 }));
 
 export type DescribeResourceError =
@@ -1839,6 +1892,8 @@ export const describeResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResource",
+  telemetry: TELEMETRY,
+  span: "DescribeResource",
 }));
 
 export type DescribeTransactionError =
@@ -1867,6 +1922,8 @@ export const describeTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTransaction",
+  telemetry: TELEMETRY,
+  span: "DescribeTransaction",
 }));
 
 export type ExtendTransactionError =
@@ -1903,6 +1960,8 @@ export const extendTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExtendTransaction",
+  telemetry: TELEMETRY,
+  span: "ExtendTransaction",
 }));
 
 export type GetDataCellsFilterError =
@@ -1933,6 +1992,8 @@ export const getDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataCellsFilter",
+  telemetry: TELEMETRY,
+  span: "GetDataCellsFilter",
 }));
 
 export type GetDataLakePrincipalError =
@@ -1955,6 +2016,8 @@ export const getDataLakePrincipal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakePrincipal",
+  telemetry: TELEMETRY,
+  span: "GetDataLakePrincipal",
 }));
 
 export type GetDataLakeSettingsError =
@@ -1977,6 +2040,8 @@ export const getDataLakeSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeSettings",
+  telemetry: TELEMETRY,
+  span: "GetDataLakeSettings",
 }));
 
 export type GetEffectivePermissionsForPathError =
@@ -2012,6 +2077,8 @@ export const getEffectivePermissionsForPath: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEffectivePermissionsForPath",
 })) as any;
 
 export type GetLFTagError =
@@ -2042,6 +2109,8 @@ export const getLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLFTag",
+  telemetry: TELEMETRY,
+  span: "GetLFTag",
 }));
 
 export type GetLFTagExpressionError =
@@ -2072,6 +2141,8 @@ export const getLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLFTagExpression",
+  telemetry: TELEMETRY,
+  span: "GetLFTagExpression",
 }));
 
 export type GetQueryStateError =
@@ -2095,6 +2166,8 @@ export const getQueryState: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueryState",
   endpointHostPrefix: "query-",
+  telemetry: TELEMETRY,
+  span: "GetQueryState",
 }));
 
 export type GetQueryStatisticsError =
@@ -2128,6 +2201,8 @@ export const getQueryStatistics: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueryStatistics",
   endpointHostPrefix: "query-",
+  telemetry: TELEMETRY,
+  span: "GetQueryStatistics",
 }));
 
 export type GetResourceLFTagsError =
@@ -2160,6 +2235,8 @@ export const getResourceLFTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceLFTags",
+  telemetry: TELEMETRY,
+  span: "GetResourceLFTags",
 }));
 
 export type GetTableObjectsError =
@@ -2200,6 +2277,8 @@ export const getTableObjects: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTableObjects",
 })) as any;
 
 export type GetTemporaryDataLocationCredentialsError =
@@ -2253,6 +2332,8 @@ export const getTemporaryDataLocationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryDataLocationCredentials",
+  telemetry: TELEMETRY,
+  span: "GetTemporaryDataLocationCredentials",
 }));
 
 export type GetTemporaryGluePartitionCredentialsError =
@@ -2285,6 +2366,8 @@ export const getTemporaryGluePartitionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryGluePartitionCredentials",
+  telemetry: TELEMETRY,
+  span: "GetTemporaryGluePartitionCredentials",
 }));
 
 export type GetTemporaryGlueTableCredentialsError =
@@ -2319,6 +2402,8 @@ export const getTemporaryGlueTableCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemporaryGlueTableCredentials",
+  telemetry: TELEMETRY,
+  span: "GetTemporaryGlueTableCredentials",
 }));
 
 export type GetWorkUnitResultsError =
@@ -2350,6 +2435,8 @@ export const getWorkUnitResults: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkUnitResults",
   endpointHostPrefix: "data-",
+  telemetry: TELEMETRY,
+  span: "GetWorkUnitResults",
 }));
 
 export type GetWorkUnitsError =
@@ -2388,6 +2475,8 @@ export const getWorkUnits: API.PaginatedOperationMethod<
     items: "WorkUnitRanges",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetWorkUnits",
 })) as any;
 
 export type GrantPermissionsError =
@@ -2418,6 +2507,8 @@ export const grantPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GrantPermissions",
+  telemetry: TELEMETRY,
+  span: "GrantPermissions",
 }));
 
 export type ListDataCellsFilterError =
@@ -2453,6 +2544,8 @@ export const listDataCellsFilter: API.PaginatedOperationMethod<
     items: "DataCellsFilters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataCellsFilter",
 })) as any;
 
 export type ListLakeFormationOptInsError =
@@ -2491,6 +2584,8 @@ export const listLakeFormationOptIns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLakeFormationOptIns",
 })) as any;
 
 export type ListLFTagExpressionsError =
@@ -2528,6 +2623,8 @@ export const listLFTagExpressions: API.PaginatedOperationMethod<
     items: "LFTagExpressions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLFTagExpressions",
 })) as any;
 
 export type ListLFTagsError =
@@ -2565,6 +2662,8 @@ export const listLFTags: API.PaginatedOperationMethod<
     items: "LFTags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLFTags",
 })) as any;
 
 export type ListPermissionsError =
@@ -2605,6 +2704,8 @@ export const listPermissions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
 })) as any;
 
 export type ListResourcesError =
@@ -2633,6 +2734,8 @@ export const listResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 })) as any;
 
 export type ListTableStorageOptimizersError =
@@ -2667,6 +2770,8 @@ export const listTableStorageOptimizers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTableStorageOptimizers",
 })) as any;
 
 export type ListTransactionsError =
@@ -2697,6 +2802,8 @@ export const listTransactions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTransactions",
 })) as any;
 
 export type PutDataLakeSettingsError =
@@ -2721,6 +2828,8 @@ export const putDataLakeSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataLakeSettings",
+  telemetry: TELEMETRY,
+  span: "PutDataLakeSettings",
 }));
 
 export type RegisterResourceError =
@@ -2766,6 +2875,8 @@ export const registerResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterResource",
+  telemetry: TELEMETRY,
+  span: "RegisterResource",
 }));
 
 export type RemoveLFTagsFromResourceError =
@@ -2800,6 +2911,8 @@ export const removeLFTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveLFTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveLFTagsFromResource",
 }));
 
 export type RevokePermissionsError =
@@ -2828,6 +2941,8 @@ export const revokePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokePermissions",
+  telemetry: TELEMETRY,
+  span: "RevokePermissions",
 }));
 
 export type SearchDatabasesByLFTagsError =
@@ -2867,6 +2982,8 @@ export const searchDatabasesByLFTags: API.PaginatedOperationMethod<
     items: "DatabaseList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchDatabasesByLFTags",
 })) as any;
 
 export type SearchTablesByLFTagsError =
@@ -2906,6 +3023,8 @@ export const searchTablesByLFTags: API.PaginatedOperationMethod<
     items: "TableList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchTablesByLFTags",
 })) as any;
 
 export type StartQueryPlanningError =
@@ -2937,6 +3056,8 @@ export const startQueryPlanning: API.OperationMethod<
   retry: Retry,
   operationName: "StartQueryPlanning",
   endpointHostPrefix: "query-",
+  telemetry: TELEMETRY,
+  span: "StartQueryPlanning",
 }));
 
 export type StartTransactionError =
@@ -2958,6 +3079,8 @@ export const startTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTransaction",
+  telemetry: TELEMETRY,
+  span: "StartTransaction",
 }));
 
 export type UpdateDataCellsFilterError =
@@ -2990,6 +3113,8 @@ export const updateDataCellsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataCellsFilter",
+  telemetry: TELEMETRY,
+  span: "UpdateDataCellsFilter",
 }));
 
 export type UpdateLakeFormationIdentityCenterConfigurationError =
@@ -3030,6 +3155,8 @@ export const updateLakeFormationIdentityCenterConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLakeFormationIdentityCenterConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLakeFormationIdentityCenterConfiguration",
 }));
 
 export type UpdateLFTagError =
@@ -3062,6 +3189,8 @@ export const updateLFTag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLFTag",
+  telemetry: TELEMETRY,
+  span: "UpdateLFTag",
 }));
 
 export type UpdateLFTagExpressionError =
@@ -3095,6 +3224,8 @@ export const updateLFTagExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLFTagExpression",
+  telemetry: TELEMETRY,
+  span: "UpdateLFTagExpression",
 }));
 
 export type UpdateResourceError =
@@ -3123,6 +3254,8 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
+  telemetry: TELEMETRY,
+  span: "UpdateResource",
 }));
 
 export type UpdateTableObjectsError =
@@ -3161,6 +3294,8 @@ export const updateTableObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableObjects",
+  telemetry: TELEMETRY,
+  span: "UpdateTableObjects",
 }));
 
 export type UpdateTableStorageOptimizerError =
@@ -3189,6 +3324,8 @@ export const updateTableStorageOptimizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableStorageOptimizer",
+  telemetry: TELEMETRY,
+  span: "UpdateTableStorageOptimizer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

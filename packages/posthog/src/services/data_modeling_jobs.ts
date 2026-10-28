@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "DataModelingJobs",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface GetDataModelingJobRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -89,6 +102,8 @@ export const getDataModelingJob: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataModelingJob",
 }));
 
 export type GetDataModelingJobsRecentError = PosthogOpError;
@@ -104,6 +119,8 @@ export const getDataModelingJobsRecent: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataModelingJobsRecent",
 }));
 
 export type GetDataModelingJobsRunningError = PosthogOpError;
@@ -119,6 +136,8 @@ export const getDataModelingJobsRunning: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataModelingJobsRunning",
 }));
 
 export type ListDataModelingJobsError = PosthogOpError;
@@ -134,6 +153,8 @@ export const listDataModelingJobs: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataModelingJobs",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

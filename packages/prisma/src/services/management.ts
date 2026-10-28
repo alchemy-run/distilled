@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { PrismaOpError, PrismaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "prisma-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Prisma",
+  service: "Prisma",
+  labels: "prisma",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2728,6 +2741,8 @@ export const createAuthGithubActionsToken: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthGithubActionsToken",
 }));
 
 export type CreateBucketError = BadRequest | Forbidden | NotFound | Conflict | PrismaOpError;
@@ -2743,6 +2758,8 @@ export const createBucket: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBucket",
 }));
 
 export type CreateBucketKeyError = BadRequest | NotFound | PrismaOpError;
@@ -2758,6 +2775,8 @@ export const createBucketKey: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBucketKey",
 }));
 
 export type CreateBuildError = NotFound | PrismaOpError;
@@ -2773,6 +2792,8 @@ export const createBuild: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBuild",
 }));
 
 export type CreateConnectionError = NotFound | Conflict | UnprocessableEntity | PrismaOpError;
@@ -2788,6 +2809,8 @@ export const createConnection: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateConnectionRotateError = NotFound | PrismaOpError;
@@ -2803,6 +2826,8 @@ export const createConnectionRotate: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnectionRotate",
 }));
 
 export type CreateDatabaseError =
@@ -2824,6 +2849,8 @@ export const createDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateDatabaseConnectionError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -2839,6 +2866,8 @@ export const createDatabaseConnection: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseConnection",
 }));
 
 export type CreateDatabaseRestoreError = NotFound | Conflict | UnprocessableEntity | PrismaOpError;
@@ -2854,6 +2883,8 @@ export const createDatabaseRestore: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseRestore",
 }));
 
 export type CreateDeploymentStartError = Forbidden | NotFound | Conflict | PrismaOpError;
@@ -2869,6 +2900,8 @@ export const createDeploymentStart: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentStart",
 }));
 
 export type CreateDeploymentStopError = Forbidden | NotFound | Conflict | PrismaOpError;
@@ -2884,6 +2917,8 @@ export const createDeploymentStop: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentStop",
 }));
 
 export type CreateDomainRetryError = Forbidden | NotFound | Conflict | PrismaOpError;
@@ -2899,6 +2934,8 @@ export const createDomainRetry: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomainRetry",
 }));
 
 export type CreateEnvironmentVariableError =
@@ -2918,6 +2955,8 @@ export const createEnvironmentVariable: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentVariable",
 }));
 
 export type CreateProjectError = Conflict | UnprocessableEntity | PrismaOpError;
@@ -2933,6 +2972,8 @@ export const createProject: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateProjectBranchError = NotFound | Conflict | UnprocessableEntity | PrismaOpError;
@@ -2948,6 +2989,8 @@ export const createProjectBranch: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranch",
 }));
 
 export type CreateProjectBranchAlchemyStateLeaseError = NotFound | Conflict | PrismaOpError;
@@ -2963,6 +3006,8 @@ export const createProjectBranchAlchemyStateLease: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranchAlchemyStateLease",
 }));
 
 export type CreateProjectDatabaseError =
@@ -2984,6 +3029,8 @@ export const createProjectDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectDatabase",
 }));
 
 export type CreateProjectTransferError = NotFound | Conflict | UnprocessableEntity | PrismaOpError;
@@ -2999,6 +3046,8 @@ export const createProjectTransfer: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectTransfer",
 }));
 
 export type CreateScmInstallationsInstallIntentError =
@@ -3018,6 +3067,8 @@ export const createScmInstallationsInstallIntent: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScmInstallationsInstallIntent",
 }));
 
 export type CreateServiceError =
@@ -3038,6 +3089,8 @@ export const createService: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateServiceDeploymentError =
@@ -3057,6 +3110,8 @@ export const createServiceDeployment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceDeployment",
 }));
 
 export type CreateServiceDomainError =
@@ -3078,6 +3133,8 @@ export const createServiceDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceDomain",
 }));
 
 export type CreateServicePromoteError =
@@ -3098,6 +3155,8 @@ export const createServicePromote: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServicePromote",
 }));
 
 export type CreateServiceRollbackError =
@@ -3118,6 +3177,8 @@ export const createServiceRollback: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceRollback",
 }));
 
 export type CreateSourceRepositoryError =
@@ -3138,6 +3199,8 @@ export const createSourceRepository: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSourceRepository",
 }));
 
 export type CreateWorkspaceError = Forbidden | PrismaOpError;
@@ -3153,6 +3216,8 @@ export const createWorkspace: API.OperationMethod<
   errors: [Forbidden, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type CreateWorkspaceServiceTokenError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3168,6 +3233,8 @@ export const createWorkspaceServiceToken: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceServiceToken",
 }));
 
 export type DeleteBranchError = NotFound | Conflict | UnprocessableEntity | PrismaOpError;
@@ -3183,6 +3250,8 @@ export const deleteBranch: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteBucketError = NotFound | PrismaOpError;
@@ -3198,6 +3267,8 @@ export const deleteBucket: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBucket",
 }));
 
 export type DeleteBucketKeyError = NotFound | PrismaOpError;
@@ -3213,6 +3284,8 @@ export const deleteBucketKey: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBucketKey",
 }));
 
 export type DeleteConnectionError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3228,6 +3301,8 @@ export const deleteConnection: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteDatabaseError = Forbidden | NotFound | UnprocessableEntity | PrismaOpError;
@@ -3243,6 +3318,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteDeploymentError = Forbidden | NotFound | Conflict | PrismaOpError;
@@ -3258,6 +3335,8 @@ export const deleteDeployment: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DeleteDomainError = Forbidden | NotFound | PrismaOpError;
@@ -3273,6 +3352,8 @@ export const deleteDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteEnvironmentVariableError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3288,6 +3369,8 @@ export const deleteEnvironmentVariable: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentVariable",
 }));
 
 export type DeleteIntegrationError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3303,6 +3386,8 @@ export const deleteIntegration: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteProjectError =
@@ -3323,6 +3408,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectBranchAlchemyStateLeaseError = NotFound | PrismaOpError;
@@ -3338,6 +3425,8 @@ export const deleteProjectBranchAlchemyStateLease: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchAlchemyStateLease",
 }));
 
 export type DeleteProjectBranchAlchemyStateStateStackError = NotFound | Conflict | PrismaOpError;
@@ -3353,6 +3442,8 @@ export const deleteProjectBranchAlchemyStateStateStack: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchAlchemyStateStateStack",
 }));
 
 export type DeleteProjectBranchAlchemyStateStateStackStageResourceError =
@@ -3379,6 +3470,8 @@ export const deleteProjectBranchAlchemyStateStateStackStageResource: API.Operati
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchAlchemyStateStateStackStageResource",
 }));
 
 export type DeleteServiceError = Forbidden | NotFound | Conflict | PrismaOpError;
@@ -3394,6 +3487,8 @@ export const deleteService: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteSourceRepositoryError = NotFound | PrismaOpError;
@@ -3409,6 +3504,8 @@ export const deleteSourceRepository: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSourceRepository",
 }));
 
 export type DeleteWorkspaceIntegrationError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3424,6 +3521,8 @@ export const deleteWorkspaceIntegration: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceIntegration",
 }));
 
 export type DeleteWorkspaceServiceTokenError = NotFound | PrismaOpError;
@@ -3439,6 +3538,8 @@ export const deleteWorkspaceServiceToken: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceServiceToken",
 }));
 
 export type GetAgentApprovalError = NotFound | PrismaOpError;
@@ -3454,6 +3555,8 @@ export const getAgentApproval: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentApproval",
 }));
 
 export type GetBranchError = NotFound | PrismaOpError;
@@ -3469,6 +3572,8 @@ export const getBranch: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetBucketError = NotFound | PrismaOpError;
@@ -3484,6 +3589,8 @@ export const getBucket: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBucket",
 }));
 
 export type GetBucketKeysError = NotFound | PrismaOpError;
@@ -3499,6 +3606,8 @@ export const getBucketKeys: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBucketKeys",
 }));
 
 export type GetBucketsError = PrismaOpError;
@@ -3514,6 +3623,8 @@ export const getBuckets: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuckets",
 }));
 
 export type GetBuildError = NotFound | PrismaOpError;
@@ -3529,6 +3640,8 @@ export const getBuild: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuild",
 }));
 
 export type GetBuildsError = NotFound | PrismaOpError;
@@ -3544,6 +3657,8 @@ export const getBuilds: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuilds",
 }));
 
 export type GetConnectionError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3559,6 +3674,8 @@ export const getConnection: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetConnectionsError = PrismaOpError;
@@ -3574,6 +3691,8 @@ export const getConnections: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnections",
 }));
 
 export type GetDatabaseError = Forbidden | NotFound | UnprocessableEntity | PrismaOpError;
@@ -3589,6 +3708,8 @@ export const getDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabaseBackupsError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3604,6 +3725,8 @@ export const getDatabaseBackups: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseBackups",
 }));
 
 export type GetDatabaseConnectionsError = UnprocessableEntity | PrismaOpError;
@@ -3619,6 +3742,8 @@ export const getDatabaseConnections: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseConnections",
 }));
 
 export type GetDatabasesError = Forbidden | PrismaOpError;
@@ -3634,6 +3759,8 @@ export const getDatabases: API.OperationMethod<
   errors: [Forbidden, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabases",
 }));
 
 export type GetDatabaseUsageError = BadRequest | NotFound | UnprocessableEntity | PrismaOpError;
@@ -3649,6 +3776,8 @@ export const getDatabaseUsage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseUsage",
 }));
 
 export type GetDeploymentError = Forbidden | NotFound | PrismaOpError;
@@ -3664,6 +3793,8 @@ export const getDeployment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentLogsError = Forbidden | NotFound | PrismaOpError;
@@ -3679,6 +3810,8 @@ export const getDeploymentLogs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentLogs",
 }));
 
 export type GetDomainError = Forbidden | NotFound | PrismaOpError;
@@ -3694,6 +3827,8 @@ export const getDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetEnvironmentVariableError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3709,6 +3844,8 @@ export const getEnvironmentVariable: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentVariable",
 }));
 
 export type GetEnvironmentVariablesError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3724,6 +3861,8 @@ export const getEnvironmentVariables: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentVariables",
 }));
 
 export type GetIntegrationError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3739,6 +3878,8 @@ export const getIntegration: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetIntegrationsError = PrismaOpError;
@@ -3754,6 +3895,8 @@ export const getIntegrations: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrations",
 }));
 
 export type GetMeError = PrismaOpError;
@@ -3765,6 +3908,8 @@ export const getMe: API.OperationMethod<GetMeRequest, GetMeResponse, GetMeError,
     errors: [UnknownPrismaError],
     protocol: PrismaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetMe",
   }));
 
 export type GetProjectError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3780,6 +3925,8 @@ export const getProject: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectBranchAlchemyStateStateStacksError = NotFound | Conflict | PrismaOpError;
@@ -3795,6 +3942,8 @@ export const getProjectBranchAlchemyStateStateStacks: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchAlchemyStateStateStacks",
 }));
 
 export type GetProjectBranchAlchemyStateStateStackStageOutputError =
@@ -3821,6 +3970,8 @@ export const getProjectBranchAlchemyStateStateStackStageOutput: API.OperationMet
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchAlchemyStateStateStackStageOutput",
 }));
 
 export type GetProjectBranchAlchemyStateStateStackStageReplacedResourcesError =
@@ -3847,6 +3998,8 @@ export const getProjectBranchAlchemyStateStateStackStageReplacedResources: API.O
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchAlchemyStateStateStackStageReplacedResources",
 }));
 
 export type GetProjectBranchAlchemyStateStateStackStageResourceError =
@@ -3873,6 +4026,8 @@ export const getProjectBranchAlchemyStateStateStackStageResource: API.OperationM
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchAlchemyStateStateStackStageResource",
 }));
 
 export type GetProjectBranchAlchemyStateStateStackStageResourcesError =
@@ -3899,6 +4054,8 @@ export const getProjectBranchAlchemyStateStateStackStageResources: API.Operation
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchAlchemyStateStateStackStageResources",
 }));
 
 export type GetProjectBranchAlchemyStateStateStackStagesError = NotFound | Conflict | PrismaOpError;
@@ -3922,6 +4079,8 @@ export const getProjectBranchAlchemyStateStateStackStages: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchAlchemyStateStateStackStages",
 }));
 
 export type GetProjectBranchAlchemyStateVersionError = PrismaOpError;
@@ -3937,6 +4096,8 @@ export const getProjectBranchAlchemyStateVersion: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchAlchemyStateVersion",
 }));
 
 export type GetProjectBranchApplicationTopologyError = NotFound | PrismaOpError;
@@ -3952,6 +4113,8 @@ export const getProjectBranchApplicationTopology: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchApplicationTopology",
 }));
 
 export type GetProjectBranchesError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3967,6 +4130,8 @@ export const getProjectBranches: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranches",
 }));
 
 export type GetProjectDatabasesError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -3982,6 +4147,8 @@ export const getProjectDatabases: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectDatabases",
 }));
 
 export type GetProjectsError = PrismaOpError;
@@ -3997,6 +4164,8 @@ export const getProjects: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjects",
 }));
 
 export type GetRegionsError = PrismaOpError;
@@ -4012,6 +4181,8 @@ export const getRegions: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegions",
 }));
 
 export type GetRegionsAccelerateError = PrismaOpError;
@@ -4027,6 +4198,8 @@ export const getRegionsAccelerate: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegionsAccelerate",
 }));
 
 export type GetRegionsPostgresError = PrismaOpError;
@@ -4042,6 +4215,8 @@ export const getRegionsPostgres: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegionsPostgres",
 }));
 
 export type GetScmInstallationRepositoriesError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -4057,6 +4232,8 @@ export const getScmInstallationRepositories: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScmInstallationRepositories",
 }));
 
 export type GetScmInstallationsError = PrismaOpError;
@@ -4072,6 +4249,8 @@ export const getScmInstallations: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScmInstallations",
 }));
 
 export type GetServiceError = Forbidden | NotFound | PrismaOpError;
@@ -4087,6 +4266,8 @@ export const getService: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceDeploymentsError = Forbidden | NotFound | PrismaOpError;
@@ -4102,6 +4283,8 @@ export const getServiceDeployments: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceDeployments",
 }));
 
 export type GetServiceDomainsError = Forbidden | NotFound | PrismaOpError;
@@ -4117,6 +4300,8 @@ export const getServiceDomains: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceDomains",
 }));
 
 export type GetServicesError = Forbidden | NotFound | UnprocessableEntity | PrismaOpError;
@@ -4132,6 +4317,8 @@ export const getServices: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServices",
 }));
 
 export type GetSourceRepositoriesError = NotFound | PrismaOpError;
@@ -4147,6 +4334,8 @@ export const getSourceRepositories: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSourceRepositories",
 }));
 
 export type GetSourceRepositoryError = NotFound | PrismaOpError;
@@ -4162,6 +4351,8 @@ export const getSourceRepository: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSourceRepository",
 }));
 
 export type GetWorkspaceError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -4177,6 +4368,8 @@ export const getWorkspace: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type GetWorkspaceIntegrationsError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -4192,6 +4385,8 @@ export const getWorkspaceIntegrations: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceIntegrations",
 }));
 
 export type GetWorkspacesError = PrismaOpError;
@@ -4207,6 +4402,8 @@ export const getWorkspaces: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaces",
 }));
 
 export type GetWorkspaceServiceTokensError = PrismaOpError;
@@ -4222,6 +4419,8 @@ export const getWorkspaceServiceTokens: API.OperationMethod<
   errors: [UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceServiceTokens",
 }));
 
 export type GetWorkspaceSubscriptionError = NotFound | PrismaOpError;
@@ -4237,6 +4436,8 @@ export const getWorkspaceSubscription: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceSubscription",
 }));
 
 export type PutBuildResourceError = NotFound | PrismaOpError;
@@ -4252,6 +4453,8 @@ export const putBuildResource: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutBuildResource",
 }));
 
 export type PutProjectBranchAlchemyStateStateStackStageOutputError =
@@ -4278,6 +4481,8 @@ export const putProjectBranchAlchemyStateStateStackStageOutput: API.OperationMet
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutProjectBranchAlchemyStateStateStackStageOutput",
 }));
 
 export type PutProjectBranchAlchemyStateStateStackStageResourceError =
@@ -4304,6 +4509,8 @@ export const putProjectBranchAlchemyStateStateStackStageResource: API.OperationM
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutProjectBranchAlchemyStateStateStackStageResource",
 }));
 
 export type PutProjectBranchApplicationTopologyError =
@@ -4322,6 +4529,8 @@ export const putProjectBranchApplicationTopology: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutProjectBranchApplicationTopology",
 }));
 
 export type UpdateBranchError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -4337,6 +4546,8 @@ export const updateBranch: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranch",
 }));
 
 export type UpdateBucketError = NotFound | Conflict | UnprocessableEntity | PrismaOpError;
@@ -4352,6 +4563,8 @@ export const updateBucket: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBucket",
 }));
 
 export type UpdateBuildError = NotFound | Conflict | PrismaOpError;
@@ -4367,6 +4580,8 @@ export const updateBuild: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBuild",
 }));
 
 export type UpdateDatabaseError =
@@ -4387,6 +4602,8 @@ export const updateDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 export type UpdateEnvironmentVariableError = NotFound | UnprocessableEntity | PrismaOpError;
@@ -4402,6 +4619,8 @@ export const updateEnvironmentVariable: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentVariable",
 }));
 
 export type UpdateProjectError = Forbidden | NotFound | UnprocessableEntity | PrismaOpError;
@@ -4417,6 +4636,8 @@ export const updateProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectBranchAlchemyStateLeaseError = NotFound | PrismaOpError;
@@ -4432,6 +4653,8 @@ export const updateProjectBranchAlchemyStateLease: API.OperationMethod<
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectBranchAlchemyStateLease",
 }));
 
 export type UpdateServiceError =
@@ -4452,6 +4675,8 @@ export const updateService: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

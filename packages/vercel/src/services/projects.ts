@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Projects",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -25941,6 +25955,8 @@ export const acceptProjectTransferRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptProjectTransferRequest",
 }));
 
 export type AddProjectDomainError =
@@ -25962,6 +25978,8 @@ export const addProjectDomain: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddProjectDomain",
 }));
 
 export type BatchRemoveProjectEnvError =
@@ -25982,6 +26000,8 @@ export const batchRemoveProjectEnv: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchRemoveProjectEnv",
 }));
 
 export type CreateProjectError =
@@ -26003,6 +26023,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateProjectEnvError =
@@ -26024,6 +26046,8 @@ export const createProjectEnv: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectEnv",
 }));
 
 export type CreateProjectTransferRequestError =
@@ -26044,6 +26068,8 @@ export const createProjectTransferRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectTransferRequest",
 }));
 
 export type CreateTraceSessionError =
@@ -26064,6 +26090,8 @@ export const createTraceSession: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTraceSession",
 }));
 
 export type DeleteProjectError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -26079,6 +26107,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type EditProjectEnvError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -26094,6 +26124,8 @@ export const editProjectEnv: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditProjectEnv",
 }));
 
 export type FilterProjectEnvsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26109,6 +26141,8 @@ export const filterProjectEnvs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FilterProjectEnvs",
 }));
 
 export type GetProjectError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26124,6 +26158,8 @@ export const getProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectDomainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26139,6 +26175,8 @@ export const getProjectDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectDomain",
 }));
 
 export type GetProjectDomainsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26154,6 +26192,8 @@ export const getProjectDomains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectDomains",
 }));
 
 export type GetProjectEnvError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26169,6 +26209,8 @@ export const getProjectEnv: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectEnv",
 }));
 
 export type GetProjectsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26184,6 +26226,8 @@ export const getProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjects",
 }));
 
 export type GetProjectTokenError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26199,6 +26243,8 @@ export const getProjectToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectToken",
 }));
 
 export type GetProjectTraceError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26214,6 +26260,8 @@ export const getProjectTrace: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectTrace",
 }));
 
 export type ListPromoteAliasesError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26229,6 +26277,8 @@ export const listPromoteAliases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPromoteAliases",
 }));
 
 export type MoveProjectDomainError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -26244,6 +26294,8 @@ export const moveProjectDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveProjectDomain",
 }));
 
 export type PauseProjectError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26259,6 +26311,8 @@ export const pauseProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseProject",
 }));
 
 export type RemoveProjectDomainError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -26274,6 +26328,8 @@ export const removeProjectDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveProjectDomain",
 }));
 
 export type RemoveProjectEnvError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -26289,6 +26345,8 @@ export const removeProjectEnv: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveProjectEnv",
 }));
 
 export type RequestPromoteError =
@@ -26310,6 +26368,8 @@ export const requestPromote: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestPromote",
 }));
 
 export type RequestRollbackError =
@@ -26332,6 +26392,8 @@ export const requestRollback: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestRollback",
 }));
 
 export type UnpauseProjectError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26347,6 +26409,8 @@ export const unpauseProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpauseProject",
 }));
 
 export type UpdateMicrofrontendsError =
@@ -26367,6 +26431,8 @@ export const updateMicrofrontends: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMicrofrontends",
 }));
 
 export type UpdateProjectError =
@@ -26388,6 +26454,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectDomainError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -26403,6 +26471,8 @@ export const updateProjectDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectDomain",
 }));
 
 export type UpdateProjectProtectionBypassError =
@@ -26423,6 +26493,8 @@ export const updateProjectProtectionBypass: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectProtectionBypass",
 }));
 
 export type UpdateProjectsByProjectIdRollbackByDeploymentIdUpdateDescriptionError =
@@ -26452,6 +26524,8 @@ export const updateProjectsByProjectIdRollbackByDeploymentIdUpdateDescription: A
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectsByProjectIdRollbackByDeploymentIdUpdateDescription",
 }));
 
 export type UploadProjectAvatarError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26467,6 +26541,8 @@ export const uploadProjectAvatar: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadProjectAvatar",
 }));
 
 export type VerifyProjectDomainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -26482,6 +26558,8 @@ export const verifyProjectDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyProjectDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

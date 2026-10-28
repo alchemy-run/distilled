@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "FeatureFlags",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2842,6 +2856,8 @@ export const createFlag: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlag",
 }));
 
 export type CreateFlagSegmentError =
@@ -2863,6 +2879,8 @@ export const createFlagSegment: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlagSegment",
 }));
 
 export type CreateSdkKeyError =
@@ -2884,6 +2902,8 @@ export const createSdkKey: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSdkKey",
 }));
 
 export type DeleteFlagError =
@@ -2905,6 +2925,8 @@ export const deleteFlag: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlag",
 }));
 
 export type DeleteFlagSegmentError =
@@ -2926,6 +2948,8 @@ export const deleteFlagSegment: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlagSegment",
 }));
 
 export type DeleteSdkKeyError =
@@ -2947,6 +2971,8 @@ export const deleteSdkKey: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSdkKey",
 }));
 
 export type GetDeploymentFeatureFlagsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -2962,6 +2988,8 @@ export const getDeploymentFeatureFlags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentFeatureFlags",
 }));
 
 export type GetFlagError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -2973,6 +3001,8 @@ export const getFlag: API.OperationMethod<GetFlagRequest, Flag, GetFlagError, Ve
     errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
     protocol: VercelProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetFlag",
   }));
 
 export type GetFlagSegmentError =
@@ -2993,6 +3023,8 @@ export const getFlagSegment: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagSegment",
 }));
 
 export type GetFlagSettingsError =
@@ -3013,6 +3045,8 @@ export const getFlagSettings: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagSettings",
 }));
 
 export type GetSdkKeysError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -3028,6 +3062,8 @@ export const getSdkKeys: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSdkKeys",
 }));
 
 export type ListFlagsError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -3043,6 +3079,8 @@ export const listFlags: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlags",
 }));
 
 export type ListFlagSegmentsError =
@@ -3063,6 +3101,8 @@ export const listFlagSegments: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlagSegments",
 }));
 
 export type ListFlagsV2Error = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -3078,6 +3118,8 @@ export const listFlagsV2: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlagsV2",
 }));
 
 export type ListFlagVersionsError =
@@ -3098,6 +3140,8 @@ export const listFlagVersions: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlagVersions",
 }));
 
 export type ListTeamFlagsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3113,6 +3157,8 @@ export const listTeamFlags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamFlags",
 }));
 
 export type ListTeamFlagSettingsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3128,6 +3174,8 @@ export const listTeamFlagSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamFlagSettings",
 }));
 
 export type ListTeamFlagsV2Error = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -3143,6 +3191,8 @@ export const listTeamFlagsV2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTeamFlagsV2",
 }));
 
 export type UpdateFlagError =
@@ -3164,6 +3214,8 @@ export const updateFlag: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlag",
 }));
 
 export type UpdateFlagSegmentError =
@@ -3185,6 +3237,8 @@ export const updateFlagSegment: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlagSegment",
 }));
 
 export type UpdateFlagSettingsError =
@@ -3206,6 +3260,8 @@ export const updateFlagSettings: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlagSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

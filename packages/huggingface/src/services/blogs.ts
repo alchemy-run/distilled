@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Blogs",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export interface GetBlogResourceGroupRequest {
   namespace: string;
   slug: string;
@@ -59,6 +72,8 @@ export const getBlogResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlogResourceGroup",
 }));
 
 export type ListBlogsError = HuggingFaceOpError;
@@ -74,6 +89,8 @@ export const listBlogs: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlogs",
 }));
 
 export type SetBlogResourceGroupError = HuggingFaceOpError;
@@ -89,6 +106,8 @@ export const setBlogResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetBlogResourceGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

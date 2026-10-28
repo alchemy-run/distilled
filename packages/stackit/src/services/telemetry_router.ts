@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "TelemetryRouter",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -398,6 +411,8 @@ export const createAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessToken",
 }));
 
 export type CreateDestinationError = BadRequest | Conflict | StackitOpError;
@@ -413,6 +428,8 @@ export const createDestination: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDestination",
 }));
 
 export type CreateTelemetryRouterError = BadRequest | Conflict | StackitOpError;
@@ -428,6 +445,8 @@ export const createTelemetryRouter: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTelemetryRouter",
 }));
 
 export type DeleteAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -443,6 +462,8 @@ export const deleteAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessToken",
 }));
 
 export type DeleteDestinationError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -458,6 +479,8 @@ export const deleteDestination: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDestination",
 }));
 
 export type DeleteTelemetryRouterError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -473,6 +496,8 @@ export const deleteTelemetryRouter: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTelemetryRouter",
 }));
 
 export type GetAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -488,6 +513,8 @@ export const getAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessToken",
 }));
 
 export type GetDestinationError = BadRequest | NotFound | StackitOpError;
@@ -503,6 +530,8 @@ export const getDestination: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDestination",
 }));
 
 export type GetTelemetryRouterError = BadRequest | Conflict | StackitOpError;
@@ -518,6 +547,8 @@ export const getTelemetryRouter: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTelemetryRouter",
 }));
 
 export type ListAccessTokensError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -533,6 +564,8 @@ export const listAccessTokens: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessTokens",
 }));
 
 export type ListDestinationsError = BadRequest | StackitOpError;
@@ -548,6 +581,8 @@ export const listDestinations: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDestinations",
 }));
 
 export type ListTelemetryRoutersError = BadRequest | StackitOpError;
@@ -563,6 +598,8 @@ export const listTelemetryRouters: API.OperationMethod<
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTelemetryRouters",
 }));
 
 export type UpdateAccessTokenError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -578,6 +615,8 @@ export const updateAccessToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessToken",
 }));
 
 export type UpdateDestinationError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -593,6 +632,8 @@ export const updateDestination: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDestination",
 }));
 
 export type UpdateTelemetryRouterError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -608,6 +649,8 @@ export const updateTelemetryRouter: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTelemetryRouter",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

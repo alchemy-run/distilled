@@ -98,6 +98,9 @@ export const makeStreamingBodyMiddleware = (schema: S.Top) => {
     });
 };
 
+/** Releasing a reader is best effort, as in Effect's `Stream.fromReadableStream`. */
+const ignoreCancelFailure = () => {};
+
 /**
  * Buffer a ReadableStream into a Uint8Array.
  */
@@ -116,11 +119,12 @@ const bufferStream = (stream: ReadableStream<Uint8Array>): Effect.Effect<Uint8Ar
       }
 
       if (signal.aborted) {
-        reader.cancel();
+        reader.cancel().catch(ignoreCancelFailure);
         throw new Error("Stream buffering aborted");
       }
     } catch (e) {
-      reader.cancel();
+      // `cancel()` on an errored stream rejects with the error rethrown here.
+      reader.cancel(e).catch(ignoreCancelFailure);
       throw e;
     }
 

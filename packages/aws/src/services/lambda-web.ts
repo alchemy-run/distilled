@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lambda.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LambdaWeb",
+  service: "LambdaWeb",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -587,6 +602,8 @@ export const createWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunction",
+  telemetry: TELEMETRY,
+  span: "CreateWebFunction",
 }));
 
 export type CreateWebFunctionEndpointError =
@@ -623,6 +640,8 @@ export const createWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunctionEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateWebFunctionEndpoint",
 }));
 
 export type CreateWebFunctionRevisionError =
@@ -661,6 +680,8 @@ export const createWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunctionRevision",
+  telemetry: TELEMETRY,
+  span: "CreateWebFunctionRevision",
 }));
 
 export type DeleteResourcePolicyError =
@@ -693,6 +714,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteWebFunctionError =
@@ -727,6 +750,8 @@ export const deleteWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteWebFunction",
 }));
 
 export type DeleteWebFunctionEndpointError =
@@ -759,6 +784,8 @@ export const deleteWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunctionEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteWebFunctionEndpoint",
 }));
 
 export type DeleteWebFunctionRevisionError =
@@ -791,6 +818,8 @@ export const deleteWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunctionRevision",
+  telemetry: TELEMETRY,
+  span: "DeleteWebFunctionRevision",
 }));
 
 export type GetResourcePolicyError =
@@ -821,6 +850,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetWebAccountSettingsError =
@@ -843,6 +874,8 @@ export const getWebAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetWebAccountSettings",
 }));
 
 export type GetWebFunctionError =
@@ -873,6 +906,8 @@ export const getWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunction",
+  telemetry: TELEMETRY,
+  span: "GetWebFunction",
 }));
 
 export type GetWebFunctionEndpointError =
@@ -903,6 +938,8 @@ export const getWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunctionEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetWebFunctionEndpoint",
 }));
 
 export type GetWebFunctionRevisionError =
@@ -933,6 +970,8 @@ export const getWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunctionRevision",
+  telemetry: TELEMETRY,
+  span: "GetWebFunctionRevision",
 }));
 
 export type ListTagsError =
@@ -963,6 +1002,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListWebFunctionEndpointsError =
@@ -1000,6 +1041,8 @@ export const listWebFunctionEndpoints: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebFunctionEndpoints",
 })) as any;
 
 export type ListWebFunctionRevisionsError =
@@ -1037,6 +1080,8 @@ export const listWebFunctionRevisions: API.PaginatedOperationMethod<
     items: "revisions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebFunctionRevisions",
 })) as any;
 
 export type ListWebFunctionsError =
@@ -1072,6 +1117,8 @@ export const listWebFunctions: API.PaginatedOperationMethod<
     items: "functions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWebFunctions",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -1106,6 +1153,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type TagResourceError =
@@ -1140,6 +1189,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1172,6 +1223,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateWebFunctionEndpointError =
@@ -1206,6 +1259,8 @@ export const updateWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebFunctionEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateWebFunctionEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

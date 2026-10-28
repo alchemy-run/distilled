@@ -15,6 +15,7 @@ import type * as AST from "effect/SchemaAST";
 import * as Scope from "effect/Scope";
 import type * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
+import { getAnn, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
 import {
@@ -25,6 +26,7 @@ import {
   resolveServerRetryHintCapMs,
   serverHintMillis,
 } from "./retry.ts";
+import * as Telemetry from "./telemetry.ts";
 
 //#region Protocol
 
@@ -239,6 +241,14 @@ export interface OperationConfig<
    * {@link ProtocolOperationConfig.endpointHostPrefix}).
    */
   endpointHostPrefix?: string;
+  /** The service's `com.distilled.telemetry#service` trait (a module const). */
+  telemetry?: Telemetry.ServiceTelemetry;
+  /**
+   * The operation's `com.distilled.telemetry#operation` trait, with its
+   * input rules; only what differs from the service's rules when it names
+   * its `op` (a string is just the op).
+   */
+  span?: Telemetry.SpanConfig | string;
 }
 
 /**
@@ -265,41 +275,70 @@ const backoffDelay = (b: Backoff, attempt: number, error: unknown): Effect.Effec
 const NO_BACKOFF: Backoff = { baseMs: 0, factor: 1, capMs: 0 };
 
 /**
+ * BRAINSTORM: the sleep before retry `attempt` (1-based). The retry is
+ * recorded on the operation span; debug mode also makes the sleep a span.
+ */
+const backoffSleep = (
+  delay: Duration.Input,
+  attempt: number,
+  error: unknown,
+): Effect.Effect<void> =>
+  Effect.withFiber((fiber) => {
+    const context = fiber.context as Context.Context<any>;
+    const delayMs = typeof delay === "number" ? delay : 0;
+    Telemetry.retried(context, attempt, error, delayMs);
+    return Telemetry.phase(context, "distilled.retry.backoff", Effect.sleep(delay), {
+      "distilled.retry.attempt": attempt,
+      "distilled.retry.delay_ms": Math.round(delayMs),
+      "distilled.retry.reason": (error as { _tag?: string } | null)?._tag,
+    });
+  });
+
+/**
  * Wrap one operation call with the caller-provided retry policy, if the
  * operation declares a retry tag. The call runs once with no retry
  * machinery; the policy is read only after a failure. Built-in policies are
  * {@link Backoff} data run by a small loop; a caller-supplied `schedule`
  * runs under `Effect.retry`, with the first failure replayed as attempt one
  * so delays and counts match running the whole call under it.
+ *
+ * With `TelemetryDebug.layer`, every try runs as `Attempt` span n.
  */
 const applyRetry = (
   base: Effect.Effect<any, any, any>,
   retryKey: Context.Key<any, RetryPolicy> | undefined,
-): Effect.Effect<any, any, any> =>
-  retryKey === undefined
-    ? base
-    : Effect.catch(base, (error) =>
+  debug: Telemetry.DebugHooks | undefined,
+): Effect.Effect<any, any, any> => {
+  const first = debug === undefined ? base : debug.attempt(base, 1);
+  return retryKey === undefined
+    ? first
+    : Effect.catch(first, (error) =>
         Effect.flatMap(Effect.serviceOption(retryKey), (opt) => {
-          if (Option.isNone(opt)) return retryWith(base, defaultOptions, error);
+          if (Option.isNone(opt)) return retryWith(base, defaultOptions, error, debug);
           const policy = opt.value;
-          if (typeof policy !== "function") return retryWith(base, policy, error);
+          if (typeof policy !== "function") return retryWith(base, policy, error, debug);
           return Effect.flatMap(Ref.make<unknown>(error), (lastError) =>
             retryWith(
               Effect.tapError(base, (e) => Ref.set(lastError, e)),
               policy(lastError),
               error,
+              debug,
             ),
           );
         }),
       );
+};
 
 const retryWith = (
   base: Effect.Effect<any, any, any>,
   opts: RetryOptions,
   error: unknown,
+  debug: Telemetry.DebugHooks | undefined,
 ): Effect.Effect<any, any, any> => {
   const keepGoing = opts.while;
   if (!keepGoing || !keepGoing(error)) return Effect.fail(error);
+  // Attempt n (2, 3, ...) of the call.
+  const again = (n: number) => (debug === undefined ? base : debug.attempt(base, n));
   if (opts.schedule) {
     // Drive the caller's schedule through its own `step`, as Effect.retry
     // does, without importing the Schedule module into every bundle: the
@@ -311,6 +350,7 @@ const retryWith = (
       >;
     };
     return Effect.flatMap(schedule.step, (next) => {
+      let attempt = 0;
       const loop = (e: unknown): Effect.Effect<any, any, any> =>
         !keepGoing(e)
           ? Effect.fail(e)
@@ -318,7 +358,9 @@ const retryWith = (
               Effect.matchEffect(next(clock.currentTimeMillisUnsafe(), e), {
                 onFailure: () => Effect.fail(e),
                 onSuccess: ([, delay]) =>
-                  Effect.flatMap(Effect.sleep(delay), () => Effect.catch(base, loop)),
+                  Effect.flatMap(backoffSleep(delay, ++attempt, e), () =>
+                    Effect.catch(again(attempt + 1), loop),
+                  ),
               }),
             );
       return loop(error);
@@ -329,7 +371,9 @@ const retryWith = (
     !keepGoing(e) || (b.maxRetries !== undefined && n >= b.maxRetries)
       ? Effect.fail(e)
       : Effect.flatMap(backoffDelay(b, n, e), (ms) =>
-          Effect.flatMap(Effect.sleep(ms), () => Effect.catch(base, (next) => step(next, n + 1))),
+          Effect.flatMap(backoffSleep(ms, n + 1, e), () =>
+            Effect.catch(again(n + 2), (next) => step(next, n + 1)),
+          ),
         );
   return step(error, 0);
 };
@@ -351,7 +395,17 @@ interface Prepared extends PreparedOperation {
   readonly cfg: OperationConfig<any, any, any, any, any>;
   /** The built protocol service, once its layer has been built. */
   service?: ProtocolShape;
+  /** The operation span's facts, from the telemetry traits; built on the first traced call. */
+  info?: Telemetry.OperationInfo;
 }
+
+const infoOf = (p: Prepared): Telemetry.OperationInfo =>
+  (p.info ??= Telemetry.operationInfo(
+    p.cfg.telemetry,
+    p.cfg.span,
+    p.cfg.operationName,
+    p.inputAst,
+  ));
 
 const stateKey = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/api/OperationState");
 
@@ -377,6 +431,14 @@ const prepare = (state: OperationState): Prepared => {
 
 const stateOf = (op: unknown): OperationState => (op as Record<symbol, OperationState>)[stateKey]!;
 
+/**
+ * The span facts an operation's calls carry (name, kind, fixed attributes,
+ * input rules), as the runtime builds them from its generated config. For
+ * tests and tooling.
+ */
+export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
+  infoOf(prepare(stateOf(op)));
+
 const defineState = (op: unknown, state: OperationState): OperationState => {
   Object.defineProperty(op, stateKey, { value: state });
   return state;
@@ -389,27 +451,59 @@ const runWith = (
 ): Effect.Effect<any, any, any> => {
   if (protocol.call !== undefined) return protocol.call(p, input);
   const { cfg, inputAst, outputAst, errors } = p;
-  return Effect.flatMap(HttpClient.HttpClient, (client) =>
-    Effect.flatMap(protocol.encode({ input, inputAst, config: cfg }), (request) =>
-      Effect.flatMap(client.execute(request), (response) =>
+  return Effect.withFiber((fiber) => {
+    const context = fiber.context as Context.Context<any>;
+    const client = Context.get(context, HttpClient.HttpClient);
+    return Effect.flatMap(protocol.encode({ input, inputAst, config: cfg }), (request) =>
+      Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
         protocol.decode({ response, outputAst, errors, config: cfg }),
       ),
-    ),
-  );
+    );
+  });
 };
 
-const callOperation = (state: OperationState, input: unknown): Effect.Effect<any, any, any> => {
+const callUntraced = (
+  state: OperationState,
+  input: unknown,
+  debug: Telemetry.DebugHooks | undefined,
+): Effect.Effect<any, any, any> => {
   // Warm path: the operation is prepared and its protocol built, so the call
   // is whatever the protocol returns, with no wrapper effects around it.
   const p = state.prepared;
-  if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg.retry);
+  if (p?.service !== undefined) return applyRetry(runWith(p, p.service, input), p.cfg.retry, debug);
   return Effect.suspend(() => {
     const prepared = prepare(state);
-    const call = Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) => {
-      const service = (prepared.service = Context.get(protocolCtx, Protocol));
-      return runWith(prepared, service, input);
-    });
-    return applyRetry(call, prepared.cfg.retry);
+    const call = Effect.flatMap(
+      debug === undefined
+        ? protocolContext(prepared.cfg.protocol)
+        : debug.phase("distilled.setup", protocolContext(prepared.cfg.protocol), {
+            "distilled.setup.first_call": true,
+          }),
+      (protocolCtx) => {
+        const service = (prepared.service = Context.get(protocolCtx, Protocol));
+        return runWith(prepared, service, input);
+      },
+    );
+    return applyRetry(call, prepared.cfg.retry, debug);
+  });
+};
+
+/**
+ * BRAINSTORM: the call in its operation span (recorded only when an
+ * exporter is installed), whose stack frame is the caller (captured here,
+ * synchronously, while the caller is still on the JS stack).
+ */
+const callOperation = (
+  state: OperationState,
+  input: unknown,
+  entry: Function,
+): Effect.Effect<any, any, any> => {
+  const callSite = Telemetry.captureCallSite(entry);
+  return Effect.withFiber((fiber) => {
+    const debug = fiber.getRef(Telemetry.Debug);
+    return Telemetry.operationSpan(fiber, debug, infoOf(prepare(state)), callSite, input, (sent) =>
+      callUntraced(state, sent, debug),
+    );
   });
 };
 
@@ -474,7 +568,7 @@ const OperationProto: object = /*@__PURE__*/ Object.setPrototypeOf(
 );
 
 const makeOperation = (state: OperationState, proto: object): any => {
-  const fn = (input: unknown) => callOperation(state, input);
+  const fn = (input: unknown) => callOperation(state, input, fn);
   defineState(fn, state);
   return Object.setPrototypeOf(fn, proto);
 };
@@ -571,7 +665,12 @@ const streamsOf = (state: OperationState, call: (input: any) => Effect.Effect<an
   const pages = (input: Record<string, unknown>) => paginate(call, input, pag());
   const items = (input: Record<string, unknown>) => {
     const p = pag();
-    return p.items ? Pagination.extractItems(pages(input), p.items) : pages(input);
+    if (!p.items) return pages(input);
+    // A bare-array response's schema is its sole member's value
+    // (`RawResponseRoot`), so the member `items` names is the page itself.
+    return getAnn(prepare(state).outputAst, rawResponseRootSymbol) !== undefined
+      ? Pagination.extractArrayItems(pages(input))
+      : Pagination.extractItems(pages(input), p.items);
   };
   return { pages, items };
 };
@@ -830,7 +929,7 @@ export const opPaginated = (fn: DataFn): any => (definer ? definer(fn, 1) : asOp
 
 /** The call path of a data operation. */
 export const call = (op: unknown, input: unknown): Effect.Effect<any, any, any> =>
-  callOperation(stateOf(op), input);
+  callOperation(stateOf(op), input, op as Function);
 
 /**
  * Generated error classes described by data:
@@ -1272,7 +1371,7 @@ export const lazyService = (
   len?: number,
 ): { readonly o: () => any; readonly e: (name: string) => any; readonly E: any } => {
   const svc: LazyService = { url, spec, kinds, ns, at, len, o: [], e: [], oi: 0, ei: 0 };
-  if (!primed && at !== undefined && !(globalThis as any).process?.env?.NOPRIME) prime(svc);
+  if (!primed && at !== undefined) prime(svc);
   return {
     o: () => {
       const paginated = kinds[svc.o.length] === "p";

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "PaymentMethodDomains",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -153,6 +166,8 @@ export const createPaymentMethodDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethodDomain",
 }));
 
 export type DeletePaymentMethodDomainError = Forbidden | NotFound | WhopOpError;
@@ -168,6 +183,8 @@ export const deletePaymentMethodDomain: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePaymentMethodDomain",
 }));
 
 export type GetPaymentMethodDomainError = Forbidden | NotFound | WhopOpError;
@@ -183,6 +200,8 @@ export const getPaymentMethodDomain: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodDomain",
 }));
 
 export type ListPaymentMethodDomainsError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -200,6 +219,8 @@ export const listPaymentMethodDomains: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPaymentMethodDomains",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -230,6 +251,8 @@ export const verifyPaymentMethodDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyPaymentMethodDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

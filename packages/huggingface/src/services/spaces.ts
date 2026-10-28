@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Spaces",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
@@ -1171,6 +1184,8 @@ export const addResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddResourceGroup",
 }));
 
 export type CheckUploadMethodError = UnprocessableEntity | HuggingFaceOpError;
@@ -1186,6 +1201,8 @@ export const checkUploadMethod: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckUploadMethod",
 }));
 
 export type CommitError = HuggingFaceOpError;
@@ -1201,6 +1218,8 @@ export const commit: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Commit",
 }));
 
 export type CreateBranchError = HuggingFaceOpError;
@@ -1216,6 +1235,8 @@ export const createBranch: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type CreateTagError = HuggingFaceOpError;
@@ -1231,6 +1252,8 @@ export const createTag: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTag",
 }));
 
 export type DeleteBranchError = HuggingFaceOpError;
@@ -1246,6 +1269,8 @@ export const deleteBranch: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteLargeFileError = HuggingFaceOpError;
@@ -1261,6 +1286,8 @@ export const deleteLargeFile: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLargeFile",
 }));
 
 export type DeleteLargeFilesError = HuggingFaceOpError;
@@ -1276,6 +1303,8 @@ export const deleteLargeFiles: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLargeFiles",
 }));
 
 export type DeleteSecretError = HuggingFaceOpError;
@@ -1291,6 +1320,8 @@ export const deleteSecret: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecret",
 }));
 
 export type DeleteSpaceVolumesError = HuggingFaceOpError;
@@ -1306,6 +1337,8 @@ export const deleteSpaceVolumes: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpaceVolumes",
 }));
 
 export type DeleteTagError = HuggingFaceOpError;
@@ -1321,6 +1354,8 @@ export const deleteTag: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTag",
 }));
 
 export type DeleteVariableError = HuggingFaceOpError;
@@ -1336,6 +1371,8 @@ export const deleteVariable: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVariable",
 }));
 
 export type DuplicateXetFilesError = HuggingFaceOpError;
@@ -1351,6 +1388,8 @@ export const duplicateXetFiles: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateXetFiles",
 }));
 
 export type FeaturedSpacesError = HuggingFaceOpError;
@@ -1366,6 +1405,8 @@ export const featuredSpaces: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeaturedSpaces",
 }));
 
 export type GenerateJwtError = HuggingFaceOpError;
@@ -1381,6 +1422,8 @@ export const generateJwt: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateJwt",
 }));
 
 export type GetCompareRevError = HuggingFaceOpError;
@@ -1396,6 +1439,8 @@ export const getCompareRev: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompareRev",
 }));
 
 export type GetFolderSizeError = HuggingFaceOpError;
@@ -1411,6 +1456,8 @@ export const getFolderSize: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFolderSize",
 }));
 
 export type GetNotebookUrlError = HuggingFaceOpError;
@@ -1426,6 +1473,8 @@ export const getNotebookUrl: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotebookUrl",
 }));
 
 export type GetResourceGroupError = HuggingFaceOpError;
@@ -1441,6 +1490,8 @@ export const getResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGroup",
 }));
 
 export type GetSecurityStatusError = HuggingFaceOpError;
@@ -1456,6 +1507,8 @@ export const getSecurityStatus: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityStatus",
 }));
 
 export type GetZeroGPUQuotaError = HuggingFaceOpError;
@@ -1471,6 +1524,8 @@ export const getZeroGPUQuota: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZeroGPUQuota",
 }));
 
 export type ListCommitsError = HuggingFaceOpError;
@@ -1486,6 +1541,8 @@ export const listCommits: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommits",
 }));
 
 export type ListFolderContentError = HuggingFaceOpError;
@@ -1501,6 +1558,8 @@ export const listFolderContent: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFolderContent",
 }));
 
 export type ListLargeFilesError = HuggingFaceOpError;
@@ -1516,6 +1575,8 @@ export const listLargeFiles: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLargeFiles",
 }));
 
 export type ListLikersError = HuggingFaceOpError;
@@ -1531,6 +1592,8 @@ export const listLikers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLikers",
 }));
 
 export type ListPathsInfoError = HuggingFaceOpError;
@@ -1546,6 +1609,8 @@ export const listPathsInfo: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPathsInfo",
 }));
 
 export type ListReferencesError = HuggingFaceOpError;
@@ -1561,6 +1626,8 @@ export const listReferences: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReferences",
 }));
 
 export type ListSecretsError = HuggingFaceOpError;
@@ -1576,6 +1643,8 @@ export const listSecrets: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecrets",
 }));
 
 export type ListSpaceHardwareError = HuggingFaceOpError;
@@ -1591,6 +1660,8 @@ export const listSpaceHardware: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpaceHardware",
 }));
 
 export type ListSpaceTemplatesError = HuggingFaceOpError;
@@ -1606,6 +1677,8 @@ export const listSpaceTemplates: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpaceTemplates",
 }));
 
 export type ListVariablesError = HuggingFaceOpError;
@@ -1621,6 +1694,8 @@ export const listVariables: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVariables",
 }));
 
 export type ResolveFileError = HuggingFaceOpError;
@@ -1636,6 +1711,8 @@ export const resolveFile: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveFile",
 }));
 
 export type ResolveFileCachedError = HuggingFaceOpError;
@@ -1651,6 +1728,8 @@ export const resolveFileCached: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveFileCached",
 }));
 
 export type SearchSemanticError = HuggingFaceOpError;
@@ -1666,6 +1745,8 @@ export const searchSemantic: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSemantic",
 }));
 
 export type SetCustomDomainError = HuggingFaceOpError;
@@ -1681,6 +1762,8 @@ export const setCustomDomain: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCustomDomain",
 }));
 
 export type SetSleepTimeError = HuggingFaceOpError;
@@ -1696,6 +1779,8 @@ export const setSleepTime: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSleepTime",
 }));
 
 export type SetSpaceVolumesError = HuggingFaceOpError;
@@ -1711,6 +1796,8 @@ export const setSpaceVolumes: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSpaceVolumes",
 }));
 
 export type SquashRefError = HuggingFaceOpError;
@@ -1726,6 +1813,8 @@ export const squashRef: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SquashRef",
 }));
 
 export type StreamEventsError = HuggingFaceOpError;
@@ -1741,6 +1830,8 @@ export const streamEvents: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamEvents",
 }));
 
 export type StreamLogsError = HuggingFaceOpError;
@@ -1756,6 +1847,8 @@ export const streamLogs: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamLogs",
 }));
 
 export type StreamMetricsError = HuggingFaceOpError;
@@ -1771,6 +1864,8 @@ export const streamMetrics: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamMetrics",
 }));
 
 export type ToggleDevModeError = HuggingFaceOpError;
@@ -1786,6 +1881,8 @@ export const toggleDevMode: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ToggleDevMode",
 }));
 
 export type UpdateHardwareFlavorError = HuggingFaceOpError;
@@ -1801,6 +1898,8 @@ export const updateHardwareFlavor: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHardwareFlavor",
 }));
 
 export type UpdateRepoSettingsError = HuggingFaceOpError;
@@ -1816,6 +1915,8 @@ export const updateRepoSettings: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoSettings",
 }));
 
 export type UpsertSecretError = HuggingFaceOpError;
@@ -1831,6 +1932,8 @@ export const upsertSecret: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertSecret",
 }));
 
 export type UpsertVariableError = HuggingFaceOpError;
@@ -1846,6 +1949,8 @@ export const upsertVariable: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertVariable",
 }));
 
 export type XetReadTokenError = HuggingFaceOpError;
@@ -1861,6 +1966,8 @@ export const xetReadToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "XetReadToken",
 }));
 
 export type XetWriteTokenError = HuggingFaceOpError;
@@ -1876,6 +1983,8 @@ export const xetWriteToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "XetWriteToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

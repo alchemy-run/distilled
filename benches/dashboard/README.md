@@ -52,6 +52,14 @@ takes about 20 minutes; the benchmark itself about 6.
   records these; runs before it show only the download columns.
 - Everything works offline: no CDN, charts are hand-rolled SVG.
 
+## Repo size page
+
+`repo-size.html` (the "Repo size" tab) shows what a checkout of this repo
+costs on disk and what each way of shrinking it would save. It reads
+`repo-size/lab.json`, written by `node benches/repo-size/lab.ts` (about
+1.5 minutes; `--skip worktree,clone,timeline,local` for a quick rerun of
+the rest). The `local` section describes the machine that ran it.
+
 ## Experiments
 
 An experiment is a one-off run: something you tried that is not a commit

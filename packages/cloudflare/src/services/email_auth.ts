@@ -33,6 +33,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneId: "zone_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "EmailAuth",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface GetDmarcReportRequest {
   /** Identifier. */
   zoneId: string;
@@ -487,6 +501,8 @@ export const getDmarcReport: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDmarcReport",
 }));
 
 export type GetSpfInspectError = CloudflareOpError;
@@ -502,6 +518,8 @@ export const getSpfInspect: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpfInspect",
 }));
 
 export type PatchDmarcReportError = CloudflareOpError;
@@ -517,6 +535,8 @@ export const patchDmarcReport: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDmarcReport",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

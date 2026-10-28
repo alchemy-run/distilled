@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -84,6 +85,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.mediatailor.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaTailor",
+  service: "MediaTailor",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1423,6 +1438,8 @@ export const configureLogsForChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogsForChannel",
+  telemetry: TELEMETRY,
+  span: "ConfigureLogsForChannel",
 }));
 
 export type ConfigureLogsForPlaybackConfigurationError = CommonErrors;
@@ -1441,6 +1458,8 @@ export const configureLogsForPlaybackConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogsForPlaybackConfiguration",
+  telemetry: TELEMETRY,
+  span: "ConfigureLogsForPlaybackConfiguration",
 }));
 
 export type CreateChannelError = CommonErrors;
@@ -1459,6 +1478,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateLiveSourceError = CommonErrors;
@@ -1477,6 +1498,8 @@ export const createLiveSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLiveSource",
+  telemetry: TELEMETRY,
+  span: "CreateLiveSource",
 }));
 
 export type CreatePrefetchScheduleError =
@@ -1498,6 +1521,8 @@ export const createPrefetchSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrefetchSchedule",
+  telemetry: TELEMETRY,
+  span: "CreatePrefetchSchedule",
 }));
 
 export type CreateProgramError = BadRequestException | ChannelNotFound | CommonErrors;
@@ -1516,6 +1541,8 @@ export const createProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProgram",
+  telemetry: TELEMETRY,
+  span: "CreateProgram",
 }));
 
 export type CreateSourceLocationError = CommonErrors;
@@ -1534,6 +1561,8 @@ export const createSourceLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceLocation",
+  telemetry: TELEMETRY,
+  span: "CreateSourceLocation",
 }));
 
 export type CreateVodSourceError = CommonErrors;
@@ -1552,6 +1581,8 @@ export const createVodSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVodSource",
+  telemetry: TELEMETRY,
+  span: "CreateVodSource",
 }));
 
 export type DeleteChannelError = CommonErrors;
@@ -1570,6 +1601,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteChannelPolicyError = CommonErrors;
@@ -1588,6 +1621,8 @@ export const deleteChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelPolicy",
 }));
 
 export type DeleteFunctionError = CommonErrors;
@@ -1606,6 +1641,8 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteFunction",
 }));
 
 export type DeleteLiveSourceError = CommonErrors;
@@ -1624,6 +1661,8 @@ export const deleteLiveSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLiveSource",
+  telemetry: TELEMETRY,
+  span: "DeleteLiveSource",
 }));
 
 export type DeletePlaybackConfigurationError = CommonErrors;
@@ -1642,6 +1681,8 @@ export const deletePlaybackConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlaybackConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeletePlaybackConfiguration",
 }));
 
 export type DeletePrefetchScheduleError =
@@ -1663,6 +1704,8 @@ export const deletePrefetchSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrefetchSchedule",
+  telemetry: TELEMETRY,
+  span: "DeletePrefetchSchedule",
 }));
 
 export type DeleteProgramError = BadRequestException | ProgramNotFound | CommonErrors;
@@ -1681,6 +1724,8 @@ export const deleteProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProgram",
+  telemetry: TELEMETRY,
+  span: "DeleteProgram",
 }));
 
 export type DeleteSourceLocationError = CommonErrors;
@@ -1699,6 +1744,8 @@ export const deleteSourceLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceLocation",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceLocation",
 }));
 
 export type DeleteVodSourceError = CommonErrors;
@@ -1717,6 +1764,8 @@ export const deleteVodSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVodSource",
+  telemetry: TELEMETRY,
+  span: "DeleteVodSource",
 }));
 
 export type DescribeChannelError = CommonErrors;
@@ -1735,6 +1784,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeLiveSourceError = CommonErrors;
@@ -1753,6 +1804,8 @@ export const describeLiveSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLiveSource",
+  telemetry: TELEMETRY,
+  span: "DescribeLiveSource",
 }));
 
 export type DescribeProgramError = BadRequestException | ProgramNotFound | CommonErrors;
@@ -1771,6 +1824,8 @@ export const describeProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProgram",
+  telemetry: TELEMETRY,
+  span: "DescribeProgram",
 }));
 
 export type DescribeSourceLocationError = CommonErrors;
@@ -1789,6 +1844,8 @@ export const describeSourceLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSourceLocation",
+  telemetry: TELEMETRY,
+  span: "DescribeSourceLocation",
 }));
 
 export type DescribeVodSourceError = CommonErrors;
@@ -1807,6 +1864,8 @@ export const describeVodSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVodSource",
+  telemetry: TELEMETRY,
+  span: "DescribeVodSource",
 }));
 
 export type GetChannelPolicyError = CommonErrors;
@@ -1825,6 +1884,8 @@ export const getChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "GetChannelPolicy",
 }));
 
 export type GetChannelScheduleError = BadRequestException | ChannelNotFound | CommonErrors;
@@ -1850,6 +1911,8 @@ export const getChannelSchedule: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetChannelSchedule",
 })) as any;
 
 export type GetFunctionError = CommonErrors;
@@ -1868,6 +1931,8 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
+  telemetry: TELEMETRY,
+  span: "GetFunction",
 }));
 
 export type GetPlaybackConfigurationError = PlaybackConfigurationNotFound | CommonErrors;
@@ -1886,6 +1951,8 @@ export const getPlaybackConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlaybackConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetPlaybackConfiguration",
 }));
 
 export type GetPrefetchScheduleError =
@@ -1907,6 +1974,8 @@ export const getPrefetchSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrefetchSchedule",
+  telemetry: TELEMETRY,
+  span: "GetPrefetchSchedule",
 }));
 
 export type ListAlertsError = BadRequestException | CommonErrors;
@@ -1932,6 +2001,8 @@ export const listAlerts: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAlerts",
 })) as any;
 
 export type ListChannelsError = CommonErrors;
@@ -1957,6 +2028,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListFunctionsError = CommonErrors;
@@ -1982,6 +2055,8 @@ export const listFunctions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFunctions",
 })) as any;
 
 export type ListLiveSourcesError = CommonErrors;
@@ -2007,6 +2082,8 @@ export const listLiveSources: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLiveSources",
 })) as any;
 
 export type ListPlaybackConfigurationsError = CommonErrors;
@@ -2032,6 +2109,8 @@ export const listPlaybackConfigurations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlaybackConfigurations",
 })) as any;
 
 export type ListPrefetchSchedulesError =
@@ -2060,6 +2139,8 @@ export const listPrefetchSchedules: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrefetchSchedules",
 })) as any;
 
 export type ListSourceLocationsError = CommonErrors;
@@ -2085,6 +2166,8 @@ export const listSourceLocations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceLocations",
 })) as any;
 
 export type ListTagsForResourceError = BadRequestException | CommonErrors;
@@ -2103,6 +2186,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVodSourcesError = CommonErrors;
@@ -2128,6 +2213,8 @@ export const listVodSources: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVodSources",
 })) as any;
 
 export type PutChannelPolicyError = CommonErrors;
@@ -2146,6 +2233,8 @@ export const putChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelPolicy",
+  telemetry: TELEMETRY,
+  span: "PutChannelPolicy",
 }));
 
 export type PutFunctionError = CommonErrors;
@@ -2164,6 +2253,8 @@ export const putFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunction",
+  telemetry: TELEMETRY,
+  span: "PutFunction",
 }));
 
 export type PutPlaybackConfigurationError = CommonErrors;
@@ -2182,6 +2273,8 @@ export const putPlaybackConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPlaybackConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutPlaybackConfiguration",
 }));
 
 export type StartChannelError = BadRequestException | ChannelNotFound | CommonErrors;
@@ -2200,6 +2293,8 @@ export const startChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChannel",
+  telemetry: TELEMETRY,
+  span: "StartChannel",
 }));
 
 export type StopChannelError = BadRequestException | ChannelNotFound | CommonErrors;
@@ -2218,6 +2313,8 @@ export const stopChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopChannel",
+  telemetry: TELEMETRY,
+  span: "StopChannel",
 }));
 
 export type TagResourceError = BadRequestException | CommonErrors;
@@ -2236,6 +2333,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = BadRequestException | CommonErrors;
@@ -2254,6 +2353,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError = CommonErrors;
@@ -2272,6 +2373,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateLiveSourceError = CommonErrors;
@@ -2290,6 +2393,8 @@ export const updateLiveSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLiveSource",
+  telemetry: TELEMETRY,
+  span: "UpdateLiveSource",
 }));
 
 export type UpdateProgramError = BadRequestException | ProgramNotFound | CommonErrors;
@@ -2308,6 +2413,8 @@ export const updateProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProgram",
+  telemetry: TELEMETRY,
+  span: "UpdateProgram",
 }));
 
 export type UpdateSourceLocationError = CommonErrors;
@@ -2326,6 +2433,8 @@ export const updateSourceLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceLocation",
+  telemetry: TELEMETRY,
+  span: "UpdateSourceLocation",
 }));
 
 export type UpdateVodSourceError = CommonErrors;
@@ -2344,6 +2453,8 @@ export const updateVodSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVodSource",
+  telemetry: TELEMETRY,
+  span: "UpdateVodSource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

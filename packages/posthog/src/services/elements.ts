@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Elements",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -195,6 +208,8 @@ export const createElement: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateElement",
 }));
 
 export type ElementsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -209,6 +224,8 @@ export const elementsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ElementsDestroy",
 }));
 
 export type GetElementError = Forbidden | NotFound | PosthogOpError;
@@ -223,6 +240,8 @@ export const getElement: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetElement",
 }));
 
 export type GetElementsStatError = Forbidden | NotFound | PosthogOpError;
@@ -238,6 +257,8 @@ export const getElementsStat: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetElementsStat",
 }));
 
 export type ListElementsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -252,6 +273,8 @@ export const listElements: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListElements",
 }));
 
 export type ListElementsValuesError = Forbidden | NotFound | PosthogOpError;
@@ -266,6 +289,8 @@ export const listElementsValues: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListElementsValues",
 }));
 
 export type UpdateElementError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -280,6 +305,8 @@ export const updateElement: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateElement",
 }));
 
 export type UpdateElementsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -294,6 +321,8 @@ export const updateElementsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateElementsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

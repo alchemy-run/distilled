@@ -7,7 +7,7 @@
  * Output: .generated-specs/<group>.json  (one Smithy model per RPC-name
  *         prefix of each proto service — `AppCreate` → `app.json`)
  *
- * The proto→Smithy converter lives in `@distilled.cloud/core/codegen/proto`.
+ * The proto→Smithy converter lives in `@distilled.cloud/dev/codegen/proto`.
  * Operations are unary gRPC methods, stamped as
  * `POST /<package>.<Service>/<Method>` with proto3 JSON field names.
  * Streaming RPCs are skipped (they are not a request/response POST).
@@ -18,13 +18,10 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import {
-  convertProtoToSmithy,
-  parseProto,
-  rpcGroupName,
-} from "@distilled.cloud/core/codegen/proto";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { convertProtoToSmithy, parseProto, rpcGroupName } from "@distilled.cloud/dev/codegen/proto";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT_DIR = path.join(ROOT, ".generated-specs");
@@ -57,14 +54,13 @@ const files = PROTO_FILES.map((name) => {
   return parseProto(fs.readFileSync(specPath, "utf-8"), name);
 });
 
-fs.rmSync(OUT_DIR, { recursive: true, force: true });
-fs.mkdirSync(OUT_DIR, { recursive: true });
+clearModels(OUT_DIR);
 
 let written = 0;
 let totalOps = 0;
 let totalStreaming = 0;
 
-const writeModel = (
+const convertService = (
   slug: string,
   serviceName: string,
   serviceTitle: string,
@@ -87,10 +83,7 @@ const writeModel = (
     totalStreaming += result.skippedStreaming;
     return;
   }
-  fs.writeFileSync(
-    path.join(OUT_DIR, `${slug}.json`),
-    `${JSON.stringify(result.model, null, 2)}\n`,
-  );
+  writeModel(path.join(OUT_DIR, `${slug}.json`), result.model);
   written++;
   totalOps += result.converted;
   totalStreaming += result.skippedStreaming;
@@ -113,7 +106,7 @@ for (const file of files) {
       }
       for (const group of [...groups.keys()].sort()) {
         const slug = toSlug(group);
-        writeModel(
+        convertService(
           slug,
           group,
           `Modal ${group}`,
@@ -125,7 +118,7 @@ for (const file of files) {
       }
     } else {
       const slug = toSlug(service.name);
-      writeModel(
+      convertService(
         slug,
         service.name,
         `Modal ${service.name}`,

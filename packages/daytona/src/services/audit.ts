@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Audit",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface GetAuditScenariosRequest {}
 /** Resource type the actions apply to. Scenarios that are not scoped to a specific resource type (e.g. leaving an organization) are grouped under "other". */
 export type AuditTargetScenarioTargetType =
@@ -235,6 +248,8 @@ export const getAuditScenarios: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuditScenarios",
 }));
 
 export type GetOrganizationAuditLogsError = DaytonaOpError;
@@ -252,6 +267,8 @@ export const getOrganizationAuditLogs: API.PaginatedOperationMethod<
     errors: [UnknownDaytonaError],
     protocol: DaytonaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetOrganizationAuditLogs",
     pagination: {
       mode: "token",
       inputToken: "nextToken",

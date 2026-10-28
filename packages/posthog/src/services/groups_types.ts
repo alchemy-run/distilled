@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "GroupsTypes",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -230,6 +243,8 @@ export const createGroupsTypesMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupsTypesMetrics",
 }));
 
 export type GetGroupsTypesMetricsError = Forbidden | NotFound | PosthogOpError;
@@ -244,6 +259,8 @@ export const getGroupsTypesMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupsTypesMetrics",
 }));
 
 export type GroupsTypesCreateDetailDashboardUpdateError =
@@ -262,6 +279,8 @@ export const groupsTypesCreateDetailDashboardUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsTypesCreateDetailDashboardUpdate",
 }));
 
 export type GroupsTypesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -276,6 +295,8 @@ export const groupsTypesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsTypesDestroy",
 }));
 
 export type GroupsTypesMetricsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -290,6 +311,8 @@ export const groupsTypesMetricsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsTypesMetricsDestroy",
 }));
 
 export type GroupsTypesUpdateMetadataPartialUpdateError =
@@ -308,6 +331,8 @@ export const groupsTypesUpdateMetadataPartialUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsTypesUpdateMetadataPartialUpdate",
 }));
 
 export type ListGroupsTypesError = Forbidden | NotFound | PosthogOpError;
@@ -322,6 +347,8 @@ export const listGroupsTypes: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupsTypes",
 }));
 
 export type ListGroupsTypesMetricsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -336,6 +363,8 @@ export const listGroupsTypesMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupsTypesMetrics",
 }));
 
 export type UpdateGroupsTypesMetricsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -350,6 +379,8 @@ export const updateGroupsTypesMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupsTypesMetrics",
 }));
 
 export type UpdateGroupsTypesMetricsPartialError =
@@ -368,6 +399,8 @@ export const updateGroupsTypesMetricsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupsTypesMetricsPartial",
 }));
 
 export type UpdateGroupsTypesSetDefaultColumnError =
@@ -386,6 +419,8 @@ export const updateGroupsTypesSetDefaultColumn: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupsTypesSetDefaultColumn",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

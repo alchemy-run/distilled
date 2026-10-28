@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "ServerTypes",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface GetServerTypeRequest {
   /** ID of the Server Type. */
   id: number;
@@ -216,6 +229,8 @@ export const getServerType: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerType",
 }));
 
 export type ListServerTypesError = HetznerOpError;
@@ -233,6 +248,8 @@ export const listServerTypes: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListServerTypes",
     pagination: {
       mode: "page",
       inputToken: "page",

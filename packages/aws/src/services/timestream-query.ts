@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -92,6 +93,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://query.timestream.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "TimestreamQuery",
+  service: "TimestreamQuery",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -613,6 +629,8 @@ export const cancelQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuery",
+  telemetry: TELEMETRY,
+  span: "CancelQuery",
 }));
 
 export type CreateScheduledQueryError =
@@ -651,6 +669,8 @@ export const createScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "CreateScheduledQuery",
 }));
 
 export type DeleteScheduledQueryError =
@@ -683,6 +703,8 @@ export const deleteScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduledQuery",
 }));
 
 export type DescribeAccountSettingsError =
@@ -713,6 +735,8 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountSettings",
 }));
 
 export type DescribeEndpointsError =
@@ -756,6 +780,8 @@ export const describeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoints",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoints",
 }));
 
 export type DescribeScheduledQueryError =
@@ -788,6 +814,8 @@ export const describeScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "DescribeScheduledQuery",
 }));
 
 export type ExecuteScheduledQueryError =
@@ -822,6 +850,8 @@ export const executeScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "ExecuteScheduledQuery",
 }));
 
 export type ListScheduledQueriesError =
@@ -860,6 +890,8 @@ export const listScheduledQueries: API.PaginatedOperationMethod<
     items: "ScheduledQueries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScheduledQueries",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -895,6 +927,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PrepareQueryError =
@@ -927,6 +961,8 @@ export const prepareQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PrepareQuery",
+  telemetry: TELEMETRY,
+  span: "PrepareQuery",
 }));
 
 export type QueryError =
@@ -999,6 +1035,8 @@ export const query: API.PaginatedOperationMethod<
     items: "Rows",
     pageSize: "MaxRows",
   } as const,
+  telemetry: TELEMETRY,
+  span: "Query",
 })) as any;
 
 export type TagResourceError =
@@ -1031,6 +1069,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1059,6 +1099,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountSettingsError =
@@ -1091,6 +1133,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateScheduledQueryError =
@@ -1123,6 +1167,8 @@ export const updateScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledQuery",
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledQuery",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

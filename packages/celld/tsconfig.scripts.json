@@ -11,5 +11,5 @@
     "rewriteRelativeImportExtensions": false,
     "customConditions": ["bun"]
   },
-  "references": [{ "path": "../core" }]
+  "references": [{ "path": "../core" }, { "path": "../dev" }]
 }

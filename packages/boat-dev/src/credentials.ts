@@ -19,7 +19,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("BoatCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "BoatCredentials",
+  ) {}
 
 /** Layer from a redacted API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -54,5 +56,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl:
         process.env.BOAT_API_BASE_URL ?? process.env.BOAT_API_BASE ?? DEFAULT_API_BASE_URL,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

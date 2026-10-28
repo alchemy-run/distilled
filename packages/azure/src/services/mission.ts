@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Mission" },
+  prefix: "Mission",
+  service: "Mission",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Specifies the action performed by the approver */
 export type ActionPerformed = "Approved" | "Rejected";
 /** Approver Metadata for approvals request. */
@@ -2766,6 +2787,13 @@ export const ApprovalCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ApprovalCreateOrUpdate",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+    },
+  },
 }));
 
 export type CheckCommunityAddressSpaceAvailabilityError = AzureOpError;
@@ -2781,6 +2809,8 @@ export const CheckCommunityAddressSpaceAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCommunityAddressSpaceAvailability",
 }));
 
 export type CommunityCreateOrUpdateError = AzureOpError;
@@ -2796,6 +2826,8 @@ export const CommunityCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommunityCreateOrUpdate",
 }));
 
 export type CommunityEndpointsCreateOrUpdateError = AzureOpError;
@@ -2811,6 +2843,8 @@ export const CommunityEndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommunityEndpointsCreateOrUpdate",
 }));
 
 export type CommunityEndpointsHandleApprovalCreationError = AzureOpError;
@@ -2826,6 +2860,8 @@ export const CommunityEndpointsHandleApprovalCreation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommunityEndpointsHandleApprovalCreation",
 }));
 
 export type CommunityEndpointsHandleApprovalDeletionError = AzureOpError;
@@ -2841,6 +2877,8 @@ export const CommunityEndpointsHandleApprovalDeletion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommunityEndpointsHandleApprovalDeletion",
 }));
 
 export type DedicatedHubCreateOrUpdateError = AzureOpError;
@@ -2856,6 +2894,8 @@ export const DedicatedHubCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DedicatedHubCreateOrUpdate",
 }));
 
 export type DeleteApprovalError = AzureOpError;
@@ -2871,6 +2911,13 @@ export const DeleteApproval: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteApproval",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+    },
+  },
 }));
 
 export type DeleteCommunityError = AzureOpError;
@@ -2886,6 +2933,8 @@ export const DeleteCommunity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCommunity",
 }));
 
 export type DeleteCommunityEndpointError = AzureOpError;
@@ -2901,6 +2950,8 @@ export const DeleteCommunityEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCommunityEndpoint",
 }));
 
 export type DeleteDedicatedHubError = AzureOpError;
@@ -2916,6 +2967,8 @@ export const DeleteDedicatedHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedHub",
 }));
 
 export type DeleteEnclaveConnectionError = AzureOpError;
@@ -2931,6 +2984,8 @@ export const DeleteEnclaveConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnclaveConnection",
 }));
 
 export type DeleteEnclaveEndpointError = AzureOpError;
@@ -2946,6 +3001,8 @@ export const DeleteEnclaveEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnclaveEndpoint",
 }));
 
 export type DeleteTransitHubError = AzureOpError;
@@ -2961,6 +3018,8 @@ export const DeleteTransitHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTransitHub",
 }));
 
 export type DeleteVirtualEnclaveError = AzureOpError;
@@ -2976,6 +3035,8 @@ export const DeleteVirtualEnclave: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualEnclave",
 }));
 
 export type DeleteWorkloadError = AzureOpError;
@@ -2991,6 +3052,8 @@ export const DeleteWorkload: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkload",
 }));
 
 export type EnclaveConnectionCreateOrUpdateError = AzureOpError;
@@ -3006,6 +3069,8 @@ export const EnclaveConnectionCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnclaveConnectionCreateOrUpdate",
 }));
 
 export type EnclaveConnectionHandleApprovalCreationError = AzureOpError;
@@ -3021,6 +3086,8 @@ export const EnclaveConnectionHandleApprovalCreation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnclaveConnectionHandleApprovalCreation",
 }));
 
 export type EnclaveConnectionHandleApprovalDeletionError = AzureOpError;
@@ -3036,6 +3103,8 @@ export const EnclaveConnectionHandleApprovalDeletion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnclaveConnectionHandleApprovalDeletion",
 }));
 
 export type EnclaveEndpointsCreateOrUpdateError = AzureOpError;
@@ -3051,6 +3120,8 @@ export const EnclaveEndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnclaveEndpointsCreateOrUpdate",
 }));
 
 export type EnclaveEndpointsHandleApprovalCreationError = AzureOpError;
@@ -3066,6 +3137,8 @@ export const EnclaveEndpointsHandleApprovalCreation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnclaveEndpointsHandleApprovalCreation",
 }));
 
 export type EnclaveEndpointsHandleApprovalDeletionError = AzureOpError;
@@ -3081,6 +3154,8 @@ export const EnclaveEndpointsHandleApprovalDeletion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnclaveEndpointsHandleApprovalDeletion",
 }));
 
 export type GetApprovalError = AzureOpError;
@@ -3096,6 +3171,13 @@ export const GetApproval: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetApproval",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+    },
+  },
 }));
 
 export type GetCommunityError = AzureOpError;
@@ -3111,6 +3193,8 @@ export const GetCommunity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommunity",
 }));
 
 export type GetCommunityEndpointError = AzureOpError;
@@ -3126,6 +3210,8 @@ export const GetCommunityEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommunityEndpoint",
 }));
 
 export type GetDedicatedHubError = AzureOpError;
@@ -3141,6 +3227,8 @@ export const GetDedicatedHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedHub",
 }));
 
 export type GetEnclaveConnectionError = AzureOpError;
@@ -3156,6 +3244,8 @@ export const GetEnclaveConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnclaveConnection",
 }));
 
 export type GetEnclaveEndpointError = AzureOpError;
@@ -3171,6 +3261,8 @@ export const GetEnclaveEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnclaveEndpoint",
 }));
 
 export type GetTransitHubError = AzureOpError;
@@ -3186,6 +3278,8 @@ export const GetTransitHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransitHub",
 }));
 
 export type GetVirtualEnclaveError = AzureOpError;
@@ -3201,6 +3295,8 @@ export const GetVirtualEnclave: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualEnclave",
 }));
 
 export type GetWorkloadError = AzureOpError;
@@ -3216,6 +3312,8 @@ export const GetWorkload: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkload",
 }));
 
 export type ListApprovalByParentError = AzureOpError;
@@ -3231,6 +3329,11 @@ export const ListApprovalByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListApprovalByParent",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.Mission/approvals" },
+  },
 }));
 
 export type ListCommunityByResourceGroupError = AzureOpError;
@@ -3246,6 +3349,8 @@ export const ListCommunityByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunityByResourceGroup",
 }));
 
 export type ListCommunityBySubscriptionError = AzureOpError;
@@ -3261,6 +3366,8 @@ export const ListCommunityBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunityBySubscription",
 }));
 
 export type ListCommunityEndpointByCommunityResourceError = AzureOpError;
@@ -3276,6 +3383,8 @@ export const ListCommunityEndpointByCommunityResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunityEndpointByCommunityResource",
 }));
 
 export type ListCommunityEndpointBySubscriptionError = AzureOpError;
@@ -3291,6 +3400,8 @@ export const ListCommunityEndpointBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunityEndpointBySubscription",
 }));
 
 export type ListDedicatedHubByCommunityResourceError = AzureOpError;
@@ -3306,6 +3417,8 @@ export const ListDedicatedHubByCommunityResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHubByCommunityResource",
 }));
 
 export type ListDedicatedHubBySubscriptionError = AzureOpError;
@@ -3321,6 +3434,8 @@ export const ListDedicatedHubBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHubBySubscription",
 }));
 
 export type ListEnclaveConnectionByResourceGroupError = AzureOpError;
@@ -3336,6 +3451,8 @@ export const ListEnclaveConnectionByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnclaveConnectionByResourceGroup",
 }));
 
 export type ListEnclaveConnectionBySubscriptionError = AzureOpError;
@@ -3351,6 +3468,8 @@ export const ListEnclaveConnectionBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnclaveConnectionBySubscription",
 }));
 
 export type ListEnclaveEndpointByEnclaveResourceError = AzureOpError;
@@ -3366,6 +3485,8 @@ export const ListEnclaveEndpointByEnclaveResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnclaveEndpointByEnclaveResource",
 }));
 
 export type ListEnclaveEndpointBySubscriptionError = AzureOpError;
@@ -3381,6 +3502,8 @@ export const ListEnclaveEndpointBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnclaveEndpointBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -3396,6 +3519,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListTransitHubByCommunityResourceError = AzureOpError;
@@ -3411,6 +3536,8 @@ export const ListTransitHubByCommunityResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransitHubByCommunityResource",
 }));
 
 export type ListTransitHubBySubscriptionError = AzureOpError;
@@ -3426,6 +3553,8 @@ export const ListTransitHubBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransitHubBySubscription",
 }));
 
 export type ListVirtualEnclaveByResourceGroupError = AzureOpError;
@@ -3441,6 +3570,8 @@ export const ListVirtualEnclaveByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualEnclaveByResourceGroup",
 }));
 
 export type ListVirtualEnclaveBySubscriptionError = AzureOpError;
@@ -3456,6 +3587,8 @@ export const ListVirtualEnclaveBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualEnclaveBySubscription",
 }));
 
 export type ListWorkloadByEnclaveResourceError = AzureOpError;
@@ -3471,6 +3604,8 @@ export const ListWorkloadByEnclaveResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadByEnclaveResource",
 }));
 
 export type ListWorkloadBySubscriptionError = AzureOpError;
@@ -3486,6 +3621,8 @@ export const ListWorkloadBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadBySubscription",
 }));
 
 export type NotifyApprovalInitiatorError = AzureOpError;
@@ -3501,6 +3638,14 @@ export const NotifyApprovalInitiator: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "NotifyApprovalInitiator",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}/notifyInitiator",
+    },
+  },
 }));
 
 export type TransitHubCreateOrUpdateError = AzureOpError;
@@ -3516,6 +3661,8 @@ export const TransitHubCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransitHubCreateOrUpdate",
 }));
 
 export type UpdateApprovalError = AzureOpError;
@@ -3531,6 +3678,13 @@ export const UpdateApproval: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateApproval",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+    },
+  },
 }));
 
 export type UpdateCommunityError = AzureOpError;
@@ -3546,6 +3700,8 @@ export const UpdateCommunity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCommunity",
 }));
 
 export type UpdateCommunityEndpointError = AzureOpError;
@@ -3561,6 +3717,8 @@ export const UpdateCommunityEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCommunityEndpoint",
 }));
 
 export type UpdateDedicatedHubError = AzureOpError;
@@ -3576,6 +3734,8 @@ export const UpdateDedicatedHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDedicatedHub",
 }));
 
 export type UpdateEnclaveConnectionError = AzureOpError;
@@ -3591,6 +3751,8 @@ export const UpdateEnclaveConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnclaveConnection",
 }));
 
 export type UpdateEnclaveEndpointError = AzureOpError;
@@ -3606,6 +3768,8 @@ export const UpdateEnclaveEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnclaveEndpoint",
 }));
 
 export type UpdateTransitHubError = AzureOpError;
@@ -3621,6 +3785,8 @@ export const UpdateTransitHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransitHub",
 }));
 
 export type UpdateVirtualEnclaveError = AzureOpError;
@@ -3636,6 +3802,8 @@ export const UpdateVirtualEnclave: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualEnclave",
 }));
 
 export type UpdateWorkloadError = AzureOpError;
@@ -3651,6 +3819,8 @@ export const UpdateWorkload: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkload",
 }));
 
 export type VirtualEnclaveCreateOrUpdateError = AzureOpError;
@@ -3666,6 +3836,8 @@ export const VirtualEnclaveCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualEnclaveCreateOrUpdate",
 }));
 
 export type VirtualEnclaveHandleApprovalCreationError = AzureOpError;
@@ -3681,6 +3853,8 @@ export const VirtualEnclaveHandleApprovalCreation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualEnclaveHandleApprovalCreation",
 }));
 
 export type VirtualEnclaveHandleApprovalDeletionError = AzureOpError;
@@ -3696,6 +3870,8 @@ export const VirtualEnclaveHandleApprovalDeletion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualEnclaveHandleApprovalDeletion",
 }));
 
 export type WorkloadCreateOrUpdateError = AzureOpError;
@@ -3711,6 +3887,8 @@ export const WorkloadCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkloadCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

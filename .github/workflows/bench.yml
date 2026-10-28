@@ -11,7 +11,7 @@ name: Benchmarks
 #
 # Main's numbers come from the Actions cache: every push to main runs the same
 # script with `--wide` (every SDK), appends it to a rolling history (the line
-# charts), and saves both under `bench-ci-main-<sha>-<run id>`. A PR restores
+# charts), and saves both under `bench-ci-main-v2-<sha>-<run id>`. A PR restores
 # the entry for its base commit, or the newest main entry when that is missing.
 # Run the workflow by hand on main with `backfill: N` to seed the history with
 # main's last N commits.
@@ -65,11 +65,13 @@ jobs:
             .bench-ci/main.json
             .bench-ci/history.json
           # Keys end in a run id, so the key never matches exactly: the base
-          # commit's newest entry wins, then main's newest entry.
-          key: bench-ci-main-${{ github.event.pull_request.base.sha || github.sha }}-none
+          # commit's newest entry wins, then main's newest entry. Bump v2 (here
+          # and in the save step) when a metric's measurement changes, so old
+          # runs are dropped. v2: added latency's call and roundtrip interleaved.
+          key: bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-none
           restore-keys: |
-            bench-ci-main-${{ github.event.pull_request.base.sha || github.sha }}-
-            bench-ci-main-
+            bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-
+            bench-ci-main-v2-
 
       - name: Backfill main's history
         if: github.event_name == 'workflow_dispatch' && inputs.backfill > 0
@@ -131,7 +133,7 @@ jobs:
           path: |
             .bench-ci/main.json
             .bench-ci/history.json
-          key: bench-ci-main-${{ github.sha }}-${{ github.run_id }}
+          key: bench-ci-main-v2-${{ github.sha }}-${{ github.run_id }}
 
       - name: Write report
         env:

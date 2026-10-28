@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://imagebuilder.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "imagebuilder",
+  service: "imagebuilder",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2175,6 +2190,8 @@ export const cancelImageCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImageCreation",
+  telemetry: TELEMETRY,
+  span: "CancelImageCreation",
 }));
 
 export type CancelLifecycleExecutionError =
@@ -2215,6 +2232,8 @@ export const cancelLifecycleExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLifecycleExecution",
+  telemetry: TELEMETRY,
+  span: "CancelLifecycleExecution",
 }));
 
 export type CreateComponentError =
@@ -2270,6 +2289,8 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateContainerRecipeError =
@@ -2315,6 +2336,8 @@ export const createContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerRecipe",
+  telemetry: TELEMETRY,
+  span: "CreateContainerRecipe",
 }));
 
 export type CreateDistributionConfigurationError =
@@ -2361,6 +2384,8 @@ export const createDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateDistributionConfiguration",
 }));
 
 export type CreateImageError =
@@ -2405,6 +2430,8 @@ export const createImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImage",
+  telemetry: TELEMETRY,
+  span: "CreateImage",
 }));
 
 export type CreateImagePipelineError =
@@ -2450,6 +2477,8 @@ export const createImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImagePipeline",
+  telemetry: TELEMETRY,
+  span: "CreateImagePipeline",
 }));
 
 export type CreateImageRecipeError =
@@ -2495,6 +2524,8 @@ export const createImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageRecipe",
+  telemetry: TELEMETRY,
+  span: "CreateImageRecipe",
 }));
 
 export type CreateInfrastructureConfigurationError =
@@ -2540,6 +2571,8 @@ export const createInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInfrastructureConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateInfrastructureConfiguration",
 }));
 
 export type CreateLifecyclePolicyError =
@@ -2582,6 +2615,8 @@ export const createLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLifecyclePolicy",
 }));
 
 export type CreateWorkflowError =
@@ -2630,6 +2665,8 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type DeleteComponentError =
@@ -2669,6 +2706,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteContainerRecipeError =
@@ -2705,6 +2744,8 @@ export const deleteContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerRecipe",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerRecipe",
 }));
 
 export type DeleteDistributionConfigurationError =
@@ -2744,6 +2785,8 @@ export const deleteDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistributionConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteDistributionConfiguration",
 }));
 
 export type DeleteImageError =
@@ -2801,6 +2844,8 @@ export const deleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImage",
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteImagePipelineError =
@@ -2840,6 +2885,8 @@ export const deleteImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImagePipeline",
+  telemetry: TELEMETRY,
+  span: "DeleteImagePipeline",
 }));
 
 export type DeleteImageRecipeError =
@@ -2876,6 +2923,8 @@ export const deleteImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageRecipe",
+  telemetry: TELEMETRY,
+  span: "DeleteImageRecipe",
 }));
 
 export type DeleteInfrastructureConfigurationError =
@@ -2915,6 +2964,8 @@ export const deleteInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInfrastructureConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteInfrastructureConfiguration",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -2953,6 +3004,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecyclePolicy",
 }));
 
 export type DeleteWorkflowError =
@@ -2989,6 +3042,8 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DistributeImageError =
@@ -3035,6 +3090,8 @@ export const distributeImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DistributeImage",
+  telemetry: TELEMETRY,
+  span: "DistributeImage",
 }));
 
 export type GetComponentError =
@@ -3069,6 +3126,8 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetComponentPolicyError =
@@ -3101,6 +3160,8 @@ export const getComponentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponentPolicy",
+  telemetry: TELEMETRY,
+  span: "GetComponentPolicy",
 }));
 
 export type GetContainerRecipeError =
@@ -3133,6 +3194,8 @@ export const getContainerRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerRecipe",
+  telemetry: TELEMETRY,
+  span: "GetContainerRecipe",
 }));
 
 export type GetContainerRecipePolicyError =
@@ -3165,6 +3228,8 @@ export const getContainerRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerRecipePolicy",
+  telemetry: TELEMETRY,
+  span: "GetContainerRecipePolicy",
 }));
 
 export type GetDistributionConfigurationError =
@@ -3199,6 +3264,8 @@ export const getDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetDistributionConfiguration",
 }));
 
 export type GetImageError =
@@ -3233,6 +3300,8 @@ export const getImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImage",
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetImagePipelineError =
@@ -3267,6 +3336,8 @@ export const getImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImagePipeline",
+  telemetry: TELEMETRY,
+  span: "GetImagePipeline",
 }));
 
 export type GetImagePolicyError =
@@ -3299,6 +3370,8 @@ export const getImagePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImagePolicy",
+  telemetry: TELEMETRY,
+  span: "GetImagePolicy",
 }));
 
 export type GetImageRecipeError =
@@ -3333,6 +3406,8 @@ export const getImageRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImageRecipe",
+  telemetry: TELEMETRY,
+  span: "GetImageRecipe",
 }));
 
 export type GetImageRecipePolicyError =
@@ -3365,6 +3440,8 @@ export const getImageRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImageRecipePolicy",
+  telemetry: TELEMETRY,
+  span: "GetImageRecipePolicy",
 }));
 
 export type GetInfrastructureConfigurationError =
@@ -3399,6 +3476,8 @@ export const getInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInfrastructureConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetInfrastructureConfiguration",
 }));
 
 export type GetLifecycleExecutionError =
@@ -3433,6 +3512,8 @@ export const getLifecycleExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecycleExecution",
+  telemetry: TELEMETRY,
+  span: "GetLifecycleExecution",
 }));
 
 export type GetLifecyclePolicyError =
@@ -3465,6 +3546,8 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "GetLifecyclePolicy",
 }));
 
 export type GetMarketplaceResourceError =
@@ -3500,6 +3583,8 @@ export const getMarketplaceResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMarketplaceResource",
+  telemetry: TELEMETRY,
+  span: "GetMarketplaceResource",
 }));
 
 export type GetWorkflowError =
@@ -3532,6 +3617,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowExecutionError =
@@ -3565,6 +3652,8 @@ export const getWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowExecution",
 }));
 
 export type GetWorkflowStepExecutionError =
@@ -3598,6 +3687,8 @@ export const getWorkflowStepExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowStepExecution",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowStepExecution",
 }));
 
 export type ImportComponentError =
@@ -3640,6 +3731,8 @@ export const importComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportComponent",
+  telemetry: TELEMETRY,
+  span: "ImportComponent",
 }));
 
 export type ImportDiskImageError =
@@ -3678,6 +3771,8 @@ export const importDiskImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDiskImage",
+  telemetry: TELEMETRY,
+  span: "ImportDiskImage",
 }));
 
 export type ImportVmImageError =
@@ -3710,6 +3805,8 @@ export const importVmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportVmImage",
+  telemetry: TELEMETRY,
+  span: "ImportVmImage",
 }));
 
 export type ListComponentBuildVersionsError =
@@ -3756,6 +3853,8 @@ export const listComponentBuildVersions: API.PaginatedOperationMethod<
     items: "componentSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponentBuildVersions",
 })) as any;
 
 export type ListComponentsError =
@@ -3807,6 +3906,8 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "componentVersionList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListContainerRecipesError =
@@ -3848,6 +3949,8 @@ export const listContainerRecipes: API.PaginatedOperationMethod<
     items: "containerRecipeSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerRecipes",
 })) as any;
 
 export type ListDistributionConfigurationsError =
@@ -3889,6 +3992,8 @@ export const listDistributionConfigurations: API.PaginatedOperationMethod<
     items: "distributionConfigurationSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionConfigurations",
 })) as any;
 
 export type ListImageBuildVersionsError =
@@ -3930,6 +4035,8 @@ export const listImageBuildVersions: API.PaginatedOperationMethod<
     items: "imageSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageBuildVersions",
 })) as any;
 
 export type ListImagePackagesError =
@@ -3974,6 +4081,8 @@ export const listImagePackages: API.PaginatedOperationMethod<
     items: "imagePackageList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImagePackages",
 })) as any;
 
 export type ListImagePipelineImagesError =
@@ -4017,6 +4126,8 @@ export const listImagePipelineImages: API.PaginatedOperationMethod<
     items: "imageSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImagePipelineImages",
 })) as any;
 
 export type ListImagePipelinesError =
@@ -4058,6 +4169,8 @@ export const listImagePipelines: API.PaginatedOperationMethod<
     items: "imagePipelineList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImagePipelines",
 })) as any;
 
 export type ListImageRecipesError =
@@ -4099,6 +4212,8 @@ export const listImageRecipes: API.PaginatedOperationMethod<
     items: "imageRecipeSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageRecipes",
 })) as any;
 
 export type ListImagesError =
@@ -4140,6 +4255,8 @@ export const listImages: API.PaginatedOperationMethod<
     items: "imageVersionList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImages",
 })) as any;
 
 export type ListImageScanFindingAggregationsError =
@@ -4188,6 +4305,8 @@ export const listImageScanFindingAggregations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListImageScanFindingAggregations",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "responses" } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageScanFindingAggregations",
 })) as any;
 
 export type ListImageScanFindingsError =
@@ -4230,6 +4349,8 @@ export const listImageScanFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageScanFindings",
 })) as any;
 
 export type ListInfrastructureConfigurationsError =
@@ -4271,6 +4392,8 @@ export const listInfrastructureConfigurations: API.PaginatedOperationMethod<
     items: "infrastructureConfigurationSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInfrastructureConfigurations",
 })) as any;
 
 export type ListLifecycleExecutionResourcesError =
@@ -4312,6 +4435,8 @@ export const listLifecycleExecutionResources: API.PaginatedOperationMethod<
     items: "resources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLifecycleExecutionResources",
 })) as any;
 
 export type ListLifecycleExecutionsError =
@@ -4353,6 +4478,8 @@ export const listLifecycleExecutions: API.PaginatedOperationMethod<
     items: "lifecycleExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLifecycleExecutions",
 })) as any;
 
 export type ListLifecyclePoliciesError =
@@ -4394,6 +4521,8 @@ export const listLifecyclePolicies: API.PaginatedOperationMethod<
     items: "lifecyclePolicySummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLifecyclePolicies",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4416,6 +4545,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWaitingWorkflowStepsError =
@@ -4459,6 +4590,8 @@ export const listWaitingWorkflowSteps: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWaitingWorkflowSteps",
 })) as any;
 
 export type ListWorkflowBuildVersionsError =
@@ -4500,6 +4633,8 @@ export const listWorkflowBuildVersions: API.PaginatedOperationMethod<
     items: "workflowSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowBuildVersions",
 })) as any;
 
 export type ListWorkflowExecutionsError =
@@ -4542,6 +4677,8 @@ export const listWorkflowExecutions: API.PaginatedOperationMethod<
     items: "workflowExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowExecutions",
 })) as any;
 
 export type ListWorkflowsError =
@@ -4585,6 +4722,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "workflowVersionList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type ListWorkflowStepExecutionsError =
@@ -4627,6 +4766,8 @@ export const listWorkflowStepExecutions: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowStepExecutions",
 })) as any;
 
 export type PutComponentPolicyError =
@@ -4666,6 +4807,8 @@ export const putComponentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComponentPolicy",
+  telemetry: TELEMETRY,
+  span: "PutComponentPolicy",
 }));
 
 export type PutContainerRecipePolicyError =
@@ -4705,6 +4848,8 @@ export const putContainerRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContainerRecipePolicy",
+  telemetry: TELEMETRY,
+  span: "PutContainerRecipePolicy",
 }));
 
 export type PutImagePolicyError =
@@ -4744,6 +4889,8 @@ export const putImagePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImagePolicy",
+  telemetry: TELEMETRY,
+  span: "PutImagePolicy",
 }));
 
 export type PutImageRecipePolicyError =
@@ -4783,6 +4930,8 @@ export const putImageRecipePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImageRecipePolicy",
+  telemetry: TELEMETRY,
+  span: "PutImageRecipePolicy",
 }));
 
 export type RetryImageError =
@@ -4823,6 +4972,8 @@ export const retryImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryImage",
+  telemetry: TELEMETRY,
+  span: "RetryImage",
 }));
 
 export type SendWorkflowStepActionError =
@@ -4866,6 +5017,8 @@ export const sendWorkflowStepAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWorkflowStepAction",
+  telemetry: TELEMETRY,
+  span: "SendWorkflowStepAction",
 }));
 
 export type StartImagePipelineExecutionError =
@@ -4908,6 +5061,8 @@ export const startImagePipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImagePipelineExecution",
+  telemetry: TELEMETRY,
+  span: "StartImagePipelineExecution",
 }));
 
 export type StartResourceStateUpdateError =
@@ -4954,6 +5109,8 @@ export const startResourceStateUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceStateUpdate",
+  telemetry: TELEMETRY,
+  span: "StartResourceStateUpdate",
 }));
 
 export type TagResourceError =
@@ -4976,6 +5133,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4998,6 +5157,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDistributionConfigurationError =
@@ -5044,6 +5205,8 @@ export const updateDistributionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateDistributionConfiguration",
 }));
 
 export type UpdateImagePipelineError =
@@ -5091,6 +5254,8 @@ export const updateImagePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImagePipeline",
+  telemetry: TELEMETRY,
+  span: "UpdateImagePipeline",
 }));
 
 export type UpdateInfrastructureConfigurationError =
@@ -5136,6 +5301,8 @@ export const updateInfrastructureConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInfrastructureConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateInfrastructureConfiguration",
 }));
 
 export type UpdateLifecyclePolicyError =
@@ -5177,6 +5344,8 @@ export const updateLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateLifecyclePolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

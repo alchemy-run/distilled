@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "FloatingIpActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface AssignFloatingIpRequest {
   /** ID of the Floating IP. */
   id: number;
@@ -374,6 +387,8 @@ export const assignFloatingIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignFloatingIp",
 }));
 
 export type ChangeFloatingIpDnsPtrError = HetznerOpError;
@@ -389,6 +404,8 @@ export const changeFloatingIpDnsPtr: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeFloatingIpDnsPtr",
 }));
 
 export type ChangeFloatingIpProtectionError = HetznerOpError;
@@ -404,6 +421,8 @@ export const changeFloatingIpProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeFloatingIpProtection",
 }));
 
 export type GetFloatingIpsActionError = HetznerOpError;
@@ -419,6 +438,8 @@ export const getFloatingIpsAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloatingIpsAction",
 }));
 
 export type ListFloatingIpActionsError = HetznerOpError;
@@ -436,6 +457,8 @@ export const listFloatingIpActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFloatingIpActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -462,6 +485,8 @@ export const listFloatingIpsActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFloatingIpsActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -486,6 +511,8 @@ export const unassignFloatingIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignFloatingIp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

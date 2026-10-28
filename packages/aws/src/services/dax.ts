@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -69,6 +70,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://dax.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DAX",
+  service: "DAX",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClusterAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ClusterAlreadyExistsFault>()(
@@ -693,6 +709,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateParameterGroupError =
@@ -726,6 +744,8 @@ export const createParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateParameterGroup",
 }));
 
 export type CreateSubnetGroupError =
@@ -758,6 +778,8 @@ export const createSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateSubnetGroup",
 }));
 
 export type DecreaseReplicationFactorError =
@@ -794,6 +816,8 @@ export const decreaseReplicationFactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseReplicationFactor",
+  telemetry: TELEMETRY,
+  span: "DecreaseReplicationFactor",
 }));
 
 export type DeleteClusterError =
@@ -828,6 +852,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteParameterGroupError =
@@ -859,6 +885,8 @@ export const deleteParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteParameterGroup",
 }));
 
 export type DeleteSubnetGroupError =
@@ -884,6 +912,8 @@ export const deleteSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteSubnetGroup",
 }));
 
 export type DescribeClustersError =
@@ -928,6 +958,8 @@ export const describeClusters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusters",
+  telemetry: TELEMETRY,
+  span: "DescribeClusters",
 }));
 
 export type DescribeDefaultParametersError =
@@ -955,6 +987,8 @@ export const describeDefaultParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDefaultParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeDefaultParameters",
 }));
 
 export type DescribeEventsError =
@@ -986,6 +1020,8 @@ export const describeEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEvents",
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 }));
 
 export type DescribeParameterGroupsError =
@@ -1015,6 +1051,8 @@ export const describeParameterGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeParameterGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeParameterGroups",
 }));
 
 export type DescribeParametersError =
@@ -1043,6 +1081,8 @@ export const describeParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeParameters",
 }));
 
 export type DescribeSubnetGroupsError =
@@ -1065,6 +1105,8 @@ export const describeSubnetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSubnetGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeSubnetGroups",
 }));
 
 export type IncreaseReplicationFactorError =
@@ -1103,6 +1145,8 @@ export const increaseReplicationFactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseReplicationFactor",
+  telemetry: TELEMETRY,
+  span: "IncreaseReplicationFactor",
 }));
 
 export type ListTagsError =
@@ -1136,6 +1180,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type RebootNodeError =
@@ -1173,6 +1219,8 @@ export const rebootNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootNode",
+  telemetry: TELEMETRY,
+  span: "RebootNode",
 }));
 
 export type TagResourceError =
@@ -1209,6 +1257,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1244,6 +1294,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateClusterError =
@@ -1280,6 +1332,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateParameterGroupError =
@@ -1311,6 +1365,8 @@ export const updateParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParameterGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateParameterGroup",
 }));
 
 export type UpdateSubnetGroupError =
@@ -1343,6 +1399,8 @@ export const updateSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateSubnetGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

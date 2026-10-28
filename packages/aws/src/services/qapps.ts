@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://data.qapps.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "QApps",
+  service: "QApps",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -925,6 +940,8 @@ export const associateLibraryItemReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLibraryItemReview",
+  telemetry: TELEMETRY,
+  span: "AssociateLibraryItemReview",
 }));
 
 export type AssociateQAppWithUserError =
@@ -959,6 +976,8 @@ export const associateQAppWithUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateQAppWithUser",
+  telemetry: TELEMETRY,
+  span: "AssociateQAppWithUser",
 }));
 
 export type BatchCreateCategoryError =
@@ -993,6 +1012,8 @@ export const batchCreateCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateCategory",
+  telemetry: TELEMETRY,
+  span: "BatchCreateCategory",
 }));
 
 export type BatchDeleteCategoryError =
@@ -1027,6 +1048,8 @@ export const batchDeleteCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteCategory",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteCategory",
 }));
 
 export type BatchUpdateCategoryError =
@@ -1061,6 +1084,8 @@ export const batchUpdateCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateCategory",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateCategory",
 }));
 
 export type CreateLibraryItemError =
@@ -1095,6 +1120,8 @@ export const createLibraryItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLibraryItem",
+  telemetry: TELEMETRY,
+  span: "CreateLibraryItem",
 }));
 
 export type CreatePresignedUrlError =
@@ -1127,6 +1154,8 @@ export const createPresignedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedUrl",
+  telemetry: TELEMETRY,
+  span: "CreatePresignedUrl",
 }));
 
 export type CreateQAppError =
@@ -1163,6 +1192,8 @@ export const createQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQApp",
+  telemetry: TELEMETRY,
+  span: "CreateQApp",
 }));
 
 export type DeleteLibraryItemError =
@@ -1197,6 +1228,8 @@ export const deleteLibraryItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLibraryItem",
+  telemetry: TELEMETRY,
+  span: "DeleteLibraryItem",
 }));
 
 export type DeleteQAppError =
@@ -1229,6 +1262,8 @@ export const deleteQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQApp",
+  telemetry: TELEMETRY,
+  span: "DeleteQApp",
 }));
 
 export type DescribeQAppPermissionsError =
@@ -1261,6 +1296,8 @@ export const describeQAppPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQAppPermissions",
+  telemetry: TELEMETRY,
+  span: "DescribeQAppPermissions",
 }));
 
 export type DisassociateLibraryItemReviewError =
@@ -1297,6 +1334,8 @@ export const disassociateLibraryItemReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLibraryItemReview",
+  telemetry: TELEMETRY,
+  span: "DisassociateLibraryItemReview",
 }));
 
 export type DisassociateQAppFromUserError =
@@ -1329,6 +1368,8 @@ export const disassociateQAppFromUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateQAppFromUser",
+  telemetry: TELEMETRY,
+  span: "DisassociateQAppFromUser",
 }));
 
 export type ExportQAppSessionDataError =
@@ -1365,6 +1406,8 @@ export const exportQAppSessionData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportQAppSessionData",
+  telemetry: TELEMETRY,
+  span: "ExportQAppSessionData",
 }));
 
 export type GetLibraryItemError =
@@ -1397,6 +1440,8 @@ export const getLibraryItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLibraryItem",
+  telemetry: TELEMETRY,
+  span: "GetLibraryItem",
 }));
 
 export type GetQAppError =
@@ -1429,6 +1474,8 @@ export const getQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQApp",
+  telemetry: TELEMETRY,
+  span: "GetQApp",
 }));
 
 export type GetQAppSessionError =
@@ -1463,6 +1510,8 @@ export const getQAppSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQAppSession",
+  telemetry: TELEMETRY,
+  span: "GetQAppSession",
 }));
 
 export type GetQAppSessionMetadataError =
@@ -1497,6 +1546,8 @@ export const getQAppSessionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQAppSessionMetadata",
+  telemetry: TELEMETRY,
+  span: "GetQAppSessionMetadata",
 }));
 
 export type ImportDocumentError =
@@ -1533,6 +1584,8 @@ export const importDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDocument",
+  telemetry: TELEMETRY,
+  span: "ImportDocument",
 }));
 
 export type ListCategoriesError =
@@ -1565,6 +1618,8 @@ export const listCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCategories",
+  telemetry: TELEMETRY,
+  span: "ListCategories",
 }));
 
 export type ListLibraryItemsError =
@@ -1604,6 +1659,8 @@ export const listLibraryItems: API.PaginatedOperationMethod<
     items: "libraryItems",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLibraryItems",
 })) as any;
 
 export type ListQAppsError =
@@ -1641,6 +1698,8 @@ export const listQApps: API.PaginatedOperationMethod<
     items: "apps",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQApps",
 })) as any;
 
 export type ListQAppSessionDataError =
@@ -1675,6 +1734,8 @@ export const listQAppSessionData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQAppSessionData",
+  telemetry: TELEMETRY,
+  span: "ListQAppSessionData",
 }));
 
 export type ListTagsForResourceError =
@@ -1705,6 +1766,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PredictQAppError =
@@ -1735,6 +1798,8 @@ export const predictQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PredictQApp",
+  telemetry: TELEMETRY,
+  span: "PredictQApp",
 }));
 
 export type StartQAppSessionError =
@@ -1771,6 +1836,8 @@ export const startQAppSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQAppSession",
+  telemetry: TELEMETRY,
+  span: "StartQAppSession",
 }));
 
 export type StopQAppSessionError =
@@ -1805,6 +1872,8 @@ export const stopQAppSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQAppSession",
+  telemetry: TELEMETRY,
+  span: "StopQAppSession",
 }));
 
 export type TagResourceError =
@@ -1837,6 +1906,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1867,6 +1938,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLibraryItemError =
@@ -1901,6 +1974,8 @@ export const updateLibraryItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLibraryItem",
+  telemetry: TELEMETRY,
+  span: "UpdateLibraryItem",
 }));
 
 export type UpdateLibraryItemMetadataError =
@@ -1935,6 +2010,8 @@ export const updateLibraryItemMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLibraryItemMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateLibraryItemMetadata",
 }));
 
 export type UpdateQAppError =
@@ -1969,6 +2046,8 @@ export const updateQApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQApp",
+  telemetry: TELEMETRY,
+  span: "UpdateQApp",
 }));
 
 export type UpdateQAppPermissionsError =
@@ -2001,6 +2080,8 @@ export const updateQAppPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQAppPermissions",
+  telemetry: TELEMETRY,
+  span: "UpdateQAppPermissions",
 }));
 
 export type UpdateQAppSessionError =
@@ -2035,6 +2116,8 @@ export const updateQAppSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQAppSession",
+  telemetry: TELEMETRY,
+  span: "UpdateQAppSession",
 }));
 
 export type UpdateQAppSessionMetadataError =
@@ -2069,6 +2152,8 @@ export const updateQAppSessionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQAppSessionMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateQAppSessionMetadata",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

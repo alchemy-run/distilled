@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -74,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://sso.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSOAdmin",
+  service: "SSOAdmin",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1175,6 +1191,8 @@ export const addRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRegion",
+  telemetry: TELEMETRY,
+  span: "AddRegion",
 }));
 
 export type AttachCustomerManagedPolicyReferenceToPermissionSetError =
@@ -1217,6 +1235,8 @@ export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachCustomerManagedPolicyReferenceToPermissionSet",
+  telemetry: TELEMETRY,
+  span: "AttachCustomerManagedPolicyReferenceToPermissionSet",
 }));
 
 export type AttachManagedPolicyToPermissionSetError =
@@ -1253,6 +1273,8 @@ export const attachManagedPolicyToPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachManagedPolicyToPermissionSet",
+  telemetry: TELEMETRY,
+  span: "AttachManagedPolicyToPermissionSet",
 }));
 
 export type CreateAccountAssignmentError =
@@ -1293,6 +1315,8 @@ export const createAccountAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountAssignment",
+  telemetry: TELEMETRY,
+  span: "CreateAccountAssignment",
 }));
 
 export type CreateApplicationError =
@@ -1329,6 +1353,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationAssignmentError =
@@ -1363,6 +1389,8 @@ export const createApplicationAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationAssignment",
+  telemetry: TELEMETRY,
+  span: "CreateApplicationAssignment",
 }));
 
 export type CreateInstanceError =
@@ -1401,6 +1429,8 @@ export const createInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstance",
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type CreateInstanceAccessControlAttributeConfigurationError =
@@ -1443,6 +1473,8 @@ export const createInstanceAccessControlAttributeConfiguration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceAccessControlAttributeConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateInstanceAccessControlAttributeConfiguration",
 }));
 
 export type CreatePermissionSetError =
@@ -1479,6 +1511,8 @@ export const createPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermissionSet",
+  telemetry: TELEMETRY,
+  span: "CreatePermissionSet",
 }));
 
 export type CreateTrustedTokenIssuerError =
@@ -1513,6 +1547,8 @@ export const createTrustedTokenIssuer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustedTokenIssuer",
+  telemetry: TELEMETRY,
+  span: "CreateTrustedTokenIssuer",
 }));
 
 export type DeleteAccountAssignmentError =
@@ -1547,6 +1583,8 @@ export const deleteAccountAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAssignment",
+  telemetry: TELEMETRY,
+  span: "DeleteAccountAssignment",
 }));
 
 export type DeleteApplicationError =
@@ -1579,6 +1617,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationAccessScopeError =
@@ -1611,6 +1651,8 @@ export const deleteApplicationAccessScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationAccessScope",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationAccessScope",
 }));
 
 export type DeleteApplicationAssignmentError =
@@ -1643,6 +1685,8 @@ export const deleteApplicationAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationAssignment",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationAssignment",
 }));
 
 export type DeleteApplicationAuthenticationMethodError =
@@ -1675,6 +1719,8 @@ export const deleteApplicationAuthenticationMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationAuthenticationMethod",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationAuthenticationMethod",
 }));
 
 export type DeleteApplicationGrantError =
@@ -1707,6 +1753,8 @@ export const deleteApplicationGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationGrant",
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationGrant",
 }));
 
 export type DeleteInlinePolicyFromPermissionSetError =
@@ -1739,6 +1787,8 @@ export const deleteInlinePolicyFromPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInlinePolicyFromPermissionSet",
+  telemetry: TELEMETRY,
+  span: "DeleteInlinePolicyFromPermissionSet",
 }));
 
 export type DeleteInstanceError =
@@ -1769,6 +1819,8 @@ export const deleteInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeleteInstanceAccessControlAttributeConfigurationError =
@@ -1809,6 +1861,8 @@ export const deleteInstanceAccessControlAttributeConfiguration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceAccessControlAttributeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceAccessControlAttributeConfiguration",
 }));
 
 export type DeletePermissionsBoundaryFromPermissionSetError =
@@ -1841,6 +1895,8 @@ export const deletePermissionsBoundaryFromPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionsBoundaryFromPermissionSet",
+  telemetry: TELEMETRY,
+  span: "DeletePermissionsBoundaryFromPermissionSet",
 }));
 
 export type DeletePermissionSetError =
@@ -1873,6 +1929,8 @@ export const deletePermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionSet",
+  telemetry: TELEMETRY,
+  span: "DeletePermissionSet",
 }));
 
 export type DeleteTrustedTokenIssuerError =
@@ -1907,6 +1965,8 @@ export const deleteTrustedTokenIssuer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustedTokenIssuer",
+  telemetry: TELEMETRY,
+  span: "DeleteTrustedTokenIssuer",
 }));
 
 export type DescribeAccountAssignmentCreationStatusError =
@@ -1937,6 +1997,8 @@ export const describeAccountAssignmentCreationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAssignmentCreationStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAssignmentCreationStatus",
 }));
 
 export type DescribeAccountAssignmentDeletionStatusError =
@@ -1967,6 +2029,8 @@ export const describeAccountAssignmentDeletionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAssignmentDeletionStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAssignmentDeletionStatus",
 }));
 
 export type DescribeApplicationError =
@@ -1997,6 +2061,8 @@ export const describeApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplication",
+  telemetry: TELEMETRY,
+  span: "DescribeApplication",
 }));
 
 export type DescribeApplicationAssignmentError =
@@ -2027,6 +2093,8 @@ export const describeApplicationAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationAssignment",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationAssignment",
 }));
 
 export type DescribeApplicationProviderError =
@@ -2057,6 +2125,8 @@ export const describeApplicationProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationProvider",
+  telemetry: TELEMETRY,
+  span: "DescribeApplicationProvider",
 }));
 
 export type DescribeInstanceError =
@@ -2091,6 +2161,8 @@ export const describeInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstance",
+  telemetry: TELEMETRY,
+  span: "DescribeInstance",
 }));
 
 export type DescribeInstanceAccessControlAttributeConfigurationError =
@@ -2129,6 +2201,8 @@ export const describeInstanceAccessControlAttributeConfiguration: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceAccessControlAttributeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceAccessControlAttributeConfiguration",
 }));
 
 export type DescribePermissionSetError =
@@ -2159,6 +2233,8 @@ export const describePermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePermissionSet",
+  telemetry: TELEMETRY,
+  span: "DescribePermissionSet",
 }));
 
 export type DescribePermissionSetProvisioningStatusError =
@@ -2189,6 +2265,8 @@ export const describePermissionSetProvisioningStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePermissionSetProvisioningStatus",
+  telemetry: TELEMETRY,
+  span: "DescribePermissionSetProvisioningStatus",
 }));
 
 export type DescribeRegionError =
@@ -2227,6 +2305,8 @@ export const describeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegion",
+  telemetry: TELEMETRY,
+  span: "DescribeRegion",
 }));
 
 export type DescribeTrustedTokenIssuerError =
@@ -2257,6 +2337,8 @@ export const describeTrustedTokenIssuer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedTokenIssuer",
+  telemetry: TELEMETRY,
+  span: "DescribeTrustedTokenIssuer",
 }));
 
 export type DetachCustomerManagedPolicyReferenceFromPermissionSetError =
@@ -2297,6 +2379,8 @@ export const detachCustomerManagedPolicyReferenceFromPermissionSet: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachCustomerManagedPolicyReferenceFromPermissionSet",
+  telemetry: TELEMETRY,
+  span: "DetachCustomerManagedPolicyReferenceFromPermissionSet",
 }));
 
 export type DetachManagedPolicyFromPermissionSetError =
@@ -2329,6 +2413,8 @@ export const detachManagedPolicyFromPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachManagedPolicyFromPermissionSet",
+  telemetry: TELEMETRY,
+  span: "DetachManagedPolicyFromPermissionSet",
 }));
 
 export type GetApplicationAccessScopeError =
@@ -2359,6 +2445,8 @@ export const getApplicationAccessScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationAccessScope",
+  telemetry: TELEMETRY,
+  span: "GetApplicationAccessScope",
 }));
 
 export type GetApplicationAssignmentConfigurationError =
@@ -2389,6 +2477,8 @@ export const getApplicationAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationAssignmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetApplicationAssignmentConfiguration",
 }));
 
 export type GetApplicationAuthenticationMethodError =
@@ -2419,6 +2509,8 @@ export const getApplicationAuthenticationMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationAuthenticationMethod",
+  telemetry: TELEMETRY,
+  span: "GetApplicationAuthenticationMethod",
 }));
 
 export type GetApplicationGrantError =
@@ -2449,6 +2541,8 @@ export const getApplicationGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationGrant",
+  telemetry: TELEMETRY,
+  span: "GetApplicationGrant",
 }));
 
 export type GetApplicationSessionConfigurationError =
@@ -2481,6 +2575,8 @@ export const getApplicationSessionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationSessionConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetApplicationSessionConfiguration",
 }));
 
 export type GetInlinePolicyForPermissionSetError =
@@ -2511,6 +2607,8 @@ export const getInlinePolicyForPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInlinePolicyForPermissionSet",
+  telemetry: TELEMETRY,
+  span: "GetInlinePolicyForPermissionSet",
 }));
 
 export type GetPermissionsBoundaryForPermissionSetError =
@@ -2541,6 +2639,8 @@ export const getPermissionsBoundaryForPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionsBoundaryForPermissionSet",
+  telemetry: TELEMETRY,
+  span: "GetPermissionsBoundaryForPermissionSet",
 }));
 
 export type ListAccountAssignmentCreationStatusError =
@@ -2578,6 +2678,8 @@ export const listAccountAssignmentCreationStatus: API.PaginatedOperationMethod<
     items: "AccountAssignmentsCreationStatus",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountAssignmentCreationStatus",
 })) as any;
 
 export type ListAccountAssignmentDeletionStatusError =
@@ -2615,6 +2717,8 @@ export const listAccountAssignmentDeletionStatus: API.PaginatedOperationMethod<
     items: "AccountAssignmentsDeletionStatus",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountAssignmentDeletionStatus",
 })) as any;
 
 export type ListAccountAssignmentsError =
@@ -2652,6 +2756,8 @@ export const listAccountAssignments: API.PaginatedOperationMethod<
     items: "AccountAssignments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountAssignments",
 })) as any;
 
 export type ListAccountAssignmentsForPrincipalError =
@@ -2689,6 +2795,8 @@ export const listAccountAssignmentsForPrincipal: API.PaginatedOperationMethod<
     items: "AccountAssignments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountAssignmentsForPrincipal",
 })) as any;
 
 export type ListAccountsForProvisionedPermissionSetError =
@@ -2726,6 +2834,8 @@ export const listAccountsForProvisionedPermissionSet: API.PaginatedOperationMeth
     items: "AccountIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountsForProvisionedPermissionSet",
 })) as any;
 
 export type ListApplicationAccessScopesError =
@@ -2763,6 +2873,8 @@ export const listApplicationAccessScopes: API.PaginatedOperationMethod<
     items: "Scopes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationAccessScopes",
 })) as any;
 
 export type ListApplicationAssignmentsError =
@@ -2800,6 +2912,8 @@ export const listApplicationAssignments: API.PaginatedOperationMethod<
     items: "ApplicationAssignments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationAssignments",
 })) as any;
 
 export type ListApplicationAssignmentsForPrincipalError =
@@ -2837,6 +2951,8 @@ export const listApplicationAssignmentsForPrincipal: API.PaginatedOperationMetho
     items: "ApplicationAssignments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationAssignmentsForPrincipal",
 })) as any;
 
 export type ListApplicationAuthenticationMethodsError =
@@ -2873,6 +2989,8 @@ export const listApplicationAuthenticationMethods: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "AuthenticationMethods",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationAuthenticationMethods",
 })) as any;
 
 export type ListApplicationGrantsError =
@@ -2905,6 +3023,8 @@ export const listApplicationGrants: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationGrants",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Grants" } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationGrants",
 })) as any;
 
 export type ListApplicationProvidersError =
@@ -2940,6 +3060,8 @@ export const listApplicationProviders: API.PaginatedOperationMethod<
     items: "ApplicationProviders",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationProviders",
 })) as any;
 
 export type ListApplicationsError =
@@ -2975,6 +3097,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListCustomerManagedPolicyReferencesInPermissionSetError =
@@ -3020,6 +3144,8 @@ export const listCustomerManagedPolicyReferencesInPermissionSet: API.PaginatedOp
     items: "CustomerManagedPolicyReferences",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomerManagedPolicyReferencesInPermissionSet",
 })) as any;
 
 export type ListInstancesError =
@@ -3055,6 +3181,8 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 })) as any;
 
 export type ListManagedPoliciesInPermissionSetError =
@@ -3092,6 +3220,8 @@ export const listManagedPoliciesInPermissionSet: API.PaginatedOperationMethod<
     items: "AttachedManagedPolicies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedPoliciesInPermissionSet",
 })) as any;
 
 export type ListPermissionSetProvisioningStatusError =
@@ -3129,6 +3259,8 @@ export const listPermissionSetProvisioningStatus: API.PaginatedOperationMethod<
     items: "PermissionSetsProvisioningStatus",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissionSetProvisioningStatus",
 })) as any;
 
 export type ListPermissionSetsError =
@@ -3166,6 +3298,8 @@ export const listPermissionSets: API.PaginatedOperationMethod<
     items: "PermissionSets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissionSets",
 })) as any;
 
 export type ListPermissionSetsProvisionedToAccountError =
@@ -3203,6 +3337,8 @@ export const listPermissionSetsProvisionedToAccount: API.PaginatedOperationMetho
     items: "PermissionSets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissionSetsProvisionedToAccount",
 })) as any;
 
 export type ListRegionsError =
@@ -3246,6 +3382,8 @@ export const listRegions: API.PaginatedOperationMethod<
     items: "Regions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3278,6 +3416,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Tags" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ListTrustedTokenIssuersError =
@@ -3313,6 +3453,8 @@ export const listTrustedTokenIssuers: API.PaginatedOperationMethod<
     items: "TrustedTokenIssuers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrustedTokenIssuers",
 })) as any;
 
 export type ProvisionPermissionSetError =
@@ -3345,6 +3487,8 @@ export const provisionPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionPermissionSet",
+  telemetry: TELEMETRY,
+  span: "ProvisionPermissionSet",
 }));
 
 export type PutApplicationAccessScopeError =
@@ -3377,6 +3521,8 @@ export const putApplicationAccessScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationAccessScope",
+  telemetry: TELEMETRY,
+  span: "PutApplicationAccessScope",
 }));
 
 export type PutApplicationAssignmentConfigurationError =
@@ -3409,6 +3555,8 @@ export const putApplicationAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationAssignmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutApplicationAssignmentConfiguration",
 }));
 
 export type PutApplicationAuthenticationMethodError =
@@ -3441,6 +3589,8 @@ export const putApplicationAuthenticationMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationAuthenticationMethod",
+  telemetry: TELEMETRY,
+  span: "PutApplicationAuthenticationMethod",
 }));
 
 export type PutApplicationGrantError =
@@ -3498,6 +3648,8 @@ export const putApplicationGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationGrant",
+  telemetry: TELEMETRY,
+  span: "PutApplicationGrant",
 }));
 
 export type PutApplicationSessionConfigurationError =
@@ -3532,6 +3684,8 @@ export const putApplicationSessionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationSessionConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutApplicationSessionConfiguration",
 }));
 
 export type PutInlinePolicyToPermissionSetError =
@@ -3568,6 +3722,8 @@ export const putInlinePolicyToPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInlinePolicyToPermissionSet",
+  telemetry: TELEMETRY,
+  span: "PutInlinePolicyToPermissionSet",
 }));
 
 export type PutPermissionsBoundaryToPermissionSetError =
@@ -3600,6 +3756,8 @@ export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermissionsBoundaryToPermissionSet",
+  telemetry: TELEMETRY,
+  span: "PutPermissionsBoundaryToPermissionSet",
 }));
 
 export type RemoveRegionError =
@@ -3640,6 +3798,8 @@ export const removeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRegion",
+  telemetry: TELEMETRY,
+  span: "RemoveRegion",
 }));
 
 export type TagResourceError =
@@ -3674,6 +3834,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3706,6 +3868,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -3738,6 +3902,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateInstanceError =
@@ -3778,6 +3944,8 @@ export const updateInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 export type UpdateInstanceAccessControlAttributeConfigurationError =
@@ -3818,6 +3986,8 @@ export const updateInstanceAccessControlAttributeConfiguration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceAccessControlAttributeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceAccessControlAttributeConfiguration",
 }));
 
 export type UpdatePermissionSetError =
@@ -3850,6 +4020,8 @@ export const updatePermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePermissionSet",
+  telemetry: TELEMETRY,
+  span: "UpdatePermissionSet",
 }));
 
 export type UpdateTrustedTokenIssuerError =
@@ -3884,6 +4056,8 @@ export const updateTrustedTokenIssuer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustedTokenIssuer",
+  telemetry: TELEMETRY,
+  span: "UpdateTrustedTokenIssuer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

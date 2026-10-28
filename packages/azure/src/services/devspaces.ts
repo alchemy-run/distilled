@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DevSpaces" },
+  prefix: "Devspaces",
+  service: "Devspaces",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Tags for the Azure resource. */
 export type CreateControllerRequestTagsMap = { [key: string]: string | undefined };
 export interface ControllerPropertiesInput {
@@ -262,6 +283,8 @@ export const CreateController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateController",
 }));
 
 export type DeleteControllerError = AzureOpError;
@@ -277,6 +300,8 @@ export const DeleteController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteController",
 }));
 
 export type GetContainerHostMappingContainerHostMappingError = AzureOpError;
@@ -292,6 +317,8 @@ export const GetContainerHostMappingContainerHostMapping: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContainerHostMappingContainerHostMapping",
 }));
 
 export type GetControllerError = AzureOpError;
@@ -307,6 +334,8 @@ export const GetController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetController",
 }));
 
 export type ListControllerByResourceGroupError = AzureOpError;
@@ -322,6 +351,8 @@ export const ListControllerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListControllerByResourceGroup",
 }));
 
 export type ListControllerConnectionDetailsError = AzureOpError;
@@ -337,6 +368,8 @@ export const ListControllerConnectionDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListControllerConnectionDetails",
 }));
 
 export type ListControllersError = AzureOpError;
@@ -352,6 +385,8 @@ export const ListControllers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListControllers",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -367,6 +402,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateControllerError = AzureOpError;
@@ -382,6 +419,8 @@ export const UpdateController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateController",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

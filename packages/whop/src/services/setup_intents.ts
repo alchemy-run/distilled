@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "SetupIntents",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -555,6 +568,8 @@ export const createSetupIntent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSetupIntent",
 }));
 
 export type GetSetupIntentError = Forbidden | NotFound | WhopOpError;
@@ -570,6 +585,8 @@ export const getSetupIntent: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetupIntent",
 }));
 
 export type GetStatusSetupIntentError = Forbidden | NotFound | WhopOpError;
@@ -585,6 +602,8 @@ export const getStatusSetupIntent: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatusSetupIntent",
 }));
 
 export type ListSetupIntentsError = BadRequest | Forbidden | WhopOpError;
@@ -602,6 +621,8 @@ export const listSetupIntents: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSetupIntents",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -627,6 +648,8 @@ export const updateReturnUrlSetupIntent: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReturnUrlSetupIntent",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

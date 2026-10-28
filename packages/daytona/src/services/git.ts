@@ -12,6 +12,18 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Git",
+  propagate: "w3c",
+} as const;
+
 /** files to add (use . for all files) */
 export type AddFilesRequestFilesList = Array<string>;
 export interface AddFilesRequest {
@@ -240,6 +252,8 @@ export const addFiles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFiles",
 }));
 
 export type AddRemoteError = DaytonaOpError;
@@ -255,6 +269,8 @@ export const addRemote: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRemote",
 }));
 
 export type AuthenticateError = DaytonaOpError;
@@ -270,6 +286,8 @@ export const authenticate: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Authenticate",
 }));
 
 export type CheckoutBranchError = DaytonaOpError;
@@ -285,6 +303,8 @@ export const checkoutBranch: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckoutBranch",
 }));
 
 export type CloneRepositoryError = DaytonaOpError;
@@ -300,6 +320,8 @@ export const cloneRepository: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneRepository",
 }));
 
 export type CommitChangesError = DaytonaOpError;
@@ -315,6 +337,8 @@ export const commitChanges: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitChanges",
 }));
 
 export type ConfigureUserError = DaytonaOpError;
@@ -330,6 +354,8 @@ export const configureUser: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigureUser",
 }));
 
 export type CreateBranchError = DaytonaOpError;
@@ -345,6 +371,8 @@ export const createBranch: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type DeleteBranchError = DaytonaOpError;
@@ -360,6 +388,8 @@ export const deleteBranch: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type GetCommitHistoryError = DaytonaOpError;
@@ -375,6 +405,8 @@ export const getCommitHistory: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommitHistory",
 }));
 
 export type GetGitConfigError = DaytonaOpError;
@@ -390,6 +422,8 @@ export const getGitConfig: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGitConfig",
 }));
 
 export type GetStatusError = DaytonaOpError;
@@ -405,6 +439,8 @@ export const getStatus: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatus",
 }));
 
 export type InitRepositoryError = DaytonaOpError;
@@ -420,6 +456,8 @@ export const initRepository: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InitRepository",
 }));
 
 export type ListBranchesError = DaytonaOpError;
@@ -435,6 +473,8 @@ export const listBranches: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBranches",
 }));
 
 export type ListRemotesError = DaytonaOpError;
@@ -450,6 +490,8 @@ export const listRemotes: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemotes",
 }));
 
 export type PullChangesError = DaytonaOpError;
@@ -465,6 +507,8 @@ export const pullChanges: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PullChanges",
 }));
 
 export type PushChangesError = DaytonaOpError;
@@ -480,6 +524,8 @@ export const pushChanges: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PushChanges",
 }));
 
 export type ResetChangesError = DaytonaOpError;
@@ -495,6 +541,8 @@ export const resetChanges: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetChanges",
 }));
 
 export type RestoreFilesError = DaytonaOpError;
@@ -510,6 +558,8 @@ export const restoreFiles: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreFiles",
 }));
 
 export type SetGitConfigError = DaytonaOpError;
@@ -525,6 +575,8 @@ export const setGitConfig: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGitConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

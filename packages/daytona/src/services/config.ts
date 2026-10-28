@@ -12,6 +12,18 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Config",
+  propagate: "w3c",
+} as const;
+
 export interface GetConfigControllerConfigRequest {}
 export interface PosthogConfig {
   /** PostHog API key */
@@ -146,6 +158,8 @@ export const getConfigControllerConfig: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigControllerConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

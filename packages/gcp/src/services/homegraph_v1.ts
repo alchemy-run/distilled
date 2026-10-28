@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "homegraph" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Homegraph",
+  service: "homegraph",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -360,6 +379,8 @@ export const deleteAgentUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentUsers",
 }));
 
 export type QueryDevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -375,6 +396,8 @@ export const queryDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryDevices",
 }));
 
 export type ReportStateAndNotificationDevicesError =
@@ -395,6 +418,8 @@ export const reportStateAndNotificationDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportStateAndNotificationDevices",
 }));
 
 export type RequestSyncDevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -410,6 +435,8 @@ export const requestSyncDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestSyncDevices",
 }));
 
 export type SyncDevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -425,6 +452,8 @@ export const syncDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncDevices",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

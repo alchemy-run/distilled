@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Oidc",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -139,6 +157,8 @@ export const createOidcCustomPropertyInclusionForEnterprise: API.OperationMethod
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOidcCustomPropertyInclusionForEnterprise",
 }));
 
 export type CreateOidcCustomPropertyInclusionForOrgError =
@@ -158,6 +178,8 @@ export const createOidcCustomPropertyInclusionForOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOidcCustomPropertyInclusionForOrg",
 }));
 
 export type DeleteOidcCustomPropertyInclusionForEnterpriseError =
@@ -181,6 +203,8 @@ export const deleteOidcCustomPropertyInclusionForEnterprise: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOidcCustomPropertyInclusionForEnterprise",
 }));
 
 export type DeleteOidcCustomPropertyInclusionForOrgError =
@@ -200,6 +224,8 @@ export const deleteOidcCustomPropertyInclusionForOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOidcCustomPropertyInclusionForOrg",
 }));
 
 export type GetOidcCustomSubTemplateForOrgError = GithubOpError;
@@ -215,6 +241,8 @@ export const getOidcCustomSubTemplateForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOidcCustomSubTemplateForOrg",
 }));
 
 export type ListOidcCustomPropertyInclusionsForEnterpriseError =
@@ -237,6 +265,8 @@ export const listOidcCustomPropertyInclusionsForEnterprise: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOidcCustomPropertyInclusionsForEnterprise",
 }));
 
 export type ListOidcCustomPropertyInclusionsForOrgError = Forbidden | NotFound | GithubOpError;
@@ -252,6 +282,8 @@ export const listOidcCustomPropertyInclusionsForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOidcCustomPropertyInclusionsForOrg",
 }));
 
 export type UpdateOidcCustomSubTemplateForOrgError = Forbidden | NotFound | GithubOpError;
@@ -267,6 +299,8 @@ export const updateOidcCustomSubTemplateForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOidcCustomSubTemplateForOrg",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

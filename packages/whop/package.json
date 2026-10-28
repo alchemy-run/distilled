@@ -82,6 +82,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@effect/platform-node": "catalog:",
     "@types/node": "catalog:"
   },
@@ -89,7 +90,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-09",
+    "generatedAt": "2026-10-25",
     "specUpdatedAt": "2026-09-28"
   }
 }

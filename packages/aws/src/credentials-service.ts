@@ -12,7 +12,7 @@ import * as Layer from "effect/Layer";
 import type { PlatformError } from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
 import type { CredentialSource } from "./credential-providers/credential-source.ts";
-import { fromEnvironment as regionFromEnvironment } from "./region.ts";
+import { MissingRegion, fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
 
 /**
@@ -108,19 +108,8 @@ export const fromAwsCredentialIdentity = (
   expiration: identity.expiration?.getTime(),
 });
 
-/**
- * A credentials layer resolved a set of credentials but could not determine
- * which region they belong to.
- *
- * A credential-resolution failure like any other, rather than a defect: the
- * caller's fix is the same shape as for a missing key -- configure the
- * environment, the profile, or pass it explicitly.
- */
-export class MissingRegion
-  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::MissingRegion")<{
-    message: string;
-    hints?: ReadonlyArray<string>;
-  }> {}
+// Defined with the Region service, which fails with it too.
+export { MissingRegion };
 
 /**
  * The region a credentials provider authenticated against, from the

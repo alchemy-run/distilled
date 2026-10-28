@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "McpRegistry",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface GetMcpRegistryServerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -254,6 +267,8 @@ export const getMcpRegistryServer: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpRegistryServer",
 }));
 
 export type GetMcpRegistryServersCompareError = PosthogOpError;
@@ -269,6 +284,8 @@ export const getMcpRegistryServersCompare: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpRegistryServersCompare",
 }));
 
 export type GetMcpRegistryServersDiscoverError = PosthogOpError;
@@ -284,6 +301,8 @@ export const getMcpRegistryServersDiscover: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpRegistryServersDiscover",
 }));
 
 export type ListMcpRegistryServersError = PosthogOpError;
@@ -299,6 +318,8 @@ export const listMcpRegistryServers: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpRegistryServers",
 }));
 
 export type ListMcpRegistryServersMeasuredProjectsError = PosthogOpError;
@@ -314,6 +335,8 @@ export const listMcpRegistryServersMeasuredProjects: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpRegistryServersMeasuredProjects",
 }));
 
 export type ListMcpRegistryServersVersionsError = PosthogOpError;
@@ -329,6 +352,8 @@ export const listMcpRegistryServersVersions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpRegistryServersVersions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

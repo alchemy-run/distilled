@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -67,6 +68,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MarketplaceDiscovery",
+  service: "MarketplaceDiscovery",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
@@ -1230,6 +1245,8 @@ export const getListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListing",
+  telemetry: TELEMETRY,
+  span: "GetListing",
 }));
 
 export type GetOfferError = ResourceNotFoundException | CommonErrors;
@@ -1248,6 +1265,8 @@ export const getOffer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOffer",
+  telemetry: TELEMETRY,
+  span: "GetOffer",
 }));
 
 export type GetOfferSetError = ResourceNotFoundException | CommonErrors;
@@ -1266,6 +1285,8 @@ export const getOfferSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOfferSet",
+  telemetry: TELEMETRY,
+  span: "GetOfferSet",
 }));
 
 export type GetOfferTermsError = ResourceNotFoundException | CommonErrors;
@@ -1291,6 +1312,8 @@ export const getOfferTerms: API.PaginatedOperationMethod<
     items: "offerTerms",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOfferTerms",
 })) as any;
 
 export type GetProductError = ResourceNotFoundException | CommonErrors;
@@ -1309,6 +1332,8 @@ export const getProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProduct",
+  telemetry: TELEMETRY,
+  span: "GetProduct",
 }));
 
 export type ListFulfillmentOptionsError = ResourceNotFoundException | CommonErrors;
@@ -1334,6 +1359,8 @@ export const listFulfillmentOptions: API.PaginatedOperationMethod<
     items: "fulfillmentOptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFulfillmentOptions",
 })) as any;
 
 export type ListPurchaseOptionsError = CommonErrors;
@@ -1360,6 +1387,8 @@ export const listPurchaseOptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "purchaseOptions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPurchaseOptions",
 })) as any;
 
 export type SearchFacetsError = CommonErrors;
@@ -1384,6 +1413,8 @@ export const searchFacets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "listingFacets",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFacets",
 })) as any;
 
 export type SearchListingsError = CommonErrors;
@@ -1409,6 +1440,8 @@ export const searchListings: API.PaginatedOperationMethod<
     items: "listingSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchListings",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

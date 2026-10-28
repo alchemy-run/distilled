@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "ResourceGroups",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export type AddUsersRequestUsersItemCase0Role =
   | "admin"
   | "write"
@@ -791,6 +804,8 @@ export const addUsers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddUsers",
 }));
 
 export type ChangeUserRoleError = HuggingFaceOpError;
@@ -806,6 +821,8 @@ export const changeUserRole: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeUserRole",
 }));
 
 export type CreateResourceGroupError = HuggingFaceOpError;
@@ -821,6 +838,8 @@ export const createResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceGroup",
 }));
 
 export type DeleteResourceGroupError = HuggingFaceOpError;
@@ -836,6 +855,8 @@ export const deleteResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceGroup",
 }));
 
 export type GetResourceGroupError = HuggingFaceOpError;
@@ -851,6 +872,8 @@ export const getResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGroup",
 }));
 
 export type GetResourceGroupsError = HuggingFaceOpError;
@@ -866,6 +889,8 @@ export const getResourceGroups: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGroups",
 }));
 
 export type JoinConfigureAutoError = HuggingFaceOpError;
@@ -881,6 +906,8 @@ export const joinConfigureAuto: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JoinConfigureAuto",
 }));
 
 export type RemoveUserError = HuggingFaceOpError;
@@ -896,6 +923,8 @@ export const removeUser: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUser",
 }));
 
 export type UpdateResourceGroupError = HuggingFaceOpError;
@@ -911,6 +940,8 @@ export const updateResourceGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

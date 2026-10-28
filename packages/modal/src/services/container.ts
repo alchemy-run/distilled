@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "ContainerService",
+  propagate: "w3c",
+} as const;
+
 export interface ContainerCheckpointRequest {
   checkpointId?: string;
 }
@@ -225,6 +237,8 @@ export const containerCheckpoint: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerCheckpoint",
 }));
 
 export type ContainerExecPutInputError = ModalOpError;
@@ -239,6 +253,8 @@ export const containerExecPutInput: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerExecPutInput",
 }));
 
 export type ContainerExecWaitError = ModalOpError;
@@ -253,6 +269,8 @@ export const containerExecWait: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerExecWait",
 }));
 
 export type ContainerHeartbeatError = ModalOpError;
@@ -267,6 +285,8 @@ export const containerHeartbeat: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerHeartbeat",
 }));
 
 export type ContainerHelloError = ModalOpError;
@@ -281,6 +301,8 @@ export const containerHello: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerHello",
 }));
 
 export type ContainerLogError = ModalOpError;
@@ -295,6 +317,8 @@ export const containerLog: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerLog",
 }));
 
 export type ContainerReloadVolumesError = ModalOpError;
@@ -309,6 +333,8 @@ export const containerReloadVolumes: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerReloadVolumes",
 }));
 
 export type ContainerServerLifecycleReadyError = ModalOpError;
@@ -323,6 +349,8 @@ export const containerServerLifecycleReady: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerServerLifecycleReady",
 }));
 
 export type ExecContainerError = ModalOpError;
@@ -337,6 +365,8 @@ export const execContainer: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecContainer",
 }));
 
 export type ExecContainerFilesystemError = ModalOpError;
@@ -351,6 +381,8 @@ export const execContainerFilesystem: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecContainerFilesystem",
 }));
 
 export type StopContainerError = ModalOpError;
@@ -365,6 +397,8 @@ export const stopContainer: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopContainer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

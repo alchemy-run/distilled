@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ssm-incidents.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSMIncidents",
+  service: "SSMIncidents",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -689,6 +704,8 @@ export const batchGetIncidentFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetIncidentFindings",
+  telemetry: TELEMETRY,
+  span: "BatchGetIncidentFindings",
 }));
 
 export type CreateReplicationSetError =
@@ -724,6 +741,8 @@ export const createReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationSet",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationSet",
 }));
 
 export type CreateResponsePlanError =
@@ -758,6 +777,8 @@ export const createResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponsePlan",
+  telemetry: TELEMETRY,
+  span: "CreateResponsePlan",
 }));
 
 export type CreateTimelineEventError =
@@ -793,6 +814,8 @@ export const createTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTimelineEvent",
+  telemetry: TELEMETRY,
+  span: "CreateTimelineEvent",
 }));
 
 export type DeleteIncidentRecordError =
@@ -821,6 +844,8 @@ export const deleteIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIncidentRecord",
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentRecord",
 }));
 
 export type DeleteReplicationSetError =
@@ -852,6 +877,8 @@ export const deleteReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationSet",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationSet",
 }));
 
 export type DeleteResourcePolicyError =
@@ -883,6 +910,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteResponsePlanError =
@@ -912,6 +941,8 @@ export const deleteResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponsePlan",
+  telemetry: TELEMETRY,
+  span: "DeleteResponsePlan",
 }));
 
 export type DeleteTimelineEventError =
@@ -940,6 +971,8 @@ export const deleteTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTimelineEvent",
+  telemetry: TELEMETRY,
+  span: "DeleteTimelineEvent",
 }));
 
 export type GetIncidentRecordError =
@@ -970,6 +1003,8 @@ export const getIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIncidentRecord",
+  telemetry: TELEMETRY,
+  span: "GetIncidentRecord",
 }));
 
 export type GetReplicationSetError =
@@ -1000,6 +1035,8 @@ export const getReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReplicationSet",
+  telemetry: TELEMETRY,
+  span: "GetReplicationSet",
 }));
 
 export type GetResourcePoliciesError =
@@ -1037,6 +1074,8 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     items: "resourcePolicies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicies",
 })) as any;
 
 export type GetResponsePlanError =
@@ -1067,6 +1106,8 @@ export const getResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponsePlan",
+  telemetry: TELEMETRY,
+  span: "GetResponsePlan",
 }));
 
 export type GetTimelineEventError =
@@ -1097,6 +1138,8 @@ export const getTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTimelineEvent",
+  telemetry: TELEMETRY,
+  span: "GetTimelineEvent",
 }));
 
 export type ListIncidentFindingsError =
@@ -1137,6 +1180,8 @@ export const listIncidentFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIncidentFindings",
 })) as any;
 
 export type ListIncidentRecordsError =
@@ -1173,6 +1218,8 @@ export const listIncidentRecords: API.PaginatedOperationMethod<
     items: "incidentRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIncidentRecords",
 })) as any;
 
 export type ListRelatedItemsError =
@@ -1208,6 +1255,8 @@ export const listRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRelatedItems",
 })) as any;
 
 export type ListReplicationSetsError =
@@ -1243,6 +1292,8 @@ export const listReplicationSets: API.PaginatedOperationMethod<
     items: "replicationSetArns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReplicationSets",
 })) as any;
 
 export type ListResponsePlansError =
@@ -1278,6 +1329,8 @@ export const listResponsePlans: API.PaginatedOperationMethod<
     items: "responsePlanSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResponsePlans",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1308,6 +1361,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTimelineEventsError =
@@ -1343,6 +1398,8 @@ export const listTimelineEvents: API.PaginatedOperationMethod<
     items: "eventSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTimelineEvents",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -1375,6 +1432,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type StartIncidentError =
@@ -1408,6 +1467,8 @@ export const startIncident: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIncident",
+  telemetry: TELEMETRY,
+  span: "StartIncident",
 }));
 
 export type TagResourceError =
@@ -1442,6 +1503,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1474,6 +1537,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDeletionProtectionError =
@@ -1505,6 +1570,8 @@ export const updateDeletionProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeletionProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateDeletionProtection",
 }));
 
 export type UpdateIncidentRecordError =
@@ -1539,6 +1606,8 @@ export const updateIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIncidentRecord",
+  telemetry: TELEMETRY,
+  span: "UpdateIncidentRecord",
 }));
 
 export type UpdateRelatedItemsError =
@@ -1571,6 +1640,8 @@ export const updateRelatedItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelatedItems",
+  telemetry: TELEMETRY,
+  span: "UpdateRelatedItems",
 }));
 
 export type UpdateReplicationSetError =
@@ -1603,6 +1674,8 @@ export const updateReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationSet",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationSet",
 }));
 
 export type UpdateResponsePlanError =
@@ -1635,6 +1708,8 @@ export const updateResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponsePlan",
+  telemetry: TELEMETRY,
+  span: "UpdateResponsePlan",
 }));
 
 export type UpdateTimelineEventError =
@@ -1667,6 +1742,8 @@ export const updateTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTimelineEvent",
+  telemetry: TELEMETRY,
+  span: "UpdateTimelineEvent",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

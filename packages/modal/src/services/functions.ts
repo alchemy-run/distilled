@@ -12,6 +12,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "FunctionService",
+  propagate: "w3c",
+} as const;
+
 export interface CancelFunctionCallRequest {
   functionCallId?: string;
   terminateContainers?: boolean;
@@ -1119,6 +1131,8 @@ export const cancelFunctionCall: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelFunctionCall",
 }));
 
 export type CreateFunctionError = ModalOpError;
@@ -1133,6 +1147,8 @@ export const createFunction: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFunction",
 }));
 
 export type FetchFunctionCallError = ModalOpError;
@@ -1147,6 +1163,8 @@ export const fetchFunctionCall: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchFunctionCall",
 }));
 
 export type FunctionBindParamsError = ModalOpError;
@@ -1161,6 +1179,8 @@ export const functionBindParams: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionBindParams",
 }));
 
 export type FunctionCallFromIdError = ModalOpError;
@@ -1175,6 +1195,8 @@ export const functionCallFromId: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionCallFromId",
 }));
 
 export type FunctionCallGetInfoError = ModalOpError;
@@ -1189,6 +1211,8 @@ export const functionCallGetInfo: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionCallGetInfo",
 }));
 
 export type FunctionCallPutDataOutError = ModalOpError;
@@ -1203,6 +1227,8 @@ export const functionCallPutDataOut: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionCallPutDataOut",
 }));
 
 export type FunctionFinishInputsError = ModalOpError;
@@ -1217,6 +1243,8 @@ export const functionFinishInputs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionFinishInputs",
 }));
 
 export type FunctionGetByIdError = ModalOpError;
@@ -1231,6 +1259,8 @@ export const functionGetById: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionGetById",
 }));
 
 export type FunctionGetCallGraphError = ModalOpError;
@@ -1245,6 +1275,8 @@ export const functionGetCallGraph: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionGetCallGraph",
 }));
 
 export type FunctionGetCurrentStatsError = ModalOpError;
@@ -1259,6 +1291,8 @@ export const functionGetCurrentStats: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionGetCurrentStats",
 }));
 
 export type FunctionGetDynamicConcurrencyError = ModalOpError;
@@ -1273,6 +1307,8 @@ export const functionGetDynamicConcurrency: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionGetDynamicConcurrency",
 }));
 
 export type FunctionGetFlashAuthTokenError = ModalOpError;
@@ -1287,6 +1323,8 @@ export const functionGetFlashAuthToken: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionGetFlashAuthToken",
 }));
 
 export type FunctionGetSchedulingParamsError = ModalOpError;
@@ -1302,6 +1340,8 @@ export const functionGetSchedulingParams: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionGetSchedulingParams",
 }));
 
 export type FunctionGetSerializedError = ModalOpError;
@@ -1316,6 +1356,8 @@ export const functionGetSerialized: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionGetSerialized",
 }));
 
 export type FunctionGetTimeRangeStatsError = ModalOpError;
@@ -1330,6 +1372,8 @@ export const functionGetTimeRangeStats: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionGetTimeRangeStats",
 }));
 
 export type FunctionListVariantsError = ModalOpError;
@@ -1344,6 +1388,8 @@ export const functionListVariants: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionListVariants",
 }));
 
 export type FunctionMapError = ModalOpError;
@@ -1358,6 +1404,8 @@ export const functionMap: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionMap",
 }));
 
 export type FunctionPrecreateError = ModalOpError;
@@ -1372,6 +1420,8 @@ export const functionPrecreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionPrecreate",
 }));
 
 export type FunctionPutInputsError = ModalOpError;
@@ -1386,6 +1436,8 @@ export const functionPutInputs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionPutInputs",
 }));
 
 export type FunctionPutOutputsError = ModalOpError;
@@ -1400,6 +1452,8 @@ export const functionPutOutputs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionPutOutputs",
 }));
 
 export type FunctionRetryInputsError = ModalOpError;
@@ -1415,6 +1469,8 @@ export const functionRetryInputs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionRetryInputs",
 }));
 
 export type FunctionStartPtyShellError = ModalOpError;
@@ -1429,6 +1485,8 @@ export const functionStartPtyShell: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionStartPtyShell",
 }));
 
 export type FunctionUpdateSchedulingParamsError = ModalOpError;
@@ -1443,6 +1501,8 @@ export const functionUpdateSchedulingParams: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionUpdateSchedulingParams",
 }));
 
 export type GetFunctionError = ModalOpError;
@@ -1458,6 +1518,8 @@ export const getFunction: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunction",
 }));
 
 export type GetFunctionInputsError = ModalOpError;
@@ -1472,6 +1534,8 @@ export const getFunctionInputs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunctionInputs",
 }));
 
 export type GetFunctionOutputsError = ModalOpError;
@@ -1487,6 +1551,8 @@ export const getFunctionOutputs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFunctionOutputs",
 }));
 
 export type InvokeFunctionAsyncError = ModalOpError;
@@ -1502,6 +1568,8 @@ export const invokeFunctionAsync: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeFunctionAsync",
 }));
 
 export type ListFunctionCallError = ModalOpError;
@@ -1516,6 +1584,8 @@ export const listFunctionCall: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFunctionCall",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

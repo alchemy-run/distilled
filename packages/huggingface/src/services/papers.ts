@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Papers",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export interface ClaimPaperAuthorshipRequest {
   /** ArXiv paper identifier being claimed. */
   paperId: string;
@@ -711,6 +724,8 @@ export const claimPaperAuthorship: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimPaperAuthorship",
 }));
 
 export type GetDailyPapersError = HuggingFaceOpError;
@@ -726,6 +741,8 @@ export const getDailyPapers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDailyPapers",
 }));
 
 export type GetPaperError = HuggingFaceOpError;
@@ -741,6 +758,8 @@ export const getPaper: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaper",
 }));
 
 export type IndexPaperError = HuggingFaceOpError;
@@ -756,6 +775,8 @@ export const indexPaper: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IndexPaper",
 }));
 
 export type ListPapersError = HuggingFaceOpError;
@@ -771,6 +792,8 @@ export const listPapers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPapers",
 }));
 
 export type SearchPapersError = HuggingFaceOpError;
@@ -786,6 +809,8 @@ export const searchPapers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPapers",
 }));
 
 export type UpdatePaperLinksError = HuggingFaceOpError;
@@ -801,6 +826,8 @@ export const updatePaperLinks: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaperLinks",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

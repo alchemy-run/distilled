@@ -20,6 +20,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   modifiedOn: "modified_on",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "OriginTlsComplianceModes",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteOriginTlsComplianceModeRequest {
   /** Identifier. */
   zoneId: string;
@@ -104,6 +118,8 @@ export const deleteOriginTlsComplianceMode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOriginTlsComplianceMode",
 }));
 
 export type GetOriginTlsComplianceModeError = CloudflareOpError;
@@ -119,6 +135,8 @@ export const getOriginTlsComplianceMode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOriginTlsComplianceMode",
 }));
 
 export type PatchOriginTlsComplianceModeError = CloudflareOpError;
@@ -134,6 +152,8 @@ export const patchOriginTlsComplianceMode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOriginTlsComplianceMode",
 }));
 
 export type PutOriginTlsComplianceModeError = CloudflareOpError;
@@ -149,6 +169,8 @@ export const putOriginTlsComplianceMode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOriginTlsComplianceMode",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

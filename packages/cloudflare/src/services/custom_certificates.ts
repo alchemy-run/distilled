@@ -37,6 +37,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneId: "zone_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "CustomCertificates",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CustomCertificateNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CustomCertificateNotFound>()("CustomCertificateNotFound", {
@@ -521,6 +535,8 @@ export const createCustomCertificate: API.OperationMethod<
   errors: [PlanLevelNotAllowed, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomCertificate",
 }));
 
 export type DeleteCustomCertificateError =
@@ -546,6 +562,8 @@ export const deleteCustomCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomCertificate",
 }));
 
 export type GetCustomCertificateError =
@@ -571,6 +589,8 @@ export const getCustomCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomCertificate",
 }));
 
 export type ListCustomCertificatesError =
@@ -592,6 +612,8 @@ export const listCustomCertificates: API.PaginatedOperationMethod<
     errors: [PlanLevelNotAllowed, ZoneNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomCertificates",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -626,6 +648,8 @@ export const patchCustomCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomCertificate",
 }));
 
 export type PutPrioritizeError = PlanLevelNotAllowed | Forbidden | CloudflareOpError;
@@ -643,6 +667,8 @@ export const putPrioritize: API.PaginatedOperationMethod<
     errors: [PlanLevelNotAllowed, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutPrioritize",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

@@ -4,6 +4,7 @@ import {
   type ConfigError,
   HTTP_STATUS_MAP,
   InternalServerError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -64,7 +65,11 @@ import {
  * SupabaseOpError, SupabaseOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type SupabaseOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type SupabaseOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
@@ -115,7 +120,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
-    const request = buildRequest({
+    const request = yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: creds.apiBaseUrl,
@@ -138,7 +143,7 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
     if (debugHttp()) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
     }

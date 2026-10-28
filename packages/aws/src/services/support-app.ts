@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://supportapp.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SupportApp",
+  service: "SupportApp",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -250,6 +265,8 @@ export const createSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSlackChannelConfiguration",
 }));
 
 export type DeleteAccountAliasError =
@@ -273,6 +290,8 @@ export const deleteAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteAccountAlias",
 }));
 
 export type DeleteSlackChannelConfigurationError =
@@ -304,6 +323,8 @@ export const deleteSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackChannelConfiguration",
 }));
 
 export type DeleteSlackWorkspaceConfigurationError =
@@ -335,6 +356,8 @@ export const deleteSlackWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackWorkspaceConfiguration",
 }));
 
 export type GetAccountAliasError = InternalServerException | CommonErrors;
@@ -354,6 +377,8 @@ export const getAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountAlias",
+  telemetry: TELEMETRY,
+  span: "GetAccountAlias",
 }));
 
 export type ListSlackChannelConfigurationsError =
@@ -377,6 +402,8 @@ export const listSlackChannelConfigurations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSlackChannelConfigurations",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSlackChannelConfigurations",
 })) as any;
 
 export type ListSlackWorkspaceConfigurationsError =
@@ -400,6 +427,8 @@ export const listSlackWorkspaceConfigurations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSlackWorkspaceConfigurations",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSlackWorkspaceConfigurations",
 })) as any;
 
 export type PutAccountAliasError =
@@ -424,6 +453,8 @@ export const putAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountAlias",
+  telemetry: TELEMETRY,
+  span: "PutAccountAlias",
 }));
 
 export type RegisterSlackWorkspaceForOrganizationError =
@@ -478,6 +509,8 @@ export const registerSlackWorkspaceForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSlackWorkspaceForOrganization",
+  telemetry: TELEMETRY,
+  span: "RegisterSlackWorkspaceForOrganization",
 }));
 
 export type UpdateSlackChannelConfigurationError =
@@ -508,6 +541,8 @@ export const updateSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSlackChannelConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

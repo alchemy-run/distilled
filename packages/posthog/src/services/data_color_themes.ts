@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "DataColorThemes",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -133,6 +146,8 @@ export const createDataColorTheme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataColorTheme",
 }));
 
 export type DataColorThemesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -147,6 +162,8 @@ export const dataColorThemesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataColorThemesDestroy",
 }));
 
 export type GetDataColorThemeError = Forbidden | NotFound | PosthogOpError;
@@ -161,6 +178,8 @@ export const getDataColorTheme: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataColorTheme",
 }));
 
 export type ListDataColorThemesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -175,6 +194,8 @@ export const listDataColorThemes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataColorThemes",
 }));
 
 export type UpdateDataColorThemeError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -189,6 +210,8 @@ export const updateDataColorTheme: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataColorTheme",
 }));
 
 export type UpdateDataColorThemesPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -203,6 +226,8 @@ export const updateDataColorThemesPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataColorThemesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

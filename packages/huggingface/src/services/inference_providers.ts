@@ -15,6 +15,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "InferenceProviders",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export type CreateProviderMappingRequestProvider =
   | "baseten"
   | "cohere"
@@ -282,6 +295,8 @@ export const createProviderMapping: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProviderMapping",
 }));
 
 export type DefaultBillingEntityError = HuggingFaceOpError;
@@ -297,6 +312,8 @@ export const defaultBillingEntity: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DefaultBillingEntity",
 }));
 
 export type ListProviderMappingsError = HuggingFaceOpError;
@@ -312,6 +329,8 @@ export const listProviderMappings: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderMappings",
 }));
 
 export type ReorderInferenceProvidersError = HuggingFaceOpError;
@@ -327,6 +346,8 @@ export const reorderInferenceProviders: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReorderInferenceProviders",
 }));
 
 export type SetProviderKeyError = HuggingFaceOpError;
@@ -342,6 +363,8 @@ export const setProviderKey: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetProviderKey",
 }));
 
 export type SetSpendingLimitError = HuggingFaceOpError;
@@ -357,6 +380,8 @@ export const setSpendingLimit: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSpendingLimit",
 }));
 
 export type UpdateMappingStatusError = HuggingFaceOpError;
@@ -372,6 +397,8 @@ export const updateMappingStatus: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMappingStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

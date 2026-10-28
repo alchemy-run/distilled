@@ -17,6 +17,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "LeakedCredentialChecks",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class DetectionAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DetectionAlreadyExists>()("DetectionAlreadyExists", {
@@ -187,6 +201,8 @@ export const createDetection: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDetection",
 }));
 
 export type CreateLeakedCredentialCheckError = Forbidden | CloudflareOpError;
@@ -202,6 +218,8 @@ export const createLeakedCredentialCheck: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLeakedCredentialCheck",
 }));
 
 export type DeleteDetectionError =
@@ -227,6 +245,8 @@ export const deleteDetection: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDetection",
 }));
 
 export type GetDetectionError =
@@ -252,6 +272,8 @@ export const getDetection: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDetection",
 }));
 
 export type GetLeakedCredentialCheckError = Forbidden | CloudflareOpError;
@@ -267,6 +289,8 @@ export const getLeakedCredentialCheck: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLeakedCredentialCheck",
 }));
 
 export type ListDetectionsError = LeakedCredentialChecksDisabled | Forbidden | CloudflareOpError;
@@ -284,6 +308,8 @@ export const listDetections: API.PaginatedOperationMethod<
     errors: [LeakedCredentialChecksDisabled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDetections",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -314,6 +340,8 @@ export const updateDetection: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDetection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

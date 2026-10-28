@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { InngestOpError, InngestOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "inngest-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Inngest",
+  service: "Inngest",
+  labels: "inngest",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1201,6 +1214,8 @@ export const cancelV2Run: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelV2Run",
 }));
 
 export type CreateV2EnvError = BadRequest | Forbidden | Conflict | InngestOpError;
@@ -1216,6 +1231,8 @@ export const createV2Env: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2Env",
 }));
 
 export type CreateV2PartnerAccountError = BadRequest | Forbidden | Conflict | InngestOpError;
@@ -1231,6 +1248,8 @@ export const createV2PartnerAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2PartnerAccount",
 }));
 
 export type CreateV2SandboxError = InngestOpError;
@@ -1246,6 +1265,8 @@ export const createV2Sandbox: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2Sandbox",
 }));
 
 export type CreateV2ScoreError = InngestOpError;
@@ -1261,6 +1282,8 @@ export const createV2Score: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2Score",
 }));
 
 export type CreateV2WebhookError =
@@ -1281,6 +1304,8 @@ export const createV2Webhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2Webhook",
 }));
 
 export type ExecV2SandboxError = InngestOpError;
@@ -1296,6 +1321,8 @@ export const execV2Sandbox: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecV2Sandbox",
 }));
 
 export type FetchV2AccountError = Forbidden | InngestOpError;
@@ -1311,6 +1338,8 @@ export const fetchV2Account: API.OperationMethod<
   errors: [Forbidden, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchV2Account",
 }));
 
 export type FetchV2AccountEnvsError = BadRequest | Forbidden | NotFound | InngestOpError;
@@ -1328,6 +1357,8 @@ export const fetchV2AccountEnvs: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "FetchV2AccountEnvs",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1354,6 +1385,8 @@ export const fetchV2AccountEventKeys: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "FetchV2AccountEventKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1380,6 +1413,8 @@ export const fetchV2AccountSigningKeys: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "FetchV2AccountSigningKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1406,6 +1441,8 @@ export const fetchV2PartnerAccounts: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "FetchV2PartnerAccounts",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1430,6 +1467,8 @@ export const getV2App: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2App",
 }));
 
 export type GetV2AppsError = InngestOpError;
@@ -1447,6 +1486,8 @@ export const getV2Apps: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetV2Apps",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1473,6 +1514,8 @@ export const getV2EventRuns: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetV2EventRuns",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1497,6 +1540,8 @@ export const getV2Experiment: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Experiment",
 }));
 
 export type GetV2FunctionError = InngestOpError;
@@ -1512,6 +1557,8 @@ export const getV2Function: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Function",
 }));
 
 export type GetV2FunctionRunError = InngestOpError;
@@ -1527,6 +1574,8 @@ export const getV2FunctionRun: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2FunctionRun",
 }));
 
 export type GetV2FunctionsError = InngestOpError;
@@ -1544,6 +1593,8 @@ export const getV2Functions: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetV2Functions",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1568,6 +1619,8 @@ export const getV2FunctionTrace: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2FunctionTrace",
 }));
 
 export type GetV2SandboxError = InngestOpError;
@@ -1583,6 +1636,8 @@ export const getV2Sandbox: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Sandbox",
 }));
 
 export type GetV2SandboxProcessError = InngestOpError;
@@ -1598,6 +1653,8 @@ export const getV2SandboxProcess: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2SandboxProcess",
 }));
 
 export type GetV2SandboxProcessOutputError = InngestOpError;
@@ -1613,6 +1670,8 @@ export const getV2SandboxProcessOutput: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2SandboxProcessOutput",
 }));
 
 export type InvokeV2FunctionError =
@@ -1634,6 +1693,8 @@ export const invokeV2Function: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeV2Function",
 }));
 
 export type ListV2ExperimentsError = InngestOpError;
@@ -1651,6 +1712,8 @@ export const listV2Experiments: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2Experiments",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1677,6 +1740,8 @@ export const listV2Experiments2: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2Experiments2",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1703,6 +1768,8 @@ export const listV2FunctionRuns: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2FunctionRuns",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1729,6 +1796,8 @@ export const listV2InsightsEventSchemas: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2InsightsEventSchemas",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1753,6 +1822,8 @@ export const listV2InsightsTables: API.OperationMethod<
   errors: [Forbidden, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListV2InsightsTables",
 }));
 
 export type ListV2RunsError = InngestOpError;
@@ -1770,6 +1841,8 @@ export const listV2Runs: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2Runs",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1796,6 +1869,8 @@ export const listV2Sandboxes: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2Sandboxes",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1822,6 +1897,8 @@ export const listV2SandboxProcesses: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2SandboxProcesses",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1848,6 +1925,8 @@ export const listV2SessionKeys: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2SessionKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1874,6 +1953,8 @@ export const listV2SessionRuns: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2SessionRuns",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1900,6 +1981,8 @@ export const listV2Sessions: API.PaginatedOperationMethod<
     errors: [UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2Sessions",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1926,6 +2009,8 @@ export const listV2Webhooks: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, UnknownInngestError],
     protocol: InngestProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListV2Webhooks",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -1955,6 +2040,8 @@ export const patchV2Env: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV2Env",
 }));
 
 export type ReadV2SandboxFileError = InngestOpError;
@@ -1970,6 +2057,8 @@ export const readV2SandboxFile: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadV2SandboxFile",
 }));
 
 export type SendV2EventError = BadRequest | Forbidden | InngestOpError;
@@ -1985,6 +2074,8 @@ export const sendV2Event: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendV2Event",
 }));
 
 export type SignalV2SandboxProcessError = InngestOpError;
@@ -2000,6 +2091,8 @@ export const signalV2SandboxProcess: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalV2SandboxProcess",
 }));
 
 export type StartV2SandboxProcessError = InngestOpError;
@@ -2015,6 +2108,8 @@ export const startV2SandboxProcess: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartV2SandboxProcess",
 }));
 
 export type SyncV2AppError =
@@ -2035,6 +2130,8 @@ export const syncV2App: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncV2App",
 }));
 
 export type V2DestroySandboxError = InngestOpError;
@@ -2050,6 +2147,8 @@ export const v2DestroySandbox: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2DestroySandbox",
 }));
 
 export type V2QueryInsightsError =
@@ -2070,6 +2169,8 @@ export const v2QueryInsights: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2QueryInsights",
 }));
 
 export type V2QueryInsightsPromptError =
@@ -2089,6 +2190,8 @@ export const v2QueryInsightsPrompt: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2QueryInsightsPrompt",
 }));
 
 export type V2RerunError = InngestOpError;
@@ -2104,6 +2207,8 @@ export const v2Rerun: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2Rerun",
 }));
 
 export type V2StreamSandboxLogsError = InngestOpError;
@@ -2119,6 +2224,8 @@ export const v2StreamSandboxLogs: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2StreamSandboxLogs",
 }));
 
 export type V2StreamSandboxProcessOutputError = InngestOpError;
@@ -2134,6 +2241,8 @@ export const v2StreamSandboxProcessOutput: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2StreamSandboxProcessOutput",
 }));
 
 export type V2WriteSandboxFileError = InngestOpError;
@@ -2149,6 +2258,8 @@ export const v2WriteSandboxFile: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V2WriteSandboxFile",
 }));
 
 export type WaitV2SandboxProcessError = InngestOpError;
@@ -2164,6 +2275,8 @@ export const waitV2SandboxProcess: API.OperationMethod<
   errors: [UnknownInngestError],
   protocol: InngestProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitV2SandboxProcess",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTManagedIntegrations",
+  service: "IoTManagedIntegrations",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1658,6 +1673,8 @@ export const createAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateAccountAssociation",
 }));
 
 export type CreateCloudConnectorError =
@@ -1688,6 +1705,8 @@ export const createCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudConnector",
+  telemetry: TELEMETRY,
+  span: "CreateCloudConnector",
 }));
 
 export type CreateConnectorDestinationError =
@@ -1722,6 +1741,8 @@ export const createConnectorDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDestination",
+  telemetry: TELEMETRY,
+  span: "CreateConnectorDestination",
 }));
 
 export type CreateCredentialLockerError =
@@ -1758,6 +1779,8 @@ export const createCredentialLocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCredentialLocker",
+  telemetry: TELEMETRY,
+  span: "CreateCredentialLocker",
 }));
 
 export type CreateDestinationError =
@@ -1788,6 +1811,8 @@ export const createDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDestination",
+  telemetry: TELEMETRY,
+  span: "CreateDestination",
 }));
 
 export type CreateEventLogConfigurationError =
@@ -1820,6 +1845,8 @@ export const createEventLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventLogConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateEventLogConfiguration",
 }));
 
 export type CreateManagedThingError =
@@ -1856,6 +1883,8 @@ export const createManagedThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedThing",
+  telemetry: TELEMETRY,
+  span: "CreateManagedThing",
 }));
 
 export type CreateNotificationConfigurationError =
@@ -1886,6 +1915,8 @@ export const createNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateNotificationConfiguration",
 }));
 
 export type CreateOtaTaskError =
@@ -1920,6 +1951,8 @@ export const createOtaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOtaTask",
+  telemetry: TELEMETRY,
+  span: "CreateOtaTask",
 }));
 
 export type CreateOtaTaskConfigurationError =
@@ -1950,6 +1983,8 @@ export const createOtaTaskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOtaTaskConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateOtaTaskConfiguration",
 }));
 
 export type CreateProvisioningProfileError =
@@ -1986,6 +2021,8 @@ export const createProvisioningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProvisioningProfile",
 }));
 
 export type DeleteAccountAssociationError =
@@ -2020,6 +2057,8 @@ export const deleteAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteAccountAssociation",
 }));
 
 export type DeleteCloudConnectorError =
@@ -2052,6 +2091,8 @@ export const deleteCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudConnector",
 }));
 
 export type DeleteConnectorDestinationError =
@@ -2084,6 +2125,8 @@ export const deleteConnectorDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectorDestination",
 }));
 
 export type DeleteCredentialLockerError =
@@ -2118,6 +2161,8 @@ export const deleteCredentialLocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCredentialLocker",
+  telemetry: TELEMETRY,
+  span: "DeleteCredentialLocker",
 }));
 
 export type DeleteDestinationError =
@@ -2148,6 +2193,8 @@ export const deleteDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteDestination",
 }));
 
 export type DeleteEventLogConfigurationError =
@@ -2178,6 +2225,8 @@ export const deleteEventLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventLogConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEventLogConfiguration",
 }));
 
 export type DeleteManagedThingError =
@@ -2214,6 +2263,8 @@ export const deleteManagedThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedThing",
+  telemetry: TELEMETRY,
+  span: "DeleteManagedThing",
 }));
 
 export type DeleteNotificationConfigurationError =
@@ -2244,6 +2295,8 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationConfiguration",
 }));
 
 export type DeleteOtaTaskError =
@@ -2276,6 +2329,8 @@ export const deleteOtaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOtaTask",
+  telemetry: TELEMETRY,
+  span: "DeleteOtaTask",
 }));
 
 export type DeleteOtaTaskConfigurationError =
@@ -2306,6 +2361,8 @@ export const deleteOtaTaskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOtaTaskConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteOtaTaskConfiguration",
 }));
 
 export type DeleteProvisioningProfileError =
@@ -2342,6 +2399,8 @@ export const deleteProvisioningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisioningProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProvisioningProfile",
 }));
 
 export type DeregisterAccountAssociationError =
@@ -2374,6 +2433,8 @@ export const deregisterAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAccountAssociation",
+  telemetry: TELEMETRY,
+  span: "DeregisterAccountAssociation",
 }));
 
 export type GetAccountAssociationError =
@@ -2406,6 +2467,8 @@ export const getAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountAssociation",
+  telemetry: TELEMETRY,
+  span: "GetAccountAssociation",
 }));
 
 export type GetCloudConnectorError =
@@ -2436,6 +2499,8 @@ export const getCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudConnector",
+  telemetry: TELEMETRY,
+  span: "GetCloudConnector",
 }));
 
 export type GetConnectorDestinationError =
@@ -2466,6 +2531,8 @@ export const getConnectorDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDestination",
+  telemetry: TELEMETRY,
+  span: "GetConnectorDestination",
 }));
 
 export type GetCredentialLockerError =
@@ -2498,6 +2565,8 @@ export const getCredentialLocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentialLocker",
+  telemetry: TELEMETRY,
+  span: "GetCredentialLocker",
 }));
 
 export type GetCustomEndpointError =
@@ -2532,6 +2601,8 @@ export const getCustomEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetCustomEndpoint",
 }));
 
 export type GetDefaultEncryptionConfigurationError =
@@ -2566,6 +2637,8 @@ export const getDefaultEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultEncryptionConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetDefaultEncryptionConfiguration",
 }));
 
 export type GetDestinationError =
@@ -2596,6 +2669,8 @@ export const getDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDestination",
+  telemetry: TELEMETRY,
+  span: "GetDestination",
 }));
 
 export type GetDeviceDiscoveryError =
@@ -2630,6 +2705,8 @@ export const getDeviceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDiscovery",
+  telemetry: TELEMETRY,
+  span: "GetDeviceDiscovery",
 }));
 
 export type GetEventLogConfigurationError =
@@ -2660,6 +2737,8 @@ export const getEventLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventLogConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEventLogConfiguration",
 }));
 
 export type GetHubConfigurationError =
@@ -2692,6 +2771,8 @@ export const getHubConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHubConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetHubConfiguration",
 }));
 
 export type GetManagedThingError =
@@ -2726,6 +2807,8 @@ export const getManagedThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThing",
+  telemetry: TELEMETRY,
+  span: "GetManagedThing",
 }));
 
 export type GetManagedThingCapabilitiesError =
@@ -2760,6 +2843,8 @@ export const getManagedThingCapabilities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingCapabilities",
+  telemetry: TELEMETRY,
+  span: "GetManagedThingCapabilities",
 }));
 
 export type GetManagedThingCertificateError =
@@ -2794,6 +2879,8 @@ export const getManagedThingCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingCertificate",
+  telemetry: TELEMETRY,
+  span: "GetManagedThingCertificate",
 }));
 
 export type GetManagedThingConnectivityDataError =
@@ -2828,6 +2915,8 @@ export const getManagedThingConnectivityData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingConnectivityData",
+  telemetry: TELEMETRY,
+  span: "GetManagedThingConnectivityData",
 }));
 
 export type GetManagedThingMetaDataError =
@@ -2864,6 +2953,8 @@ export const getManagedThingMetaData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingMetaData",
+  telemetry: TELEMETRY,
+  span: "GetManagedThingMetaData",
 }));
 
 export type GetManagedThingStateError =
@@ -2898,6 +2989,8 @@ export const getManagedThingState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingState",
+  telemetry: TELEMETRY,
+  span: "GetManagedThingState",
 }));
 
 export type GetNotificationConfigurationError =
@@ -2928,6 +3021,8 @@ export const getNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetNotificationConfiguration",
 }));
 
 export type GetOtaTaskError =
@@ -2958,6 +3053,8 @@ export const getOtaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOtaTask",
+  telemetry: TELEMETRY,
+  span: "GetOtaTask",
 }));
 
 export type GetOtaTaskConfigurationError =
@@ -2988,6 +3085,8 @@ export const getOtaTaskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOtaTaskConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetOtaTaskConfiguration",
 }));
 
 export type GetProvisioningProfileError =
@@ -3022,6 +3121,8 @@ export const getProvisioningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisioningProfile",
+  telemetry: TELEMETRY,
+  span: "GetProvisioningProfile",
 }));
 
 export type GetRuntimeLogConfigurationError =
@@ -3052,6 +3153,8 @@ export const getRuntimeLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuntimeLogConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetRuntimeLogConfiguration",
 }));
 
 export type GetSchemaVersionError =
@@ -3086,6 +3189,8 @@ export const getSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaVersion",
+  telemetry: TELEMETRY,
+  span: "GetSchemaVersion",
 }));
 
 export type ListAccountAssociationsError =
@@ -3123,6 +3228,8 @@ export const listAccountAssociations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountAssociations",
 })) as any;
 
 export type ListCloudConnectorsError =
@@ -3158,6 +3265,8 @@ export const listCloudConnectors: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudConnectors",
 })) as any;
 
 export type ListConnectorDestinationsError =
@@ -3193,6 +3302,8 @@ export const listConnectorDestinations: API.PaginatedOperationMethod<
     items: "ConnectorDestinationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectorDestinations",
 })) as any;
 
 export type ListCredentialLockersError =
@@ -3230,6 +3341,8 @@ export const listCredentialLockers: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCredentialLockers",
 })) as any;
 
 export type ListDestinationsError =
@@ -3265,6 +3378,8 @@ export const listDestinations: API.PaginatedOperationMethod<
     items: "DestinationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDestinations",
 })) as any;
 
 export type ListDeviceDiscoveriesError =
@@ -3304,6 +3419,8 @@ export const listDeviceDiscoveries: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeviceDiscoveries",
 })) as any;
 
 export type ListDiscoveredDevicesError =
@@ -3345,6 +3462,8 @@ export const listDiscoveredDevices: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveredDevices",
 })) as any;
 
 export type ListEventLogConfigurationsError =
@@ -3380,6 +3499,8 @@ export const listEventLogConfigurations: API.PaginatedOperationMethod<
     items: "EventLogConfigurationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventLogConfigurations",
 })) as any;
 
 export type ListManagedThingAccountAssociationsError =
@@ -3415,6 +3536,8 @@ export const listManagedThingAccountAssociations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedThingAccountAssociations",
 })) as any;
 
 export type ListManagedThingsError =
@@ -3454,6 +3577,8 @@ export const listManagedThings: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedThings",
 })) as any;
 
 export type ListManagedThingSchemasError =
@@ -3495,6 +3620,8 @@ export const listManagedThingSchemas: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedThingSchemas",
 })) as any;
 
 export type ListNotificationConfigurationsError =
@@ -3530,6 +3657,8 @@ export const listNotificationConfigurations: API.PaginatedOperationMethod<
     items: "NotificationConfigurationList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationConfigurations",
 })) as any;
 
 export type ListOtaTaskConfigurationsError =
@@ -3565,6 +3694,8 @@ export const listOtaTaskConfigurations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOtaTaskConfigurations",
 })) as any;
 
 export type ListOtaTaskExecutionsError =
@@ -3602,6 +3733,8 @@ export const listOtaTaskExecutions: API.PaginatedOperationMethod<
     items: "ExecutionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOtaTaskExecutions",
 })) as any;
 
 export type ListOtaTasksError =
@@ -3639,6 +3772,8 @@ export const listOtaTasks: API.PaginatedOperationMethod<
     items: "Tasks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOtaTasks",
 })) as any;
 
 export type ListProvisioningProfilesError =
@@ -3678,6 +3813,8 @@ export const listProvisioningProfiles: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProvisioningProfiles",
 })) as any;
 
 export type ListSchemaVersionsError =
@@ -3717,6 +3854,8 @@ export const listSchemaVersions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemaVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3745,6 +3884,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutDefaultEncryptionConfigurationError =
@@ -3779,6 +3920,8 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDefaultEncryptionConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutDefaultEncryptionConfiguration",
 }));
 
 export type PutHubConfigurationError =
@@ -3811,6 +3954,8 @@ export const putHubConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutHubConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutHubConfiguration",
 }));
 
 export type PutRuntimeLogConfigurationError =
@@ -3841,6 +3986,8 @@ export const putRuntimeLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRuntimeLogConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutRuntimeLogConfiguration",
 }));
 
 export type RegisterAccountAssociationError =
@@ -3873,6 +4020,8 @@ export const registerAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAccountAssociation",
+  telemetry: TELEMETRY,
+  span: "RegisterAccountAssociation",
 }));
 
 export type RegisterCustomEndpointError =
@@ -3907,6 +4056,8 @@ export const registerCustomEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCustomEndpoint",
+  telemetry: TELEMETRY,
+  span: "RegisterCustomEndpoint",
 }));
 
 export type ResetRuntimeLogConfigurationError =
@@ -3937,6 +4088,8 @@ export const resetRuntimeLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetRuntimeLogConfiguration",
+  telemetry: TELEMETRY,
+  span: "ResetRuntimeLogConfiguration",
 }));
 
 export type SendConnectorEventError =
@@ -3969,6 +4122,8 @@ export const sendConnectorEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendConnectorEvent",
+  telemetry: TELEMETRY,
+  span: "SendConnectorEvent",
 }));
 
 export type SendManagedThingCommandError =
@@ -4003,6 +4158,8 @@ export const sendManagedThingCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendManagedThingCommand",
+  telemetry: TELEMETRY,
+  span: "SendManagedThingCommand",
 }));
 
 export type StartAccountAssociationRefreshError =
@@ -4037,6 +4194,8 @@ export const startAccountAssociationRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccountAssociationRefresh",
+  telemetry: TELEMETRY,
+  span: "StartAccountAssociationRefresh",
 }));
 
 export type StartDeviceDiscoveryError =
@@ -4073,6 +4232,8 @@ export const startDeviceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeviceDiscovery",
+  telemetry: TELEMETRY,
+  span: "StartDeviceDiscovery",
 }));
 
 export type TagResourceError =
@@ -4103,6 +4264,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4133,6 +4296,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountAssociationError =
@@ -4167,6 +4332,8 @@ export const updateAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountAssociation",
 }));
 
 export type UpdateCloudConnectorError =
@@ -4199,6 +4366,8 @@ export const updateCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudConnector",
 }));
 
 export type UpdateConnectorDestinationError =
@@ -4229,6 +4398,8 @@ export const updateConnectorDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectorDestination",
 }));
 
 export type UpdateDestinationError =
@@ -4259,6 +4430,8 @@ export const updateDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateDestination",
 }));
 
 export type UpdateEventLogConfigurationError =
@@ -4289,6 +4462,8 @@ export const updateEventLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventLogConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateEventLogConfiguration",
 }));
 
 export type UpdateManagedThingError =
@@ -4325,6 +4500,8 @@ export const updateManagedThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedThing",
+  telemetry: TELEMETRY,
+  span: "UpdateManagedThing",
 }));
 
 export type UpdateNotificationConfigurationError =
@@ -4355,6 +4532,8 @@ export const updateNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationConfiguration",
 }));
 
 export type UpdateOtaTaskError =
@@ -4385,6 +4564,8 @@ export const updateOtaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOtaTask",
+  telemetry: TELEMETRY,
+  span: "UpdateOtaTask",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

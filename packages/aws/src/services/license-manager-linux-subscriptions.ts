@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -76,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://license-manager-linux-subscriptions.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LicenseManagerLinuxSubscriptions",
+  service: "LicenseManagerLinuxSubscriptions",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()("InternalServerException", {
@@ -267,6 +282,8 @@ export const deregisterSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterSubscriptionProvider",
+  telemetry: TELEMETRY,
+  span: "DeregisterSubscriptionProvider",
 }));
 
 export type GetRegisteredSubscriptionProviderError =
@@ -295,6 +312,8 @@ export const getRegisteredSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegisteredSubscriptionProvider",
+  telemetry: TELEMETRY,
+  span: "GetRegisteredSubscriptionProvider",
 }));
 
 export type GetServiceSettingsError =
@@ -317,6 +336,8 @@ export const getServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
+  telemetry: TELEMETRY,
+  span: "GetServiceSettings",
 }));
 
 export type ListLinuxSubscriptionInstancesError =
@@ -347,6 +368,8 @@ export const listLinuxSubscriptionInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinuxSubscriptionInstances",
 })) as any;
 
 export type ListLinuxSubscriptionsError =
@@ -378,6 +401,8 @@ export const listLinuxSubscriptions: API.PaginatedOperationMethod<
     items: "Subscriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinuxSubscriptions",
 })) as any;
 
 export type ListRegisteredSubscriptionProvidersError =
@@ -407,6 +432,8 @@ export const listRegisteredSubscriptionProviders: API.PaginatedOperationMethod<
     items: "RegisteredSubscriptionProviders",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegisteredSubscriptionProviders",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -430,6 +457,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterSubscriptionProviderError =
@@ -452,6 +481,8 @@ export const registerSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSubscriptionProvider",
+  telemetry: TELEMETRY,
+  span: "RegisterSubscriptionProvider",
 }));
 
 export type TagResourceError =
@@ -474,6 +505,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -492,6 +525,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateServiceSettingsError =
@@ -514,6 +549,8 @@ export const updateServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
