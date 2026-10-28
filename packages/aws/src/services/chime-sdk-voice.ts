@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://voice-chime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ChimeSDKVoice",
+  service: "ChimeSDKVoice",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1399,6 +1414,8 @@ export const associatePhoneNumbersWithVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumbersWithVoiceConnector",
+  telemetry: TELEMETRY,
+  span: "AssociatePhoneNumbersWithVoiceConnector",
 }));
 
 export type AssociatePhoneNumbersWithVoiceConnectorGroupError =
@@ -1435,6 +1452,8 @@ export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumbersWithVoiceConnectorGroup",
+  telemetry: TELEMETRY,
+  span: "AssociatePhoneNumbersWithVoiceConnectorGroup",
 }));
 
 export type BatchDeletePhoneNumberError =
@@ -1473,6 +1492,8 @@ export const batchDeletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "BatchDeletePhoneNumber",
 }));
 
 export type BatchUpdatePhoneNumberError =
@@ -1510,6 +1531,8 @@ export const batchUpdatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdatePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "BatchUpdatePhoneNumber",
 }));
 
 export type CreatePhoneNumberOrderError =
@@ -1546,6 +1569,8 @@ export const createPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePhoneNumberOrder",
+  telemetry: TELEMETRY,
+  span: "CreatePhoneNumberOrder",
 }));
 
 export type CreateProxySessionError =
@@ -1583,6 +1608,8 @@ export const createProxySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxySession",
+  telemetry: TELEMETRY,
+  span: "CreateProxySession",
 }));
 
 export type CreateSipMediaApplicationError =
@@ -1622,6 +1649,8 @@ export const createSipMediaApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSipMediaApplication",
+  telemetry: TELEMETRY,
+  span: "CreateSipMediaApplication",
 }));
 
 export type CreateSipMediaApplicationCallError =
@@ -1660,6 +1689,8 @@ export const createSipMediaApplicationCall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSipMediaApplicationCall",
+  telemetry: TELEMETRY,
+  span: "CreateSipMediaApplicationCall",
 }));
 
 export type CreateSipRuleError =
@@ -1699,6 +1730,8 @@ export const createSipRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSipRule",
+  telemetry: TELEMETRY,
+  span: "CreateSipRule",
 }));
 
 export type CreateVoiceConnectorError =
@@ -1738,6 +1771,8 @@ export const createVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceConnector",
+  telemetry: TELEMETRY,
+  span: "CreateVoiceConnector",
 }));
 
 export type CreateVoiceConnectorGroupError =
@@ -1782,6 +1817,8 @@ export const createVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceConnectorGroup",
+  telemetry: TELEMETRY,
+  span: "CreateVoiceConnectorGroup",
 }));
 
 export type CreateVoiceProfileError =
@@ -1830,6 +1867,8 @@ export const createVoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceProfile",
+  telemetry: TELEMETRY,
+  span: "CreateVoiceProfile",
 }));
 
 export type CreateVoiceProfileDomainError =
@@ -1874,6 +1913,8 @@ export const createVoiceProfileDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceProfileDomain",
+  telemetry: TELEMETRY,
+  span: "CreateVoiceProfileDomain",
 }));
 
 export type DeletePhoneNumberError =
@@ -1915,6 +1956,8 @@ export const deletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "DeletePhoneNumber",
 }));
 
 export type DeleteProxySessionError =
@@ -1952,6 +1995,8 @@ export const deleteProxySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxySession",
+  telemetry: TELEMETRY,
+  span: "DeleteProxySession",
 }));
 
 export type DeleteSipMediaApplicationError =
@@ -1988,6 +2033,8 @@ export const deleteSipMediaApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSipMediaApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteSipMediaApplication",
 }));
 
 export type DeleteSipRuleError =
@@ -2024,6 +2071,8 @@ export const deleteSipRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSipRule",
+  telemetry: TELEMETRY,
+  span: "DeleteSipRule",
 }));
 
 export type DeleteVoiceConnectorError =
@@ -2062,6 +2111,8 @@ export const deleteVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnector",
 }));
 
 export type DeleteVoiceConnectorEmergencyCallingConfigurationError =
@@ -2105,6 +2156,8 @@ export const deleteVoiceConnectorEmergencyCallingConfiguration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorEmergencyCallingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnectorEmergencyCallingConfiguration",
 }));
 
 export type DeleteVoiceConnectorExternalSystemsConfigurationError =
@@ -2147,6 +2200,8 @@ export const deleteVoiceConnectorExternalSystemsConfiguration: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorExternalSystemsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnectorExternalSystemsConfiguration",
 }));
 
 export type DeleteVoiceConnectorGroupError =
@@ -2185,6 +2240,8 @@ export const deleteVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnectorGroup",
 }));
 
 export type DeleteVoiceConnectorOriginationError =
@@ -2222,6 +2279,8 @@ export const deleteVoiceConnectorOrigination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorOrigination",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnectorOrigination",
 }));
 
 export type DeleteVoiceConnectorProxyError =
@@ -2258,6 +2317,8 @@ export const deleteVoiceConnectorProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorProxy",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnectorProxy",
 }));
 
 export type DeleteVoiceConnectorStreamingConfigurationError =
@@ -2292,6 +2353,8 @@ export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorStreamingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnectorStreamingConfiguration",
 }));
 
 export type DeleteVoiceConnectorTerminationError =
@@ -2329,6 +2392,8 @@ export const deleteVoiceConnectorTermination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorTermination",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnectorTermination",
 }));
 
 export type DeleteVoiceConnectorTerminationCredentialsError =
@@ -2364,6 +2429,8 @@ export const deleteVoiceConnectorTerminationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorTerminationCredentials",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceConnectorTerminationCredentials",
 }));
 
 export type DeleteVoiceProfileError =
@@ -2402,6 +2469,8 @@ export const deleteVoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceProfile",
 }));
 
 export type DeleteVoiceProfileDomainError =
@@ -2440,6 +2509,8 @@ export const deleteVoiceProfileDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceProfileDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteVoiceProfileDomain",
 }));
 
 export type DisassociatePhoneNumbersFromVoiceConnectorError =
@@ -2475,6 +2546,8 @@ export const disassociatePhoneNumbersFromVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumbersFromVoiceConnector",
+  telemetry: TELEMETRY,
+  span: "DisassociatePhoneNumbersFromVoiceConnector",
 }));
 
 export type DisassociatePhoneNumbersFromVoiceConnectorGroupError =
@@ -2518,6 +2591,8 @@ export const disassociatePhoneNumbersFromVoiceConnectorGroup: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumbersFromVoiceConnectorGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociatePhoneNumbersFromVoiceConnectorGroup",
 }));
 
 export type GetGlobalSettingsError =
@@ -2550,6 +2625,8 @@ export const getGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "GetGlobalSettings",
 }));
 
 export type GetPhoneNumberError =
@@ -2585,6 +2662,8 @@ export const getPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumber",
 }));
 
 export type GetPhoneNumberOrderError =
@@ -2621,6 +2700,8 @@ export const getPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberOrder",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumberOrder",
 }));
 
 export type GetPhoneNumberSettingsError =
@@ -2654,6 +2735,8 @@ export const getPhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberSettings",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumberSettings",
 }));
 
 export type GetProxySessionError =
@@ -2690,6 +2773,8 @@ export const getProxySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProxySession",
+  telemetry: TELEMETRY,
+  span: "GetProxySession",
 }));
 
 export type GetSipMediaApplicationError =
@@ -2725,6 +2810,8 @@ export const getSipMediaApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSipMediaApplication",
+  telemetry: TELEMETRY,
+  span: "GetSipMediaApplication",
 }));
 
 export type GetSipMediaApplicationAlexaSkillConfigurationError =
@@ -2772,6 +2859,8 @@ export const getSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSipMediaApplicationAlexaSkillConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetSipMediaApplicationAlexaSkillConfiguration",
 }));
 
 export type GetSipMediaApplicationLoggingConfigurationError =
@@ -2806,6 +2895,8 @@ export const getSipMediaApplicationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSipMediaApplicationLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetSipMediaApplicationLoggingConfiguration",
 }));
 
 export type GetSipRuleError =
@@ -2841,6 +2932,8 @@ export const getSipRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSipRule",
+  telemetry: TELEMETRY,
+  span: "GetSipRule",
 }));
 
 export type GetSpeakerSearchTaskError =
@@ -2879,6 +2972,8 @@ export const getSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeakerSearchTask",
+  telemetry: TELEMETRY,
+  span: "GetSpeakerSearchTask",
 }));
 
 export type GetVoiceConnectorError =
@@ -2914,6 +3009,8 @@ export const getVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnector",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnector",
 }));
 
 export type GetVoiceConnectorEmergencyCallingConfigurationError =
@@ -2956,6 +3053,8 @@ export const getVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorEmergencyCallingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorEmergencyCallingConfiguration",
 }));
 
 export type GetVoiceConnectorExternalSystemsConfigurationError =
@@ -2999,6 +3098,8 @@ export const getVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorExternalSystemsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorExternalSystemsConfiguration",
 }));
 
 export type GetVoiceConnectorGroupError =
@@ -3034,6 +3135,8 @@ export const getVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorGroup",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorGroup",
 }));
 
 export type GetVoiceConnectorLoggingConfigurationError =
@@ -3069,6 +3172,8 @@ export const getVoiceConnectorLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorLoggingConfiguration",
 }));
 
 export type GetVoiceConnectorOriginationError =
@@ -3103,6 +3208,8 @@ export const getVoiceConnectorOrigination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorOrigination",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorOrigination",
 }));
 
 export type GetVoiceConnectorProxyError =
@@ -3140,6 +3247,8 @@ export const getVoiceConnectorProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorProxy",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorProxy",
 }));
 
 export type GetVoiceConnectorStreamingConfigurationError =
@@ -3176,6 +3285,8 @@ export const getVoiceConnectorStreamingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorStreamingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorStreamingConfiguration",
 }));
 
 export type GetVoiceConnectorTerminationError =
@@ -3210,6 +3321,8 @@ export const getVoiceConnectorTermination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorTermination",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorTermination",
 }));
 
 export type GetVoiceConnectorTerminationHealthError =
@@ -3246,6 +3359,8 @@ export const getVoiceConnectorTerminationHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorTerminationHealth",
+  telemetry: TELEMETRY,
+  span: "GetVoiceConnectorTerminationHealth",
 }));
 
 export type GetVoiceProfileError =
@@ -3282,6 +3397,8 @@ export const getVoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceProfile",
+  telemetry: TELEMETRY,
+  span: "GetVoiceProfile",
 }));
 
 export type GetVoiceProfileDomainError =
@@ -3318,6 +3435,8 @@ export const getVoiceProfileDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceProfileDomain",
+  telemetry: TELEMETRY,
+  span: "GetVoiceProfileDomain",
 }));
 
 export type GetVoiceToneAnalysisTaskError =
@@ -3356,6 +3475,8 @@ export const getVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceToneAnalysisTask",
+  telemetry: TELEMETRY,
+  span: "GetVoiceToneAnalysisTask",
 }));
 
 export type ListAvailableVoiceConnectorRegionsError =
@@ -3388,6 +3509,8 @@ export const listAvailableVoiceConnectorRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableVoiceConnectorRegions",
+  telemetry: TELEMETRY,
+  span: "ListAvailableVoiceConnectorRegions",
 }));
 
 export type ListPhoneNumberOrdersError =
@@ -3426,6 +3549,8 @@ export const listPhoneNumberOrders: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumberOrders",
 })) as any;
 
 export type ListPhoneNumbersError =
@@ -3468,6 +3593,8 @@ export const listPhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumbers",
 })) as any;
 
 export type ListProxySessionsError =
@@ -3510,6 +3637,8 @@ export const listProxySessions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProxySessions",
 })) as any;
 
 export type ListSipMediaApplicationsError =
@@ -3549,6 +3678,8 @@ export const listSipMediaApplications: API.PaginatedOperationMethod<
     items: "SipMediaApplications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSipMediaApplications",
 })) as any;
 
 export type ListSipRulesError =
@@ -3590,6 +3721,8 @@ export const listSipRules: API.PaginatedOperationMethod<
     items: "SipRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSipRules",
 })) as any;
 
 export type ListSupportedPhoneNumberCountriesError =
@@ -3624,6 +3757,8 @@ export const listSupportedPhoneNumberCountries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSupportedPhoneNumberCountries",
+  telemetry: TELEMETRY,
+  span: "ListSupportedPhoneNumberCountries",
 }));
 
 export type ListTagsForResourceError =
@@ -3656,6 +3791,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVoiceConnectorGroupsError =
@@ -3695,6 +3832,8 @@ export const listVoiceConnectorGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVoiceConnectorGroups",
 })) as any;
 
 export type ListVoiceConnectorsError =
@@ -3734,6 +3873,8 @@ export const listVoiceConnectors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVoiceConnectors",
 })) as any;
 
 export type ListVoiceConnectorTerminationCredentialsError =
@@ -3768,6 +3909,8 @@ export const listVoiceConnectorTerminationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVoiceConnectorTerminationCredentials",
+  telemetry: TELEMETRY,
+  span: "ListVoiceConnectorTerminationCredentials",
 }));
 
 export type ListVoiceProfileDomainsError =
@@ -3808,6 +3951,8 @@ export const listVoiceProfileDomains: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVoiceProfileDomains",
 })) as any;
 
 export type ListVoiceProfilesError =
@@ -3848,6 +3993,8 @@ export const listVoiceProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVoiceProfiles",
 })) as any;
 
 export type PutSipMediaApplicationAlexaSkillConfigurationError =
@@ -3895,6 +4042,8 @@ export const putSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSipMediaApplicationAlexaSkillConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutSipMediaApplicationAlexaSkillConfiguration",
 }));
 
 export type PutSipMediaApplicationLoggingConfigurationError =
@@ -3929,6 +4078,8 @@ export const putSipMediaApplicationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSipMediaApplicationLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutSipMediaApplicationLoggingConfiguration",
 }));
 
 export type PutVoiceConnectorEmergencyCallingConfigurationError =
@@ -3971,6 +4122,8 @@ export const putVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorEmergencyCallingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutVoiceConnectorEmergencyCallingConfiguration",
 }));
 
 export type PutVoiceConnectorExternalSystemsConfigurationError =
@@ -4015,6 +4168,8 @@ export const putVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorExternalSystemsConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutVoiceConnectorExternalSystemsConfiguration",
 }));
 
 export type PutVoiceConnectorLoggingConfigurationError =
@@ -4049,6 +4204,8 @@ export const putVoiceConnectorLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutVoiceConnectorLoggingConfiguration",
 }));
 
 export type PutVoiceConnectorOriginationError =
@@ -4085,6 +4242,8 @@ export const putVoiceConnectorOrigination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorOrigination",
+  telemetry: TELEMETRY,
+  span: "PutVoiceConnectorOrigination",
 }));
 
 export type PutVoiceConnectorProxyError =
@@ -4123,6 +4282,8 @@ export const putVoiceConnectorProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorProxy",
+  telemetry: TELEMETRY,
+  span: "PutVoiceConnectorProxy",
 }));
 
 export type PutVoiceConnectorStreamingConfigurationError =
@@ -4157,6 +4318,8 @@ export const putVoiceConnectorStreamingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorStreamingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutVoiceConnectorStreamingConfiguration",
 }));
 
 export type PutVoiceConnectorTerminationError =
@@ -4193,6 +4356,8 @@ export const putVoiceConnectorTermination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorTermination",
+  telemetry: TELEMETRY,
+  span: "PutVoiceConnectorTermination",
 }));
 
 export type PutVoiceConnectorTerminationCredentialsError =
@@ -4227,6 +4392,8 @@ export const putVoiceConnectorTerminationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorTerminationCredentials",
+  telemetry: TELEMETRY,
+  span: "PutVoiceConnectorTerminationCredentials",
 }));
 
 export type RestorePhoneNumberError =
@@ -4263,6 +4430,8 @@ export const restorePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestorePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "RestorePhoneNumber",
 }));
 
 export type SearchAvailablePhoneNumbersError =
@@ -4303,6 +4472,8 @@ export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAvailablePhoneNumbers",
 })) as any;
 
 export type StartSpeakerSearchTaskError =
@@ -4350,6 +4521,8 @@ export const startSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeakerSearchTask",
+  telemetry: TELEMETRY,
+  span: "StartSpeakerSearchTask",
 }));
 
 export type StartVoiceToneAnalysisTaskError =
@@ -4399,6 +4572,8 @@ export const startVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVoiceToneAnalysisTask",
+  telemetry: TELEMETRY,
+  span: "StartVoiceToneAnalysisTask",
 }));
 
 export type StopSpeakerSearchTaskError =
@@ -4439,6 +4614,8 @@ export const stopSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSpeakerSearchTask",
+  telemetry: TELEMETRY,
+  span: "StopSpeakerSearchTask",
 }));
 
 export type StopVoiceToneAnalysisTaskError =
@@ -4479,6 +4656,8 @@ export const stopVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopVoiceToneAnalysisTask",
+  telemetry: TELEMETRY,
+  span: "StopVoiceToneAnalysisTask",
 }));
 
 export type TagResourceError =
@@ -4513,6 +4692,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4545,6 +4726,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGlobalSettingsError =
@@ -4577,6 +4760,8 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalSettings",
 }));
 
 export type UpdatePhoneNumberError =
@@ -4622,6 +4807,8 @@ export const updatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumber",
 }));
 
 export type UpdatePhoneNumberSettingsError =
@@ -4657,6 +4844,8 @@ export const updatePhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumberSettings",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumberSettings",
 }));
 
 export type UpdateProxySessionError =
@@ -4693,6 +4882,8 @@ export const updateProxySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxySession",
+  telemetry: TELEMETRY,
+  span: "UpdateProxySession",
 }));
 
 export type UpdateSipMediaApplicationError =
@@ -4729,6 +4920,8 @@ export const updateSipMediaApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSipMediaApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateSipMediaApplication",
 }));
 
 export type UpdateSipMediaApplicationCallError =
@@ -4767,6 +4960,8 @@ export const updateSipMediaApplicationCall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSipMediaApplicationCall",
+  telemetry: TELEMETRY,
+  span: "UpdateSipMediaApplicationCall",
 }));
 
 export type UpdateSipRuleError =
@@ -4805,6 +5000,8 @@ export const updateSipRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSipRule",
+  telemetry: TELEMETRY,
+  span: "UpdateSipRule",
 }));
 
 export type UpdateVoiceConnectorError =
@@ -4839,6 +5036,8 @@ export const updateVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceConnector",
 }));
 
 export type UpdateVoiceConnectorGroupError =
@@ -4875,6 +5074,8 @@ export const updateVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceConnectorGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceConnectorGroup",
 }));
 
 export type UpdateVoiceProfileError =
@@ -4924,6 +5125,8 @@ export const updateVoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceProfile",
 }));
 
 export type UpdateVoiceProfileDomainError =
@@ -4960,6 +5163,8 @@ export const updateVoiceProfileDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceProfileDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateVoiceProfileDomain",
 }));
 
 export type ValidateE911AddressError =
@@ -4999,6 +5204,8 @@ export const validateE911Address: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateE911Address",
+  telemetry: TELEMETRY,
+  span: "ValidateE911Address",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

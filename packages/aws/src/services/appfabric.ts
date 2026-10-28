@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appfabric.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppFabric",
+  service: "AppFabric",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -550,6 +565,8 @@ export const batchGetUserAccessTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetUserAccessTasks",
+  telemetry: TELEMETRY,
+  span: "BatchGetUserAccessTasks",
 }));
 
 export type ConnectAppAuthorizationError =
@@ -581,6 +598,8 @@ export const connectAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConnectAppAuthorization",
+  telemetry: TELEMETRY,
+  span: "ConnectAppAuthorization",
 }));
 
 export type CreateAppAuthorizationError =
@@ -616,6 +635,8 @@ export const createAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppAuthorization",
+  telemetry: TELEMETRY,
+  span: "CreateAppAuthorization",
 }));
 
 export type CreateAppBundleError =
@@ -648,6 +669,8 @@ export const createAppBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBundle",
+  telemetry: TELEMETRY,
+  span: "CreateAppBundle",
 }));
 
 export type CreateIngestionError =
@@ -680,6 +703,8 @@ export const createIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestion",
+  telemetry: TELEMETRY,
+  span: "CreateIngestion",
 }));
 
 export type CreateIngestionDestinationError =
@@ -713,6 +738,8 @@ export const createIngestionDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestionDestination",
+  telemetry: TELEMETRY,
+  span: "CreateIngestionDestination",
 }));
 
 export type DeleteAppAuthorizationError =
@@ -744,6 +771,8 @@ export const deleteAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteAppAuthorization",
 }));
 
 export type DeleteAppBundleError =
@@ -775,6 +804,8 @@ export const deleteAppBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppBundle",
+  telemetry: TELEMETRY,
+  span: "DeleteAppBundle",
 }));
 
 export type DeleteIngestionError =
@@ -806,6 +837,8 @@ export const deleteIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestion",
+  telemetry: TELEMETRY,
+  span: "DeleteIngestion",
 }));
 
 export type DeleteIngestionDestinationError =
@@ -841,6 +874,8 @@ export const deleteIngestionDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestionDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteIngestionDestination",
 }));
 
 export type GetAppAuthorizationError =
@@ -871,6 +906,8 @@ export const getAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppAuthorization",
+  telemetry: TELEMETRY,
+  span: "GetAppAuthorization",
 }));
 
 export type GetAppBundleError =
@@ -901,6 +938,8 @@ export const getAppBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppBundle",
+  telemetry: TELEMETRY,
+  span: "GetAppBundle",
 }));
 
 export type GetIngestionError =
@@ -931,6 +970,8 @@ export const getIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestion",
+  telemetry: TELEMETRY,
+  span: "GetIngestion",
 }));
 
 export type GetIngestionDestinationError =
@@ -961,6 +1002,8 @@ export const getIngestionDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestionDestination",
+  telemetry: TELEMETRY,
+  span: "GetIngestionDestination",
 }));
 
 export type ListAppAuthorizationsError =
@@ -998,6 +1041,8 @@ export const listAppAuthorizations: API.PaginatedOperationMethod<
     items: "appAuthorizationSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppAuthorizations",
 })) as any;
 
 export type ListAppBundlesError =
@@ -1033,6 +1078,8 @@ export const listAppBundles: API.PaginatedOperationMethod<
     items: "appBundleSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppBundles",
 })) as any;
 
 export type ListIngestionDestinationsError =
@@ -1070,6 +1117,8 @@ export const listIngestionDestinations: API.PaginatedOperationMethod<
     items: "ingestionDestinations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestionDestinations",
 })) as any;
 
 export type ListIngestionsError =
@@ -1107,6 +1156,8 @@ export const listIngestions: API.PaginatedOperationMethod<
     items: "ingestions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1137,6 +1188,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartIngestionError =
@@ -1169,6 +1222,8 @@ export const startIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIngestion",
+  telemetry: TELEMETRY,
+  span: "StartIngestion",
 }));
 
 export type StartUserAccessTasksError =
@@ -1202,6 +1257,8 @@ export const startUserAccessTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUserAccessTasks",
+  telemetry: TELEMETRY,
+  span: "StartUserAccessTasks",
 }));
 
 export type StopIngestionError =
@@ -1234,6 +1291,8 @@ export const stopIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopIngestion",
+  telemetry: TELEMETRY,
+  span: "StopIngestion",
 }));
 
 export type TagResourceError =
@@ -1264,6 +1323,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1294,6 +1355,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppAuthorizationError =
@@ -1328,6 +1391,8 @@ export const updateAppAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppAuthorization",
+  telemetry: TELEMETRY,
+  span: "UpdateAppAuthorization",
 }));
 
 export type UpdateIngestionDestinationError =
@@ -1363,6 +1428,8 @@ export const updateIngestionDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngestionDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateIngestionDestination",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

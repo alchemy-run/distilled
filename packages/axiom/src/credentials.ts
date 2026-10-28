@@ -29,7 +29,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("AxiomCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "AxiomCredentials",
+  ) {}
 
 /** Layer from a redacted API token + optional base URL / org ID. */
 export const fromApiKey = (config: {
@@ -87,5 +89,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl: config.apiBaseUrl,
       orgId: Option.getOrUndefined(config.orgId),
     };
-  }).pipe(Effect.orDie),
+  }),
 );

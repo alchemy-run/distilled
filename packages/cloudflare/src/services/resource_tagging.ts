@@ -27,6 +27,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneId: "zone_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "ResourceTagging",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -4186,6 +4200,8 @@ export const deleteAccountTag: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountTag",
 }));
 
 export type DeleteZoneTagError = Forbidden | CloudflareOpError;
@@ -4201,6 +4217,8 @@ export const deleteZoneTag: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZoneTag",
 }));
 
 export type GetAccountTagError = Forbidden | CloudflareOpError;
@@ -4216,6 +4234,8 @@ export const getAccountTag: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountTag",
 }));
 
 export type GetSummaryError = CloudflareOpError;
@@ -4231,6 +4251,8 @@ export const getSummary: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSummary",
 }));
 
 export type GetZoneTagError = ZoneTagResourceNotFound | Forbidden | CloudflareOpError;
@@ -4246,6 +4268,8 @@ export const getZoneTag: API.OperationMethod<
   errors: [ZoneTagResourceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZoneTag",
 }));
 
 export type ListKeysError = CloudflareOpError;
@@ -4263,6 +4287,8 @@ export const listKeys: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListKeys",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4288,6 +4314,8 @@ export const listResourceTaggings: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResourceTaggings",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4313,6 +4341,8 @@ export const listValues: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListValues",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4336,6 +4366,8 @@ export const putAccountTag: API.OperationMethod<
   errors: [Forbidden, TagPreconditionFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAccountTag",
 }));
 
 export type PutZoneTagError =
@@ -4361,6 +4393,8 @@ export const putZoneTag: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutZoneTag",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { S2OpError, S2OpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "s2-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "S2",
+  service: "Records",
+  labels: "s2",
+  propagate: "w3c",
+} as const;
+
 export type Format = "raw" | "base64";
 export type Header = Array<string>;
 /** Series of name-value pairs for this record. */
@@ -118,6 +131,8 @@ export const append: API.OperationMethod<AppendRequest, AppendAck, AppendError, 
     errors: [UnknownS2Error],
     protocol: S2Protocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Append",
   }));
 
 export type CheckTailError = S2OpError;
@@ -133,6 +148,8 @@ export const checkTail: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckTail",
 }));
 
 export type ReadError = S2OpError;
@@ -144,6 +161,8 @@ export const read: API.OperationMethod<ReadRequest, ReadBatch, ReadError, S2OpCo
     errors: [UnknownS2Error],
     protocol: S2Protocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Read",
   }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,4 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
  * seam.
@@ -53,7 +54,7 @@ import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/r
 import type { Response } from "./client/response.ts";
 import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
-import { ParseError } from "./errors.ts";
+import { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import * as SigV4 from "./sigv4.ts";
@@ -225,7 +226,7 @@ const toHttpRequest = (
       region,
       request,
     });
-    if (resolved instanceof Error) return Effect.fail(resolved);
+    if (resolved instanceof EndpointError) return Effect.fail(resolved);
     endpoint = resolved.endpoint.url;
     resolvedRequest = resolved.request;
 
@@ -291,7 +292,17 @@ const toHttpRequest = (
 
   const fullPath = queryString ? `${resolvedRequest.path}?${queryString}` : resolvedRequest.path;
 
-  if (sigv2) return sigv2.sign(resolvedRequest, endpoint, fullPath, credentials);
+  if (sigv2) {
+    // The SigV2 signer parses this URL synchronously; fail an unparseable
+    // one (e.g. a malformed custom endpoint) as SigV4 does.
+    const url = `${endpoint}${fullPath}`;
+    try {
+      void new URL(url);
+    } catch (cause) {
+      return Effect.fail(new SigV4.InvalidSigningUrl({ url, cause }));
+    }
+    return sigv2.sign(resolvedRequest, endpoint, fullPath, credentials);
+  }
 
   // For streaming bodies (ReadableStream), we can't compute a hash
   // so we use UNSIGNED-PAYLOAD and don't pass the body to the signer
@@ -397,7 +408,8 @@ const httpRequestOf = (
     // Convert ReadableStream to Effect Stream for HttpClient
     const effectStream = Stream.fromReadableStream({
       evaluate: () => body as ReadableStream<Uint8Array>,
-      onError: (error) => new Error(String(error)),
+      onError: (error) =>
+        error instanceof Error ? error : new Error(String(error), { cause: error }),
     });
     httpBody = HttpBody.stream(effectStream, contentType);
   } else if (body === undefined) {
@@ -517,11 +529,32 @@ const encodeWith = <A>(
   input: unknown,
   f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
 ): Effect.Effect<A, any, any> => {
-  const debug = debugEnabled(fiber.context as Context.Context<any>);
+  const context = fiber.context as Context.Context<any>;
+  const debug = debugEnabled(context);
+  const traceDebug = Telemetry.isDebug(context);
   const sendSigned = (request: Request) =>
-    withAwsContext(fiber.context as Context.Context<any>, (credentials, region, custom) =>
-      thenSend(toHttpRequest(prepared, input, request, credentials, region, custom, fiber), f),
-    );
+    withAwsContext(context, (credentials, region, custom) => {
+      Telemetry.annotate(context, "cloud.region", region);
+      if (!traceDebug) {
+        return thenSend(
+          toHttpRequest(prepared, input, request, credentials, region, custom, fiber),
+          f,
+        );
+      }
+      // BRAINSTORM: endpoint rules + SigV4 as one debug span.
+      return Effect.flatMap(
+        Telemetry.phase(
+          context,
+          "aws.endpoint_and_sign",
+          Effect.suspend(() => {
+            const r = toHttpRequest(prepared, input, request, credentials, region, custom, fiber);
+            return HttpClientRequest.isHttpClientRequest(r) ? Effect.succeed(r) : r;
+          }),
+          { "aws.signing.name": prepared.sigv4?.name },
+        ),
+        f,
+      );
+    });
   const send = debug
     ? (request: Request) =>
         logDebugThen(
@@ -532,6 +565,24 @@ const encodeWith = <A>(
         )
     : sendSigned;
   // Serialize the input (protocol serializer + annotation middleware)
+  if (traceDebug) {
+    // BRAINSTORM: serialization as its own debug span.
+    return Effect.flatMap(
+      Telemetry.phase(
+        context,
+        "aws.serialize",
+        Effect.suspend(() => {
+          try {
+            const r = plan.build(input);
+            return Effect.isEffect(r) ? r : Effect.succeed(r);
+          } catch (e) {
+            return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+          }
+        }),
+      ),
+      send,
+    );
+  }
   let request: Request | Effect.Effect<Request, ParseError>;
   try {
     request = plan.build(input);
@@ -601,16 +652,27 @@ const decodeWith = (
 const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
   Effect.withFiber((fiber) => {
     const prepared = prepare(op.config);
+    const context = fiber.context as Context.Context<any>;
     const run = (plan: Plan) => {
-      const context = fiber.context as Context.Context<any>;
       const client = Context.get(context, HttpClient.HttpClient);
       return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request) =>
-        Effect.flatMap(client.execute(request), (response) =>
-          decodeWith(prepared, plan, context, response),
+        Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+          Telemetry.phase(
+            context,
+            "aws.deserialize",
+            decodeWith(prepared, plan, context, response),
+          ),
         ),
       );
     };
-    return prepared.plan ? run(prepared.plan) : Effect.flatMap(planOf(prepared), run);
+    return prepared.plan
+      ? run(prepared.plan)
+      : Effect.flatMap(
+          Telemetry.phase(context, "aws.load_protocol", planOf(prepared), {
+            "distilled.setup.first_call": true,
+          }),
+          run,
+        );
   }) as Effect.Effect<unknown>;
 
 /**

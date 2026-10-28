@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://scheduler.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Scheduler",
+  service: "Scheduler",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -441,6 +456,8 @@ export const createSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchedule",
+  telemetry: TELEMETRY,
+  span: "CreateSchedule",
 }));
 
 export type CreateScheduleGroupError =
@@ -471,6 +488,8 @@ export const createScheduleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduleGroup",
+  telemetry: TELEMETRY,
+  span: "CreateScheduleGroup",
 }));
 
 export type DeleteScheduleError =
@@ -501,6 +520,8 @@ export const deleteSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteSchedule",
 }));
 
 export type DeleteScheduleGroupError =
@@ -536,6 +557,8 @@ export const deleteScheduleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduleGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduleGroup",
 }));
 
 export type GetScheduleError =
@@ -564,6 +587,8 @@ export const getSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchedule",
+  telemetry: TELEMETRY,
+  span: "GetSchedule",
 }));
 
 export type GetScheduleGroupError =
@@ -592,6 +617,8 @@ export const getScheduleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduleGroup",
+  telemetry: TELEMETRY,
+  span: "GetScheduleGroup",
 }));
 
 export type ListScheduleGroupsError =
@@ -621,6 +648,8 @@ export const listScheduleGroups: API.PaginatedOperationMethod<
     items: "ScheduleGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScheduleGroups",
 })) as any;
 
 export type ListSchedulesError =
@@ -656,6 +685,8 @@ export const listSchedules: API.PaginatedOperationMethod<
     items: "Schedules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchedules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -684,6 +715,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -714,6 +747,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -744,6 +779,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateScheduleError =
@@ -781,6 +818,8 @@ export const updateSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateSchedule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

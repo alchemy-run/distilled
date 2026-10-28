@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://identity-chime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ChimeSDKIdentity",
+  service: "ChimeSDKIdentity",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -601,6 +616,8 @@ export const createAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstance",
+  telemetry: TELEMETRY,
+  span: "CreateAppInstance",
 }));
 
 export type CreateAppInstanceAdminError =
@@ -647,6 +664,8 @@ export const createAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceAdmin",
+  telemetry: TELEMETRY,
+  span: "CreateAppInstanceAdmin",
 }));
 
 export type CreateAppInstanceBotError =
@@ -684,6 +703,8 @@ export const createAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceBot",
+  telemetry: TELEMETRY,
+  span: "CreateAppInstanceBot",
 }));
 
 export type CreateAppInstanceUserError =
@@ -721,6 +742,8 @@ export const createAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "CreateAppInstanceUser",
 }));
 
 export type DeleteAppInstanceError =
@@ -755,6 +778,8 @@ export const deleteAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInstance",
 }));
 
 export type DeleteAppInstanceAdminError =
@@ -793,6 +818,8 @@ export const deleteAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceAdmin",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInstanceAdmin",
 }));
 
 export type DeleteAppInstanceBotError =
@@ -829,6 +856,8 @@ export const deleteAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceBot",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInstanceBot",
 }));
 
 export type DeleteAppInstanceUserError =
@@ -865,6 +894,8 @@ export const deleteAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "DeleteAppInstanceUser",
 }));
 
 export type DeregisterAppInstanceUserEndpointError =
@@ -897,6 +928,8 @@ export const deregisterAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAppInstanceUserEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeregisterAppInstanceUserEndpoint",
 }));
 
 export type DescribeAppInstanceError =
@@ -929,6 +962,8 @@ export const describeAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstance",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstance",
 }));
 
 export type DescribeAppInstanceAdminError =
@@ -961,6 +996,8 @@ export const describeAppInstanceAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceAdmin",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstanceAdmin",
 }));
 
 export type DescribeAppInstanceBotError =
@@ -995,6 +1032,8 @@ export const describeAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceBot",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstanceBot",
 }));
 
 export type DescribeAppInstanceUserError =
@@ -1027,6 +1066,8 @@ export const describeAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstanceUser",
 }));
 
 export type DescribeAppInstanceUserEndpointError =
@@ -1059,6 +1100,8 @@ export const describeAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppInstanceUserEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeAppInstanceUserEndpoint",
 }));
 
 export type GetAppInstanceRetentionSettingsError =
@@ -1091,6 +1134,8 @@ export const getAppInstanceRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppInstanceRetentionSettings",
+  telemetry: TELEMETRY,
+  span: "GetAppInstanceRetentionSettings",
 }));
 
 export type ListAppInstanceAdminsError =
@@ -1131,6 +1176,8 @@ export const listAppInstanceAdmins: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceAdmins",
 })) as any;
 
 export type ListAppInstanceBotsError =
@@ -1171,6 +1218,8 @@ export const listAppInstanceBots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceBots",
 })) as any;
 
 export type ListAppInstancesError =
@@ -1210,6 +1259,8 @@ export const listAppInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstances",
 })) as any;
 
 export type ListAppInstanceUserEndpointsError =
@@ -1248,6 +1299,8 @@ export const listAppInstanceUserEndpoints: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceUserEndpoints",
 })) as any;
 
 export type ListAppInstanceUsersError =
@@ -1287,6 +1340,8 @@ export const listAppInstanceUsers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppInstanceUsers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1319,6 +1374,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAppInstanceRetentionSettingsError =
@@ -1352,6 +1409,8 @@ export const putAppInstanceRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppInstanceRetentionSettings",
+  telemetry: TELEMETRY,
+  span: "PutAppInstanceRetentionSettings",
 }));
 
 export type PutAppInstanceUserExpirationSettingsError =
@@ -1392,6 +1451,8 @@ export const putAppInstanceUserExpirationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppInstanceUserExpirationSettings",
+  telemetry: TELEMETRY,
+  span: "PutAppInstanceUserExpirationSettings",
 }));
 
 export type RegisterAppInstanceUserEndpointError =
@@ -1428,6 +1489,8 @@ export const registerAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAppInstanceUserEndpoint",
+  telemetry: TELEMETRY,
+  span: "RegisterAppInstanceUserEndpoint",
 }));
 
 export type TagResourceError =
@@ -1462,6 +1525,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1494,6 +1559,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppInstanceError =
@@ -1528,6 +1595,8 @@ export const updateAppInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateAppInstance",
 }));
 
 export type UpdateAppInstanceBotError =
@@ -1564,6 +1633,8 @@ export const updateAppInstanceBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceBot",
+  telemetry: TELEMETRY,
+  span: "UpdateAppInstanceBot",
 }));
 
 export type UpdateAppInstanceUserError =
@@ -1601,6 +1672,8 @@ export const updateAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "UpdateAppInstanceUser",
 }));
 
 export type UpdateAppInstanceUserEndpointError =
@@ -1635,6 +1708,8 @@ export const updateAppInstanceUserEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppInstanceUserEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateAppInstanceUserEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

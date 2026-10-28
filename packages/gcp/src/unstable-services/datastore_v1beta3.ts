@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "datastore" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Datastore",
+  service: "datastore",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -668,6 +687,8 @@ export const allocateIdsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AllocateIdsProjects",
 }));
 
 export type BeginTransactionProjectsError =
@@ -688,6 +709,8 @@ export const beginTransactionProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BeginTransactionProjects",
 }));
 
 export type CommitProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -703,6 +726,8 @@ export const commitProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitProjects",
 }));
 
 export type LookupProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -718,6 +743,8 @@ export const lookupProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupProjects",
 }));
 
 export type ReserveIdsProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -733,6 +760,8 @@ export const reserveIdsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReserveIdsProjects",
 }));
 
 export type RollbackProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -748,6 +777,8 @@ export const rollbackProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RollbackProjects",
 }));
 
 export type RunAggregationQueryProjectsError =
@@ -768,6 +799,8 @@ export const runAggregationQueryProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAggregationQueryProjects",
 }));
 
 export type RunQueryProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -783,6 +816,8 @@ export const runQueryProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunQueryProjects",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

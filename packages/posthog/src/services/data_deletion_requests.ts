@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "DataDeletionRequests",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -132,6 +145,8 @@ export const createDataDeletionRequest: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataDeletionRequest",
 }));
 
 export type CreateDataDeletionRequestsPreviewError = PosthogOpError;
@@ -147,6 +162,8 @@ export const createDataDeletionRequestsPreview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataDeletionRequestsPreview",
 }));
 
 export type GetDataDeletionRequestError = PosthogOpError;
@@ -162,6 +179,8 @@ export const getDataDeletionRequest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataDeletionRequest",
 }));
 
 export type ListDataDeletionRequestsError = PosthogOpError;
@@ -177,6 +196,8 @@ export const listDataDeletionRequests: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataDeletionRequests",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

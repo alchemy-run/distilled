@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Capacity" },
+  prefix: "Reservations",
+  service: "Reservations",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface ArchiveReservationRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
@@ -1352,6 +1372,8 @@ export const ArchiveReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveReservation",
 }));
 
 export type GetAppliedReservationListError = AzureOpError;
@@ -1367,6 +1389,8 @@ export const GetAppliedReservationList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppliedReservationList",
 }));
 
 export type GetCatalogError = AzureOpError;
@@ -1382,6 +1406,8 @@ export const GetCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCatalog",
 }));
 
 export type GetReservationError = AzureOpError;
@@ -1397,6 +1423,8 @@ export const GetReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReservation",
 }));
 
 export type GetReservationOrderError = AzureOpError;
@@ -1412,6 +1440,8 @@ export const GetReservationOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReservationOrder",
 }));
 
 export type ListOperationError = AzureOpError;
@@ -1427,6 +1457,8 @@ export const ListOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperation",
 }));
 
 export type ListReservationError = AzureOpError;
@@ -1442,6 +1474,8 @@ export const ListReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservation",
 }));
 
 export type ListReservationAllError = AzureOpError;
@@ -1457,6 +1491,8 @@ export const ListReservationAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationAll",
 }));
 
 export type ListReservationOrderError = AzureOpError;
@@ -1472,6 +1508,8 @@ export const ListReservationOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationOrder",
 }));
 
 export type ListReservationRevisionsError = AzureOpError;
@@ -1487,6 +1525,8 @@ export const ListReservationRevisions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationRevisions",
 }));
 
 export type MergeReservationError = AzureOpError;
@@ -1502,6 +1542,8 @@ export const MergeReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeReservation",
 }));
 
 export type PostCalculateExchangeError = AzureOpError;
@@ -1517,6 +1559,8 @@ export const PostCalculateExchange: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCalculateExchange",
 }));
 
 export type PostCalculateRefundError = AzureOpError;
@@ -1532,6 +1576,8 @@ export const PostCalculateRefund: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCalculateRefund",
 }));
 
 export type PostExchangeError = AzureOpError;
@@ -1547,6 +1593,8 @@ export const PostExchange: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostExchange",
 }));
 
 export type PostReturnError = AzureOpError;
@@ -1562,6 +1610,8 @@ export const PostReturn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostReturn",
 }));
 
 export type ReservationAvailableScopesError = AzureOpError;
@@ -1577,6 +1627,8 @@ export const ReservationAvailableScopes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReservationAvailableScopes",
 }));
 
 export type ReservationOrderCalculateError = AzureOpError;
@@ -1592,6 +1644,8 @@ export const ReservationOrderCalculate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReservationOrderCalculate",
 }));
 
 export type ReservationOrderChangeDirectoryError = AzureOpError;
@@ -1607,6 +1661,8 @@ export const ReservationOrderChangeDirectory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReservationOrderChangeDirectory",
 }));
 
 export type ReservationOrderPurchaseError = AzureOpError;
@@ -1622,6 +1678,8 @@ export const ReservationOrderPurchase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReservationOrderPurchase",
 }));
 
 export type ReservationSplitError = AzureOpError;
@@ -1637,6 +1695,8 @@ export const ReservationSplit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReservationSplit",
 }));
 
 export type UnarchiveReservationError = AzureOpError;
@@ -1652,6 +1712,8 @@ export const UnarchiveReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveReservation",
 }));
 
 export type UpdateReservationError = AzureOpError;
@@ -1667,6 +1729,8 @@ export const UpdateReservation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReservation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

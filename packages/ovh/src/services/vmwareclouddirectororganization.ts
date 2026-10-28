@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Vmwareclouddirectororganization",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 export interface CreateVmwareCloudDirectorOrganizationPasswordRequest {
   /** Organization ID */
   organizationId: string;
@@ -693,6 +707,8 @@ export const createVmwareCloudDirectorOrganizationPassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVmwareCloudDirectorOrganizationPassword",
 }));
 
 export type GetVmwareCloudDirectorBackupError = OvhOpError;
@@ -708,6 +724,8 @@ export const getVmwareCloudDirectorBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareCloudDirectorBackup",
 }));
 
 export type GetVmwareCloudDirectorBackupTaskError = OvhOpError;
@@ -723,6 +741,8 @@ export const getVmwareCloudDirectorBackupTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareCloudDirectorBackupTask",
 }));
 
 export type GetVmwareCloudDirectorOrganizationError = OvhOpError;
@@ -738,6 +758,8 @@ export const getVmwareCloudDirectorOrganization: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareCloudDirectorOrganization",
 }));
 
 export type GetVmwareCloudDirectorOrganizationTaskError = OvhOpError;
@@ -753,6 +775,8 @@ export const getVmwareCloudDirectorOrganizationTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareCloudDirectorOrganizationTask",
 }));
 
 export type GetVmwareCloudDirectorOrganizationVirtualDataCenterError = OvhOpError;
@@ -772,6 +796,8 @@ export const getVmwareCloudDirectorOrganizationVirtualDataCenter: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareCloudDirectorOrganizationVirtualDataCenter",
 }));
 
 export type GetVmwareCloudDirectorOrganizationVirtualDataCenterComputeError = OvhOpError;
@@ -791,6 +817,8 @@ export const getVmwareCloudDirectorOrganizationVirtualDataCenterCompute: API.Ope
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareCloudDirectorOrganizationVirtualDataCenterCompute",
 }));
 
 export type GetVmwareCloudDirectorOrganizationVirtualDataCenterStorageError = OvhOpError;
@@ -810,6 +838,8 @@ export const getVmwareCloudDirectorOrganizationVirtualDataCenterStorage: API.Ope
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareCloudDirectorOrganizationVirtualDataCenterStorage",
 }));
 
 export type GetVmwareCloudDirectorOrganizationVirtualDataCenterTaskError = OvhOpError;
@@ -829,6 +859,8 @@ export const getVmwareCloudDirectorOrganizationVirtualDataCenterTask: API.Operat
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareCloudDirectorOrganizationVirtualDataCenterTask",
 }));
 
 export type ListVmwareCloudDirectorBackupError = OvhOpError;
@@ -844,6 +876,8 @@ export const listVmwareCloudDirectorBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorBackup",
 }));
 
 export type ListVmwareCloudDirectorBackupEventError = OvhOpError;
@@ -859,6 +893,8 @@ export const listVmwareCloudDirectorBackupEvent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorBackupEvent",
 }));
 
 export type ListVmwareCloudDirectorBackupTaskError = OvhOpError;
@@ -874,6 +910,8 @@ export const listVmwareCloudDirectorBackupTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorBackupTask",
 }));
 
 export type ListVmwareCloudDirectorOrganizationError = OvhOpError;
@@ -889,6 +927,8 @@ export const listVmwareCloudDirectorOrganization: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorOrganization",
 }));
 
 export type ListVmwareCloudDirectorOrganizationEventError = OvhOpError;
@@ -904,6 +944,8 @@ export const listVmwareCloudDirectorOrganizationEvent: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorOrganizationEvent",
 }));
 
 export type ListVmwareCloudDirectorOrganizationTaskError = OvhOpError;
@@ -919,6 +961,8 @@ export const listVmwareCloudDirectorOrganizationTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorOrganizationTask",
 }));
 
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterError = OvhOpError;
@@ -942,6 +986,8 @@ export const listVmwareCloudDirectorOrganizationVirtualDataCenter: API.Operation
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorOrganizationVirtualDataCenter",
 }));
 
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterComputeError = OvhOpError;
@@ -965,6 +1011,8 @@ export const listVmwareCloudDirectorOrganizationVirtualDataCenterCompute: API.Op
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorOrganizationVirtualDataCenterCompute",
 }));
 
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterOrderableResourceError = OvhOpError;
@@ -984,6 +1032,8 @@ export const listVmwareCloudDirectorOrganizationVirtualDataCenterOrderableResour
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorOrganizationVirtualDataCenterOrderableResource",
 }));
 
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterStorageError = OvhOpError;
@@ -1007,6 +1057,8 @@ export const listVmwareCloudDirectorOrganizationVirtualDataCenterStorage: API.Op
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorOrganizationVirtualDataCenterStorage",
 }));
 
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterTaskError = OvhOpError;
@@ -1030,6 +1082,8 @@ export const listVmwareCloudDirectorOrganizationVirtualDataCenterTask: API.Opera
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorOrganizationVirtualDataCenterTask",
 }));
 
 export type ListVmwareCloudDirectorReferenceRegionError = OvhOpError;
@@ -1045,6 +1099,8 @@ export const listVmwareCloudDirectorReferenceRegion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareCloudDirectorReferenceRegion",
 }));
 
 export type PutVmwareCloudDirectorBackupError = OvhOpError;
@@ -1060,6 +1116,8 @@ export const putVmwareCloudDirectorBackup: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVmwareCloudDirectorBackup",
 }));
 
 export type PutVmwareCloudDirectorOrganizationError = OvhOpError;
@@ -1075,6 +1133,8 @@ export const putVmwareCloudDirectorOrganization: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVmwareCloudDirectorOrganization",
 }));
 
 export type PutVmwareCloudDirectorOrganizationVirtualDataCenterError = OvhOpError;
@@ -1094,6 +1154,8 @@ export const putVmwareCloudDirectorOrganizationVirtualDataCenter: API.OperationM
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVmwareCloudDirectorOrganizationVirtualDataCenter",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

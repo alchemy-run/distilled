@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Users",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -886,6 +899,8 @@ export const checkUserAccess: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckUserAccess",
 }));
 
 export type CreateOauthGrantError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -901,6 +916,8 @@ export const createOauthGrant: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOauthGrant",
 }));
 
 export type CreatePasskeyError = BadRequest | Forbidden | Conflict | WhopOpError;
@@ -916,6 +933,8 @@ export const createPasskey: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePasskey",
 }));
 
 export type CreatePasskeyChallengeError =
@@ -936,6 +955,8 @@ export const createPasskeyChallenge: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePasskeyChallenge",
 }));
 
 export type DeletePasskeyError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -951,6 +972,8 @@ export const deletePasskey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePasskey",
 }));
 
 export type GetUserError = NotFound | WhopOpError;
@@ -962,6 +985,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Wh
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUser",
   }));
 
 export type GetUserPreferencesError = WhopOpError;
@@ -977,6 +1002,8 @@ export const getUserPreferences: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserPreferences",
 }));
 
 export type ListOauthGrantsError = BadRequest | Forbidden | WhopOpError;
@@ -994,6 +1021,8 @@ export const listOauthGrants: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOauthGrants",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1021,6 +1050,8 @@ export const listPasskeys: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPasskeys",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1048,6 +1079,8 @@ export const listUserNotificationExperiencePreferences: API.PaginatedOperationMe
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUserNotificationExperiencePreferences",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1075,6 +1108,8 @@ export const listUserNotificationTopicPreferences: API.PaginatedOperationMethod<
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUserNotificationTopicPreferences",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1100,6 +1135,8 @@ export const listUserRecommendedActions: API.OperationMethod<
   errors: [Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserRecommendedActions",
 }));
 
 export type ListUsersError = WhopOpError;
@@ -1117,6 +1154,8 @@ export const listUsers: API.PaginatedOperationMethod<
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUsers",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1142,6 +1181,8 @@ export const setUserNotificationPreferences: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetUserNotificationPreferences",
 }));
 
 export type UpdateUserError = WhopOpError;
@@ -1157,6 +1198,8 @@ export const updateUser: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserPreferencesError = BadRequest | WhopOpError;
@@ -1172,6 +1215,8 @@ export const updateUserPreferences: API.OperationMethod<
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserPreferences",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * WorkosProtocol -- the shared bearer-REST protocol instantiated for WorkOS.
@@ -26,7 +26,11 @@ import { UnknownWorkosError, type DefaultErrors, WorkosParseError } from "./erro
  * WorkosOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type WorkosOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type WorkosOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated WorkOS operation. */
 export type WorkosOpContext = Credentials | HttpClient.HttpClient;

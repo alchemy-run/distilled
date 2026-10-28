@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.KubernetesConfiguration" },
+  prefix: "Kubernetesconfiguration",
+  service: "Kubernetesconfiguration",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Specifies that the scope of the extension is Cluster */
 export interface ScopeCluster {
   /** Namespace where the extension Release must be placed, for a Cluster scoped extension. If this namespace does not exist, it will be created */
@@ -1741,6 +1762,8 @@ export const CreateExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExtension",
 }));
 
 export type DeleteExtensionError = AzureOpError;
@@ -1756,6 +1779,8 @@ export const DeleteExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExtension",
 }));
 
 export type DeleteFluxConfigurationError = AzureOpError;
@@ -1771,6 +1796,8 @@ export const DeleteFluxConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFluxConfiguration",
 }));
 
 export type DeleteSourceControlConfigurationError = AzureOpError;
@@ -1786,6 +1813,8 @@ export const DeleteSourceControlConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSourceControlConfiguration",
 }));
 
 export type FluxConfigurationsCreateOrUpdateError = AzureOpError;
@@ -1801,6 +1830,8 @@ export const FluxConfigurationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FluxConfigurationsCreateOrUpdate",
 }));
 
 export type GetExtensionError = AzureOpError;
@@ -1816,6 +1847,8 @@ export const GetExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExtension",
 }));
 
 export type GetFluxConfigOperationStatusError = AzureOpError;
@@ -1831,6 +1864,8 @@ export const GetFluxConfigOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFluxConfigOperationStatus",
 }));
 
 export type GetFluxConfigurationError = AzureOpError;
@@ -1846,6 +1881,8 @@ export const GetFluxConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFluxConfiguration",
 }));
 
 export type GetOperationStatusError = AzureOpError;
@@ -1861,6 +1898,8 @@ export const GetOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatus",
 }));
 
 export type GetSourceControlConfigurationError = AzureOpError;
@@ -1876,6 +1915,8 @@ export const GetSourceControlConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSourceControlConfiguration",
 }));
 
 export type ListExtensionsError = AzureOpError;
@@ -1891,6 +1932,8 @@ export const ListExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensions",
 }));
 
 export type ListFluxConfigurationsError = AzureOpError;
@@ -1906,6 +1949,8 @@ export const ListFluxConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFluxConfigurations",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1921,6 +1966,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListOperationStatusError = AzureOpError;
@@ -1936,6 +1983,8 @@ export const ListOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperationStatus",
 }));
 
 export type ListSourceControlConfigurationsError = AzureOpError;
@@ -1951,6 +2000,8 @@ export const ListSourceControlConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSourceControlConfigurations",
 }));
 
 export type SourceControlConfigurationsCreateOrUpdateError = AzureOpError;
@@ -1966,6 +2017,8 @@ export const SourceControlConfigurationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SourceControlConfigurationsCreateOrUpdate",
 }));
 
 export type UpdateExtensionError = AzureOpError;
@@ -1981,6 +2034,8 @@ export const UpdateExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExtension",
 }));
 
 export type UpdateFluxConfigurationError = AzureOpError;
@@ -1996,6 +2051,8 @@ export const UpdateFluxConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFluxConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

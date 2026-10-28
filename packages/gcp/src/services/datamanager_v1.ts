@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "datamanager" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Datamanager",
+  service: "datamanager",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1257,6 +1276,8 @@ export const createAccountTypesAccountsPartnerLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountTypesAccountsPartnerLinks",
 }));
 
 export type CreateAccountTypesAccountsUserListDirectLicensesError =
@@ -1280,6 +1301,8 @@ export const createAccountTypesAccountsUserListDirectLicenses: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountTypesAccountsUserListDirectLicenses",
 }));
 
 export type CreateAccountTypesAccountsUserListGlobalLicensesError =
@@ -1303,6 +1326,8 @@ export const createAccountTypesAccountsUserListGlobalLicenses: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountTypesAccountsUserListGlobalLicenses",
 }));
 
 export type CreateAccountTypesAccountsUserListsError =
@@ -1330,6 +1355,8 @@ export const createAccountTypesAccountsUserLists: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountTypesAccountsUserLists",
 }));
 
 export type DeleteAccountTypesAccountsPartnerLinksError =
@@ -1349,6 +1376,8 @@ export const deleteAccountTypesAccountsPartnerLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountTypesAccountsPartnerLinks",
 }));
 
 export type DeleteAccountTypesAccountsUserListsError =
@@ -1376,6 +1405,8 @@ export const deleteAccountTypesAccountsUserLists: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountTypesAccountsUserLists",
 }));
 
 export type GetAccountTypesAccountsInsightsError =
@@ -1395,6 +1426,8 @@ export const getAccountTypesAccountsInsights: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountTypesAccountsInsights",
 }));
 
 export type GetAccountTypesAccountsUserListDirectLicensesError = NotFound | Forbidden | GcpOpError;
@@ -1409,6 +1442,8 @@ export const getAccountTypesAccountsUserListDirectLicenses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountTypesAccountsUserListDirectLicenses",
 }));
 
 export type GetAccountTypesAccountsUserListGlobalLicensesError = NotFound | Forbidden | GcpOpError;
@@ -1423,6 +1458,8 @@ export const getAccountTypesAccountsUserListGlobalLicenses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountTypesAccountsUserListGlobalLicenses",
 }));
 
 export type GetAccountTypesAccountsUserListsError =
@@ -1441,6 +1478,8 @@ export const getAccountTypesAccountsUserLists: API.OperationMethod<
   errors: [NotFound, Forbidden, DataManagerScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountTypesAccountsUserLists",
 }));
 
 export type GetRequestStatusError = NotFound | Forbidden | GcpOpError;
@@ -1455,6 +1494,8 @@ export const getRequestStatus: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRequestStatus",
 }));
 
 export type IngestAdEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1469,6 +1510,8 @@ export const ingestAdEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestAdEvents",
 }));
 
 export type IngestAudienceMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1483,6 +1526,8 @@ export const ingestAudienceMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestAudienceMembers",
 }));
 
 export type IngestEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1497,6 +1542,8 @@ export const ingestEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestEvents",
 }));
 
 export type IngestUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1511,6 +1558,8 @@ export const ingestUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestUsers",
 }));
 
 export type ListAccountTypesAccountsUserListDirectLicensesError = NotFound | Forbidden | GcpOpError;
@@ -1530,6 +1579,8 @@ export const listAccountTypesAccountsUserListDirectLicenses: API.PaginatedOperat
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountTypesAccountsUserListDirectLicenses",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1550,6 +1601,8 @@ export const listAccountTypesAccountsUserListGlobalLicenses: API.PaginatedOperat
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountTypesAccountsUserListGlobalLicenses",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1573,6 +1626,8 @@ export const listAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfos",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1593,6 +1648,8 @@ export const listAccountTypesAccountsUserLists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, DataManagerScopeInsufficient, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountTypesAccountsUserLists",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1617,6 +1674,8 @@ export const patchAccountTypesAccountsUserListDirectLicenses: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountTypesAccountsUserListDirectLicenses",
 }));
 
 export type PatchAccountTypesAccountsUserListGlobalLicensesError =
@@ -1640,6 +1699,8 @@ export const patchAccountTypesAccountsUserListGlobalLicenses: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountTypesAccountsUserListGlobalLicenses",
 }));
 
 export type PatchAccountTypesAccountsUserListsError =
@@ -1667,6 +1728,8 @@ export const patchAccountTypesAccountsUserLists: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountTypesAccountsUserLists",
 }));
 
 export type RemoveAllAudienceMembersError =
@@ -1686,6 +1749,8 @@ export const removeAllAudienceMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAllAudienceMembers",
 }));
 
 export type RemoveAudienceMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1700,6 +1765,8 @@ export const removeAudienceMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAudienceMembers",
 }));
 
 export type RemoveUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1714,6 +1781,8 @@ export const removeUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUsers",
 }));
 
 export type SearchAccountTypesAccountsPartnerLinksError = NotFound | Forbidden | GcpOpError;
@@ -1729,6 +1798,8 @@ export const searchAccountTypesAccountsPartnerLinks: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAccountTypesAccountsPartnerLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

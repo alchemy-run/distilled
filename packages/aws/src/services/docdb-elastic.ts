@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://docdb-elastic.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DocDBElastic",
+  service: "DocDBElastic",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -417,6 +432,8 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
+  telemetry: TELEMETRY,
+  span: "ApplyPendingMaintenanceAction",
 }));
 
 export type CopyClusterSnapshotError =
@@ -451,6 +468,8 @@ export const copyClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CopyClusterSnapshot",
 }));
 
 export type CreateClusterError =
@@ -483,6 +502,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateClusterSnapshotError =
@@ -517,6 +538,8 @@ export const createClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateClusterSnapshot",
 }));
 
 export type DeleteClusterError =
@@ -549,6 +572,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterSnapshotError =
@@ -581,6 +606,8 @@ export const deleteClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterSnapshot",
 }));
 
 export type GetClusterError =
@@ -611,6 +638,8 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetClusterSnapshotError =
@@ -641,6 +670,8 @@ export const getClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetClusterSnapshot",
 }));
 
 export type GetPendingMaintenanceActionError =
@@ -673,6 +704,8 @@ export const getPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPendingMaintenanceAction",
+  telemetry: TELEMETRY,
+  span: "GetPendingMaintenanceAction",
 }));
 
 export type ListClustersError =
@@ -708,6 +741,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListClusterSnapshotsError =
@@ -743,6 +778,8 @@ export const listClusterSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterSnapshots",
 })) as any;
 
 export type ListPendingMaintenanceActionsError =
@@ -778,6 +815,8 @@ export const listPendingMaintenanceActions: API.PaginatedOperationMethod<
     items: "resourcePendingMaintenanceActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPendingMaintenanceActions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -806,6 +845,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RestoreClusterFromSnapshotError =
@@ -840,6 +881,8 @@ export const restoreClusterFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreClusterFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreClusterFromSnapshot",
 }));
 
 export type StartClusterError =
@@ -870,6 +913,8 @@ export const startCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCluster",
+  telemetry: TELEMETRY,
+  span: "StartCluster",
 }));
 
 export type StopClusterError =
@@ -901,6 +946,8 @@ export const stopCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCluster",
+  telemetry: TELEMETRY,
+  span: "StopCluster",
 }));
 
 export type TagResourceError =
@@ -929,6 +976,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -957,6 +1006,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateClusterError =
@@ -990,6 +1041,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

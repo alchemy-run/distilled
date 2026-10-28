@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Comments",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -269,6 +282,8 @@ export const commentsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommentsDestroy",
 }));
 
 export type CommentsSendToSlackCreateError = PosthogOpError;
@@ -284,6 +299,8 @@ export const commentsSendToSlackCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommentsSendToSlackCreate",
 }));
 
 export type CreateCommentError = BadRequest | Forbidden | NotFound | Conflict | PosthogOpError;
@@ -299,6 +316,8 @@ export const createComment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateComment",
 }));
 
 export type CreateCommentsCompleteError = PosthogOpError;
@@ -314,6 +333,8 @@ export const createCommentsComplete: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommentsComplete",
 }));
 
 export type CreateCommentsReopenError = PosthogOpError;
@@ -329,6 +350,8 @@ export const createCommentsReopen: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommentsReopen",
 }));
 
 export type GetCommentError = Forbidden | NotFound | PosthogOpError;
@@ -343,6 +366,8 @@ export const getComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComment",
 }));
 
 export type GetCommentsCountError = Forbidden | NotFound | PosthogOpError;
@@ -357,6 +382,8 @@ export const getCommentsCount: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommentsCount",
 }));
 
 export type GetCommentsThreadError = Forbidden | NotFound | PosthogOpError;
@@ -371,6 +398,8 @@ export const getCommentsThread: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommentsThread",
 }));
 
 export type ListCommentsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -385,6 +414,8 @@ export const listComments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComments",
 }));
 
 export type UpdateCommentError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -399,6 +430,8 @@ export const updateComment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateComment",
 }));
 
 export type UpdateCommentsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -413,6 +446,8 @@ export const updateCommentsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCommentsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

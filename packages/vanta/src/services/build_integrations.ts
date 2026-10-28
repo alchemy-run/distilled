@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { VantaOpError, VantaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vanta-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Vanta",
+  service: "BuildIntegrations",
+  labels: "vanta",
+  propagate: "w3c",
+} as const;
+
 export interface GetApiEndpointVulnerabilityConnectorsRequest {
   /** Vanta generated identifier for the given resource, and can be found on the developer console page. See the list of registered resources and their IDs on https://app.vanta.com/settings/developer-console/<app_id>?tab=resources */
   resourceId: string;
@@ -1495,6 +1508,8 @@ export const getApiEndpointVulnerabilityConnectors: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiEndpointVulnerabilityConnectors",
 }));
 
 export type GetBackgroundCheckConnectorError = VantaOpError;
@@ -1510,6 +1525,8 @@ export const getBackgroundCheckConnector: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackgroundCheckConnector",
 }));
 
 export type GetCustomResourceError = VantaOpError;
@@ -1525,6 +1542,8 @@ export const getCustomResource: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomResource",
 }));
 
 export type GetMacosUserComputerError = VantaOpError;
@@ -1540,6 +1559,8 @@ export const getMacosUserComputer: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMacosUserComputer",
 }));
 
 export type GetPackageVulnerabilityConnectorsError = VantaOpError;
@@ -1555,6 +1576,8 @@ export const getPackageVulnerabilityConnectors: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackageVulnerabilityConnectors",
 }));
 
 export type GetSecretError = VantaOpError;
@@ -1570,6 +1593,8 @@ export const getSecret: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecret",
 }));
 
 export type GetSecurityTaskError = VantaOpError;
@@ -1585,6 +1610,8 @@ export const getSecurityTask: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityTask",
 }));
 
 export type GetStaticAnalysisCodeVulnerabilityConnectorsError = VantaOpError;
@@ -1604,6 +1631,8 @@ export const getStaticAnalysisCodeVulnerabilityConnectors: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStaticAnalysisCodeVulnerabilityConnectors",
 }));
 
 export type GetUserAccountError = VantaOpError;
@@ -1619,6 +1648,8 @@ export const getUserAccount: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAccount",
 }));
 
 export type GetUserSecurityTrainingStatusError = VantaOpError;
@@ -1634,6 +1665,8 @@ export const getUserSecurityTrainingStatus: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserSecurityTrainingStatus",
 }));
 
 export type GetVulnerableComponentError = VantaOpError;
@@ -1649,6 +1682,8 @@ export const getVulnerableComponent: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVulnerableComponent",
 }));
 
 export type GetWindowsUserComputerError = VantaOpError;
@@ -1664,6 +1699,8 @@ export const getWindowsUserComputer: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindowsUserComputer",
 }));
 
 export type PutApiEndpointVulnerabilityConnectorsError = VantaOpError;
@@ -1679,6 +1716,8 @@ export const putApiEndpointVulnerabilityConnectors: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutApiEndpointVulnerabilityConnectors",
 }));
 
 export type PutBackgroundCheckConnectorError = VantaOpError;
@@ -1694,6 +1733,8 @@ export const putBackgroundCheckConnector: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutBackgroundCheckConnector",
 }));
 
 export type PutCustomResourceError = VantaOpError;
@@ -1709,6 +1750,8 @@ export const putCustomResource: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCustomResource",
 }));
 
 export type PutMacosUserComputerError = VantaOpError;
@@ -1724,6 +1767,8 @@ export const putMacosUserComputer: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutMacosUserComputer",
 }));
 
 export type PutPackageVulnerabilityConnectorsError = VantaOpError;
@@ -1739,6 +1784,8 @@ export const putPackageVulnerabilityConnectors: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPackageVulnerabilityConnectors",
 }));
 
 export type PutSecretError = VantaOpError;
@@ -1754,6 +1801,8 @@ export const putSecret: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecret",
 }));
 
 export type PutSecurityTaskError = VantaOpError;
@@ -1769,6 +1818,8 @@ export const putSecurityTask: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityTask",
 }));
 
 export type PutStaticAnalysisCodeVulnerabilityConnectorsError = VantaOpError;
@@ -1788,6 +1839,8 @@ export const putStaticAnalysisCodeVulnerabilityConnectors: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutStaticAnalysisCodeVulnerabilityConnectors",
 }));
 
 export type PutUserAccountError = VantaOpError;
@@ -1803,6 +1856,8 @@ export const putUserAccount: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserAccount",
 }));
 
 export type PutUserSecurityTrainingStatusError = VantaOpError;
@@ -1818,6 +1873,8 @@ export const putUserSecurityTrainingStatus: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUserSecurityTrainingStatus",
 }));
 
 export type PutVulnerableComponentError = VantaOpError;
@@ -1833,6 +1890,8 @@ export const putVulnerableComponent: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutVulnerableComponent",
 }));
 
 export type PutWindowsUserComputerError = VantaOpError;
@@ -1848,6 +1907,8 @@ export const putWindowsUserComputer: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutWindowsUserComputer",
 }));
 
 export type UploadFileForDocumentError = VantaOpError;
@@ -1863,6 +1924,8 @@ export const uploadFileForDocument: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadFileForDocument",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

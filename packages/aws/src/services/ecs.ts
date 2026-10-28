@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -74,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ecs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ECS",
+  service: "ECS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2940,6 +2956,8 @@ export const continueServiceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContinueServiceDeployment",
+  telemetry: TELEMETRY,
+  span: "ContinueServiceDeployment",
 }));
 
 export type CreateCapacityProviderError =
@@ -2976,6 +2994,8 @@ export const createCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityProvider",
+  telemetry: TELEMETRY,
+  span: "CreateCapacityProvider",
 }));
 
 export type CreateClusterError =
@@ -3008,6 +3028,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateDaemonError =
@@ -3048,6 +3070,8 @@ export const createDaemon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDaemon",
+  telemetry: TELEMETRY,
+  span: "CreateDaemon",
 }));
 
 export type CreateExpressGatewayServiceError =
@@ -3088,6 +3112,8 @@ export const createExpressGatewayService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExpressGatewayService",
+  telemetry: TELEMETRY,
+  span: "CreateExpressGatewayService",
 }));
 
 export type CreateServiceError =
@@ -3218,6 +3244,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateTaskSetError =
@@ -3266,6 +3294,8 @@ export const createTaskSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTaskSet",
+  telemetry: TELEMETRY,
+  span: "CreateTaskSet",
 }));
 
 export type DeleteAccountSettingError =
@@ -3289,6 +3319,8 @@ export const deleteAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountSetting",
+  telemetry: TELEMETRY,
+  span: "DeleteAccountSetting",
 }));
 
 export type DeleteAttributesError =
@@ -3321,6 +3353,8 @@ export const deleteAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributes",
+  telemetry: TELEMETRY,
+  span: "DeleteAttributes",
 }));
 
 export type DeleteCapacityProviderError =
@@ -3359,6 +3393,8 @@ export const deleteCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProvider",
+  telemetry: TELEMETRY,
+  span: "DeleteCapacityProvider",
 }));
 
 export type DeleteClusterError =
@@ -3401,6 +3437,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteDaemonError =
@@ -3439,6 +3477,8 @@ export const deleteDaemon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDaemon",
+  telemetry: TELEMETRY,
+  span: "DeleteDaemon",
 }));
 
 export type DeleteDaemonTaskDefinitionError =
@@ -3464,6 +3504,8 @@ export const deleteDaemonTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDaemonTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteDaemonTaskDefinition",
 }));
 
 export type DeleteExpressGatewayServiceError =
@@ -3504,6 +3546,8 @@ export const deleteExpressGatewayService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExpressGatewayService",
+  telemetry: TELEMETRY,
+  span: "DeleteExpressGatewayService",
 }));
 
 export type DeleteServiceError =
@@ -3540,6 +3584,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteTaskDefinitionsError =
@@ -3573,6 +3619,8 @@ export const deleteTaskDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTaskDefinitions",
+  telemetry: TELEMETRY,
+  span: "DeleteTaskDefinitions",
 }));
 
 export type DeleteTaskSetError =
@@ -3613,6 +3661,8 @@ export const deleteTaskSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTaskSet",
+  telemetry: TELEMETRY,
+  span: "DeleteTaskSet",
 }));
 
 export type DeregisterContainerInstanceError =
@@ -3649,6 +3699,8 @@ export const deregisterContainerInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterContainerInstance",
+  telemetry: TELEMETRY,
+  span: "DeregisterContainerInstance",
 }));
 
 export type DeregisterTaskDefinitionError =
@@ -3678,6 +3730,8 @@ export const deregisterTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "DeregisterTaskDefinition",
 }));
 
 export type DescribeCapacityProvidersError =
@@ -3710,6 +3764,8 @@ export const describeCapacityProviders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapacityProviders",
+  telemetry: TELEMETRY,
+  span: "DescribeCapacityProviders",
 }));
 
 export type DescribeClustersError =
@@ -3735,6 +3791,8 @@ export const describeClusters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusters",
+  telemetry: TELEMETRY,
+  span: "DescribeClusters",
 }));
 
 export type DescribeContainerInstancesError =
@@ -3765,6 +3823,8 @@ export const describeContainerInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerInstances",
+  telemetry: TELEMETRY,
+  span: "DescribeContainerInstances",
 }));
 
 export type DescribeDaemonError =
@@ -3799,6 +3859,8 @@ export const describeDaemon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDaemon",
+  telemetry: TELEMETRY,
+  span: "DescribeDaemon",
 }));
 
 export type DescribeDaemonDeploymentsError =
@@ -3833,6 +3895,8 @@ export const describeDaemonDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDaemonDeployments",
+  telemetry: TELEMETRY,
+  span: "DescribeDaemonDeployments",
 }));
 
 export type DescribeDaemonRevisionsError =
@@ -3867,6 +3931,8 @@ export const describeDaemonRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDaemonRevisions",
+  telemetry: TELEMETRY,
+  span: "DescribeDaemonRevisions",
 }));
 
 export type DescribeDaemonTaskDefinitionError =
@@ -3890,6 +3956,8 @@ export const describeDaemonTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDaemonTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeDaemonTaskDefinition",
 }));
 
 export type DescribeExpressGatewayServiceError =
@@ -3928,6 +3996,8 @@ export const describeExpressGatewayService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExpressGatewayService",
+  telemetry: TELEMETRY,
+  span: "DescribeExpressGatewayService",
 }));
 
 export type DescribeServiceDeploymentsError =
@@ -3964,6 +4034,8 @@ export const describeServiceDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceDeployments",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceDeployments",
 }));
 
 export type DescribeServiceRevisionsError =
@@ -4002,6 +4074,8 @@ export const describeServiceRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceRevisions",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceRevisions",
 }));
 
 export type DescribeServicesError =
@@ -4032,6 +4106,8 @@ export const describeServices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServices",
+  telemetry: TELEMETRY,
+  span: "DescribeServices",
 }));
 
 export type DescribeTaskDefinitionError =
@@ -4057,6 +4133,8 @@ export const describeTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeTaskDefinition",
 }));
 
 export type DescribeTasksError =
@@ -4091,6 +4169,8 @@ export const describeTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTasks",
+  telemetry: TELEMETRY,
+  span: "DescribeTasks",
 }));
 
 export type DescribeTaskSetsError =
@@ -4127,6 +4207,8 @@ export const describeTaskSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTaskSets",
+  telemetry: TELEMETRY,
+  span: "DescribeTaskSets",
 }));
 
 export type DiscoverPollEndpointError =
@@ -4152,6 +4234,8 @@ export const discoverPollEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DiscoverPollEndpoint",
+  telemetry: TELEMETRY,
+  span: "DiscoverPollEndpoint",
 }));
 
 export type ExecuteCommandError =
@@ -4188,6 +4272,8 @@ export const executeCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteCommand",
+  telemetry: TELEMETRY,
+  span: "ExecuteCommand",
 }));
 
 export type GetTaskProtectionError =
@@ -4222,6 +4308,8 @@ export const getTaskProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaskProtection",
+  telemetry: TELEMETRY,
+  span: "GetTaskProtection",
 }));
 
 export type ListAccountSettingsError =
@@ -4252,6 +4340,8 @@ export const listAccountSettings: API.PaginatedOperationMethod<
     items: "settings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountSettings",
 })) as any;
 
 export type ListAttributesError =
@@ -4289,6 +4379,8 @@ export const listAttributes: API.PaginatedOperationMethod<
     items: "attributes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttributes",
 })) as any;
 
 export type ListClustersError =
@@ -4319,6 +4411,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusterArns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListContainerInstancesError =
@@ -4356,6 +4450,8 @@ export const listContainerInstances: API.PaginatedOperationMethod<
     items: "containerInstanceArns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerInstances",
 })) as any;
 
 export type ListDaemonDeploymentsError =
@@ -4388,6 +4484,8 @@ export const listDaemonDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDaemonDeployments",
+  telemetry: TELEMETRY,
+  span: "ListDaemonDeployments",
 }));
 
 export type ListDaemonsError =
@@ -4420,6 +4518,8 @@ export const listDaemons: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDaemons",
+  telemetry: TELEMETRY,
+  span: "ListDaemons",
 }));
 
 export type ListDaemonTaskDefinitionsError =
@@ -4443,6 +4543,8 @@ export const listDaemonTaskDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDaemonTaskDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListDaemonTaskDefinitions",
 }));
 
 export type ListServiceDeploymentsError =
@@ -4481,6 +4583,8 @@ export const listServiceDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceDeployments",
+  telemetry: TELEMETRY,
+  span: "ListServiceDeployments",
 }));
 
 export type ListServicesError =
@@ -4518,6 +4622,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "serviceArns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListServicesByNamespaceError =
@@ -4555,6 +4661,8 @@ export const listServicesByNamespace: API.PaginatedOperationMethod<
     items: "serviceArns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicesByNamespace",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4585,6 +4693,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTaskDefinitionFamiliesError =
@@ -4617,6 +4727,8 @@ export const listTaskDefinitionFamilies: API.PaginatedOperationMethod<
     items: "families",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTaskDefinitionFamilies",
 })) as any;
 
 export type ListTaskDefinitionsError =
@@ -4647,6 +4759,8 @@ export const listTaskDefinitions: API.PaginatedOperationMethod<
     items: "taskDefinitionArns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTaskDefinitions",
 })) as any;
 
 export type ListTasksError =
@@ -4688,6 +4802,8 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "taskArns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 })) as any;
 
 export type PutAccountSettingError =
@@ -4713,6 +4829,8 @@ export const putAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSetting",
+  telemetry: TELEMETRY,
+  span: "PutAccountSetting",
 }));
 
 export type PutAccountSettingDefaultError =
@@ -4736,6 +4854,8 @@ export const putAccountSettingDefault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSettingDefault",
+  telemetry: TELEMETRY,
+  span: "PutAccountSettingDefault",
 }));
 
 export type PutAttributesError =
@@ -4770,6 +4890,8 @@ export const putAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributes",
+  telemetry: TELEMETRY,
+  span: "PutAttributes",
 }));
 
 export type PutClusterCapacityProvidersError =
@@ -4812,6 +4934,8 @@ export const putClusterCapacityProviders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterCapacityProviders",
+  telemetry: TELEMETRY,
+  span: "PutClusterCapacityProviders",
 }));
 
 export type RegisterContainerInstanceError =
@@ -4844,6 +4968,8 @@ export const registerContainerInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterContainerInstance",
+  telemetry: TELEMETRY,
+  span: "RegisterContainerInstance",
 }));
 
 export type RegisterDaemonTaskDefinitionError =
@@ -4878,6 +5004,8 @@ export const registerDaemonTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDaemonTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "RegisterDaemonTaskDefinition",
 }));
 
 export type RegisterTaskDefinitionError =
@@ -4912,6 +5040,8 @@ export const registerTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTaskDefinition",
+  telemetry: TELEMETRY,
+  span: "RegisterTaskDefinition",
 }));
 
 export type RunTaskError =
@@ -4980,6 +5110,8 @@ export const runTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunTask",
+  telemetry: TELEMETRY,
+  span: "RunTask",
 }));
 
 export type StartTaskError =
@@ -5022,6 +5154,8 @@ export const startTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTask",
+  telemetry: TELEMETRY,
+  span: "StartTask",
 }));
 
 export type StopServiceDeploymentError =
@@ -5064,6 +5198,8 @@ export const stopServiceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopServiceDeployment",
+  telemetry: TELEMETRY,
+  span: "StopServiceDeployment",
 }));
 
 export type StopTaskError =
@@ -5100,6 +5236,8 @@ export const stopTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTask",
+  telemetry: TELEMETRY,
+  span: "StopTask",
 }));
 
 export type SubmitAttachmentStateChangesError =
@@ -5132,6 +5270,8 @@ export const submitAttachmentStateChanges: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitAttachmentStateChanges",
+  telemetry: TELEMETRY,
+  span: "SubmitAttachmentStateChanges",
 }));
 
 export type SubmitContainerStateChangeError =
@@ -5164,6 +5304,8 @@ export const submitContainerStateChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitContainerStateChange",
+  telemetry: TELEMETRY,
+  span: "SubmitContainerStateChange",
 }));
 
 export type SubmitTaskStateChangeError =
@@ -5196,6 +5338,8 @@ export const submitTaskStateChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitTaskStateChange",
+  telemetry: TELEMETRY,
+  span: "SubmitTaskStateChange",
 }));
 
 export type TagResourceError =
@@ -5230,6 +5374,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5262,6 +5408,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCapacityProviderError =
@@ -5296,6 +5444,8 @@ export const updateCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityProvider",
+  telemetry: TELEMETRY,
+  span: "UpdateCapacityProvider",
 }));
 
 export type UpdateClusterError =
@@ -5328,6 +5478,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateClusterSettingsError =
@@ -5360,6 +5512,8 @@ export const updateClusterSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterSettings",
 }));
 
 export type UpdateContainerAgentError =
@@ -5402,6 +5556,8 @@ export const updateContainerAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateContainerAgent",
 }));
 
 export type UpdateContainerInstancesStateError =
@@ -5450,6 +5606,8 @@ export const updateContainerInstancesState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerInstancesState",
+  telemetry: TELEMETRY,
+  span: "UpdateContainerInstancesState",
 }));
 
 export type UpdateDaemonError =
@@ -5494,6 +5652,8 @@ export const updateDaemon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDaemon",
+  telemetry: TELEMETRY,
+  span: "UpdateDaemon",
 }));
 
 export type UpdateExpressGatewayServiceError =
@@ -5534,6 +5694,8 @@ export const updateExpressGatewayService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExpressGatewayService",
+  telemetry: TELEMETRY,
+  span: "UpdateExpressGatewayService",
 }));
 
 export type UpdateServiceError =
@@ -5618,6 +5780,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateServicePrimaryTaskSetError =
@@ -5656,6 +5820,8 @@ export const updateServicePrimaryTaskSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServicePrimaryTaskSet",
+  telemetry: TELEMETRY,
+  span: "UpdateServicePrimaryTaskSet",
 }));
 
 export type UpdateTaskProtectionError =
@@ -5700,6 +5866,8 @@ export const updateTaskProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTaskProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateTaskProtection",
 }));
 
 export type UpdateTaskSetError =
@@ -5740,6 +5908,8 @@ export const updateTaskSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTaskSet",
+  telemetry: TELEMETRY,
+  span: "UpdateTaskSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

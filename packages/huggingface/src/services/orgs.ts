@@ -15,6 +15,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Orgs",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export type ChangeMemberRoleRequestRole = "admin" | "write" | "contributor" | "read" | "no_access";
 export type ChangeMemberRoleRequestResourceGroupsItemRole =
   | "admin"
@@ -733,6 +746,8 @@ export const changeMemberRole: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeMemberRole",
 }));
 
 export type ExportAuditLogError = HuggingFaceOpError;
@@ -748,6 +763,8 @@ export const exportAuditLog: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAuditLog",
 }));
 
 export type GetAvatarError = HuggingFaceOpError;
@@ -763,6 +780,8 @@ export const getAvatar: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvatar",
 }));
 
 export type GetNetworkSecuritySettingsError = HuggingFaceOpError;
@@ -778,6 +797,8 @@ export const getNetworkSecuritySettings: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkSecuritySettings",
 }));
 
 export type GetOrganizationMembersError = HuggingFaceOpError;
@@ -793,6 +814,8 @@ export const getOrganizationMembers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMembers",
 }));
 
 export type GetOrgUsageV2Error = HuggingFaceOpError;
@@ -808,6 +831,8 @@ export const getOrgUsageV2: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgUsageV2",
 }));
 
 export type GetResourceGroupUsageError = HuggingFaceOpError;
@@ -823,6 +848,8 @@ export const getResourceGroupUsage: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGroupUsage",
 }));
 
 export type GetSessionInferenceUsageError = HuggingFaceOpError;
@@ -838,6 +865,8 @@ export const getSessionInferenceUsage: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionInferenceUsage",
 }));
 
 export type GetSocialHandlesError = HuggingFaceOpError;
@@ -853,6 +882,8 @@ export const getSocialHandles: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSocialHandles",
 }));
 
 export type ListMemberAccessTokensError = HuggingFaceOpError;
@@ -868,6 +899,8 @@ export const listMemberAccessTokens: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMemberAccessTokens",
 }));
 
 export type ListOrganizationRepositoriesError = HuggingFaceOpError;
@@ -883,6 +916,8 @@ export const listOrganizationRepositories: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationRepositories",
 }));
 
 export type RevokeMemberTokenError = HuggingFaceOpError;
@@ -898,6 +933,8 @@ export const revokeMemberToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeMemberToken",
 }));
 
 export type RotateSsoCredentialsError = HuggingFaceOpError;
@@ -913,6 +950,8 @@ export const rotateSsoCredentials: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSsoCredentials",
 }));
 
 export type StreamUsageError = HuggingFaceOpError;
@@ -928,6 +967,8 @@ export const streamUsage: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamUsage",
 }));
 
 export type UpdateNetworkSecurityError = HuggingFaceOpError;
@@ -943,6 +984,8 @@ export const updateNetworkSecurity: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkSecurity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

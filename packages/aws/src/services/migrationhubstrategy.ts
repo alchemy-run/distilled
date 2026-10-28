@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://migrationhub-strategy.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MigrationHubStrategy",
+  service: "MigrationHubStrategy",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -738,6 +753,8 @@ export const getApplicationComponentDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationComponentDetails",
+  telemetry: TELEMETRY,
+  span: "GetApplicationComponentDetails",
 }));
 
 export type GetApplicationComponentStrategiesError =
@@ -761,6 +778,8 @@ export const getApplicationComponentStrategies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationComponentStrategies",
+  telemetry: TELEMETRY,
+  span: "GetApplicationComponentStrategies",
 }));
 
 export type GetAssessmentError =
@@ -789,6 +808,8 @@ export const getAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessment",
+  telemetry: TELEMETRY,
+  span: "GetAssessment",
 }));
 
 export type GetImportFileTaskError =
@@ -819,6 +840,8 @@ export const getImportFileTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportFileTask",
+  telemetry: TELEMETRY,
+  span: "GetImportFileTask",
 }));
 
 export type GetLatestAssessmentIdError =
@@ -847,6 +870,8 @@ export const getLatestAssessmentId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLatestAssessmentId",
+  telemetry: TELEMETRY,
+  span: "GetLatestAssessmentId",
 }));
 
 export type GetPortfolioPreferencesError =
@@ -875,6 +900,8 @@ export const getPortfolioPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortfolioPreferences",
+  telemetry: TELEMETRY,
+  span: "GetPortfolioPreferences",
 }));
 
 export type GetPortfolioSummaryError =
@@ -898,6 +925,8 @@ export const getPortfolioSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortfolioSummary",
+  telemetry: TELEMETRY,
+  span: "GetPortfolioSummary",
 }));
 
 export type GetRecommendationReportDetailsError =
@@ -928,6 +957,8 @@ export const getRecommendationReportDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendationReportDetails",
+  telemetry: TELEMETRY,
+  span: "GetRecommendationReportDetails",
 }));
 
 export type GetServerDetailsError =
@@ -965,6 +996,8 @@ export const getServerDetails: API.PaginatedOperationMethod<
     items: "associatedApplications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetServerDetails",
 })) as any;
 
 export type GetServerStrategiesError =
@@ -995,6 +1028,8 @@ export const getServerStrategies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServerStrategies",
+  telemetry: TELEMETRY,
+  span: "GetServerStrategies",
 }));
 
 export type ListAnalyzableServersError =
@@ -1030,6 +1065,8 @@ export const listAnalyzableServers: API.PaginatedOperationMethod<
     items: "analyzableServers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalyzableServers",
 })) as any;
 
 export type ListApplicationComponentsError =
@@ -1065,6 +1102,8 @@ export const listApplicationComponents: API.PaginatedOperationMethod<
     items: "applicationComponentInfos",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplicationComponents",
 })) as any;
 
 export type ListCollectorsError =
@@ -1100,6 +1139,8 @@ export const listCollectors: API.PaginatedOperationMethod<
     items: "Collectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollectors",
 })) as any;
 
 export type ListImportFileTaskError =
@@ -1135,6 +1176,8 @@ export const listImportFileTask: API.PaginatedOperationMethod<
     items: "taskInfos",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportFileTask",
 })) as any;
 
 export type ListServersError =
@@ -1170,6 +1213,8 @@ export const listServers: API.PaginatedOperationMethod<
     items: "serverInfos",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServers",
 })) as any;
 
 export type PutPortfolioPreferencesError =
@@ -1200,6 +1245,8 @@ export const putPortfolioPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPortfolioPreferences",
+  telemetry: TELEMETRY,
+  span: "PutPortfolioPreferences",
 }));
 
 export type StartAssessmentError =
@@ -1228,6 +1275,8 @@ export const startAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssessment",
+  telemetry: TELEMETRY,
+  span: "StartAssessment",
 }));
 
 export type StartImportFileTaskError =
@@ -1258,6 +1307,8 @@ export const startImportFileTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportFileTask",
+  telemetry: TELEMETRY,
+  span: "StartImportFileTask",
 }));
 
 export type StartRecommendationReportGenerationError =
@@ -1288,6 +1339,8 @@ export const startRecommendationReportGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendationReportGeneration",
+  telemetry: TELEMETRY,
+  span: "StartRecommendationReportGeneration",
 }));
 
 export type StopAssessmentError =
@@ -1316,6 +1369,8 @@ export const stopAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAssessment",
+  telemetry: TELEMETRY,
+  span: "StopAssessment",
 }));
 
 export type UpdateApplicationComponentConfigError =
@@ -1344,6 +1399,8 @@ export const updateApplicationComponentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationComponentConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationComponentConfig",
 }));
 
 export type UpdateServerConfigError =
@@ -1372,6 +1429,8 @@ export const updateServerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServerConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateServerConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

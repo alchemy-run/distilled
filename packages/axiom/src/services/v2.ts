@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { AxiomOpError, AxiomOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "axiom-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Axiom",
+  service: "Axiom",
+  labels: "axiom",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2296,6 +2309,8 @@ export const createAnnotation: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnnotation",
 }));
 
 export type CreateAPITokenError = UnprocessableEntity | AxiomOpError;
@@ -2311,6 +2326,8 @@ export const createAPIToken: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAPIToken",
 }));
 
 export type CreateDashboardError = BadRequest | Conflict | AxiomOpError;
@@ -2326,6 +2343,8 @@ export const createDashboard: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateDatasetError = BadRequest | Forbidden | UnprocessableEntity | AxiomOpError;
@@ -2341,6 +2360,8 @@ export const createDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateGroupError = UnprocessableEntity | AxiomOpError;
@@ -2356,6 +2377,8 @@ export const createGroup: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateMapFieldError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -2370,6 +2393,8 @@ export const createMapField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMapField",
 }));
 
 export type CreateMonitorError = UnprocessableEntity | AxiomOpError;
@@ -2385,6 +2410,8 @@ export const createMonitor: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type CreateNotifierError = UnprocessableEntity | AxiomOpError;
@@ -2400,6 +2427,8 @@ export const createNotifier: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotifier",
 }));
 
 export type CreateOrgError = AxiomOpError;
@@ -2410,6 +2439,8 @@ export const createOrg: API.OperationMethod<CreateOrgRequest, Org, CreateOrgErro
     errors: [UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateOrg",
   }));
 
 export type CreateRoleError = UnprocessableEntity | AxiomOpError;
@@ -2425,6 +2456,8 @@ export const createRole: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRole",
 }));
 
 export type CreateStarredError = UnprocessableEntity | AxiomOpError;
@@ -2439,6 +2472,8 @@ export const createStarred: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStarred",
 }));
 
 export type CreateUserError = BadRequest | UnprocessableEntity | AxiomOpError;
@@ -2454,6 +2489,8 @@ export const createUser: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateViewError = UnprocessableEntity | AxiomOpError;
@@ -2468,6 +2505,8 @@ export const createView: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateView",
 }));
 
 export type CreateVirtualFieldError = UnprocessableEntity | AxiomOpError;
@@ -2482,6 +2521,8 @@ export const createVirtualField: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVirtualField",
 }));
 
 export type DeleteAnnotationError = BadRequest | NotFound | AxiomOpError;
@@ -2497,6 +2538,8 @@ export const deleteAnnotation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotation",
 }));
 
 export type DeleteAPITokenError = NotFound | AxiomOpError;
@@ -2512,6 +2555,8 @@ export const deleteAPIToken: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAPIToken",
 }));
 
 export type DeleteDashboardError = NotFound | AxiomOpError;
@@ -2527,6 +2572,8 @@ export const deleteDashboard: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteDatasetError = Forbidden | NotFound | AxiomOpError;
@@ -2542,6 +2589,8 @@ export const deleteDataset: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteDatasetFieldsError = BadRequest | Forbidden | NotFound | AxiomOpError;
@@ -2557,6 +2606,8 @@ export const deleteDatasetFields: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetFields",
 }));
 
 export type DeleteFieldForDatasetError = BadRequest | Forbidden | NotFound | AxiomOpError;
@@ -2572,6 +2623,8 @@ export const deleteFieldForDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFieldForDataset",
 }));
 
 export type DeleteGroupError = NotFound | AxiomOpError;
@@ -2587,6 +2640,8 @@ export const deleteGroup: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteMapFieldError = NotFound | AxiomOpError;
@@ -2601,6 +2656,8 @@ export const deleteMapField: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMapField",
 }));
 
 export type DeleteMonitorError = NotFound | AxiomOpError;
@@ -2616,6 +2673,8 @@ export const deleteMonitor: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteNotifierError = NotFound | AxiomOpError;
@@ -2631,6 +2690,8 @@ export const deleteNotifier: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotifier",
 }));
 
 export type DeleteRoleError = NotFound | AxiomOpError;
@@ -2646,6 +2707,8 @@ export const deleteRole: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRole",
 }));
 
 export type DeleteStarredError = NotFound | AxiomOpError;
@@ -2660,6 +2723,8 @@ export const deleteStarred: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStarred",
 }));
 
 export type DeleteViewError = NotFound | AxiomOpError;
@@ -2674,6 +2739,8 @@ export const deleteView: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteView",
 }));
 
 export type DeleteVirtualFieldError = NotFound | AxiomOpError;
@@ -2688,6 +2755,8 @@ export const deleteVirtualField: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualField",
 }));
 
 export type GetAnnotationError = BadRequest | NotFound | AxiomOpError;
@@ -2703,6 +2772,8 @@ export const getAnnotation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotation",
 }));
 
 export type GetAnnotationsError = AxiomOpError;
@@ -2718,6 +2789,8 @@ export const getAnnotations: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnotations",
 }));
 
 export type GetAPITokenError = NotFound | AxiomOpError;
@@ -2733,6 +2806,8 @@ export const getAPIToken: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAPIToken",
 }));
 
 export type GetAPITokensError = AxiomOpError;
@@ -2748,6 +2823,8 @@ export const getAPITokens: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAPITokens",
 }));
 
 export type GetCurrentUserError = AxiomOpError;
@@ -2763,6 +2840,8 @@ export const getCurrentUser: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUser",
 }));
 
 export type GetDashboardError = NotFound | AxiomOpError;
@@ -2778,6 +2857,8 @@ export const getDashboard: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetDatasetError = Forbidden | NotFound | AxiomOpError;
@@ -2793,6 +2874,8 @@ export const getDataset: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetDatasetsError = Forbidden | AxiomOpError;
@@ -2808,6 +2891,8 @@ export const getDatasets: API.OperationMethod<
   errors: [Forbidden, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasets",
 }));
 
 export type GetFieldForDatasetError = NotFound | AxiomOpError;
@@ -2822,6 +2907,8 @@ export const getFieldForDataset: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldForDataset",
 }));
 
 export type GetFieldsForDatasetError = Forbidden | NotFound | AxiomOpError;
@@ -2836,6 +2923,8 @@ export const getFieldsForDataset: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFieldsForDataset",
 }));
 
 export type GetGroupByIdError = NotFound | AxiomOpError;
@@ -2851,6 +2940,8 @@ export const getGroupById: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupById",
 }));
 
 export type GetMapFieldsError = NotFound | AxiomOpError;
@@ -2865,6 +2956,8 @@ export const getMapFields: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMapFields",
 }));
 
 export type GetMonitorError = NotFound | AxiomOpError;
@@ -2880,6 +2973,8 @@ export const getMonitor: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetMonitorHistoryError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -2895,6 +2990,8 @@ export const getMonitorHistory: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitorHistory",
 }));
 
 export type GetMonitorsError = AxiomOpError;
@@ -2910,6 +3007,8 @@ export const getMonitors: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitors",
 }));
 
 export type GetNotifierError = NotFound | AxiomOpError;
@@ -2925,6 +3024,8 @@ export const getNotifier: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotifier",
 }));
 
 export type GetNotifiersError = AxiomOpError;
@@ -2940,6 +3041,8 @@ export const getNotifiers: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotifiers",
 }));
 
 export type GetOrgError = NotFound | AxiomOpError;
@@ -2950,6 +3053,8 @@ export const getOrg: API.OperationMethod<GetOrgRequest, Org, GetOrgError, AxiomO
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetOrg",
   }));
 
 export type GetOrgsError = AxiomOpError;
@@ -2964,6 +3069,8 @@ export const getOrgs: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgs",
 }));
 
 export type GetRoleByIdError = NotFound | AxiomOpError;
@@ -2979,6 +3086,8 @@ export const getRoleById: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoleById",
 }));
 
 export type GetStarredError = NotFound | AxiomOpError;
@@ -2993,6 +3102,8 @@ export const getStarred: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStarred",
 }));
 
 export type GetStarredQueriesError = AxiomOpError;
@@ -3007,6 +3118,8 @@ export const getStarredQueries: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStarredQueries",
 }));
 
 export type GetUserError = NotFound | AxiomOpError;
@@ -3018,6 +3131,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Ax
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUser",
   }));
 
 export type GetUsersError = AxiomOpError;
@@ -3033,6 +3148,8 @@ export const getUsers: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsers",
 }));
 
 export type GetViewError = NotFound | AxiomOpError;
@@ -3043,6 +3160,8 @@ export const getView: API.OperationMethod<GetViewRequest, View, GetViewError, Ax
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetView",
   }));
 
 export type GetViewsError = AxiomOpError;
@@ -3057,6 +3176,8 @@ export const getViews: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetViews",
 }));
 
 export type GetVirtualFieldError = NotFound | AxiomOpError;
@@ -3071,6 +3192,8 @@ export const getVirtualField: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualField",
 }));
 
 export type GetVirtualFieldsError = AxiomOpError;
@@ -3085,6 +3208,8 @@ export const getVirtualFields: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualFields",
 }));
 
 export type ListDashboardsError = AxiomOpError;
@@ -3100,6 +3225,8 @@ export const listDashboards: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 }));
 
 export type ListGroupsError = AxiomOpError;
@@ -3115,6 +3242,8 @@ export const listGroups: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListRolesError = AxiomOpError;
@@ -3130,6 +3259,8 @@ export const listRoles: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoles",
 }));
 
 export type PatchDashboardChartError = BadRequest | NotFound | AxiomOpError;
@@ -3145,6 +3276,8 @@ export const patchDashboardChart: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDashboardChart",
 }));
 
 export type ProvisionOrgError = AxiomOpError;
@@ -3160,6 +3293,8 @@ export const provisionOrg: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionOrg",
 }));
 
 export type RegenerateAPITokenError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3175,6 +3310,8 @@ export const regenerateAPIToken: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateAPIToken",
 }));
 
 export type RemoveUserFromOrgError = NotFound | AxiomOpError;
@@ -3190,6 +3327,8 @@ export const removeUserFromOrg: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUserFromOrg",
 }));
 
 export type TrimDatasetError = Forbidden | NotFound | AxiomOpError;
@@ -3205,6 +3344,8 @@ export const trimDataset: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrimDataset",
 }));
 
 export type UpdateAnnotationError = BadRequest | NotFound | UnprocessableEntity | AxiomOpError;
@@ -3220,6 +3361,8 @@ export const updateAnnotation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnnotation",
 }));
 
 export type UpdateCurrentUserError = AxiomOpError;
@@ -3235,6 +3378,8 @@ export const updateCurrentUser: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCurrentUser",
 }));
 
 export type UpdateDashboardError = BadRequest | Conflict | AxiomOpError;
@@ -3250,6 +3395,8 @@ export const updateDashboard: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateDatasetError = Forbidden | NotFound | UnprocessableEntity | AxiomOpError;
@@ -3265,6 +3412,8 @@ export const updateDataset: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateFieldForDatasetError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3279,6 +3428,8 @@ export const updateFieldForDataset: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFieldForDataset",
 }));
 
 export type UpdateGroupError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3294,6 +3445,8 @@ export const updateGroup: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateMapFieldsError = NotFound | AxiomOpError;
@@ -3308,6 +3461,8 @@ export const updateMapFields: API.OperationMethod<
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMapFields",
 }));
 
 export type UpdateMonitorError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3323,6 +3478,8 @@ export const updateMonitor: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateNotifierError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3338,6 +3495,8 @@ export const updateNotifier: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNotifier",
 }));
 
 export type UpdateOrgError = NotFound | AxiomOpError;
@@ -3348,6 +3507,8 @@ export const updateOrg: API.OperationMethod<UpdateOrgRequest, Org, UpdateOrgErro
     errors: [NotFound, UnknownAxiomError],
     protocol: AxiomProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UpdateOrg",
   }));
 
 export type UpdateRoleError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3363,6 +3524,8 @@ export const updateRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRole",
 }));
 
 export type UpdateStarredError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3377,6 +3540,8 @@ export const updateStarred: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStarred",
 }));
 
 export type UpdateUserRoleError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3392,6 +3557,8 @@ export const updateUserRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserRole",
 }));
 
 export type UpdateViewError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3406,6 +3573,8 @@ export const updateView: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateView",
 }));
 
 export type UpdateVirtualFieldError = NotFound | UnprocessableEntity | AxiomOpError;
@@ -3420,6 +3589,8 @@ export const updateVirtualField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualField",
 }));
 
 export type VacuumDatasetError = AxiomOpError;
@@ -3434,6 +3605,8 @@ export const vacuumDataset: API.OperationMethod<
   errors: [UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VacuumDataset",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

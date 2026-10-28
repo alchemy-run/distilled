@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "LoadBalancerTypes",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface GetLoadBalancerTypeRequest {
   /** ID of the Load Balancer Type. */
   id: number;
@@ -161,6 +174,8 @@ export const getLoadBalancerType: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancerType",
 }));
 
 export type ListLoadBalancerTypesError = HetznerOpError;
@@ -178,6 +193,8 @@ export const listLoadBalancerTypes: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLoadBalancerTypes",
     pagination: {
       mode: "page",
       inputToken: "page",

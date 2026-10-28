@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -68,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://tnb.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "tnb",
+  service: "tnb",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -700,6 +715,8 @@ export const cancelSolNetworkOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSolNetworkOperation",
+  telemetry: TELEMETRY,
+  span: "CancelSolNetworkOperation",
 }));
 
 export type CreateSolFunctionPackageError =
@@ -737,6 +754,8 @@ export const createSolFunctionPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolFunctionPackage",
+  telemetry: TELEMETRY,
+  span: "CreateSolFunctionPackage",
 }));
 
 export type CreateSolNetworkInstanceError =
@@ -776,6 +795,8 @@ export const createSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolNetworkInstance",
+  telemetry: TELEMETRY,
+  span: "CreateSolNetworkInstance",
 }));
 
 export type CreateSolNetworkPackageError =
@@ -817,6 +838,8 @@ export const createSolNetworkPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolNetworkPackage",
+  telemetry: TELEMETRY,
+  span: "CreateSolNetworkPackage",
 }));
 
 export type DeleteSolFunctionPackageError =
@@ -852,6 +875,8 @@ export const deleteSolFunctionPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolFunctionPackage",
+  telemetry: TELEMETRY,
+  span: "DeleteSolFunctionPackage",
 }));
 
 export type DeleteSolNetworkInstanceError =
@@ -887,6 +912,8 @@ export const deleteSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolNetworkInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteSolNetworkInstance",
 }));
 
 export type DeleteSolNetworkPackageError =
@@ -922,6 +949,8 @@ export const deleteSolNetworkPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolNetworkPackage",
+  telemetry: TELEMETRY,
+  span: "DeleteSolNetworkPackage",
 }));
 
 export type GetSolFunctionInstanceError =
@@ -955,6 +984,8 @@ export const getSolFunctionInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolFunctionInstance",
+  telemetry: TELEMETRY,
+  span: "GetSolFunctionInstance",
 }));
 
 export type GetSolFunctionPackageError =
@@ -988,6 +1019,8 @@ export const getSolFunctionPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolFunctionPackage",
+  telemetry: TELEMETRY,
+  span: "GetSolFunctionPackage",
 }));
 
 export type GetSolFunctionPackageContentError =
@@ -1020,6 +1053,8 @@ export const getSolFunctionPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolFunctionPackageContent",
+  telemetry: TELEMETRY,
+  span: "GetSolFunctionPackageContent",
 }));
 
 export type GetSolFunctionPackageDescriptorError =
@@ -1054,6 +1089,8 @@ export const getSolFunctionPackageDescriptor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolFunctionPackageDescriptor",
+  telemetry: TELEMETRY,
+  span: "GetSolFunctionPackageDescriptor",
 }));
 
 export type GetSolNetworkInstanceError =
@@ -1086,6 +1123,8 @@ export const getSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkInstance",
+  telemetry: TELEMETRY,
+  span: "GetSolNetworkInstance",
 }));
 
 export type GetSolNetworkOperationError =
@@ -1119,6 +1158,8 @@ export const getSolNetworkOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkOperation",
+  telemetry: TELEMETRY,
+  span: "GetSolNetworkOperation",
 }));
 
 export type GetSolNetworkPackageError =
@@ -1151,6 +1192,8 @@ export const getSolNetworkPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkPackage",
+  telemetry: TELEMETRY,
+  span: "GetSolNetworkPackage",
 }));
 
 export type GetSolNetworkPackageContentError =
@@ -1183,6 +1226,8 @@ export const getSolNetworkPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkPackageContent",
+  telemetry: TELEMETRY,
+  span: "GetSolNetworkPackageContent",
 }));
 
 export type GetSolNetworkPackageDescriptorError =
@@ -1215,6 +1260,8 @@ export const getSolNetworkPackageDescriptor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolNetworkPackageDescriptor",
+  telemetry: TELEMETRY,
+  span: "GetSolNetworkPackageDescriptor",
 }));
 
 export type InstantiateSolNetworkInstanceError =
@@ -1252,6 +1299,8 @@ export const instantiateSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InstantiateSolNetworkInstance",
+  telemetry: TELEMETRY,
+  span: "InstantiateSolNetworkInstance",
 }));
 
 export type ListSolFunctionInstancesError =
@@ -1289,6 +1338,8 @@ export const listSolFunctionInstances: API.PaginatedOperationMethod<
     items: "functionInstances",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolFunctionInstances",
 })) as any;
 
 export type ListSolFunctionPackagesError =
@@ -1326,6 +1377,8 @@ export const listSolFunctionPackages: API.PaginatedOperationMethod<
     items: "functionPackages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolFunctionPackages",
 })) as any;
 
 export type ListSolNetworkInstancesError =
@@ -1363,6 +1416,8 @@ export const listSolNetworkInstances: API.PaginatedOperationMethod<
     items: "networkInstances",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolNetworkInstances",
 })) as any;
 
 export type ListSolNetworkOperationsError =
@@ -1401,6 +1456,8 @@ export const listSolNetworkOperations: API.PaginatedOperationMethod<
     items: "networkOperations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolNetworkOperations",
 })) as any;
 
 export type ListSolNetworkPackagesError =
@@ -1438,6 +1495,8 @@ export const listSolNetworkPackages: API.PaginatedOperationMethod<
     items: "networkPackages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolNetworkPackages",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1468,6 +1527,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutSolFunctionPackageContentError =
@@ -1500,6 +1561,8 @@ export const putSolFunctionPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSolFunctionPackageContent",
+  telemetry: TELEMETRY,
+  span: "PutSolFunctionPackageContent",
 }));
 
 export type PutSolNetworkPackageContentError =
@@ -1532,6 +1595,8 @@ export const putSolNetworkPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSolNetworkPackageContent",
+  telemetry: TELEMETRY,
+  span: "PutSolNetworkPackageContent",
 }));
 
 export type TagResourceError =
@@ -1564,6 +1629,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateSolNetworkInstanceError =
@@ -1600,6 +1667,8 @@ export const terminateSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSolNetworkInstance",
+  telemetry: TELEMETRY,
+  span: "TerminateSolNetworkInstance",
 }));
 
 export type UntagResourceError =
@@ -1632,6 +1701,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateSolFunctionPackageError =
@@ -1664,6 +1735,8 @@ export const updateSolFunctionPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolFunctionPackage",
+  telemetry: TELEMETRY,
+  span: "UpdateSolFunctionPackage",
 }));
 
 export type UpdateSolNetworkInstanceError =
@@ -1700,6 +1773,8 @@ export const updateSolNetworkInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolNetworkInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateSolNetworkInstance",
 }));
 
 export type UpdateSolNetworkPackageError =
@@ -1734,6 +1809,8 @@ export const updateSolNetworkPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolNetworkPackage",
+  telemetry: TELEMETRY,
+  span: "UpdateSolNetworkPackage",
 }));
 
 export type ValidateSolFunctionPackageContentError =
@@ -1767,6 +1844,8 @@ export const validateSolFunctionPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateSolFunctionPackageContent",
+  telemetry: TELEMETRY,
+  span: "ValidateSolFunctionPackageContent",
 }));
 
 export type ValidateSolNetworkPackageContentError =
@@ -1800,6 +1879,8 @@ export const validateSolNetworkPackageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateSolNetworkPackageContent",
+  telemetry: TELEMETRY,
+  span: "ValidateSolNetworkPackageContent",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

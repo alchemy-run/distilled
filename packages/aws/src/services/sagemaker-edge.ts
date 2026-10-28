@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -74,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://edge.sagemaker.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SagemakerEdge",
+  service: "SagemakerEdge",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServiceException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()("InternalServiceException", {
@@ -189,6 +204,8 @@ export const getDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployments",
+  telemetry: TELEMETRY,
+  span: "GetDeployments",
 }));
 
 export type GetDeviceRegistrationError = InternalServiceException | CommonErrors;
@@ -207,6 +224,8 @@ export const getDeviceRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceRegistration",
+  telemetry: TELEMETRY,
+  span: "GetDeviceRegistration",
 }));
 
 export type SendHeartbeatError = InternalServiceException | CommonErrors;
@@ -225,6 +244,8 @@ export const sendHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendHeartbeat",
+  telemetry: TELEMETRY,
+  span: "SendHeartbeat",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

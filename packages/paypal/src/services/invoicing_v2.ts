@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "InvoicingV2",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1049,6 +1063,8 @@ export const cancelInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelInvoice",
 }));
 
 export type CreateInvoiceError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -1064,6 +1080,8 @@ export const createInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvoice",
 }));
 
 export type CreateTemplateError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -1079,6 +1097,8 @@ export const createTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type DeleteInvoiceError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1094,6 +1114,8 @@ export const deleteInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvoice",
 }));
 
 export type DeleteInvoicesPaymentError =
@@ -1114,6 +1136,8 @@ export const deleteInvoicesPayment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvoicesPayment",
 }));
 
 export type DeleteInvoicesRefundError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1129,6 +1153,8 @@ export const deleteInvoicesRefund: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvoicesRefund",
 }));
 
 export type DeleteTemplateError = Forbidden | NotFound | PaypalOpError;
@@ -1144,6 +1170,8 @@ export const deleteTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type GetConnectionError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1159,6 +1187,8 @@ export const getConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetInvoiceError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1174,6 +1204,8 @@ export const getInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type GetTemplateError = Forbidden | NotFound | PaypalOpError;
@@ -1189,6 +1221,8 @@ export const getTemplate: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type InvoiceConnectionDetailsGetError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1204,6 +1238,8 @@ export const invoiceConnectionDetailsGet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoiceConnectionDetailsGet",
 }));
 
 export type InvoicesGenerateQrCodeError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1219,6 +1255,8 @@ export const invoicesGenerateQrCode: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoicesGenerateQrCode",
 }));
 
 export type InvoicesPaymentsError =
@@ -1239,6 +1277,8 @@ export const invoicesPayments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoicesPayments",
 }));
 
 export type InvoicesRefundsError =
@@ -1259,6 +1299,8 @@ export const invoicesRefunds: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoicesRefunds",
 }));
 
 export type InvoicesRemindError =
@@ -1279,6 +1321,8 @@ export const invoicesRemind: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoicesRemind",
 }));
 
 export type InvoicingGenerateNextInvoiceNumberError = BadRequest | Forbidden | PaypalOpError;
@@ -1294,6 +1338,8 @@ export const invoicingGenerateNextInvoiceNumber: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoicingGenerateNextInvoiceNumber",
 }));
 
 export type ListInvoicesError = BadRequest | Forbidden | PaypalOpError;
@@ -1309,6 +1355,8 @@ export const listInvoices: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoices",
 }));
 
 export type ListTemplatesError = BadRequest | Forbidden | PaypalOpError;
@@ -1324,6 +1372,8 @@ export const listTemplates: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 }));
 
 export type SearchInvoicesError = BadRequest | Forbidden | PaypalOpError;
@@ -1339,6 +1389,8 @@ export const searchInvoices: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchInvoices",
 }));
 
 export type SendInvoiceError =
@@ -1359,6 +1411,8 @@ export const sendInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendInvoice",
 }));
 
 export type UpdateInvoiceError =
@@ -1379,6 +1433,8 @@ export const updateInvoice: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInvoice",
 }));
 
 export type UpdateTemplateError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1394,6 +1450,8 @@ export const updateTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

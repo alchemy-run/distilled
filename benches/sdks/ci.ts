@@ -9,6 +9,9 @@
  *   node benches/sdks/ci.ts image --head pr.json [--base main.json] [--history h.json] [--pr N] [--title t] --out-dir dir
  *   node benches/sdks/ci.ts history --history h.json --add main.json [--keep 40]
  *
+ * Every run also records the tracked bytes of the checkout (`repoSize`), and
+ * of the `--changed-since` base, from git objects alone.
+ *
  * `--wide` (push to main) bundles every SDK and probes every SDK under the
  * runtime size limit, so a PR that changes any of them has a main number to
  * compare with. See README.md "CI".
@@ -17,6 +20,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { cpus } from "node:os";
 import { join, resolve } from "node:path";
+import { treeSize } from "../repo-size/tree.ts";
 import { BASELINES, bundle, fixtureSource } from "./src/bundle.ts";
 import { renderImages } from "./src/ci-image.ts";
 import { report, type CiRun, type CiProgram } from "./src/ci-report.ts";
@@ -355,13 +359,19 @@ await phase("runtime", async () => {
     const min = (f: (r: any) => number) => Math.min(...ok.map(f));
     const mid = (f: (r: any) => number) => median(ok.map(f));
     const counted = await probe({ ...req, objects: true });
+    // Added latency is a difference, so take the fastest run of each side:
+    // the min of the differences would keep the run whose roundtrip was hit
+    // hardest by runner noise, and read low or even negative.
+    const pairedP50Us = min((r) => r.pairedLatency.p50Us);
+    const roundtripP50Us = min((r) => r.baselineLatency.p50Us);
     entry(p).runtime = {
       importMs: min((r) => r.importMs),
       importHeap: mid((r) => r.importHeap.heapUsed),
       importObjects: counted.importObjects,
       firstCallMs: min((r) => r.firstCallMs),
       firstCallHeap: mid((r) => r.firstCallHeap.heapUsed),
-      addedP50Us: min((r) => r.addedP50Us),
+      addedP50Us: pairedP50Us - roundtripP50Us,
+      roundtripP50Us,
       p50Us: min((r) => r.latency.p50Us),
       gcPer1k: min((r) => r.gcPer1k),
       maxRss: mid((r) => r.maxRss),
@@ -431,6 +441,11 @@ const result: CiRun = {
   sizes,
   programs,
   providers,
+  // Tracked bytes by kind of file, here and at the base: no build, git objects only.
+  repoSize: {
+    head: treeSize("HEAD", REPO),
+    ...(flag("changed-since") ? { base: treeSize(flag("changed-since")!, REPO) } : {}),
+  },
   errors,
 };
 writeFileSync(outFile, `${JSON.stringify(result, null, 2)}\n`);

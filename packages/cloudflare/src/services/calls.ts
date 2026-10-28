@@ -20,6 +20,20 @@ export type { CloudflareOpError, CloudflareOpContext };
 /** Fallback camelCase->wire mapping for opaque content (mined from the distilled SDK). */
 const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = { key: "secret" };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Calls",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CallsAppNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CallsAppNotFound>()("CallsAppNotFound", {
@@ -237,6 +251,8 @@ export const createSfu: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSfu",
 }));
 
 export type CreateTurnError = Forbidden | CloudflareOpError;
@@ -252,6 +268,8 @@ export const createTurn: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTurn",
 }));
 
 export type DeleteSfuError = CallsAppNotFound | Forbidden | CloudflareOpError;
@@ -267,6 +285,8 @@ export const deleteSfu: API.OperationMethod<
   errors: [CallsAppNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSfu",
 }));
 
 export type DeleteTurnError = TurnKeyNotFound | Forbidden | CloudflareOpError;
@@ -282,6 +302,8 @@ export const deleteTurn: API.OperationMethod<
   errors: [TurnKeyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTurn",
 }));
 
 export type GetSfuError = CallsAppNotFound | Forbidden | CloudflareOpError;
@@ -297,6 +319,8 @@ export const getSfu: API.OperationMethod<
   errors: [CallsAppNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSfu",
 }));
 
 export type GetTurnError = TurnKeyNotFound | Forbidden | CloudflareOpError;
@@ -312,6 +336,8 @@ export const getTurn: API.OperationMethod<
   errors: [TurnKeyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTurn",
 }));
 
 export type ListSfusError = CloudflareOpError;
@@ -329,6 +355,8 @@ export const listSfus: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSfus",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -349,6 +377,8 @@ export const listTurns: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTurns",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -367,6 +397,8 @@ export const updateSfu: API.OperationMethod<
   errors: [CallsAppNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSfu",
 }));
 
 export type UpdateTurnError = TurnKeyNotFound | Forbidden | CloudflareOpError;
@@ -382,6 +414,8 @@ export const updateTurn: API.OperationMethod<
   errors: [TurnKeyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTurn",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

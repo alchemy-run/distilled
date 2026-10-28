@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://iotsitewise.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTSiteWise",
+  service: "IoTSiteWise",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3680,6 +3695,8 @@ export const associateAssets: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateAssets",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "AssociateAssets",
 }));
 
 export type AssociateTimeSeriesToAssetPropertyError =
@@ -3711,6 +3728,8 @@ export const associateTimeSeriesToAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateTimeSeriesToAssetProperty",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "AssociateTimeSeriesToAssetProperty",
 }));
 
 export type BatchAssociateDataSegmentsToDatasetError =
@@ -3747,6 +3766,8 @@ export const batchAssociateDataSegmentsToDataset: API.OperationMethod<
   retry: Retry,
   operationName: "BatchAssociateDataSegmentsToDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateDataSegmentsToDataset",
 }));
 
 export type BatchAssociateProjectAssetsError =
@@ -3783,6 +3804,8 @@ export const batchAssociateProjectAssets: API.OperationMethod<
   retry: Retry,
   operationName: "BatchAssociateProjectAssets",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateProjectAssets",
 }));
 
 export type BatchDeleteDatasetDataSegmentsError =
@@ -3815,6 +3838,8 @@ export const batchDeleteDatasetDataSegments: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteDatasetDataSegments",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDatasetDataSegments",
 }));
 
 export type BatchDisassociateDataSegmentsFromDatasetError =
@@ -3847,6 +3872,8 @@ export const batchDisassociateDataSegmentsFromDataset: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDisassociateDataSegmentsFromDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateDataSegmentsFromDataset",
 }));
 
 export type BatchDisassociateProjectAssetsError =
@@ -3876,6 +3903,8 @@ export const batchDisassociateProjectAssets: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDisassociateProjectAssets",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateProjectAssets",
 }));
 
 export type BatchGetAssetPropertyAggregatesError =
@@ -3913,6 +3942,8 @@ export const batchGetAssetPropertyAggregates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetPropertyAggregates",
 })) as any;
 
 export type BatchGetAssetPropertyValueError =
@@ -3945,6 +3976,8 @@ export const batchGetAssetPropertyValue: API.PaginatedOperationMethod<
   operationName: "BatchGetAssetPropertyValue",
   endpointHostPrefix: "data.",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetPropertyValue",
 })) as any;
 
 export type BatchGetAssetPropertyValueHistoryError =
@@ -3981,6 +4014,8 @@ export const batchGetAssetPropertyValueHistory: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetPropertyValueHistory",
 })) as any;
 
 export type BatchPutAssetPropertyValueError =
@@ -4038,6 +4073,8 @@ export const batchPutAssetPropertyValue: API.OperationMethod<
   retry: Retry,
   operationName: "BatchPutAssetPropertyValue",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "BatchPutAssetPropertyValue",
 }));
 
 export type CancelEnrichmentJobError =
@@ -4105,6 +4142,8 @@ export const cancelEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelEnrichmentJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CancelEnrichmentJob",
 }));
 
 export type CancelPipelineExecutionError =
@@ -4144,6 +4183,8 @@ export const cancelPipelineExecution: API.OperationMethod<
   retry: Retry,
   operationName: "CancelPipelineExecution",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CancelPipelineExecution",
 }));
 
 export type CancelQueryError =
@@ -4177,6 +4218,8 @@ export const cancelQuery: API.OperationMethod<
   retry: Retry,
   operationName: "CancelQuery",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CancelQuery",
 }));
 
 export type CreateAccessPolicyError =
@@ -4216,6 +4259,8 @@ export const createAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAccessPolicy",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "CreateAccessPolicy",
 }));
 
 export type CreateApplicationError =
@@ -4251,6 +4296,8 @@ export const createApplication: API.OperationMethod<
   retry: Retry,
   operationName: "CreateApplication",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateAssetError =
@@ -4287,6 +4334,8 @@ export const createAsset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAsset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateAsset",
 }));
 
 export type CreateAssetModelError =
@@ -4340,6 +4389,8 @@ export const createAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateAssetModel",
 }));
 
 export type CreateAssetModelCompositeModelError =
@@ -4397,6 +4448,8 @@ export const createAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateAssetModelCompositeModel",
 }));
 
 export type CreateBulkImportJobError =
@@ -4449,6 +4502,8 @@ export const createBulkImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBulkImportJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CreateBulkImportJob",
 }));
 
 export type CreateComputationModelError =
@@ -4484,6 +4539,8 @@ export const createComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "CreateComputationModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateComputationModel",
 }));
 
 export type CreateDashboardError =
@@ -4520,6 +4577,8 @@ export const createDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDashboard",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateDatasetError =
@@ -4555,6 +4614,8 @@ export const createDataset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatasetExportJobError =
@@ -4590,6 +4651,8 @@ export const createDatasetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDatasetExportJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetExportJob",
 }));
 
 export type CreateEnrichmentJobError =
@@ -4665,6 +4728,8 @@ export const createEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEnrichmentJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "CreateEnrichmentJob",
 }));
 
 export type CreateGatewayError =
@@ -4698,6 +4763,8 @@ export const createGateway: API.OperationMethod<
   retry: Retry,
   operationName: "CreateGateway",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type CreatePipelineError =
@@ -4740,6 +4807,8 @@ export const createPipeline: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePipeline",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type CreatePortalError =
@@ -4781,6 +4850,8 @@ export const createPortal: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePortal",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "CreatePortal",
 }));
 
 export type CreateProjectError =
@@ -4820,6 +4891,8 @@ export const createProject: API.OperationMethod<
   retry: Retry,
   operationName: "CreateProject",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateTaskError =
@@ -4859,6 +4932,8 @@ export const createTask: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTask",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateTask",
 }));
 
 export type CreateWorkspaceError =
@@ -4897,6 +4972,8 @@ export const createWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type DeleteAccessPolicyError =
@@ -4928,6 +5005,8 @@ export const deleteAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAccessPolicy",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicy",
 }));
 
 export type DeleteApplicationError =
@@ -4961,6 +5040,8 @@ export const deleteApplication: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteApplication",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteAssetError =
@@ -4996,6 +5077,8 @@ export const deleteAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAsset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteAsset",
 }));
 
 export type DeleteAssetModelError =
@@ -5033,6 +5116,8 @@ export const deleteAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteAssetModel",
 }));
 
 export type DeleteAssetModelCompositeModelError =
@@ -5070,6 +5155,8 @@ export const deleteAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteAssetModelCompositeModel",
 }));
 
 export type DeleteAssetModelInterfaceRelationshipError =
@@ -5102,6 +5189,8 @@ export const deleteAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteAssetModelInterfaceRelationship",
 }));
 
 export type DeleteComputationModelError =
@@ -5133,6 +5222,8 @@ export const deleteComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteComputationModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteComputationModel",
 }));
 
 export type DeleteDashboardError =
@@ -5162,6 +5253,8 @@ export const deleteDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDashboard",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteDatasetError =
@@ -5193,6 +5286,8 @@ export const deleteDataset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteGatewayError =
@@ -5225,6 +5320,8 @@ export const deleteGateway: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteGateway",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeletePipelineError =
@@ -5261,6 +5358,8 @@ export const deletePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePipeline",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeletePortalError =
@@ -5292,6 +5391,8 @@ export const deletePortal: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePortal",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DeletePortal",
 }));
 
 export type DeleteProjectError =
@@ -5321,6 +5422,8 @@ export const deleteProject: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteProject",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteTaskError =
@@ -5356,6 +5459,8 @@ export const deleteTask: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTask",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteTask",
 }));
 
 export type DeleteTimeSeriesError =
@@ -5402,6 +5507,8 @@ export const deleteTimeSeries: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTimeSeries",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteTimeSeries",
 }));
 
 export type DeleteWorkspaceError =
@@ -5437,6 +5544,8 @@ export const deleteWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DescribeAccessPolicyError =
@@ -5467,6 +5576,8 @@ export const describeAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAccessPolicy",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DescribeAccessPolicy",
 }));
 
 export type DescribeActionError =
@@ -5496,6 +5607,8 @@ export const describeAction: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAction",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAction",
 }));
 
 export type DescribeApplicationError =
@@ -5527,6 +5640,8 @@ export const describeApplication: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeApplication",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeApplication",
 }));
 
 export type DescribeAssetError =
@@ -5556,6 +5671,8 @@ export const describeAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAsset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAsset",
 }));
 
 export type DescribeAssetCompositeModelError =
@@ -5588,6 +5705,8 @@ export const describeAssetCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetCompositeModel",
 }));
 
 export type DescribeAssetModelError =
@@ -5619,6 +5738,8 @@ export const describeAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetModel",
 }));
 
 export type DescribeAssetModelCompositeModelError =
@@ -5650,6 +5771,8 @@ export const describeAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetModelCompositeModel",
 }));
 
 export type DescribeAssetModelInterfaceRelationshipError =
@@ -5680,6 +5803,8 @@ export const describeAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetModelInterfaceRelationship",
 }));
 
 export type DescribeAssetPropertyError =
@@ -5716,6 +5841,8 @@ export const describeAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeAssetProperty",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeAssetProperty",
 }));
 
 export type DescribeBulkImportJobError =
@@ -5746,6 +5873,8 @@ export const describeBulkImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeBulkImportJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeBulkImportJob",
 }));
 
 export type DescribeComputationModelError =
@@ -5775,6 +5904,8 @@ export const describeComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeComputationModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeComputationModel",
 }));
 
 export type DescribeComputationModelExecutionSummaryError =
@@ -5804,6 +5935,8 @@ export const describeComputationModelExecutionSummary: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeComputationModelExecutionSummary",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeComputationModelExecutionSummary",
 }));
 
 export type DescribeDashboardError =
@@ -5833,6 +5966,8 @@ export const describeDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDashboard",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DescribeDashboard",
 }));
 
 export type DescribeDatasetError =
@@ -5862,6 +5997,8 @@ export const describeDataset: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeDatasetExportJobError =
@@ -5893,6 +6030,8 @@ export const describeDatasetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDatasetExportJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetExportJob",
 }));
 
 export type DescribeDefaultEncryptionConfigurationError =
@@ -5924,6 +6063,8 @@ export const describeDefaultEncryptionConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDefaultEncryptionConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeDefaultEncryptionConfiguration",
 }));
 
 export type DescribeEnrichmentJobError =
@@ -5996,6 +6137,8 @@ export const describeEnrichmentJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeEnrichmentJob",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeEnrichmentJob",
 }));
 
 export type DescribeExecutionError =
@@ -6025,6 +6168,8 @@ export const describeExecution: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeExecution",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeExecution",
 }));
 
 export type DescribeGatewayError =
@@ -6054,6 +6199,8 @@ export const describeGateway: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGateway",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeGateway",
 }));
 
 export type DescribeGatewayCapabilityConfigurationError =
@@ -6095,6 +6242,8 @@ export const describeGatewayCapabilityConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGatewayCapabilityConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeGatewayCapabilityConfiguration",
 }));
 
 export type DescribeLoggingOptionsError =
@@ -6124,6 +6273,8 @@ export const describeLoggingOptions: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeLoggingOptions",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeLoggingOptions",
 }));
 
 export type DescribePipelineError =
@@ -6155,6 +6306,8 @@ export const describePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePipeline",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribePipeline",
 }));
 
 export type DescribePipelineExecutionError =
@@ -6196,6 +6349,8 @@ export const describePipelineExecution: API.PaginatedOperationMethod<
     items: "computeNodeExecutionDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePipelineExecution",
 })) as any;
 
 export type DescribePortalError =
@@ -6225,6 +6380,8 @@ export const describePortal: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePortal",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DescribePortal",
 }));
 
 export type DescribeProjectError =
@@ -6254,6 +6411,8 @@ export const describeProject: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeProject",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "DescribeProject",
 }));
 
 export type DescribeQueryError =
@@ -6285,6 +6444,8 @@ export const describeQuery: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeQuery",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeQuery",
 }));
 
 export type DescribeSearchError =
@@ -6319,6 +6480,8 @@ export const describeSearch: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeSearch",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "DescribeSearch",
 }));
 
 export type DescribeStorageConfigurationError =
@@ -6352,6 +6515,8 @@ export const describeStorageConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeStorageConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeStorageConfiguration",
 }));
 
 export type DescribeTaskError =
@@ -6383,6 +6548,8 @@ export const describeTask: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTask",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeTask",
 }));
 
 export type DescribeTimeSeriesError =
@@ -6424,6 +6591,8 @@ export const describeTimeSeries: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTimeSeries",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeTimeSeries",
 }));
 
 export type DescribeWorkspaceError =
@@ -6455,6 +6624,8 @@ export const describeWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspace",
 }));
 
 export type DisassociateAssetsError =
@@ -6487,6 +6658,8 @@ export const disassociateAssets: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateAssets",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DisassociateAssets",
 }));
 
 export type DisassociateTimeSeriesFromAssetPropertyError =
@@ -6518,6 +6691,8 @@ export const disassociateTimeSeriesFromAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateTimeSeriesFromAssetProperty",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "DisassociateTimeSeriesFromAssetProperty",
 }));
 
 export type ExecuteActionError =
@@ -6551,6 +6726,8 @@ export const executeAction: API.OperationMethod<
   retry: Retry,
   operationName: "ExecuteAction",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "ExecuteAction",
 }));
 
 export type ExecuteQueryError =
@@ -6594,6 +6771,8 @@ export const executeQuery: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ExecuteQuery",
 })) as any;
 
 export type GetAssetPropertyAggregatesError =
@@ -6640,6 +6819,8 @@ export const getAssetPropertyAggregates: API.PaginatedOperationMethod<
     items: "aggregatedValues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAssetPropertyAggregates",
 })) as any;
 
 export type GetAssetPropertyValueError =
@@ -6679,6 +6860,8 @@ export const getAssetPropertyValue: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetPropertyValue",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "GetAssetPropertyValue",
 }));
 
 export type GetAssetPropertyValueHistoryError =
@@ -6725,6 +6908,8 @@ export const getAssetPropertyValueHistory: API.PaginatedOperationMethod<
     items: "assetPropertyValueHistory",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAssetPropertyValueHistory",
 })) as any;
 
 export type GetCaptureDataError =
@@ -6756,6 +6941,8 @@ export const getCaptureData: API.OperationMethod<
   retry: Retry,
   operationName: "GetCaptureData",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "GetCaptureData",
 }));
 
 export type GetInterpolatedAssetPropertyValuesError =
@@ -6806,6 +6993,8 @@ export const getInterpolatedAssetPropertyValues: API.PaginatedOperationMethod<
     items: "interpolatedAssetPropertyValues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInterpolatedAssetPropertyValues",
 })) as any;
 
 export type GetQueryResultsError =
@@ -6844,6 +7033,8 @@ export const getQueryResults: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResults",
 })) as any;
 
 export type GetSearchResultsError =
@@ -6886,6 +7077,8 @@ export const getSearchResults: API.PaginatedOperationMethod<
     items: "searchResults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSearchResults",
 })) as any;
 
 export type InvokeAssistantError =
@@ -6921,6 +7114,8 @@ export const invokeAssistant: API.OperationMethod<
   retry: Retry,
   operationName: "InvokeAssistant",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "InvokeAssistant",
 }));
 
 export type ListAccessPoliciesError =
@@ -6952,6 +7147,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
     items: "accessPolicySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicies",
 })) as any;
 
 export type ListActionsError =
@@ -6988,6 +7185,8 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActions",
 })) as any;
 
 export type ListApplicationsError =
@@ -7026,6 +7225,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListAssetModelCompositeModelsError =
@@ -7062,6 +7263,8 @@ export const listAssetModelCompositeModels: API.PaginatedOperationMethod<
     items: "assetModelCompositeModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetModelCompositeModels",
 })) as any;
 
 export type ListAssetModelPropertiesError =
@@ -7100,6 +7303,8 @@ export const listAssetModelProperties: API.PaginatedOperationMethod<
     items: "assetModelPropertySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetModelProperties",
 })) as any;
 
 export type ListAssetModelsError =
@@ -7136,6 +7341,8 @@ export const listAssetModels: API.PaginatedOperationMethod<
     items: "assetModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetModels",
 })) as any;
 
 export type ListAssetPropertiesError =
@@ -7174,6 +7381,8 @@ export const listAssetProperties: API.PaginatedOperationMethod<
     items: "assetPropertySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetProperties",
 })) as any;
 
 export type ListAssetRelationshipsError =
@@ -7212,6 +7421,8 @@ export const listAssetRelationships: API.PaginatedOperationMethod<
     items: "assetRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetRelationships",
 })) as any;
 
 export type ListAssetsError =
@@ -7258,6 +7469,8 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "assetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssets",
 })) as any;
 
 export type ListAssociatedAssetsError =
@@ -7300,6 +7513,8 @@ export const listAssociatedAssets: API.PaginatedOperationMethod<
     items: "assetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedAssets",
 })) as any;
 
 export type ListBulkImportJobsError =
@@ -7337,6 +7552,8 @@ export const listBulkImportJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBulkImportJobs",
 })) as any;
 
 export type ListCompositionRelationshipsError =
@@ -7374,6 +7591,8 @@ export const listCompositionRelationships: API.PaginatedOperationMethod<
     items: "compositionRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCompositionRelationships",
 })) as any;
 
 export type ListComputationModelDataBindingUsagesError =
@@ -7406,6 +7625,8 @@ export const listComputationModelDataBindingUsages: API.PaginatedOperationMethod
     items: "dataBindingUsageSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputationModelDataBindingUsages",
 })) as any;
 
 export type ListComputationModelResolveToResourcesError =
@@ -7443,6 +7664,8 @@ export const listComputationModelResolveToResources: API.PaginatedOperationMetho
     items: "computationModelResolveToResourceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputationModelResolveToResources",
 })) as any;
 
 export type ListComputationModelsError =
@@ -7473,6 +7696,8 @@ export const listComputationModels: API.PaginatedOperationMethod<
     items: "computationModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputationModels",
 })) as any;
 
 export type ListDashboardsError =
@@ -7503,6 +7728,8 @@ export const listDashboards: API.PaginatedOperationMethod<
     items: "dashboardSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 })) as any;
 
 export type ListDatasetDataSegmentRelationshipsError =
@@ -7541,6 +7768,8 @@ export const listDatasetDataSegmentRelationships: API.PaginatedOperationMethod<
     items: "dataSegmentRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetDataSegmentRelationships",
 })) as any;
 
 export type ListDatasetDataSegmentsError =
@@ -7577,6 +7806,8 @@ export const listDatasetDataSegments: API.PaginatedOperationMethod<
     items: "dataSegments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetDataSegments",
 })) as any;
 
 export type ListDatasetExportJobsError =
@@ -7615,6 +7846,8 @@ export const listDatasetExportJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetExportJobs",
 })) as any;
 
 export type ListDatasetsError =
@@ -7651,6 +7884,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListEnrichmentJobsError =
@@ -7737,6 +7972,8 @@ export const listEnrichmentJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnrichmentJobs",
 })) as any;
 
 export type ListExecutionsError =
@@ -7773,6 +8010,8 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutions",
 })) as any;
 
 export type ListGatewaysError =
@@ -7803,6 +8042,8 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "gatewaySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 })) as any;
 
 export type ListInterfaceRelationshipsError =
@@ -7840,6 +8081,8 @@ export const listInterfaceRelationships: API.PaginatedOperationMethod<
     items: "interfaceRelationshipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInterfaceRelationships",
 })) as any;
 
 export type ListPipelineExecutionsError =
@@ -7884,6 +8127,8 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
     items: "pipelineExecutionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineExecutions",
 })) as any;
 
 export type ListPipelinesError =
@@ -7922,6 +8167,8 @@ export const listPipelines: API.PaginatedOperationMethod<
     items: "pipelineSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelines",
 })) as any;
 
 export type ListPortalsError =
@@ -7952,6 +8199,8 @@ export const listPortals: API.PaginatedOperationMethod<
     items: "portalSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPortals",
 })) as any;
 
 export type ListProjectAssetsError =
@@ -7982,6 +8231,8 @@ export const listProjectAssets: API.PaginatedOperationMethod<
     items: "assetIds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjectAssets",
 })) as any;
 
 export type ListProjectsError =
@@ -8012,6 +8263,8 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "projectSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListQueriesError =
@@ -8050,6 +8303,8 @@ export const listQueries: API.PaginatedOperationMethod<
     items: "queries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueries",
 })) as any;
 
 export type ListSearchesError =
@@ -8090,6 +8345,8 @@ export const listSearches: API.PaginatedOperationMethod<
     items: "searchSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSearches",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -8125,6 +8382,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTasksError =
@@ -8163,6 +8422,8 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "taskSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 })) as any;
 
 export type ListTimeSeriesError =
@@ -8199,6 +8460,8 @@ export const listTimeSeries: API.PaginatedOperationMethod<
     items: "TimeSeriesSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTimeSeries",
 })) as any;
 
 export type ListWorkspacesError =
@@ -8235,6 +8498,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 })) as any;
 
 export type PutAssetModelInterfaceRelationshipError =
@@ -8269,6 +8534,8 @@ export const putAssetModelInterfaceRelationship: API.OperationMethod<
   retry: Retry,
   operationName: "PutAssetModelInterfaceRelationship",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "PutAssetModelInterfaceRelationship",
 }));
 
 export type PutDefaultEncryptionConfigurationError =
@@ -8304,6 +8571,8 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutDefaultEncryptionConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "PutDefaultEncryptionConfiguration",
 }));
 
 export type PutLoggingOptionsError =
@@ -8335,6 +8604,8 @@ export const putLoggingOptions: API.OperationMethod<
   retry: Retry,
   operationName: "PutLoggingOptions",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "PutLoggingOptions",
 }));
 
 export type PutStorageConfigurationError =
@@ -8370,6 +8641,8 @@ export const putStorageConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "PutStorageConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "PutStorageConfiguration",
 }));
 
 export type StartPipelineExecutionError =
@@ -8411,6 +8684,8 @@ export const startPipelineExecution: API.OperationMethod<
   retry: Retry,
   operationName: "StartPipelineExecution",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "StartPipelineExecution",
 }));
 
 export type StartQueryError =
@@ -8444,6 +8719,8 @@ export const startQuery: API.OperationMethod<
   retry: Retry,
   operationName: "StartQuery",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "StartQuery",
 }));
 
 export type StartSearchError =
@@ -8483,6 +8760,8 @@ export const startSearch: API.OperationMethod<
   retry: Retry,
   operationName: "StartSearch",
   endpointHostPrefix: "data.",
+  telemetry: TELEMETRY,
+  span: "StartSearch",
 }));
 
 export type TagResourceError =
@@ -8521,6 +8800,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -8556,6 +8837,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessPolicyError =
@@ -8591,6 +8874,8 @@ export const updateAccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAccessPolicy",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessPolicy",
 }));
 
 export type UpdateAssetError =
@@ -8625,6 +8910,8 @@ export const updateAsset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAsset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateAsset",
 }));
 
 export type UpdateAssetModelError =
@@ -8678,6 +8965,8 @@ export const updateAssetModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetModel",
 }));
 
 export type UpdateAssetModelCompositeModelError =
@@ -8731,6 +9020,8 @@ export const updateAssetModelCompositeModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetModelCompositeModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetModelCompositeModel",
 }));
 
 export type UpdateAssetPropertyError =
@@ -8766,6 +9057,8 @@ export const updateAssetProperty: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetProperty",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetProperty",
 }));
 
 export type UpdateComputationModelError =
@@ -8801,6 +9094,8 @@ export const updateComputationModel: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateComputationModel",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateComputationModel",
 }));
 
 export type UpdateDashboardError =
@@ -8835,6 +9130,8 @@ export const updateDashboard: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDashboard",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateDatasetError =
@@ -8870,6 +9167,8 @@ export const updateDataset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDataset",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateGatewayError =
@@ -8901,6 +9200,8 @@ export const updateGateway: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGateway",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateGateway",
 }));
 
 export type UpdateGatewayCapabilityConfigurationError =
@@ -8950,6 +9251,8 @@ export const updateGatewayCapabilityConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGatewayCapabilityConfiguration",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayCapabilityConfiguration",
 }));
 
 export type UpdatePipelineError =
@@ -8988,6 +9291,8 @@ export const updatePipeline: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePipeline",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 export type UpdatePortalError =
@@ -9024,6 +9329,8 @@ export const updatePortal: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePortal",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "UpdatePortal",
 }));
 
 export type UpdateProjectError =
@@ -9058,6 +9365,8 @@ export const updateProject: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateProject",
   endpointHostPrefix: "monitor.",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateTaskError =
@@ -9093,6 +9402,8 @@ export const updateTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTask",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateTask",
 }));
 
 export type UpdateWorkspaceError =
@@ -9129,6 +9440,8 @@ export const updateWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkspace",
   endpointHostPrefix: "api.",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

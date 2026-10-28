@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "dfareporting" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Dfareporting",
+  service: "dfareporting",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -7694,6 +7713,8 @@ export const batchinsertConversions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchinsertConversions",
 }));
 
 export type BatchupdateConversionsError =
@@ -7715,6 +7736,8 @@ export const batchupdateConversions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchupdateConversions",
 }));
 
 export type DeleteAdvertiserGroupsError =
@@ -7736,6 +7759,8 @@ export const deleteAdvertiserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdvertiserGroups",
 }));
 
 export type DeleteContentCategoriesError =
@@ -7757,6 +7782,8 @@ export const deleteContentCategories: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContentCategories",
 }));
 
 export type DeleteCreativeFieldsError =
@@ -7778,6 +7805,8 @@ export const deleteCreativeFields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCreativeFields",
 }));
 
 export type DeleteCreativeFieldValuesError =
@@ -7799,6 +7828,8 @@ export const deleteCreativeFieldValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCreativeFieldValues",
 }));
 
 export type DeleteDynamicTargetingKeysError =
@@ -7820,6 +7851,8 @@ export const deleteDynamicTargetingKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDynamicTargetingKeys",
 }));
 
 export type DeleteEventTagsError =
@@ -7841,6 +7874,8 @@ export const deleteEventTags: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEventTags",
 }));
 
 export type DeleteFloodlightActivitiesError =
@@ -7862,6 +7897,8 @@ export const deleteFloodlightActivities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFloodlightActivities",
 }));
 
 export type DeletePlacementStrategiesError =
@@ -7883,6 +7920,8 @@ export const deletePlacementStrategies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlacementStrategies",
 }));
 
 export type DeleteReportsError =
@@ -7904,6 +7943,8 @@ export const deleteReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReports",
 }));
 
 export type DeleteUserRolesError =
@@ -7925,6 +7966,8 @@ export const deleteUserRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserRoles",
 }));
 
 export type GenerateCodeDynamicProfilesError =
@@ -7944,6 +7987,8 @@ export const generateCodeDynamicProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCodeDynamicProfiles",
 }));
 
 export type GeneratetagFloodlightActivitiesError =
@@ -7965,6 +8010,8 @@ export const generatetagFloodlightActivities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GeneratetagFloodlightActivities",
 }));
 
 export type GeneratetagsPlacementsError =
@@ -7986,6 +8033,8 @@ export const generatetagsPlacements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GeneratetagsPlacements",
 }));
 
 export type GetAccountActiveAdSummariesError =
@@ -8005,6 +8054,8 @@ export const getAccountActiveAdSummaries: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountActiveAdSummaries",
 }));
 
 export type GetAccountPermissionGroupsError =
@@ -8024,6 +8075,8 @@ export const getAccountPermissionGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountPermissionGroups",
 }));
 
 export type GetAccountPermissionsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8039,6 +8092,8 @@ export const getAccountPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountPermissions",
 }));
 
 export type GetAccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8054,6 +8109,8 @@ export const getAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type GetAccountUserProfilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8069,6 +8126,8 @@ export const getAccountUserProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountUserProfiles",
 }));
 
 export type GetAdsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8080,6 +8139,8 @@ export const getAds: API.OperationMethod<GetAdsRequest, Ad, GetAdsError, GcpOpCo
     errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAds",
   }));
 
 export type GetAdvertiserGroupsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8095,6 +8156,8 @@ export const getAdvertiserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertiserGroups",
 }));
 
 export type GetAdvertiserLandingPagesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8110,6 +8173,8 @@ export const getAdvertiserLandingPages: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertiserLandingPages",
 }));
 
 export type GetAdvertisersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8125,6 +8190,8 @@ export const getAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvertisers",
 }));
 
 export type GetBillingProfilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8140,6 +8207,8 @@ export const getBillingProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingProfiles",
 }));
 
 export type GetCampaignsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8155,6 +8224,8 @@ export const getCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCampaigns",
 }));
 
 export type GetChangeLogsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8170,6 +8241,8 @@ export const getChangeLogs: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChangeLogs",
 }));
 
 export type GetConnectionTypesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8185,6 +8258,8 @@ export const getConnectionTypes: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionTypes",
 }));
 
 export type GetContentCategoriesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8200,6 +8275,8 @@ export const getContentCategories: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContentCategories",
 }));
 
 export type GetCountriesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8215,6 +8292,8 @@ export const getCountries: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountries",
 }));
 
 export type GetCreativeFieldsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8230,6 +8309,8 @@ export const getCreativeFields: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreativeFields",
 }));
 
 export type GetCreativeFieldValuesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8245,6 +8326,8 @@ export const getCreativeFieldValues: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreativeFieldValues",
 }));
 
 export type GetCreativeGroupsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8260,6 +8343,8 @@ export const getCreativeGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreativeGroups",
 }));
 
 export type GetCreativesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8275,6 +8360,8 @@ export const getCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreatives",
 }));
 
 export type GetDirectorySitesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8290,6 +8377,8 @@ export const getDirectorySites: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDirectorySites",
 }));
 
 export type GetDynamicFeedsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8305,6 +8394,8 @@ export const getDynamicFeeds: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynamicFeeds",
 }));
 
 export type GetDynamicProfilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8320,6 +8411,8 @@ export const getDynamicProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDynamicProfiles",
 }));
 
 export type GetEventTagsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8335,6 +8428,8 @@ export const getEventTags: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventTags",
 }));
 
 export type GetFilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8346,6 +8441,8 @@ export const getFiles: API.OperationMethod<GetFilesRequest, File, GetFilesError,
     errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetFiles",
   }));
 
 export type GetFloodlightActivitiesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8361,6 +8458,8 @@ export const getFloodlightActivities: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloodlightActivities",
 }));
 
 export type GetFloodlightActivityGroupsError =
@@ -8380,6 +8479,8 @@ export const getFloodlightActivityGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloodlightActivityGroups",
 }));
 
 export type GetFloodlightConfigurationsError =
@@ -8399,6 +8500,8 @@ export const getFloodlightConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloodlightConfigurations",
 }));
 
 export type GetMobileAppsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8414,6 +8517,8 @@ export const getMobileApps: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMobileApps",
 }));
 
 export type GetMobileCarriersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8429,6 +8534,8 @@ export const getMobileCarriers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMobileCarriers",
 }));
 
 export type GetOperatingSystemsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8444,6 +8551,8 @@ export const getOperatingSystems: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperatingSystems",
 }));
 
 export type GetOperatingSystemVersionsError =
@@ -8463,6 +8572,8 @@ export const getOperatingSystemVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperatingSystemVersions",
 }));
 
 export type GetPlacementGroupsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8478,6 +8589,8 @@ export const getPlacementGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlacementGroups",
 }));
 
 export type GetPlacementsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8493,6 +8606,8 @@ export const getPlacements: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlacements",
 }));
 
 export type GetPlacementStrategiesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8508,6 +8623,8 @@ export const getPlacementStrategies: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlacementStrategies",
 }));
 
 export type GetPlatformTypesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8523,6 +8640,8 @@ export const getPlatformTypes: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlatformTypes",
 }));
 
 export type GetPostalCodesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8538,6 +8657,8 @@ export const getPostalCodes: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostalCodes",
 }));
 
 export type GetRemarketingListsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8553,6 +8674,8 @@ export const getRemarketingLists: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRemarketingLists",
 }));
 
 export type GetRemarketingListSharesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8568,6 +8691,8 @@ export const getRemarketingListShares: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRemarketingListShares",
 }));
 
 export type GetReportsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8583,6 +8708,8 @@ export const getReports: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReports",
 }));
 
 export type GetReportsFilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8598,6 +8725,8 @@ export const getReportsFiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportsFiles",
 }));
 
 export type GetSitesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8609,6 +8738,8 @@ export const getSites: API.OperationMethod<GetSitesRequest, Site, GetSitesError,
     errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSites",
   }));
 
 export type GetSizesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8620,6 +8751,8 @@ export const getSizes: API.OperationMethod<GetSizesRequest, Size, GetSizesError,
     errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSizes",
   }));
 
 export type GetStudioCreativesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8635,6 +8768,8 @@ export const getStudioCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStudioCreatives",
 }));
 
 export type GetSubaccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8650,6 +8785,8 @@ export const getSubaccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubaccounts",
 }));
 
 export type GetTargetableRemarketingListsError =
@@ -8669,6 +8806,8 @@ export const getTargetableRemarketingLists: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTargetableRemarketingLists",
 }));
 
 export type GetTargetingTemplatesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8684,6 +8823,8 @@ export const getTargetingTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTargetingTemplates",
 }));
 
 export type GetTvCampaignDetailsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8699,6 +8840,8 @@ export const getTvCampaignDetails: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTvCampaignDetails",
 }));
 
 export type GetUserProfilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8714,6 +8857,8 @@ export const getUserProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserProfiles",
 }));
 
 export type GetUserRolePermissionGroupsError =
@@ -8733,6 +8878,8 @@ export const getUserRolePermissionGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRolePermissionGroups",
 }));
 
 export type GetUserRolePermissionsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8748,6 +8895,8 @@ export const getUserRolePermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRolePermissions",
 }));
 
 export type GetUserRolesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8763,6 +8912,8 @@ export const getUserRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserRoles",
 }));
 
 export type GetVideoFormatsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -8778,6 +8929,8 @@ export const getVideoFormats: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVideoFormats",
 }));
 
 export type InsertAccountUserProfilesError =
@@ -8799,6 +8952,8 @@ export const insertAccountUserProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAccountUserProfiles",
 }));
 
 export type InsertAdsError =
@@ -8816,6 +8971,8 @@ export const insertAds: API.OperationMethod<InsertAdsRequest, Ad, InsertAdsError
     errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "InsertAds",
   }));
 
 export type InsertAdvertiserGroupsError =
@@ -8837,6 +8994,8 @@ export const insertAdvertiserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAdvertiserGroups",
 }));
 
 export type InsertAdvertiserLandingPagesError =
@@ -8858,6 +9017,8 @@ export const insertAdvertiserLandingPages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAdvertiserLandingPages",
 }));
 
 export type InsertAdvertisersError =
@@ -8879,6 +9040,8 @@ export const insertAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAdvertisers",
 }));
 
 export type InsertBillingAssignmentsError =
@@ -8900,6 +9063,8 @@ export const insertBillingAssignments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertBillingAssignments",
 }));
 
 export type InsertCampaignCreativeAssociationsError =
@@ -8921,6 +9086,8 @@ export const insertCampaignCreativeAssociations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCampaignCreativeAssociations",
 }));
 
 export type InsertCampaignsError =
@@ -8942,6 +9109,8 @@ export const insertCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCampaigns",
 }));
 
 export type InsertContentCategoriesError =
@@ -8963,6 +9132,8 @@ export const insertContentCategories: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertContentCategories",
 }));
 
 export type InsertCreativeAssetsError =
@@ -8984,6 +9155,8 @@ export const insertCreativeAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCreativeAssets",
 }));
 
 export type InsertCreativeFieldsError =
@@ -9005,6 +9178,8 @@ export const insertCreativeFields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCreativeFields",
 }));
 
 export type InsertCreativeFieldValuesError =
@@ -9026,6 +9201,8 @@ export const insertCreativeFieldValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCreativeFieldValues",
 }));
 
 export type InsertCreativeGroupsError =
@@ -9047,6 +9224,8 @@ export const insertCreativeGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCreativeGroups",
 }));
 
 export type InsertCreativesError =
@@ -9068,6 +9247,8 @@ export const insertCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCreatives",
 }));
 
 export type InsertDirectorySitesError =
@@ -9089,6 +9270,8 @@ export const insertDirectorySites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDirectorySites",
 }));
 
 export type InsertDynamicFeedsError =
@@ -9110,6 +9293,8 @@ export const insertDynamicFeeds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDynamicFeeds",
 }));
 
 export type InsertDynamicProfilesError =
@@ -9131,6 +9316,8 @@ export const insertDynamicProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDynamicProfiles",
 }));
 
 export type InsertDynamicTargetingKeysError =
@@ -9152,6 +9339,8 @@ export const insertDynamicTargetingKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertDynamicTargetingKeys",
 }));
 
 export type InsertEventTagsError =
@@ -9173,6 +9362,8 @@ export const insertEventTags: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertEventTags",
 }));
 
 export type InsertFloodlightActivitiesError =
@@ -9194,6 +9385,8 @@ export const insertFloodlightActivities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertFloodlightActivities",
 }));
 
 export type InsertFloodlightActivityGroupsError =
@@ -9215,6 +9408,8 @@ export const insertFloodlightActivityGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertFloodlightActivityGroups",
 }));
 
 export type InsertPlacementGroupsError =
@@ -9236,6 +9431,8 @@ export const insertPlacementGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertPlacementGroups",
 }));
 
 export type InsertPlacementsError =
@@ -9257,6 +9454,8 @@ export const insertPlacements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertPlacements",
 }));
 
 export type InsertPlacementStrategiesError =
@@ -9278,6 +9477,8 @@ export const insertPlacementStrategies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertPlacementStrategies",
 }));
 
 export type InsertRemarketingListsError =
@@ -9299,6 +9500,8 @@ export const insertRemarketingLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertRemarketingLists",
 }));
 
 export type InsertReportsError =
@@ -9320,6 +9523,8 @@ export const insertReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertReports",
 }));
 
 export type InsertSitesError =
@@ -9341,6 +9546,8 @@ export const insertSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertSites",
 }));
 
 export type InsertSizesError =
@@ -9362,6 +9569,8 @@ export const insertSizes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertSizes",
 }));
 
 export type InsertStudioCreativeAssetsError =
@@ -9383,6 +9592,8 @@ export const insertStudioCreativeAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertStudioCreativeAssets",
 }));
 
 export type InsertStudioCreativesError =
@@ -9404,6 +9615,8 @@ export const insertStudioCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertStudioCreatives",
 }));
 
 export type InsertSubaccountsError =
@@ -9425,6 +9638,8 @@ export const insertSubaccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertSubaccounts",
 }));
 
 export type InsertTargetingTemplatesError =
@@ -9446,6 +9661,8 @@ export const insertTargetingTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertTargetingTemplates",
 }));
 
 export type InsertUserRolesError =
@@ -9467,6 +9684,8 @@ export const insertUserRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertUserRoles",
 }));
 
 export type ListAccountPermissionGroupsError =
@@ -9486,6 +9705,8 @@ export const listAccountPermissionGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountPermissionGroups",
 }));
 
 export type ListAccountPermissionsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9501,6 +9722,8 @@ export const listAccountPermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountPermissions",
 }));
 
 export type ListAccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9517,6 +9740,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9534,6 +9759,8 @@ export const listAccountUserProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountUserProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9551,6 +9778,8 @@ export const listAds: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAds",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9568,6 +9797,8 @@ export const listAdvertiserGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertiserGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9585,6 +9816,8 @@ export const listAdvertiserInvoices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertiserInvoices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9606,6 +9839,8 @@ export const listAdvertiserLandingPages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertiserLandingPages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9623,6 +9858,8 @@ export const listAdvertisers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvertisers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9639,6 +9876,8 @@ export const listBillingAssignments: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingAssignments",
 }));
 
 export type ListBillingProfilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9655,6 +9894,8 @@ export const listBillingProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9671,6 +9912,8 @@ export const listBillingRates: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRates",
 }));
 
 export type ListBrowsersError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9686,6 +9929,8 @@ export const listBrowsers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrowsers",
 }));
 
 export type ListCampaignCreativeAssociationsError =
@@ -9706,6 +9951,8 @@ export const listCampaignCreativeAssociations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCampaignCreativeAssociations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9723,6 +9970,8 @@ export const listCampaigns: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9740,6 +9989,8 @@ export const listChangeLogs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChangeLogs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9756,6 +10007,8 @@ export const listCities: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCities",
 }));
 
 export type ListConnectionTypesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9771,6 +10024,8 @@ export const listConnectionTypes: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectionTypes",
 }));
 
 export type ListContentCategoriesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9787,6 +10042,8 @@ export const listContentCategories: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContentCategories",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9803,6 +10060,8 @@ export const listCountries: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCountries",
 }));
 
 export type ListCreativeFieldsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9819,6 +10078,8 @@ export const listCreativeFields: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreativeFields",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9836,6 +10097,8 @@ export const listCreativeFieldValues: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreativeFieldValues",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9853,6 +10116,8 @@ export const listCreativeGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreativeGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9870,6 +10135,8 @@ export const listCreatives: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCreatives",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9887,6 +10154,8 @@ export const listDirectorySites: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDirectorySites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9903,6 +10172,8 @@ export const listDynamicTargetingKeys: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDynamicTargetingKeys",
 }));
 
 export type ListEventTagsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9918,6 +10189,8 @@ export const listEventTags: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventTags",
 }));
 
 export type ListFilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -9934,6 +10207,8 @@ export const listFiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -9951,6 +10226,8 @@ export const listFloodlightActivities: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFloodlightActivities",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9972,6 +10249,8 @@ export const listFloodlightActivityGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFloodlightActivityGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9992,6 +10271,8 @@ export const listFloodlightConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFloodlightConfigurations",
 }));
 
 export type ListLanguagesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10007,6 +10288,8 @@ export const listLanguages: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLanguages",
 }));
 
 export type ListMetrosError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10022,6 +10305,8 @@ export const listMetros: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetros",
 }));
 
 export type ListMobileAppsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10038,6 +10323,8 @@ export const listMobileApps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMobileApps",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10054,6 +10341,8 @@ export const listMobileCarriers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMobileCarriers",
 }));
 
 export type ListOperatingSystemsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10069,6 +10358,8 @@ export const listOperatingSystems: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperatingSystems",
 }));
 
 export type ListOperatingSystemVersionsError =
@@ -10088,6 +10379,8 @@ export const listOperatingSystemVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperatingSystemVersions",
 }));
 
 export type ListPlacementGroupsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10104,6 +10397,8 @@ export const listPlacementGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlacementGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10121,6 +10416,8 @@ export const listPlacements: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlacements",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10138,6 +10435,8 @@ export const listPlacementStrategies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlacementStrategies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10154,6 +10453,8 @@ export const listPlatformTypes: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlatformTypes",
 }));
 
 export type ListPostalCodesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10169,6 +10470,8 @@ export const listPostalCodes: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostalCodes",
 }));
 
 export type ListRegionsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10184,6 +10487,8 @@ export const listRegions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegions",
 }));
 
 export type ListRemarketingListsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10200,6 +10505,8 @@ export const listRemarketingLists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemarketingLists",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10217,6 +10524,8 @@ export const listReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -10234,6 +10543,8 @@ export const listReportsFiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportsFiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -10251,6 +10562,8 @@ export const listSites: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10267,6 +10580,8 @@ export const listSizes: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSizes",
 }));
 
 export type ListSubaccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10283,6 +10598,8 @@ export const listSubaccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubaccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10304,6 +10621,8 @@ export const listTargetableRemarketingLists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTargetableRemarketingLists",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10321,6 +10640,8 @@ export const listTargetingTemplates: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTargetingTemplates",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10337,6 +10658,8 @@ export const listTvCampaignSummaries: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTvCampaignSummaries",
 }));
 
 export type ListUserProfilesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10352,6 +10675,8 @@ export const listUserProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserProfiles",
 }));
 
 export type ListUserRolePermissionGroupsError =
@@ -10371,6 +10696,8 @@ export const listUserRolePermissionGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserRolePermissionGroups",
 }));
 
 export type ListUserRolePermissionsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10386,6 +10713,8 @@ export const listUserRolePermissions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserRolePermissions",
 }));
 
 export type ListUserRolesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -10402,6 +10731,8 @@ export const listUserRoles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserRoles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10418,6 +10749,8 @@ export const listVideoFormats: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVideoFormats",
 }));
 
 export type PatchAccountsError =
@@ -10439,6 +10772,8 @@ export const patchAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccounts",
 }));
 
 export type PatchAccountUserProfilesError =
@@ -10460,6 +10795,8 @@ export const patchAccountUserProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccountUserProfiles",
 }));
 
 export type PatchAdsError =
@@ -10477,6 +10814,8 @@ export const patchAds: API.OperationMethod<PatchAdsRequest, Ad, PatchAdsError, G
     errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PatchAds",
   }));
 
 export type PatchAdvertiserGroupsError =
@@ -10498,6 +10837,8 @@ export const patchAdvertiserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertiserGroups",
 }));
 
 export type PatchAdvertiserLandingPagesError =
@@ -10519,6 +10860,8 @@ export const patchAdvertiserLandingPages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertiserLandingPages",
 }));
 
 export type PatchAdvertisersError =
@@ -10540,6 +10883,8 @@ export const patchAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdvertisers",
 }));
 
 export type PatchCampaignsError =
@@ -10561,6 +10906,8 @@ export const patchCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCampaigns",
 }));
 
 export type PatchContentCategoriesError =
@@ -10582,6 +10929,8 @@ export const patchContentCategories: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchContentCategories",
 }));
 
 export type PatchCreativeFieldsError =
@@ -10603,6 +10952,8 @@ export const patchCreativeFields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCreativeFields",
 }));
 
 export type PatchCreativeFieldValuesError =
@@ -10624,6 +10975,8 @@ export const patchCreativeFieldValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCreativeFieldValues",
 }));
 
 export type PatchCreativeGroupsError =
@@ -10645,6 +10998,8 @@ export const patchCreativeGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCreativeGroups",
 }));
 
 export type PatchCreativesError =
@@ -10666,6 +11021,8 @@ export const patchCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCreatives",
 }));
 
 export type PatchEventTagsError =
@@ -10687,6 +11044,8 @@ export const patchEventTags: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEventTags",
 }));
 
 export type PatchFloodlightActivitiesError =
@@ -10708,6 +11067,8 @@ export const patchFloodlightActivities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFloodlightActivities",
 }));
 
 export type PatchFloodlightActivityGroupsError =
@@ -10729,6 +11090,8 @@ export const patchFloodlightActivityGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFloodlightActivityGroups",
 }));
 
 export type PatchFloodlightConfigurationsError =
@@ -10750,6 +11113,8 @@ export const patchFloodlightConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFloodlightConfigurations",
 }));
 
 export type PatchPlacementGroupsError =
@@ -10771,6 +11136,8 @@ export const patchPlacementGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPlacementGroups",
 }));
 
 export type PatchPlacementsError =
@@ -10792,6 +11159,8 @@ export const patchPlacements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPlacements",
 }));
 
 export type PatchPlacementStrategiesError =
@@ -10813,6 +11182,8 @@ export const patchPlacementStrategies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPlacementStrategies",
 }));
 
 export type PatchRemarketingListsError =
@@ -10834,6 +11205,8 @@ export const patchRemarketingLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRemarketingLists",
 }));
 
 export type PatchRemarketingListSharesError =
@@ -10855,6 +11228,8 @@ export const patchRemarketingListShares: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRemarketingListShares",
 }));
 
 export type PatchSitesError =
@@ -10876,6 +11251,8 @@ export const patchSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSites",
 }));
 
 export type PatchSubaccountsError =
@@ -10897,6 +11274,8 @@ export const patchSubaccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSubaccounts",
 }));
 
 export type PatchTargetingTemplatesError =
@@ -10918,6 +11297,8 @@ export const patchTargetingTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTargetingTemplates",
 }));
 
 export type PatchUserRolesError =
@@ -10939,6 +11320,8 @@ export const patchUserRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUserRoles",
 }));
 
 export type PublishDynamicProfilesError =
@@ -10960,6 +11343,8 @@ export const publishDynamicProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishDynamicProfiles",
 }));
 
 export type PublishStudioCreativesError =
@@ -10981,6 +11366,8 @@ export const publishStudioCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishStudioCreatives",
 }));
 
 export type QueryDimensionValuesError =
@@ -11003,6 +11390,8 @@ export const queryDimensionValues: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryDimensionValues",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -11025,6 +11414,8 @@ export const queryReportData: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryReportData",
 }));
 
 export type QueryReportsCompatibleFieldsError =
@@ -11046,6 +11437,8 @@ export const queryReportsCompatibleFields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryReportsCompatibleFields",
 }));
 
 export type RetransformDynamicFeedsError =
@@ -11067,6 +11460,8 @@ export const retransformDynamicFeeds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetransformDynamicFeeds",
 }));
 
 export type RunReportsError =
@@ -11088,6 +11483,8 @@ export const runReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunReports",
 }));
 
 export type UpdateAccountsError =
@@ -11109,6 +11506,8 @@ export const updateAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccounts",
 }));
 
 export type UpdateAccountUserProfilesError =
@@ -11130,6 +11529,8 @@ export const updateAccountUserProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountUserProfiles",
 }));
 
 export type UpdateAdsError =
@@ -11147,6 +11548,8 @@ export const updateAds: API.OperationMethod<UpdateAdsRequest, Ad, UpdateAdsError
     errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UpdateAds",
   }));
 
 export type UpdateAdvertiserGroupsError =
@@ -11168,6 +11571,8 @@ export const updateAdvertiserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdvertiserGroups",
 }));
 
 export type UpdateAdvertiserLandingPagesError =
@@ -11189,6 +11594,8 @@ export const updateAdvertiserLandingPages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdvertiserLandingPages",
 }));
 
 export type UpdateAdvertisersError =
@@ -11210,6 +11617,8 @@ export const updateAdvertisers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdvertisers",
 }));
 
 export type UpdateBillingProfilesError =
@@ -11231,6 +11640,8 @@ export const updateBillingProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingProfiles",
 }));
 
 export type UpdateCampaignsError =
@@ -11252,6 +11663,8 @@ export const updateCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCampaigns",
 }));
 
 export type UpdateContentCategoriesError =
@@ -11273,6 +11686,8 @@ export const updateContentCategories: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContentCategories",
 }));
 
 export type UpdateCreativeFieldsError =
@@ -11294,6 +11709,8 @@ export const updateCreativeFields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCreativeFields",
 }));
 
 export type UpdateCreativeFieldValuesError =
@@ -11315,6 +11732,8 @@ export const updateCreativeFieldValues: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCreativeFieldValues",
 }));
 
 export type UpdateCreativeGroupsError =
@@ -11336,6 +11755,8 @@ export const updateCreativeGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCreativeGroups",
 }));
 
 export type UpdateCreativesError =
@@ -11357,6 +11778,8 @@ export const updateCreatives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCreatives",
 }));
 
 export type UpdateDynamicFeedsError =
@@ -11378,6 +11801,8 @@ export const updateDynamicFeeds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDynamicFeeds",
 }));
 
 export type UpdateDynamicProfilesError =
@@ -11399,6 +11824,8 @@ export const updateDynamicProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDynamicProfiles",
 }));
 
 export type UpdateEventTagsError =
@@ -11420,6 +11847,8 @@ export const updateEventTags: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventTags",
 }));
 
 export type UpdateFloodlightActivitiesError =
@@ -11441,6 +11870,8 @@ export const updateFloodlightActivities: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFloodlightActivities",
 }));
 
 export type UpdateFloodlightActivityGroupsError =
@@ -11462,6 +11893,8 @@ export const updateFloodlightActivityGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFloodlightActivityGroups",
 }));
 
 export type UpdateFloodlightConfigurationsError =
@@ -11483,6 +11916,8 @@ export const updateFloodlightConfigurations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFloodlightConfigurations",
 }));
 
 export type UpdatePlacementGroupsError =
@@ -11504,6 +11939,8 @@ export const updatePlacementGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlacementGroups",
 }));
 
 export type UpdatePlacementsError =
@@ -11525,6 +11962,8 @@ export const updatePlacements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlacements",
 }));
 
 export type UpdatePlacementStrategiesError =
@@ -11546,6 +11985,8 @@ export const updatePlacementStrategies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlacementStrategies",
 }));
 
 export type UpdateRemarketingListsError =
@@ -11567,6 +12008,8 @@ export const updateRemarketingLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRemarketingLists",
 }));
 
 export type UpdateRemarketingListSharesError =
@@ -11588,6 +12031,8 @@ export const updateRemarketingListShares: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRemarketingListShares",
 }));
 
 export type UpdateReportsError =
@@ -11609,6 +12054,8 @@ export const updateReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReports",
 }));
 
 export type UpdateSitesError =
@@ -11630,6 +12077,8 @@ export const updateSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSites",
 }));
 
 export type UpdateSubaccountsError =
@@ -11651,6 +12100,8 @@ export const updateSubaccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubaccounts",
 }));
 
 export type UpdateTargetingTemplatesError =
@@ -11672,6 +12123,8 @@ export const updateTargetingTemplates: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTargetingTemplates",
 }));
 
 export type UpdateUserRolesError =
@@ -11693,6 +12146,8 @@ export const updateUserRoles: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserRoles",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

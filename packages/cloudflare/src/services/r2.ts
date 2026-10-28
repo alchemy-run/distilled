@@ -29,6 +29,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   storageClass: "storage_class",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "R2",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class BucketAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BucketAlreadyExists>()("BucketAlreadyExists", {
@@ -1945,6 +1959,8 @@ export const abortAllSuperSlurperJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AbortAllSuperSlurperJob",
 }));
 
 export type AbortSuperSlurperJobError = SuperSlurperJobOperationFailed | CloudflareOpError;
@@ -1960,6 +1976,8 @@ export const abortSuperSlurperJob: API.OperationMethod<
   errors: [SuperSlurperJobOperationFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AbortSuperSlurperJob",
 }));
 
 export type CreateBucketError =
@@ -1985,6 +2003,8 @@ export const createBucket: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBucket",
 }));
 
 export type CreateBucketDomainCustomError =
@@ -2010,6 +2030,11 @@ export const createBucketDomainCustom: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateBucketDomainCustom",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type CreateSuperSlurperJobError = SuperSlurperPreconnectivityFailed | CloudflareOpError;
@@ -2025,6 +2050,8 @@ export const createSuperSlurperJob: API.OperationMethod<
   errors: [SuperSlurperPreconnectivityFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSuperSlurperJob",
 }));
 
 export type CreateTemporaryCredentialError = CloudflareOpError;
@@ -2040,6 +2067,8 @@ export const createTemporaryCredential: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTemporaryCredential",
 }));
 
 export type DeleteBucketError =
@@ -2067,6 +2096,11 @@ export const deleteBucket: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteBucket",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type DeleteBucketCorsError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2082,6 +2116,11 @@ export const deleteBucketCors: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteBucketCors",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type DeleteBucketDomainCustomError = DomainNotFound | NoSuchBucket | CloudflareOpError;
@@ -2097,6 +2136,11 @@ export const deleteBucketDomainCustom: API.OperationMethod<
   errors: [DomainNotFound, NoSuchBucket, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteBucketDomainCustom",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type DeleteBucketEventNotificationError =
@@ -2124,6 +2168,11 @@ export const deleteBucketEventNotification: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteBucketEventNotification",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type DeleteBucketObjectError = NoSuchBucket | NoSuchKey | CloudflareOpError;
@@ -2139,6 +2188,14 @@ export const deleteBucketObject: API.OperationMethod<
   errors: [NoSuchBucket, NoSuchKey, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteBucketObject",
+    input: {
+      bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }],
+      objectName: [{ name: "cloudflare.object_name" }, { name: "cloudflare.r2.object_key" }],
+    },
+  },
 }));
 
 export type DeleteBucketSippyError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2154,6 +2211,11 @@ export const deleteBucketSippy: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteBucketSippy",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type DeleteObjectsError = NoSuchBucket | InvalidRoute | NoRoute | CloudflareOpError;
@@ -2168,6 +2230,11 @@ export const deleteObjects: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, NoRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteObjects",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetBucketError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2183,6 +2250,11 @@ export const getBucket: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucket",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetBucketCorsError =
@@ -2202,6 +2274,11 @@ export const getBucketCors: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, NoCorsConfiguration, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucketCors",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetBucketDomainCustomError =
@@ -2221,6 +2298,11 @@ export const getBucketDomainCustom: API.OperationMethod<
   errors: [DomainNotFound, NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucketDomainCustom",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetBucketEventNotificationError =
@@ -2252,6 +2334,11 @@ export const getBucketEventNotification: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucketEventNotification",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetBucketLifecycleError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2267,6 +2354,11 @@ export const getBucketLifecycle: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucketLifecycle",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetBucketLocalUploadsError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2282,6 +2374,11 @@ export const getBucketLocalUploads: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucketLocalUploads",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetBucketLockError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2297,6 +2394,11 @@ export const getBucketLock: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucketLock",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetBucketObjectError = NoSuchBucket | InvalidRoute | NoSuchKey | CloudflareOpError;
@@ -2312,6 +2414,14 @@ export const getBucketObject: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, NoSuchKey, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucketObject",
+    input: {
+      bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }],
+      objectName: [{ name: "cloudflare.object_name" }, { name: "cloudflare.r2.object_key" }],
+    },
+  },
 }));
 
 export type GetBucketSippyError = NoSuchBucket | InvalidRoute | Forbidden | CloudflareOpError;
@@ -2327,6 +2437,11 @@ export const getBucketSippy: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetBucketSippy",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type GetSuperSlurperJobError = SuperSlurperJobOperationFailed | CloudflareOpError;
@@ -2342,6 +2457,8 @@ export const getSuperSlurperJob: API.OperationMethod<
   errors: [SuperSlurperJobOperationFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuperSlurperJob",
 }));
 
 export type ListBucketDomainCustomsError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2357,6 +2474,11 @@ export const listBucketDomainCustoms: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListBucketDomainCustoms",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type ListBucketDomainManagedsError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2372,6 +2494,11 @@ export const listBucketDomainManageds: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListBucketDomainManageds",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type ListBucketEventNotificationsError =
@@ -2399,6 +2526,11 @@ export const listBucketEventNotifications: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListBucketEventNotifications",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type ListBucketMetricsError = InvalidRoute | CloudflareOpError;
@@ -2414,6 +2546,8 @@ export const listBucketMetrics: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBucketMetrics",
 }));
 
 export type ListBucketObjectsError = NoSuchBucket | CloudflareOpError;
@@ -2431,6 +2565,11 @@ export const listBucketObjects: API.PaginatedOperationMethod<
     errors: [NoSuchBucket, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: {
+      op: "ListBucketObjects",
+      input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+    },
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2455,6 +2594,8 @@ export const listBuckets: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuckets",
 }));
 
 export type ListSuperSlurperJobLogsError = CloudflareOpError;
@@ -2472,6 +2613,8 @@ export const listSuperSlurperJobLogs: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSuperSlurperJobLogs",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2492,6 +2635,8 @@ export const listSuperSlurperJobs: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSuperSlurperJobs",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -2510,6 +2655,11 @@ export const patchBucket: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PatchBucket",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type PauseSuperSlurperJobError = SuperSlurperJobOperationFailed | CloudflareOpError;
@@ -2525,6 +2675,8 @@ export const pauseSuperSlurperJob: API.OperationMethod<
   errors: [SuperSlurperJobOperationFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseSuperSlurperJob",
 }));
 
 export type ProgressSuperSlurperJobError = CloudflareOpError;
@@ -2540,6 +2692,8 @@ export const progressSuperSlurperJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProgressSuperSlurperJob",
 }));
 
 export type PutBucketCorsError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2555,6 +2709,11 @@ export const putBucketCors: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutBucketCors",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type PutBucketDomainManagedError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2570,6 +2729,11 @@ export const putBucketDomainManaged: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutBucketDomainManaged",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type PutBucketEventNotificationError =
@@ -2599,6 +2763,11 @@ export const putBucketEventNotification: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutBucketEventNotification",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type PutBucketLifecycleError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2614,6 +2783,11 @@ export const putBucketLifecycle: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutBucketLifecycle",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type PutBucketLocalUploadsError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2629,6 +2803,11 @@ export const putBucketLocalUploads: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutBucketLocalUploads",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type PutBucketLockError = NoSuchBucket | InvalidRoute | CloudflareOpError;
@@ -2644,6 +2823,11 @@ export const putBucketLock: API.OperationMethod<
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutBucketLock",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type PutBucketSippyError = InvalidUpstreamCredentials | InvalidRoute | CloudflareOpError;
@@ -2659,6 +2843,11 @@ export const putBucketSippy: API.OperationMethod<
   errors: [InvalidUpstreamCredentials, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutBucketSippy",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type ResumeSuperSlurperJobError = SuperSlurperJobOperationFailed | CloudflareOpError;
@@ -2674,6 +2863,8 @@ export const resumeSuperSlurperJob: API.OperationMethod<
   errors: [SuperSlurperJobOperationFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeSuperSlurperJob",
 }));
 
 export type SourceSuperSlurperConnectivityPrecheckError = CloudflareOpError;
@@ -2689,6 +2880,8 @@ export const sourceSuperSlurperConnectivityPrecheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SourceSuperSlurperConnectivityPrecheck",
 }));
 
 export type TargetSuperSlurperConnectivityPrecheckError = CloudflareOpError;
@@ -2704,6 +2897,8 @@ export const targetSuperSlurperConnectivityPrecheck: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TargetSuperSlurperConnectivityPrecheck",
 }));
 
 export type UpdateBucketDomainCustomError = NoSuchBucket | CloudflareOpError;
@@ -2719,6 +2914,11 @@ export const updateBucketDomainCustom: API.OperationMethod<
   errors: [NoSuchBucket, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateBucketDomainCustom",
+    input: { bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }] },
+  },
 }));
 
 export type UploadBucketObjectError = NoSuchBucket | CloudflareOpError;
@@ -2734,6 +2934,14 @@ export const uploadBucketObject: API.OperationMethod<
   errors: [NoSuchBucket, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UploadBucketObject",
+    input: {
+      bucketName: [{ name: "cloudflare.bucket_name" }, { name: "cloudflare.r2.bucket" }],
+      objectName: [{ name: "cloudflare.object_name" }, { name: "cloudflare.r2.object_key" }],
+    },
+  },
 }));
 
 // Alias of deleteBucketObject (same route, alternate export name upstream).

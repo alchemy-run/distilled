@@ -17,6 +17,19 @@ const __s: any[] = [];
 
 export type { SpacetimeDBOpError, SpacetimeDBOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "spacetimedb-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "SpacetimeDB",
+  service: "SpacetimeDB",
+  labels: "spacetimedb",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -201,6 +214,8 @@ export const addDatabaseName: API.OperationMethod<
   errors: [UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDatabaseName",
 }));
 
 export type CallReducerError = NotFound | SpacetimeDBOpError;
@@ -216,6 +231,8 @@ export const callReducer: API.OperationMethod<
   errors: [NotFound, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CallReducer",
 }));
 
 export type CreateIdentityError = SpacetimeDBOpError;
@@ -231,6 +248,8 @@ export const createIdentity: API.OperationMethod<
   errors: [UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentity",
 }));
 
 export type CreateWebsocketTokenError = SpacetimeDBOpError;
@@ -246,6 +265,8 @@ export const createWebsocketToken: API.OperationMethod<
   errors: [UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebsocketToken",
 }));
 
 export type DeleteDatabaseError = NotFound | SpacetimeDBOpError;
@@ -261,6 +282,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [NotFound, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type ExecuteSqlError = NotFound | SpacetimeDBOpError;
@@ -276,6 +299,8 @@ export const executeSql: API.OperationMethod<
   errors: [NotFound, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteSql",
 }));
 
 export type GetDatabaseError = NotFound | SpacetimeDBOpError;
@@ -291,6 +316,8 @@ export const getDatabase: API.OperationMethod<
   errors: [NotFound, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabaseIdentityError = NotFound | SpacetimeDBOpError;
@@ -306,6 +333,8 @@ export const getDatabaseIdentity: API.OperationMethod<
   errors: [NotFound, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseIdentity",
 }));
 
 export type GetDatabaseLogsError = NotFound | SpacetimeDBOpError;
@@ -321,6 +350,8 @@ export const getDatabaseLogs: API.OperationMethod<
   errors: [NotFound, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseLogs",
 }));
 
 export type GetDatabaseNamesError = NotFound | SpacetimeDBOpError;
@@ -336,6 +367,8 @@ export const getDatabaseNames: API.OperationMethod<
   errors: [NotFound, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseNames",
 }));
 
 export type GetDatabaseSchemaError = NotFound | SpacetimeDBOpError;
@@ -351,6 +384,8 @@ export const getDatabaseSchema: API.OperationMethod<
   errors: [NotFound, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseSchema",
 }));
 
 export type GetPublicKeyError = SpacetimeDBOpError;
@@ -366,6 +401,8 @@ export const getPublicKey: API.OperationMethod<
   errors: [UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicKey",
 }));
 
 export type ListIdentityDatabasesError = SpacetimeDBOpError;
@@ -381,6 +418,8 @@ export const listIdentityDatabases: API.OperationMethod<
   errors: [UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityDatabases",
 }));
 
 export type PingError = SpacetimeDBOpError;
@@ -392,6 +431,8 @@ export const ping: API.OperationMethod<PingRequest, PingResponse, PingError, Spa
     errors: [UnknownSpacetimeDBError],
     protocol: SpacetimeDBProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Ping",
   }));
 
 export type PublishDatabaseError = SpacetimeDBOpError;
@@ -407,6 +448,8 @@ export const publishDatabase: API.OperationMethod<
   errors: [UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishDatabase",
 }));
 
 export type SetDatabaseNamesError = SpacetimeDBOpError;
@@ -422,6 +465,8 @@ export const setDatabaseNames: API.OperationMethod<
   errors: [UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDatabaseNames",
 }));
 
 export type UpdateDatabaseError = SpacetimeDBOpError;
@@ -437,6 +482,8 @@ export const updateDatabase: API.OperationMethod<
   errors: [UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 export type VerifyIdentityError = BadRequest | SpacetimeDBOpError;
@@ -452,6 +499,8 @@ export const verifyIdentity: API.OperationMethod<
   errors: [BadRequest, UnknownSpacetimeDBError],
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyIdentity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

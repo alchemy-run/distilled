@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "paymentsresellersubscription" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Paymentsresellersubscription",
+  service: "paymentsresellersubscription",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -747,6 +766,8 @@ export const cancelPartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPartnersSubscriptions",
 }));
 
 export type CreatePartnersSubscriptionsError =
@@ -767,6 +788,8 @@ export const createPartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnersSubscriptions",
 }));
 
 export type EntitlePartnersSubscriptionsError =
@@ -787,6 +810,8 @@ export const entitlePartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EntitlePartnersSubscriptions",
 }));
 
 export type ExtendPartnersSubscriptionsError =
@@ -807,6 +832,8 @@ export const extendPartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendPartnersSubscriptions",
 }));
 
 export type FindEligiblePartnersPromotionsError =
@@ -827,6 +854,8 @@ export const findEligiblePartnersPromotions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindEligiblePartnersPromotions",
 }));
 
 export type GeneratePartnersUserSessionsError =
@@ -847,6 +876,8 @@ export const generatePartnersUserSessions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GeneratePartnersUserSessions",
 }));
 
 export type GetPartnersSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -862,6 +893,8 @@ export const getPartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnersSubscriptions",
 }));
 
 export type ListPartnersProductsError = NotFound | Forbidden | GcpOpError;
@@ -878,6 +911,8 @@ export const listPartnersProducts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartnersProducts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -895,6 +930,8 @@ export const listPartnersPromotions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartnersPromotions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -916,6 +953,8 @@ export const patchPartnersSubscriptionsLineItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPartnersSubscriptionsLineItems",
 }));
 
 export type ProvisionPartnersSubscriptionsError =
@@ -936,6 +975,8 @@ export const provisionPartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionPartnersSubscriptions",
 }));
 
 export type ResumePartnersSubscriptionsError =
@@ -956,6 +997,8 @@ export const resumePartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumePartnersSubscriptions",
 }));
 
 export type SuspendPartnersSubscriptionsError =
@@ -976,6 +1019,8 @@ export const suspendPartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendPartnersSubscriptions",
 }));
 
 export type UndoCancelPartnersSubscriptionsError =
@@ -996,6 +1041,8 @@ export const undoCancelPartnersSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndoCancelPartnersSubscriptions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

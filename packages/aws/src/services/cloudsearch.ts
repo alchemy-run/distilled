@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -76,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudsearch.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudSearch",
+  service: "CloudSearch",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BaseException
   extends /*@__PURE__*/ S.TaggedError<BaseException>()("BaseException", {
@@ -668,6 +684,8 @@ export const buildSuggesters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BuildSuggesters",
+  telemetry: TELEMETRY,
+  span: "BuildSuggesters",
 }));
 
 export type CreateDomainError =
@@ -699,6 +717,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type DefineAnalysisSchemeError =
@@ -731,6 +751,8 @@ export const defineAnalysisScheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineAnalysisScheme",
+  telemetry: TELEMETRY,
+  span: "DefineAnalysisScheme",
 }));
 
 export type DefineExpressionError =
@@ -763,6 +785,8 @@ export const defineExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineExpression",
+  telemetry: TELEMETRY,
+  span: "DefineExpression",
 }));
 
 export type DefineIndexFieldError =
@@ -795,6 +819,8 @@ export const defineIndexField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineIndexField",
+  telemetry: TELEMETRY,
+  span: "DefineIndexField",
 }));
 
 export type DefineSuggesterError =
@@ -827,6 +853,8 @@ export const defineSuggester: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineSuggester",
+  telemetry: TELEMETRY,
+  span: "DefineSuggester",
 }));
 
 export type DeleteAnalysisSchemeError =
@@ -857,6 +885,8 @@ export const deleteAnalysisScheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalysisScheme",
+  telemetry: TELEMETRY,
+  span: "DeleteAnalysisScheme",
 }));
 
 export type DeleteDomainError = BaseException | InternalException | CommonErrors;
@@ -876,6 +906,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteExpressionError =
@@ -906,6 +938,8 @@ export const deleteExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExpression",
+  telemetry: TELEMETRY,
+  span: "DeleteExpression",
 }));
 
 export type DeleteIndexFieldError =
@@ -936,6 +970,8 @@ export const deleteIndexField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndexField",
+  telemetry: TELEMETRY,
+  span: "DeleteIndexField",
 }));
 
 export type DeleteSuggesterError =
@@ -966,6 +1002,8 @@ export const deleteSuggester: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSuggester",
+  telemetry: TELEMETRY,
+  span: "DeleteSuggester",
 }));
 
 export type DescribeAnalysisSchemesError =
@@ -988,6 +1026,8 @@ export const describeAnalysisSchemes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysisSchemes",
+  telemetry: TELEMETRY,
+  span: "DescribeAnalysisSchemes",
 }));
 
 export type DescribeAvailabilityOptionsError =
@@ -1020,6 +1060,8 @@ export const describeAvailabilityOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAvailabilityOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeAvailabilityOptions",
 }));
 
 export type DescribeDomainEndpointOptionsError =
@@ -1050,6 +1092,8 @@ export const describeDomainEndpointOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainEndpointOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainEndpointOptions",
 }));
 
 export type DescribeDomainsError = BaseException | InternalException | CommonErrors;
@@ -1070,6 +1114,8 @@ export const describeDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomains",
+  telemetry: TELEMETRY,
+  span: "DescribeDomains",
 }));
 
 export type DescribeExpressionsError =
@@ -1092,6 +1138,8 @@ export const describeExpressions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExpressions",
+  telemetry: TELEMETRY,
+  span: "DescribeExpressions",
 }));
 
 export type DescribeIndexFieldsError =
@@ -1116,6 +1164,8 @@ export const describeIndexFields: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIndexFields",
+  telemetry: TELEMETRY,
+  span: "DescribeIndexFields",
 }));
 
 export type DescribeScalingParametersError =
@@ -1138,6 +1188,8 @@ export const describeScalingParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeScalingParameters",
 }));
 
 export type DescribeServiceAccessPoliciesError =
@@ -1161,6 +1213,8 @@ export const describeServiceAccessPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceAccessPolicies",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceAccessPolicies",
 }));
 
 export type DescribeSuggestersError =
@@ -1183,6 +1237,8 @@ export const describeSuggesters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSuggesters",
+  telemetry: TELEMETRY,
+  span: "DescribeSuggesters",
 }));
 
 export type IndexDocumentsError =
@@ -1206,6 +1262,8 @@ export const indexDocuments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IndexDocuments",
+  telemetry: TELEMETRY,
+  span: "IndexDocuments",
 }));
 
 export type ListDomainNamesError = BaseException | CommonErrors;
@@ -1224,6 +1282,8 @@ export const listDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
+  telemetry: TELEMETRY,
+  span: "ListDomainNames",
 }));
 
 export type UpdateAvailabilityOptionsError =
@@ -1258,6 +1318,8 @@ export const updateAvailabilityOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAvailabilityOptions",
+  telemetry: TELEMETRY,
+  span: "UpdateAvailabilityOptions",
 }));
 
 export type UpdateDomainEndpointOptionsError =
@@ -1292,6 +1354,8 @@ export const updateDomainEndpointOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainEndpointOptions",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainEndpointOptions",
 }));
 
 export type UpdateScalingParametersError =
@@ -1324,6 +1388,8 @@ export const updateScalingParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScalingParameters",
+  telemetry: TELEMETRY,
+  span: "UpdateScalingParameters",
 }));
 
 export type UpdateServiceAccessPoliciesError =
@@ -1358,6 +1424,8 @@ export const updateServiceAccessPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAccessPolicies",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAccessPolicies",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

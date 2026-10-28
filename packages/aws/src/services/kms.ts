@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -71,6 +72,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kms.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KMS",
+  service: "KMS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()(
@@ -1498,6 +1514,8 @@ export const cancelKeyDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelKeyDeletion",
+  telemetry: TELEMETRY,
+  span: "CancelKeyDeletion",
 }));
 
 export type ConnectCustomKeyStoreError =
@@ -1609,6 +1627,8 @@ export const connectCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConnectCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "ConnectCustomKeyStore",
 }));
 
 export type CreateAliasError =
@@ -1687,6 +1707,8 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  telemetry: TELEMETRY,
+  span: "CreateAlias",
 }));
 
 export type CreateCustomKeyStoreError =
@@ -1813,6 +1835,8 @@ export const createCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "CreateCustomKeyStore",
 }));
 
 export type CreateGrantError =
@@ -1906,6 +1930,8 @@ export const createGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrant",
+  telemetry: TELEMETRY,
+  span: "CreateGrant",
 }));
 
 export type CreateKeyError =
@@ -2116,6 +2142,8 @@ export const createKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKey",
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type DecryptError =
@@ -2229,6 +2257,8 @@ export const decrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Decrypt",
+  telemetry: TELEMETRY,
+  span: "Decrypt",
 }));
 
 export type DeleteAliasError =
@@ -2290,6 +2320,8 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteAlias",
 }));
 
 export type DeleteCustomKeyStoreError =
@@ -2366,6 +2398,8 @@ export const deleteCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomKeyStore",
 }));
 
 export type DeleteImportedKeyMaterialError =
@@ -2432,6 +2466,8 @@ export const deleteImportedKeyMaterial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportedKeyMaterial",
+  telemetry: TELEMETRY,
+  span: "DeleteImportedKeyMaterial",
 }));
 
 export type DeriveSharedSecretError =
@@ -2543,6 +2579,8 @@ export const deriveSharedSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeriveSharedSecret",
+  telemetry: TELEMETRY,
+  span: "DeriveSharedSecret",
 }));
 
 export type DescribeCustomKeyStoresError =
@@ -2620,6 +2658,8 @@ export const describeCustomKeyStores: API.PaginatedOperationMethod<
     items: "CustomKeyStores",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCustomKeyStores",
 })) as any;
 
 export type DescribeKeyError =
@@ -2704,6 +2744,8 @@ export const describeKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKey",
+  telemetry: TELEMETRY,
+  span: "DescribeKey",
 }));
 
 export type DisableKeyError =
@@ -2750,6 +2792,8 @@ export const disableKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableKey",
+  telemetry: TELEMETRY,
+  span: "DisableKey",
 }));
 
 export type DisableKeyRotationError =
@@ -2816,6 +2860,8 @@ export const disableKeyRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableKeyRotation",
+  telemetry: TELEMETRY,
+  span: "DisableKeyRotation",
 }));
 
 export type DisconnectCustomKeyStoreError =
@@ -2881,6 +2927,8 @@ export const disconnectCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "DisconnectCustomKeyStore",
 }));
 
 export type EnableKeyError =
@@ -2926,6 +2974,8 @@ export const enableKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableKey",
+  telemetry: TELEMETRY,
+  span: "EnableKey",
 }));
 
 export type EnableKeyRotationError =
@@ -3012,6 +3062,8 @@ export const enableKeyRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableKeyRotation",
+  telemetry: TELEMETRY,
+  span: "EnableKeyRotation",
 }));
 
 export type EncryptError =
@@ -3118,6 +3170,8 @@ export const encrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Encrypt",
+  telemetry: TELEMETRY,
+  span: "Encrypt",
 }));
 
 export type GenerateDataKeyError =
@@ -3242,6 +3296,8 @@ export const generateDataKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKey",
+  telemetry: TELEMETRY,
+  span: "GenerateDataKey",
 }));
 
 export type GenerateDataKeyPairError =
@@ -3354,6 +3410,8 @@ export const generateDataKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyPair",
+  telemetry: TELEMETRY,
+  span: "GenerateDataKeyPair",
 }));
 
 export type GenerateDataKeyPairWithoutPlaintextError =
@@ -3447,6 +3505,8 @@ export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyPairWithoutPlaintext",
+  telemetry: TELEMETRY,
+  span: "GenerateDataKeyPairWithoutPlaintext",
 }));
 
 export type GenerateDataKeyWithoutPlaintextError =
@@ -3551,6 +3611,8 @@ export const generateDataKeyWithoutPlaintext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyWithoutPlaintext",
+  telemetry: TELEMETRY,
+  span: "GenerateDataKeyWithoutPlaintext",
 }));
 
 export type GenerateMacError =
@@ -3618,6 +3680,8 @@ export const generateMac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMac",
+  telemetry: TELEMETRY,
+  span: "GenerateMac",
 }));
 
 export type GenerateRandomError =
@@ -3673,6 +3737,8 @@ export const generateRandom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateRandom",
+  telemetry: TELEMETRY,
+  span: "GenerateRandom",
 }));
 
 export type GetKeyLastUsageError =
@@ -3753,6 +3819,8 @@ export const getKeyLastUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyLastUsage",
+  telemetry: TELEMETRY,
+  span: "GetKeyLastUsage",
 }));
 
 export type GetKeyPolicyError =
@@ -3792,6 +3860,8 @@ export const getKeyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyPolicy",
+  telemetry: TELEMETRY,
+  span: "GetKeyPolicy",
 }));
 
 export type GetKeyRotationStatusError =
@@ -3876,6 +3946,8 @@ export const getKeyRotationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyRotationStatus",
+  telemetry: TELEMETRY,
+  span: "GetKeyRotationStatus",
 }));
 
 export type GetParametersForImportError =
@@ -3972,6 +4044,8 @@ export const getParametersForImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParametersForImport",
+  telemetry: TELEMETRY,
+  span: "GetParametersForImport",
 }));
 
 export type GetPublicKeyError =
@@ -4059,6 +4133,8 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
+  telemetry: TELEMETRY,
+  span: "GetPublicKey",
 }));
 
 export type ImportKeyMaterialError =
@@ -4212,6 +4288,8 @@ export const importKeyMaterial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportKeyMaterial",
+  telemetry: TELEMETRY,
+  span: "ImportKeyMaterial",
 }));
 
 export type ListAliasesError =
@@ -4283,6 +4361,8 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAliases",
 })) as any;
 
 export type ListGrantsError =
@@ -4360,6 +4440,8 @@ export const listGrants: API.PaginatedOperationMethod<
     items: "Grants",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGrants",
 })) as any;
 
 export type ListKeyPoliciesError =
@@ -4412,6 +4494,8 @@ export const listKeyPolicies: API.PaginatedOperationMethod<
     items: "PolicyNames",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyPolicies",
 })) as any;
 
 export type ListKeyRotationsError =
@@ -4480,6 +4564,8 @@ export const listKeyRotations: API.PaginatedOperationMethod<
     items: "Rotations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyRotations",
 })) as any;
 
 export type ListKeysError =
@@ -4526,6 +4612,8 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Keys",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeys",
 })) as any;
 
 export type ListResourceTagsError =
@@ -4578,6 +4666,8 @@ export const listResourceTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceTags",
 })) as any;
 
 export type ListRetirableGrantsError =
@@ -4659,6 +4749,8 @@ export const listRetirableGrants: API.PaginatedOperationMethod<
     items: "Grants",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetirableGrants",
 })) as any;
 
 export type PutKeyPolicyError =
@@ -4711,6 +4803,8 @@ export const putKeyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKeyPolicy",
+  telemetry: TELEMETRY,
+  span: "PutKeyPolicy",
 }));
 
 export type ReEncryptError =
@@ -4832,6 +4926,8 @@ export const reEncrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReEncrypt",
+  telemetry: TELEMETRY,
+  span: "ReEncrypt",
 }));
 
 export type ReplicateKeyError =
@@ -4942,6 +5038,8 @@ export const replicateKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplicateKey",
+  telemetry: TELEMETRY,
+  span: "ReplicateKey",
 }));
 
 export type RetireGrantError =
@@ -5012,6 +5110,8 @@ export const retireGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetireGrant",
+  telemetry: TELEMETRY,
+  span: "RetireGrant",
 }));
 
 export type RevokeGrantError =
@@ -5079,6 +5179,8 @@ export const revokeGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeGrant",
+  telemetry: TELEMETRY,
+  span: "RevokeGrant",
 }));
 
 export type RotateKeyOnDemandError =
@@ -5171,6 +5273,8 @@ export const rotateKeyOnDemand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateKeyOnDemand",
+  telemetry: TELEMETRY,
+  span: "RotateKeyOnDemand",
 }));
 
 export type ScheduleKeyDeletionError =
@@ -5254,6 +5358,8 @@ export const scheduleKeyDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScheduleKeyDeletion",
+  telemetry: TELEMETRY,
+  span: "ScheduleKeyDeletion",
 }));
 
 export type SignError =
@@ -5342,6 +5448,8 @@ export const sign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Sign",
+  telemetry: TELEMETRY,
+  span: "Sign",
 }));
 
 export type TagResourceError =
@@ -5411,6 +5519,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5472,6 +5582,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAliasError =
@@ -5550,6 +5662,8 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateAlias",
 }));
 
 export type UpdateCustomKeyStoreError =
@@ -5688,6 +5802,8 @@ export const updateCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomKeyStore",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomKeyStore",
 }));
 
 export type UpdateKeyDescriptionError =
@@ -5734,6 +5850,8 @@ export const updateKeyDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyDescription",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyDescription",
 }));
 
 export type UpdatePrimaryRegionError =
@@ -5826,6 +5944,8 @@ export const updatePrimaryRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrimaryRegion",
+  telemetry: TELEMETRY,
+  span: "UpdatePrimaryRegion",
 }));
 
 export type VerifyError =
@@ -5907,6 +6027,8 @@ export const verify: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Verify",
+  telemetry: TELEMETRY,
+  span: "Verify",
 }));
 
 export type VerifyMacError =
@@ -5970,6 +6092,8 @@ export const verifyMac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyMac",
+  telemetry: TELEMETRY,
+  span: "VerifyMac",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "CustomPropertySources",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateCustomPropertySourceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -213,6 +226,8 @@ export const createCustomPropertySource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomPropertySource",
 }));
 
 export type CustomPropertySourcesBackfillError = PosthogOpError;
@@ -228,6 +243,8 @@ export const customPropertySourcesBackfill: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertySourcesBackfill",
 }));
 
 export type CustomPropertySourcesDestroyError = PosthogOpError;
@@ -242,6 +259,8 @@ export const customPropertySourcesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertySourcesDestroy",
 }));
 
 export type GetCustomPropertySourceError = PosthogOpError;
@@ -256,6 +275,8 @@ export const getCustomPropertySource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomPropertySource",
 }));
 
 export type ListCustomPropertySourcesError = PosthogOpError;
@@ -270,6 +291,8 @@ export const listCustomPropertySources: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomPropertySources",
 }));
 
 export type ListCustomPropertySourcesRunsError = PosthogOpError;
@@ -285,6 +308,8 @@ export const listCustomPropertySourcesRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomPropertySourcesRuns",
 }));
 
 export type SyncCustomPropertySourceError = PosthogOpError;
@@ -300,6 +325,8 @@ export const syncCustomPropertySource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncCustomPropertySource",
 }));
 
 export type UpdateCustomPropertySourceError = PosthogOpError;
@@ -314,6 +341,8 @@ export const updateCustomPropertySource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomPropertySource",
 }));
 
 export type UpdateCustomPropertySourcesPartialError = PosthogOpError;
@@ -328,6 +357,8 @@ export const updateCustomPropertySourcesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomPropertySourcesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { RemoteOpError, RemoteOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "remote-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Remote",
+  service: "Remote",
+  labels: "remote",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -9978,6 +9991,8 @@ export const createAuthOauth2Token: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthOauth2Token",
 }));
 
 export type CreateBulkEmploymentJobError =
@@ -9997,6 +10012,8 @@ export const createBulkEmploymentJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBulkEmploymentJob",
 }));
 
 export type CreateCompanyError =
@@ -10017,6 +10034,8 @@ export const createCompany: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompany",
 }));
 
 export type CreateCompanyCreateTokenError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10032,6 +10051,8 @@ export const createCompanyCreateToken: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyCreateToken",
 }));
 
 export type CreateCompanyDepartmentError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10047,6 +10068,8 @@ export const createCompanyDepartment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyDepartment",
 }));
 
 export type CreateCompanyManagerError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -10062,6 +10085,8 @@ export const createCompanyManager: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyManager",
 }));
 
 export type CreateCompanyPricingPlanError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10077,6 +10102,8 @@ export const createCompanyPricingPlan: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCompanyPricingPlan",
 }));
 
 export type CreateContractAmendmentError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10092,6 +10119,8 @@ export const createContractAmendment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractAmendment",
 }));
 
 export type CreateContractAmendmentsAutomatableError =
@@ -10110,6 +10139,8 @@ export const createContractAmendmentsAutomatable: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractAmendmentsAutomatable",
 }));
 
 export type CreateContractorInvoiceScheduleError =
@@ -10129,6 +10160,8 @@ export const createContractorInvoiceSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorInvoiceSchedule",
 }));
 
 export type CreateContractorsEligibilityQuestionnaireError =
@@ -10148,6 +10181,8 @@ export const createContractorsEligibilityQuestionnaire: API.OperationMethod<
   errors: [Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorsEligibilityQuestionnaire",
 }));
 
 export type CreateContractorsEmploymentContractDocumentError =
@@ -10166,6 +10201,8 @@ export const createContractorsEmploymentContractDocument: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorsEmploymentContractDocument",
 }));
 
 export type CreateContractorsEmploymentContractDocumentSignError =
@@ -10188,6 +10225,8 @@ export const createContractorsEmploymentContractDocumentSign: API.OperationMetho
   errors: [BadRequest, Forbidden, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorsEmploymentContractDocumentSign",
 }));
 
 export type CreateContractorsEmploymentContractorCorSubscriptionError =
@@ -10212,6 +10251,8 @@ export const createContractorsEmploymentContractorCorSubscription: API.Operation
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorsEmploymentContractorCorSubscription",
 }));
 
 export type CreateContractorsEmploymentContractorPlusSubscriptionError =
@@ -10234,6 +10275,8 @@ export const createContractorsEmploymentContractorPlusSubscription: API.Operatio
   errors: [BadRequest, Forbidden, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorsEmploymentContractorPlusSubscription",
 }));
 
 export type CreateContractorsEmploymentCorTerminationRequestError =
@@ -10258,6 +10301,8 @@ export const createContractorsEmploymentCorTerminationRequest: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorsEmploymentCorTerminationRequest",
 }));
 
 export type CreateContractorsEmploymentTimesheetError =
@@ -10278,6 +10323,8 @@ export const createContractorsEmploymentTimesheet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContractorsEmploymentTimesheet",
 }));
 
 export type CreateCostCalculatorEstimationError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10293,6 +10340,8 @@ export const createCostCalculatorEstimation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCostCalculatorEstimation",
 }));
 
 export type CreateCostCalculatorEstimationCsvError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10308,6 +10357,8 @@ export const createCostCalculatorEstimationCsv: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCostCalculatorEstimationCsv",
 }));
 
 export type CreateCostCalculatorEstimationPdfError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10323,6 +10374,8 @@ export const createCostCalculatorEstimationPdf: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCostCalculatorEstimationPdf",
 }));
 
 export type CreateCurrencyConverterEffectiveError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10338,6 +10391,8 @@ export const createCurrencyConverterEffective: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCurrencyConverterEffective",
 }));
 
 export type CreateCurrencyConverterRawError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10353,6 +10408,8 @@ export const createCurrencyConverterRaw: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCurrencyConverterRaw",
 }));
 
 export type CreateCustomFieldError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10368,6 +10425,8 @@ export const createCustomField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomField",
 }));
 
 export type CreateDocumentError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10383,6 +10442,8 @@ export const createDocument: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDocument",
 }));
 
 export type CreateEmployeeDocumentError =
@@ -10403,6 +10464,8 @@ export const createEmployeeDocument: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeDocument",
 }));
 
 export type CreateEmployeeExpensError =
@@ -10422,6 +10485,8 @@ export const createEmployeeExpens: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeExpens",
 }));
 
 export type CreateEmployeeTimeoffError =
@@ -10441,6 +10506,8 @@ export const createEmployeeTimeoff: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeTimeoff",
 }));
 
 export type CreateEmployeeTimeoffCancelError =
@@ -10460,6 +10527,8 @@ export const createEmployeeTimeoffCancel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployeeTimeoffCancel",
 }));
 
 export type CreateEmploymentError =
@@ -10480,6 +10549,8 @@ export const createEmployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmployment",
 }));
 
 export type CreateEmploymentContractEligibilityError =
@@ -10498,6 +10569,8 @@ export const createEmploymentContractEligibility: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmploymentContractEligibility",
 }));
 
 export type CreateEmploymentContractOriginError =
@@ -10517,6 +10590,8 @@ export const createEmploymentContractOrigin: API.OperationMethod<
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmploymentContractOrigin",
 }));
 
 export type CreateEmploymentContractorInvoicesPreviewError =
@@ -10536,6 +10611,8 @@ export const createEmploymentContractorInvoicesPreview: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmploymentContractorInvoicesPreview",
 }));
 
 export type CreateEmploymentEngagementAgreementDetailError =
@@ -10557,6 +10634,8 @@ export const createEmploymentEngagementAgreementDetail: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmploymentEngagementAgreementDetail",
 }));
 
 export type CreateEmploymentEngagementAgreementDetail2Error =
@@ -10578,6 +10657,8 @@ export const createEmploymentEngagementAgreementDetail2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmploymentEngagementAgreementDetail2",
 }));
 
 export type CreateEmploymentInviteError =
@@ -10597,6 +10678,8 @@ export const createEmploymentInvite: API.OperationMethod<
   errors: [BadRequest, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmploymentInvite",
 }));
 
 export type CreateEmploymentJobTitleEligibilityCheckError =
@@ -10617,6 +10700,8 @@ export const createEmploymentJobTitleEligibilityCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmploymentJobTitleEligibilityCheck",
 }));
 
 export type CreateExpensError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -10632,6 +10717,8 @@ export const createExpens: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExpens",
 }));
 
 export type CreateIdentityVerificationDeclineError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10647,6 +10734,8 @@ export const createIdentityVerificationDecline: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityVerificationDecline",
 }));
 
 export type CreateIdentityVerificationVerifyError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10662,6 +10751,8 @@ export const createIdentityVerificationVerify: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityVerificationVerify",
 }));
 
 export type CreateIncentiveError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -10677,6 +10768,8 @@ export const createIncentive: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncentive",
 }));
 
 export type CreateIncentivesRecurringError =
@@ -10696,6 +10789,8 @@ export const createIncentivesRecurring: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIncentivesRecurring",
 }));
 
 export type CreateJobTitleScreeningError =
@@ -10715,6 +10810,8 @@ export const createJobTitleScreening: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJobTitleScreening",
 }));
 
 export type CreateMagicLinkError = UnprocessableEntity | RemoteOpError;
@@ -10730,6 +10827,8 @@ export const createMagicLink: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMagicLink",
 }));
 
 export type CreateOffboardingError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -10745,6 +10844,8 @@ export const createOffboarding: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOffboarding",
 }));
 
 export type CreateOnboardingEmploymentPreOnboardingDocumentSignError =
@@ -10769,6 +10870,8 @@ export const createOnboardingEmploymentPreOnboardingDocumentSign: API.OperationM
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnboardingEmploymentPreOnboardingDocumentSign",
 }));
 
 export type CreateOnboardingEmploymentPreOnboardingRequirementAcknowledgeError =
@@ -10792,6 +10895,8 @@ export const createOnboardingEmploymentPreOnboardingRequirementAcknowledge: API.
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnboardingEmploymentPreOnboardingRequirementAcknowledge",
 }));
 
 export type CreateOnboardingEmploymentPreOnboardingRequirementDocumentError =
@@ -10815,6 +10920,8 @@ export const createOnboardingEmploymentPreOnboardingRequirementDocument: API.Ope
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnboardingEmploymentPreOnboardingRequirementDocument",
 }));
 
 export type CreatePayItemsBulkError =
@@ -10835,6 +10942,8 @@ export const createPayItemsBulk: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayItemsBulk",
 }));
 
 export type CreatePayrollRunGlReportError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10850,6 +10959,8 @@ export const createPayrollRunGlReport: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayrollRunGlReport",
 }));
 
 export type CreateProbationCompletionLetterError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10865,6 +10976,8 @@ export const createProbationCompletionLetter: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProbationCompletionLetter",
 }));
 
 export type CreateProbationExtensionError =
@@ -10884,6 +10997,8 @@ export const createProbationExtension: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProbationExtension",
 }));
 
 export type CreateProjectError = Forbidden | UnprocessableEntity | RemoteOpError;
@@ -10899,6 +11014,8 @@ export const createProject: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRiskReserveError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -10914,6 +11031,8 @@ export const createRiskReserve: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRiskReserve",
 }));
 
 export type CreateSandboxBenefitRenewalRequestError =
@@ -10936,6 +11055,8 @@ export const createSandboxBenefitRenewalRequest: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxBenefitRenewalRequest",
 }));
 
 export type CreateSandboxCompanyBypassEligibilityCheckError =
@@ -10959,6 +11080,8 @@ export const createSandboxCompanyBypassEligibilityCheck: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxCompanyBypassEligibilityCheck",
 }));
 
 export type CreateSandboxCompanyLegalEntityError =
@@ -10978,6 +11101,8 @@ export const createSandboxCompanyLegalEntity: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxCompanyLegalEntity",
 }));
 
 export type CreateSandboxCompanyLegalEntityActivateGlobalPayrollError =
@@ -11001,6 +11126,8 @@ export const createSandboxCompanyLegalEntityActivateGlobalPayroll: API.Operation
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxCompanyLegalEntityActivateGlobalPayroll",
 }));
 
 export type CreateSandboxCompanyLegalEntitySetCreditRiskStatusError =
@@ -11024,6 +11151,8 @@ export const createSandboxCompanyLegalEntitySetCreditRiskStatus: API.OperationMe
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxCompanyLegalEntitySetCreditRiskStatus",
 }));
 
 export type CreateSandboxContractorsEmploymentRateError =
@@ -11043,6 +11172,8 @@ export const createSandboxContractorsEmploymentRate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxContractorsEmploymentRate",
 }));
 
 export type CreateSandboxEmploymentError =
@@ -11062,6 +11193,8 @@ export const createSandboxEmployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxEmployment",
 }));
 
 export type CreateSandboxEmploymentJobTitleEligibilityCheckError =
@@ -11085,6 +11218,8 @@ export const createSandboxEmploymentJobTitleEligibilityCheck: API.OperationMetho
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxEmploymentJobTitleEligibilityCheck",
 }));
 
 export type CreateSandboxEmploymentJobTitleReviewApproveError =
@@ -11108,6 +11243,8 @@ export const createSandboxEmploymentJobTitleReviewApprove: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxEmploymentJobTitleReviewApprove",
 }));
 
 export type CreateSandboxEmploymentJobTitleReviewRejectError =
@@ -11131,6 +11268,8 @@ export const createSandboxEmploymentJobTitleReviewReject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxEmploymentJobTitleReviewReject",
 }));
 
 export type CreateSandboxWebhookCallbacksTriggerError =
@@ -11149,6 +11288,8 @@ export const createSandboxWebhookCallbacksTrigger: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxWebhookCallbacksTrigger",
 }));
 
 export type CreateSdkTelemetryErrorError = BadRequest | RemoteOpError;
@@ -11164,6 +11305,8 @@ export const createSdkTelemetryError: API.OperationMethod<
   errors: [BadRequest, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSdkTelemetryError",
 }));
 
 export type CreateSsoConfigurationError =
@@ -11184,6 +11327,8 @@ export const createSsoConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSsoConfiguration",
 }));
 
 export type CreateTimeoffError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11199,6 +11344,8 @@ export const createTimeoff: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimeoff",
 }));
 
 export type CreateTimeoffApproveError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11214,6 +11361,8 @@ export const createTimeoffApprove: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimeoffApprove",
 }));
 
 export type CreateTimeoffCancelError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11229,6 +11378,8 @@ export const createTimeoffCancel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimeoffCancel",
 }));
 
 export type CreateTimeoffCancelRequestApproveError = UnprocessableEntity | RemoteOpError;
@@ -11244,6 +11395,8 @@ export const createTimeoffCancelRequestApprove: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimeoffCancelRequestApprove",
 }));
 
 export type CreateTimeoffCancelRequestDeclineError = Conflict | UnprocessableEntity | RemoteOpError;
@@ -11259,6 +11412,8 @@ export const createTimeoffCancelRequestDecline: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimeoffCancelRequestDecline",
 }));
 
 export type CreateTimeoffDeclineError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11274,6 +11429,8 @@ export const createTimeoffDecline: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimeoffDecline",
 }));
 
 export type CreateTimesheetApproveError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11289,6 +11446,8 @@ export const createTimesheetApprove: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimesheetApprove",
 }));
 
 export type CreateTimesheetSendBackError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11304,6 +11463,8 @@ export const createTimesheetSendBack: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTimesheetSendBack",
 }));
 
 export type CreateWebhookCallbackError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11319,6 +11480,8 @@ export const createWebhookCallback: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhookCallback",
 }));
 
 export type CreateWebhookEventsReplayError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11334,6 +11497,8 @@ export const createWebhookEventsReplay: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhookEventsReplay",
 }));
 
 export type DeleteCompanyManagerError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11349,6 +11514,8 @@ export const deleteCompanyManager: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCompanyManager",
 }));
 
 export type DeleteContractorsEmploymentContractorCorSubscriptionError =
@@ -11376,6 +11543,8 @@ export const deleteContractorsEmploymentContractorCorSubscription: API.Operation
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContractorsEmploymentContractorCorSubscription",
 }));
 
 export type DeleteIncentiveError =
@@ -11396,6 +11565,8 @@ export const deleteIncentive: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncentive",
 }));
 
 export type DeleteIncentivesRecurringError =
@@ -11415,6 +11586,8 @@ export const deleteIncentivesRecurring: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncentivesRecurring",
 }));
 
 export type DeleteOnboardingEmploymentPreOnboardingRequirementAcknowledgeError =
@@ -11438,6 +11611,8 @@ export const deleteOnboardingEmploymentPreOnboardingRequirementAcknowledge: API.
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOnboardingEmploymentPreOnboardingRequirementAcknowledge",
 }));
 
 export type DeletePayItemError =
@@ -11458,6 +11633,8 @@ export const deletePayItem: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePayItem",
 }));
 
 export type DeleteSandboxEmploymentError =
@@ -11477,6 +11654,8 @@ export const deleteSandboxEmployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandboxEmployment",
 }));
 
 export type DeleteWebhookCallbackError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11492,6 +11671,8 @@ export const deleteWebhookCallback: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookCallback",
 }));
 
 export type GetAdpSubscriptionCancellationsError = UnprocessableEntity | RemoteOpError;
@@ -11507,6 +11688,8 @@ export const getAdpSubscriptionCancellations: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdpSubscriptionCancellations",
 }));
 
 export type GetAdpSubscriptionChangesError = UnprocessableEntity | RemoteOpError;
@@ -11522,6 +11705,8 @@ export const getAdpSubscriptionChanges: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdpSubscriptionChanges",
 }));
 
 export type GetAdpSubscriptionOrdersError = UnprocessableEntity | RemoteOpError;
@@ -11537,6 +11722,8 @@ export const getAdpSubscriptionOrders: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdpSubscriptionOrders",
 }));
 
 export type GetAdpSubscriptionStatusError = UnprocessableEntity | RemoteOpError;
@@ -11552,6 +11739,8 @@ export const getAdpSubscriptionStatus: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdpSubscriptionStatus",
 }));
 
 export type GetAdpUserAssignmentsError = UnprocessableEntity | RemoteOpError;
@@ -11567,6 +11756,8 @@ export const getAdpUserAssignments: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdpUserAssignments",
 }));
 
 export type GetAdpUserUnassignmentsError = UnprocessableEntity | RemoteOpError;
@@ -11582,6 +11773,8 @@ export const getAdpUserUnassignments: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdpUserUnassignments",
 }));
 
 export type GetBenefitOffersError = NotFound | RemoteOpError;
@@ -11597,6 +11790,8 @@ export const getBenefitOffers: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBenefitOffers",
 }));
 
 export type GetBenefitOffersCountrySummariesError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11612,6 +11807,8 @@ export const getBenefitOffersCountrySummaries: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBenefitOffersCountrySummaries",
 }));
 
 export type GetBenefitRenewalRequestError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11631,6 +11828,8 @@ export const getBenefitRenewalRequest: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBenefitRenewalRequest",
 }));
 
 export type GetBenefitRenewalRequestsError =
@@ -11654,6 +11853,8 @@ export const getBenefitRenewalRequests: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBenefitRenewalRequests",
 }));
 
 export type GetBenefitRenewalRequestSchemaError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11673,6 +11874,8 @@ export const getBenefitRenewalRequestSchema: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBenefitRenewalRequestSchema",
 }));
 
 export type GetBillingDocumentError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11688,6 +11891,8 @@ export const getBillingDocument: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingDocument",
 }));
 
 export type GetBillingDocumentBreakdownError =
@@ -11707,6 +11912,8 @@ export const getBillingDocumentBreakdown: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingDocumentBreakdown",
 }));
 
 export type GetBillingDocumentPdfError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11722,6 +11929,8 @@ export const getBillingDocumentPdf: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingDocumentPdf",
 }));
 
 export type GetBillingDocumentsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11737,6 +11946,8 @@ export const getBillingDocuments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingDocuments",
 }));
 
 export type GetBulkEmploymentJobError = BadRequest | Forbidden | NotFound | RemoteOpError;
@@ -11752,6 +11963,8 @@ export const getBulkEmploymentJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBulkEmploymentJob",
 }));
 
 export type GetBulkEmploymentJobRowsError = BadRequest | Forbidden | NotFound | RemoteOpError;
@@ -11767,6 +11980,8 @@ export const getBulkEmploymentJobRows: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBulkEmploymentJobRows",
 }));
 
 export type GetCompaniesError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11782,6 +11997,8 @@ export const getCompanies: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanies",
 }));
 
 export type GetCompaniesSchemaError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11797,6 +12014,8 @@ export const getCompaniesSchema: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompaniesSchema",
 }));
 
 export type GetCompanyError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11812,6 +12031,8 @@ export const getCompany: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompany",
 }));
 
 export type GetCompanyActionsError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11827,6 +12048,8 @@ export const getCompanyActions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyActions",
 }));
 
 export type GetCompanyComplianceProfileError = Forbidden | NotFound | RemoteOpError;
@@ -11842,6 +12065,8 @@ export const getCompanyComplianceProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyComplianceProfile",
 }));
 
 export type GetCompanyCostCenterAllocationsError =
@@ -11861,6 +12086,8 @@ export const getCompanyCostCenterAllocations: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyCostCenterAllocations",
 }));
 
 export type GetCompanyCurrenciesError = NotFound | RemoteOpError;
@@ -11876,6 +12103,8 @@ export const getCompanyCurrencies: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyCurrencies",
 }));
 
 export type GetCompanyDepartmentsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -11891,6 +12120,8 @@ export const getCompanyDepartments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyDepartments",
 }));
 
 export type GetCompanyEmploymentOnboardingReservesStatusError =
@@ -11909,6 +12140,8 @@ export const getCompanyEmploymentOnboardingReservesStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyEmploymentOnboardingReservesStatus",
 }));
 
 export type GetCompanyLegalEntitiesError = NotFound | RemoteOpError;
@@ -11924,6 +12157,8 @@ export const getCompanyLegalEntities: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyLegalEntities",
 }));
 
 export type GetCompanyLegalEntityAdministrativeDetailsError = NotFound | RemoteOpError;
@@ -11939,6 +12174,8 @@ export const getCompanyLegalEntityAdministrativeDetails: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyLegalEntityAdministrativeDetails",
 }));
 
 export type GetCompanyLegalEntityContractorEligibilityError = NotFound | RemoteOpError;
@@ -11954,6 +12191,8 @@ export const getCompanyLegalEntityContractorEligibility: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyLegalEntityContractorEligibility",
 }));
 
 export type GetCompanyLegalEntityPayCodesError = Forbidden | NotFound | RemoteOpError;
@@ -11969,6 +12208,8 @@ export const getCompanyLegalEntityPayCodes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyLegalEntityPayCodes",
 }));
 
 export type GetCompanyManagerError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11984,6 +12225,8 @@ export const getCompanyManager: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyManager",
 }));
 
 export type GetCompanyManagersError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -11999,6 +12242,8 @@ export const getCompanyManagers: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyManagers",
 }));
 
 export type GetCompanyPricingPlansError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12014,6 +12259,8 @@ export const getCompanyPricingPlans: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyPricingPlans",
 }));
 
 export type GetCompanyProductPricesError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12029,6 +12276,8 @@ export const getCompanyProductPrices: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyProductPrices",
 }));
 
 export type GetCompanyWebhookCallbacksError = NotFound | RemoteOpError;
@@ -12044,6 +12293,8 @@ export const getCompanyWebhookCallbacks: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompanyWebhookCallbacks",
 }));
 
 export type GetContractAmendmentError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12059,6 +12310,8 @@ export const getContractAmendment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractAmendment",
 }));
 
 export type GetContractAmendmentsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12074,6 +12327,8 @@ export const getContractAmendments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractAmendments",
 }));
 
 export type GetContractAmendmentsSchemaError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12089,6 +12344,8 @@ export const getContractAmendmentsSchema: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractAmendmentsSchema",
 }));
 
 export type GetContractorInvoiceError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
@@ -12104,6 +12361,8 @@ export const getContractorInvoice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorInvoice",
 }));
 
 export type GetContractorInvoicesError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
@@ -12119,6 +12378,8 @@ export const getContractorInvoices: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorInvoices",
 }));
 
 export type GetContractorInvoiceScheduleError =
@@ -12139,6 +12400,8 @@ export const getContractorInvoiceSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorInvoiceSchedule",
 }));
 
 export type GetContractorInvoiceSchedulesError = Forbidden | NotFound | RemoteOpError;
@@ -12154,6 +12417,8 @@ export const getContractorInvoiceSchedules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorInvoiceSchedules",
 }));
 
 export type GetContractorsCorTerminationRequestsError = Forbidden | NotFound | RemoteOpError;
@@ -12169,6 +12434,8 @@ export const getContractorsCorTerminationRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorsCorTerminationRequests",
 }));
 
 export type GetContractorsEmploymentContractDocumentError =
@@ -12187,6 +12454,8 @@ export const getContractorsEmploymentContractDocument: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorsEmploymentContractDocument",
 }));
 
 export type GetContractorsEmploymentContractorCurrenciesError =
@@ -12209,6 +12478,8 @@ export const getContractorsEmploymentContractorCurrencies: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorsEmploymentContractorCurrencies",
 }));
 
 export type GetContractorsEmploymentContractorSubscriptionsError =
@@ -12231,6 +12502,8 @@ export const getContractorsEmploymentContractorSubscriptions: API.OperationMetho
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorsEmploymentContractorSubscriptions",
 }));
 
 export type GetContractorsEmploymentCorTerminationRequestError =
@@ -12253,6 +12526,8 @@ export const getContractorsEmploymentCorTerminationRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorsEmploymentCorTerminationRequest",
 }));
 
 export type GetContractorsEmploymentRatesError =
@@ -12272,6 +12547,8 @@ export const getContractorsEmploymentRates: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorsEmploymentRates",
 }));
 
 export type GetContractorsSchemasEligibilityQuestionnaireError =
@@ -12294,6 +12571,8 @@ export const getContractorsSchemasEligibilityQuestionnaire: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContractorsSchemasEligibilityQuestionnaire",
 }));
 
 export type GetCostCalculatorCountriesError = RemoteOpError;
@@ -12309,6 +12588,8 @@ export const getCostCalculatorCountries: API.OperationMethod<
   errors: [UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostCalculatorCountries",
 }));
 
 export type GetCostCalculatorRegionFieldsError = RemoteOpError;
@@ -12324,6 +12605,8 @@ export const getCostCalculatorRegionFields: API.OperationMethod<
   errors: [UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCostCalculatorRegionFields",
 }));
 
 export type GetCountriesError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -12339,6 +12622,8 @@ export const getCountries: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountries",
 }));
 
 export type GetCountryError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -12354,6 +12639,8 @@ export const getCountry: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountry",
 }));
 
 export type GetCountryContractorContractDetailsError =
@@ -12373,6 +12660,8 @@ export const getCountryContractorContractDetails: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountryContractorContractDetails",
 }));
 
 export type GetCountryHolidayError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12388,6 +12677,8 @@ export const getCountryHoliday: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountryHoliday",
 }));
 
 export type GetCountryLegalEntityFormError =
@@ -12407,6 +12698,8 @@ export const getCountryLegalEntityForm: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCountryLegalEntityForm",
 }));
 
 export type GetCustomFieldsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12422,6 +12715,8 @@ export const getCustomFields: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomFields",
 }));
 
 export type GetCustomFieldValueError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12437,6 +12732,8 @@ export const getCustomFieldValue: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomFieldValue",
 }));
 
 export type GetDirectOffboardingsError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
@@ -12452,6 +12749,8 @@ export const getDirectOffboardings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDirectOffboardings",
 }));
 
 export type GetEmployeeAddressError = BadRequest | Forbidden | NotFound | RemoteOpError;
@@ -12467,6 +12766,8 @@ export const getEmployeeAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeAddress",
 }));
 
 export type GetEmployeeBankAccountError = BadRequest | Forbidden | NotFound | RemoteOpError;
@@ -12482,6 +12783,8 @@ export const getEmployeeBankAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeBankAccount",
 }));
 
 export type GetEmployeeCurrentError = Forbidden | RemoteOpError;
@@ -12497,6 +12800,8 @@ export const getEmployeeCurrent: API.OperationMethod<
   errors: [Forbidden, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeCurrent",
 }));
 
 export type GetEmployeeDocumentError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12512,6 +12817,8 @@ export const getEmployeeDocument: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeDocument",
 }));
 
 export type GetEmployeeDocumentsError = Forbidden | NotFound | RemoteOpError;
@@ -12527,6 +12834,8 @@ export const getEmployeeDocuments: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeDocuments",
 }));
 
 export type GetEmployeeEmergencyContactError = BadRequest | Forbidden | NotFound | RemoteOpError;
@@ -12542,6 +12851,8 @@ export const getEmployeeEmergencyContact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeEmergencyContact",
 }));
 
 export type GetEmployeeExpenseCategoriesError = Forbidden | NotFound | RemoteOpError;
@@ -12557,6 +12868,8 @@ export const getEmployeeExpenseCategories: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeExpenseCategories",
 }));
 
 export type GetEmployeeExpensesError = Forbidden | NotFound | RemoteOpError;
@@ -12572,6 +12885,8 @@ export const getEmployeeExpenses: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeExpenses",
 }));
 
 export type GetEmployeeIncentivesError = Forbidden | NotFound | RemoteOpError;
@@ -12587,6 +12902,8 @@ export const getEmployeeIncentives: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeIncentives",
 }));
 
 export type GetEmployeeLeavePoliciesError = NotFound | RemoteOpError;
@@ -12602,6 +12919,8 @@ export const getEmployeeLeavePolicies: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeLeavePolicies",
 }));
 
 export type GetEmployeeLeavePoliciesSummaryError = NotFound | RemoteOpError;
@@ -12617,6 +12936,8 @@ export const getEmployeeLeavePoliciesSummary: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeLeavePoliciesSummary",
 }));
 
 export type GetEmployeePayslipFilesError = Forbidden | NotFound | RemoteOpError;
@@ -12632,6 +12953,8 @@ export const getEmployeePayslipFiles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeePayslipFiles",
 }));
 
 export type GetEmployeePayslipsError = Forbidden | NotFound | RemoteOpError;
@@ -12647,6 +12970,8 @@ export const getEmployeePayslips: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeePayslips",
 }));
 
 export type GetEmployeePersonalDetailsError = BadRequest | Forbidden | NotFound | RemoteOpError;
@@ -12662,6 +12987,8 @@ export const getEmployeePersonalDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeePersonalDetails",
 }));
 
 export type GetEmployeePersonalInformationError = Forbidden | NotFound | RemoteOpError;
@@ -12677,6 +13004,8 @@ export const getEmployeePersonalInformation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeePersonalInformation",
 }));
 
 export type GetEmployeeTimeoffError = BadRequest | NotFound | RemoteOpError;
@@ -12692,6 +13021,8 @@ export const getEmployeeTimeoff: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeTimeoff",
 }));
 
 export type GetEmployeeTimesheetsError = Forbidden | NotFound | RemoteOpError;
@@ -12707,6 +13038,8 @@ export const getEmployeeTimesheets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployeeTimesheets",
 }));
 
 export type GetEmploymentError =
@@ -12727,6 +13060,8 @@ export const getEmployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployment",
 }));
 
 export type GetEmploymentBackgroundCheckError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12742,6 +13077,8 @@ export const getEmploymentBackgroundCheck: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentBackgroundCheck",
 }));
 
 export type GetEmploymentBasicInformationError =
@@ -12762,6 +13099,8 @@ export const getEmploymentBasicInformation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentBasicInformation",
 }));
 
 export type GetEmploymentBenefitOffersError =
@@ -12781,6 +13120,8 @@ export const getEmploymentBenefitOffers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentBenefitOffers",
 }));
 
 export type GetEmploymentBenefitOffersSchemaError =
@@ -12800,6 +13141,8 @@ export const getEmploymentBenefitOffersSchema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentBenefitOffersSchema",
 }));
 
 export type GetEmploymentCompanyStructureNodesError =
@@ -12818,6 +13161,8 @@ export const getEmploymentCompanyStructureNodes: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentCompanyStructureNodes",
 }));
 
 export type GetEmploymentContractDocumentsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12833,6 +13178,8 @@ export const getEmploymentContractDocuments: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentContractDocuments",
 }));
 
 export type GetEmploymentContractsError =
@@ -12852,6 +13199,8 @@ export const getEmploymentContracts: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentContracts",
 }));
 
 export type GetEmploymentContractsEmploymentPendingChangesError =
@@ -12875,6 +13224,8 @@ export const getEmploymentContractsEmploymentPendingChanges: API.OperationMethod
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentContractsEmploymentPendingChanges",
 }));
 
 export type GetEmploymentCostCenterAllocationsError =
@@ -12895,6 +13246,8 @@ export const getEmploymentCostCenterAllocations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentCostCenterAllocations",
 }));
 
 export type GetEmploymentCustomFieldsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -12910,6 +13263,8 @@ export const getEmploymentCustomFields: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentCustomFields",
 }));
 
 export type GetEmploymentEmploymentAgreementDownloadError =
@@ -12928,6 +13283,8 @@ export const getEmploymentEmploymentAgreementDownload: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentEmploymentAgreementDownload",
 }));
 
 export type GetEmploymentEmploymentAgreementPreviewError =
@@ -12946,6 +13303,8 @@ export const getEmploymentEmploymentAgreementPreview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentEmploymentAgreementPreview",
 }));
 
 export type GetEmploymentEngagementAgreementDetailsError =
@@ -12966,6 +13325,8 @@ export const getEmploymentEngagementAgreementDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentEngagementAgreementDetails",
 }));
 
 export type GetEmploymentEngagementAgreementDetails2Error =
@@ -12986,6 +13347,8 @@ export const getEmploymentEngagementAgreementDetails2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentEngagementAgreementDetails2",
 }));
 
 export type GetEmploymentFilesError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13001,6 +13364,8 @@ export const getEmploymentFiles: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentFiles",
 }));
 
 export type GetEmploymentJobError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13016,6 +13381,8 @@ export const getEmploymentJob: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentJob",
 }));
 
 export type GetEmploymentOnboardingStepsError = NotFound | RemoteOpError;
@@ -13031,6 +13398,8 @@ export const getEmploymentOnboardingSteps: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentOnboardingSteps",
 }));
 
 export type GetEmploymentsError =
@@ -13051,6 +13420,8 @@ export const getEmployments: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployments",
 }));
 
 export type GetEmploymentsBulkError = BadRequest | Forbidden | RemoteOpError;
@@ -13066,6 +13437,8 @@ export const getEmploymentsBulk: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmploymentsBulk",
 }));
 
 export type GetExpensError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13081,6 +13454,8 @@ export const getExpens: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpens",
 }));
 
 export type GetExpensesError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13096,6 +13471,8 @@ export const getExpenses: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpenses",
 }));
 
 export type GetExpensesCategoriesError =
@@ -13115,6 +13492,8 @@ export const getExpensesCategories: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpensesCategories",
 }));
 
 export type GetExpensReceiptError =
@@ -13135,6 +13514,8 @@ export const getExpensReceipt: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpensReceipt",
 }));
 
 export type GetFileError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13150,6 +13531,8 @@ export const getFile: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFile",
 }));
 
 export type GetHelpCenterArticleError = NotFound | RemoteOpError;
@@ -13165,6 +13548,8 @@ export const getHelpCenterArticle: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHelpCenterArticle",
 }));
 
 export type GetIdentityCurrentError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13180,6 +13565,8 @@ export const getIdentityCurrent: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityCurrent",
 }));
 
 export type GetIdentityVerificationError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13195,6 +13582,8 @@ export const getIdentityVerification: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerification",
 }));
 
 export type GetIncentiveError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13210,6 +13599,8 @@ export const getIncentive: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncentive",
 }));
 
 export type GetIncentivesError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13225,6 +13616,8 @@ export const getIncentives: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncentives",
 }));
 
 export type GetIncentivesRecurringError =
@@ -13244,6 +13637,8 @@ export const getIncentivesRecurring: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncentivesRecurring",
 }));
 
 export type GetJobTitleScreeningError = Forbidden | NotFound | RemoteOpError;
@@ -13259,6 +13654,8 @@ export const getJobTitleScreening: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobTitleScreening",
 }));
 
 export type GetLeavePoliciesDetailError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13274,6 +13671,8 @@ export const getLeavePoliciesDetail: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLeavePoliciesDetail",
 }));
 
 export type GetLeavePoliciesSummaryError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13289,6 +13688,8 @@ export const getLeavePoliciesSummary: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLeavePoliciesSummary",
 }));
 
 export type GetOffboardingError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13304,6 +13705,8 @@ export const getOffboarding: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOffboarding",
 }));
 
 export type GetOffboardingByIdError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13319,6 +13722,8 @@ export const getOffboardingById: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOffboardingById",
 }));
 
 export type GetOffboardingsError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13334,6 +13739,8 @@ export const getOffboardings: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOffboardings",
 }));
 
 export type GetOffboardings2Error = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13349,6 +13756,8 @@ export const getOffboardings2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOffboardings2",
 }));
 
 export type GetOffboardingsEmploymentError =
@@ -13368,6 +13777,8 @@ export const getOffboardingsEmployment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOffboardingsEmployment",
 }));
 
 export type GetOnboardingEmploymentPreOnboardingDocumentError =
@@ -13390,6 +13801,8 @@ export const getOnboardingEmploymentPreOnboardingDocument: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnboardingEmploymentPreOnboardingDocument",
 }));
 
 export type GetOnboardingEmploymentPreOnboardingRequirementsError =
@@ -13412,6 +13825,8 @@ export const getOnboardingEmploymentPreOnboardingRequirements: API.OperationMeth
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOnboardingEmploymentPreOnboardingRequirements",
 }));
 
 export type GetPayItemsError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13427,6 +13842,8 @@ export const getPayItems: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayItems",
 }));
 
 export type GetPayrollCalendarError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13442,6 +13859,8 @@ export const getPayrollCalendar: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollCalendar",
 }));
 
 export type GetPayrollCalendarsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13457,6 +13876,8 @@ export const getPayrollCalendars: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollCalendars",
 }));
 
 export type GetPayrollRunError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13472,6 +13893,8 @@ export const getPayrollRun: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollRun",
 }));
 
 export type GetPayrollRunEmployeeDetailsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13487,6 +13910,8 @@ export const getPayrollRunEmployeeDetails: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollRunEmployeeDetails",
 }));
 
 export type GetPayrollRunGlReportError = NotFound | RemoteOpError;
@@ -13502,6 +13927,8 @@ export const getPayrollRunGlReport: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollRunGlReport",
 }));
 
 export type GetPayrollRunGlReportDownloadError = NotFound | RemoteOpError;
@@ -13517,6 +13944,8 @@ export const getPayrollRunGlReportDownload: API.OperationMethod<
   errors: [NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollRunGlReportDownload",
 }));
 
 export type GetPayrollRunsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13532,6 +13961,8 @@ export const getPayrollRuns: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayrollRuns",
 }));
 
 export type GetPayslipPdfError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13547,6 +13978,8 @@ export const getPayslipPdf: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayslipPdf",
 }));
 
 export type GetPayslipsError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13562,6 +13995,8 @@ export const getPayslips: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayslips",
 }));
 
 export type GetPricingPlanPartnerTemplatesError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13577,6 +14012,8 @@ export const getPricingPlanPartnerTemplates: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPricingPlanPartnerTemplates",
 }));
 
 export type GetProbationCompletionLetterError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13592,6 +14029,8 @@ export const getProbationCompletionLetter: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProbationCompletionLetter",
 }));
 
 export type GetProbationExtensionError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13607,6 +14046,8 @@ export const getProbationExtension: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProbationExtension",
 }));
 
 export type GetProjectError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13622,6 +14063,8 @@ export const getProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectEligibleLeadsError = Forbidden | NotFound | RemoteOpError;
@@ -13637,6 +14080,8 @@ export const getProjectEligibleLeads: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectEligibleLeads",
 }));
 
 export type GetProjectsError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13652,6 +14097,8 @@ export const getProjects: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjects",
 }));
 
 export type GetResignationError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13667,6 +14114,8 @@ export const getResignation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResignation",
 }));
 
 export type GetResignationResignationLetterError =
@@ -13687,6 +14136,8 @@ export const getResignationResignationLetter: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResignationResignationLetter",
 }));
 
 export type GetScimGroupError = Forbidden | NotFound | RemoteOpError;
@@ -13702,6 +14153,8 @@ export const getScimGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimGroup",
 }));
 
 export type GetScimGroupsError = BadRequest | Forbidden | NotFound | RemoteOpError;
@@ -13717,6 +14170,8 @@ export const getScimGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimGroups",
 }));
 
 export type GetScimUserError = Forbidden | NotFound | RemoteOpError;
@@ -13732,6 +14187,8 @@ export const getScimUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimUser",
 }));
 
 export type GetScimUsersError = BadRequest | Forbidden | NotFound | RemoteOpError;
@@ -13747,6 +14204,8 @@ export const getScimUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimUsers",
 }));
 
 export type GetSsoConfigurationError = BadRequest | NotFound | RemoteOpError;
@@ -13762,6 +14221,8 @@ export const getSsoConfiguration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSsoConfiguration",
 }));
 
 export type GetSsoConfigurationDetailsError = BadRequest | NotFound | RemoteOpError;
@@ -13777,6 +14238,8 @@ export const getSsoConfigurationDetails: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSsoConfigurationDetails",
 }));
 
 export type GetTestSchemaError = RemoteOpError;
@@ -13792,6 +14255,8 @@ export const getTestSchema: API.OperationMethod<
   errors: [UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTestSchema",
 }));
 
 export type GetTimeoffError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13807,6 +14272,8 @@ export const getTimeoff: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimeoff",
 }));
 
 export type GetTimeoffByIdError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13822,6 +14289,8 @@ export const getTimeoffById: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimeoffById",
 }));
 
 export type GetTimeoffTypesError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -13837,6 +14306,8 @@ export const getTimeoffTypes: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimeoffTypes",
 }));
 
 export type GetTimesheetError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13852,6 +14323,8 @@ export const getTimesheet: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimesheet",
 }));
 
 export type GetTimesheetsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13867,6 +14340,8 @@ export const getTimesheets: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimesheets",
 }));
 
 export type GetTravelLetterRequestError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13882,6 +14357,8 @@ export const getTravelLetterRequest: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTravelLetterRequest",
 }));
 
 export type GetTravelLetterRequestsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13897,6 +14374,8 @@ export const getTravelLetterRequests: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTravelLetterRequests",
 }));
 
 export type GetV1ContractorInvoicesIdPayInDetailsError =
@@ -13917,6 +14396,8 @@ export const getV1ContractorInvoicesIdPayInDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV1ContractorInvoicesIdPayInDetails",
 }));
 
 export type GetWebhookEventsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13932,6 +14413,8 @@ export const getWebhookEvents: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookEvents",
 }));
 
 export type GetWorkAuthorizationRequestError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13947,6 +14430,8 @@ export const getWorkAuthorizationRequest: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkAuthorizationRequest",
 }));
 
 export type GetWorkAuthorizationRequestsError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -13962,6 +14447,8 @@ export const getWorkAuthorizationRequests: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkAuthorizationRequests",
 }));
 
 export type PatchV1CompaniesCompanyIdError =
@@ -13981,6 +14468,8 @@ export const patchV1CompaniesCompanyId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1CompaniesCompanyId",
 }));
 
 export type PatchV1CompaniesCompanyId2Error =
@@ -14000,6 +14489,8 @@ export const patchV1CompaniesCompanyId2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1CompaniesCompanyId2",
 }));
 
 export type PatchV1CompanyManagersUserIdError =
@@ -14019,6 +14510,8 @@ export const patchV1CompanyManagersUserId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1CompanyManagersUserId",
 }));
 
 export type PatchV1CompanyManagersUserId2Error =
@@ -14038,6 +14531,8 @@ export const patchV1CompanyManagersUserId2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1CompanyManagersUserId2",
 }));
 
 export type PatchV1ContractorInvoiceSchedulesIdError =
@@ -14057,6 +14552,8 @@ export const patchV1ContractorInvoiceSchedulesId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1ContractorInvoiceSchedulesId",
 }));
 
 export type PatchV1ContractorInvoiceSchedulesId2Error =
@@ -14076,6 +14573,8 @@ export const patchV1ContractorInvoiceSchedulesId2: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1ContractorInvoiceSchedulesId2",
 }));
 
 export type PatchV1CustomFieldsCustomFieldIdValuesEmploymentIdError =
@@ -14099,6 +14598,8 @@ export const patchV1CustomFieldsCustomFieldIdValuesEmploymentId: API.OperationMe
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1CustomFieldsCustomFieldIdValuesEmploymentId",
 }));
 
 export type PatchV1CustomFieldsCustomFieldIdValuesEmploymentId2Error =
@@ -14122,6 +14623,8 @@ export const patchV1CustomFieldsCustomFieldIdValuesEmploymentId2: API.OperationM
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1CustomFieldsCustomFieldIdValuesEmploymentId2",
 }));
 
 export type PatchV1EmployeeTimeoffIdError =
@@ -14141,6 +14644,8 @@ export const patchV1EmployeeTimeoffId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1EmployeeTimeoffId",
 }));
 
 export type PatchV1EmployeeTimeoffId2Error =
@@ -14160,6 +14665,8 @@ export const patchV1EmployeeTimeoffId2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1EmployeeTimeoffId2",
 }));
 
 export type PatchV1EmploymentsEmploymentIdError =
@@ -14180,6 +14687,8 @@ export const patchV1EmploymentsEmploymentId: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1EmploymentsEmploymentId",
 }));
 
 export type PatchV1EmploymentsEmploymentId2Error =
@@ -14200,6 +14709,8 @@ export const patchV1EmploymentsEmploymentId2: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1EmploymentsEmploymentId2",
 }));
 
 export type PatchV1ExpensesIdError =
@@ -14220,6 +14731,8 @@ export const patchV1ExpensesId: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1ExpensesId",
 }));
 
 export type PatchV1ExpensesId2Error =
@@ -14240,6 +14753,8 @@ export const patchV1ExpensesId2: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1ExpensesId2",
 }));
 
 export type PatchV1IncentivesIdError =
@@ -14260,6 +14775,8 @@ export const patchV1IncentivesId: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1IncentivesId",
 }));
 
 export type PatchV1IncentivesId2Error =
@@ -14280,6 +14797,8 @@ export const patchV1IncentivesId2: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1IncentivesId2",
 }));
 
 export type PatchV1SandboxEmploymentsEmploymentIdError =
@@ -14300,6 +14819,8 @@ export const patchV1SandboxEmploymentsEmploymentId: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1SandboxEmploymentsEmploymentId",
 }));
 
 export type PatchV1SandboxEmploymentsEmploymentId2Error =
@@ -14320,6 +14841,8 @@ export const patchV1SandboxEmploymentsEmploymentId2: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1SandboxEmploymentsEmploymentId2",
 }));
 
 export type PatchV1TimeoffIdError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -14335,6 +14858,8 @@ export const patchV1TimeoffId: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1TimeoffId",
 }));
 
 export type PatchV1TimeoffId2Error = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
@@ -14350,6 +14875,8 @@ export const patchV1TimeoffId2: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1TimeoffId2",
 }));
 
 export type PatchV1TravelLetterRequestsIdError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -14365,6 +14892,8 @@ export const patchV1TravelLetterRequestsId: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1TravelLetterRequestsId",
 }));
 
 export type PatchV1TravelLetterRequestsId2Error = NotFound | UnprocessableEntity | RemoteOpError;
@@ -14380,6 +14909,8 @@ export const patchV1TravelLetterRequestsId2: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1TravelLetterRequestsId2",
 }));
 
 export type PatchV1WorkAuthorizationRequestsIdError =
@@ -14398,6 +14929,8 @@ export const patchV1WorkAuthorizationRequestsId: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1WorkAuthorizationRequestsId",
 }));
 
 export type PatchV1WorkAuthorizationRequestsId2Error =
@@ -14416,6 +14949,8 @@ export const patchV1WorkAuthorizationRequestsId2: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV1WorkAuthorizationRequestsId2",
 }));
 
 export type PatchV2EmploymentsEmploymentIdError =
@@ -14436,6 +14971,8 @@ export const patchV2EmploymentsEmploymentId: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV2EmploymentsEmploymentId",
 }));
 
 export type PatchV2EmploymentsEmploymentId2Error =
@@ -14456,6 +14993,8 @@ export const patchV2EmploymentsEmploymentId2: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchV2EmploymentsEmploymentId2",
 }));
 
 export type PostV1CurrencyConverterEffective2Error = NotFound | UnprocessableEntity | RemoteOpError;
@@ -14471,6 +15010,8 @@ export const postV1CurrencyConverterEffective2: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1CurrencyConverterEffective2",
 }));
 
 export type PostV1EmploymentsEmploymentIdRiskReserveProofOfPaymentsError =
@@ -14493,6 +15034,8 @@ export const postV1EmploymentsEmploymentIdRiskReserveProofOfPayments: API.Operat
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1EmploymentsEmploymentIdRiskReserveProofOfPayments",
 }));
 
 export type PostV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsApproveError =
@@ -14516,6 +15059,8 @@ export const postV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsAppro
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsApprove",
 }));
 
 export type PutCompanyLegalEntityAdministrativeDetailsError =
@@ -14535,6 +15080,8 @@ export const putCompanyLegalEntityAdministrativeDetails: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCompanyLegalEntityAdministrativeDetails",
 }));
 
 export type PutEmployeeAddressError =
@@ -14555,6 +15102,8 @@ export const putEmployeeAddress: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeAddress",
 }));
 
 export type PutEmployeeBankAccountError =
@@ -14575,6 +15124,8 @@ export const putEmployeeBankAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeBankAccount",
 }));
 
 export type PutEmployeeEmergencyContactError =
@@ -14595,6 +15146,8 @@ export const putEmployeeEmergencyContact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeEmergencyContact",
 }));
 
 export type PutEmployeeFederalTaxesError =
@@ -14615,6 +15168,8 @@ export const putEmployeeFederalTaxes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeFederalTaxes",
 }));
 
 export type PutEmployeePersonalDetailsError =
@@ -14635,6 +15190,8 @@ export const putEmployeePersonalDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeePersonalDetails",
 }));
 
 export type PutEmployeeStateTaxError =
@@ -14655,6 +15212,8 @@ export const putEmployeeStateTax: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmployeeStateTax",
 }));
 
 export type PutEmploymentAddressDetailsError =
@@ -14676,6 +15235,8 @@ export const putEmploymentAddressDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentAddressDetails",
 }));
 
 export type PutEmploymentAdministrativeDetailsError =
@@ -14697,6 +15258,8 @@ export const putEmploymentAdministrativeDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentAdministrativeDetails",
 }));
 
 export type PutEmploymentBankAccountDetailsError =
@@ -14718,6 +15281,8 @@ export const putEmploymentBankAccountDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentBankAccountDetails",
 }));
 
 export type PutEmploymentBasicInformationError =
@@ -14738,6 +15303,8 @@ export const putEmploymentBasicInformation: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentBasicInformation",
 }));
 
 export type PutEmploymentBasicInformation2Error =
@@ -14758,6 +15325,8 @@ export const putEmploymentBasicInformation2: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentBasicInformation2",
 }));
 
 export type PutEmploymentBenefitOffersError =
@@ -14777,6 +15346,8 @@ export const putEmploymentBenefitOffers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentBenefitOffers",
 }));
 
 export type PutEmploymentBillingAddressDetailsError =
@@ -14798,6 +15369,8 @@ export const putEmploymentBillingAddressDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentBillingAddressDetails",
 }));
 
 export type PutEmploymentContractDetailsError =
@@ -14819,6 +15392,8 @@ export const putEmploymentContractDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentContractDetails",
 }));
 
 export type PutEmploymentEmergencyContactError =
@@ -14840,6 +15415,8 @@ export const putEmploymentEmergencyContact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentEmergencyContact",
 }));
 
 export type PutEmploymentFederalTaxesError =
@@ -14861,6 +15438,8 @@ export const putEmploymentFederalTaxes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentFederalTaxes",
 }));
 
 export type PutEmploymentFederalTaxes2Error =
@@ -14882,6 +15461,8 @@ export const putEmploymentFederalTaxes2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentFederalTaxes2",
 }));
 
 export type PutEmploymentPersonalDetailsError =
@@ -14902,6 +15483,8 @@ export const putEmploymentPersonalDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentPersonalDetails",
 }));
 
 export type PutEmploymentPersonalDetails2Error =
@@ -14923,6 +15506,8 @@ export const putEmploymentPersonalDetails2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentPersonalDetails2",
 }));
 
 export type PutEmploymentPricingPlanDetailsError =
@@ -14944,6 +15529,8 @@ export const putEmploymentPricingPlanDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutEmploymentPricingPlanDetails",
 }));
 
 export type PutResignationValidateError =
@@ -14963,6 +15550,8 @@ export const putResignationValidate: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutResignationValidate",
 }));
 
 export type PutSandboxCompanyDefaultLegalEntityError =
@@ -14982,6 +15571,8 @@ export const putSandboxCompanyDefaultLegalEntity: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSandboxCompanyDefaultLegalEntity",
 }));
 
 export type PutSandboxContractAmendmentApproveError =
@@ -15001,6 +15592,8 @@ export const putSandboxContractAmendmentApprove: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSandboxContractAmendmentApprove",
 }));
 
 export type PutSandboxContractAmendmentCancelError =
@@ -15020,6 +15613,8 @@ export const putSandboxContractAmendmentCancel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSandboxContractAmendmentCancel",
 }));
 
 export type UpdateBenefitRenewalRequestError = UnprocessableEntity | RemoteOpError;
@@ -15035,6 +15630,8 @@ export const updateBenefitRenewalRequest: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBenefitRenewalRequest",
 }));
 
 export type UpdateCancelOnboardingError = BadRequest | UnprocessableEntity | RemoteOpError;
@@ -15050,6 +15647,8 @@ export const updateCancelOnboarding: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCancelOnboarding",
 }));
 
 export type UpdatePayItemError =
@@ -15071,6 +15670,8 @@ export const updatePayItem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePayItem",
 }));
 
 export type UpdateProjectError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
@@ -15086,6 +15687,8 @@ export const updateProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateWebhookCallbackError = NotFound | UnprocessableEntity | RemoteOpError;
@@ -15101,6 +15704,8 @@ export const updateWebhookCallback: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownRemoteError],
   protocol: RemoteProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookCallback",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

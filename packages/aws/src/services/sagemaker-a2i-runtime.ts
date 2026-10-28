@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://a2i-runtime.sagemaker.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SageMakerA2IRuntime",
+  service: "SageMakerA2IRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -222,6 +237,8 @@ export const deleteHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHumanLoop",
+  telemetry: TELEMETRY,
+  span: "DeleteHumanLoop",
 }));
 
 export type DescribeHumanLoopError =
@@ -251,6 +268,8 @@ export const describeHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHumanLoop",
+  telemetry: TELEMETRY,
+  span: "DescribeHumanLoop",
 }));
 
 export type ListHumanLoopsError =
@@ -286,6 +305,8 @@ export const listHumanLoops: API.PaginatedOperationMethod<
     items: "HumanLoopSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHumanLoops",
 })) as any;
 
 export type StartHumanLoopError =
@@ -316,6 +337,8 @@ export const startHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartHumanLoop",
+  telemetry: TELEMETRY,
+  span: "StartHumanLoop",
 }));
 
 export type StopHumanLoopError =
@@ -344,6 +367,8 @@ export const stopHumanLoop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopHumanLoop",
+  telemetry: TELEMETRY,
+  span: "StopHumanLoop",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

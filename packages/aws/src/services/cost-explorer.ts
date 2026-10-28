@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -189,6 +190,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CostExplorer",
+  service: "CostExplorer",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AnalysisNotFoundException
   extends /*@__PURE__*/ S.TaggedError<AnalysisNotFoundException>()(
@@ -1807,6 +1823,8 @@ export const createAnomalyMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnomalyMonitor",
+  telemetry: TELEMETRY,
+  span: "CreateAnomalyMonitor",
 }));
 
 export type CreateAnomalySubscriptionError =
@@ -1831,6 +1849,8 @@ export const createAnomalySubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnomalySubscription",
+  telemetry: TELEMETRY,
+  span: "CreateAnomalySubscription",
 }));
 
 export type CreateCostCategoryDefinitionError =
@@ -1852,6 +1872,8 @@ export const createCostCategoryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCostCategoryDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateCostCategoryDefinition",
 }));
 
 export type DeleteAnomalyMonitorError =
@@ -1873,6 +1895,8 @@ export const deleteAnomalyMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalyMonitor",
+  telemetry: TELEMETRY,
+  span: "DeleteAnomalyMonitor",
 }));
 
 export type DeleteAnomalySubscriptionError =
@@ -1894,6 +1918,8 @@ export const deleteAnomalySubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalySubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteAnomalySubscription",
 }));
 
 export type DeleteCostCategoryDefinitionError =
@@ -1916,6 +1942,8 @@ export const deleteCostCategoryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCostCategoryDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteCostCategoryDefinition",
 }));
 
 export type DescribeCostCategoryDefinitionError =
@@ -1943,6 +1971,8 @@ export const describeCostCategoryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCostCategoryDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeCostCategoryDefinition",
 }));
 
 export type GetAnomaliesError = InvalidNextTokenException | LimitExceededException | CommonErrors;
@@ -1970,6 +2000,8 @@ export const getAnomalies: API.PaginatedOperationMethod<
     items: "Anomalies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAnomalies",
 })) as any;
 
 export type GetAnomalyMonitorsError =
@@ -2000,6 +2032,8 @@ export const getAnomalyMonitors: API.PaginatedOperationMethod<
     items: "AnomalyMonitors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAnomalyMonitors",
 })) as any;
 
 export type GetAnomalySubscriptionsError =
@@ -2030,6 +2064,8 @@ export const getAnomalySubscriptions: API.PaginatedOperationMethod<
     items: "AnomalySubscriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAnomalySubscriptions",
 })) as any;
 
 export type GetApproximateUsageRecordsError =
@@ -2052,6 +2088,8 @@ export const getApproximateUsageRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApproximateUsageRecords",
+  telemetry: TELEMETRY,
+  span: "GetApproximateUsageRecords",
 }));
 
 export type GetCommitmentPurchaseAnalysisError =
@@ -2075,6 +2113,8 @@ export const getCommitmentPurchaseAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommitmentPurchaseAnalysis",
+  telemetry: TELEMETRY,
+  span: "GetCommitmentPurchaseAnalysis",
 }));
 
 export type GetCostAndUsageError =
@@ -2116,6 +2156,8 @@ export const getCostAndUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostAndUsage",
+  telemetry: TELEMETRY,
+  span: "GetCostAndUsage",
 }));
 
 export type GetCostAndUsageComparisonsError =
@@ -2155,6 +2197,8 @@ export const getCostAndUsageComparisons: API.PaginatedOperationMethod<
     items: "CostAndUsageComparisons",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCostAndUsageComparisons",
 })) as any;
 
 export type GetCostAndUsageWithResourcesError =
@@ -2202,6 +2246,8 @@ export const getCostAndUsageWithResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostAndUsageWithResources",
+  telemetry: TELEMETRY,
+  span: "GetCostAndUsageWithResources",
 }));
 
 export type GetCostCategoriesError =
@@ -2239,6 +2285,8 @@ export const getCostCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostCategories",
+  telemetry: TELEMETRY,
+  span: "GetCostCategories",
 }));
 
 export type GetCostComparisonDriversError =
@@ -2278,6 +2326,8 @@ export const getCostComparisonDrivers: API.PaginatedOperationMethod<
     items: "CostComparisonDrivers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCostComparisonDrivers",
 })) as any;
 
 export type GetCostForecastError =
@@ -2307,6 +2357,8 @@ export const getCostForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCostForecast",
+  telemetry: TELEMETRY,
+  span: "GetCostForecast",
 }));
 
 export type GetDimensionValuesError =
@@ -2342,6 +2394,8 @@ export const getDimensionValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDimensionValues",
+  telemetry: TELEMETRY,
+  span: "GetDimensionValues",
 }));
 
 export type GetReservationCoverageError =
@@ -2396,6 +2450,8 @@ export const getReservationCoverage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservationCoverage",
+  telemetry: TELEMETRY,
+  span: "GetReservationCoverage",
 }));
 
 export type GetReservationPurchaseRecommendationError =
@@ -2442,6 +2498,8 @@ export const getReservationPurchaseRecommendation: API.PaginatedOperationMethod<
     items: "Recommendations",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetReservationPurchaseRecommendation",
 })) as any;
 
 export type GetReservationUtilizationError =
@@ -2467,6 +2525,8 @@ export const getReservationUtilization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReservationUtilization",
+  telemetry: TELEMETRY,
+  span: "GetReservationUtilization",
 }));
 
 export type GetRightsizingRecommendationError =
@@ -2501,6 +2561,8 @@ export const getRightsizingRecommendation: API.PaginatedOperationMethod<
     items: "RightsizingRecommendations",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRightsizingRecommendation",
 })) as any;
 
 export type GetSavingsPlanPurchaseRecommendationDetailsError =
@@ -2527,6 +2589,8 @@ export const getSavingsPlanPurchaseRecommendationDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSavingsPlanPurchaseRecommendationDetails",
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlanPurchaseRecommendationDetails",
 }));
 
 export type GetSavingsPlansCoverageError =
@@ -2570,6 +2634,8 @@ export const getSavingsPlansCoverage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlansCoverage",
 })) as any;
 
 export type GetSavingsPlansPurchaseRecommendationError =
@@ -2594,6 +2660,8 @@ export const getSavingsPlansPurchaseRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSavingsPlansPurchaseRecommendation",
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlansPurchaseRecommendation",
 }));
 
 export type GetSavingsPlansUtilizationError =
@@ -2621,6 +2689,8 @@ export const getSavingsPlansUtilization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSavingsPlansUtilization",
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlansUtilization",
 }));
 
 export type GetSavingsPlansUtilizationDetailsError =
@@ -2658,6 +2728,8 @@ export const getSavingsPlansUtilizationDetails: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlansUtilizationDetails",
 })) as any;
 
 export type GetTagsError =
@@ -2693,6 +2765,8 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
+  telemetry: TELEMETRY,
+  span: "GetTags",
 }));
 
 export type GetUsageForecastError =
@@ -2724,6 +2798,8 @@ export const getUsageForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsageForecast",
+  telemetry: TELEMETRY,
+  span: "GetUsageForecast",
 }));
 
 export type ListCommitmentPurchaseAnalysesError =
@@ -2753,6 +2829,8 @@ export const listCommitmentPurchaseAnalyses: API.PaginatedOperationMethod<
     items: "AnalysisSummaryList",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCommitmentPurchaseAnalyses",
 })) as any;
 
 export type ListCostAllocationTagBackfillHistoryError =
@@ -2781,6 +2859,8 @@ export const listCostAllocationTagBackfillHistory: API.PaginatedOperationMethod<
     items: "BackfillRequests",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCostAllocationTagBackfillHistory",
 })) as any;
 
 export type ListCostAllocationTagsError =
@@ -2810,6 +2890,8 @@ export const listCostAllocationTags: API.PaginatedOperationMethod<
     items: "CostAllocationTags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCostAllocationTags",
 })) as any;
 
 export type ListCostCategoryDefinitionsError = LimitExceededException | CommonErrors;
@@ -2841,6 +2923,8 @@ export const listCostCategoryDefinitions: API.PaginatedOperationMethod<
     items: "CostCategoryReferences",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCostCategoryDefinitions",
 })) as any;
 
 export type ListCostCategoryResourceAssociationsError =
@@ -2869,6 +2953,8 @@ export const listCostCategoryResourceAssociations: API.PaginatedOperationMethod<
     items: "CostCategoryResourceAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCostCategoryResourceAssociations",
 })) as any;
 
 export type ListSavingsPlansPurchaseRecommendationGenerationError =
@@ -2907,6 +2993,8 @@ export const listSavingsPlansPurchaseRecommendationGeneration: API.PaginatedOper
     items: "GenerationSummaryList",
     pageSize: "PageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSavingsPlansPurchaseRecommendationGeneration",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2929,6 +3017,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ProvideAnomalyFeedbackError = LimitExceededException | CommonErrors;
@@ -2947,6 +3037,8 @@ export const provideAnomalyFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvideAnomalyFeedback",
+  telemetry: TELEMETRY,
+  span: "ProvideAnomalyFeedback",
 }));
 
 export type StartCommitmentPurchaseAnalysisError =
@@ -2977,6 +3069,8 @@ export const startCommitmentPurchaseAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCommitmentPurchaseAnalysis",
+  telemetry: TELEMETRY,
+  span: "StartCommitmentPurchaseAnalysis",
 }));
 
 export type StartCostAllocationTagBackfillError =
@@ -3000,6 +3094,8 @@ export const startCostAllocationTagBackfill: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCostAllocationTagBackfill",
+  telemetry: TELEMETRY,
+  span: "StartCostAllocationTagBackfill",
 }));
 
 export type StartSavingsPlansPurchaseRecommendationGenerationError =
@@ -3042,6 +3138,8 @@ export const startSavingsPlansPurchaseRecommendationGeneration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSavingsPlansPurchaseRecommendationGeneration",
+  telemetry: TELEMETRY,
+  span: "StartSavingsPlansPurchaseRecommendationGeneration",
 }));
 
 export type TagResourceError =
@@ -3072,6 +3170,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = LimitExceededException | ResourceNotFoundException | CommonErrors;
@@ -3091,6 +3191,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAnomalyMonitorError =
@@ -3113,6 +3215,8 @@ export const updateAnomalyMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnomalyMonitor",
+  telemetry: TELEMETRY,
+  span: "UpdateAnomalyMonitor",
 }));
 
 export type UpdateAnomalySubscriptionError =
@@ -3139,6 +3243,8 @@ export const updateAnomalySubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnomalySubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateAnomalySubscription",
 }));
 
 export type UpdateCostAllocationTagsStatusError = LimitExceededException | CommonErrors;
@@ -3160,6 +3266,8 @@ export const updateCostAllocationTagsStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCostAllocationTagsStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateCostAllocationTagsStatus",
 }));
 
 export type UpdateCostCategoryDefinitionError =
@@ -3184,6 +3292,8 @@ export const updateCostCategoryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCostCategoryDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateCostCategoryDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

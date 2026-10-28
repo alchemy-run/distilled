@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * RedisCloudProtocol -- hand-written.
@@ -35,7 +35,8 @@ export type RedisCloudOpError =
   | UnknownRedisCloudError
   | ConfigError
   | HttpClientError.HttpClientError
-  | RedisCloudParseError;
+  | RedisCloudParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Redis Cloud operation. */
 export type RedisCloudOpContext = Credentials | HttpClient.HttpClient;
