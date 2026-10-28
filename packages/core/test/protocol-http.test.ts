@@ -187,6 +187,7 @@ describe("empty labels", () => {
     for (const [method, uri, input] of [
       ["DELETE", "/projects/{project_id}", { project_id: "" }],
       ["POST", "/projects/{project_id}", { project_id: "" }],
+      ["PUT", "/projects/{project_id}", { project_id: "" }],
       ["GET", "/projects/{project_id}/branches/{branch_id}", { project_id: "", branch_id: "b1" }],
     ] as const) {
       const error = Effect.runSync(Effect.flip(build(method, uri, input)));

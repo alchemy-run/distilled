@@ -498,10 +498,10 @@ interface MemberPlan {
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
   /**
-   * An empty value ending the path is sent, except on a DELETE or POST, where
-   * it would delete or create in the collection. GitHub's
+   * An empty value ending the path of a GET, HEAD or PATCH is sent: GitHub's
    * `GET contents/{path}` and Key Vault's `PATCH secrets/{name}/{version}` use
-   * `""` on purpose.
+   * `""` on purpose. A DELETE, POST or PUT would delete or create in the
+   * collection instead.
    */
   readonly emptyAllowed: boolean;
   readonly stringEncoded: boolean;
@@ -545,8 +545,7 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
       greedy = http.uri.includes(`{${name}+}`);
       emptyAllowed =
         !greedy &&
-        http.method !== "DELETE" &&
-        http.method !== "POST" &&
+        (http.method === "GET" || http.method === "HEAD" || http.method === "PATCH") &&
         http.uri.split("?")[0]!.endsWith(`{${name}}`);
     } else if (hasPropAnn(prop, headerSymbol)) {
       bind = "header";
@@ -611,8 +610,8 @@ export const makeRequest = (
  * percent-encoded or not, so no encoding can carry one
  * (`/projects/p1/branches/..` -> `/projects/p1/`). An empty value drops a
  * level the same way (`/projects/` instead of `/projects/{project_id}`),
- * unless `emptyAllowed`: a label that ends the path of a method other than
- * DELETE or POST, where the parent is what the caller asks for. A greedy
+ * unless `emptyAllowed`: a label that ends the path of a GET, HEAD or PATCH,
+ * where the parent is what the caller asks for. A greedy
  * label keeps its `/`, so each of its segments after a leading `/` counts.
  */
 export const invalidLabel = (
@@ -646,8 +645,8 @@ export const invalidLabel = (
  *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * empty, `.` or `..` (for a greedy `{name+}` label, when any of its segments
- * is). An empty label that ends the path is sent unless the method is DELETE
- * or POST, and a greedy `/` followed by more path is sent as the root
+ * is). An empty label that ends the path of a GET, HEAD or PATCH is sent,
+ * and a greedy `/` followed by more path is sent as the root
  * (`/providers/...`).
  * Throws when the input schema is missing the `Http()` trait -- a codegen
  * bug, which the calling protocol's Effect surfaces as a defect.
