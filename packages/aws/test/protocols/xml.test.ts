@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as Cause from "effect/Cause";
@@ -545,27 +546,29 @@ describe("AwsProtocol REST-XML labels that would leave their target", () => {
 
   const refused = async (
     operation: Effect.Effect<unknown, unknown, Credentials.Credentials | HttpClient.HttpClient>,
-    label: string,
+    member: string,
     endpoint: Layer.Layer<never> = pathStyle,
   ) => {
     const { exit, requests } = await Effect.runPromise(sent(operation, endpoint));
     assert.equal(requests.length, 0);
-    assert.ok(Exit.isFailure(exit) && Cause.hasDies(exit.cause));
-    assert.match(String(Cause.squash(exit.cause)), new RegExp(`${label}$`));
+    assert.ok(Exit.isFailure(exit));
+    const error = Cause.squash(exit.cause);
+    assert.ok(error instanceof InvalidInput);
+    assert.equal(error.member, member);
   };
 
   for (const Key of ["", ".", "..", "../other/k", "a/./b"]) {
     it(`DeleteObject refuses the key ${JSON.stringify(Key)} and sends nothing`, () =>
-      refused(S3.deleteObject({ ...bucket, Key }), "HTTP label: Key"));
+      refused(S3.deleteObject({ ...bucket, Key }), "Key"));
   }
 
   for (const Bucket of ["", ".", ".."]) {
     it(`DeleteBucket refuses the bucket ${JSON.stringify(Bucket)} and sends nothing`, () =>
-      refused(S3.deleteBucket({ Bucket }), "HTTP label: Bucket"));
+      refused(S3.deleteBucket({ Bucket }), "Bucket"));
   }
 
   it("DeleteObject refuses an empty key on a dotted bucket via AWS and sends nothing", () =>
-    refused(S3.deleteObject({ Bucket: "my.bucket", Key: "" }), "HTTP label: Key", region));
+    refused(S3.deleteObject({ Bucket: "my.bucket", Key: "" }), "Key", region));
 
   for (const [Key, path] of [
     ["...", "/..."],
@@ -585,7 +588,7 @@ describe("AwsProtocol REST-XML labels that would leave their target", () => {
     it(`WriteGetObjectResponse refuses the route ${JSON.stringify(RequestRoute)} and sends nothing`, () =>
       refused(
         S3.writeGetObjectResponse({ RequestRoute, RequestToken: "token" }),
-        "host label: RequestRoute",
+        "RequestRoute",
         region,
       ));
   }

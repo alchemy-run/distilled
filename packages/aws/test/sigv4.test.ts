@@ -1,8 +1,8 @@
 import { createHash, createHmac } from "node:crypto";
 import * as Signer from "@distilled.cloud/aws4signer";
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import * as Cache from "effect/Cache";
-import * as Cause from "effect/Cause";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -441,16 +441,14 @@ describe("Presign", () => {
     );
   });
 
-  const presignDefect = async (
-    options: Presign.PresignS3UrlOptions,
-    endpoint: Layer.Layer<never>,
-  ): Promise<string> => {
-    const exit = await Effect.runPromiseExit(
-      Presign.presignS3Url(options).pipe(Effect.provide(layer), Effect.provide(endpoint)),
+  const presignRefusal = (options: Presign.PresignS3UrlOptions, endpoint: Layer.Layer<never>) =>
+    Effect.runPromise(
+      Presign.presignS3Url(options).pipe(
+        Effect.provide(layer),
+        Effect.provide(endpoint),
+        Effect.flip,
+      ),
     );
-    expect(Exit.isFailure(exit) && Cause.hasDies(exit.cause)).toBe(true);
-    return String(Exit.isFailure(exit) && Cause.squash(exit.cause));
-  };
 
   test("presignS3Url refuses an empty, `.` or `..` key or bucket", async () => {
     const options = { bucket: "examplebucket", key: "k", datetime };
@@ -459,9 +457,9 @@ describe("Presign", () => {
       ...["", ".", ".."].map((bucket) => [{ bucket }, "bucket"] as const),
     ]) {
       for (const endpoint of [Layer.empty, Endpoint.of("http://localhost:4566/s3/")]) {
-        expect(await presignDefect({ ...options, ...change }, endpoint)).toMatch(
-          new RegExp(`HTTP label: ${label}$`),
-        );
+        const error = await presignRefusal({ ...options, ...change }, endpoint);
+        expect(error).toBeInstanceOf(InvalidInput);
+        expect((error as InvalidInput).member).toBe(label);
       }
     }
   });
@@ -473,9 +471,9 @@ describe("Presign", () => {
       "a@attacker.invalid",
       "my-bucket/../other",
     ]) {
-      expect(await presignDefect({ bucket, key: "k", datetime }, Layer.empty)).toMatch(
-        /host label: bucket$/,
-      );
+      const error = await presignRefusal({ bucket, key: "k", datetime }, Layer.empty);
+      expect(error).toBeInstanceOf(InvalidInput);
+      expect((error as InvalidInput).member).toBe("bucket");
     }
   });
 
