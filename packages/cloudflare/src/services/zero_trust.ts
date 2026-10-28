@@ -572,6 +572,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   workerId: "worker_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "ZeroTrust",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AccessApplicationNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AccessApplicationNotFound>()("AccessApplicationNotFound", {
@@ -92708,6 +92722,8 @@ export const activateGatewayCertificate: API.OperationMethod<
   errors: [GatewayCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateGatewayCertificate",
 }));
 
 export type ArchiveCasbPostureFindingsInstanceError = CloudflareOpError;
@@ -92723,6 +92739,8 @@ export const archiveCasbPostureFindingsInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveCasbPostureFindingsInstance",
 }));
 
 export type BulkDeleteAccessInfrastructureTargetsError = CloudflareOpError;
@@ -92738,6 +92756,8 @@ export const bulkDeleteAccessInfrastructureTargets: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteAccessInfrastructureTargets",
 }));
 
 export type BulkDeleteDeviceRegistrationsError = CloudflareOpError;
@@ -92753,6 +92773,8 @@ export const bulkDeleteDeviceRegistrations: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteDeviceRegistrations",
 }));
 
 export type BulkDeleteV2AccessInfrastructureTargetsError = CloudflareOpError;
@@ -92768,6 +92790,8 @@ export const bulkDeleteV2AccessInfrastructureTargets: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteV2AccessInfrastructureTargets",
 }));
 
 export type BulkPatchDlpEmailRulesError = CloudflareOpError;
@@ -92783,6 +92807,8 @@ export const bulkPatchDlpEmailRules: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkPatchDlpEmailRules",
 }));
 
 export type BulkPutAccessInfrastructureTargetsError = CloudflareOpError;
@@ -92800,6 +92826,8 @@ export const bulkPutAccessInfrastructureTargets: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkPutAccessInfrastructureTargets",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -92818,6 +92846,8 @@ export const casbPostureFindingsIgnore: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CasbPostureFindingsIgnore",
 }));
 
 export type CasbPostureFindingsResetSeverityError = CloudflareOpError;
@@ -92833,6 +92863,8 @@ export const casbPostureFindingsResetSeverity: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CasbPostureFindingsResetSeverity",
 }));
 
 export type CasbPostureFindingsTuneSeverityError = CloudflareOpError;
@@ -92848,6 +92880,8 @@ export const casbPostureFindingsTuneSeverity: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CasbPostureFindingsTuneSeverity",
 }));
 
 export type CasbPostureFindingsUnignoreError = CloudflareOpError;
@@ -92863,6 +92897,8 @@ export const casbPostureFindingsUnignore: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CasbPostureFindingsUnignore",
 }));
 
 export type CasbPostureWebhooksEvaluateError = CloudflareOpError;
@@ -92878,6 +92914,8 @@ export const casbPostureWebhooksEvaluate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CasbPostureWebhooksEvaluate",
 }));
 
 export type CasbPostureWebhooksEvaluateExistingError = CloudflareOpError;
@@ -92893,6 +92931,8 @@ export const casbPostureWebhooksEvaluateExisting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CasbPostureWebhooksEvaluateExisting",
 }));
 
 export type CreateAccessAiControlMcpPortalError =
@@ -92911,6 +92951,8 @@ export const createAccessAiControlMcpPortal: API.OperationMethod<
   errors: [McpPortalHostnameInUse, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessAiControlMcpPortal",
 }));
 
 export type CreateAccessAiControlMcpServerError = Forbidden | CloudflareOpError;
@@ -92926,6 +92968,8 @@ export const createAccessAiControlMcpServer: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessAiControlMcpServer",
 }));
 
 export type CreateAccessApplicationCaForAccountError = CloudflareOpError;
@@ -92941,6 +92985,8 @@ export const createAccessApplicationCaForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessApplicationCaForAccount",
 }));
 
 export type CreateAccessApplicationCaForZoneError = CloudflareOpError;
@@ -92956,6 +93002,8 @@ export const createAccessApplicationCaForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessApplicationCaForZone",
 }));
 
 export type CreateAccessApplicationForAccountError =
@@ -92979,6 +93027,8 @@ export const createAccessApplicationForAccount: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessApplicationForAccount",
 }));
 
 export type CreateAccessApplicationForZoneError = AccessReferenceNotFound | CloudflareOpError;
@@ -92994,6 +93044,8 @@ export const createAccessApplicationForZone: API.OperationMethod<
   errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessApplicationForZone",
 }));
 
 export type CreateAccessApplicationPolicyForAccountError = CloudflareOpError;
@@ -93009,6 +93061,8 @@ export const createAccessApplicationPolicyForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessApplicationPolicyForAccount",
 }));
 
 export type CreateAccessApplicationPolicyForZoneError = CloudflareOpError;
@@ -93024,6 +93078,8 @@ export const createAccessApplicationPolicyForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessApplicationPolicyForZone",
 }));
 
 export type CreateAccessApplicationPolicyTestError = CloudflareOpError;
@@ -93039,6 +93095,8 @@ export const createAccessApplicationPolicyTest: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessApplicationPolicyTest",
 }));
 
 export type CreateAccessBookmarkError = AccessBookmarkNotFound | CloudflareOpError;
@@ -93054,6 +93112,8 @@ export const createAccessBookmark: API.OperationMethod<
   errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessBookmark",
 }));
 
 export type CreateAccessCertificateForAccountError =
@@ -93071,6 +93131,8 @@ export const createAccessCertificateForAccount: API.OperationMethod<
   errors: [AccessCertificateQuotaExceeded, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessCertificateForAccount",
 }));
 
 export type CreateAccessCertificateForZoneError =
@@ -93088,6 +93150,8 @@ export const createAccessCertificateForZone: API.OperationMethod<
   errors: [AccessCertificateQuotaExceeded, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessCertificateForZone",
 }));
 
 export type CreateAccessCustomPageError = AccessCustomPagesNotEntitled | CloudflareOpError;
@@ -93103,6 +93167,8 @@ export const createAccessCustomPage: API.OperationMethod<
   errors: [AccessCustomPagesNotEntitled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessCustomPage",
 }));
 
 export type CreateAccessGatewayCaError = CloudflareOpError;
@@ -93118,6 +93184,8 @@ export const createAccessGatewayCa: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessGatewayCa",
 }));
 
 export type CreateAccessGroupForAccountError = CloudflareOpError;
@@ -93133,6 +93201,8 @@ export const createAccessGroupForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessGroupForAccount",
 }));
 
 export type CreateAccessGroupForZoneError = CloudflareOpError;
@@ -93148,6 +93218,8 @@ export const createAccessGroupForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessGroupForZone",
 }));
 
 export type CreateAccessIdpFederationGrantError = CloudflareOpError;
@@ -93163,6 +93235,8 @@ export const createAccessIdpFederationGrant: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessIdpFederationGrant",
 }));
 
 export type CreateAccessInfrastructureTargetError = Forbidden | CloudflareOpError;
@@ -93178,6 +93252,8 @@ export const createAccessInfrastructureTarget: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessInfrastructureTarget",
 }));
 
 export type CreateAccessPolicyError = CloudflareOpError;
@@ -93193,6 +93269,8 @@ export const createAccessPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessPolicy",
 }));
 
 export type CreateAccessServiceTokenForAccountError = CloudflareOpError;
@@ -93208,6 +93286,8 @@ export const createAccessServiceTokenForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessServiceTokenForAccount",
 }));
 
 export type CreateAccessServiceTokenForZoneError = CloudflareOpError;
@@ -93223,6 +93303,8 @@ export const createAccessServiceTokenForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessServiceTokenForZone",
 }));
 
 export type CreateAccessTagError = CloudflareOpError;
@@ -93238,6 +93320,8 @@ export const createAccessTag: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessTag",
 }));
 
 export type CreateAccessUserError = CloudflareOpError;
@@ -93253,6 +93337,8 @@ export const createAccessUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessUser",
 }));
 
 export type CreateAccessUserPopulationError = CloudflareOpError;
@@ -93268,6 +93354,8 @@ export const createAccessUserPopulation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessUserPopulation",
 }));
 
 export type CreateAccessUserPopulationsUserError = CloudflareOpError;
@@ -93283,6 +93371,8 @@ export const createAccessUserPopulationsUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessUserPopulationsUser",
 }));
 
 export type CreateCasbIntegrationError = CloudflareOpError;
@@ -93298,6 +93388,8 @@ export const createCasbIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCasbIntegration",
 }));
 
 export type CreateCasbPosturePolicyError = CloudflareOpError;
@@ -93313,6 +93405,8 @@ export const createCasbPosturePolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCasbPosturePolicy",
 }));
 
 export type CreateCasbPostureRemediationsJobError = CloudflareOpError;
@@ -93328,6 +93422,8 @@ export const createCasbPostureRemediationsJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCasbPostureRemediationsJob",
 }));
 
 export type CreateCasbPostureWebhookError = CloudflareOpError;
@@ -93343,6 +93439,8 @@ export const createCasbPostureWebhook: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCasbPostureWebhook",
 }));
 
 export type CreateCasbPostureWebhooksJobError = CloudflareOpError;
@@ -93358,6 +93456,8 @@ export const createCasbPostureWebhooksJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCasbPostureWebhooksJob",
 }));
 
 export type CreateCwsBasicAuthCredentialsError = CloudflareOpError;
@@ -93373,6 +93473,8 @@ export const createCwsBasicAuthCredentials: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsBasicAuthCredentials",
 }));
 
 export type CreateCwsBasicAuthCredentialsSecretError = CloudflareOpError;
@@ -93388,6 +93490,8 @@ export const createCwsBasicAuthCredentialsSecret: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsBasicAuthCredentialsSecret",
 }));
 
 export type CreateCwsDeploymentError = CloudflareOpError;
@@ -93403,6 +93507,8 @@ export const createCwsDeployment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsDeployment",
 }));
 
 export type CreateCwsDomainAclError = CloudflareOpError;
@@ -93418,6 +93524,8 @@ export const createCwsDomainAcl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsDomainAcl",
 }));
 
 export type CreateCwsPolicyError = CloudflareOpError;
@@ -93433,6 +93541,8 @@ export const createCwsPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsPolicy",
 }));
 
 export type CreateCwsPolicySetError = CloudflareOpError;
@@ -93448,6 +93558,8 @@ export const createCwsPolicySet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsPolicySet",
 }));
 
 export type CreateCwsRegoMetadataError = CloudflareOpError;
@@ -93463,6 +93575,8 @@ export const createCwsRegoMetadata: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsRegoMetadata",
 }));
 
 export type CreateCwsRegoModuleError = CloudflareOpError;
@@ -93478,6 +93592,8 @@ export const createCwsRegoModule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsRegoModule",
 }));
 
 export type CreateCwsTenantStructureError = CloudflareOpError;
@@ -93493,6 +93609,8 @@ export const createCwsTenantStructure: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsTenantStructure",
 }));
 
 export type CreateCwsTenantStructuresNodeError = CloudflareOpError;
@@ -93508,6 +93626,8 @@ export const createCwsTenantStructuresNode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsTenantStructuresNode",
 }));
 
 export type CreateCwsWorkloadError = CloudflareOpError;
@@ -93523,6 +93643,8 @@ export const createCwsWorkload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCwsWorkload",
 }));
 
 export type CreateDeviceDeploymentGroupError = CloudflareOpError;
@@ -93538,6 +93660,8 @@ export const createDeviceDeploymentGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceDeploymentGroup",
 }));
 
 export type CreateDeviceDexTestError = Forbidden | CloudflareOpError;
@@ -93553,6 +93677,8 @@ export const createDeviceDexTest: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceDexTest",
 }));
 
 export type CreateDeviceIpProfileError = CloudflareOpError;
@@ -93568,6 +93694,8 @@ export const createDeviceIpProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceIpProfile",
 }));
 
 export type CreateDeviceNetworkError = Forbidden | CloudflareOpError;
@@ -93583,6 +93711,8 @@ export const createDeviceNetwork: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceNetwork",
 }));
 
 export type CreateDevicePolicyCustomError = Forbidden | CloudflareOpError;
@@ -93598,6 +93728,8 @@ export const createDevicePolicyCustom: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevicePolicyCustom",
 }));
 
 export type CreateDevicePostureError = Forbidden | CloudflareOpError;
@@ -93613,6 +93745,8 @@ export const createDevicePosture: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevicePosture",
 }));
 
 export type CreateDevicePostureIntegrationError =
@@ -93631,6 +93765,8 @@ export const createDevicePostureIntegration: API.OperationMethod<
   errors: [InvalidPostureIntegrationConfig, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevicePostureIntegration",
 }));
 
 export type CreateDeviceResilienceGlobalWarpOverrideError = CloudflareOpError;
@@ -93646,6 +93782,8 @@ export const createDeviceResilienceGlobalWarpOverride: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceResilienceGlobalWarpOverride",
 }));
 
 export type CreateDeviceRevokeError = CloudflareOpError;
@@ -93661,6 +93799,8 @@ export const createDeviceRevoke: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceRevoke",
 }));
 
 export type CreateDeviceUnrevokeError = CloudflareOpError;
@@ -93676,6 +93816,8 @@ export const createDeviceUnrevoke: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeviceUnrevoke",
 }));
 
 export type CreateDexCommandError = CloudflareOpError;
@@ -93691,6 +93833,8 @@ export const createDexCommand: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDexCommand",
 }));
 
 export type CreateDexRuleError = CloudflareOpError;
@@ -93706,6 +93850,8 @@ export const createDexRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDexRule",
 }));
 
 export type CreateDlpCustomEntryError = CloudflareOpError;
@@ -93721,6 +93867,8 @@ export const createDlpCustomEntry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpCustomEntry",
 }));
 
 export type CreateDlpCustomPromptTopicError = CloudflareOpError;
@@ -93736,6 +93884,8 @@ export const createDlpCustomPromptTopic: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpCustomPromptTopic",
 }));
 
 export type CreateDlpDataClassError = CloudflareOpError;
@@ -93751,6 +93901,8 @@ export const createDlpDataClass: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpDataClass",
 }));
 
 export type CreateDlpDatasetError = CloudflareOpError;
@@ -93766,6 +93918,8 @@ export const createDlpDataset: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpDataset",
 }));
 
 export type CreateDlpDatasetUploadError = CloudflareOpError;
@@ -93781,6 +93935,8 @@ export const createDlpDatasetUpload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpDatasetUpload",
 }));
 
 export type CreateDlpDatasetVersionError = CloudflareOpError;
@@ -93798,6 +93954,8 @@ export const createDlpDatasetVersion: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateDlpDatasetVersion",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -93816,6 +93974,8 @@ export const createDlpDatasetVersionEntry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpDatasetVersionEntry",
 }));
 
 export type CreateDlpDataTagCategoryError = CloudflareOpError;
@@ -93831,6 +93991,8 @@ export const createDlpDataTagCategory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpDataTagCategory",
 }));
 
 export type CreateDlpDataTagCategoryDataTagError = CloudflareOpError;
@@ -93846,6 +94008,8 @@ export const createDlpDataTagCategoryDataTag: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpDataTagCategoryDataTag",
 }));
 
 export type CreateDlpEmailAccountMappingError = CloudflareOpError;
@@ -93861,6 +94025,8 @@ export const createDlpEmailAccountMapping: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpEmailAccountMapping",
 }));
 
 export type CreateDlpEmailRuleError = CloudflareOpError;
@@ -93876,6 +94042,8 @@ export const createDlpEmailRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpEmailRule",
 }));
 
 export type CreateDlpEntryError = CloudflareOpError;
@@ -93891,6 +94059,8 @@ export const createDlpEntry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpEntry",
 }));
 
 export type CreateDlpEntryIntegrationError = CloudflareOpError;
@@ -93906,6 +94076,8 @@ export const createDlpEntryIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpEntryIntegration",
 }));
 
 export type CreateDlpEntryPredefinedError = CloudflareOpError;
@@ -93921,6 +94093,8 @@ export const createDlpEntryPredefined: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpEntryPredefined",
 }));
 
 export type CreateDlpProfileCustomError = Forbidden | CloudflareOpError;
@@ -93936,6 +94110,8 @@ export const createDlpProfileCustom: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpProfileCustom",
 }));
 
 export type CreateDlpSensitivityGroupError = CloudflareOpError;
@@ -93951,6 +94127,8 @@ export const createDlpSensitivityGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpSensitivityGroup",
 }));
 
 export type CreateDlpSensitivityGroupLevelError = CloudflareOpError;
@@ -93966,6 +94144,8 @@ export const createDlpSensitivityGroupLevel: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpSensitivityGroupLevel",
 }));
 
 export type CreateDlpValidatorsProximityWordError = CloudflareOpError;
@@ -93981,6 +94161,8 @@ export const createDlpValidatorsProximityWord: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDlpValidatorsProximityWord",
 }));
 
 export type CreateGatewayError = CloudflareOpError;
@@ -93996,6 +94178,8 @@ export const createGateway: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type CreateGatewayCertificateError = GatewayCertificateQuotaReached | CloudflareOpError;
@@ -94011,6 +94195,8 @@ export const createGatewayCertificate: API.OperationMethod<
   errors: [GatewayCertificateQuotaReached, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayCertificate",
 }));
 
 export type CreateGatewayListError = CloudflareOpError;
@@ -94026,6 +94212,8 @@ export const createGatewayList: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayList",
 }));
 
 export type CreateGatewayLocationError = CloudflareOpError;
@@ -94041,6 +94229,8 @@ export const createGatewayLocation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayLocation",
 }));
 
 export type CreateGatewayPacfileError = CloudflareOpError;
@@ -94056,6 +94246,8 @@ export const createGatewayPacfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayPacfile",
 }));
 
 export type CreateGatewayProxyEndpointError =
@@ -94074,6 +94266,8 @@ export const createGatewayProxyEndpoint: API.OperationMethod<
   errors: [IpProxyEndpointsRequireEnterprise, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayProxyEndpoint",
 }));
 
 export type CreateGatewayRuleError = CloudflareOpError;
@@ -94089,6 +94283,8 @@ export const createGatewayRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGatewayRule",
 }));
 
 export type CreateIdentityProviderForAccountError = CloudflareOpError;
@@ -94104,6 +94300,8 @@ export const createIdentityProviderForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProviderForAccount",
 }));
 
 export type CreateIdentityProviderForZoneError = CloudflareOpError;
@@ -94119,6 +94317,8 @@ export const createIdentityProviderForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProviderForZone",
 }));
 
 export type CreateIdentityProviderSamlCertificateError = CloudflareOpError;
@@ -94134,6 +94334,8 @@ export const createIdentityProviderSamlCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityProviderSamlCertificate",
 }));
 
 export type CreateNetworkHostnameRouteError =
@@ -94152,6 +94354,8 @@ export const createNetworkHostnameRoute: API.OperationMethod<
   errors: [HostnameRouteAlreadyRouted, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkHostnameRoute",
 }));
 
 export type CreateNetworkRouteError = CloudflareOpError;
@@ -94167,6 +94371,8 @@ export const createNetworkRoute: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkRoute",
 }));
 
 export type CreateNetworkRouteNetworkError = CloudflareOpError;
@@ -94182,6 +94388,8 @@ export const createNetworkRouteNetwork: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkRouteNetwork",
 }));
 
 export type CreateNetworkSubnetWarpError = CloudflareOpError;
@@ -94197,6 +94405,8 @@ export const createNetworkSubnetWarp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkSubnetWarp",
 }));
 
 export type CreateNetworkVirtualNetworkError = VirtualNetworkConflict | CloudflareOpError;
@@ -94212,6 +94422,8 @@ export const createNetworkVirtualNetwork: API.OperationMethod<
   errors: [VirtualNetworkConflict, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkVirtualNetwork",
 }));
 
 export type CreateOrganizationForAccountError = OrganizationAlreadyExists | CloudflareOpError;
@@ -94227,6 +94439,8 @@ export const createOrganizationForAccount: API.OperationMethod<
   errors: [OrganizationAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationForAccount",
 }));
 
 export type CreateOrganizationForZoneError = OrganizationAlreadyExists | CloudflareOpError;
@@ -94242,6 +94456,8 @@ export const createOrganizationForZone: API.OperationMethod<
   errors: [OrganizationAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationForZone",
 }));
 
 export type CreateResourceLibraryApplicationError = CloudflareOpError;
@@ -94257,6 +94473,8 @@ export const createResourceLibraryApplication: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceLibraryApplication",
 }));
 
 export type CreateRiskScoringIntegrationError = Forbidden | CloudflareOpError;
@@ -94272,6 +94490,8 @@ export const createRiskScoringIntegration: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRiskScoringIntegration",
 }));
 
 export type CreateTunnelCloudflaredError = DuplicateTunnelName | CloudflareOpError;
@@ -94287,6 +94507,8 @@ export const createTunnelCloudflared: API.OperationMethod<
   errors: [DuplicateTunnelName, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTunnelCloudflared",
 }));
 
 export type CreateTunnelCloudflaredManagementError = CloudflareOpError;
@@ -94302,6 +94524,8 @@ export const createTunnelCloudflaredManagement: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTunnelCloudflaredManagement",
 }));
 
 export type CreateTunnelWarpConnectorError = DuplicateTunnelName | Forbidden | CloudflareOpError;
@@ -94317,6 +94541,8 @@ export const createTunnelWarpConnector: API.OperationMethod<
   errors: [DuplicateTunnelName, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTunnelWarpConnector",
 }));
 
 export type CwsTenantStructuresNodesBatchError = CloudflareOpError;
@@ -94332,6 +94558,8 @@ export const cwsTenantStructuresNodesBatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CwsTenantStructuresNodesBatch",
 }));
 
 export type DeactivateGatewayCertificateError =
@@ -94355,6 +94583,8 @@ export const deactivateGatewayCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateGatewayCertificate",
 }));
 
 export type DeleteAccessAiControlMcpPortalError = McpPortalNotFound | Forbidden | CloudflareOpError;
@@ -94370,6 +94600,8 @@ export const deleteAccessAiControlMcpPortal: API.OperationMethod<
   errors: [McpPortalNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessAiControlMcpPortal",
 }));
 
 export type DeleteAccessAiControlMcpServerError = McpServerNotFound | Forbidden | CloudflareOpError;
@@ -94385,6 +94617,8 @@ export const deleteAccessAiControlMcpServer: API.OperationMethod<
   errors: [McpServerNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessAiControlMcpServer",
 }));
 
 export type DeleteAccessApplicationCaForAccountError = CloudflareOpError;
@@ -94400,6 +94634,8 @@ export const deleteAccessApplicationCaForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApplicationCaForAccount",
 }));
 
 export type DeleteAccessApplicationCaForZoneError = CloudflareOpError;
@@ -94415,6 +94651,8 @@ export const deleteAccessApplicationCaForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApplicationCaForZone",
 }));
 
 export type DeleteAccessApplicationForAccountError = AccessApplicationNotFound | CloudflareOpError;
@@ -94430,6 +94668,8 @@ export const deleteAccessApplicationForAccount: API.OperationMethod<
   errors: [AccessApplicationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApplicationForAccount",
 }));
 
 export type DeleteAccessApplicationForZoneError = CloudflareOpError;
@@ -94445,6 +94685,8 @@ export const deleteAccessApplicationForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApplicationForZone",
 }));
 
 export type DeleteAccessApplicationPolicyForAccountError = CloudflareOpError;
@@ -94460,6 +94702,8 @@ export const deleteAccessApplicationPolicyForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApplicationPolicyForAccount",
 }));
 
 export type DeleteAccessApplicationPolicyForZoneError = CloudflareOpError;
@@ -94475,6 +94719,8 @@ export const deleteAccessApplicationPolicyForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessApplicationPolicyForZone",
 }));
 
 export type DeleteAccessBookmarkError = AccessBookmarkNotFound | CloudflareOpError;
@@ -94490,6 +94736,8 @@ export const deleteAccessBookmark: API.OperationMethod<
   errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessBookmark",
 }));
 
 export type DeleteAccessCertificateForAccountError = AccessCertificateNotFound | CloudflareOpError;
@@ -94505,6 +94753,8 @@ export const deleteAccessCertificateForAccount: API.OperationMethod<
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessCertificateForAccount",
 }));
 
 export type DeleteAccessCertificateForZoneError = AccessCertificateNotFound | CloudflareOpError;
@@ -94520,6 +94770,8 @@ export const deleteAccessCertificateForZone: API.OperationMethod<
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessCertificateForZone",
 }));
 
 export type DeleteAccessCustomPageError = AccessCustomPageNotFound | CloudflareOpError;
@@ -94535,6 +94787,8 @@ export const deleteAccessCustomPage: API.OperationMethod<
   errors: [AccessCustomPageNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessCustomPage",
 }));
 
 export type DeleteAccessGatewayCaError = CloudflareOpError;
@@ -94550,6 +94804,8 @@ export const deleteAccessGatewayCa: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessGatewayCa",
 }));
 
 export type DeleteAccessGroupForAccountError = AccessGroupNotFound | CloudflareOpError;
@@ -94565,6 +94821,8 @@ export const deleteAccessGroupForAccount: API.OperationMethod<
   errors: [AccessGroupNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessGroupForAccount",
 }));
 
 export type DeleteAccessGroupForZoneError = AccessGroupNotFound | CloudflareOpError;
@@ -94580,6 +94838,8 @@ export const deleteAccessGroupForZone: API.OperationMethod<
   errors: [AccessGroupNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessGroupForZone",
 }));
 
 export type DeleteAccessIdpFederationGrantError = CloudflareOpError;
@@ -94595,6 +94855,8 @@ export const deleteAccessIdpFederationGrant: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessIdpFederationGrant",
 }));
 
 export type DeleteAccessInfrastructureTargetError = TargetNotFound | Forbidden | CloudflareOpError;
@@ -94610,6 +94872,8 @@ export const deleteAccessInfrastructureTarget: API.OperationMethod<
   errors: [TargetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessInfrastructureTarget",
 }));
 
 export type DeleteAccessPolicyError = CloudflareOpError;
@@ -94625,6 +94889,8 @@ export const deleteAccessPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicy",
 }));
 
 export type DeleteAccessServiceTokenForAccountError =
@@ -94642,6 +94908,8 @@ export const deleteAccessServiceTokenForAccount: API.OperationMethod<
   errors: [AccessServiceTokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessServiceTokenForAccount",
 }));
 
 export type DeleteAccessServiceTokenForZoneError = AccessServiceTokenNotFound | CloudflareOpError;
@@ -94657,6 +94925,8 @@ export const deleteAccessServiceTokenForZone: API.OperationMethod<
   errors: [AccessServiceTokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessServiceTokenForZone",
 }));
 
 export type DeleteAccessTagError = AccessTagNotFound | CloudflareOpError;
@@ -94672,6 +94942,8 @@ export const deleteAccessTag: API.OperationMethod<
   errors: [AccessTagNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessTag",
 }));
 
 export type DeleteAccessUserError = CloudflareOpError;
@@ -94687,6 +94959,8 @@ export const deleteAccessUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessUser",
 }));
 
 export type DeleteAccessUserPopulationError = CloudflareOpError;
@@ -94702,6 +94976,8 @@ export const deleteAccessUserPopulation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessUserPopulation",
 }));
 
 export type DeleteAccessUserPopulationsUserError = CloudflareOpError;
@@ -94717,6 +94993,8 @@ export const deleteAccessUserPopulationsUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessUserPopulationsUser",
 }));
 
 export type DeleteAccessUsersMfaAuthenticatorError = CloudflareOpError;
@@ -94732,6 +95010,8 @@ export const deleteAccessUsersMfaAuthenticator: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessUsersMfaAuthenticator",
 }));
 
 export type DeleteAccessUsersPasskeyError = CloudflareOpError;
@@ -94747,6 +95027,8 @@ export const deleteAccessUsersPasskey: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessUsersPasskey",
 }));
 
 export type DeleteCasbIntegrationError = CloudflareOpError;
@@ -94762,6 +95044,8 @@ export const deleteCasbIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCasbIntegration",
 }));
 
 export type DeleteCasbPosturePolicyError = CloudflareOpError;
@@ -94777,6 +95061,8 @@ export const deleteCasbPosturePolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCasbPosturePolicy",
 }));
 
 export type DeleteCasbPostureWebhookError = CloudflareOpError;
@@ -94792,6 +95078,8 @@ export const deleteCasbPostureWebhook: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCasbPostureWebhook",
 }));
 
 export type DeleteCwsBasicAuthCredentialsError = CloudflareOpError;
@@ -94807,6 +95095,8 @@ export const deleteCwsBasicAuthCredentials: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsBasicAuthCredentials",
 }));
 
 export type DeleteCwsBasicAuthCredentialsSecretError = CloudflareOpError;
@@ -94822,6 +95112,8 @@ export const deleteCwsBasicAuthCredentialsSecret: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsBasicAuthCredentialsSecret",
 }));
 
 export type DeleteCwsDeploymentError = CloudflareOpError;
@@ -94837,6 +95129,8 @@ export const deleteCwsDeployment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsDeployment",
 }));
 
 export type DeleteCwsDomainAclError = CloudflareOpError;
@@ -94852,6 +95146,8 @@ export const deleteCwsDomainAcl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsDomainAcl",
 }));
 
 export type DeleteCwsPolicyError = CloudflareOpError;
@@ -94867,6 +95163,8 @@ export const deleteCwsPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsPolicy",
 }));
 
 export type DeleteCwsPolicySetError = CloudflareOpError;
@@ -94882,6 +95180,8 @@ export const deleteCwsPolicySet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsPolicySet",
 }));
 
 export type DeleteCwsRegoMetadataError = CloudflareOpError;
@@ -94897,6 +95197,8 @@ export const deleteCwsRegoMetadata: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsRegoMetadata",
 }));
 
 export type DeleteCwsRegoModuleError = CloudflareOpError;
@@ -94912,6 +95214,8 @@ export const deleteCwsRegoModule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsRegoModule",
 }));
 
 export type DeleteCwsTenantStructureError = CloudflareOpError;
@@ -94927,6 +95231,8 @@ export const deleteCwsTenantStructure: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsTenantStructure",
 }));
 
 export type DeleteCwsTenantStructuresNodeError = CloudflareOpError;
@@ -94942,6 +95248,8 @@ export const deleteCwsTenantStructuresNode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsTenantStructuresNode",
 }));
 
 export type DeleteCwsWorkloadError = CloudflareOpError;
@@ -94957,6 +95265,8 @@ export const deleteCwsWorkload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCwsWorkload",
 }));
 
 export type DeleteDeviceDeploymentGroupError = CloudflareOpError;
@@ -94972,6 +95282,8 @@ export const deleteDeviceDeploymentGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceDeploymentGroup",
 }));
 
 export type DeleteDeviceDevicesError = CloudflareOpError;
@@ -94987,6 +95299,8 @@ export const deleteDeviceDevices: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceDevices",
 }));
 
 export type DeleteDeviceDexTestError = DexTestNotFound | Forbidden | CloudflareOpError;
@@ -95002,6 +95316,8 @@ export const deleteDeviceDexTest: API.OperationMethod<
   errors: [DexTestNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceDexTest",
 }));
 
 export type DeleteDeviceIpProfileError = CloudflareOpError;
@@ -95017,6 +95333,8 @@ export const deleteDeviceIpProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceIpProfile",
 }));
 
 export type DeleteDeviceNetworkError = DeviceNetworkNotFound | Forbidden | CloudflareOpError;
@@ -95034,6 +95352,8 @@ export const deleteDeviceNetwork: API.PaginatedOperationMethod<
     errors: [DeviceNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DeleteDeviceNetwork",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -95054,6 +95374,8 @@ export const deleteDevicePolicyCustom: API.PaginatedOperationMethod<
     errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DeleteDevicePolicyCustom",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -95072,6 +95394,8 @@ export const deleteDevicePosture: API.OperationMethod<
   errors: [PostureRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevicePosture",
 }));
 
 export type DeleteDevicePostureIntegrationError =
@@ -95090,6 +95414,8 @@ export const deleteDevicePostureIntegration: API.OperationMethod<
   errors: [DevicePostureIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevicePostureIntegration",
 }));
 
 export type DeleteDeviceRegistrationError = CloudflareOpError;
@@ -95105,6 +95431,8 @@ export const deleteDeviceRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceRegistration",
 }));
 
 export type DeleteDeviceSettingError = Forbidden | CloudflareOpError;
@@ -95120,6 +95448,8 @@ export const deleteDeviceSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceSetting",
 }));
 
 export type DeleteDexRuleError = CloudflareOpError;
@@ -95135,6 +95465,8 @@ export const deleteDexRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDexRule",
 }));
 
 export type DeleteDlpCustomEntryError = CloudflareOpError;
@@ -95150,6 +95482,8 @@ export const deleteDlpCustomEntry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpCustomEntry",
 }));
 
 export type DeleteDlpCustomPromptTopicError = CloudflareOpError;
@@ -95165,6 +95499,8 @@ export const deleteDlpCustomPromptTopic: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpCustomPromptTopic",
 }));
 
 export type DeleteDlpDataClassError = CloudflareOpError;
@@ -95180,6 +95516,8 @@ export const deleteDlpDataClass: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpDataClass",
 }));
 
 export type DeleteDlpDatasetError = CloudflareOpError;
@@ -95195,6 +95533,8 @@ export const deleteDlpDataset: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpDataset",
 }));
 
 export type DeleteDlpDataTagCategoryError = CloudflareOpError;
@@ -95210,6 +95550,8 @@ export const deleteDlpDataTagCategory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpDataTagCategory",
 }));
 
 export type DeleteDlpDataTagCategoryDataTagError = CloudflareOpError;
@@ -95225,6 +95567,8 @@ export const deleteDlpDataTagCategoryDataTag: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpDataTagCategoryDataTag",
 }));
 
 export type DeleteDlpEmailRuleError = CloudflareOpError;
@@ -95240,6 +95584,8 @@ export const deleteDlpEmailRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpEmailRule",
 }));
 
 export type DeleteDlpEntryError = DlpEntryNotFound | CloudflareOpError;
@@ -95255,6 +95601,8 @@ export const deleteDlpEntry: API.OperationMethod<
   errors: [DlpEntryNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpEntry",
 }));
 
 export type DeleteDlpEntryIntegrationError = CloudflareOpError;
@@ -95270,6 +95618,8 @@ export const deleteDlpEntryIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpEntryIntegration",
 }));
 
 export type DeleteDlpEntryPredefinedError = CloudflareOpError;
@@ -95285,6 +95635,8 @@ export const deleteDlpEntryPredefined: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpEntryPredefined",
 }));
 
 export type DeleteDlpProfileCustomError = DlpProfileNotFound | Forbidden | CloudflareOpError;
@@ -95300,6 +95652,8 @@ export const deleteDlpProfileCustom: API.OperationMethod<
   errors: [DlpProfileNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpProfileCustom",
 }));
 
 export type DeleteDlpProfilePredefinedError = CloudflareOpError;
@@ -95315,6 +95669,8 @@ export const deleteDlpProfilePredefined: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpProfilePredefined",
 }));
 
 export type DeleteDlpSensitivityGroupError = CloudflareOpError;
@@ -95330,6 +95686,8 @@ export const deleteDlpSensitivityGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpSensitivityGroup",
 }));
 
 export type DeleteDlpSensitivityGroupLevelError = CloudflareOpError;
@@ -95345,6 +95703,8 @@ export const deleteDlpSensitivityGroupLevel: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpSensitivityGroupLevel",
 }));
 
 export type DeleteDlpSettingError = CloudflareOpError;
@@ -95360,6 +95720,8 @@ export const deleteDlpSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpSetting",
 }));
 
 export type DeleteDlpValidatorsProximityWordError = CloudflareOpError;
@@ -95375,6 +95737,8 @@ export const deleteDlpValidatorsProximityWord: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDlpValidatorsProximityWord",
 }));
 
 export type DeleteGatewayCertificateError =
@@ -95398,6 +95762,8 @@ export const deleteGatewayCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayCertificate",
 }));
 
 export type DeleteGatewayListError = GatewayListNotFound | CloudflareOpError;
@@ -95413,6 +95779,8 @@ export const deleteGatewayList: API.OperationMethod<
   errors: [GatewayListNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayList",
 }));
 
 export type DeleteGatewayLocationError =
@@ -95438,6 +95806,8 @@ export const deleteGatewayLocation: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayLocation",
 }));
 
 export type DeleteGatewayPacfileError = CloudflareOpError;
@@ -95453,6 +95823,8 @@ export const deleteGatewayPacfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayPacfile",
 }));
 
 export type DeleteGatewayProxyEndpointError = ProxyEndpointNotFound | CloudflareOpError;
@@ -95468,6 +95840,8 @@ export const deleteGatewayProxyEndpoint: API.OperationMethod<
   errors: [ProxyEndpointNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayProxyEndpoint",
 }));
 
 export type DeleteGatewayRuleError = CloudflareOpError;
@@ -95483,6 +95857,8 @@ export const deleteGatewayRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGatewayRule",
 }));
 
 export type DeleteIdentityProviderForAccountError =
@@ -95500,6 +95876,8 @@ export const deleteIdentityProviderForAccount: API.OperationMethod<
   errors: [AccessIdentityProviderNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProviderForAccount",
 }));
 
 export type DeleteIdentityProviderForZoneError = AccessIdentityProviderNotFound | CloudflareOpError;
@@ -95515,6 +95893,8 @@ export const deleteIdentityProviderForZone: API.OperationMethod<
   errors: [AccessIdentityProviderNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProviderForZone",
 }));
 
 export type DeleteIdentityProvidersScimGroupError = CloudflareOpError;
@@ -95530,6 +95910,8 @@ export const deleteIdentityProvidersScimGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProvidersScimGroup",
 }));
 
 export type DeleteIdentityProvidersScimUserError = CloudflareOpError;
@@ -95545,6 +95927,8 @@ export const deleteIdentityProvidersScimUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityProvidersScimUser",
 }));
 
 export type DeleteNetworkHostnameRouteError = HostnameRouteNotFound | Forbidden | CloudflareOpError;
@@ -95560,6 +95944,8 @@ export const deleteNetworkHostnameRoute: API.OperationMethod<
   errors: [HostnameRouteNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkHostnameRoute",
 }));
 
 export type DeleteNetworkRouteError = CloudflareOpError;
@@ -95575,6 +95961,8 @@ export const deleteNetworkRoute: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkRoute",
 }));
 
 export type DeleteNetworkRouteNetworkError = CloudflareOpError;
@@ -95590,6 +95978,8 @@ export const deleteNetworkRouteNetwork: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkRouteNetwork",
 }));
 
 export type DeleteNetworkSubnetWarpError = CloudflareOpError;
@@ -95605,6 +95995,8 @@ export const deleteNetworkSubnetWarp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkSubnetWarp",
 }));
 
 export type DeleteNetworkVirtualNetworkError =
@@ -95623,6 +96015,8 @@ export const deleteNetworkVirtualNetwork: API.OperationMethod<
   errors: [VirtualNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkVirtualNetwork",
 }));
 
 export type DeleteResourceLibraryApplicationError = CloudflareOpError;
@@ -95638,6 +96032,8 @@ export const deleteResourceLibraryApplication: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceLibraryApplication",
 }));
 
 export type DeleteRiskScoringIntegrationError =
@@ -95656,6 +96052,8 @@ export const deleteRiskScoringIntegration: API.OperationMethod<
   errors: [RiskScoringIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRiskScoringIntegration",
 }));
 
 export type DeleteTunnelCloudflaredError = CloudflareOpError;
@@ -95671,6 +96069,8 @@ export const deleteTunnelCloudflared: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTunnelCloudflared",
 }));
 
 export type DeleteTunnelCloudflaredConnectionError = CloudflareOpError;
@@ -95686,6 +96086,8 @@ export const deleteTunnelCloudflaredConnection: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTunnelCloudflaredConnection",
 }));
 
 export type DeleteTunnelWarpConnectorError = TunnelNotFound | Forbidden | CloudflareOpError;
@@ -95701,6 +96103,8 @@ export const deleteTunnelWarpConnector: API.OperationMethod<
   errors: [TunnelNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTunnelWarpConnector",
 }));
 
 export type EditDlpDatasetUploadError = CloudflareOpError;
@@ -95716,6 +96120,8 @@ export const editDlpDatasetUpload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditDlpDatasetUpload",
 }));
 
 export type ExportCasbPostureContentError = CloudflareOpError;
@@ -95731,6 +96137,8 @@ export const exportCasbPostureContent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportCasbPostureContent",
 }));
 
 export type ExportCasbPostureFindingError = CloudflareOpError;
@@ -95746,6 +96154,8 @@ export const exportCasbPostureFinding: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportCasbPostureFinding",
 }));
 
 export type ExportCasbPostureFindingsInstanceError = CloudflareOpError;
@@ -95761,6 +96171,8 @@ export const exportCasbPostureFindingsInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportCasbPostureFindingsInstance",
 }));
 
 export type ExportCasbPostureRemediationsJobError = CloudflareOpError;
@@ -95776,6 +96188,8 @@ export const exportCasbPostureRemediationsJob: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportCasbPostureRemediationsJob",
 }));
 
 export type GetAccessApplicationCaForAccountError = CloudflareOpError;
@@ -95791,6 +96205,8 @@ export const getAccessApplicationCaForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApplicationCaForAccount",
 }));
 
 export type GetAccessApplicationCaForZoneError = CloudflareOpError;
@@ -95806,6 +96222,8 @@ export const getAccessApplicationCaForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApplicationCaForZone",
 }));
 
 export type GetAccessApplicationForAccountError =
@@ -95824,6 +96242,8 @@ export const getAccessApplicationForAccount: API.OperationMethod<
   errors: [Forbidden, AccessApplicationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApplicationForAccount",
 }));
 
 export type GetAccessApplicationForZoneError = CloudflareOpError;
@@ -95839,6 +96259,8 @@ export const getAccessApplicationForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApplicationForZone",
 }));
 
 export type GetAccessApplicationPolicyForAccountError = CloudflareOpError;
@@ -95854,6 +96276,8 @@ export const getAccessApplicationPolicyForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApplicationPolicyForAccount",
 }));
 
 export type GetAccessApplicationPolicyForZoneError = CloudflareOpError;
@@ -95869,6 +96293,8 @@ export const getAccessApplicationPolicyForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApplicationPolicyForZone",
 }));
 
 export type GetAccessApplicationPolicyTestError = CloudflareOpError;
@@ -95884,6 +96310,8 @@ export const getAccessApplicationPolicyTest: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessApplicationPolicyTest",
 }));
 
 export type GetAccessBookmarkError = AccessBookmarkNotFound | CloudflareOpError;
@@ -95899,6 +96327,8 @@ export const getAccessBookmark: API.OperationMethod<
   errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessBookmark",
 }));
 
 export type GetAccessCertificateForAccountError = AccessCertificateNotFound | CloudflareOpError;
@@ -95914,6 +96344,8 @@ export const getAccessCertificateForAccount: API.OperationMethod<
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessCertificateForAccount",
 }));
 
 export type GetAccessCertificateForZoneError = AccessCertificateNotFound | CloudflareOpError;
@@ -95929,6 +96361,8 @@ export const getAccessCertificateForZone: API.OperationMethod<
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessCertificateForZone",
 }));
 
 export type GetAccessCertificateSettingForAccountError = CloudflareOpError;
@@ -95946,6 +96380,8 @@ export const getAccessCertificateSettingForAccount: API.PaginatedOperationMethod
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAccessCertificateSettingForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -95966,6 +96402,8 @@ export const getAccessCertificateSettingForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAccessCertificateSettingForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -95984,6 +96422,8 @@ export const getAccessCustomPage: API.OperationMethod<
   errors: [AccessCustomPageNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessCustomPage",
 }));
 
 export type GetAccessGroupForAccountError = AccessGroupNotFound | CloudflareOpError;
@@ -95999,6 +96439,8 @@ export const getAccessGroupForAccount: API.OperationMethod<
   errors: [AccessGroupNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessGroupForAccount",
 }));
 
 export type GetAccessGroupForZoneError = AccessGroupNotFound | CloudflareOpError;
@@ -96014,6 +96456,8 @@ export const getAccessGroupForZone: API.OperationMethod<
   errors: [AccessGroupNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessGroupForZone",
 }));
 
 export type GetAccessIdpFederationGrantError = CloudflareOpError;
@@ -96029,6 +96473,8 @@ export const getAccessIdpFederationGrant: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessIdpFederationGrant",
 }));
 
 export type GetAccessInfrastructureTargetError = TargetNotFound | Forbidden | CloudflareOpError;
@@ -96044,6 +96490,8 @@ export const getAccessInfrastructureTarget: API.OperationMethod<
   errors: [TargetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessInfrastructureTarget",
 }));
 
 export type GetAccessKeyError = Forbidden | CloudflareOpError;
@@ -96059,6 +96507,8 @@ export const getAccessKey: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessKey",
 }));
 
 export type GetAccessLogsJitRequestError = CloudflareOpError;
@@ -96074,6 +96524,8 @@ export const getAccessLogsJitRequest: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessLogsJitRequest",
 }));
 
 export type GetAccessPolicyError = CloudflareOpError;
@@ -96089,6 +96541,8 @@ export const getAccessPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicy",
 }));
 
 export type GetAccessSamlCertificateError = CloudflareOpError;
@@ -96104,6 +96558,8 @@ export const getAccessSamlCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessSamlCertificate",
 }));
 
 export type GetAccessServiceTokenForAccountError = AccessServiceTokenNotFound | CloudflareOpError;
@@ -96119,6 +96575,8 @@ export const getAccessServiceTokenForAccount: API.OperationMethod<
   errors: [AccessServiceTokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessServiceTokenForAccount",
 }));
 
 export type GetAccessServiceTokenForZoneError = AccessServiceTokenNotFound | CloudflareOpError;
@@ -96134,6 +96592,8 @@ export const getAccessServiceTokenForZone: API.OperationMethod<
   errors: [AccessServiceTokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessServiceTokenForZone",
 }));
 
 export type GetAccessTagError = AccessTagNotFound | CloudflareOpError;
@@ -96149,6 +96609,8 @@ export const getAccessTag: API.OperationMethod<
   errors: [AccessTagNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessTag",
 }));
 
 export type GetAccessUserError = CloudflareOpError;
@@ -96164,6 +96626,8 @@ export const getAccessUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessUser",
 }));
 
 export type GetAccessUserActiveSessionError = CloudflareOpError;
@@ -96179,6 +96643,8 @@ export const getAccessUserActiveSession: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessUserActiveSession",
 }));
 
 export type GetAccessUserLastSeenIdentityError = CloudflareOpError;
@@ -96194,6 +96660,8 @@ export const getAccessUserLastSeenIdentity: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessUserLastSeenIdentity",
 }));
 
 export type GetAccessUserPopulationError = CloudflareOpError;
@@ -96209,6 +96677,8 @@ export const getAccessUserPopulation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessUserPopulation",
 }));
 
 export type GetAccessUserPopulationsUserError = CloudflareOpError;
@@ -96224,6 +96694,8 @@ export const getAccessUserPopulationsUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessUserPopulationsUser",
 }));
 
 export type GetCasbApplicationError = CloudflareOpError;
@@ -96239,6 +96711,8 @@ export const getCasbApplication: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasbApplication",
 }));
 
 export type GetCasbIntegrationError = CloudflareOpError;
@@ -96254,6 +96728,8 @@ export const getCasbIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasbIntegration",
 }));
 
 export type GetCasbPostureExportError = CloudflareOpError;
@@ -96269,6 +96745,8 @@ export const getCasbPostureExport: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasbPostureExport",
 }));
 
 export type GetCasbPostureFindingError = CloudflareOpError;
@@ -96284,6 +96762,8 @@ export const getCasbPostureFinding: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasbPostureFinding",
 }));
 
 export type GetCasbPostureFindingsInstanceError = CloudflareOpError;
@@ -96299,6 +96779,8 @@ export const getCasbPostureFindingsInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasbPostureFindingsInstance",
 }));
 
 export type GetCasbPostureFindingTypeError = CloudflareOpError;
@@ -96314,6 +96796,8 @@ export const getCasbPostureFindingType: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasbPostureFindingType",
 }));
 
 export type GetCasbPosturePolicyError = CloudflareOpError;
@@ -96329,6 +96813,8 @@ export const getCasbPosturePolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasbPosturePolicy",
 }));
 
 export type GetCasbPostureWebhookError = CloudflareOpError;
@@ -96344,6 +96830,8 @@ export const getCasbPostureWebhook: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasbPostureWebhook",
 }));
 
 export type GetConnectivitySettingError = CloudflareOpError;
@@ -96359,6 +96847,8 @@ export const getConnectivitySetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectivitySetting",
 }));
 
 export type GetCwsBasicAuthCredentialsError = CloudflareOpError;
@@ -96374,6 +96864,8 @@ export const getCwsBasicAuthCredentials: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsBasicAuthCredentials",
 }));
 
 export type GetCwsBasicAuthCredentialsSecretError = CloudflareOpError;
@@ -96389,6 +96881,8 @@ export const getCwsBasicAuthCredentialsSecret: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsBasicAuthCredentialsSecret",
 }));
 
 export type GetCwsDeploymentError = CloudflareOpError;
@@ -96404,6 +96898,8 @@ export const getCwsDeployment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsDeployment",
 }));
 
 export type GetCwsDomainAclError = CloudflareOpError;
@@ -96419,6 +96915,8 @@ export const getCwsDomainAcl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsDomainAcl",
 }));
 
 export type GetCwsPolicyError = CloudflareOpError;
@@ -96434,6 +96932,8 @@ export const getCwsPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsPolicy",
 }));
 
 export type GetCwsPolicySetError = CloudflareOpError;
@@ -96449,6 +96949,8 @@ export const getCwsPolicySet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsPolicySet",
 }));
 
 export type GetCwsRegoMetadataError = CloudflareOpError;
@@ -96464,6 +96966,8 @@ export const getCwsRegoMetadata: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsRegoMetadata",
 }));
 
 export type GetCwsRegoModuleError = CloudflareOpError;
@@ -96479,6 +96983,8 @@ export const getCwsRegoModule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsRegoModule",
 }));
 
 export type GetCwsTenantStructureError = CloudflareOpError;
@@ -96494,6 +97000,8 @@ export const getCwsTenantStructure: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsTenantStructure",
 }));
 
 export type GetCwsTenantStructuresNodeError = CloudflareOpError;
@@ -96509,6 +97017,8 @@ export const getCwsTenantStructuresNode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsTenantStructuresNode",
 }));
 
 export type GetCwsWorkloadError = CloudflareOpError;
@@ -96524,6 +97034,8 @@ export const getCwsWorkload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCwsWorkload",
 }));
 
 export type GetDeviceError = CloudflareOpError;
@@ -96539,6 +97051,8 @@ export const getDevice: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetDeviceDeploymentGroupError = CloudflareOpError;
@@ -96554,6 +97068,8 @@ export const getDeviceDeploymentGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceDeploymentGroup",
 }));
 
 export type GetDeviceDevicesError = CloudflareOpError;
@@ -96569,6 +97085,8 @@ export const getDeviceDevices: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceDevices",
 }));
 
 export type GetDeviceDexTestError = DexTestNotFound | Forbidden | CloudflareOpError;
@@ -96584,6 +97102,8 @@ export const getDeviceDexTest: API.OperationMethod<
   errors: [DexTestNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceDexTest",
 }));
 
 export type GetDeviceFleetStatusError = CloudflareOpError;
@@ -96599,6 +97119,8 @@ export const getDeviceFleetStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceFleetStatus",
 }));
 
 export type GetDeviceIpProfileError = CloudflareOpError;
@@ -96614,6 +97136,8 @@ export const getDeviceIpProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceIpProfile",
 }));
 
 export type GetDeviceNetworkError = DeviceNetworkNotFound | Forbidden | CloudflareOpError;
@@ -96629,6 +97153,8 @@ export const getDeviceNetwork: API.OperationMethod<
   errors: [DeviceNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceNetwork",
 }));
 
 export type GetDeviceOverrideCodeError = CloudflareOpError;
@@ -96644,6 +97170,8 @@ export const getDeviceOverrideCode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceOverrideCode",
 }));
 
 export type GetDevicePolicyCustomError = DevicePolicyNotFound | Forbidden | CloudflareOpError;
@@ -96659,6 +97187,8 @@ export const getDevicePolicyCustom: API.OperationMethod<
   errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevicePolicyCustom",
 }));
 
 export type GetDevicePolicyCustomExcludeError =
@@ -96679,6 +97209,8 @@ export const getDevicePolicyCustomExclude: API.PaginatedOperationMethod<
     errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDevicePolicyCustomExclude",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -96702,6 +97234,8 @@ export const getDevicePolicyCustomFallbackDomain: API.PaginatedOperationMethod<
     errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDevicePolicyCustomFallbackDomain",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -96725,6 +97259,8 @@ export const getDevicePolicyCustomInclude: API.PaginatedOperationMethod<
     errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDevicePolicyCustomInclude",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -96743,6 +97279,8 @@ export const getDevicePolicyDefault: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevicePolicyDefault",
 }));
 
 export type GetDevicePolicyDefaultCertificateError = CloudflareOpError;
@@ -96758,6 +97296,8 @@ export const getDevicePolicyDefaultCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevicePolicyDefaultCertificate",
 }));
 
 export type GetDevicePolicyDefaultExcludeError = CloudflareOpError;
@@ -96775,6 +97315,8 @@ export const getDevicePolicyDefaultExclude: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDevicePolicyDefaultExclude",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -96795,6 +97337,8 @@ export const getDevicePolicyDefaultFallbackDomain: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDevicePolicyDefaultFallbackDomain",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -96815,6 +97359,8 @@ export const getDevicePolicyDefaultInclude: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDevicePolicyDefaultInclude",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -96833,6 +97379,8 @@ export const getDevicePosture: API.OperationMethod<
   errors: [PostureRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevicePosture",
 }));
 
 export type GetDevicePostureIntegrationError =
@@ -96851,6 +97399,8 @@ export const getDevicePostureIntegration: API.OperationMethod<
   errors: [DevicePostureIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevicePostureIntegration",
 }));
 
 export type GetDeviceRegistrationError = CloudflareOpError;
@@ -96866,6 +97416,8 @@ export const getDeviceRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceRegistration",
 }));
 
 export type GetDeviceResilienceGlobalWarpOverrideError = CloudflareOpError;
@@ -96881,6 +97433,8 @@ export const getDeviceResilienceGlobalWarpOverride: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceResilienceGlobalWarpOverride",
 }));
 
 export type GetDeviceSettingError = Forbidden | CloudflareOpError;
@@ -96896,6 +97450,8 @@ export const getDeviceSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceSetting",
 }));
 
 export type GetDexCommandDownloadError = CloudflareOpError;
@@ -96911,6 +97467,8 @@ export const getDexCommandDownload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDexCommandDownload",
 }));
 
 export type GetDexCommandQuotaError = CloudflareOpError;
@@ -96926,6 +97484,8 @@ export const getDexCommandQuota: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDexCommandQuota",
 }));
 
 export type GetDexHttpTestError = CloudflareOpError;
@@ -96941,6 +97501,8 @@ export const getDexHttpTest: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDexHttpTest",
 }));
 
 export type GetDexHttpTestPercentileError = CloudflareOpError;
@@ -96956,6 +97518,8 @@ export const getDexHttpTestPercentile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDexHttpTestPercentile",
 }));
 
 export type GetDexRuleError = CloudflareOpError;
@@ -96971,6 +97535,8 @@ export const getDexRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDexRule",
 }));
 
 export type GetDexTracerouteTestError = CloudflareOpError;
@@ -96986,6 +97552,8 @@ export const getDexTracerouteTest: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDexTracerouteTest",
 }));
 
 export type GetDexTracerouteTestResultNetworkPathError = CloudflareOpError;
@@ -97001,6 +97569,8 @@ export const getDexTracerouteTestResultNetworkPath: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDexTracerouteTestResultNetworkPath",
 }));
 
 export type GetDexWarpChangeEventError = CloudflareOpError;
@@ -97016,6 +97586,8 @@ export const getDexWarpChangeEvent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDexWarpChangeEvent",
 }));
 
 export type GetDlpCustomEntryError = CloudflareOpError;
@@ -97031,6 +97603,8 @@ export const getDlpCustomEntry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpCustomEntry",
 }));
 
 export type GetDlpCustomPromptTopicError = CloudflareOpError;
@@ -97046,6 +97620,8 @@ export const getDlpCustomPromptTopic: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpCustomPromptTopic",
 }));
 
 export type GetDlpDataClassError = CloudflareOpError;
@@ -97061,6 +97637,8 @@ export const getDlpDataClass: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpDataClass",
 }));
 
 export type GetDlpDatasetError = CloudflareOpError;
@@ -97076,6 +97654,8 @@ export const getDlpDataset: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpDataset",
 }));
 
 export type GetDlpDataTagCategoryError = CloudflareOpError;
@@ -97091,6 +97671,8 @@ export const getDlpDataTagCategory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpDataTagCategory",
 }));
 
 export type GetDlpDataTagCategoryDataTagError = CloudflareOpError;
@@ -97106,6 +97688,8 @@ export const getDlpDataTagCategoryDataTag: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpDataTagCategoryDataTag",
 }));
 
 export type GetDlpEmailAccountMappingError = CloudflareOpError;
@@ -97121,6 +97705,8 @@ export const getDlpEmailAccountMapping: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpEmailAccountMapping",
 }));
 
 export type GetDlpEmailRuleError = CloudflareOpError;
@@ -97136,6 +97722,8 @@ export const getDlpEmailRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpEmailRule",
 }));
 
 export type GetDlpEntriesIntegrationError = CloudflareOpError;
@@ -97151,6 +97739,8 @@ export const getDlpEntriesIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpEntriesIntegration",
 }));
 
 export type GetDlpEntriesPredefinedError = CloudflareOpError;
@@ -97166,6 +97756,8 @@ export const getDlpEntriesPredefined: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpEntriesPredefined",
 }));
 
 export type GetDlpEntryError = DlpEntryNotFound | CloudflareOpError;
@@ -97181,6 +97773,8 @@ export const getDlpEntry: API.OperationMethod<
   errors: [DlpEntryNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpEntry",
 }));
 
 export type GetDlpPayloadLogError = CloudflareOpError;
@@ -97196,6 +97790,8 @@ export const getDlpPayloadLog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpPayloadLog",
 }));
 
 export type GetDlpProfileError = CloudflareOpError;
@@ -97211,6 +97807,8 @@ export const getDlpProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpProfile",
 }));
 
 export type GetDlpProfileCustomError = DlpProfileNotFound | Forbidden | CloudflareOpError;
@@ -97226,6 +97824,8 @@ export const getDlpProfileCustom: API.OperationMethod<
   errors: [DlpProfileNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpProfileCustom",
 }));
 
 export type GetDlpProfilePredefinedError = CloudflareOpError;
@@ -97241,6 +97841,8 @@ export const getDlpProfilePredefined: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpProfilePredefined",
 }));
 
 export type GetDlpSensitivityGroupError = CloudflareOpError;
@@ -97256,6 +97858,8 @@ export const getDlpSensitivityGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpSensitivityGroup",
 }));
 
 export type GetDlpSensitivityGroupLevelError = CloudflareOpError;
@@ -97271,6 +97875,8 @@ export const getDlpSensitivityGroupLevel: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpSensitivityGroupLevel",
 }));
 
 export type GetDlpSensitivityGroupLevelOrderError = CloudflareOpError;
@@ -97286,6 +97892,8 @@ export const getDlpSensitivityGroupLevelOrder: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpSensitivityGroupLevelOrder",
 }));
 
 export type GetDlpSettingError = CloudflareOpError;
@@ -97301,6 +97909,8 @@ export const getDlpSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpSetting",
 }));
 
 export type GetDlpValidatorError = CloudflareOpError;
@@ -97316,6 +97926,8 @@ export const getDlpValidator: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpValidator",
 }));
 
 export type GetDlpValidatorsProximityWordError = CloudflareOpError;
@@ -97331,6 +97943,8 @@ export const getDlpValidatorsProximityWord: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDlpValidatorsProximityWord",
 }));
 
 export type GetGatewayAuditSshSettingError = CloudflareOpError;
@@ -97346,6 +97960,8 @@ export const getGatewayAuditSshSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayAuditSshSetting",
 }));
 
 export type GetGatewayCertificateError = GatewayCertificateNotFound | Forbidden | CloudflareOpError;
@@ -97361,6 +97977,8 @@ export const getGatewayCertificate: API.OperationMethod<
   errors: [GatewayCertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayCertificate",
 }));
 
 export type GetGatewayConfigurationError = Forbidden | CloudflareOpError;
@@ -97376,6 +97994,8 @@ export const getGatewayConfiguration: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayConfiguration",
 }));
 
 export type GetGatewayConfigurationCustomCertificateError = CloudflareOpError;
@@ -97395,6 +98015,8 @@ export const getGatewayConfigurationCustomCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayConfigurationCustomCertificate",
 }));
 
 export type GetGatewayListError = GatewayListNotFound | Forbidden | CloudflareOpError;
@@ -97410,6 +98032,8 @@ export const getGatewayList: API.OperationMethod<
   errors: [GatewayListNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayList",
 }));
 
 export type GetGatewayLocationError = GatewayLocationNotFound | Forbidden | CloudflareOpError;
@@ -97425,6 +98049,8 @@ export const getGatewayLocation: API.OperationMethod<
   errors: [GatewayLocationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayLocation",
 }));
 
 export type GetGatewayLoggingError = Forbidden | CloudflareOpError;
@@ -97440,6 +98066,8 @@ export const getGatewayLogging: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayLogging",
 }));
 
 export type GetGatewayPacfileError = CloudflareOpError;
@@ -97455,6 +98083,8 @@ export const getGatewayPacfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayPacfile",
 }));
 
 export type GetGatewayProxyEndpointError = ProxyEndpointNotFound | Forbidden | CloudflareOpError;
@@ -97470,6 +98100,8 @@ export const getGatewayProxyEndpoint: API.OperationMethod<
   errors: [ProxyEndpointNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayProxyEndpoint",
 }));
 
 export type GetGatewayRuleError = CloudflareOpError;
@@ -97485,6 +98117,8 @@ export const getGatewayRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGatewayRule",
 }));
 
 export type GetIdentityProviderForAccountError =
@@ -97503,6 +98137,8 @@ export const getIdentityProviderForAccount: API.OperationMethod<
   errors: [AccessIdentityProviderNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderForAccount",
 }));
 
 export type GetIdentityProviderForZoneError =
@@ -97521,6 +98157,8 @@ export const getIdentityProviderForZone: API.OperationMethod<
   errors: [AccessIdentityProviderNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProviderForZone",
 }));
 
 export type GetIdentityProvidersScimGroupError = CloudflareOpError;
@@ -97536,6 +98174,8 @@ export const getIdentityProvidersScimGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProvidersScimGroup",
 }));
 
 export type GetIdentityProvidersScimUserError = CloudflareOpError;
@@ -97551,6 +98191,8 @@ export const getIdentityProvidersScimUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityProvidersScimUser",
 }));
 
 export type GetNetworkHostnameRouteError = HostnameRouteNotFound | Forbidden | CloudflareOpError;
@@ -97566,6 +98208,8 @@ export const getNetworkHostnameRoute: API.OperationMethod<
   errors: [HostnameRouteNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkHostnameRoute",
 }));
 
 export type GetNetworkRouteError = CloudflareOpError;
@@ -97581,6 +98225,8 @@ export const getNetworkRoute: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkRoute",
 }));
 
 export type GetNetworkRouteIpError = CloudflareOpError;
@@ -97596,6 +98242,8 @@ export const getNetworkRouteIp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkRouteIp",
 }));
 
 export type GetNetworksSubnetsInitialResolvedIpError = CloudflareOpError;
@@ -97611,6 +98259,8 @@ export const getNetworksSubnetsInitialResolvedIp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworksSubnetsInitialResolvedIp",
 }));
 
 export type GetNetworkSubnetWarpError = CloudflareOpError;
@@ -97626,6 +98276,8 @@ export const getNetworkSubnetWarp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkSubnetWarp",
 }));
 
 export type GetNetworkVirtualNetworkError = VirtualNetworkNotFound | Forbidden | CloudflareOpError;
@@ -97641,6 +98293,8 @@ export const getNetworkVirtualNetwork: API.OperationMethod<
   errors: [VirtualNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkVirtualNetwork",
 }));
 
 export type GetOrganizationDohError = CloudflareOpError;
@@ -97656,6 +98310,8 @@ export const getOrganizationDoh: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationDoh",
 }));
 
 export type GetPemAccessSamlCertificateError = CloudflareOpError;
@@ -97671,6 +98327,8 @@ export const getPemAccessSamlCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPemAccessSamlCertificate",
 }));
 
 export type GetResourceLibraryApplicationError = CloudflareOpError;
@@ -97686,6 +98344,8 @@ export const getResourceLibraryApplication: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceLibraryApplication",
 }));
 
 export type GetResourceLibraryCategoryError = CloudflareOpError;
@@ -97701,6 +98361,8 @@ export const getResourceLibraryCategory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceLibraryCategory",
 }));
 
 export type GetRiskScoringError = CloudflareOpError;
@@ -97716,6 +98378,8 @@ export const getRiskScoring: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRiskScoring",
 }));
 
 export type GetRiskScoringBehaviourError = CloudflareOpError;
@@ -97731,6 +98395,8 @@ export const getRiskScoringBehaviour: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRiskScoringBehaviour",
 }));
 
 export type GetRiskScoringIntegrationError =
@@ -97749,6 +98415,8 @@ export const getRiskScoringIntegration: API.OperationMethod<
   errors: [RiskScoringIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRiskScoringIntegration",
 }));
 
 export type GetRiskScoringIntegrationReferenceError = CloudflareOpError;
@@ -97764,6 +98432,8 @@ export const getRiskScoringIntegrationReference: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRiskScoringIntegrationReference",
 }));
 
 export type GetRiskScoringSummaryError = CloudflareOpError;
@@ -97779,6 +98449,8 @@ export const getRiskScoringSummary: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRiskScoringSummary",
 }));
 
 export type GetTunnelCloudflaredError = TunnelNotFound | CloudflareOpError;
@@ -97794,6 +98466,8 @@ export const getTunnelCloudflared: API.OperationMethod<
   errors: [TunnelNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTunnelCloudflared",
 }));
 
 export type GetTunnelCloudflaredConfigurationError =
@@ -97811,6 +98485,8 @@ export const getTunnelCloudflaredConfiguration: API.OperationMethod<
   errors: [TunnelConfigurationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTunnelCloudflaredConfiguration",
 }));
 
 export type GetTunnelCloudflaredConnectionError = CloudflareOpError;
@@ -97828,6 +98504,8 @@ export const getTunnelCloudflaredConnection: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTunnelCloudflaredConnection",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -97846,6 +98524,8 @@ export const getTunnelCloudflaredConnector: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTunnelCloudflaredConnector",
 }));
 
 export type GetTunnelCloudflaredTokenError = TunnelTokenNotFound | CloudflareOpError;
@@ -97861,6 +98541,8 @@ export const getTunnelCloudflaredToken: API.OperationMethod<
   errors: [TunnelTokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTunnelCloudflaredToken",
 }));
 
 export type GetTunnelWarpConnectorError = TunnelNotFound | Forbidden | CloudflareOpError;
@@ -97876,6 +98558,8 @@ export const getTunnelWarpConnector: API.OperationMethod<
   errors: [TunnelNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTunnelWarpConnector",
 }));
 
 export type GetTunnelWarpConnectorConfigurationError = CloudflareOpError;
@@ -97891,6 +98575,8 @@ export const getTunnelWarpConnectorConfiguration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTunnelWarpConnectorConfiguration",
 }));
 
 export type GetTunnelWarpConnectorConnectionError = CloudflareOpError;
@@ -97908,6 +98594,8 @@ export const getTunnelWarpConnectorConnection: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTunnelWarpConnectorConnection",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -97926,6 +98614,8 @@ export const getTunnelWarpConnectorConnector: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTunnelWarpConnectorConnector",
 }));
 
 export type GetTunnelWarpConnectorTokenError = TunnelNotFound | Forbidden | CloudflareOpError;
@@ -97941,6 +98631,8 @@ export const getTunnelWarpConnectorToken: API.OperationMethod<
   errors: [TunnelNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTunnelWarpConnectorToken",
 }));
 
 export type ListAccessAiControlMcpPortalsError = Forbidden | CloudflareOpError;
@@ -97958,6 +98650,8 @@ export const listAccessAiControlMcpPortals: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessAiControlMcpPortals",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -97984,6 +98678,8 @@ export const listAccessAiControlMcpServers: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessAiControlMcpServers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98010,6 +98706,8 @@ export const listAccessApplicationCasForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessApplicationCasForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98036,6 +98734,8 @@ export const listAccessApplicationCasForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessApplicationCasForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98066,6 +98766,8 @@ export const listAccessApplicationPoliciesForAccount: API.PaginatedOperationMeth
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessApplicationPoliciesForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98092,6 +98794,8 @@ export const listAccessApplicationPoliciesForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessApplicationPoliciesForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98118,6 +98822,8 @@ export const listAccessApplicationPolicyTestUsers: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessApplicationPolicyTestUsers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98144,6 +98850,8 @@ export const listAccessApplicationsForAccount: API.PaginatedOperationMethod<
     errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessApplicationsForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98170,6 +98878,8 @@ export const listAccessApplicationsForZone: API.PaginatedOperationMethod<
     errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessApplicationsForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98198,6 +98908,8 @@ export const listAccessApplicationUserPolicyChecksForAccount: API.OperationMetho
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessApplicationUserPolicyChecksForAccount",
 }));
 
 export type ListAccessApplicationUserPolicyChecksForZoneError = CloudflareOpError;
@@ -98217,6 +98929,8 @@ export const listAccessApplicationUserPolicyChecksForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessApplicationUserPolicyChecksForZone",
 }));
 
 export type ListAccessBookmarksError = CloudflareOpError;
@@ -98234,6 +98948,8 @@ export const listAccessBookmarks: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessBookmarks",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -98254,6 +98970,8 @@ export const listAccessCertificatesForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessCertificatesForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98280,6 +98998,8 @@ export const listAccessCertificatesForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessCertificatesForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98306,6 +99026,8 @@ export const listAccessCustomPages: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessCustomPages",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98332,6 +99054,8 @@ export const listAccessGatewayCas: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessGatewayCas",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -98352,6 +99076,8 @@ export const listAccessGroupsForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessGroupsForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98378,6 +99104,8 @@ export const listAccessGroupsForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessGroupsForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98402,6 +99130,8 @@ export const listAccessIdpFederationGrants: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessIdpFederationGrants",
 }));
 
 export type ListAccessInfrastructureTargetsError = Forbidden | CloudflareOpError;
@@ -98419,6 +99149,8 @@ export const listAccessInfrastructureTargets: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessInfrastructureTargets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98443,6 +99175,8 @@ export const listAccessLogAccessRequests: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessLogAccessRequests",
 }));
 
 export type ListAccessLogScimUpdatesError = CloudflareOpError;
@@ -98460,6 +99194,8 @@ export const listAccessLogScimUpdates: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessLogScimUpdates",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98484,6 +99220,8 @@ export const listAccessLogsJitRequests: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessLogsJitRequests",
 }));
 
 export type ListAccessMfaAuthenticatorCatalogError = CloudflareOpError;
@@ -98499,6 +99237,8 @@ export const listAccessMfaAuthenticatorCatalog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessMfaAuthenticatorCatalog",
 }));
 
 export type ListAccessPoliciesError = CloudflareOpError;
@@ -98516,6 +99256,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessPolicies",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98542,6 +99284,8 @@ export const listAccessSamlCertificates: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessSamlCertificates",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98568,6 +99312,8 @@ export const listAccessServiceTokensForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessServiceTokensForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98594,6 +99340,8 @@ export const listAccessServiceTokensForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessServiceTokensForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98620,6 +99368,8 @@ export const listAccessTags: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessTags",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98646,6 +99396,8 @@ export const listAccessUserActiveSessions: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessUserActiveSessions",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -98666,6 +99418,8 @@ export const listAccessUserFailedLogins: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessUserFailedLogins",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -98684,6 +99438,8 @@ export const listAccessUserPopulations: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessUserPopulations",
 }));
 
 export type ListAccessUserPopulationsUsersError = CloudflareOpError;
@@ -98699,6 +99455,8 @@ export const listAccessUserPopulationsUsers: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessUserPopulationsUsers",
 }));
 
 export type ListAccessUsersError = CloudflareOpError;
@@ -98716,6 +99474,8 @@ export const listAccessUsers: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessUsers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -98740,6 +99500,8 @@ export const listCasbApplications: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbApplications",
 }));
 
 export type ListCasbApplicationsAuthMethodsError = CloudflareOpError;
@@ -98755,6 +99517,8 @@ export const listCasbApplicationsAuthMethods: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbApplicationsAuthMethods",
 }));
 
 export type ListCasbApplicationsSetupFlowsError = CloudflareOpError;
@@ -98770,6 +99534,8 @@ export const listCasbApplicationsSetupFlows: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbApplicationsSetupFlows",
 }));
 
 export type ListCasbIntegrationsError = CloudflareOpError;
@@ -98785,6 +99551,8 @@ export const listCasbIntegrations: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbIntegrations",
 }));
 
 export type ListCasbPostureContentError = CloudflareOpError;
@@ -98800,6 +99568,8 @@ export const listCasbPostureContent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPostureContent",
 }));
 
 export type ListCasbPostureExportsError = CloudflareOpError;
@@ -98815,6 +99585,8 @@ export const listCasbPostureExports: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPostureExports",
 }));
 
 export type ListCasbPostureFindingsError = CloudflareOpError;
@@ -98830,6 +99602,8 @@ export const listCasbPostureFindings: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPostureFindings",
 }));
 
 export type ListCasbPostureFindingsInstancesError = CloudflareOpError;
@@ -98845,6 +99619,8 @@ export const listCasbPostureFindingsInstances: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPostureFindingsInstances",
 }));
 
 export type ListCasbPostureFindingTypesError = CloudflareOpError;
@@ -98860,6 +99636,8 @@ export const listCasbPostureFindingTypes: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPostureFindingTypes",
 }));
 
 export type ListCasbPostureFindingTypesRemediationTypesError = CloudflareOpError;
@@ -98883,6 +99661,8 @@ export const listCasbPostureFindingTypesRemediationTypes: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPostureFindingTypesRemediationTypes",
 }));
 
 export type ListCasbPosturePoliciesError = CloudflareOpError;
@@ -98898,6 +99678,8 @@ export const listCasbPosturePolicies: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPosturePolicies",
 }));
 
 export type ListCasbPostureRemediationsJobsError = CloudflareOpError;
@@ -98913,6 +99695,8 @@ export const listCasbPostureRemediationsJobs: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPostureRemediationsJobs",
 }));
 
 export type ListCasbPostureWebhooksError = CloudflareOpError;
@@ -98928,6 +99712,8 @@ export const listCasbPostureWebhooks: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasbPostureWebhooks",
 }));
 
 export type ListCwsBasicAuthCredentialsError = CloudflareOpError;
@@ -98943,6 +99729,8 @@ export const listCwsBasicAuthCredentials: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsBasicAuthCredentials",
 }));
 
 export type ListCwsBasicAuthCredentialsSecretsError = CloudflareOpError;
@@ -98958,6 +99746,8 @@ export const listCwsBasicAuthCredentialsSecrets: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsBasicAuthCredentialsSecrets",
 }));
 
 export type ListCwsDeploymentsError = CloudflareOpError;
@@ -98973,6 +99763,8 @@ export const listCwsDeployments: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsDeployments",
 }));
 
 export type ListCwsDomainAclsError = CloudflareOpError;
@@ -98988,6 +99780,8 @@ export const listCwsDomainAcls: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsDomainAcls",
 }));
 
 export type ListCwsPoliciesError = CloudflareOpError;
@@ -99003,6 +99797,8 @@ export const listCwsPolicies: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsPolicies",
 }));
 
 export type ListCwsPolicySetsError = CloudflareOpError;
@@ -99018,6 +99814,8 @@ export const listCwsPolicySets: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsPolicySets",
 }));
 
 export type ListCwsRegoMetadataError = CloudflareOpError;
@@ -99033,6 +99831,8 @@ export const listCwsRegoMetadata: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsRegoMetadata",
 }));
 
 export type ListCwsRegoModulesError = CloudflareOpError;
@@ -99048,6 +99848,8 @@ export const listCwsRegoModules: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsRegoModules",
 }));
 
 export type ListCwsTenantStructuresError = CloudflareOpError;
@@ -99063,6 +99865,8 @@ export const listCwsTenantStructures: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsTenantStructures",
 }));
 
 export type ListCwsTenantStructuresNodesError = CloudflareOpError;
@@ -99078,6 +99882,8 @@ export const listCwsTenantStructuresNodes: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsTenantStructuresNodes",
 }));
 
 export type ListCwsWorkloadsError = CloudflareOpError;
@@ -99093,6 +99899,8 @@ export const listCwsWorkloads: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCwsWorkloads",
 }));
 
 export type ListDeviceDeploymentGroupsError = CloudflareOpError;
@@ -99110,6 +99918,8 @@ export const listDeviceDeploymentGroups: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeviceDeploymentGroups",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -99136,6 +99946,8 @@ export const listDeviceDevices: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeviceDevices",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -99162,6 +99974,8 @@ export const listDeviceDexTests: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeviceDexTests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -99188,6 +100002,8 @@ export const listDeviceIpProfiles: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeviceIpProfiles",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -99214,6 +100030,8 @@ export const listDeviceNetworks: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeviceNetworks",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99232,6 +100050,8 @@ export const listDeviceOverrideCodes: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeviceOverrideCodes",
 }));
 
 export type ListDevicePolicyCustomsError = Forbidden | CloudflareOpError;
@@ -99249,6 +100069,8 @@ export const listDevicePolicyCustoms: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDevicePolicyCustoms",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99269,6 +100091,8 @@ export const listDevicePostureIntegrations: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDevicePostureIntegrations",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99289,6 +100113,8 @@ export const listDevicePostures: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDevicePostures",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99309,6 +100135,8 @@ export const listDeviceRegistrations: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeviceRegistrations",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -99335,6 +100163,8 @@ export const listDevices: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDevices",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99355,6 +100185,8 @@ export const listDexColos: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDexColos",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99373,6 +100205,8 @@ export const listDexCommandDevices: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDexCommandDevices",
 }));
 
 export type ListDexCommandsError = CloudflareOpError;
@@ -99388,6 +100222,8 @@ export const listDexCommands: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDexCommands",
 }));
 
 export type ListDexDeviceIspsError = CloudflareOpError;
@@ -99403,6 +100239,8 @@ export const listDexDeviceIsps: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDexDeviceIsps",
 }));
 
 export type ListDexFleetStatusDevicesError = CloudflareOpError;
@@ -99420,6 +100258,8 @@ export const listDexFleetStatusDevices: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDexFleetStatusDevices",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -99444,6 +100284,8 @@ export const listDexRules: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDexRules",
 }));
 
 export type ListDexTestsError = CloudflareOpError;
@@ -99459,6 +100301,8 @@ export const listDexTests: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDexTests",
 }));
 
 export type ListDexTestUniqueDevicesError = CloudflareOpError;
@@ -99474,6 +100318,8 @@ export const listDexTestUniqueDevices: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDexTestUniqueDevices",
 }));
 
 export type ListDlpCustomEntriesError = CloudflareOpError;
@@ -99491,6 +100337,8 @@ export const listDlpCustomEntries: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpCustomEntries",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99511,6 +100359,8 @@ export const listDlpCustomPromptTopics: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpCustomPromptTopics",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99531,6 +100381,8 @@ export const listDlpDataClasses: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpDataClasses",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99549,6 +100401,8 @@ export const listDlpDatasets: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDlpDatasets",
 }));
 
 export type ListDlpDataTagCategoriesError = CloudflareOpError;
@@ -99566,6 +100420,8 @@ export const listDlpDataTagCategories: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpDataTagCategories",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99586,6 +100442,8 @@ export const listDlpDataTagCategoryDataTags: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpDataTagCategoryDataTags",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99606,6 +100464,8 @@ export const listDlpEmailRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpEmailRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99626,6 +100486,8 @@ export const listDlpEntries: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpEntries",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99646,6 +100508,8 @@ export const listDlpEntriesIntegration: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpEntriesIntegration",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99666,6 +100530,8 @@ export const listDlpEntriesPredefined: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpEntriesPredefined",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99684,6 +100550,8 @@ export const listDlpLimits: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDlpLimits",
 }));
 
 export type ListDlpProfilesError = CloudflareOpError;
@@ -99701,6 +100569,8 @@ export const listDlpProfiles: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpProfiles",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99721,6 +100591,8 @@ export const listDlpSensitivityGroupLevels: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpSensitivityGroupLevels",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99741,6 +100613,8 @@ export const listDlpSensitivityGroups: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDlpSensitivityGroups",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99759,6 +100633,8 @@ export const listDlpValidators: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDlpValidators",
 }));
 
 export type ListDlpValidatorsProximityWordsError = CloudflareOpError;
@@ -99774,6 +100650,8 @@ export const listDlpValidatorsProximityWords: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDlpValidatorsProximityWords",
 }));
 
 export type ListGatewayAppTypesError = CloudflareOpError;
@@ -99791,6 +100669,8 @@ export const listGatewayAppTypes: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayAppTypes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99811,6 +100691,8 @@ export const listGatewayCategories: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayCategories",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99831,6 +100713,8 @@ export const listGatewayCertificates: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayCertificates",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99849,6 +100733,8 @@ export const listGatewayDnsDestinationIps: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGatewayDnsDestinationIps",
 }));
 
 export type ListGatewayListItemsError = GatewayListNotFound | CloudflareOpError;
@@ -99866,6 +100752,8 @@ export const listGatewayListItems: API.PaginatedOperationMethod<
     errors: [GatewayListNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayListItems",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99886,6 +100774,8 @@ export const listGatewayLists: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayLists",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99906,6 +100796,8 @@ export const listGatewayLocations: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayLocations",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99926,6 +100818,8 @@ export const listGatewayPacfiles: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayPacfiles",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99946,6 +100840,8 @@ export const listGatewayProxyEndpoints: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayProxyEndpoints",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99966,6 +100862,8 @@ export const listGatewayRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGatewayRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -99984,6 +100882,8 @@ export const listGateways: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 }));
 
 export type ListIdentityProviderScimGroupsError = CloudflareOpError;
@@ -100001,6 +100901,8 @@ export const listIdentityProviderScimGroups: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIdentityProviderScimGroups",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100027,6 +100929,8 @@ export const listIdentityProviderScimUsers: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIdentityProviderScimUsers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100053,6 +100957,8 @@ export const listIdentityProvidersForAccount: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIdentityProvidersForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100079,6 +100985,8 @@ export const listIdentityProvidersForZone: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIdentityProvidersForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100105,6 +101013,8 @@ export const listNetworkHostnameRoutes: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNetworkHostnameRoutes",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100131,6 +101041,8 @@ export const listNetworkRoutes: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNetworkRoutes",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100157,6 +101069,8 @@ export const listNetworkSubnets: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNetworkSubnets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100183,6 +101097,8 @@ export const listNetworkVirtualNetworks: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNetworkVirtualNetworks",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100201,6 +101117,8 @@ export const listOrganizationsForAccount: API.OperationMethod<
   errors: [OrganizationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsForAccount",
 }));
 
 export type ListOrganizationsForZoneError = OrganizationNotFound | CloudflareOpError;
@@ -100216,6 +101134,8 @@ export const listOrganizationsForZone: API.OperationMethod<
   errors: [OrganizationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsForZone",
 }));
 
 export type ListResourceLibraryApplicationsError = CloudflareOpError;
@@ -100233,6 +101153,8 @@ export const listResourceLibraryApplications: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResourceLibraryApplications",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100253,6 +101175,8 @@ export const listResourceLibraryCategories: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResourceLibraryCategories",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100273,6 +101197,8 @@ export const listRiskScoringIntegrations: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRiskScoringIntegrations",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100293,6 +101219,8 @@ export const listTenantGatewayRule: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTenantGatewayRule",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100313,6 +101241,8 @@ export const listTunnelCloudflareds: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTunnelCloudflareds",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100339,6 +101269,8 @@ export const listTunnels: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTunnels",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100365,6 +101297,8 @@ export const listTunnelWarpConnectors: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTunnelWarpConnectors",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -100389,6 +101323,8 @@ export const liveDexFleetStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LiveDexFleetStatus",
 }));
 
 export type OverTimeDexFleetStatusError = CloudflareOpError;
@@ -100404,6 +101340,8 @@ export const overTimeDexFleetStatus: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OverTimeDexFleetStatus",
 }));
 
 export type PatchAccessApplicationSettingForAccountError = CloudflareOpError;
@@ -100419,6 +101357,8 @@ export const patchAccessApplicationSettingForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccessApplicationSettingForAccount",
 }));
 
 export type PatchAccessApplicationSettingForZoneError = CloudflareOpError;
@@ -100434,6 +101374,8 @@ export const patchAccessApplicationSettingForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccessApplicationSettingForZone",
 }));
 
 export type PatchConnectivitySettingError = CloudflareOpError;
@@ -100449,6 +101391,8 @@ export const patchConnectivitySetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchConnectivitySetting",
 }));
 
 export type PatchDeviceDeploymentGroupError = CloudflareOpError;
@@ -100464,6 +101408,8 @@ export const patchDeviceDeploymentGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDeviceDeploymentGroup",
 }));
 
 export type PatchDeviceIpProfileError = CloudflareOpError;
@@ -100479,6 +101425,8 @@ export const patchDeviceIpProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDeviceIpProfile",
 }));
 
 export type PatchDevicePolicyCustomError = DevicePolicyNotFound | Forbidden | CloudflareOpError;
@@ -100494,6 +101442,8 @@ export const patchDevicePolicyCustom: API.OperationMethod<
   errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDevicePolicyCustom",
 }));
 
 export type PatchDevicePolicyDefaultError = CloudflareOpError;
@@ -100509,6 +101459,8 @@ export const patchDevicePolicyDefault: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDevicePolicyDefault",
 }));
 
 export type PatchDevicePolicyDefaultCertificateError = CloudflareOpError;
@@ -100524,6 +101476,8 @@ export const patchDevicePolicyDefaultCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDevicePolicyDefaultCertificate",
 }));
 
 export type PatchDevicePostureIntegrationError =
@@ -100549,6 +101503,8 @@ export const patchDevicePostureIntegration: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDevicePostureIntegration",
 }));
 
 export type PatchDeviceSettingError = Forbidden | CloudflareOpError;
@@ -100564,6 +101520,8 @@ export const patchDeviceSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDeviceSetting",
 }));
 
 export type PatchDexRuleError = CloudflareOpError;
@@ -100579,6 +101537,8 @@ export const patchDexRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDexRule",
 }));
 
 export type PatchDlpSettingError = CloudflareOpError;
@@ -100594,6 +101554,8 @@ export const patchDlpSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDlpSetting",
 }));
 
 export type PatchGatewayConfigurationError = Forbidden | CloudflareOpError;
@@ -100609,6 +101571,8 @@ export const patchGatewayConfiguration: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGatewayConfiguration",
 }));
 
 export type PatchGatewayListError = CloudflareOpError;
@@ -100624,6 +101588,8 @@ export const patchGatewayList: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGatewayList",
 }));
 
 export type PatchGatewayProxyEndpointError = ProxyEndpointNotFound | CloudflareOpError;
@@ -100639,6 +101605,8 @@ export const patchGatewayProxyEndpoint: API.OperationMethod<
   errors: [ProxyEndpointNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGatewayProxyEndpoint",
 }));
 
 export type PatchNetworkHostnameRouteError =
@@ -100664,6 +101632,8 @@ export const patchNetworkHostnameRoute: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkHostnameRoute",
 }));
 
 export type PatchNetworkRouteError = CloudflareOpError;
@@ -100679,6 +101649,8 @@ export const patchNetworkRoute: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkRoute",
 }));
 
 export type PatchNetworkRouteNetworkError = CloudflareOpError;
@@ -100694,6 +101666,8 @@ export const patchNetworkRouteNetwork: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkRouteNetwork",
 }));
 
 export type PatchNetworkSubnetCloudflareSourceError = CloudflareOpError;
@@ -100709,6 +101683,8 @@ export const patchNetworkSubnetCloudflareSource: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkSubnetCloudflareSource",
 }));
 
 export type PatchNetworkSubnetWarpError = CloudflareOpError;
@@ -100724,6 +101700,8 @@ export const patchNetworkSubnetWarp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkSubnetWarp",
 }));
 
 export type PatchNetworkVirtualNetworkError = VirtualNetworkNotFound | CloudflareOpError;
@@ -100739,6 +101717,8 @@ export const patchNetworkVirtualNetwork: API.OperationMethod<
   errors: [VirtualNetworkNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNetworkVirtualNetwork",
 }));
 
 export type PatchSeatError = CloudflareOpError;
@@ -100756,6 +101736,8 @@ export const patchSeat: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PatchSeat",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100774,6 +101756,8 @@ export const patchTunnelCloudflared: API.OperationMethod<
   errors: [TunnelNotFound, DuplicateTunnelName, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTunnelCloudflared",
 }));
 
 export type PatchTunnelWarpConnectorError =
@@ -100793,6 +101777,8 @@ export const patchTunnelWarpConnector: API.OperationMethod<
   errors: [TunnelNotFound, DuplicateTunnelName, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTunnelWarpConnector",
 }));
 
 export type PauseCasbIntegrationError = CloudflareOpError;
@@ -100808,6 +101794,8 @@ export const pauseCasbIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseCasbIntegration",
 }));
 
 export type PutAccessApplicationSettingForAccountError = CloudflareOpError;
@@ -100823,6 +101811,8 @@ export const putAccessApplicationSettingForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAccessApplicationSettingForAccount",
 }));
 
 export type PutAccessApplicationSettingForZoneError = CloudflareOpError;
@@ -100838,6 +101828,8 @@ export const putAccessApplicationSettingForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAccessApplicationSettingForZone",
 }));
 
 export type PutAccessCertificateSettingForAccountError = CloudflareOpError;
@@ -100855,6 +101847,8 @@ export const putAccessCertificateSettingForAccount: API.PaginatedOperationMethod
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutAccessCertificateSettingForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100875,6 +101869,8 @@ export const putAccessCertificateSettingForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutAccessCertificateSettingForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100893,6 +101889,8 @@ export const putAccessKey: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAccessKey",
 }));
 
 export type PutDevicePolicyCustomExcludeError =
@@ -100913,6 +101911,8 @@ export const putDevicePolicyCustomExclude: API.PaginatedOperationMethod<
     errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutDevicePolicyCustomExclude",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100936,6 +101936,8 @@ export const putDevicePolicyCustomFallbackDomain: API.PaginatedOperationMethod<
     errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutDevicePolicyCustomFallbackDomain",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100959,6 +101961,8 @@ export const putDevicePolicyCustomInclude: API.PaginatedOperationMethod<
     errors: [DevicePolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutDevicePolicyCustomInclude",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100979,6 +101983,8 @@ export const putDevicePolicyDefaultExclude: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutDevicePolicyDefaultExclude",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -100999,6 +102005,8 @@ export const putDevicePolicyDefaultFallbackDomain: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutDevicePolicyDefaultFallbackDomain",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -101019,6 +102027,8 @@ export const putDevicePolicyDefaultInclude: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutDevicePolicyDefaultInclude",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -101037,6 +102047,8 @@ export const putDeviceSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDeviceSetting",
 }));
 
 export type PutDlpPayloadLogError = CloudflareOpError;
@@ -101052,6 +102064,8 @@ export const putDlpPayloadLog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDlpPayloadLog",
 }));
 
 export type PutDlpProfilePredefinedError = CloudflareOpError;
@@ -101067,6 +102081,8 @@ export const putDlpProfilePredefined: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDlpProfilePredefined",
 }));
 
 export type PutDlpSensitivityGroupLevelOrderError = CloudflareOpError;
@@ -101082,6 +102098,8 @@ export const putDlpSensitivityGroupLevelOrder: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDlpSensitivityGroupLevelOrder",
 }));
 
 export type PutDlpSettingError = CloudflareOpError;
@@ -101097,6 +102115,8 @@ export const putDlpSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDlpSetting",
 }));
 
 export type PutGatewayAuditSshSettingError = CloudflareOpError;
@@ -101112,6 +102132,8 @@ export const putGatewayAuditSshSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutGatewayAuditSshSetting",
 }));
 
 export type PutGatewayConfigurationError = CloudflareOpError;
@@ -101127,6 +102149,8 @@ export const putGatewayConfiguration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutGatewayConfiguration",
 }));
 
 export type PutGatewayLoggingError = CloudflareOpError;
@@ -101142,6 +102166,8 @@ export const putGatewayLogging: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutGatewayLogging",
 }));
 
 export type PutOrganizationDohError = CloudflareOpError;
@@ -101157,6 +102183,8 @@ export const putOrganizationDoh: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutOrganizationDoh",
 }));
 
 export type PutRiskScoringBehaviourError = CloudflareOpError;
@@ -101172,6 +102200,8 @@ export const putRiskScoringBehaviour: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutRiskScoringBehaviour",
 }));
 
 export type PutTunnelCloudflaredConfigurationError = TunnelNotFound | CloudflareOpError;
@@ -101187,6 +102217,8 @@ export const putTunnelCloudflaredConfiguration: API.OperationMethod<
   errors: [TunnelNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTunnelCloudflaredConfiguration",
 }));
 
 export type PutTunnelWarpConnectorConfigurationError = CloudflareOpError;
@@ -101202,6 +102234,8 @@ export const putTunnelWarpConnectorConfiguration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTunnelWarpConnectorConfiguration",
 }));
 
 export type PutTunnelWarpConnectorFailoverError = CloudflareOpError;
@@ -101217,6 +102251,8 @@ export const putTunnelWarpConnectorFailover: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTunnelWarpConnectorFailover",
 }));
 
 export type ReadAccessAiControlMcpPortalError = McpPortalNotFound | Forbidden | CloudflareOpError;
@@ -101232,6 +102268,8 @@ export const readAccessAiControlMcpPortal: API.OperationMethod<
   errors: [McpPortalNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAccessAiControlMcpPortal",
 }));
 
 export type ReadAccessAiControlMcpServerError =
@@ -101257,6 +102295,8 @@ export const readAccessAiControlMcpServer: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAccessAiControlMcpServer",
 }));
 
 export type RefreshAccessServiceTokenError = CloudflareOpError;
@@ -101272,6 +102312,8 @@ export const refreshAccessServiceToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshAccessServiceToken",
 }));
 
 export type ReplaceAccessUserPopulationsUserError = CloudflareOpError;
@@ -101287,6 +102329,8 @@ export const replaceAccessUserPopulationsUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAccessUserPopulationsUser",
 }));
 
 export type ResetExpirationGatewayRuleError = CloudflareOpError;
@@ -101302,6 +102346,8 @@ export const resetExpirationGatewayRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetExpirationGatewayRule",
 }));
 
 export type ResetRiskScoringError = CloudflareOpError;
@@ -101317,6 +102363,8 @@ export const resetRiskScoring: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetRiskScoring",
 }));
 
 export type ResumeCasbIntegrationError = CloudflareOpError;
@@ -101332,6 +102380,8 @@ export const resumeCasbIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeCasbIntegration",
 }));
 
 export type RevokeDeviceDevicesError = CloudflareOpError;
@@ -101347,6 +102397,8 @@ export const revokeDeviceDevices: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeDeviceDevices",
 }));
 
 export type RevokeDeviceRegistrationError = CloudflareOpError;
@@ -101362,6 +102414,8 @@ export const revokeDeviceRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeDeviceRegistration",
 }));
 
 export type RevokeTokensAccessApplicationForAccountError = CloudflareOpError;
@@ -101377,6 +102431,8 @@ export const revokeTokensAccessApplicationForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeTokensAccessApplicationForAccount",
 }));
 
 export type RevokeTokensAccessApplicationForZoneError = CloudflareOpError;
@@ -101392,6 +102448,8 @@ export const revokeTokensAccessApplicationForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeTokensAccessApplicationForZone",
 }));
 
 export type RevokeUsersOrganizationForAccountError = CloudflareOpError;
@@ -101407,6 +102465,8 @@ export const revokeUsersOrganizationForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUsersOrganizationForAccount",
 }));
 
 export type RevokeUsersOrganizationForZoneError = CloudflareOpError;
@@ -101422,6 +102482,8 @@ export const revokeUsersOrganizationForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeUsersOrganizationForZone",
 }));
 
 export type RotateAccessKeyError = CloudflareOpError;
@@ -101437,6 +102499,8 @@ export const rotateAccessKey: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAccessKey",
 }));
 
 export type RotateAccessSamlCertificateError = CloudflareOpError;
@@ -101452,6 +102516,8 @@ export const rotateAccessSamlCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAccessSamlCertificate",
 }));
 
 export type RotateAccessServiceTokenError = CloudflareOpError;
@@ -101467,6 +102533,8 @@ export const rotateAccessServiceToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateAccessServiceToken",
 }));
 
 export type RotateSeedGatewayAuditSshSettingError = CloudflareOpError;
@@ -101482,6 +102550,8 @@ export const rotateSeedGatewayAuditSshSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSeedGatewayAuditSshSetting",
 }));
 
 export type SyncAccessAiControlMcpServerError =
@@ -101507,6 +102577,8 @@ export const syncAccessAiControlMcpServer: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncAccessAiControlMcpServer",
 }));
 
 export type TestNetworkPathDexTracerouteError = CloudflareOpError;
@@ -101522,6 +102594,8 @@ export const testNetworkPathDexTraceroute: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestNetworkPathDexTraceroute",
 }));
 
 export type TestPercentilesDexTracerouteError = CloudflareOpError;
@@ -101537,6 +102611,8 @@ export const testPercentilesDexTraceroute: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestPercentilesDexTraceroute",
 }));
 
 export type UnarchiveCasbPostureFindingsInstanceError = CloudflareOpError;
@@ -101552,6 +102628,8 @@ export const unarchiveCasbPostureFindingsInstance: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveCasbPostureFindingsInstance",
 }));
 
 export type UnrevokeDeviceRegistrationError = CloudflareOpError;
@@ -101567,6 +102645,8 @@ export const unrevokeDeviceRegistration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnrevokeDeviceRegistration",
 }));
 
 export type UpdateAccessAiControlMcpPortalError =
@@ -101592,6 +102672,8 @@ export const updateAccessAiControlMcpPortal: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessAiControlMcpPortal",
 }));
 
 export type UpdateAccessAiControlMcpServerError = McpServerNotFound | Forbidden | CloudflareOpError;
@@ -101607,6 +102689,8 @@ export const updateAccessAiControlMcpServer: API.OperationMethod<
   errors: [McpServerNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessAiControlMcpServer",
 }));
 
 export type UpdateAccessApplicationForAccountError = AccessReferenceNotFound | CloudflareOpError;
@@ -101622,6 +102706,8 @@ export const updateAccessApplicationForAccount: API.OperationMethod<
   errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessApplicationForAccount",
 }));
 
 export type UpdateAccessApplicationForZoneError = AccessReferenceNotFound | CloudflareOpError;
@@ -101637,6 +102723,8 @@ export const updateAccessApplicationForZone: API.OperationMethod<
   errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessApplicationForZone",
 }));
 
 export type UpdateAccessApplicationPolicyForAccountError = CloudflareOpError;
@@ -101652,6 +102740,8 @@ export const updateAccessApplicationPolicyForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessApplicationPolicyForAccount",
 }));
 
 export type UpdateAccessApplicationPolicyForZoneError = CloudflareOpError;
@@ -101667,6 +102757,8 @@ export const updateAccessApplicationPolicyForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessApplicationPolicyForZone",
 }));
 
 export type UpdateAccessBookmarkError = AccessBookmarkNotFound | CloudflareOpError;
@@ -101682,6 +102774,8 @@ export const updateAccessBookmark: API.OperationMethod<
   errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessBookmark",
 }));
 
 export type UpdateAccessCertificateForAccountError = AccessCertificateNotFound | CloudflareOpError;
@@ -101697,6 +102791,8 @@ export const updateAccessCertificateForAccount: API.OperationMethod<
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessCertificateForAccount",
 }));
 
 export type UpdateAccessCertificateForZoneError = AccessCertificateNotFound | CloudflareOpError;
@@ -101712,6 +102808,8 @@ export const updateAccessCertificateForZone: API.OperationMethod<
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessCertificateForZone",
 }));
 
 export type UpdateAccessCustomPageError = AccessCustomPageNotFound | CloudflareOpError;
@@ -101727,6 +102825,8 @@ export const updateAccessCustomPage: API.OperationMethod<
   errors: [AccessCustomPageNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessCustomPage",
 }));
 
 export type UpdateAccessGroupForAccountError = CloudflareOpError;
@@ -101742,6 +102842,8 @@ export const updateAccessGroupForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessGroupForAccount",
 }));
 
 export type UpdateAccessGroupForZoneError = CloudflareOpError;
@@ -101757,6 +102859,8 @@ export const updateAccessGroupForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessGroupForZone",
 }));
 
 export type UpdateAccessInfrastructureTargetError = TargetNotFound | Forbidden | CloudflareOpError;
@@ -101772,6 +102876,8 @@ export const updateAccessInfrastructureTarget: API.OperationMethod<
   errors: [TargetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessInfrastructureTarget",
 }));
 
 export type UpdateAccessPolicyError = CloudflareOpError;
@@ -101787,6 +102893,8 @@ export const updateAccessPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessPolicy",
 }));
 
 export type UpdateAccessServiceTokenForAccountError = CloudflareOpError;
@@ -101802,6 +102910,8 @@ export const updateAccessServiceTokenForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessServiceTokenForAccount",
 }));
 
 export type UpdateAccessServiceTokenForZoneError = CloudflareOpError;
@@ -101817,6 +102927,8 @@ export const updateAccessServiceTokenForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessServiceTokenForZone",
 }));
 
 export type UpdateAccessTagError = AccessTagNotFound | CloudflareOpError;
@@ -101832,6 +102944,8 @@ export const updateAccessTag: API.OperationMethod<
   errors: [AccessTagNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessTag",
 }));
 
 export type UpdateAccessUserError = CloudflareOpError;
@@ -101847,6 +102961,8 @@ export const updateAccessUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessUser",
 }));
 
 export type UpdateAccessUserPopulationError = CloudflareOpError;
@@ -101862,6 +102978,8 @@ export const updateAccessUserPopulation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessUserPopulation",
 }));
 
 export type UpdateAccessUserPopulationsUserError = CloudflareOpError;
@@ -101877,6 +102995,8 @@ export const updateAccessUserPopulationsUser: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessUserPopulationsUser",
 }));
 
 export type UpdateCasbIntegrationError = CloudflareOpError;
@@ -101892,6 +103012,8 @@ export const updateCasbIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCasbIntegration",
 }));
 
 export type UpdateCasbPosturePolicyError = CloudflareOpError;
@@ -101907,6 +103029,8 @@ export const updateCasbPosturePolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCasbPosturePolicy",
 }));
 
 export type UpdateCasbPostureWebhookError = CloudflareOpError;
@@ -101922,6 +103046,8 @@ export const updateCasbPostureWebhook: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCasbPostureWebhook",
 }));
 
 export type UpdateCwsDeploymentError = CloudflareOpError;
@@ -101937,6 +103063,8 @@ export const updateCwsDeployment: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsDeployment",
 }));
 
 export type UpdateCwsDomainAclError = CloudflareOpError;
@@ -101952,6 +103080,8 @@ export const updateCwsDomainAcl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsDomainAcl",
 }));
 
 export type UpdateCwsPolicyError = CloudflareOpError;
@@ -101967,6 +103097,8 @@ export const updateCwsPolicy: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsPolicy",
 }));
 
 export type UpdateCwsPolicySetError = CloudflareOpError;
@@ -101982,6 +103114,8 @@ export const updateCwsPolicySet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsPolicySet",
 }));
 
 export type UpdateCwsRegoMetadataError = CloudflareOpError;
@@ -101997,6 +103131,8 @@ export const updateCwsRegoMetadata: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsRegoMetadata",
 }));
 
 export type UpdateCwsRegoModuleError = CloudflareOpError;
@@ -102012,6 +103148,8 @@ export const updateCwsRegoModule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsRegoModule",
 }));
 
 export type UpdateCwsTenantStructureError = CloudflareOpError;
@@ -102027,6 +103165,8 @@ export const updateCwsTenantStructure: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsTenantStructure",
 }));
 
 export type UpdateCwsTenantStructuresNodeError = CloudflareOpError;
@@ -102042,6 +103182,8 @@ export const updateCwsTenantStructuresNode: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsTenantStructuresNode",
 }));
 
 export type UpdateCwsWorkloadError = CloudflareOpError;
@@ -102057,6 +103199,8 @@ export const updateCwsWorkload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCwsWorkload",
 }));
 
 export type UpdateDeviceDexTestError = DexTestNotFound | Forbidden | CloudflareOpError;
@@ -102072,6 +103216,8 @@ export const updateDeviceDexTest: API.OperationMethod<
   errors: [DexTestNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceDexTest",
 }));
 
 export type UpdateDeviceNetworkError = DeviceNetworkNotFound | Forbidden | CloudflareOpError;
@@ -102087,6 +103233,8 @@ export const updateDeviceNetwork: API.OperationMethod<
   errors: [DeviceNetworkNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceNetwork",
 }));
 
 export type UpdateDevicePostureError = PostureRuleNotFound | Forbidden | CloudflareOpError;
@@ -102102,6 +103250,8 @@ export const updateDevicePosture: API.OperationMethod<
   errors: [PostureRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDevicePosture",
 }));
 
 export type UpdateDlpCustomPromptTopicError = CloudflareOpError;
@@ -102117,6 +103267,8 @@ export const updateDlpCustomPromptTopic: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpCustomPromptTopic",
 }));
 
 export type UpdateDlpDataClassError = CloudflareOpError;
@@ -102132,6 +103284,8 @@ export const updateDlpDataClass: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpDataClass",
 }));
 
 export type UpdateDlpDatasetError = CloudflareOpError;
@@ -102147,6 +103301,8 @@ export const updateDlpDataset: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpDataset",
 }));
 
 export type UpdateDlpDataTagCategoryError = CloudflareOpError;
@@ -102162,6 +103318,8 @@ export const updateDlpDataTagCategory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpDataTagCategory",
 }));
 
 export type UpdateDlpDataTagCategoryDataTagError = CloudflareOpError;
@@ -102177,6 +103335,8 @@ export const updateDlpDataTagCategoryDataTag: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpDataTagCategoryDataTag",
 }));
 
 export type UpdateDlpEmailRuleError = CloudflareOpError;
@@ -102192,6 +103352,8 @@ export const updateDlpEmailRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpEmailRule",
 }));
 
 export type UpdateDlpEntryError = CloudflareOpError;
@@ -102207,6 +103369,8 @@ export const updateDlpEntry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpEntry",
 }));
 
 export type UpdateDlpEntryCustomError = DlpEntryNotFound | Forbidden | CloudflareOpError;
@@ -102222,6 +103386,8 @@ export const updateDlpEntryCustom: API.OperationMethod<
   errors: [DlpEntryNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpEntryCustom",
 }));
 
 export type UpdateDlpEntryIntegrationError = CloudflareOpError;
@@ -102237,6 +103403,8 @@ export const updateDlpEntryIntegration: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpEntryIntegration",
 }));
 
 export type UpdateDlpEntryPredefinedError = CloudflareOpError;
@@ -102252,6 +103420,8 @@ export const updateDlpEntryPredefined: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpEntryPredefined",
 }));
 
 export type UpdateDlpProfileCustomError = DlpProfileNotFound | Forbidden | CloudflareOpError;
@@ -102267,6 +103437,8 @@ export const updateDlpProfileCustom: API.OperationMethod<
   errors: [DlpProfileNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpProfileCustom",
 }));
 
 export type UpdateDlpSensitivityGroupError = CloudflareOpError;
@@ -102282,6 +103454,8 @@ export const updateDlpSensitivityGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpSensitivityGroup",
 }));
 
 export type UpdateDlpSensitivityGroupLevelError = CloudflareOpError;
@@ -102297,6 +103471,8 @@ export const updateDlpSensitivityGroupLevel: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpSensitivityGroupLevel",
 }));
 
 export type UpdateDlpValidatorsProximityWordError = CloudflareOpError;
@@ -102312,6 +103488,8 @@ export const updateDlpValidatorsProximityWord: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDlpValidatorsProximityWord",
 }));
 
 export type UpdateGatewayListError = GatewayListNotFound | CloudflareOpError;
@@ -102327,6 +103505,8 @@ export const updateGatewayList: API.OperationMethod<
   errors: [GatewayListNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayList",
 }));
 
 export type UpdateGatewayLocationError =
@@ -102350,6 +103530,8 @@ export const updateGatewayLocation: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayLocation",
 }));
 
 export type UpdateGatewayPacfileError = CloudflareOpError;
@@ -102365,6 +103547,8 @@ export const updateGatewayPacfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayPacfile",
 }));
 
 export type UpdateGatewayRuleError = CloudflareOpError;
@@ -102380,6 +103564,8 @@ export const updateGatewayRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayRule",
 }));
 
 export type UpdateIdentityProviderForAccountError =
@@ -102397,6 +103583,8 @@ export const updateIdentityProviderForAccount: API.OperationMethod<
   errors: [AccessIdentityProviderNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProviderForAccount",
 }));
 
 export type UpdateIdentityProviderForZoneError = AccessIdentityProviderNotFound | CloudflareOpError;
@@ -102412,6 +103600,8 @@ export const updateIdentityProviderForZone: API.OperationMethod<
   errors: [AccessIdentityProviderNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIdentityProviderForZone",
 }));
 
 export type UpdateNetworksSubnetsInitialResolvedIpError = CloudflareOpError;
@@ -102427,6 +103617,8 @@ export const updateNetworksSubnetsInitialResolvedIp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworksSubnetsInitialResolvedIp",
 }));
 
 export type UpdateOrganizationForAccountError = CloudflareOpError;
@@ -102442,6 +103634,8 @@ export const updateOrganizationForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationForAccount",
 }));
 
 export type UpdateOrganizationForZoneError = CloudflareOpError;
@@ -102457,6 +103651,8 @@ export const updateOrganizationForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationForZone",
 }));
 
 export type UpdateResourceLibraryApplicationError = CloudflareOpError;
@@ -102472,6 +103668,8 @@ export const updateResourceLibraryApplication: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceLibraryApplication",
 }));
 
 export type UpdateRiskScoringIntegrationError =
@@ -102490,6 +103688,8 @@ export const updateRiskScoringIntegration: API.OperationMethod<
   errors: [RiskScoringIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRiskScoringIntegration",
 }));
 
 export type ValidateAccessCustomPageError = CloudflareOpError;
@@ -102505,6 +103705,8 @@ export const validateAccessCustomPage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAccessCustomPage",
 }));
 
 export type ValidateDlpPatternError = CloudflareOpError;
@@ -102520,6 +103722,8 @@ export const validateDlpPattern: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateDlpPattern",
 }));
 
 // Alias of createDlpEntry (same route, alternate export name upstream).

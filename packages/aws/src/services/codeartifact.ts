@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codeartifact.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "codeartifact",
+  service: "codeartifact",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1027,6 +1042,8 @@ export const associateExternalConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateExternalConnection",
+  telemetry: TELEMETRY,
+  span: "AssociateExternalConnection",
 }));
 
 export type CopyPackageVersionsError =
@@ -1063,6 +1080,8 @@ export const copyPackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyPackageVersions",
+  telemetry: TELEMETRY,
+  span: "CopyPackageVersions",
 }));
 
 export type CreateDomainError =
@@ -1104,6 +1123,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreatePackageGroupError =
@@ -1138,6 +1159,8 @@ export const createPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackageGroup",
+  telemetry: TELEMETRY,
+  span: "CreatePackageGroup",
 }));
 
 export type CreateRepositoryError =
@@ -1172,6 +1195,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type DeleteDomainError =
@@ -1203,6 +1228,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteDomainPermissionsPolicyError =
@@ -1235,6 +1262,8 @@ export const deleteDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainPermissionsPolicy",
 }));
 
 export type DeletePackageError =
@@ -1268,6 +1297,8 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
+  telemetry: TELEMETRY,
+  span: "DeletePackage",
 }));
 
 export type DeletePackageGroupError =
@@ -1306,6 +1337,8 @@ export const deletePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackageGroup",
+  telemetry: TELEMETRY,
+  span: "DeletePackageGroup",
 }));
 
 export type DeletePackageVersionsError =
@@ -1342,6 +1375,8 @@ export const deletePackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackageVersions",
+  telemetry: TELEMETRY,
+  span: "DeletePackageVersions",
 }));
 
 export type DeleteRepositoryError =
@@ -1374,6 +1409,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteRepositoryPermissionsPolicyError =
@@ -1410,6 +1447,8 @@ export const deleteRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryPermissionsPolicy",
 }));
 
 export type DescribeDomainError =
@@ -1442,6 +1481,8 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribePackageError =
@@ -1474,6 +1515,8 @@ export const describePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackage",
+  telemetry: TELEMETRY,
+  span: "DescribePackage",
 }));
 
 export type DescribePackageGroupError =
@@ -1505,6 +1548,8 @@ export const describePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackageGroup",
+  telemetry: TELEMETRY,
+  span: "DescribePackageGroup",
 }));
 
 export type DescribePackageVersionError =
@@ -1539,6 +1584,8 @@ export const describePackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackageVersion",
+  telemetry: TELEMETRY,
+  span: "DescribePackageVersion",
 }));
 
 export type DescribeRepositoryError =
@@ -1570,6 +1617,8 @@ export const describeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRepository",
+  telemetry: TELEMETRY,
+  span: "DescribeRepository",
 }));
 
 export type DisassociateExternalConnectionError =
@@ -1604,6 +1653,8 @@ export const disassociateExternalConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateExternalConnection",
+  telemetry: TELEMETRY,
+  span: "DisassociateExternalConnection",
 }));
 
 export type DisposePackageVersionsError =
@@ -1643,6 +1694,8 @@ export const disposePackageVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisposePackageVersions",
+  telemetry: TELEMETRY,
+  span: "DisposePackageVersions",
 }));
 
 export type GetAssociatedPackageGroupError =
@@ -1677,6 +1730,8 @@ export const getAssociatedPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedPackageGroup",
+  telemetry: TELEMETRY,
+  span: "GetAssociatedPackageGroup",
 }));
 
 export type GetAuthorizationTokenError =
@@ -1726,6 +1781,8 @@ export const getAuthorizationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizationToken",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationToken",
 }));
 
 export type GetDomainPermissionsPolicyError =
@@ -1760,6 +1817,8 @@ export const getDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "GetDomainPermissionsPolicy",
 }));
 
 export type GetPackageVersionAssetError =
@@ -1794,6 +1853,8 @@ export const getPackageVersionAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackageVersionAsset",
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionAsset",
 }));
 
 export type GetPackageVersionReadmeError =
@@ -1826,6 +1887,8 @@ export const getPackageVersionReadme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPackageVersionReadme",
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionReadme",
 }));
 
 export type GetRepositoryEndpointError =
@@ -1873,6 +1936,8 @@ export const getRepositoryEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryEndpoint",
 }));
 
 export type GetRepositoryPermissionsPolicyError =
@@ -1903,6 +1968,8 @@ export const getRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryPermissionsPolicy",
 }));
 
 export type ListAllowedRepositoriesForGroupError =
@@ -1943,6 +2010,8 @@ export const listAllowedRepositoriesForGroup: API.PaginatedOperationMethod<
     items: "allowedRepositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAllowedRepositoriesForGroup",
 })) as any;
 
 export type ListAssociatedPackagesError =
@@ -1980,6 +2049,8 @@ export const listAssociatedPackages: API.PaginatedOperationMethod<
     items: "packages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedPackages",
 })) as any;
 
 export type ListDomainsError =
@@ -2017,6 +2088,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domains",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListPackageGroupsError =
@@ -2054,6 +2127,8 @@ export const listPackageGroups: API.PaginatedOperationMethod<
     items: "packageGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackageGroups",
 })) as any;
 
 export type ListPackagesError =
@@ -2093,6 +2168,8 @@ export const listPackages: API.PaginatedOperationMethod<
     items: "packages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackages",
 })) as any;
 
 export type ListPackageVersionAssetsError =
@@ -2132,6 +2209,8 @@ export const listPackageVersionAssets: API.PaginatedOperationMethod<
     items: "assets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackageVersionAssets",
 })) as any;
 
 export type ListPackageVersionDependenciesError =
@@ -2166,6 +2245,8 @@ export const listPackageVersionDependencies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPackageVersionDependencies",
+  telemetry: TELEMETRY,
+  span: "ListPackageVersionDependencies",
 }));
 
 export type ListPackageVersionsError =
@@ -2205,6 +2286,8 @@ export const listPackageVersions: API.PaginatedOperationMethod<
     items: "versions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackageVersions",
 })) as any;
 
 export type ListRepositoriesError =
@@ -2243,6 +2326,8 @@ export const listRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositories",
 })) as any;
 
 export type ListRepositoriesInDomainError =
@@ -2283,6 +2368,8 @@ export const listRepositoriesInDomain: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRepositoriesInDomain",
 })) as any;
 
 export type ListSubPackageGroupsError =
@@ -2324,6 +2411,8 @@ export const listSubPackageGroups: API.PaginatedOperationMethod<
     items: "packageGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubPackageGroups",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2352,6 +2441,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PublishPackageVersionError =
@@ -2395,6 +2486,8 @@ export const publishPackageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishPackageVersion",
+  telemetry: TELEMETRY,
+  span: "PublishPackageVersion",
 }));
 
 export type PutDomainPermissionsPolicyError =
@@ -2433,6 +2526,8 @@ export const putDomainPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDomainPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "PutDomainPermissionsPolicy",
 }));
 
 export type PutPackageOriginConfigurationError =
@@ -2472,6 +2567,8 @@ export const putPackageOriginConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPackageOriginConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutPackageOriginConfiguration",
 }));
 
 export type PutRepositoryPermissionsPolicyError =
@@ -2510,6 +2607,8 @@ export const putRepositoryPermissionsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryPermissionsPolicy",
+  telemetry: TELEMETRY,
+  span: "PutRepositoryPermissionsPolicy",
 }));
 
 export type TagResourceError =
@@ -2540,6 +2639,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2568,6 +2669,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePackageGroupError =
@@ -2601,6 +2704,8 @@ export const updatePackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageGroup",
+  telemetry: TELEMETRY,
+  span: "UpdatePackageGroup",
 }));
 
 export type UpdatePackageGroupOriginConfigurationError =
@@ -2639,6 +2744,8 @@ export const updatePackageGroupOriginConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageGroupOriginConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdatePackageGroupOriginConfiguration",
 }));
 
 export type UpdatePackageVersionsStatusError =
@@ -2674,6 +2781,8 @@ export const updatePackageVersionsStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageVersionsStatus",
+  telemetry: TELEMETRY,
+  span: "UpdatePackageVersionsStatus",
 }));
 
 export type UpdateRepositoryError =
@@ -2708,6 +2817,8 @@ export const updateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepository",
+  telemetry: TELEMETRY,
+  span: "UpdateRepository",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { TursoOpError, TursoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "turso-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Turso",
+  service: "Turso",
+  labels: "turso",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1140,6 +1153,8 @@ export const addLocationToGroup: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddLocationToGroup",
 }));
 
 export type AddOrganizationMemberError = BadRequest | NotFound | Conflict | TursoOpError;
@@ -1155,6 +1170,8 @@ export const addOrganizationMember: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrganizationMember",
 }));
 
 export type CreateAPITokenError = BadRequest | NotFound | Conflict | TursoOpError;
@@ -1170,6 +1187,8 @@ export const createAPIToken: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAPIToken",
 }));
 
 export type CreateDatabaseError = BadRequest | Conflict | TursoOpError;
@@ -1185,6 +1204,8 @@ export const createDatabase: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateDatabaseTokenError = BadRequest | NotFound | TursoOpError;
@@ -1200,6 +1221,8 @@ export const createDatabaseToken: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabaseToken",
 }));
 
 export type CreateGroupError = BadRequest | Conflict | TursoOpError;
@@ -1215,6 +1238,8 @@ export const createGroup: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateGroupTokenError = BadRequest | NotFound | TursoOpError;
@@ -1230,6 +1255,8 @@ export const createGroupToken: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupToken",
 }));
 
 export type DeleteDatabaseError = NotFound | TursoOpError;
@@ -1245,6 +1272,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteGroupError = NotFound | TursoOpError;
@@ -1260,6 +1289,8 @@ export const deleteGroup: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteOrganizationInviteByEmailV2Error = NotFound | TursoOpError;
@@ -1275,6 +1306,8 @@ export const deleteOrganizationInviteByEmailV2: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationInviteByEmailV2",
 }));
 
 export type GetCurrentUserError = TursoOpError;
@@ -1290,6 +1323,8 @@ export const getCurrentUser: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUser",
 }));
 
 export type GetDatabaseError = NotFound | TursoOpError;
@@ -1305,6 +1340,8 @@ export const getDatabase: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabaseConfigurationError = NotFound | TursoOpError;
@@ -1320,6 +1357,8 @@ export const getDatabaseConfiguration: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseConfiguration",
 }));
 
 export type GetDatabaseInstanceError = NotFound | TursoOpError;
@@ -1335,6 +1374,8 @@ export const getDatabaseInstance: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseInstance",
 }));
 
 export type GetDatabaseStatsError = NotFound | TursoOpError;
@@ -1350,6 +1391,8 @@ export const getDatabaseStats: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseStats",
 }));
 
 export type GetDatabaseUsageError = BadRequest | NotFound | TursoOpError;
@@ -1365,6 +1408,8 @@ export const getDatabaseUsage: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseUsage",
 }));
 
 export type GetGroupError = NotFound | TursoOpError;
@@ -1380,6 +1425,8 @@ export const getGroup: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetGroupConfigurationError = NotFound | TursoOpError;
@@ -1395,6 +1442,8 @@ export const getGroupConfiguration: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupConfiguration",
 }));
 
 export type GetOrganizationError = NotFound | TursoOpError;
@@ -1410,6 +1459,8 @@ export const getOrganization: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationMemberError = NotFound | TursoOpError;
@@ -1425,6 +1476,8 @@ export const getOrganizationMember: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMember",
 }));
 
 export type GetOrganizationSubscriptionError = TursoOpError;
@@ -1440,6 +1493,8 @@ export const getOrganizationSubscription: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSubscription",
 }));
 
 export type GetOrganizationUsageError = TursoOpError;
@@ -1455,6 +1510,8 @@ export const getOrganizationUsage: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationUsage",
 }));
 
 export type InvalidateDatabaseTokensError = NotFound | TursoOpError;
@@ -1470,6 +1527,8 @@ export const invalidateDatabaseTokens: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateDatabaseTokens",
 }));
 
 export type InvalidateGroupTokensError = NotFound | TursoOpError;
@@ -1485,6 +1544,8 @@ export const invalidateGroupTokens: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateGroupTokens",
 }));
 
 export type InviteOrganizationMemberV2Error = BadRequest | TursoOpError;
@@ -1500,6 +1561,8 @@ export const inviteOrganizationMemberV2: API.OperationMethod<
   errors: [BadRequest],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteOrganizationMemberV2",
 }));
 
 export type ListAPITokensError = TursoOpError;
@@ -1515,6 +1578,8 @@ export const listAPITokens: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAPITokens",
 }));
 
 export type ListDatabaseInstancesError = NotFound | TursoOpError;
@@ -1530,6 +1595,8 @@ export const listDatabaseInstances: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseInstances",
 }));
 
 export type ListDatabasesError = TursoOpError;
@@ -1545,6 +1612,8 @@ export const listDatabases: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 }));
 
 export type ListDeletedDatabasesError = Forbidden | TursoOpError;
@@ -1560,6 +1629,8 @@ export const listDeletedDatabases: API.OperationMethod<
   errors: [Forbidden],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletedDatabases",
 }));
 
 export type ListDeletedGroupsError = Forbidden | TursoOpError;
@@ -1575,6 +1646,8 @@ export const listDeletedGroups: API.OperationMethod<
   errors: [Forbidden],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletedGroups",
 }));
 
 export type ListGroupsError = TursoOpError;
@@ -1590,6 +1663,8 @@ export const listGroups: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListLocationsError = TursoOpError;
@@ -1605,6 +1680,8 @@ export const listLocations: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocations",
 }));
 
 export type ListOrganizationAPITokensError = TursoOpError;
@@ -1620,6 +1697,8 @@ export const listOrganizationAPITokens: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAPITokens",
 }));
 
 export type ListOrganizationAuditLogsError = TursoOpError;
@@ -1635,6 +1714,8 @@ export const listOrganizationAuditLogs: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAuditLogs",
 }));
 
 export type ListOrganizationInvitesV2Error = TursoOpError;
@@ -1650,6 +1731,8 @@ export const listOrganizationInvitesV2: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationInvitesV2",
 }));
 
 export type ListOrganizationInvoicesError = TursoOpError;
@@ -1665,6 +1748,8 @@ export const listOrganizationInvoices: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationInvoices",
 }));
 
 export type ListOrganizationMembersError = TursoOpError;
@@ -1680,6 +1765,8 @@ export const listOrganizationMembers: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationMembers",
 }));
 
 export type ListOrganizationPlansError = TursoOpError;
@@ -1695,6 +1782,8 @@ export const listOrganizationPlans: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationPlans",
 }));
 
 export type ListOrganizationsError = TursoOpError;
@@ -1710,6 +1799,8 @@ export const listOrganizations: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
 }));
 
 export type RemoveLocationFromGroupError = BadRequest | NotFound | TursoOpError;
@@ -1725,6 +1816,8 @@ export const removeLocationFromGroup: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveLocationFromGroup",
 }));
 
 export type RemoveOrganizationMemberError = NotFound | TursoOpError;
@@ -1740,6 +1833,8 @@ export const removeOrganizationMember: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrganizationMember",
 }));
 
 export type RestoreDatabaseError = BadRequest | Forbidden | NotFound | TursoOpError;
@@ -1755,6 +1850,8 @@ export const restoreDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDatabase",
 }));
 
 export type RestoreGroupError = BadRequest | Forbidden | NotFound | TursoOpError;
@@ -1770,6 +1867,8 @@ export const restoreGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreGroup",
 }));
 
 export type RevokeAPITokenError = NotFound | TursoOpError;
@@ -1785,6 +1884,8 @@ export const revokeAPIToken: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAPIToken",
 }));
 
 export type RevokeOrganizationAPITokenError = NotFound | TursoOpError;
@@ -1800,6 +1901,8 @@ export const revokeOrganizationAPIToken: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOrganizationAPIToken",
 }));
 
 export type TransferGroupError = NotFound | TursoOpError;
@@ -1815,6 +1918,8 @@ export const transferGroup: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferGroup",
 }));
 
 export type UnarchiveGroupError = NotFound | TursoOpError;
@@ -1830,6 +1935,8 @@ export const unarchiveGroup: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveGroup",
 }));
 
 export type UpdateDatabaseConfigurationError = NotFound | TursoOpError;
@@ -1845,6 +1952,8 @@ export const updateDatabaseConfiguration: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseConfiguration",
 }));
 
 export type UpdateGroupConfigurationError = NotFound | TursoOpError;
@@ -1860,6 +1969,8 @@ export const updateGroupConfiguration: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupConfiguration",
 }));
 
 export type UpdateGroupDatabasesError = NotFound | TursoOpError;
@@ -1875,6 +1986,8 @@ export const updateGroupDatabases: API.OperationMethod<
   errors: [NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupDatabases",
 }));
 
 export type UpdateMemberRoleError = BadRequest | Forbidden | NotFound | TursoOpError;
@@ -1890,6 +2003,8 @@ export const updateMemberRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMemberRole",
 }));
 
 export type UpdateOrganizationError = TursoOpError;
@@ -1905,6 +2020,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type ValidateAPITokenError = TursoOpError;
@@ -1920,6 +2037,8 @@ export const validateAPIToken: API.OperationMethod<
   errors: [],
   protocol: TursoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAPIToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

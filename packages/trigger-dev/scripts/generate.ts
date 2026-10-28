@@ -89,6 +89,7 @@ const triggerDevSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Trigger.dev Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.

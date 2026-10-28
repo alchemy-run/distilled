@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -74,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://fis.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "fis",
+  service: "fis",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -903,6 +918,8 @@ export const createExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperimentTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateExperimentTemplate",
 }));
 
 export type CreateTargetAccountConfigurationError =
@@ -934,6 +951,8 @@ export const createTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateTargetAccountConfiguration",
 }));
 
 export type DeleteExperimentTemplateError =
@@ -955,6 +974,8 @@ export const deleteExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperimentTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteExperimentTemplate",
 }));
 
 export type DeleteTargetAccountConfigurationError =
@@ -976,6 +997,8 @@ export const deleteTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteTargetAccountConfiguration",
 }));
 
 export type GetActionError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -994,6 +1017,8 @@ export const getAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAction",
+  telemetry: TELEMETRY,
+  span: "GetAction",
 }));
 
 export type GetExperimentError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1012,6 +1037,8 @@ export const getExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperiment",
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetExperimentTargetAccountConfigurationError =
@@ -1033,6 +1060,8 @@ export const getExperimentTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetExperimentTargetAccountConfiguration",
 }));
 
 export type GetExperimentTemplateError =
@@ -1054,6 +1083,8 @@ export const getExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentTemplate",
+  telemetry: TELEMETRY,
+  span: "GetExperimentTemplate",
 }));
 
 export type GetSafetyLeverError = ResourceNotFoundException | CommonErrors;
@@ -1072,6 +1103,8 @@ export const getSafetyLever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSafetyLever",
+  telemetry: TELEMETRY,
+  span: "GetSafetyLever",
 }));
 
 export type GetTargetAccountConfigurationError =
@@ -1093,6 +1126,8 @@ export const getTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTargetAccountConfiguration",
 }));
 
 export type GetTargetResourceTypeError =
@@ -1114,6 +1149,8 @@ export const getTargetResourceType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetResourceType",
+  telemetry: TELEMETRY,
+  span: "GetTargetResourceType",
 }));
 
 export type ListActionsError = ValidationException | CommonErrors;
@@ -1139,6 +1176,8 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActions",
 })) as any;
 
 export type ListExperimentResolvedTargetsError =
@@ -1167,6 +1206,8 @@ export const listExperimentResolvedTargets: API.PaginatedOperationMethod<
     items: "resolvedTargets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentResolvedTargets",
 })) as any;
 
 export type ListExperimentsError = ValidationException | CommonErrors;
@@ -1192,6 +1233,8 @@ export const listExperiments: API.PaginatedOperationMethod<
     items: "experiments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperiments",
 })) as any;
 
 export type ListExperimentTargetAccountConfigurationsError =
@@ -1213,6 +1256,8 @@ export const listExperimentTargetAccountConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentTargetAccountConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListExperimentTargetAccountConfigurations",
 }));
 
 export type ListExperimentTemplatesError = ValidationException | CommonErrors;
@@ -1238,6 +1283,8 @@ export const listExperimentTemplates: API.PaginatedOperationMethod<
     items: "experimentTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentTemplates",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -1256,6 +1303,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetAccountConfigurationsError =
@@ -1284,6 +1333,8 @@ export const listTargetAccountConfigurations: API.PaginatedOperationMethod<
     items: "targetAccountConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetAccountConfigurations",
 })) as any;
 
 export type ListTargetResourceTypesError = ValidationException | CommonErrors;
@@ -1309,6 +1360,8 @@ export const listTargetResourceTypes: API.PaginatedOperationMethod<
     items: "targetResourceTypes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetResourceTypes",
 })) as any;
 
 export type StartExperimentError =
@@ -1337,6 +1390,8 @@ export const startExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExperiment",
+  telemetry: TELEMETRY,
+  span: "StartExperiment",
 }));
 
 export type StopExperimentError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1355,6 +1410,8 @@ export const stopExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExperiment",
+  telemetry: TELEMETRY,
+  span: "StopExperiment",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -1373,6 +1430,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -1391,6 +1450,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateExperimentTemplateError =
@@ -1413,6 +1474,8 @@ export const updateExperimentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentTemplate",
 }));
 
 export type UpdateSafetyLeverStateError =
@@ -1435,6 +1498,8 @@ export const updateSafetyLeverState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSafetyLeverState",
+  telemetry: TELEMETRY,
+  span: "UpdateSafetyLeverState",
 }));
 
 export type UpdateTargetAccountConfigurationError =
@@ -1456,6 +1521,8 @@ export const updateTargetAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateTargetAccountConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

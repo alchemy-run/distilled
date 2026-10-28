@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "FeatureFlags",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1041,6 +1054,8 @@ export const createFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlag",
 }));
 
 export type CreateFeatureFlagsRollOutToEveryoneError = BadRequest | Conflict | PosthogOpError;
@@ -1056,6 +1071,8 @@ export const createFeatureFlagsRollOutToEveryone: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlagsRollOutToEveryone",
 }));
 
 export type CreateFeatureFlagsSetReleaseConditionRolloutError =
@@ -1074,6 +1091,8 @@ export const createFeatureFlagsSetReleaseConditionRollout: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlagsSetReleaseConditionRollout",
 }));
 
 export type CreateFeatureFlagsTestEvaluationError = BadRequest | NotFound | PosthogOpError;
@@ -1089,6 +1108,8 @@ export const createFeatureFlagsTestEvaluation: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlagsTestEvaluation",
 }));
 
 export type CreateFeatureFlagsUserBlastRadiusError =
@@ -1108,6 +1129,8 @@ export const createFeatureFlagsUserBlastRadius: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureFlagsUserBlastRadius",
 }));
 
 export type FeatureFlagsArchiveCreateError = BadRequest | Conflict | PosthogOpError;
@@ -1123,6 +1146,8 @@ export const featureFlagsArchiveCreate: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsArchiveCreate",
 }));
 
 export type FeatureFlagsBulkDeleteCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1138,6 +1163,8 @@ export const featureFlagsBulkDeleteCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsBulkDeleteCreate",
 }));
 
 export type FeatureFlagsBulkKeysRetrieveError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1153,6 +1180,8 @@ export const featureFlagsBulkKeysRetrieve: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsBulkKeysRetrieve",
 }));
 
 export type FeatureFlagsBulkUpdateTagsCreateError =
@@ -1172,6 +1201,8 @@ export const featureFlagsBulkUpdateTagsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsBulkUpdateTagsCreate",
 }));
 
 export type FeatureFlagsCreateStaticCohortForFlagCreateError =
@@ -1191,6 +1222,8 @@ export const featureFlagsCreateStaticCohortForFlagCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsCreateStaticCohortForFlagCreate",
 }));
 
 export type FeatureFlagsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -1206,6 +1239,8 @@ export const featureFlagsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsDestroy",
 }));
 
 export type FeatureFlagsDisableCreateError = BadRequest | Conflict | PosthogOpError;
@@ -1221,6 +1256,8 @@ export const featureFlagsDisableCreate: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsDisableCreate",
 }));
 
 export type FeatureFlagsEnableCreateError = BadRequest | Conflict | PosthogOpError;
@@ -1236,6 +1273,8 @@ export const featureFlagsEnableCreate: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsEnableCreate",
 }));
 
 export type FeatureFlagsUnarchiveCreateError = BadRequest | PosthogOpError;
@@ -1251,6 +1290,8 @@ export const featureFlagsUnarchiveCreate: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureFlagsUnarchiveCreate",
 }));
 
 export type GetFeatureFlagError = Forbidden | NotFound | PosthogOpError;
@@ -1266,6 +1307,8 @@ export const getFeatureFlag: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlag",
 }));
 
 export type GetFeatureFlagsActivityError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1281,6 +1324,8 @@ export const getFeatureFlagsActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsActivity",
 }));
 
 export type GetFeatureFlagsAllActivityError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1296,6 +1341,8 @@ export const getFeatureFlagsAllActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsAllActivity",
 }));
 
 export type GetFeatureFlagsEvaluationReasonError =
@@ -1315,6 +1362,8 @@ export const getFeatureFlagsEvaluationReason: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsEvaluationReason",
 }));
 
 export type GetFeatureFlagsMatchingIdsError = Forbidden | NotFound | PosthogOpError;
@@ -1330,6 +1379,8 @@ export const getFeatureFlagsMatchingIds: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsMatchingIds",
 }));
 
 export type GetFeatureFlagsMyFlagError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1345,6 +1396,8 @@ export const getFeatureFlagsMyFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsMyFlag",
 }));
 
 export type GetFeatureFlagsRemoteConfigError = Forbidden | NotFound | PosthogOpError;
@@ -1360,6 +1413,8 @@ export const getFeatureFlagsRemoteConfig: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsRemoteConfig",
 }));
 
 export type GetFeatureFlagsStatusError = Forbidden | NotFound | PosthogOpError;
@@ -1375,6 +1430,8 @@ export const getFeatureFlagsStatus: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsStatus",
 }));
 
 export type GetFeatureFlagsVersionError =
@@ -1395,6 +1452,8 @@ export const getFeatureFlagsVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagsVersion",
 }));
 
 export type ListFeatureFlagsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1410,6 +1469,8 @@ export const listFeatureFlags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureFlags",
 }));
 
 export type ListFeatureFlagsDependentFlagsError = Forbidden | NotFound | PosthogOpError;
@@ -1425,6 +1486,8 @@ export const listFeatureFlagsDependentFlags: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureFlagsDependentFlags",
 }));
 
 export type UpdateFeatureFlagError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1440,6 +1503,8 @@ export const updateFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureFlag",
 }));
 
 export type UpdateFeatureFlagsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1455,6 +1520,8 @@ export const updateFeatureFlagsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureFlagsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

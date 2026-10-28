@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * OvhProtocol -- hand-written.
@@ -35,7 +35,8 @@ export type OvhOpError =
   | UnknownOvhError
   | ConfigError
   | HttpClientError.HttpClientError
-  | OvhParseError;
+  | OvhParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated OVH operation. */
 export type OvhOpContext = Credentials | HttpClient.HttpClient;

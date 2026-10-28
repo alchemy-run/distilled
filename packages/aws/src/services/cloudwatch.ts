@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -92,6 +93,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://monitoring.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudWatch",
+  service: "CloudWatch",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -1569,6 +1585,8 @@ export const associateDatasetKmsKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDatasetKmsKey",
+  telemetry: TELEMETRY,
+  span: "AssociateDatasetKmsKey",
 }));
 
 export type CreateResourceMetricsConfigurationError =
@@ -1606,6 +1624,8 @@ export const createResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateResourceMetricsConfiguration",
 }));
 
 export type DeleteAlarmMuteRuleError = CommonErrors;
@@ -1636,6 +1656,8 @@ export const deleteAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlarmMuteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteAlarmMuteRule",
 }));
 
 export type DeleteAlarmsError = ResourceConflict | ResourceNotFound | CommonErrors;
@@ -1675,6 +1697,8 @@ export const deleteAlarms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlarms",
+  telemetry: TELEMETRY,
+  span: "DeleteAlarms",
 }));
 
 export type DeleteAnomalyDetectorError =
@@ -1707,6 +1731,8 @@ export const deleteAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "DeleteAnomalyDetector",
 }));
 
 export type DeleteDashboardsError =
@@ -1731,6 +1757,8 @@ export const deleteDashboards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboards",
+  telemetry: TELEMETRY,
+  span: "DeleteDashboards",
 }));
 
 export type DeleteInsightRulesError =
@@ -1755,6 +1783,8 @@ export const deleteInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsightRules",
+  telemetry: TELEMETRY,
+  span: "DeleteInsightRules",
 }));
 
 export type DeleteMetricStreamError =
@@ -1777,6 +1807,8 @@ export const deleteMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricStream",
+  telemetry: TELEMETRY,
+  span: "DeleteMetricStream",
 }));
 
 export type DeleteResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
@@ -1807,6 +1839,8 @@ export const deleteResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceMetricsConfiguration",
 }));
 
 export type DescribeAlarmContributorsError =
@@ -1831,6 +1865,8 @@ export const describeAlarmContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlarmContributors",
+  telemetry: TELEMETRY,
+  span: "DescribeAlarmContributors",
 }));
 
 export type DescribeAlarmHistoryError = InvalidNextToken | CommonErrors;
@@ -1865,6 +1901,8 @@ export const describeAlarmHistory: API.PaginatedOperationMethod<
     items: "AlarmHistoryItems",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAlarmHistory",
 })) as any;
 
 export type DescribeAlarmsError = InvalidNextToken | CommonErrors;
@@ -1895,6 +1933,8 @@ export const describeAlarms: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAlarms",
 })) as any;
 
 export type DescribeAlarmsForMetricError = CommonErrors;
@@ -1918,6 +1958,8 @@ export const describeAlarmsForMetric: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlarmsForMetric",
+  telemetry: TELEMETRY,
+  span: "DescribeAlarmsForMetric",
 }));
 
 export type DescribeAnomalyDetectorsError =
@@ -1958,6 +2000,8 @@ export const describeAnomalyDetectors: API.PaginatedOperationMethod<
     items: "AnomalyDetectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAnomalyDetectors",
 })) as any;
 
 export type DescribeInsightRulesError = InvalidNextToken | UnsupportedOperation | CommonErrors;
@@ -1985,6 +2029,8 @@ export const describeInsightRules: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInsightRules",
 })) as any;
 
 export type DisableAlarmActionsError = CommonErrors;
@@ -2004,6 +2050,8 @@ export const disableAlarmActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAlarmActions",
+  telemetry: TELEMETRY,
+  span: "DisableAlarmActions",
 }));
 
 export type DisableInsightRulesError =
@@ -2026,6 +2074,8 @@ export const disableInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableInsightRules",
+  telemetry: TELEMETRY,
+  span: "DisableInsightRules",
 }));
 
 export type DisassociateDatasetKmsKeyError =
@@ -2080,6 +2130,8 @@ export const disassociateDatasetKmsKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDatasetKmsKey",
+  telemetry: TELEMETRY,
+  span: "DisassociateDatasetKmsKey",
 }));
 
 export type EnableAlarmActionsError = CommonErrors;
@@ -2098,6 +2150,8 @@ export const enableAlarmActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAlarmActions",
+  telemetry: TELEMETRY,
+  span: "EnableAlarmActions",
 }));
 
 export type EnableInsightRulesError =
@@ -2125,6 +2179,8 @@ export const enableInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableInsightRules",
+  telemetry: TELEMETRY,
+  span: "EnableInsightRules",
 }));
 
 export type GetAlarmMuteRuleError = ResourceNotFoundException | CommonErrors;
@@ -2163,6 +2219,8 @@ export const getAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlarmMuteRule",
+  telemetry: TELEMETRY,
+  span: "GetAlarmMuteRule",
 }));
 
 export type GetDashboardError =
@@ -2197,6 +2255,8 @@ export const getDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetDatasetError = ResourceNotFoundException | CommonErrors;
@@ -2227,6 +2287,8 @@ export const getDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataset",
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetInsightRuleReportError =
@@ -2284,6 +2346,8 @@ export const getInsightRuleReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightRuleReport",
+  telemetry: TELEMETRY,
+  span: "GetInsightRuleReport",
 }));
 
 export type GetMetricDataError = InvalidNextToken | CommonErrors;
@@ -2373,6 +2437,8 @@ export const getMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxDatapoints",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetMetricData",
 })) as any;
 
 export type GetMetricStatisticsError =
@@ -2455,6 +2521,8 @@ export const getMetricStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricStatistics",
+  telemetry: TELEMETRY,
+  span: "GetMetricStatistics",
 }));
 
 export type GetMetricStreamError =
@@ -2485,6 +2553,8 @@ export const getMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricStream",
+  telemetry: TELEMETRY,
+  span: "GetMetricStream",
 }));
 
 export type GetMetricWidgetImageError = CommonErrors;
@@ -2517,6 +2587,8 @@ export const getMetricWidgetImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricWidgetImage",
+  telemetry: TELEMETRY,
+  span: "GetMetricWidgetImage",
 }));
 
 export type GetOTelEnrichmentError = CommonErrors;
@@ -2537,6 +2609,8 @@ export const getOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOTelEnrichment",
+  telemetry: TELEMETRY,
+  span: "GetOTelEnrichment",
 }));
 
 export type GetResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
@@ -2565,6 +2639,8 @@ export const getResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetResourceMetricsConfiguration",
 }));
 
 export type ListAlarmMuteRulesError = InvalidNextToken | ResourceNotFoundException | CommonErrors;
@@ -2602,6 +2678,8 @@ export const listAlarmMuteRules: API.PaginatedOperationMethod<
     items: "AlarmMuteRuleSummaries",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAlarmMuteRules",
 })) as any;
 
 export type ListDashboardsError =
@@ -2644,6 +2722,8 @@ export const listDashboards: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "DashboardEntries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 })) as any;
 
 export type ListManagedInsightRulesError =
@@ -2673,6 +2753,8 @@ export const listManagedInsightRules: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedInsightRules",
 })) as any;
 
 export type ListMetricsError = InternalServiceFault | InvalidParameterValueException | CommonErrors;
@@ -2706,6 +2788,8 @@ export const listMetrics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListMetrics",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetrics",
 })) as any;
 
 export type ListMetricStreamsError =
@@ -2740,6 +2824,8 @@ export const listMetricStreams: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetricStreams",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2763,6 +2849,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAlarmMuteRuleError = LimitExceededFault | CommonErrors;
@@ -2813,6 +2901,8 @@ export const putAlarmMuteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlarmMuteRule",
+  telemetry: TELEMETRY,
+  span: "PutAlarmMuteRule",
 }));
 
 export type PutAnomalyDetectorError =
@@ -2851,6 +2941,8 @@ export const putAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAnomalyDetector",
+  telemetry: TELEMETRY,
+  span: "PutAnomalyDetector",
 }));
 
 export type PutCompositeAlarmError = LimitExceededFault | CommonErrors;
@@ -2924,6 +3016,8 @@ export const putCompositeAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCompositeAlarm",
+  telemetry: TELEMETRY,
+  span: "PutCompositeAlarm",
 }));
 
 export type PutDashboardError =
@@ -2964,6 +3058,8 @@ export const putDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDashboard",
+  telemetry: TELEMETRY,
+  span: "PutDashboard",
 }));
 
 export type PutInsightRuleError =
@@ -2996,6 +3092,8 @@ export const putInsightRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInsightRule",
+  telemetry: TELEMETRY,
+  span: "PutInsightRule",
 }));
 
 export type PutLogAlarmError = LimitExceededFault | ResourceConflict | CommonErrors;
@@ -3024,6 +3122,8 @@ export const putLogAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLogAlarm",
+  telemetry: TELEMETRY,
+  span: "PutLogAlarm",
 }));
 
 export type PutManagedInsightRulesError =
@@ -3052,6 +3152,8 @@ export const putManagedInsightRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedInsightRules",
+  telemetry: TELEMETRY,
+  span: "PutManagedInsightRules",
 }));
 
 export type PutMetricAlarmError = LimitExceededFault | CommonErrors;
@@ -3118,6 +3220,8 @@ export const putMetricAlarm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricAlarm",
+  telemetry: TELEMETRY,
+  span: "PutMetricAlarm",
 }));
 
 export type PutMetricDataError =
@@ -3198,6 +3302,8 @@ export const putMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricData",
+  telemetry: TELEMETRY,
+  span: "PutMetricData",
 }));
 
 export type PutMetricStreamError =
@@ -3262,6 +3368,8 @@ export const putMetricStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricStream",
+  telemetry: TELEMETRY,
+  span: "PutMetricStream",
 }));
 
 export type SetAlarmStateError = InvalidFormatFault | ResourceNotFound | CommonErrors;
@@ -3298,6 +3406,8 @@ export const setAlarmState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetAlarmState",
+  telemetry: TELEMETRY,
+  span: "SetAlarmState",
 }));
 
 export type StartMetricStreamsError =
@@ -3320,6 +3430,8 @@ export const startMetricStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetricStreams",
+  telemetry: TELEMETRY,
+  span: "StartMetricStreams",
 }));
 
 export type StartOTelEnrichmentError = ValidationException | CommonErrors;
@@ -3351,6 +3463,8 @@ export const startOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOTelEnrichment",
+  telemetry: TELEMETRY,
+  span: "StartOTelEnrichment",
 }));
 
 export type StopMetricStreamsError =
@@ -3373,6 +3487,8 @@ export const stopMetricStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMetricStreams",
+  telemetry: TELEMETRY,
+  span: "StopMetricStreams",
 }));
 
 export type StopOTelEnrichmentError = CommonErrors;
@@ -3393,6 +3509,8 @@ export const stopOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopOTelEnrichment",
+  telemetry: TELEMETRY,
+  span: "StopOTelEnrichment",
 }));
 
 export type TagResourceError =
@@ -3440,6 +3558,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3471,6 +3591,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateOTelEnrichmentError =
@@ -3501,6 +3623,8 @@ export const updateOTelEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOTelEnrichment",
+  telemetry: TELEMETRY,
+  span: "UpdateOTelEnrichment",
 }));
 
 export type UpdateResourceMetricsConfigurationError = ResourceNotFoundException | CommonErrors;
@@ -3534,6 +3658,8 @@ export const updateResourceMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceMetricsConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

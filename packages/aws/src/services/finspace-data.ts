@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://finspace-api.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "finspacedata",
+  service: "finspacedata",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -731,6 +746,8 @@ export const associateUserToPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUserToPermissionGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateUserToPermissionGroup",
 }));
 
 export type CreateChangesetError =
@@ -765,6 +782,8 @@ export const createChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChangeset",
+  telemetry: TELEMETRY,
+  span: "CreateChangeset",
 }));
 
 export type CreateDatasetError =
@@ -799,6 +818,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDataViewError =
@@ -831,6 +852,8 @@ export const createDataView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataView",
+  telemetry: TELEMETRY,
+  span: "CreateDataView",
 }));
 
 export type CreatePermissionGroupError =
@@ -863,6 +886,8 @@ export const createPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermissionGroup",
+  telemetry: TELEMETRY,
+  span: "CreatePermissionGroup",
 }));
 
 export type CreateUserError =
@@ -895,6 +920,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteDatasetError =
@@ -929,6 +956,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeletePermissionGroupError =
@@ -963,6 +992,8 @@ export const deletePermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionGroup",
+  telemetry: TELEMETRY,
+  span: "DeletePermissionGroup",
 }));
 
 export type DisableUserError =
@@ -995,6 +1026,8 @@ export const disableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableUser",
+  telemetry: TELEMETRY,
+  span: "DisableUser",
 }));
 
 export type DisassociateUserFromPermissionGroupError =
@@ -1027,6 +1060,8 @@ export const disassociateUserFromPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUserFromPermissionGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateUserFromPermissionGroup",
 }));
 
 export type EnableUserError =
@@ -1061,6 +1096,8 @@ export const enableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableUser",
+  telemetry: TELEMETRY,
+  span: "EnableUser",
 }));
 
 export type GetChangesetError =
@@ -1093,6 +1130,8 @@ export const getChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChangeset",
+  telemetry: TELEMETRY,
+  span: "GetChangeset",
 }));
 
 export type GetDatasetError =
@@ -1125,6 +1164,8 @@ export const getDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataset",
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetDataViewError =
@@ -1155,6 +1196,8 @@ export const getDataView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataView",
+  telemetry: TELEMETRY,
+  span: "GetDataView",
 }));
 
 export type GetExternalDataViewAccessDetailsError =
@@ -1189,6 +1232,8 @@ export const getExternalDataViewAccessDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExternalDataViewAccessDetails",
+  telemetry: TELEMETRY,
+  span: "GetExternalDataViewAccessDetails",
 }));
 
 export type GetPermissionGroupError =
@@ -1219,6 +1264,8 @@ export const getPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionGroup",
+  telemetry: TELEMETRY,
+  span: "GetPermissionGroup",
 }));
 
 export type GetProgrammaticAccessCredentialsError =
@@ -1247,6 +1294,8 @@ export const getProgrammaticAccessCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProgrammaticAccessCredentials",
+  telemetry: TELEMETRY,
+  span: "GetProgrammaticAccessCredentials",
 }));
 
 export type GetUserError =
@@ -1277,6 +1326,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetWorkingLocationError =
@@ -1306,6 +1357,8 @@ export const getWorkingLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkingLocation",
+  telemetry: TELEMETRY,
+  span: "GetWorkingLocation",
 }));
 
 export type ListChangesetsError =
@@ -1345,6 +1398,8 @@ export const listChangesets: API.PaginatedOperationMethod<
     items: "changesets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChangesets",
 })) as any;
 
 export type ListDatasetsError =
@@ -1382,6 +1437,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListDataViewsError =
@@ -1419,6 +1476,8 @@ export const listDataViews: API.PaginatedOperationMethod<
     items: "dataViews",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataViews",
 })) as any;
 
 export type ListPermissionGroupsError =
@@ -1454,6 +1513,8 @@ export const listPermissionGroups: API.PaginatedOperationMethod<
     items: "permissionGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissionGroups",
 })) as any;
 
 export type ListPermissionGroupsByUserError =
@@ -1484,6 +1545,8 @@ export const listPermissionGroupsByUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPermissionGroupsByUser",
+  telemetry: TELEMETRY,
+  span: "ListPermissionGroupsByUser",
 }));
 
 export type ListUsersError =
@@ -1519,6 +1582,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "users",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type ListUsersByPermissionGroupError =
@@ -1549,6 +1614,8 @@ export const listUsersByPermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsersByPermissionGroup",
+  telemetry: TELEMETRY,
+  span: "ListUsersByPermissionGroup",
 }));
 
 export type ResetUserPasswordError =
@@ -1581,6 +1648,8 @@ export const resetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetUserPassword",
+  telemetry: TELEMETRY,
+  span: "ResetUserPassword",
 }));
 
 export type UpdateChangesetError =
@@ -1613,6 +1682,8 @@ export const updateChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChangeset",
+  telemetry: TELEMETRY,
+  span: "UpdateChangeset",
 }));
 
 export type UpdateDatasetError =
@@ -1645,6 +1716,8 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdatePermissionGroupError =
@@ -1677,6 +1750,8 @@ export const updatePermissionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePermissionGroup",
+  telemetry: TELEMETRY,
+  span: "UpdatePermissionGroup",
 }));
 
 export type UpdateUserError =
@@ -1709,6 +1784,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

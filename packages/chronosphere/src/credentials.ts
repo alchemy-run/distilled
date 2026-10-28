@@ -26,7 +26,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "ChronosphereCredentials",
   ) {}
 
@@ -80,5 +80,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl: originFrom(domain),
       actor: process.env.CHRONOSPHERE_ACTOR,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

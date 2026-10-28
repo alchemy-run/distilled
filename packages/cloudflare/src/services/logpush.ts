@@ -44,6 +44,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   timestampFormat: "timestamp_format",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Logpush",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1373,6 +1387,8 @@ export const createEdge: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEdge",
 }));
 
 export type CreateJobForAccountError = CloudflareOpError;
@@ -1388,6 +1404,8 @@ export const createJobForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJobForAccount",
 }));
 
 export type CreateJobForZoneError = CloudflareOpError;
@@ -1403,6 +1421,8 @@ export const createJobForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateJobForZone",
 }));
 
 export type CreateOwnershipForAccountError = CloudflareOpError;
@@ -1418,6 +1438,8 @@ export const createOwnershipForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOwnershipForAccount",
 }));
 
 export type CreateOwnershipForZoneError = CloudflareOpError;
@@ -1433,6 +1455,8 @@ export const createOwnershipForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOwnershipForZone",
 }));
 
 export type CreateTransformerError = CloudflareOpError;
@@ -1448,6 +1472,8 @@ export const createTransformer: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransformer",
 }));
 
 export type DeleteJobForAccountError = JobNotFound | CloudflareOpError;
@@ -1463,6 +1489,8 @@ export const deleteJobForAccount: API.OperationMethod<
   errors: [JobNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJobForAccount",
 }));
 
 export type DeleteJobForZoneError = JobNotFound | CloudflareOpError;
@@ -1478,6 +1506,8 @@ export const deleteJobForZone: API.OperationMethod<
   errors: [JobNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteJobForZone",
 }));
 
 export type DeleteTransformerError = CloudflareOpError;
@@ -1493,6 +1523,8 @@ export const deleteTransformer: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTransformer",
 }));
 
 export type DestinationExistsValidateForAccountError = CloudflareOpError;
@@ -1508,6 +1540,8 @@ export const destinationExistsValidateForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestinationExistsValidateForAccount",
 }));
 
 export type DestinationExistsValidateForZoneError = CloudflareOpError;
@@ -1523,6 +1557,8 @@ export const destinationExistsValidateForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestinationExistsValidateForZone",
 }));
 
 export type DestinationValidateForAccountError = CloudflareOpError;
@@ -1538,6 +1574,8 @@ export const destinationValidateForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestinationValidateForAccount",
 }));
 
 export type DestinationValidateForZoneError = CloudflareOpError;
@@ -1553,6 +1591,8 @@ export const destinationValidateForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestinationValidateForZone",
 }));
 
 export type GetDatasetFieldForAccountError = CloudflareOpError;
@@ -1568,6 +1608,8 @@ export const getDatasetFieldForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetFieldForAccount",
 }));
 
 export type GetDatasetFieldForZoneError = CloudflareOpError;
@@ -1583,6 +1625,8 @@ export const getDatasetFieldForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetFieldForZone",
 }));
 
 export type GetDatasetJobForAccountError = CloudflareOpError;
@@ -1600,6 +1644,8 @@ export const getDatasetJobForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDatasetJobForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1620,6 +1666,8 @@ export const getDatasetJobForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDatasetJobForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1640,6 +1688,8 @@ export const getEdge: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetEdge",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1658,6 +1708,8 @@ export const getJobForAccount: API.OperationMethod<
   errors: [JobNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobForAccount",
 }));
 
 export type GetJobForZoneError = JobNotFound | Forbidden | CloudflareOpError;
@@ -1673,6 +1725,8 @@ export const getJobForZone: API.OperationMethod<
   errors: [JobNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobForZone",
 }));
 
 export type GetTransformerError = CloudflareOpError;
@@ -1688,6 +1742,8 @@ export const getTransformer: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformer",
 }));
 
 export type GetTransformersContentError = CloudflareOpError;
@@ -1703,6 +1759,8 @@ export const getTransformersContent: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransformersContent",
 }));
 
 export type ListJobsForAccountError = Forbidden | NotFound | CloudflareOpError;
@@ -1720,6 +1778,8 @@ export const listJobsForAccount: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListJobsForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1740,6 +1800,8 @@ export const listJobsForZone: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListJobsForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1758,6 +1820,8 @@ export const listTransformers: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransformers",
 }));
 
 export type ListTransformersVersionsError = CloudflareOpError;
@@ -1773,6 +1837,8 @@ export const listTransformersVersions: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransformersVersions",
 }));
 
 export type OriginValidateForAccountError = CloudflareOpError;
@@ -1788,6 +1854,8 @@ export const originValidateForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginValidateForAccount",
 }));
 
 export type OriginValidateForZoneError = CloudflareOpError;
@@ -1803,6 +1871,8 @@ export const originValidateForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OriginValidateForZone",
 }));
 
 export type PreviewTransformerError = CloudflareOpError;
@@ -1818,6 +1888,8 @@ export const previewTransformer: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewTransformer",
 }));
 
 export type UpdateJobForAccountError = CloudflareOpError;
@@ -1833,6 +1905,8 @@ export const updateJobForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJobForAccount",
 }));
 
 export type UpdateJobForZoneError = CloudflareOpError;
@@ -1848,6 +1922,8 @@ export const updateJobForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJobForZone",
 }));
 
 export type UpdateTransformerError = CloudflareOpError;
@@ -1863,6 +1939,8 @@ export const updateTransformer: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransformer",
 }));
 
 export type ValidateOwnershipForAccountError = CloudflareOpError;
@@ -1878,6 +1956,8 @@ export const validateOwnershipForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateOwnershipForAccount",
 }));
 
 export type ValidateOwnershipForZoneError = CloudflareOpError;
@@ -1893,6 +1973,8 @@ export const validateOwnershipForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateOwnershipForZone",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

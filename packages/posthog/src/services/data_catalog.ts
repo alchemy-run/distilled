@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "DataCatalog",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -496,6 +509,8 @@ export const createDataCatalogCertification: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataCatalogCertification",
 }));
 
 export type CreateDataCatalogCertificationsCertifyError = PosthogOpError;
@@ -511,6 +526,8 @@ export const createDataCatalogCertificationsCertify: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataCatalogCertificationsCertify",
 }));
 
 export type CreateDataCatalogCertificationsDeprecateError = PosthogOpError;
@@ -526,6 +543,8 @@ export const createDataCatalogCertificationsDeprecate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataCatalogCertificationsDeprecate",
 }));
 
 export type CreateDataCatalogMetricsError = PosthogOpError;
@@ -541,6 +560,8 @@ export const createDataCatalogMetrics: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataCatalogMetrics",
 }));
 
 export type CreateDataCatalogMetricsRunError = BadRequest | PosthogOpError;
@@ -556,6 +577,8 @@ export const createDataCatalogMetricsRun: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataCatalogMetricsRun",
 }));
 
 export type CreateDataCatalogRelationshipProposalError = PosthogOpError;
@@ -571,6 +594,8 @@ export const createDataCatalogRelationshipProposal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataCatalogRelationshipProposal",
 }));
 
 export type DataCatalogCertificationsDestroyError = PosthogOpError;
@@ -586,6 +611,8 @@ export const dataCatalogCertificationsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataCatalogCertificationsDestroy",
 }));
 
 export type DataCatalogMetricsApproveCreateError = PosthogOpError;
@@ -601,6 +628,8 @@ export const dataCatalogMetricsApproveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataCatalogMetricsApproveCreate",
 }));
 
 export type DataCatalogMetricsBulkApproveCreateError = PosthogOpError;
@@ -616,6 +645,8 @@ export const dataCatalogMetricsBulkApproveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataCatalogMetricsBulkApproveCreate",
 }));
 
 export type DataCatalogMetricsBulkDeleteCreateError = PosthogOpError;
@@ -631,6 +662,8 @@ export const dataCatalogMetricsBulkDeleteCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataCatalogMetricsBulkDeleteCreate",
 }));
 
 export type DataCatalogMetricsDestroyError = PosthogOpError;
@@ -646,6 +679,8 @@ export const dataCatalogMetricsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataCatalogMetricsDestroy",
 }));
 
 export type DataCatalogMetricsRefreshFromInsightCreateError = PosthogOpError;
@@ -661,6 +696,8 @@ export const dataCatalogMetricsRefreshFromInsightCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataCatalogMetricsRefreshFromInsightCreate",
 }));
 
 export type DataCatalogRelationshipProposalsAcceptCreateError = PosthogOpError;
@@ -676,6 +713,8 @@ export const dataCatalogRelationshipProposalsAcceptCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataCatalogRelationshipProposalsAcceptCreate",
 }));
 
 export type DataCatalogRelationshipProposalsRejectCreateError = PosthogOpError;
@@ -691,6 +730,8 @@ export const dataCatalogRelationshipProposalsRejectCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataCatalogRelationshipProposalsRejectCreate",
 }));
 
 export type GetDataCatalogCertificationError = PosthogOpError;
@@ -706,6 +747,8 @@ export const getDataCatalogCertification: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataCatalogCertification",
 }));
 
 export type GetDataCatalogMetricsError = PosthogOpError;
@@ -721,6 +764,8 @@ export const getDataCatalogMetrics: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataCatalogMetrics",
 }));
 
 export type GetDataCatalogRelationshipProposalError = PosthogOpError;
@@ -736,6 +781,8 @@ export const getDataCatalogRelationshipProposal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataCatalogRelationshipProposal",
 }));
 
 export type ListDataCatalogCertificationsError = PosthogOpError;
@@ -751,6 +798,8 @@ export const listDataCatalogCertifications: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataCatalogCertifications",
 }));
 
 export type ListDataCatalogMetricsError = PosthogOpError;
@@ -766,6 +815,8 @@ export const listDataCatalogMetrics: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataCatalogMetrics",
 }));
 
 export type ListDataCatalogRelationshipProposalsError = PosthogOpError;
@@ -781,6 +832,8 @@ export const listDataCatalogRelationshipProposals: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataCatalogRelationshipProposals",
 }));
 
 export type UpdateDataCatalogMetricsError = PosthogOpError;
@@ -796,6 +849,8 @@ export const updateDataCatalogMetrics: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataCatalogMetrics",
 }));
 
 export type UpdateDataCatalogMetricsPartialError = PosthogOpError;
@@ -811,6 +866,8 @@ export const updateDataCatalogMetricsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataCatalogMetricsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Surveys",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1322,6 +1335,8 @@ export const createSurvey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSurvey",
 }));
 
 export type CreateSurveysSummarizeResponseError =
@@ -1341,6 +1356,8 @@ export const createSurveysSummarizeResponse: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSurveysSummarizeResponse",
 }));
 
 export type CreateSurveysSummaryHeadlineError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1356,6 +1373,8 @@ export const createSurveysSummaryHeadline: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSurveysSummaryHeadline",
 }));
 
 export type GetSurveyError = Forbidden | NotFound | PosthogOpError;
@@ -1371,6 +1390,8 @@ export const getSurvey: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurvey",
 }));
 
 export type GetSurveysActivityError = Forbidden | NotFound | PosthogOpError;
@@ -1386,6 +1407,8 @@ export const getSurveysActivity: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurveysActivity",
 }));
 
 export type GetSurveysAllActivityError = Forbidden | NotFound | PosthogOpError;
@@ -1401,6 +1424,8 @@ export const getSurveysAllActivity: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurveysAllActivity",
 }));
 
 export type GetSurveysArchivedResponseUuidError = Forbidden | NotFound | PosthogOpError;
@@ -1416,6 +1441,8 @@ export const getSurveysArchivedResponseUuid: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurveysArchivedResponseUuid",
 }));
 
 export type GetSurveysGlobalStatError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1431,6 +1458,8 @@ export const getSurveysGlobalStat: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurveysGlobalStat",
 }));
 
 export type GetSurveysResponsesCountError = Forbidden | NotFound | PosthogOpError;
@@ -1446,6 +1475,8 @@ export const getSurveysResponsesCount: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurveysResponsesCount",
 }));
 
 export type GetSurveysStatError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1461,6 +1492,8 @@ export const getSurveysStat: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurveysStat",
 }));
 
 export type ListSurveysError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1476,6 +1509,8 @@ export const listSurveys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSurveys",
 }));
 
 export type ListSurveysResponsesError = PosthogOpError;
@@ -1491,6 +1526,8 @@ export const listSurveysResponses: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSurveysResponses",
 }));
 
 export type StopSurveyError = PosthogOpError;
@@ -1506,6 +1543,8 @@ export const stopSurvey: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSurvey",
 }));
 
 export type SurveysDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -1521,6 +1560,8 @@ export const surveysDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SurveysDestroy",
 }));
 
 export type SurveysDuplicateToProjectsCreateError =
@@ -1540,6 +1581,8 @@ export const surveysDuplicateToProjectsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SurveysDuplicateToProjectsCreate",
 }));
 
 export type SurveysGenerateTranslationsCreateError = PosthogOpError;
@@ -1555,6 +1598,8 @@ export const surveysGenerateTranslationsCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SurveysGenerateTranslationsCreate",
 }));
 
 export type SurveysLaunchError = PosthogOpError;
@@ -1570,6 +1615,8 @@ export const surveysLaunch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SurveysLaunch",
 }));
 
 export type SurveysQuestionLabelsError = PosthogOpError;
@@ -1585,6 +1632,8 @@ export const surveysQuestionLabels: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SurveysQuestionLabels",
 }));
 
 export type SurveysResponsesArchiveCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1600,6 +1649,8 @@ export const surveysResponsesArchiveCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SurveysResponsesArchiveCreate",
 }));
 
 export type SurveysResponsesUnarchiveCreateError =
@@ -1619,6 +1670,8 @@ export const surveysResponsesUnarchiveCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SurveysResponsesUnarchiveCreate",
 }));
 
 export type UpdateSurveyError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1634,6 +1687,8 @@ export const updateSurvey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSurvey",
 }));
 
 export type UpdateSurveysPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1649,6 +1704,8 @@ export const updateSurveysPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSurveysPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

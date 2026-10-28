@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://vpc-lattice.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "VPCLattice",
+  service: "VPCLattice",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1521,6 +1536,8 @@ export const batchUpdateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateRule",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateRule",
 }));
 
 export type CreateAccessLogSubscriptionError =
@@ -1553,6 +1570,8 @@ export const createAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessLogSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateAccessLogSubscription",
 }));
 
 export type CreateListenerError =
@@ -1587,6 +1606,8 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
+  telemetry: TELEMETRY,
+  span: "CreateListener",
 }));
 
 export type CreateResourceConfigurationError =
@@ -1621,6 +1642,8 @@ export const createResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateResourceConfiguration",
 }));
 
 export type CreateResourceGatewayError =
@@ -1655,6 +1678,8 @@ export const createResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceGateway",
+  telemetry: TELEMETRY,
+  span: "CreateResourceGateway",
 }));
 
 export type CreateRuleError =
@@ -1689,6 +1714,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateServiceError =
@@ -1725,6 +1752,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateServiceNetworkError =
@@ -1761,6 +1790,8 @@ export const createServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateServiceNetwork",
 }));
 
 export type CreateServiceNetworkResourceAssociationError =
@@ -1795,6 +1826,8 @@ export const createServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateServiceNetworkResourceAssociation",
 }));
 
 export type CreateServiceNetworkServiceAssociationError =
@@ -1835,6 +1868,8 @@ export const createServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkServiceAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateServiceNetworkServiceAssociation",
 }));
 
 export type CreateServiceNetworkVpcAssociationError =
@@ -1875,6 +1910,8 @@ export const createServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceNetworkVpcAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateServiceNetworkVpcAssociation",
 }));
 
 export type CreateTargetGroupError =
@@ -1911,6 +1948,8 @@ export const createTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateTargetGroup",
 }));
 
 export type DeleteAccessLogSubscriptionError =
@@ -1941,6 +1980,8 @@ export const deleteAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessLogSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessLogSubscription",
 }));
 
 export type DeleteAuthPolicyError =
@@ -1971,6 +2012,8 @@ export const deleteAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteAuthPolicy",
 }));
 
 export type DeleteDomainVerificationError =
@@ -2001,6 +2044,8 @@ export const deleteDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainVerification",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainVerification",
 }));
 
 export type DeleteListenerError =
@@ -2033,6 +2078,8 @@ export const deleteListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
+  telemetry: TELEMETRY,
+  span: "DeleteListener",
 }));
 
 export type DeleteResourceConfigurationError =
@@ -2065,6 +2112,8 @@ export const deleteResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceConfiguration",
 }));
 
 export type DeleteResourceEndpointAssociationError =
@@ -2095,6 +2144,8 @@ export const deleteResourceEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceEndpointAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceEndpointAssociation",
 }));
 
 export type DeleteResourceGatewayError =
@@ -2127,6 +2178,8 @@ export const deleteResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceGateway",
 }));
 
 export type DeleteResourcePolicyError =
@@ -2157,6 +2210,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRuleError =
@@ -2191,6 +2246,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteServiceError =
@@ -2223,6 +2280,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteServiceNetworkError =
@@ -2255,6 +2314,8 @@ export const deleteServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNetwork",
 }));
 
 export type DeleteServiceNetworkResourceAssociationError =
@@ -2287,6 +2348,8 @@ export const deleteServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNetworkResourceAssociation",
 }));
 
 export type DeleteServiceNetworkServiceAssociationError =
@@ -2319,6 +2382,8 @@ export const deleteServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkServiceAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNetworkServiceAssociation",
 }));
 
 export type DeleteServiceNetworkVpcAssociationError =
@@ -2351,6 +2416,8 @@ export const deleteServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceNetworkVpcAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceNetworkVpcAssociation",
 }));
 
 export type DeleteTargetGroupError =
@@ -2381,6 +2448,8 @@ export const deleteTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteTargetGroup",
 }));
 
 export type DeregisterTargetsError =
@@ -2413,6 +2482,8 @@ export const deregisterTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargets",
+  telemetry: TELEMETRY,
+  span: "DeregisterTargets",
 }));
 
 export type GetAccessLogSubscriptionError =
@@ -2443,6 +2514,8 @@ export const getAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessLogSubscription",
+  telemetry: TELEMETRY,
+  span: "GetAccessLogSubscription",
 }));
 
 export type GetAuthPolicyError =
@@ -2473,6 +2546,8 @@ export const getAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthPolicy",
+  telemetry: TELEMETRY,
+  span: "GetAuthPolicy",
 }));
 
 export type GetDomainVerificationError =
@@ -2503,6 +2578,8 @@ export const getDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainVerification",
+  telemetry: TELEMETRY,
+  span: "GetDomainVerification",
 }));
 
 export type GetListenerError =
@@ -2533,6 +2610,8 @@ export const getListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListener",
+  telemetry: TELEMETRY,
+  span: "GetListener",
 }));
 
 export type GetResourceConfigurationError =
@@ -2563,6 +2642,8 @@ export const getResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetResourceConfiguration",
 }));
 
 export type GetResourceGatewayError =
@@ -2593,6 +2674,8 @@ export const getResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceGateway",
+  telemetry: TELEMETRY,
+  span: "GetResourceGateway",
 }));
 
 export type GetResourcePolicyError =
@@ -2623,6 +2706,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetRuleError =
@@ -2653,6 +2738,8 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetServiceError =
@@ -2683,6 +2770,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceNetworkError =
@@ -2713,6 +2802,8 @@ export const getServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetwork",
+  telemetry: TELEMETRY,
+  span: "GetServiceNetwork",
 }));
 
 export type GetServiceNetworkResourceAssociationError =
@@ -2743,6 +2834,8 @@ export const getServiceNetworkResourceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkResourceAssociation",
+  telemetry: TELEMETRY,
+  span: "GetServiceNetworkResourceAssociation",
 }));
 
 export type GetServiceNetworkServiceAssociationError =
@@ -2773,6 +2866,8 @@ export const getServiceNetworkServiceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkServiceAssociation",
+  telemetry: TELEMETRY,
+  span: "GetServiceNetworkServiceAssociation",
 }));
 
 export type GetServiceNetworkVpcAssociationError =
@@ -2803,6 +2898,8 @@ export const getServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceNetworkVpcAssociation",
+  telemetry: TELEMETRY,
+  span: "GetServiceNetworkVpcAssociation",
 }));
 
 export type GetTargetGroupError =
@@ -2833,6 +2930,8 @@ export const getTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetGroup",
+  telemetry: TELEMETRY,
+  span: "GetTargetGroup",
 }));
 
 export type ListAccessLogSubscriptionsError =
@@ -2870,6 +2969,8 @@ export const listAccessLogSubscriptions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessLogSubscriptions",
 })) as any;
 
 export type ListDomainVerificationsError =
@@ -2907,6 +3008,8 @@ export const listDomainVerifications: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainVerifications",
 })) as any;
 
 export type ListListenersError =
@@ -2944,6 +3047,8 @@ export const listListeners: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListListeners",
 })) as any;
 
 export type ListResourceConfigurationsError =
@@ -2979,6 +3084,8 @@ export const listResourceConfigurations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceConfigurations",
 })) as any;
 
 export type ListResourceEndpointAssociationsError =
@@ -3014,6 +3121,8 @@ export const listResourceEndpointAssociations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceEndpointAssociations",
 })) as any;
 
 export type ListResourceGatewaysError =
@@ -3049,6 +3158,8 @@ export const listResourceGateways: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceGateways",
 })) as any;
 
 export type ListRulesError =
@@ -3086,6 +3197,8 @@ export const listRules: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 })) as any;
 
 export type ListServiceNetworkResourceAssociationsError =
@@ -3121,6 +3234,8 @@ export const listServiceNetworkResourceAssociations: API.PaginatedOperationMetho
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworkResourceAssociations",
 })) as any;
 
 export type ListServiceNetworksError =
@@ -3156,6 +3271,8 @@ export const listServiceNetworks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworks",
 })) as any;
 
 export type ListServiceNetworkServiceAssociationsError =
@@ -3193,6 +3310,8 @@ export const listServiceNetworkServiceAssociations: API.PaginatedOperationMethod
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworkServiceAssociations",
 })) as any;
 
 export type ListServiceNetworkVpcAssociationsError =
@@ -3228,6 +3347,8 @@ export const listServiceNetworkVpcAssociations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworkVpcAssociations",
 })) as any;
 
 export type ListServiceNetworkVpcEndpointAssociationsError =
@@ -3263,6 +3384,8 @@ export const listServiceNetworkVpcEndpointAssociations: API.PaginatedOperationMe
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceNetworkVpcEndpointAssociations",
 })) as any;
 
 export type ListServicesError =
@@ -3298,6 +3421,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3326,6 +3451,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetGroupsError =
@@ -3361,6 +3488,8 @@ export const listTargetGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetGroups",
 })) as any;
 
 export type ListTargetsError =
@@ -3398,6 +3527,8 @@ export const listTargets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargets",
 })) as any;
 
 export type PutAuthPolicyError =
@@ -3430,6 +3561,8 @@ export const putAuthPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAuthPolicy",
+  telemetry: TELEMETRY,
+  span: "PutAuthPolicy",
 }));
 
 export type PutResourcePolicyError =
@@ -3460,6 +3593,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterTargetsError =
@@ -3494,6 +3629,8 @@ export const registerTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargets",
+  telemetry: TELEMETRY,
+  span: "RegisterTargets",
 }));
 
 export type StartDomainVerificationError =
@@ -3526,6 +3663,8 @@ export const startDomainVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainVerification",
+  telemetry: TELEMETRY,
+  span: "StartDomainVerification",
 }));
 
 export type TagResourceError =
@@ -3556,6 +3695,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3584,6 +3725,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessLogSubscriptionError =
@@ -3616,6 +3759,8 @@ export const updateAccessLogSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessLogSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessLogSubscription",
 }));
 
 export type UpdateListenerError =
@@ -3650,6 +3795,8 @@ export const updateListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateListener",
+  telemetry: TELEMETRY,
+  span: "UpdateListener",
 }));
 
 export type UpdateResourceConfigurationError =
@@ -3682,6 +3829,8 @@ export const updateResourceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceConfiguration",
 }));
 
 export type UpdateResourceGatewayError =
@@ -3714,6 +3863,8 @@ export const updateResourceGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceGateway",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceGateway",
 }));
 
 export type UpdateRuleError =
@@ -3748,6 +3899,8 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateServiceError =
@@ -3782,6 +3935,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateServiceNetworkError =
@@ -3814,6 +3969,8 @@ export const updateServiceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceNetwork",
 }));
 
 export type UpdateServiceNetworkVpcAssociationError =
@@ -3846,6 +4003,8 @@ export const updateServiceNetworkVpcAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceNetworkVpcAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceNetworkVpcAssociation",
 }));
 
 export type UpdateTargetGroupError =
@@ -3880,6 +4039,8 @@ export const updateTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateTargetGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

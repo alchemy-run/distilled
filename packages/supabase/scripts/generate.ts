@@ -67,6 +67,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Supabase Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts — there are no smithy-model patches.

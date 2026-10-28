@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -72,6 +73,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://voiceid.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "VoiceID",
+  service: "VoiceID",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -636,6 +652,8 @@ export const associateFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFraudster",
+  telemetry: TELEMETRY,
+  span: "AssociateFraudster",
 }));
 
 export type CreateDomainError =
@@ -671,6 +689,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateWatchlistError =
@@ -705,6 +725,8 @@ export const createWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWatchlist",
+  telemetry: TELEMETRY,
+  span: "CreateWatchlist",
 }));
 
 export type DeleteDomainError =
@@ -737,6 +759,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteFraudsterError =
@@ -769,6 +793,8 @@ export const deleteFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFraudster",
+  telemetry: TELEMETRY,
+  span: "DeleteFraudster",
 }));
 
 export type DeleteSpeakerError =
@@ -801,6 +827,8 @@ export const deleteSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpeaker",
+  telemetry: TELEMETRY,
+  span: "DeleteSpeaker",
 }));
 
 export type DeleteWatchlistError =
@@ -835,6 +863,8 @@ export const deleteWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWatchlist",
+  telemetry: TELEMETRY,
+  span: "DeleteWatchlist",
 }));
 
 export type DescribeDomainError =
@@ -865,6 +895,8 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribeFraudsterError =
@@ -895,6 +927,8 @@ export const describeFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFraudster",
+  telemetry: TELEMETRY,
+  span: "DescribeFraudster",
 }));
 
 export type DescribeFraudsterRegistrationJobError =
@@ -925,6 +959,8 @@ export const describeFraudsterRegistrationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFraudsterRegistrationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeFraudsterRegistrationJob",
 }));
 
 export type DescribeSpeakerError =
@@ -955,6 +991,8 @@ export const describeSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpeaker",
+  telemetry: TELEMETRY,
+  span: "DescribeSpeaker",
 }));
 
 export type DescribeSpeakerEnrollmentJobError =
@@ -985,6 +1023,8 @@ export const describeSpeakerEnrollmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpeakerEnrollmentJob",
+  telemetry: TELEMETRY,
+  span: "DescribeSpeakerEnrollmentJob",
 }));
 
 export type DescribeWatchlistError =
@@ -1015,6 +1055,8 @@ export const describeWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWatchlist",
+  telemetry: TELEMETRY,
+  span: "DescribeWatchlist",
 }));
 
 export type DisassociateFraudsterError =
@@ -1049,6 +1091,8 @@ export const disassociateFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFraudster",
+  telemetry: TELEMETRY,
+  span: "DisassociateFraudster",
 }));
 
 export type EvaluateSessionError =
@@ -1082,6 +1126,8 @@ export const evaluateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateSession",
+  telemetry: TELEMETRY,
+  span: "EvaluateSession",
 }));
 
 export type ListDomainsError =
@@ -1117,6 +1163,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "DomainSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListFraudsterRegistrationJobsError =
@@ -1156,6 +1204,8 @@ export const listFraudsterRegistrationJobs: API.PaginatedOperationMethod<
     items: "JobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFraudsterRegistrationJobs",
 })) as any;
 
 export type ListFraudstersError =
@@ -1193,6 +1243,8 @@ export const listFraudsters: API.PaginatedOperationMethod<
     items: "FraudsterSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFraudsters",
 })) as any;
 
 export type ListSpeakerEnrollmentJobsError =
@@ -1232,6 +1284,8 @@ export const listSpeakerEnrollmentJobs: API.PaginatedOperationMethod<
     items: "JobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpeakerEnrollmentJobs",
 })) as any;
 
 export type ListSpeakersError =
@@ -1269,6 +1323,8 @@ export const listSpeakers: API.PaginatedOperationMethod<
     items: "SpeakerSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpeakers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1299,6 +1355,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWatchlistsError =
@@ -1336,6 +1394,8 @@ export const listWatchlists: API.PaginatedOperationMethod<
     items: "WatchlistSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWatchlists",
 })) as any;
 
 export type OptOutSpeakerError =
@@ -1375,6 +1435,8 @@ export const optOutSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptOutSpeaker",
+  telemetry: TELEMETRY,
+  span: "OptOutSpeaker",
 }));
 
 export type StartFraudsterRegistrationJobError =
@@ -1409,6 +1471,8 @@ export const startFraudsterRegistrationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFraudsterRegistrationJob",
+  telemetry: TELEMETRY,
+  span: "StartFraudsterRegistrationJob",
 }));
 
 export type StartSpeakerEnrollmentJobError =
@@ -1443,6 +1507,8 @@ export const startSpeakerEnrollmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeakerEnrollmentJob",
+  telemetry: TELEMETRY,
+  span: "StartSpeakerEnrollmentJob",
 }));
 
 export type TagResourceError =
@@ -1475,6 +1541,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1507,6 +1575,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDomainError =
@@ -1541,6 +1611,8 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateWatchlistError =
@@ -1573,6 +1645,8 @@ export const updateWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWatchlist",
+  telemetry: TELEMETRY,
+  span: "UpdateWatchlist",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

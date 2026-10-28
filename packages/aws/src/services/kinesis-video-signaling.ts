@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kinesisvideo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KinesisVideoSignaling",
+  service: "KinesisVideoSignaling",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClientLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ClientLimitExceededException>()(
@@ -194,6 +209,8 @@ export const getIceServerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIceServerConfig",
+  telemetry: TELEMETRY,
+  span: "GetIceServerConfig",
 }));
 
 export type SendAlexaOfferToMasterError =
@@ -227,6 +244,8 @@ export const sendAlexaOfferToMaster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAlexaOfferToMaster",
+  telemetry: TELEMETRY,
+  span: "SendAlexaOfferToMaster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

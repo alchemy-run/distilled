@@ -17,6 +17,19 @@ const __s: any[] = [];
 
 export type { LaunchDarklyOpError, LaunchDarklyOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "launchdarkly-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "LaunchDarkly",
+  service: "LaunchDarkly",
+  labels: "launchdarkly",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -11712,6 +11725,8 @@ export const associateRepositoriesAndProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssociateRepositoriesAndProjects",
 }));
 
 export type CopyFeatureFlagError = BadRequest | Conflict | LaunchDarklyOpError;
@@ -11727,6 +11742,8 @@ export const copyFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyFeatureFlag",
 }));
 
 export type CreateAnnouncementPublicError =
@@ -11747,6 +11764,8 @@ export const createAnnouncementPublic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAnnouncementPublic",
 }));
 
 export type CreateApprovalRequestError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -11762,6 +11781,8 @@ export const createApprovalRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApprovalRequest",
 }));
 
 export type CreateApprovalRequestApplyError =
@@ -11781,6 +11802,8 @@ export const createApprovalRequestApply: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApprovalRequestApply",
 }));
 
 export type CreateApprovalRequestReviewError =
@@ -11800,6 +11823,8 @@ export const createApprovalRequestReview: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApprovalRequestReview",
 }));
 
 export type CreateBigSegmentExportError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -11815,6 +11840,8 @@ export const createBigSegmentExport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBigSegmentExport",
 }));
 
 export type CreateBigSegmentImportError = BadRequest | NotFound | Conflict | LaunchDarklyOpError;
@@ -11830,6 +11857,8 @@ export const createBigSegmentImport: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBigSegmentImport",
 }));
 
 export type CreateBigSegmentStoreIntegrationError =
@@ -11850,6 +11879,8 @@ export const createBigSegmentStoreIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBigSegmentStoreIntegration",
 }));
 
 export type CreateDeploymentEventError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -11865,6 +11896,8 @@ export const createDeploymentEvent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentEvent",
 }));
 
 export type CreateExperimentError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -11880,6 +11913,8 @@ export const createExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperiment",
 }));
 
 export type CreateFlagImportConfigurationError =
@@ -11900,6 +11935,8 @@ export const createFlagImportConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlagImportConfiguration",
 }));
 
 export type CreateFlagLinkError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -11915,6 +11952,8 @@ export const createFlagLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFlagLink",
 }));
 
 export type CreateInsightGroupError =
@@ -11935,6 +11974,8 @@ export const createInsightGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightGroup",
 }));
 
 export type CreateIntegrationConfigurationError =
@@ -11955,6 +11996,8 @@ export const createIntegrationConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationConfiguration",
 }));
 
 export type CreateIntegrationDeliveryConfigurationError =
@@ -11974,6 +12017,8 @@ export const createIntegrationDeliveryConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationDeliveryConfiguration",
 }));
 
 export type CreateIpAllowlistEntryError =
@@ -11994,6 +12039,8 @@ export const createIpAllowlistEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpAllowlistEntry",
 }));
 
 export type CreateLayerError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12009,6 +12056,8 @@ export const createLayer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLayer",
 }));
 
 export type CreateMemberError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -12024,6 +12073,8 @@ export const createMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMember",
 }));
 
 export type CreateMemberTeamError =
@@ -12044,6 +12095,8 @@ export const createMemberTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMemberTeam",
 }));
 
 export type CreateMetricGroupError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12059,6 +12112,8 @@ export const createMetricGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetricGroup",
 }));
 
 export type CreateOAuth2ClientError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -12074,6 +12129,8 @@ export const createOAuth2Client: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOAuth2Client",
 }));
 
 export type CreateProjectError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -12089,6 +12146,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateReleaseForFlagError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -12104,6 +12163,8 @@ export const createReleaseForFlag: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReleaseForFlag",
 }));
 
 export type CreateSubscriptionError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12119,6 +12180,8 @@ export const createSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateTeamError = BadRequest | LaunchDarklyOpError;
@@ -12134,6 +12197,8 @@ export const createTeam: API.OperationMethod<
   errors: [BadRequest, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeam",
 }));
 
 export type CreateTeamMemberError = BadRequest | LaunchDarklyOpError;
@@ -12149,6 +12214,8 @@ export const createTeamMember: API.OperationMethod<
   errors: [BadRequest, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamMember",
 }));
 
 export type CreateTokenError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -12164,6 +12231,8 @@ export const createToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type CreateTriggerWorkflowError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12179,6 +12248,8 @@ export const createTriggerWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTriggerWorkflow",
 }));
 
 export type CreateViewError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12194,6 +12265,8 @@ export const createView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateView",
 }));
 
 export type CreateWebhookError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -12209,6 +12282,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type CreateWorkflowTemplateError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -12224,6 +12299,8 @@ export const createWorkflowTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowTemplate",
 }));
 
 export type DeleteAdaptiveTriggerError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12239,6 +12316,8 @@ export const deleteAdaptiveTrigger: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdaptiveTrigger",
 }));
 
 export type DeleteAgentGraphError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12254,6 +12333,8 @@ export const deleteAgentGraph: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentGraph",
 }));
 
 export type DeleteAgentOptimizationError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12269,6 +12350,8 @@ export const deleteAgentOptimization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentOptimization",
 }));
 
 export type DeleteAgentOptimizationRunError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12284,6 +12367,8 @@ export const deleteAgentOptimizationRun: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentOptimizationRun",
 }));
 
 export type DeleteAgentSkillError = Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -12299,6 +12384,8 @@ export const deleteAgentSkill: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAgentSkill",
 }));
 
 export type DeleteAIConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12314,6 +12401,8 @@ export const deleteAIConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAIConfig",
 }));
 
 export type DeleteAIConfigVariationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12329,6 +12418,8 @@ export const deleteAIConfigVariation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAIConfigVariation",
 }));
 
 export type DeleteAIToolError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12344,6 +12435,8 @@ export const deleteAITool: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAITool",
 }));
 
 export type DeleteAnnouncementPublicError = NotFound | LaunchDarklyOpError;
@@ -12359,6 +12452,8 @@ export const deleteAnnouncementPublic: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAnnouncementPublic",
 }));
 
 export type DeleteApplicationError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12374,6 +12469,8 @@ export const deleteApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationVersionError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12389,6 +12486,8 @@ export const deleteApplicationVersion: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationVersion",
 }));
 
 export type DeleteApprovalRequestError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12404,6 +12503,8 @@ export const deleteApprovalRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApprovalRequest",
 }));
 
 export type DeleteApprovalRequestForFlagError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12419,6 +12520,8 @@ export const deleteApprovalRequestForFlag: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApprovalRequestForFlag",
 }));
 
 export type DeleteBigSegmentStoreIntegrationError =
@@ -12438,6 +12541,8 @@ export const deleteBigSegmentStoreIntegration: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBigSegmentStoreIntegration",
 }));
 
 export type DeleteBranchesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12453,6 +12558,8 @@ export const deleteBranches: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranches",
 }));
 
 export type DeleteCustomRoleError = NotFound | LaunchDarklyOpError;
@@ -12468,6 +12575,8 @@ export const deleteCustomRole: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRole",
 }));
 
 export type DeleteDestinationError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12483,6 +12592,8 @@ export const deleteDestination: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDestination",
 }));
 
 export type DeleteEnvironmentError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12498,6 +12609,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteFeatureFlagError = NotFound | Conflict | LaunchDarklyOpError;
@@ -12513,6 +12626,8 @@ export const deleteFeatureFlag: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFeatureFlag",
 }));
 
 export type DeleteFlagConfigScheduledChangesError =
@@ -12532,6 +12647,8 @@ export const deleteFlagConfigScheduledChanges: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlagConfigScheduledChanges",
 }));
 
 export type DeleteFlagFollowerError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12547,6 +12664,8 @@ export const deleteFlagFollower: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlagFollower",
 }));
 
 export type DeleteFlagImportConfigurationError =
@@ -12566,6 +12685,8 @@ export const deleteFlagImportConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlagImportConfiguration",
 }));
 
 export type DeleteFlagLinkError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12581,6 +12702,8 @@ export const deleteFlagLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlagLink",
 }));
 
 export type DeleteInsightGroupError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12596,6 +12719,8 @@ export const deleteInsightGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInsightGroup",
 }));
 
 export type DeleteIntegrationConfigurationError =
@@ -12615,6 +12740,8 @@ export const deleteIntegrationConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationConfiguration",
 }));
 
 export type DeleteIntegrationDeliveryConfigurationError =
@@ -12634,6 +12761,8 @@ export const deleteIntegrationDeliveryConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationDeliveryConfiguration",
 }));
 
 export type DeleteIpAllowlistEntryError =
@@ -12654,6 +12783,8 @@ export const deleteIpAllowlistEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpAllowlistEntry",
 }));
 
 export type DeleteMemberError = Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -12669,6 +12800,8 @@ export const deleteMember: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DeleteMetricError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12684,6 +12817,8 @@ export const deleteMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetric",
 }));
 
 export type DeleteMetricGroupError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12699,6 +12834,8 @@ export const deleteMetricGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetricGroup",
 }));
 
 export type DeleteModelConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12714,6 +12851,8 @@ export const deleteModelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteModelConfig",
 }));
 
 export type DeleteOAuthClientError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12729,6 +12868,8 @@ export const deleteOAuthClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOAuthClient",
 }));
 
 export type DeleteProjectError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12744,6 +12885,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeletePromptSnippetError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12759,6 +12902,8 @@ export const deletePromptSnippet: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePromptSnippet",
 }));
 
 export type DeleteRelayAutoConfigError = NotFound | Conflict | LaunchDarklyOpError;
@@ -12774,6 +12919,8 @@ export const deleteRelayAutoConfig: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRelayAutoConfig",
 }));
 
 export type DeleteReleaseByFlagKeyError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12789,6 +12936,8 @@ export const deleteReleaseByFlagKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReleaseByFlagKey",
 }));
 
 export type DeleteReleasePipelineError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12804,6 +12953,8 @@ export const deleteReleasePipeline: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReleasePipeline",
 }));
 
 export type DeleteReleasePolicyError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12819,6 +12970,8 @@ export const deleteReleasePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReleasePolicy",
 }));
 
 export type DeleteRepositoryError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12834,6 +12987,8 @@ export const deleteRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteRepositoryProjectError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12849,6 +13004,8 @@ export const deleteRepositoryProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryProject",
 }));
 
 export type DeleteRestrictedModelsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12864,6 +13021,8 @@ export const deleteRestrictedModels: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRestrictedModels",
 }));
 
 export type DeleteSdkKeyByKeyError =
@@ -12884,6 +13043,8 @@ export const deleteSdkKeyByKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSdkKeyByKey",
 }));
 
 export type DeleteSegmentError = Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -12899,6 +13060,8 @@ export const deleteSegment: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSegment",
 }));
 
 export type DeleteSubscriptionError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12914,6 +13077,8 @@ export const deleteSubscription: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscription",
 }));
 
 export type DeleteTeamError = NotFound | LaunchDarklyOpError;
@@ -12929,6 +13094,8 @@ export const deleteTeam: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeam",
 }));
 
 export type DeleteTokenError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12944,6 +13111,8 @@ export const deleteToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type DeleteTriggerWorkflowError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -12959,6 +13128,8 @@ export const deleteTriggerWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTriggerWorkflow",
 }));
 
 export type DeleteViewError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12974,6 +13145,8 @@ export const deleteView: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteView",
 }));
 
 export type DeleteWebhookError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -12989,6 +13162,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DeleteWorkflowError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13004,6 +13179,8 @@ export const deleteWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DeleteWorkflowTemplateError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13019,6 +13196,8 @@ export const deleteWorkflowTemplate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowTemplate",
 }));
 
 export type EvaluateContextInstanceError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13034,6 +13213,8 @@ export const evaluateContextInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EvaluateContextInstance",
 }));
 
 export type GetAdaptiveTriggerError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13049,6 +13230,8 @@ export const getAdaptiveTrigger: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdaptiveTrigger",
 }));
 
 export type GetAgentGraphError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13064,6 +13247,8 @@ export const getAgentGraph: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentGraph",
 }));
 
 export type GetAgentOptimizationError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13079,6 +13264,8 @@ export const getAgentOptimization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentOptimization",
 }));
 
 export type GetAgentSkillError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13094,6 +13281,8 @@ export const getAgentSkill: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgentSkill",
 }));
 
 export type GetAIConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13109,6 +13298,8 @@ export const getAIConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAIConfig",
 }));
 
 export type GetAIConfigMetricsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13124,6 +13315,8 @@ export const getAIConfigMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAIConfigMetrics",
 }));
 
 export type GetAIConfigMetricsByVariationError =
@@ -13143,6 +13336,8 @@ export const getAIConfigMetricsByVariation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAIConfigMetricsByVariation",
 }));
 
 export type GetAIConfigQuickStatsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13158,6 +13353,8 @@ export const getAIConfigQuickStats: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAIConfigQuickStats",
 }));
 
 export type GetAIConfigsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13173,6 +13370,8 @@ export const getAIConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAIConfigs",
 }));
 
 export type GetAIConfigTargetingError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13188,6 +13387,8 @@ export const getAIConfigTargeting: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAIConfigTargeting",
 }));
 
 export type GetAIConfigVariationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13203,6 +13404,8 @@ export const getAIConfigVariation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAIConfigVariation",
 }));
 
 export type GetAIRunsUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13218,6 +13421,8 @@ export const getAIRunsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAIRunsUsage",
 }));
 
 export type GetAIToolError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13233,6 +13438,8 @@ export const getAITool: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAITool",
 }));
 
 export type GetAllHoldoutsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13248,6 +13455,8 @@ export const getAllHoldouts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllHoldouts",
 }));
 
 export type GetAllIntegrationConfigurationsError =
@@ -13267,6 +13476,8 @@ export const getAllIntegrationConfigurations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllIntegrationConfigurations",
 }));
 
 export type GetAllReleasePipelinesError = NotFound | LaunchDarklyOpError;
@@ -13282,6 +13493,8 @@ export const getAllReleasePipelines: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllReleasePipelines",
 }));
 
 export type GetAllReleaseProgressionsForReleasePipelineError = NotFound | LaunchDarklyOpError;
@@ -13297,6 +13510,8 @@ export const getAllReleaseProgressionsForReleasePipeline: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllReleaseProgressionsForReleasePipeline",
 }));
 
 export type GetAllWebhooksError = Forbidden | LaunchDarklyOpError;
@@ -13312,6 +13527,8 @@ export const getAllWebhooks: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllWebhooks",
 }));
 
 export type GetAnnouncementsPublicError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13327,6 +13544,8 @@ export const getAnnouncementsPublic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnnouncementsPublic",
 }));
 
 export type GetApplicationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13342,6 +13561,8 @@ export const getApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13357,6 +13578,8 @@ export const getApplications: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplications",
 }));
 
 export type GetApplicationVersionsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13372,6 +13595,8 @@ export const getApplicationVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationVersions",
 }));
 
 export type GetApprovalForFlagError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13387,6 +13612,8 @@ export const getApprovalForFlag: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApprovalForFlag",
 }));
 
 export type GetApprovalRequestError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13402,6 +13629,8 @@ export const getApprovalRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApprovalRequest",
 }));
 
 export type GetApprovalRequestsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13417,6 +13646,8 @@ export const getApprovalRequests: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApprovalRequests",
 }));
 
 export type GetApprovalRequestSettingsError =
@@ -13436,6 +13667,8 @@ export const getApprovalRequestSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApprovalRequestSettings",
 }));
 
 export type GetApprovalsForFlagError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13451,6 +13684,8 @@ export const getApprovalsForFlag: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApprovalsForFlag",
 }));
 
 export type GetAuditLogEntriesError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13466,6 +13701,8 @@ export const getAuditLogEntries: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuditLogEntries",
 }));
 
 export type GetAuditLogEntryError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13481,6 +13718,8 @@ export const getAuditLogEntry: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuditLogEntry",
 }));
 
 export type GetBigSegmentExportError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -13496,6 +13735,8 @@ export const getBigSegmentExport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBigSegmentExport",
 }));
 
 export type GetBigSegmentImportError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -13511,6 +13752,8 @@ export const getBigSegmentImport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBigSegmentImport",
 }));
 
 export type GetBigSegmentStoreIntegrationError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13526,6 +13769,8 @@ export const getBigSegmentStoreIntegration: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBigSegmentStoreIntegration",
 }));
 
 export type GetBigSegmentStoreIntegrationsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13541,6 +13786,8 @@ export const getBigSegmentStoreIntegrations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBigSegmentStoreIntegrations",
 }));
 
 export type GetBranchError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13556,6 +13803,8 @@ export const getBranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetBranchesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13571,6 +13820,8 @@ export const getBranches: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranches",
 }));
 
 export type GetCallerIdentityError = LaunchDarklyOpError;
@@ -13586,6 +13837,8 @@ export const getCallerIdentity: API.OperationMethod<
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCallerIdentity",
 }));
 
 export type GetContextAttributeNamesError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13601,6 +13854,8 @@ export const getContextAttributeNames: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextAttributeNames",
 }));
 
 export type GetContextAttributeValuesError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13616,6 +13871,8 @@ export const getContextAttributeValues: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextAttributeValues",
 }));
 
 export type GetContextInstanceSegmentsMembershipByEnvError =
@@ -13634,6 +13891,8 @@ export const getContextInstanceSegmentsMembershipByEnv: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextInstanceSegmentsMembershipByEnv",
 }));
 
 export type GetContextKindsByProjectKeyError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13649,6 +13908,8 @@ export const getContextKindsByProjectKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextKindsByProjectKey",
 }));
 
 export type GetContextsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13664,6 +13925,8 @@ export const getContexts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContexts",
 }));
 
 export type GetContextsClientsideUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13679,6 +13942,8 @@ export const getContextsClientsideUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextsClientsideUsage",
 }));
 
 export type GetContextsServersideUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13694,6 +13959,8 @@ export const getContextsServersideUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextsServersideUsage",
 }));
 
 export type GetContextsTotalUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13709,6 +13976,8 @@ export const getContextsTotalUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContextsTotalUsage",
 }));
 
 export type GetCustomRoleError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13724,6 +13993,8 @@ export const getCustomRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRole",
 }));
 
 export type GetCustomRolesError = Forbidden | LaunchDarklyOpError;
@@ -13739,6 +14010,8 @@ export const getCustomRoles: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRoles",
 }));
 
 export type GetCustomWorkflowError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13754,6 +14027,8 @@ export const getCustomWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomWorkflow",
 }));
 
 export type GetDataExportEventsUsageError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -13769,6 +14044,8 @@ export const getDataExportEventsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataExportEventsUsage",
 }));
 
 export type GetDataExportProjectRankingError =
@@ -13788,6 +14065,8 @@ export const getDataExportProjectRanking: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataExportProjectRanking",
 }));
 
 export type GetDependentFlagsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13803,6 +14082,8 @@ export const getDependentFlags: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDependentFlags",
 }));
 
 export type GetDependentFlagsByEnvError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13818,6 +14099,8 @@ export const getDependentFlagsByEnv: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDependentFlagsByEnv",
 }));
 
 export type GetDeploymentError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13833,6 +14116,8 @@ export const getDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentFrequencyChartError =
@@ -13852,6 +14137,8 @@ export const getDeploymentFrequencyChart: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentFrequencyChart",
 }));
 
 export type GetDeploymentsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13867,6 +14154,8 @@ export const getDeployments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployments",
 }));
 
 export type GetDestinationError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13882,6 +14171,8 @@ export const getDestination: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDestination",
 }));
 
 export type GetDestinationsError = Forbidden | LaunchDarklyOpError;
@@ -13897,6 +14188,8 @@ export const getDestinations: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDestinations",
 }));
 
 export type GetEnvironmentError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -13912,6 +14205,8 @@ export const getEnvironment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetEnvironmentsByProjectError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13927,6 +14222,8 @@ export const getEnvironmentsByProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentsByProject",
 }));
 
 export type GetEvaluationsUsageError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13942,6 +14239,8 @@ export const getEvaluationsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvaluationsUsage",
 }));
 
 export type GetEventsUsageError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13957,6 +14256,8 @@ export const getEventsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventsUsage",
 }));
 
 export type GetExperimentError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -13972,6 +14273,8 @@ export const getExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetExperimentationEventsUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -13987,6 +14290,8 @@ export const getExperimentationEventsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentationEventsUsage",
 }));
 
 export type GetExperimentationKeysUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -14002,6 +14307,8 @@ export const getExperimentationKeysUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentationKeysUsage",
 }));
 
 export type GetExperimentationSettingsError =
@@ -14021,6 +14328,8 @@ export const getExperimentationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentationSettings",
 }));
 
 export type GetExperimentsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14036,6 +14345,8 @@ export const getExperiments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiments",
 }));
 
 export type GetExperimentsAnyEnvError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14051,6 +14362,8 @@ export const getExperimentsAnyEnv: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsAnyEnv",
 }));
 
 export type GetExpiringContextTargetsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14066,6 +14379,8 @@ export const getExpiringContextTargets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpiringContextTargets",
 }));
 
 export type GetExpiringTargetsForSegmentError = NotFound | LaunchDarklyOpError;
@@ -14081,6 +14396,8 @@ export const getExpiringTargetsForSegment: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpiringTargetsForSegment",
 }));
 
 export type GetExpiringUserTargetsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14096,6 +14413,8 @@ export const getExpiringUserTargets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpiringUserTargets",
 }));
 
 export type GetExpiringUserTargetsForSegmentError = NotFound | LaunchDarklyOpError;
@@ -14111,6 +14430,8 @@ export const getExpiringUserTargetsForSegment: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpiringUserTargetsForSegment",
 }));
 
 export type GetExtinctionsError = Forbidden | LaunchDarklyOpError;
@@ -14126,6 +14447,8 @@ export const getExtinctions: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExtinctions",
 }));
 
 export type GetFeatureFlagError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14141,6 +14464,8 @@ export const getFeatureFlag: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlag",
 }));
 
 export type GetFeatureFlagsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14156,6 +14481,8 @@ export const getFeatureFlags: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlags",
 }));
 
 export type GetFeatureFlagScheduledChangeError = NotFound | LaunchDarklyOpError;
@@ -14171,6 +14498,8 @@ export const getFeatureFlagScheduledChange: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagScheduledChange",
 }));
 
 export type GetFeatureFlagStatusError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14186,6 +14515,8 @@ export const getFeatureFlagStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagStatus",
 }));
 
 export type GetFeatureFlagStatusAcrossEnvironmentsError =
@@ -14204,6 +14535,8 @@ export const getFeatureFlagStatusAcrossEnvironments: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagStatusAcrossEnvironments",
 }));
 
 export type GetFeatureFlagStatusesError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14219,6 +14552,8 @@ export const getFeatureFlagStatuses: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureFlagStatuses",
 }));
 
 export type GetFlagConfigScheduledChangesError =
@@ -14238,6 +14573,8 @@ export const getFlagConfigScheduledChanges: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagConfigScheduledChanges",
 }));
 
 export type GetFlagDefaultsByProjectError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14253,6 +14590,8 @@ export const getFlagDefaultsByProject: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagDefaultsByProject",
 }));
 
 export type GetFlagEventsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14268,6 +14607,8 @@ export const getFlagEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagEvents",
 }));
 
 export type GetFlagFollowersError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14283,6 +14624,8 @@ export const getFlagFollowers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagFollowers",
 }));
 
 export type GetFlagImportConfigurationError =
@@ -14303,6 +14646,8 @@ export const getFlagImportConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagImportConfiguration",
 }));
 
 export type GetFlagImportConfigurationsError =
@@ -14323,6 +14668,8 @@ export const getFlagImportConfigurations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagImportConfigurations",
 }));
 
 export type GetFlagLinksError = Forbidden | LaunchDarklyOpError;
@@ -14338,6 +14685,8 @@ export const getFlagLinks: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagLinks",
 }));
 
 export type GetFlagStatusChartError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14353,6 +14702,8 @@ export const getFlagStatusChart: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlagStatusChart",
 }));
 
 export type GetFollowersByProjEnvError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14368,6 +14719,8 @@ export const getFollowersByProjEnv: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFollowersByProjEnv",
 }));
 
 export type GetHoldoutError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14383,6 +14736,8 @@ export const getHoldout: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHoldout",
 }));
 
 export type GetHoldoutByIdError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14398,6 +14753,8 @@ export const getHoldoutById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHoldoutById",
 }));
 
 export type GetInsightGroupError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14413,6 +14770,8 @@ export const getInsightGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightGroup",
 }));
 
 export type GetInsightGroupsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -14428,6 +14787,8 @@ export const getInsightGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightGroups",
 }));
 
 export type GetInsightsRepositoriesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14443,6 +14804,8 @@ export const getInsightsRepositories: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsRepositories",
 }));
 
 export type GetInsightsScoresError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -14458,6 +14821,8 @@ export const getInsightsScores: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsScores",
 }));
 
 export type GetIntegrationConfigurationError =
@@ -14477,6 +14842,8 @@ export const getIntegrationConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationConfiguration",
 }));
 
 export type GetIntegrationDeliveryConfigurationByEnvironmentError =
@@ -14499,6 +14866,8 @@ export const getIntegrationDeliveryConfigurationByEnvironment: API.OperationMeth
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationDeliveryConfigurationByEnvironment",
 }));
 
 export type GetIntegrationDeliveryConfigurationByIdError = NotFound | LaunchDarklyOpError;
@@ -14514,6 +14883,8 @@ export const getIntegrationDeliveryConfigurationById: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationDeliveryConfigurationById",
 }));
 
 export type GetIntegrationDeliveryConfigurationsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14529,6 +14900,8 @@ export const getIntegrationDeliveryConfigurations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationDeliveryConfigurations",
 }));
 
 export type GetIpAllowlistError = Forbidden | LaunchDarklyOpError;
@@ -14544,6 +14917,8 @@ export const getIpAllowlist: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpAllowlist",
 }));
 
 export type GetIpsError = LaunchDarklyOpError;
@@ -14559,6 +14934,8 @@ export const getIps: API.OperationMethod<
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIps",
 }));
 
 export type GetLayersError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14574,6 +14951,8 @@ export const getLayers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLayers",
 }));
 
 export type GetLeadTimeChartError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14589,6 +14968,8 @@ export const getLeadTimeChart: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLeadTimeChart",
 }));
 
 export type GetLinkedResourcesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14604,6 +14985,8 @@ export const getLinkedResources: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinkedResources",
 }));
 
 export type GetLinkedViewsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14619,6 +15002,8 @@ export const getLinkedViews: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinkedViews",
 }));
 
 export type GetMAUClientsideUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -14634,6 +15019,8 @@ export const getMAUClientsideUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMAUClientsideUsage",
 }));
 
 export type GetMauSdksByTypeError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -14649,6 +15036,8 @@ export const getMauSdksByType: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMauSdksByType",
 }));
 
 export type GetMAUTotalUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -14664,6 +15053,8 @@ export const getMAUTotalUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMAUTotalUsage",
 }));
 
 export type GetMemberError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14679,6 +15070,8 @@ export const getMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetMembersError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14694,6 +15087,8 @@ export const getMembers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembers",
 }));
 
 export type GetMetricError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14709,6 +15104,8 @@ export const getMetric: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetric",
 }));
 
 export type GetMetricGroupError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14724,6 +15121,8 @@ export const getMetricGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricGroup",
 }));
 
 export type GetMetricGroupsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14739,6 +15138,8 @@ export const getMetricGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetricGroups",
 }));
 
 export type GetMetricsError = NotFound | LaunchDarklyOpError;
@@ -14754,6 +15155,8 @@ export const getMetrics: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetrics",
 }));
 
 export type GetModelConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14769,6 +15172,8 @@ export const getModelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModelConfig",
 }));
 
 export type GetOAuthClientByIdError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14784,6 +15189,8 @@ export const getOAuthClientById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuthClientById",
 }));
 
 export type GetOAuthClientsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -14799,6 +15206,8 @@ export const getOAuthClients: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOAuthClients",
 }));
 
 export type GetObservabilityErrorsUsageError =
@@ -14818,6 +15227,8 @@ export const getObservabilityErrorsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilityErrorsUsage",
 }));
 
 export type GetObservabilityLogsUsageError =
@@ -14837,6 +15248,8 @@ export const getObservabilityLogsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilityLogsUsage",
 }));
 
 export type GetObservabilityMetricsUsageError =
@@ -14856,6 +15269,8 @@ export const getObservabilityMetricsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilityMetricsUsage",
 }));
 
 export type GetObservabilitySessionsUsageError =
@@ -14875,6 +15290,8 @@ export const getObservabilitySessionsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilitySessionsUsage",
 }));
 
 export type GetObservabilityTracesUsageError =
@@ -14894,6 +15311,8 @@ export const getObservabilityTracesUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilityTracesUsage",
 }));
 
 export type GetOpenapiSpecError = LaunchDarklyOpError;
@@ -14909,6 +15328,8 @@ export const getOpenapiSpec: API.OperationMethod<
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenapiSpec",
 }));
 
 export type GetProjectError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14924,6 +15345,8 @@ export const getProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -14939,6 +15362,8 @@ export const getProjects: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjects",
 }));
 
 export type GetProjectSdkKeysError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14954,6 +15379,8 @@ export const getProjectSdkKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectSdkKeys",
 }));
 
 export type GetPromptSnippetError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14969,6 +15396,8 @@ export const getPromptSnippet: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPromptSnippet",
 }));
 
 export type GetPullRequestsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -14984,6 +15413,8 @@ export const getPullRequests: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPullRequests",
 }));
 
 export type GetRelayProxyConfigError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -14999,6 +15430,8 @@ export const getRelayProxyConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRelayProxyConfig",
 }));
 
 export type GetRelayProxyConfigsError = Forbidden | LaunchDarklyOpError;
@@ -15014,6 +15447,8 @@ export const getRelayProxyConfigs: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRelayProxyConfigs",
 }));
 
 export type GetReleaseByFlagKeyError = NotFound | LaunchDarklyOpError;
@@ -15029,6 +15464,8 @@ export const getReleaseByFlagKey: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReleaseByFlagKey",
 }));
 
 export type GetReleaseFrequencyChartError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15044,6 +15481,8 @@ export const getReleaseFrequencyChart: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReleaseFrequencyChart",
 }));
 
 export type GetReleasePipelineByKeyError = NotFound | LaunchDarklyOpError;
@@ -15059,6 +15498,8 @@ export const getReleasePipelineByKey: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReleasePipelineByKey",
 }));
 
 export type GetReleasePoliciesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15074,6 +15515,8 @@ export const getReleasePolicies: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReleasePolicies",
 }));
 
 export type GetReleasePolicyError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15089,6 +15532,8 @@ export const getReleasePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReleasePolicy",
 }));
 
 export type GetRepositoriesError = Forbidden | LaunchDarklyOpError;
@@ -15104,6 +15549,8 @@ export const getRepositories: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositories",
 }));
 
 export type GetRepositoryError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15119,6 +15566,8 @@ export const getRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepository",
 }));
 
 export type GetRootError = LaunchDarklyOpError;
@@ -15134,6 +15583,8 @@ export const getRoot: API.OperationMethod<
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoot",
 }));
 
 export type GetRootStatisticError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15149,6 +15600,8 @@ export const getRootStatistic: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRootStatistic",
 }));
 
 export type GetSdkAllVersionsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -15164,6 +15617,8 @@ export const getSdkAllVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSdkAllVersions",
 }));
 
 export type GetSdkKeyByKeyError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15179,6 +15634,8 @@ export const getSdkKeyByKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSdkKeyByKey",
 }));
 
 export type GetSdkKeysError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15194,6 +15651,8 @@ export const getSdkKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSdkKeys",
 }));
 
 export type GetSdkVersionsDetailsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -15209,6 +15668,8 @@ export const getSdkVersionsDetails: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSdkVersionsDetails",
 }));
 
 export type GetSegmentError = NotFound | LaunchDarklyOpError;
@@ -15224,6 +15685,8 @@ export const getSegment: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetSegmentMembershipForContextError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -15239,6 +15702,8 @@ export const getSegmentMembershipForContext: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegmentMembershipForContext",
 }));
 
 export type GetSegmentMembershipForUserError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -15254,6 +15719,8 @@ export const getSegmentMembershipForUser: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegmentMembershipForUser",
 }));
 
 export type GetSegmentsError = NotFound | LaunchDarklyOpError;
@@ -15269,6 +15736,8 @@ export const getSegments: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegments",
 }));
 
 export type GetServiceConnectionsUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -15284,6 +15753,8 @@ export const getServiceConnectionsUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceConnectionsUsage",
 }));
 
 export type GetStaleFlagsChartError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15299,6 +15770,8 @@ export const getStaleFlagsChart: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStaleFlagsChart",
 }));
 
 export type GetStatisticsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15314,6 +15787,8 @@ export const getStatistics: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatistics",
 }));
 
 export type GetStreamUsageError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15329,6 +15804,8 @@ export const getStreamUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStreamUsage",
 }));
 
 export type GetStreamUsageBySdkVersionError =
@@ -15348,6 +15825,8 @@ export const getStreamUsageBySdkVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStreamUsageBySdkVersion",
 }));
 
 export type GetStreamUsageSdkversionError = Forbidden | LaunchDarklyOpError;
@@ -15363,6 +15842,8 @@ export const getStreamUsageSdkversion: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStreamUsageSdkversion",
 }));
 
 export type GetSubscriptionByIDError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15378,6 +15859,8 @@ export const getSubscriptionByID: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionByID",
 }));
 
 export type GetSubscriptionsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15393,6 +15876,8 @@ export const getSubscriptions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptions",
 }));
 
 export type GetTagsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -15408,6 +15893,8 @@ export const getTags: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTags",
 }));
 
 export type GetTeamError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15423,6 +15910,8 @@ export const getTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeam",
 }));
 
 export type GetTeamMaintainersError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15438,6 +15927,8 @@ export const getTeamMaintainers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamMaintainers",
 }));
 
 export type GetTeamRolesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15453,6 +15944,8 @@ export const getTeamRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamRoles",
 }));
 
 export type GetTeamsError = LaunchDarklyOpError;
@@ -15468,6 +15961,8 @@ export const getTeams: API.OperationMethod<
   errors: [UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeams",
 }));
 
 export type GetTokenError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15483,6 +15978,8 @@ export const getToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetToken",
 }));
 
 export type GetTokensError = Forbidden | LaunchDarklyOpError;
@@ -15498,6 +15995,8 @@ export const getTokens: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokens",
 }));
 
 export type GetTriggerWorkflowByIdError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15513,6 +16012,8 @@ export const getTriggerWorkflowById: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerWorkflowById",
 }));
 
 export type GetTriggerWorkflowsError = Forbidden | LaunchDarklyOpError;
@@ -15528,6 +16029,8 @@ export const getTriggerWorkflows: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTriggerWorkflows",
 }));
 
 export type GetVegaAIUsageError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15543,6 +16046,8 @@ export const getVegaAIUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVegaAIUsage",
 }));
 
 export type GetVersionsError = Forbidden | LaunchDarklyOpError;
@@ -15558,6 +16063,8 @@ export const getVersions: API.OperationMethod<
   errors: [Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersions",
 }));
 
 export type GetViewError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15573,6 +16080,8 @@ export const getView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetView",
 }));
 
 export type GetViewsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15588,6 +16097,8 @@ export const getViews: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetViews",
 }));
 
 export type GetWarehouseExportUsageError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -15603,6 +16114,8 @@ export const getWarehouseExportUsage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseExportUsage",
 }));
 
 export type GetWebhookError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15618,6 +16131,8 @@ export const getWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWorkflowsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15633,6 +16148,8 @@ export const getWorkflows: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflows",
 }));
 
 export type GetWorkflowTemplatesError = NotFound | LaunchDarklyOpError;
@@ -15648,6 +16165,8 @@ export const getWorkflowTemplates: API.OperationMethod<
   errors: [NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowTemplates",
 }));
 
 export type LinkResourceError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15663,6 +16182,8 @@ export const linkResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkResource",
 }));
 
 export type ListAdaptiveTriggersError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15678,6 +16199,8 @@ export const listAdaptiveTriggers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdaptiveTriggers",
 }));
 
 export type ListAgentGraphsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -15693,6 +16216,8 @@ export const listAgentGraphs: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentGraphs",
 }));
 
 export type ListAgentOptimizationResultsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15708,6 +16233,8 @@ export const listAgentOptimizationResults: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentOptimizationResults",
 }));
 
 export type ListAgentOptimizationResultsByRunIdError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15723,6 +16250,8 @@ export const listAgentOptimizationResultsByRunId: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentOptimizationResultsByRunId",
 }));
 
 export type ListAgentOptimizationRunsError =
@@ -15742,6 +16271,8 @@ export const listAgentOptimizationRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentOptimizationRuns",
 }));
 
 export type ListAgentOptimizationsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15757,6 +16288,8 @@ export const listAgentOptimizations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentOptimizations",
 }));
 
 export type ListAgentSkillReferencesError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15772,6 +16305,8 @@ export const listAgentSkillReferences: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentSkillReferences",
 }));
 
 export type ListAgentSkillsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15787,6 +16322,8 @@ export const listAgentSkills: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentSkills",
 }));
 
 export type ListAgentSkillVersionsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15802,6 +16339,8 @@ export const listAgentSkillVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgentSkillVersions",
 }));
 
 export type ListAIToolReferencesError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15817,6 +16356,8 @@ export const listAIToolReferences: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAIToolReferences",
 }));
 
 export type ListAIToolsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -15832,6 +16373,8 @@ export const listAITools: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAITools",
 }));
 
 export type ListAIToolVersionsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -15847,6 +16390,8 @@ export const listAIToolVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAIToolVersions",
 }));
 
 export type ListAllAgentOptimizationResultsError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15862,6 +16407,8 @@ export const listAllAgentOptimizationResults: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllAgentOptimizationResults",
 }));
 
 export type ListModelConfigsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15877,6 +16424,8 @@ export const listModelConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelConfigs",
 }));
 
 export type ListModelConfigVersionsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15892,6 +16441,8 @@ export const listModelConfigVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelConfigVersions",
 }));
 
 export type ListPromptSnippetReferencesError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -15907,6 +16458,8 @@ export const listPromptSnippetReferences: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPromptSnippetReferences",
 }));
 
 export type ListPromptSnippetsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15922,6 +16475,8 @@ export const listPromptSnippets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPromptSnippets",
 }));
 
 export type ListPromptSnippetVersionsError =
@@ -15941,6 +16496,8 @@ export const listPromptSnippetVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPromptSnippetVersions",
 }));
 
 export type PatchAdaptiveTriggerError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15956,6 +16513,8 @@ export const patchAdaptiveTrigger: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdaptiveTrigger",
 }));
 
 export type PatchAgentGraphError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -15971,6 +16530,8 @@ export const patchAgentGraph: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAgentGraph",
 }));
 
 export type PatchAgentOptimizationError =
@@ -15991,6 +16552,8 @@ export const patchAgentOptimization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAgentOptimization",
 }));
 
 export type PatchAgentOptimizationResultError =
@@ -16010,6 +16573,8 @@ export const patchAgentOptimizationResult: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAgentOptimizationResult",
 }));
 
 export type PatchAgentSkillError =
@@ -16030,6 +16595,8 @@ export const patchAgentSkill: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAgentSkill",
 }));
 
 export type PatchAIConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16045,6 +16612,8 @@ export const patchAIConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAIConfig",
 }));
 
 export type PatchAIConfigTargetingError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16060,6 +16629,8 @@ export const patchAIConfigTargeting: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAIConfigTargeting",
 }));
 
 export type PatchAIConfigVariationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16075,6 +16646,8 @@ export const patchAIConfigVariation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAIConfigVariation",
 }));
 
 export type PatchAIToolError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16090,6 +16663,8 @@ export const patchAITool: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAITool",
 }));
 
 export type PatchApprovalRequestSettingsError =
@@ -16109,6 +16684,8 @@ export const patchApprovalRequestSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApprovalRequestSettings",
 }));
 
 export type PatchBigSegmentStoreIntegrationError =
@@ -16129,6 +16706,8 @@ export const patchBigSegmentStoreIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBigSegmentStoreIntegration",
 }));
 
 export type PatchCustomRoleError = BadRequest | NotFound | Conflict | LaunchDarklyOpError;
@@ -16144,6 +16723,8 @@ export const patchCustomRole: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomRole",
 }));
 
 export type PatchEnvironmentError = BadRequest | NotFound | Conflict | LaunchDarklyOpError;
@@ -16159,6 +16740,8 @@ export const patchEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEnvironment",
 }));
 
 export type PatchExperimentError =
@@ -16187,6 +16770,8 @@ export const patchExperiment: API.OperationMethod<
   ],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchExperiment",
 }));
 
 export type PatchExpiringTargetsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16202,6 +16787,8 @@ export const patchExpiringTargets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchExpiringTargets",
 }));
 
 export type PatchExpiringTargetsForSegmentError =
@@ -16222,6 +16809,8 @@ export const patchExpiringTargetsForSegment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchExpiringTargetsForSegment",
 }));
 
 export type PatchExpiringUserTargetsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16237,6 +16826,8 @@ export const patchExpiringUserTargets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchExpiringUserTargets",
 }));
 
 export type PatchExpiringUserTargetsForSegmentError =
@@ -16257,6 +16848,8 @@ export const patchExpiringUserTargetsForSegment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchExpiringUserTargetsForSegment",
 }));
 
 export type PatchFeatureFlagError = BadRequest | NotFound | Conflict | LaunchDarklyOpError;
@@ -16272,6 +16865,8 @@ export const patchFeatureFlag: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFeatureFlag",
 }));
 
 export type PatchFlagConfigApprovalRequestError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -16287,6 +16882,8 @@ export const patchFlagConfigApprovalRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlagConfigApprovalRequest",
 }));
 
 export type PatchFlagConfigScheduledChangeError =
@@ -16307,6 +16904,8 @@ export const patchFlagConfigScheduledChange: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlagConfigScheduledChange",
 }));
 
 export type PatchFlagDefaultsByProjectError =
@@ -16327,6 +16926,8 @@ export const patchFlagDefaultsByProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlagDefaultsByProject",
 }));
 
 export type PatchFlagImportConfigurationError =
@@ -16347,6 +16948,8 @@ export const patchFlagImportConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFlagImportConfiguration",
 }));
 
 export type PatchHoldoutError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16362,6 +16965,8 @@ export const patchHoldout: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchHoldout",
 }));
 
 export type PatchInsightGroupError =
@@ -16382,6 +16987,8 @@ export const patchInsightGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInsightGroup",
 }));
 
 export type PatchIntegrationDeliveryConfigurationError =
@@ -16402,6 +17009,8 @@ export const patchIntegrationDeliveryConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchIntegrationDeliveryConfiguration",
 }));
 
 export type PatchIpAllowlistConfigError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -16417,6 +17026,8 @@ export const patchIpAllowlistConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchIpAllowlistConfig",
 }));
 
 export type PatchIpAllowlistEntryError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16432,6 +17043,8 @@ export const patchIpAllowlistEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchIpAllowlistEntry",
 }));
 
 export type PatchMetricError = BadRequest | NotFound | Conflict | LaunchDarklyOpError;
@@ -16447,6 +17060,8 @@ export const patchMetric: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMetric",
 }));
 
 export type PatchMetricGroupError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16462,6 +17077,8 @@ export const patchMetricGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchMetricGroup",
 }));
 
 export type PatchModelConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16477,6 +17094,8 @@ export const patchModelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchModelConfig",
 }));
 
 export type PatchOAuthClientError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16492,6 +17111,8 @@ export const patchOAuthClient: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOAuthClient",
 }));
 
 export type PatchPromptSnippetError =
@@ -16512,6 +17133,8 @@ export const patchPromptSnippet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPromptSnippet",
 }));
 
 export type PatchRelayAutoConfigError =
@@ -16532,6 +17155,8 @@ export const patchRelayAutoConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRelayAutoConfig",
 }));
 
 export type PatchReleaseByFlagKeyError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16547,6 +17172,8 @@ export const patchReleaseByFlagKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchReleaseByFlagKey",
 }));
 
 export type PatchRepositoryError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16562,6 +17189,8 @@ export const patchRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRepository",
 }));
 
 export type PatchSdkKeyByKeyError =
@@ -16582,6 +17211,8 @@ export const patchSdkKeyByKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSdkKeyByKey",
 }));
 
 export type PatchTriggerWorkflowError =
@@ -16602,6 +17233,8 @@ export const patchTriggerWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTriggerWorkflow",
 }));
 
 export type PostAdaptiveTriggerError =
@@ -16622,6 +17255,8 @@ export const postAdaptiveTrigger: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAdaptiveTrigger",
 }));
 
 export type PostAgentGraphError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -16637,6 +17272,8 @@ export const postAgentGraph: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAgentGraph",
 }));
 
 export type PostAgentOptimizationError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -16652,6 +17289,8 @@ export const postAgentOptimization: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAgentOptimization",
 }));
 
 export type PostAgentOptimizationResultError =
@@ -16671,6 +17310,8 @@ export const postAgentOptimizationResult: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAgentOptimizationResult",
 }));
 
 export type PostAgentSkillError =
@@ -16691,6 +17332,8 @@ export const postAgentSkill: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAgentSkill",
 }));
 
 export type PostAIConfigError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -16706,6 +17349,8 @@ export const postAIConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAIConfig",
 }));
 
 export type PostAIConfigVariationError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -16721,6 +17366,8 @@ export const postAIConfigVariation: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAIConfigVariation",
 }));
 
 export type PostAIToolError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16736,6 +17383,8 @@ export const postAITool: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAITool",
 }));
 
 export type PostApprovalRequestApplyForFlagError =
@@ -16755,6 +17404,8 @@ export const postApprovalRequestApplyForFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostApprovalRequestApplyForFlag",
 }));
 
 export type PostApprovalRequestForFlagError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -16770,6 +17421,8 @@ export const postApprovalRequestForFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostApprovalRequestForFlag",
 }));
 
 export type PostApprovalRequestReviewForFlagError =
@@ -16789,6 +17442,8 @@ export const postApprovalRequestReviewForFlag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostApprovalRequestReviewForFlag",
 }));
 
 export type PostAuditLogEntriesError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -16804,6 +17459,8 @@ export const postAuditLogEntries: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAuditLogEntries",
 }));
 
 export type PostAuditLogEntryCountsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -16819,6 +17476,8 @@ export const postAuditLogEntryCounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostAuditLogEntryCounts",
 }));
 
 export type PostCompleteWarehouseDestinationSetupError =
@@ -16838,6 +17497,8 @@ export const postCompleteWarehouseDestinationSetup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCompleteWarehouseDestinationSetup",
 }));
 
 export type PostCustomRoleError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -16853,6 +17514,8 @@ export const postCustomRole: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCustomRole",
 }));
 
 export type PostDisableAdaptiveTriggerError =
@@ -16872,6 +17535,8 @@ export const postDisableAdaptiveTrigger: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostDisableAdaptiveTrigger",
 }));
 
 export type PostEnableAdaptiveTriggerError =
@@ -16891,6 +17556,8 @@ export const postEnableAdaptiveTrigger: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEnableAdaptiveTrigger",
 }));
 
 export type PostEnvironmentError =
@@ -16911,6 +17578,8 @@ export const postEnvironment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostEnvironment",
 }));
 
 export type PostExtinctionError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -16926,6 +17595,8 @@ export const postExtinction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostExtinction",
 }));
 
 export type PostFeatureFlagError = BadRequest | Conflict | LaunchDarklyOpError;
@@ -16941,6 +17612,8 @@ export const postFeatureFlag: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFeatureFlag",
 }));
 
 export type PostFlagConfigScheduledChangesError =
@@ -16961,6 +17634,8 @@ export const postFlagConfigScheduledChanges: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFlagConfigScheduledChanges",
 }));
 
 export type PostFlagCopyConfigApprovalRequestError =
@@ -16980,6 +17655,8 @@ export const postFlagCopyConfigApprovalRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostFlagCopyConfigApprovalRequest",
 }));
 
 export type PostGenerateProjectEnvWarehouseDestinationKeyPairError =
@@ -17003,6 +17680,8 @@ export const postGenerateProjectEnvWarehouseDestinationKeyPair: API.OperationMet
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostGenerateProjectEnvWarehouseDestinationKeyPair",
 }));
 
 export type PostGenerateTrustPolicyError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -17018,6 +17697,8 @@ export const postGenerateTrustPolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostGenerateTrustPolicy",
 }));
 
 export type PostGenerateWarehouseDestinationKeyPairError =
@@ -17037,6 +17718,8 @@ export const postGenerateWarehouseDestinationKeyPair: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostGenerateWarehouseDestinationKeyPair",
 }));
 
 export type PostGenerateWarehouseDestinationSetupScriptError =
@@ -17059,6 +17742,8 @@ export const postGenerateWarehouseDestinationSetupScript: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostGenerateWarehouseDestinationSetupScript",
 }));
 
 export type PostHoldoutError = BadRequest | LaunchDarklyOpError;
@@ -17074,6 +17759,8 @@ export const postHoldout: API.OperationMethod<
   errors: [BadRequest, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostHoldout",
 }));
 
 export type PostMetricError = BadRequest | Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -17089,6 +17776,8 @@ export const postMetric: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostMetric",
 }));
 
 export type PostMigrationSafetyIssuesError =
@@ -17108,6 +17797,8 @@ export const postMigrationSafetyIssues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostMigrationSafetyIssues",
 }));
 
 export type PostModelConfigError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17123,6 +17814,8 @@ export const postModelConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostModelConfig",
 }));
 
 export type PostPromptSnippetError =
@@ -17143,6 +17836,8 @@ export const postPromptSnippet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostPromptSnippet",
 }));
 
 export type PostRelayAutoConfigError = BadRequest | LaunchDarklyOpError;
@@ -17158,6 +17853,8 @@ export const postRelayAutoConfig: API.OperationMethod<
   errors: [BadRequest, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRelayAutoConfig",
 }));
 
 export type PostReleasePipelineError =
@@ -17178,6 +17875,8 @@ export const postReleasePipeline: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostReleasePipeline",
 }));
 
 export type PostReleasePoliciesOrderError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17193,6 +17892,8 @@ export const postReleasePoliciesOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostReleasePoliciesOrder",
 }));
 
 export type PostReleasePolicyError =
@@ -17213,6 +17914,8 @@ export const postReleasePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostReleasePolicy",
 }));
 
 export type PostRepositoryError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -17228,6 +17931,8 @@ export const postRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRepository",
 }));
 
 export type PostRestrictedModelsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17243,6 +17948,8 @@ export const postRestrictedModels: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRestrictedModels",
 }));
 
 export type PostSdkKeyError = BadRequest | Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -17258,6 +17965,8 @@ export const postSdkKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSdkKey",
 }));
 
 export type PostWorkflowError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17273,6 +17982,8 @@ export const postWorkflow: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostWorkflow",
 }));
 
 export type PutBranchError = BadRequest | Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -17288,6 +17999,8 @@ export const putBranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutBranch",
 }));
 
 export type PutContextFlagSettingError =
@@ -17308,6 +18021,8 @@ export const putContextFlagSetting: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutContextFlagSetting",
 }));
 
 export type PutContextKindError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17323,6 +18038,8 @@ export const putContextKind: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutContextKind",
 }));
 
 export type PutExperimentationSettingsError =
@@ -17342,6 +18059,8 @@ export const putExperimentationSettings: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutExperimentationSettings",
 }));
 
 export type PutFlagDefaultsByProjectError =
@@ -17362,6 +18081,8 @@ export const putFlagDefaultsByProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFlagDefaultsByProject",
 }));
 
 export type PutFlagFollowerError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17377,6 +18098,8 @@ export const putFlagFollower: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFlagFollower",
 }));
 
 export type PutReleasePipelineError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17392,6 +18115,8 @@ export const putReleasePipeline: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutReleasePipeline",
 }));
 
 export type PutReleasePolicyError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17407,6 +18132,8 @@ export const putReleasePolicy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutReleasePolicy",
 }));
 
 export type PutSdkKeyViewsError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17422,6 +18149,8 @@ export const putSdkKeyViews: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSdkKeyViews",
 }));
 
 export type ResetEnvironmentMobileKeyError =
@@ -17442,6 +18171,8 @@ export const resetEnvironmentMobileKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetEnvironmentMobileKey",
 }));
 
 export type ResetEnvironmentSDKKeyError =
@@ -17462,6 +18193,8 @@ export const resetEnvironmentSDKKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetEnvironmentSDKKey",
 }));
 
 export type ResetRelayAutoConfigError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -17477,6 +18210,8 @@ export const resetRelayAutoConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetRelayAutoConfig",
 }));
 
 export type SearchContextsError = BadRequest | Forbidden | LaunchDarklyOpError;
@@ -17492,6 +18227,8 @@ export const searchContexts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchContexts",
 }));
 
 export type TriggerFlagImportJobError =
@@ -17512,6 +18249,8 @@ export const triggerFlagImportJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerFlagImportJob",
 }));
 
 export type UnlinkResourceError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17527,6 +18266,8 @@ export const unlinkResource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkResource",
 }));
 
 export type UpdateAnnouncementPublicError =
@@ -17547,6 +18288,8 @@ export const updateAnnouncementPublic: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAnnouncementPublic",
 }));
 
 export type UpdateApplicationError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17562,6 +18305,8 @@ export const updateApplication: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateApplicationVersionError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17577,6 +18322,8 @@ export const updateApplicationVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationVersion",
 }));
 
 export type UpdateApprovalRequestError = Forbidden | NotFound | LaunchDarklyOpError;
@@ -17592,6 +18339,8 @@ export const updateApprovalRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalRequest",
 }));
 
 export type UpdateBigSegmentContextTargetsError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -17607,6 +18356,8 @@ export const updateBigSegmentContextTargets: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBigSegmentContextTargets",
 }));
 
 export type UpdateBigSegmentTargetsError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -17622,6 +18373,8 @@ export const updateBigSegmentTargets: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBigSegmentTargets",
 }));
 
 export type UpdateDeploymentError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17637,6 +18390,8 @@ export const updateDeployment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeployment",
 }));
 
 export type UpdateDestinationError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -17652,6 +18407,8 @@ export const updateDestination: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDestination",
 }));
 
 export type UpdateDestinationByIdError =
@@ -17672,6 +18429,8 @@ export const updateDestinationById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDestinationById",
 }));
 
 export type UpdateFlagLinkError =
@@ -17692,6 +18451,8 @@ export const updateFlagLink: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlagLink",
 }));
 
 export type UpdateIntegrationConfigurationError =
@@ -17712,6 +18473,8 @@ export const updateIntegrationConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationConfiguration",
 }));
 
 export type UpdateLayerError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17727,6 +18490,8 @@ export const updateLayer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLayer",
 }));
 
 export type UpdateMemberError = BadRequest | Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -17742,6 +18507,8 @@ export const updateMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMember",
 }));
 
 export type UpdateMembersError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -17757,6 +18524,8 @@ export const updateMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMembers",
 }));
 
 export type UpdatePhaseStatusError = BadRequest | NotFound | LaunchDarklyOpError;
@@ -17772,6 +18541,8 @@ export const updatePhaseStatus: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePhaseStatus",
 }));
 
 export type UpdateProjectError = BadRequest | Forbidden | NotFound | Conflict | LaunchDarklyOpError;
@@ -17787,6 +18558,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateSegmentError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17802,6 +18575,8 @@ export const updateSegment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSegment",
 }));
 
 export type UpdateSegmentBySegmentKeyError =
@@ -17822,6 +18597,8 @@ export const updateSegmentBySegmentKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSegmentBySegmentKey",
 }));
 
 export type UpdateSubscriptionError =
@@ -17842,6 +18619,8 @@ export const updateSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 export type UpdateTeamError = BadRequest | NotFound | Conflict | LaunchDarklyOpError;
@@ -17857,6 +18636,8 @@ export const updateTeam: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeam",
 }));
 
 export type UpdateTeamsError = BadRequest | Forbidden | Conflict | LaunchDarklyOpError;
@@ -17872,6 +18653,8 @@ export const updateTeams: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeams",
 }));
 
 export type UpdateTokenError =
@@ -17900,6 +18683,8 @@ export const updateToken: API.OperationMethod<
   ],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateToken",
 }));
 
 export type UpdateViewError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17915,6 +18700,8 @@ export const updateView: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateView",
 }));
 
 export type UpdateWebhookError = BadRequest | Forbidden | NotFound | LaunchDarklyOpError;
@@ -17930,6 +18717,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type ValidateIntegrationDeliveryConfigurationError =
@@ -17949,6 +18738,8 @@ export const validateIntegrationDeliveryConfiguration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownLaunchDarklyError],
   protocol: LaunchDarklyProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateIntegrationDeliveryConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

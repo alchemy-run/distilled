@@ -1,0 +1,10 @@
+{
+  "description": "issues.updateMilestone accepts due_on: null to clear a milestone's due date; the spec types it as a plain string.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.github.issues#UpdateMilestoneRequest/members/due_on/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}

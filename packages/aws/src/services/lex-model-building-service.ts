@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -87,6 +88,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://models.lex.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LexModelBuildingService",
+  service: "LexModelBuildingService",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1042,6 +1057,8 @@ export const createBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotVersion",
+  telemetry: TELEMETRY,
+  span: "CreateBotVersion",
 }));
 
 export type CreateIntentVersionError =
@@ -1088,6 +1105,8 @@ export const createIntentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntentVersion",
+  telemetry: TELEMETRY,
+  span: "CreateIntentVersion",
 }));
 
 export type CreateSlotTypeVersionError =
@@ -1134,6 +1153,8 @@ export const createSlotTypeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlotTypeVersion",
+  telemetry: TELEMETRY,
+  span: "CreateSlotTypeVersion",
 }));
 
 export type DeleteBotError =
@@ -1184,6 +1205,8 @@ export const deleteBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBot",
+  telemetry: TELEMETRY,
+  span: "DeleteBot",
 }));
 
 export type DeleteBotAliasError =
@@ -1225,6 +1248,8 @@ export const deleteBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteBotAlias",
 }));
 
 export type DeleteBotChannelAssociationError =
@@ -1259,6 +1284,8 @@ export const deleteBotChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotChannelAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteBotChannelAssociation",
 }));
 
 export type DeleteBotVersionError =
@@ -1295,6 +1322,8 @@ export const deleteBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteBotVersion",
 }));
 
 export type DeleteIntentError =
@@ -1344,6 +1373,8 @@ export const deleteIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntent",
+  telemetry: TELEMETRY,
+  span: "DeleteIntent",
 }));
 
 export type DeleteIntentVersionError =
@@ -1380,6 +1411,8 @@ export const deleteIntentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntentVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteIntentVersion",
 }));
 
 export type DeleteSlotTypeError =
@@ -1429,6 +1462,8 @@ export const deleteSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotType",
+  telemetry: TELEMETRY,
+  span: "DeleteSlotType",
 }));
 
 export type DeleteSlotTypeVersionError =
@@ -1465,6 +1500,8 @@ export const deleteSlotTypeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotTypeVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteSlotTypeVersion",
 }));
 
 export type DeleteUtterancesError =
@@ -1507,6 +1544,8 @@ export const deleteUtterances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUtterances",
+  telemetry: TELEMETRY,
+  span: "DeleteUtterances",
 }));
 
 export type GetBotError =
@@ -1539,6 +1578,8 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
+  telemetry: TELEMETRY,
+  span: "GetBot",
 }));
 
 export type GetBotAliasError =
@@ -1571,6 +1612,8 @@ export const getBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotAlias",
+  telemetry: TELEMETRY,
+  span: "GetBotAlias",
 }));
 
 export type GetBotAliasesError =
@@ -1602,6 +1645,8 @@ export const getBotAliases: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBotAliases",
 })) as any;
 
 export type GetBotChannelAssociationError =
@@ -1634,6 +1679,8 @@ export const getBotChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotChannelAssociation",
+  telemetry: TELEMETRY,
+  span: "GetBotChannelAssociation",
 }));
 
 export type GetBotChannelAssociationsError =
@@ -1667,6 +1714,8 @@ export const getBotChannelAssociations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBotChannelAssociations",
 })) as any;
 
 export type GetBotsError =
@@ -1712,6 +1761,8 @@ export const getBots: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBots",
 })) as any;
 
 export type GetBotVersionsError =
@@ -1759,6 +1810,8 @@ export const getBotVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBotVersions",
 })) as any;
 
 export type GetBuiltinIntentError =
@@ -1790,6 +1843,8 @@ export const getBuiltinIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBuiltinIntent",
+  telemetry: TELEMETRY,
+  span: "GetBuiltinIntent",
 }));
 
 export type GetBuiltinIntentsError =
@@ -1822,6 +1877,8 @@ export const getBuiltinIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBuiltinIntents",
 })) as any;
 
 export type GetBuiltinSlotTypesError =
@@ -1857,6 +1914,8 @@ export const getBuiltinSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBuiltinSlotTypes",
 })) as any;
 
 export type GetExportError =
@@ -1885,6 +1944,8 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type GetImportError =
@@ -1914,6 +1975,8 @@ export const getImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImport",
+  telemetry: TELEMETRY,
+  span: "GetImport",
 }));
 
 export type GetIntentError =
@@ -1946,6 +2009,8 @@ export const getIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntent",
+  telemetry: TELEMETRY,
+  span: "GetIntent",
 }));
 
 export type GetIntentsError =
@@ -1991,6 +2056,8 @@ export const getIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetIntents",
 })) as any;
 
 export type GetIntentVersionsError =
@@ -2038,6 +2105,8 @@ export const getIntentVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetIntentVersions",
 })) as any;
 
 export type GetMigrationError =
@@ -2068,6 +2137,8 @@ export const getMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMigration",
+  telemetry: TELEMETRY,
+  span: "GetMigration",
 }));
 
 export type GetMigrationsError =
@@ -2096,6 +2167,8 @@ export const getMigrations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetMigrations",
 })) as any;
 
 export type GetSlotTypeError =
@@ -2129,6 +2202,8 @@ export const getSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSlotType",
+  telemetry: TELEMETRY,
+  span: "GetSlotType",
 }));
 
 export type GetSlotTypesError =
@@ -2174,6 +2249,8 @@ export const getSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSlotTypes",
 })) as any;
 
 export type GetSlotTypeVersionsError =
@@ -2221,6 +2298,8 @@ export const getSlotTypeVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSlotTypeVersions",
 })) as any;
 
 export type GetUtterancesViewError =
@@ -2271,6 +2350,8 @@ export const getUtterancesView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUtterancesView",
+  telemetry: TELEMETRY,
+  span: "GetUtterancesView",
 }));
 
 export type ListTagsForResourceError =
@@ -2300,6 +2381,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutBotError =
@@ -2348,6 +2431,8 @@ export const putBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBot",
+  telemetry: TELEMETRY,
+  span: "PutBot",
 }));
 
 export type PutBotAliasError =
@@ -2384,6 +2469,8 @@ export const putBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBotAlias",
+  telemetry: TELEMETRY,
+  span: "PutBotAlias",
 }));
 
 export type PutIntentError =
@@ -2465,6 +2552,8 @@ export const putIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntent",
+  telemetry: TELEMETRY,
+  span: "PutIntent",
 }));
 
 export type PutSlotTypeError =
@@ -2512,6 +2601,8 @@ export const putSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSlotType",
+  telemetry: TELEMETRY,
+  span: "PutSlotType",
 }));
 
 export type StartImportError =
@@ -2534,6 +2625,8 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
+  telemetry: TELEMETRY,
+  span: "StartImport",
 }));
 
 export type StartMigrationError =
@@ -2568,6 +2661,8 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
+  telemetry: TELEMETRY,
+  span: "StartMigration",
 }));
 
 export type TagResourceError =
@@ -2599,6 +2694,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2629,6 +2726,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

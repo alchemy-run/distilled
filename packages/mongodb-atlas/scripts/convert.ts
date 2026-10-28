@@ -32,8 +32,8 @@
  *    into `T.Http(...)`, and `src/protocol.ts` sends it as the `Accept`
  *    header at request time
  */
-import * as fs from "node:fs";
 import * as path from "node:path";
+import { readModel, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -139,7 +139,7 @@ await runOpenApiConvert({
 // ---- Postprocess: stamp the versioned Accept media type on each op's http
 // trait (the generator inlines the trait object into `T.Http(...)`). ----
 const modelPath = path.join(root, ".generated-specs", "atlas.json");
-const model = JSON.parse(fs.readFileSync(modelPath, "utf8"));
+const model = readModel(modelPath);
 let stamped = 0;
 const missing: string[] = [];
 for (const shape of Object.values<any>(model.shapes ?? {})) {
@@ -154,7 +154,7 @@ for (const shape of Object.values<any>(model.shapes ?? {})) {
     missing.push(`${http.method} ${http.uri}`);
   }
 }
-fs.writeFileSync(modelPath, JSON.stringify(model, null, 2) + "\n");
+writeModel(modelPath, model);
 console.log(
   `   ✅ atlas: stamped versioned Accept on ${stamped} operations` +
     (missing.length ? `; ${missing.length} without a version:` : ""),

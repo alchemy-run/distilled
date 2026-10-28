@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://models-v2-lex.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LexModelsV2",
+  service: "LexModelsV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -3656,6 +3671,8 @@ export const batchCreateCustomVocabularyItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateCustomVocabularyItem",
+  telemetry: TELEMETRY,
+  span: "BatchCreateCustomVocabularyItem",
 }));
 
 export type BatchDeleteCustomVocabularyItemError =
@@ -3687,6 +3704,8 @@ export const batchDeleteCustomVocabularyItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteCustomVocabularyItem",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteCustomVocabularyItem",
 }));
 
 export type BatchUpdateCustomVocabularyItemError =
@@ -3718,6 +3737,8 @@ export const batchUpdateCustomVocabularyItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateCustomVocabularyItem",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateCustomVocabularyItem",
 }));
 
 export type BuildBotLocaleError =
@@ -3752,6 +3773,8 @@ export const buildBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BuildBotLocale",
+  telemetry: TELEMETRY,
+  span: "BuildBotLocale",
 }));
 
 export type CreateBotError =
@@ -3784,6 +3807,8 @@ export const createBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBot",
+  telemetry: TELEMETRY,
+  span: "CreateBot",
 }));
 
 export type CreateBotAliasError =
@@ -3821,6 +3846,8 @@ export const createBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotAlias",
+  telemetry: TELEMETRY,
+  span: "CreateBotAlias",
 }));
 
 export type CreateBotLocaleError =
@@ -3856,6 +3883,8 @@ export const createBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotLocale",
+  telemetry: TELEMETRY,
+  span: "CreateBotLocale",
 }));
 
 export type CreateBotReplicaError =
@@ -3888,6 +3917,8 @@ export const createBotReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotReplica",
+  telemetry: TELEMETRY,
+  span: "CreateBotReplica",
 }));
 
 export type CreateBotVersionError =
@@ -3924,6 +3955,8 @@ export const createBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotVersion",
+  telemetry: TELEMETRY,
+  span: "CreateBotVersion",
 }));
 
 export type CreateExportError =
@@ -3966,6 +3999,8 @@ export const createExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExport",
+  telemetry: TELEMETRY,
+  span: "CreateExport",
 }));
 
 export type CreateIntentError =
@@ -4029,6 +4064,8 @@ export const createIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntent",
+  telemetry: TELEMETRY,
+  span: "CreateIntent",
 }));
 
 export type CreateResourcePolicyError =
@@ -4062,6 +4099,8 @@ export const createResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateResourcePolicy",
 }));
 
 export type CreateResourcePolicyStatementError =
@@ -4104,6 +4143,8 @@ export const createResourcePolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourcePolicyStatement",
+  telemetry: TELEMETRY,
+  span: "CreateResourcePolicyStatement",
 }));
 
 export type CreateSlotError =
@@ -4140,6 +4181,8 @@ export const createSlot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlot",
+  telemetry: TELEMETRY,
+  span: "CreateSlot",
 }));
 
 export type CreateSlotTypeError =
@@ -4176,6 +4219,8 @@ export const createSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlotType",
+  telemetry: TELEMETRY,
+  span: "CreateSlotType",
 }));
 
 export type CreateTestSetDiscrepancyReportError =
@@ -4208,6 +4253,8 @@ export const createTestSetDiscrepancyReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTestSetDiscrepancyReport",
+  telemetry: TELEMETRY,
+  span: "CreateTestSetDiscrepancyReport",
 }));
 
 export type CreateUploadUrlError =
@@ -4239,6 +4286,8 @@ export const createUploadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUploadUrl",
+  telemetry: TELEMETRY,
+  span: "CreateUploadUrl",
 }));
 
 export type DeleteBotError =
@@ -4282,6 +4331,8 @@ export const deleteBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBot",
+  telemetry: TELEMETRY,
+  span: "DeleteBot",
 }));
 
 export type DeleteBotAliasError =
@@ -4314,6 +4365,8 @@ export const deleteBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteBotAlias",
 }));
 
 export type DeleteBotAnalyzerRecommendationError =
@@ -4344,6 +4397,8 @@ export const deleteBotAnalyzerRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotAnalyzerRecommendation",
+  telemetry: TELEMETRY,
+  span: "DeleteBotAnalyzerRecommendation",
 }));
 
 export type DeleteBotLocaleError =
@@ -4379,6 +4434,8 @@ export const deleteBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotLocale",
+  telemetry: TELEMETRY,
+  span: "DeleteBotLocale",
 }));
 
 export type DeleteBotReplicaError =
@@ -4411,6 +4468,8 @@ export const deleteBotReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotReplica",
+  telemetry: TELEMETRY,
+  span: "DeleteBotReplica",
 }));
 
 export type DeleteBotVersionError =
@@ -4444,6 +4503,8 @@ export const deleteBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteBotVersion",
 }));
 
 export type DeleteCustomVocabularyError =
@@ -4477,6 +4538,8 @@ export const deleteCustomVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomVocabulary",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomVocabulary",
 }));
 
 export type DeleteExportError =
@@ -4508,6 +4571,8 @@ export const deleteExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExport",
+  telemetry: TELEMETRY,
+  span: "DeleteExport",
 }));
 
 export type DeleteImportError =
@@ -4539,6 +4604,8 @@ export const deleteImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImport",
+  telemetry: TELEMETRY,
+  span: "DeleteImport",
 }));
 
 export type DeleteIntentError =
@@ -4574,6 +4641,8 @@ export const deleteIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntent",
+  telemetry: TELEMETRY,
+  span: "DeleteIntent",
 }));
 
 export type DeleteResourcePolicyError =
@@ -4603,6 +4672,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteResourcePolicyStatementError =
@@ -4638,6 +4709,8 @@ export const deleteResourcePolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicyStatement",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicyStatement",
 }));
 
 export type DeleteSlotError =
@@ -4670,6 +4743,8 @@ export const deleteSlot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlot",
+  telemetry: TELEMETRY,
+  span: "DeleteSlot",
 }));
 
 export type DeleteSlotTypeError =
@@ -4707,6 +4782,8 @@ export const deleteSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotType",
+  telemetry: TELEMETRY,
+  span: "DeleteSlotType",
 }));
 
 export type DeleteTestSetError =
@@ -4739,6 +4816,8 @@ export const deleteTestSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestSet",
+  telemetry: TELEMETRY,
+  span: "DeleteTestSet",
 }));
 
 export type DeleteUtterancesError =
@@ -4774,6 +4853,8 @@ export const deleteUtterances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUtterances",
+  telemetry: TELEMETRY,
+  span: "DeleteUtterances",
 }));
 
 export type DescribeBotError =
@@ -4804,6 +4885,8 @@ export const describeBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBot",
+  telemetry: TELEMETRY,
+  span: "DescribeBot",
 }));
 
 export type DescribeBotAliasError =
@@ -4834,6 +4917,8 @@ export const describeBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotAlias",
+  telemetry: TELEMETRY,
+  span: "DescribeBotAlias",
 }));
 
 export type DescribeBotAnalyzerRecommendationError =
@@ -4871,6 +4956,8 @@ export const describeBotAnalyzerRecommendation: API.PaginatedOperationMethod<
     items: "botAnalyzerRecommendationList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBotAnalyzerRecommendation",
 })) as any;
 
 export type DescribeBotLocaleError =
@@ -4901,6 +4988,8 @@ export const describeBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotLocale",
+  telemetry: TELEMETRY,
+  span: "DescribeBotLocale",
 }));
 
 export type DescribeBotRecommendationError =
@@ -4933,6 +5022,8 @@ export const describeBotRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotRecommendation",
+  telemetry: TELEMETRY,
+  span: "DescribeBotRecommendation",
 }));
 
 export type DescribeBotReplicaError =
@@ -4963,6 +5054,8 @@ export const describeBotReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotReplica",
+  telemetry: TELEMETRY,
+  span: "DescribeBotReplica",
 }));
 
 export type DescribeBotResourceGenerationError =
@@ -4994,6 +5087,8 @@ export const describeBotResourceGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotResourceGeneration",
+  telemetry: TELEMETRY,
+  span: "DescribeBotResourceGeneration",
 }));
 
 export type DescribeBotVersionError =
@@ -5024,6 +5119,8 @@ export const describeBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBotVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeBotVersion",
 }));
 
 export type DescribeCustomVocabularyMetadataError =
@@ -5054,6 +5151,8 @@ export const describeCustomVocabularyMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomVocabularyMetadata",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomVocabularyMetadata",
 }));
 
 export type DescribeExportError =
@@ -5082,6 +5181,8 @@ export const describeExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExport",
+  telemetry: TELEMETRY,
+  span: "DescribeExport",
 }));
 
 export type DescribeImportError =
@@ -5110,6 +5211,8 @@ export const describeImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImport",
+  telemetry: TELEMETRY,
+  span: "DescribeImport",
 }));
 
 export type DescribeIntentError =
@@ -5140,6 +5243,8 @@ export const describeIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIntent",
+  telemetry: TELEMETRY,
+  span: "DescribeIntent",
 }));
 
 export type DescribeResourcePolicyError =
@@ -5163,6 +5268,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeSlotError =
@@ -5193,6 +5300,8 @@ export const describeSlot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSlot",
+  telemetry: TELEMETRY,
+  span: "DescribeSlot",
 }));
 
 export type DescribeSlotTypeError =
@@ -5223,6 +5332,8 @@ export const describeSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSlotType",
+  telemetry: TELEMETRY,
+  span: "DescribeSlotType",
 }));
 
 export type DescribeTestExecutionError =
@@ -5253,6 +5364,8 @@ export const describeTestExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeTestExecution",
 }));
 
 export type DescribeTestSetError =
@@ -5283,6 +5396,8 @@ export const describeTestSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestSet",
+  telemetry: TELEMETRY,
+  span: "DescribeTestSet",
 }));
 
 export type DescribeTestSetDiscrepancyReportError =
@@ -5313,6 +5428,8 @@ export const describeTestSetDiscrepancyReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestSetDiscrepancyReport",
+  telemetry: TELEMETRY,
+  span: "DescribeTestSetDiscrepancyReport",
 }));
 
 export type DescribeTestSetGenerationError =
@@ -5343,6 +5460,8 @@ export const describeTestSetGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTestSetGeneration",
+  telemetry: TELEMETRY,
+  span: "DescribeTestSetGeneration",
 }));
 
 export type GenerateBotElementError =
@@ -5377,6 +5496,8 @@ export const generateBotElement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateBotElement",
+  telemetry: TELEMETRY,
+  span: "GenerateBotElement",
 }));
 
 export type GetTestExecutionArtifactsUrlError =
@@ -5407,6 +5528,8 @@ export const getTestExecutionArtifactsUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestExecutionArtifactsUrl",
+  telemetry: TELEMETRY,
+  span: "GetTestExecutionArtifactsUrl",
 }));
 
 export type ListAggregatedUtterancesError =
@@ -5464,6 +5587,8 @@ export const listAggregatedUtterances: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAggregatedUtterances",
 })) as any;
 
 export type ListBotAliasesError =
@@ -5500,6 +5625,8 @@ export const listBotAliases: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotAliases",
 })) as any;
 
 export type ListBotAliasReplicasError =
@@ -5534,6 +5661,8 @@ export const listBotAliasReplicas: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotAliasReplicas",
 })) as any;
 
 export type ListBotAnalyzerHistoryError =
@@ -5571,6 +5700,8 @@ export const listBotAnalyzerHistory: API.PaginatedOperationMethod<
     items: "botAnalyzerHistoryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotAnalyzerHistory",
 })) as any;
 
 export type ListBotLocalesError =
@@ -5605,6 +5736,8 @@ export const listBotLocales: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotLocales",
 })) as any;
 
 export type ListBotRecommendationsError =
@@ -5640,6 +5773,8 @@ export const listBotRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotRecommendations",
 })) as any;
 
 export type ListBotReplicasError =
@@ -5668,6 +5803,8 @@ export const listBotReplicas: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBotReplicas",
+  telemetry: TELEMETRY,
+  span: "ListBotReplicas",
 }));
 
 export type ListBotResourceGenerationsError =
@@ -5702,6 +5839,8 @@ export const listBotResourceGenerations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotResourceGenerations",
 })) as any;
 
 export type ListBotsError =
@@ -5736,6 +5875,8 @@ export const listBots: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBots",
 })) as any;
 
 export type ListBotVersionReplicasError =
@@ -5770,6 +5911,8 @@ export const listBotVersionReplicas: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotVersionReplicas",
 })) as any;
 
 export type ListBotVersionsError =
@@ -5813,6 +5956,8 @@ export const listBotVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBotVersions",
 })) as any;
 
 export type ListBuiltInIntentsError =
@@ -5853,6 +5998,8 @@ export const listBuiltInIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuiltInIntents",
 })) as any;
 
 export type ListBuiltInSlotTypesError =
@@ -5888,6 +6035,8 @@ export const listBuiltInSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuiltInSlotTypes",
 })) as any;
 
 export type ListCustomVocabularyItemsError =
@@ -5925,6 +6074,8 @@ export const listCustomVocabularyItems: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomVocabularyItems",
 })) as any;
 
 export type ListExportsError =
@@ -5954,6 +6105,8 @@ export const listExports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExports",
 })) as any;
 
 export type ListImportsError =
@@ -5983,6 +6136,8 @@ export const listImports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImports",
 })) as any;
 
 export type ListIntentMetricsError =
@@ -6031,6 +6186,8 @@ export const listIntentMetrics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntentMetrics",
 })) as any;
 
 export type ListIntentPathsError =
@@ -6067,6 +6224,8 @@ export const listIntentPaths: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIntentPaths",
+  telemetry: TELEMETRY,
+  span: "ListIntentPaths",
 }));
 
 export type ListIntentsError =
@@ -6103,6 +6262,8 @@ export const listIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntents",
 })) as any;
 
 export type ListIntentStageMetricsError =
@@ -6151,6 +6312,8 @@ export const listIntentStageMetrics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntentStageMetrics",
 })) as any;
 
 export type ListRecommendedIntentsError =
@@ -6189,6 +6352,8 @@ export const listRecommendedIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendedIntents",
 })) as any;
 
 export type ListSessionAnalyticsDataError =
@@ -6229,6 +6394,8 @@ export const listSessionAnalyticsData: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionAnalyticsData",
 })) as any;
 
 export type ListSessionMetricsError =
@@ -6277,6 +6444,8 @@ export const listSessionMetrics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionMetrics",
 })) as any;
 
 export type ListSlotsError =
@@ -6311,6 +6480,8 @@ export const listSlots: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSlots",
 })) as any;
 
 export type ListSlotTypesError =
@@ -6347,6 +6518,8 @@ export const listSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSlotTypes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -6376,6 +6549,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTestExecutionResultItemsError =
@@ -6412,6 +6587,8 @@ export const listTestExecutionResultItems: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestExecutionResultItems",
 })) as any;
 
 export type ListTestExecutionsError =
@@ -6446,6 +6623,8 @@ export const listTestExecutions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestExecutions",
 })) as any;
 
 export type ListTestSetRecordsError =
@@ -6482,6 +6661,8 @@ export const listTestSetRecords: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestSetRecords",
 })) as any;
 
 export type ListTestSetsError =
@@ -6516,6 +6697,8 @@ export const listTestSets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTestSets",
 })) as any;
 
 export type ListUtteranceAnalyticsDataError =
@@ -6565,6 +6748,8 @@ export const listUtteranceAnalyticsData: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUtteranceAnalyticsData",
 })) as any;
 
 export type ListUtteranceMetricsError =
@@ -6618,6 +6803,8 @@ export const listUtteranceMetrics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUtteranceMetrics",
 })) as any;
 
 export type SearchAssociatedTranscriptsError =
@@ -6649,6 +6836,8 @@ export const searchAssociatedTranscripts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchAssociatedTranscripts",
+  telemetry: TELEMETRY,
+  span: "SearchAssociatedTranscripts",
 }));
 
 export type StartBotAnalyzerError =
@@ -6681,6 +6870,8 @@ export const startBotAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBotAnalyzer",
+  telemetry: TELEMETRY,
+  span: "StartBotAnalyzer",
 }));
 
 export type StartBotRecommendationError =
@@ -6716,6 +6907,8 @@ export const startBotRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBotRecommendation",
+  telemetry: TELEMETRY,
+  span: "StartBotRecommendation",
 }));
 
 export type StartBotResourceGenerationError =
@@ -6752,6 +6945,8 @@ export const startBotResourceGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBotResourceGeneration",
+  telemetry: TELEMETRY,
+  span: "StartBotResourceGeneration",
 }));
 
 export type StartImportError =
@@ -6785,6 +6980,8 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
+  telemetry: TELEMETRY,
+  span: "StartImport",
 }));
 
 export type StartTestExecutionError =
@@ -6817,6 +7014,8 @@ export const startTestExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTestExecution",
+  telemetry: TELEMETRY,
+  span: "StartTestExecution",
 }));
 
 export type StartTestSetGenerationError =
@@ -6849,6 +7048,8 @@ export const startTestSetGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTestSetGeneration",
+  telemetry: TELEMETRY,
+  span: "StartTestSetGeneration",
 }));
 
 export type StopBotAnalyzerError =
@@ -6877,6 +7078,8 @@ export const stopBotAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBotAnalyzer",
+  telemetry: TELEMETRY,
+  span: "StopBotAnalyzer",
 }));
 
 export type StopBotRecommendationError =
@@ -6911,6 +7114,8 @@ export const stopBotRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBotRecommendation",
+  telemetry: TELEMETRY,
+  span: "StopBotRecommendation",
 }));
 
 export type TagResourceError =
@@ -6941,6 +7146,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6969,6 +7176,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBotError =
@@ -7001,6 +7210,8 @@ export const updateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBot",
+  telemetry: TELEMETRY,
+  span: "UpdateBot",
 }));
 
 export type UpdateBotAliasError =
@@ -7033,6 +7244,8 @@ export const updateBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBotAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateBotAlias",
 }));
 
 export type UpdateBotLocaleError =
@@ -7065,6 +7278,8 @@ export const updateBotLocale: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBotLocale",
+  telemetry: TELEMETRY,
+  span: "UpdateBotLocale",
 }));
 
 export type UpdateBotRecommendationError =
@@ -7099,6 +7314,8 @@ export const updateBotRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBotRecommendation",
+  telemetry: TELEMETRY,
+  span: "UpdateBotRecommendation",
 }));
 
 export type UpdateExportError =
@@ -7136,6 +7353,8 @@ export const updateExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExport",
+  telemetry: TELEMETRY,
+  span: "UpdateExport",
 }));
 
 export type UpdateIntentError =
@@ -7168,6 +7387,8 @@ export const updateIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntent",
+  telemetry: TELEMETRY,
+  span: "UpdateIntent",
 }));
 
 export type UpdateResourcePolicyError =
@@ -7202,6 +7423,8 @@ export const updateResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateResourcePolicy",
 }));
 
 export type UpdateSlotError =
@@ -7234,6 +7457,8 @@ export const updateSlot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlot",
+  telemetry: TELEMETRY,
+  span: "UpdateSlot",
 }));
 
 export type UpdateSlotTypeError =
@@ -7266,6 +7491,8 @@ export const updateSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlotType",
+  telemetry: TELEMETRY,
+  span: "UpdateSlotType",
 }));
 
 export type UpdateTestSetError =
@@ -7298,6 +7525,8 @@ export const updateTestSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTestSet",
+  telemetry: TELEMETRY,
+  span: "UpdateTestSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

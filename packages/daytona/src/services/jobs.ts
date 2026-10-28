@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Jobs",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface GetJobRequest {
   /** ID of the job */
   jobId: string;
@@ -108,6 +121,8 @@ export const getJob: API.OperationMethod<GetJobRequest, Job, GetJobError, Dayton
     errors: [UnknownDaytonaError],
     protocol: DaytonaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetJob",
   }));
 
 export type ListJobsError = DaytonaOpError;
@@ -123,6 +138,8 @@ export const listJobs: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 }));
 
 export type PollJobsError = DaytonaOpError;
@@ -138,6 +155,8 @@ export const pollJobs: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PollJobs",
 }));
 
 export type UpdateJobStatusError = DaytonaOpError;
@@ -153,6 +172,8 @@ export const updateJobStatus: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJobStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

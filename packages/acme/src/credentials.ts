@@ -53,7 +53,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("AcmeCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "AcmeCredentials",
+  ) {}
 
 /**
  * Credentials from the environment:
@@ -96,7 +98,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
             : undefined,
       }),
     ),
-    Effect.orDie,
   ),
 );
 

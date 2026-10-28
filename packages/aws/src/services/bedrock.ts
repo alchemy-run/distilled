@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Bedrock",
+  service: "Bedrock",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3789,6 +3804,8 @@ export const batchDeleteAdvancedPromptOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAdvancedPromptOptimizationJob",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteAdvancedPromptOptimizationJob",
 }));
 
 export type BatchDeleteEvaluationJobError =
@@ -3821,6 +3838,8 @@ export const batchDeleteEvaluationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteEvaluationJob",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteEvaluationJob",
 }));
 
 export type CancelAutomatedReasoningPolicyBuildWorkflowError =
@@ -3855,6 +3874,8 @@ export const cancelAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAutomatedReasoningPolicyBuildWorkflow",
+  telemetry: TELEMETRY,
+  span: "CancelAutomatedReasoningPolicyBuildWorkflow",
 }));
 
 export type CreateAdvancedPromptOptimizationJobError =
@@ -3891,6 +3912,8 @@ export const createAdvancedPromptOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdvancedPromptOptimizationJob",
+  telemetry: TELEMETRY,
+  span: "CreateAdvancedPromptOptimizationJob",
 }));
 
 export type CreateAutomatedReasoningPolicyError =
@@ -3929,6 +3952,8 @@ export const createAutomatedReasoningPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomatedReasoningPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateAutomatedReasoningPolicy",
 }));
 
 export type CreateAutomatedReasoningPolicyTestCaseError =
@@ -3963,6 +3988,8 @@ export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomatedReasoningPolicyTestCase",
+  telemetry: TELEMETRY,
+  span: "CreateAutomatedReasoningPolicyTestCase",
 }));
 
 export type CreateAutomatedReasoningPolicyVersionError =
@@ -3999,6 +4026,8 @@ export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomatedReasoningPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "CreateAutomatedReasoningPolicyVersion",
 }));
 
 export type CreateCustomModelError =
@@ -4059,6 +4088,8 @@ export const createCustomModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomModel",
+  telemetry: TELEMETRY,
+  span: "CreateCustomModel",
 }));
 
 export type CreateCustomModelDeploymentError =
@@ -4103,6 +4134,8 @@ export const createCustomModelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomModelDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateCustomModelDeployment",
 }));
 
 export type CreateEvaluationJobError =
@@ -4137,6 +4170,8 @@ export const createEvaluationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluationJob",
+  telemetry: TELEMETRY,
+  span: "CreateEvaluationJob",
 }));
 
 export type CreateFoundationModelAgreementError =
@@ -4169,6 +4204,8 @@ export const createFoundationModelAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFoundationModelAgreement",
+  telemetry: TELEMETRY,
+  span: "CreateFoundationModelAgreement",
 }));
 
 export type CreateGuardrailError =
@@ -4219,6 +4256,8 @@ export const createGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGuardrail",
+  telemetry: TELEMETRY,
+  span: "CreateGuardrail",
 }));
 
 export type CreateGuardrailVersionError =
@@ -4253,6 +4292,8 @@ export const createGuardrailVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGuardrailVersion",
+  telemetry: TELEMETRY,
+  span: "CreateGuardrailVersion",
 }));
 
 export type CreateInferenceProfileError =
@@ -4289,6 +4330,8 @@ export const createInferenceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceProfile",
+  telemetry: TELEMETRY,
+  span: "CreateInferenceProfile",
 }));
 
 export type CreateMarketplaceModelEndpointError =
@@ -4323,6 +4366,8 @@ export const createMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMarketplaceModelEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateMarketplaceModelEndpoint",
 }));
 
 export type CreateModelCopyJobError =
@@ -4351,6 +4396,8 @@ export const createModelCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelCopyJob",
+  telemetry: TELEMETRY,
+  span: "CreateModelCopyJob",
 }));
 
 export type CreateModelCustomizationJobError =
@@ -4395,6 +4442,8 @@ export const createModelCustomizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelCustomizationJob",
+  telemetry: TELEMETRY,
+  span: "CreateModelCustomizationJob",
 }));
 
 export type CreateModelImportJobError =
@@ -4431,6 +4480,8 @@ export const createModelImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateModelImportJob",
 }));
 
 export type CreateModelInvocationJobError =
@@ -4467,6 +4518,8 @@ export const createModelInvocationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelInvocationJob",
+  telemetry: TELEMETRY,
+  span: "CreateModelInvocationJob",
 }));
 
 export type CreatePromptRouterError =
@@ -4503,6 +4556,8 @@ export const createPromptRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePromptRouter",
+  telemetry: TELEMETRY,
+  span: "CreatePromptRouter",
 }));
 
 export type CreateProvisionedModelThroughputError =
@@ -4537,6 +4592,8 @@ export const createProvisionedModelThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisionedModelThroughput",
+  telemetry: TELEMETRY,
+  span: "CreateProvisionedModelThroughput",
 }));
 
 export type DeleteAutomatedReasoningPolicyError =
@@ -4571,6 +4628,8 @@ export const deleteAutomatedReasoningPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomatedReasoningPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteAutomatedReasoningPolicy",
 }));
 
 export type DeleteAutomatedReasoningPolicyBuildWorkflowError =
@@ -4609,6 +4668,8 @@ export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomatedReasoningPolicyBuildWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteAutomatedReasoningPolicyBuildWorkflow",
 }));
 
 export type DeleteAutomatedReasoningPolicyTestCaseError =
@@ -4643,6 +4704,8 @@ export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomatedReasoningPolicyTestCase",
+  telemetry: TELEMETRY,
+  span: "DeleteAutomatedReasoningPolicyTestCase",
 }));
 
 export type DeleteCustomModelError =
@@ -4675,6 +4738,8 @@ export const deleteCustomModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomModel",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomModel",
 }));
 
 export type DeleteCustomModelDeploymentError =
@@ -4715,6 +4780,8 @@ export const deleteCustomModelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomModelDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomModelDeployment",
 }));
 
 export type DeleteEnforcedGuardrailConfigurationError =
@@ -4745,6 +4812,8 @@ export const deleteEnforcedGuardrailConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnforcedGuardrailConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEnforcedGuardrailConfiguration",
 }));
 
 export type DeleteFoundationModelAgreementError =
@@ -4777,6 +4846,8 @@ export const deleteFoundationModelAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFoundationModelAgreement",
+  telemetry: TELEMETRY,
+  span: "DeleteFoundationModelAgreement",
 }));
 
 export type DeleteGuardrailError =
@@ -4815,6 +4886,8 @@ export const deleteGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGuardrail",
+  telemetry: TELEMETRY,
+  span: "DeleteGuardrail",
 }));
 
 export type DeleteImportedModelError =
@@ -4847,6 +4920,8 @@ export const deleteImportedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportedModel",
+  telemetry: TELEMETRY,
+  span: "DeleteImportedModel",
 }));
 
 export type DeleteInferenceProfileError =
@@ -4879,6 +4954,8 @@ export const deleteInferenceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteInferenceProfile",
 }));
 
 export type DeleteMarketplaceModelEndpointError =
@@ -4909,6 +4986,8 @@ export const deleteMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMarketplaceModelEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteMarketplaceModelEndpoint",
 }));
 
 export type DeleteModelInvocationLoggingConfigurationError =
@@ -4931,6 +5010,8 @@ export const deleteModelInvocationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelInvocationLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteModelInvocationLoggingConfiguration",
 }));
 
 export type DeletePromptRouterError =
@@ -4961,6 +5042,8 @@ export const deletePromptRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePromptRouter",
+  telemetry: TELEMETRY,
+  span: "DeletePromptRouter",
 }));
 
 export type DeleteProvisionedModelThroughputError =
@@ -4993,6 +5076,8 @@ export const deleteProvisionedModelThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedModelThroughput",
+  telemetry: TELEMETRY,
+  span: "DeleteProvisionedModelThroughput",
 }));
 
 export type DeleteResourcePolicyError =
@@ -5023,6 +5108,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeregisterMarketplaceModelEndpointError =
@@ -5055,6 +5142,8 @@ export const deregisterMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterMarketplaceModelEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeregisterMarketplaceModelEndpoint",
 }));
 
 export type ExportAutomatedReasoningPolicyVersionError =
@@ -5085,6 +5174,8 @@ export const exportAutomatedReasoningPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportAutomatedReasoningPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "ExportAutomatedReasoningPolicyVersion",
 }));
 
 export type GetAccountDataRetentionError =
@@ -5113,6 +5204,8 @@ export const getAccountDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountDataRetention",
+  telemetry: TELEMETRY,
+  span: "GetAccountDataRetention",
 }));
 
 export type GetAdvancedPromptOptimizationJobError =
@@ -5143,6 +5236,8 @@ export const getAdvancedPromptOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdvancedPromptOptimizationJob",
+  telemetry: TELEMETRY,
+  span: "GetAdvancedPromptOptimizationJob",
 }));
 
 export type GetAutomatedReasoningPolicyError =
@@ -5173,6 +5268,8 @@ export const getAutomatedReasoningPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicy",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedReasoningPolicy",
 }));
 
 export type GetAutomatedReasoningPolicyAnnotationsError =
@@ -5203,6 +5300,8 @@ export const getAutomatedReasoningPolicyAnnotations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyAnnotations",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedReasoningPolicyAnnotations",
 }));
 
 export type GetAutomatedReasoningPolicyBuildWorkflowError =
@@ -5233,6 +5332,8 @@ export const getAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyBuildWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedReasoningPolicyBuildWorkflow",
 }));
 
 export type GetAutomatedReasoningPolicyBuildWorkflowResultAssetsError =
@@ -5271,6 +5372,8 @@ export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: API.Operation
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyBuildWorkflowResultAssets",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedReasoningPolicyBuildWorkflowResultAssets",
 }));
 
 export type GetAutomatedReasoningPolicyNextScenarioError =
@@ -5301,6 +5404,8 @@ export const getAutomatedReasoningPolicyNextScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyNextScenario",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedReasoningPolicyNextScenario",
 }));
 
 export type GetAutomatedReasoningPolicyTestCaseError =
@@ -5331,6 +5436,8 @@ export const getAutomatedReasoningPolicyTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyTestCase",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedReasoningPolicyTestCase",
 }));
 
 export type GetAutomatedReasoningPolicyTestResultError =
@@ -5361,6 +5468,8 @@ export const getAutomatedReasoningPolicyTestResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyTestResult",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedReasoningPolicyTestResult",
 }));
 
 export type GetCustomModelError =
@@ -5391,6 +5500,8 @@ export const getCustomModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomModel",
+  telemetry: TELEMETRY,
+  span: "GetCustomModel",
 }));
 
 export type GetCustomModelDeploymentError =
@@ -5429,6 +5540,8 @@ export const getCustomModelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomModelDeployment",
+  telemetry: TELEMETRY,
+  span: "GetCustomModelDeployment",
 }));
 
 export type GetEvaluationJobError =
@@ -5459,6 +5572,8 @@ export const getEvaluationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluationJob",
+  telemetry: TELEMETRY,
+  span: "GetEvaluationJob",
 }));
 
 export type GetFoundationModelError =
@@ -5489,6 +5604,8 @@ export const getFoundationModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFoundationModel",
+  telemetry: TELEMETRY,
+  span: "GetFoundationModel",
 }));
 
 export type GetFoundationModelAvailabilityError =
@@ -5519,6 +5636,8 @@ export const getFoundationModelAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFoundationModelAvailability",
+  telemetry: TELEMETRY,
+  span: "GetFoundationModelAvailability",
 }));
 
 export type GetGuardrailError =
@@ -5549,6 +5668,8 @@ export const getGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGuardrail",
+  telemetry: TELEMETRY,
+  span: "GetGuardrail",
 }));
 
 export type GetImportedModelError =
@@ -5579,6 +5700,8 @@ export const getImportedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportedModel",
+  telemetry: TELEMETRY,
+  span: "GetImportedModel",
 }));
 
 export type GetInferenceProfileError =
@@ -5609,6 +5732,8 @@ export const getInferenceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInferenceProfile",
+  telemetry: TELEMETRY,
+  span: "GetInferenceProfile",
 }));
 
 export type GetMarketplaceModelEndpointError =
@@ -5639,6 +5764,8 @@ export const getMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMarketplaceModelEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetMarketplaceModelEndpoint",
 }));
 
 export type GetModelCopyJobError =
@@ -5669,6 +5796,8 @@ export const getModelCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelCopyJob",
+  telemetry: TELEMETRY,
+  span: "GetModelCopyJob",
 }));
 
 export type GetModelCustomizationJobError =
@@ -5699,6 +5828,8 @@ export const getModelCustomizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelCustomizationJob",
+  telemetry: TELEMETRY,
+  span: "GetModelCustomizationJob",
 }));
 
 export type GetModelImportJobError =
@@ -5729,6 +5860,8 @@ export const getModelImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelImportJob",
+  telemetry: TELEMETRY,
+  span: "GetModelImportJob",
 }));
 
 export type GetModelInvocationJobError =
@@ -5759,6 +5892,8 @@ export const getModelInvocationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelInvocationJob",
+  telemetry: TELEMETRY,
+  span: "GetModelInvocationJob",
 }));
 
 export type GetModelInvocationLoggingConfigurationError =
@@ -5781,6 +5916,8 @@ export const getModelInvocationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelInvocationLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetModelInvocationLoggingConfiguration",
 }));
 
 export type GetPromptRouterError =
@@ -5811,6 +5948,8 @@ export const getPromptRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPromptRouter",
+  telemetry: TELEMETRY,
+  span: "GetPromptRouter",
 }));
 
 export type GetProvisionedModelThroughputError =
@@ -5841,6 +5980,8 @@ export const getProvisionedModelThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedModelThroughput",
+  telemetry: TELEMETRY,
+  span: "GetProvisionedModelThroughput",
 }));
 
 export type GetResourcePolicyError =
@@ -5871,6 +6012,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetUseCaseForModelAccessError =
@@ -5899,6 +6042,8 @@ export const getUseCaseForModelAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUseCaseForModelAccess",
+  telemetry: TELEMETRY,
+  span: "GetUseCaseForModelAccess",
 }));
 
 export type ListAdvancedPromptOptimizationJobsError =
@@ -5934,6 +6079,8 @@ export const listAdvancedPromptOptimizationJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAdvancedPromptOptimizationJobs",
 })) as any;
 
 export type ListAutomatedReasoningPoliciesError =
@@ -5971,6 +6118,8 @@ export const listAutomatedReasoningPolicies: API.PaginatedOperationMethod<
     items: "automatedReasoningPolicySummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomatedReasoningPolicies",
 })) as any;
 
 export type ListAutomatedReasoningPolicyBuildWorkflowsError =
@@ -6012,6 +6161,8 @@ export const listAutomatedReasoningPolicyBuildWorkflows: API.PaginatedOperationM
     items: "automatedReasoningPolicyBuildWorkflowSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomatedReasoningPolicyBuildWorkflows",
 })) as any;
 
 export type ListAutomatedReasoningPolicyTestCasesError =
@@ -6049,6 +6200,8 @@ export const listAutomatedReasoningPolicyTestCases: API.PaginatedOperationMethod
     items: "testCases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomatedReasoningPolicyTestCases",
 })) as any;
 
 export type ListAutomatedReasoningPolicyTestResultsError =
@@ -6088,6 +6241,8 @@ export const listAutomatedReasoningPolicyTestResults: API.PaginatedOperationMeth
     items: "testResults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomatedReasoningPolicyTestResults",
 })) as any;
 
 export type ListCustomModelDeploymentsError =
@@ -6133,6 +6288,8 @@ export const listCustomModelDeployments: API.PaginatedOperationMethod<
     items: "modelDeploymentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomModelDeployments",
 })) as any;
 
 export type ListCustomModelsError =
@@ -6170,6 +6327,8 @@ export const listCustomModels: API.PaginatedOperationMethod<
     items: "modelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomModels",
 })) as any;
 
 export type ListEnforcedGuardrailsConfigurationError =
@@ -6206,6 +6365,8 @@ export const listEnforcedGuardrailsConfiguration: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "guardrailsConfig",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnforcedGuardrailsConfiguration",
 })) as any;
 
 export type ListEvaluationJobsError =
@@ -6241,6 +6402,8 @@ export const listEvaluationJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEvaluationJobs",
 })) as any;
 
 export type ListFoundationModelAgreementOffersError =
@@ -6271,6 +6434,8 @@ export const listFoundationModelAgreementOffers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFoundationModelAgreementOffers",
+  telemetry: TELEMETRY,
+  span: "ListFoundationModelAgreementOffers",
 }));
 
 export type ListFoundationModelsError =
@@ -6299,6 +6464,8 @@ export const listFoundationModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFoundationModels",
+  telemetry: TELEMETRY,
+  span: "ListFoundationModels",
 }));
 
 export type ListGuardrailsError =
@@ -6338,6 +6505,8 @@ export const listGuardrails: API.PaginatedOperationMethod<
     items: "guardrails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGuardrails",
 })) as any;
 
 export type ListImportedModelsError =
@@ -6373,6 +6542,8 @@ export const listImportedModels: API.PaginatedOperationMethod<
     items: "modelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportedModels",
 })) as any;
 
 export type ListInferenceProfilesError =
@@ -6408,6 +6579,8 @@ export const listInferenceProfiles: API.PaginatedOperationMethod<
     items: "inferenceProfileSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceProfiles",
 })) as any;
 
 export type ListMarketplaceModelEndpointsError =
@@ -6445,6 +6618,8 @@ export const listMarketplaceModelEndpoints: API.PaginatedOperationMethod<
     items: "marketplaceModelEndpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceModelEndpoints",
 })) as any;
 
 export type ListModelCopyJobsError =
@@ -6482,6 +6657,8 @@ export const listModelCopyJobs: API.PaginatedOperationMethod<
     items: "modelCopyJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelCopyJobs",
 })) as any;
 
 export type ListModelCustomizationJobsError =
@@ -6519,6 +6696,8 @@ export const listModelCustomizationJobs: API.PaginatedOperationMethod<
     items: "modelCustomizationJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelCustomizationJobs",
 })) as any;
 
 export type ListModelImportJobsError =
@@ -6554,6 +6733,8 @@ export const listModelImportJobs: API.PaginatedOperationMethod<
     items: "modelImportJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelImportJobs",
 })) as any;
 
 export type ListModelInvocationJobsError =
@@ -6589,6 +6770,8 @@ export const listModelInvocationJobs: API.PaginatedOperationMethod<
     items: "invocationJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelInvocationJobs",
 })) as any;
 
 export type ListPromptRoutersError =
@@ -6624,6 +6807,8 @@ export const listPromptRouters: API.PaginatedOperationMethod<
     items: "promptRouterSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPromptRouters",
 })) as any;
 
 export type ListProvisionedModelThroughputsError =
@@ -6659,6 +6844,8 @@ export const listProvisionedModelThroughputs: API.PaginatedOperationMethod<
     items: "provisionedModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProvisionedModelThroughputs",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -6691,6 +6878,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAccountDataRetentionError =
@@ -6719,6 +6908,8 @@ export const putAccountDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountDataRetention",
+  telemetry: TELEMETRY,
+  span: "PutAccountDataRetention",
 }));
 
 export type PutEnforcedGuardrailConfigurationError =
@@ -6751,6 +6942,8 @@ export const putEnforcedGuardrailConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEnforcedGuardrailConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutEnforcedGuardrailConfiguration",
 }));
 
 export type PutModelInvocationLoggingConfigurationError =
@@ -6779,6 +6972,8 @@ export const putModelInvocationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutModelInvocationLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutModelInvocationLoggingConfiguration",
 }));
 
 export type PutResourcePolicyError =
@@ -6809,6 +7004,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type PutUseCaseForModelAccessError =
@@ -6837,6 +7034,8 @@ export const putUseCaseForModelAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUseCaseForModelAccess",
+  telemetry: TELEMETRY,
+  span: "PutUseCaseForModelAccess",
 }));
 
 export type RegisterMarketplaceModelEndpointError =
@@ -6869,6 +7068,8 @@ export const registerMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterMarketplaceModelEndpoint",
+  telemetry: TELEMETRY,
+  span: "RegisterMarketplaceModelEndpoint",
 }));
 
 export type StartAutomatedReasoningPolicyBuildWorkflowError =
@@ -6905,6 +7106,8 @@ export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomatedReasoningPolicyBuildWorkflow",
+  telemetry: TELEMETRY,
+  span: "StartAutomatedReasoningPolicyBuildWorkflow",
 }));
 
 export type StartAutomatedReasoningPolicyTestWorkflowError =
@@ -6937,6 +7140,8 @@ export const startAutomatedReasoningPolicyTestWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomatedReasoningPolicyTestWorkflow",
+  telemetry: TELEMETRY,
+  span: "StartAutomatedReasoningPolicyTestWorkflow",
 }));
 
 export type StopAdvancedPromptOptimizationJobError =
@@ -6969,6 +7174,8 @@ export const stopAdvancedPromptOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAdvancedPromptOptimizationJob",
+  telemetry: TELEMETRY,
+  span: "StopAdvancedPromptOptimizationJob",
 }));
 
 export type StopEvaluationJobError =
@@ -7001,6 +7208,8 @@ export const stopEvaluationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEvaluationJob",
+  telemetry: TELEMETRY,
+  span: "StopEvaluationJob",
 }));
 
 export type StopModelCustomizationJobError =
@@ -7033,6 +7242,8 @@ export const stopModelCustomizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopModelCustomizationJob",
+  telemetry: TELEMETRY,
+  span: "StopModelCustomizationJob",
 }));
 
 export type StopModelInvocationJobError =
@@ -7065,6 +7276,8 @@ export const stopModelInvocationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopModelInvocationJob",
+  telemetry: TELEMETRY,
+  span: "StopModelInvocationJob",
 }));
 
 export type TagResourceError =
@@ -7097,6 +7310,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -7127,6 +7342,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAutomatedReasoningPolicyError =
@@ -7161,6 +7378,8 @@ export const updateAutomatedReasoningPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedReasoningPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomatedReasoningPolicy",
 }));
 
 export type UpdateAutomatedReasoningPolicyAnnotationsError =
@@ -7193,6 +7412,8 @@ export const updateAutomatedReasoningPolicyAnnotations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedReasoningPolicyAnnotations",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomatedReasoningPolicyAnnotations",
 }));
 
 export type UpdateAutomatedReasoningPolicyTestCaseError =
@@ -7227,6 +7448,8 @@ export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedReasoningPolicyTestCase",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomatedReasoningPolicyTestCase",
 }));
 
 export type UpdateCustomModelDeploymentError =
@@ -7257,6 +7480,8 @@ export const updateCustomModelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomModelDeployment",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomModelDeployment",
 }));
 
 export type UpdateGuardrailError =
@@ -7311,6 +7536,8 @@ export const updateGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGuardrail",
+  telemetry: TELEMETRY,
+  span: "UpdateGuardrail",
 }));
 
 export type UpdateMarketplaceModelEndpointError =
@@ -7345,6 +7572,8 @@ export const updateMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMarketplaceModelEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateMarketplaceModelEndpoint",
 }));
 
 export type UpdateProvisionedModelThroughputError =
@@ -7375,6 +7604,8 @@ export const updateProvisionedModelThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedModelThroughput",
+  telemetry: TELEMETRY,
+  span: "UpdateProvisionedModelThroughput",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

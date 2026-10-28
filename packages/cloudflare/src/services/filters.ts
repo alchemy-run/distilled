@@ -24,6 +24,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Filters",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type BulkDeleteRequestIdList = Array<string>;
 export interface BulkDeleteFiltersRequest {
   /** Defines an identifier. */
@@ -184,6 +198,8 @@ export const bulkDeleteFilters: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteFilters",
 }));
 
 export type BulkPutFiltersError = CloudflareOpError;
@@ -201,6 +217,8 @@ export const bulkPutFilters: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkPutFilters",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -221,6 +239,8 @@ export const createFilter: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateFilter",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -239,6 +259,8 @@ export const deleteFilter: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFilter",
 }));
 
 export type GetFilterError = CloudflareOpError;
@@ -254,6 +276,8 @@ export const getFilter: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFilter",
 }));
 
 export type ListFiltersError = CloudflareOpError;
@@ -271,6 +295,8 @@ export const listFilters: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFilters",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -295,6 +321,8 @@ export const updateFilter: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFilter",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

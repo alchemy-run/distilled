@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pca-connector-scep.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PcaConnectorScep",
+  service: "PcaConnectorScep",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -348,6 +363,8 @@ export const createChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChallenge",
+  telemetry: TELEMETRY,
+  span: "CreateChallenge",
 }));
 
 export type CreateConnectorError =
@@ -382,6 +399,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type DeleteChallengeError =
@@ -414,6 +433,8 @@ export const deleteChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChallenge",
+  telemetry: TELEMETRY,
+  span: "DeleteChallenge",
 }));
 
 export type DeleteConnectorError =
@@ -446,6 +467,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type GetChallengeMetadataError =
@@ -476,6 +499,8 @@ export const getChallengeMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChallengeMetadata",
+  telemetry: TELEMETRY,
+  span: "GetChallengeMetadata",
 }));
 
 export type GetChallengePasswordError =
@@ -506,6 +531,8 @@ export const getChallengePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChallengePassword",
+  telemetry: TELEMETRY,
+  span: "GetChallengePassword",
 }));
 
 export type GetConnectorError =
@@ -536,6 +563,8 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type ListChallengeMetadataError =
@@ -573,6 +602,8 @@ export const listChallengeMetadata: API.PaginatedOperationMethod<
     items: "Challenges",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChallengeMetadata",
 })) as any;
 
 export type ListConnectorsError =
@@ -608,6 +639,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "Connectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -638,6 +671,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -668,6 +703,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -698,6 +735,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

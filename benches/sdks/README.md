@@ -119,7 +119,7 @@ same measurement, cut down to finish within the other CI jobs:
   that changes `core` rebuilds all three, about 3 minutes.
 - **Main's numbers:** each push to main runs `ci.ts run --wide` (every SDK)
   and caches it with a rolling history of main's runs (the line charts) as
-  `bench-ci-main-<sha>-<run id>`. A PR restores its base's entry or the
+  `bench-ci-main-v2-<sha>-<run id>`. A PR restores its base's entry or the
   newest one; on a miss it benchmarks the base commit in the same job. Run
   the workflow by hand on main with `backfill: N` to seed the history.
 

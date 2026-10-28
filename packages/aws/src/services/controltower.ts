@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://controltower.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ControlTower",
+  service: "ControlTower",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -619,6 +634,8 @@ export const createLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLandingZone",
+  telemetry: TELEMETRY,
+  span: "CreateLandingZone",
 }));
 
 export type DeleteLandingZoneError =
@@ -655,6 +672,8 @@ export const deleteLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLandingZone",
+  telemetry: TELEMETRY,
+  span: "DeleteLandingZone",
 }));
 
 export type DisableBaselineError =
@@ -691,6 +710,8 @@ export const disableBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableBaseline",
+  telemetry: TELEMETRY,
+  span: "DisableBaseline",
 }));
 
 export type DisableControlError =
@@ -725,6 +746,8 @@ export const disableControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableControl",
+  telemetry: TELEMETRY,
+  span: "DisableControl",
 }));
 
 export type EnableBaselineError =
@@ -761,6 +784,8 @@ export const enableBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableBaseline",
+  telemetry: TELEMETRY,
+  span: "EnableBaseline",
 }));
 
 export type EnableControlError =
@@ -795,6 +820,8 @@ export const enableControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableControl",
+  telemetry: TELEMETRY,
+  span: "EnableControl",
 }));
 
 export type GetBaselineError =
@@ -827,6 +854,8 @@ export const getBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaseline",
+  telemetry: TELEMETRY,
+  span: "GetBaseline",
 }));
 
 export type GetBaselineOperationError =
@@ -859,6 +888,8 @@ export const getBaselineOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaselineOperation",
+  telemetry: TELEMETRY,
+  span: "GetBaselineOperation",
 }));
 
 export type GetControlOperationError =
@@ -889,6 +920,8 @@ export const getControlOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetControlOperation",
+  telemetry: TELEMETRY,
+  span: "GetControlOperation",
 }));
 
 export type GetEnabledBaselineError =
@@ -921,6 +954,8 @@ export const getEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledBaseline",
+  telemetry: TELEMETRY,
+  span: "GetEnabledBaseline",
 }));
 
 export type GetEnabledControlError =
@@ -951,6 +986,8 @@ export const getEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledControl",
+  telemetry: TELEMETRY,
+  span: "GetEnabledControl",
 }));
 
 export type GetLandingZoneError =
@@ -983,6 +1020,8 @@ export const getLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLandingZone",
+  telemetry: TELEMETRY,
+  span: "GetLandingZone",
 }));
 
 export type GetLandingZoneOperationError =
@@ -1015,6 +1054,8 @@ export const getLandingZoneOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLandingZoneOperation",
+  telemetry: TELEMETRY,
+  span: "GetLandingZoneOperation",
 }));
 
 export type ListBaselinesError =
@@ -1052,6 +1093,8 @@ export const listBaselines: API.PaginatedOperationMethod<
     items: "baselines",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBaselines",
 })) as any;
 
 export type ListControlOperationsError =
@@ -1087,6 +1130,8 @@ export const listControlOperations: API.PaginatedOperationMethod<
     items: "controlOperations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControlOperations",
 })) as any;
 
 export type ListEnabledBaselinesError =
@@ -1124,6 +1169,8 @@ export const listEnabledBaselines: API.PaginatedOperationMethod<
     items: "enabledBaselines",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnabledBaselines",
 })) as any;
 
 export type ListEnabledControlsError =
@@ -1161,6 +1208,8 @@ export const listEnabledControls: API.PaginatedOperationMethod<
     items: "enabledControls",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnabledControls",
 })) as any;
 
 export type ListLandingZoneOperationsError =
@@ -1198,6 +1247,8 @@ export const listLandingZoneOperations: API.PaginatedOperationMethod<
     items: "landingZoneOperations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLandingZoneOperations",
 })) as any;
 
 export type ListLandingZonesError =
@@ -1237,6 +1288,8 @@ export const listLandingZones: API.PaginatedOperationMethod<
     items: "landingZones",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLandingZones",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1265,6 +1318,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResetEnabledBaselineError =
@@ -1301,6 +1356,8 @@ export const resetEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEnabledBaseline",
+  telemetry: TELEMETRY,
+  span: "ResetEnabledBaseline",
 }));
 
 export type ResetEnabledControlError =
@@ -1335,6 +1392,8 @@ export const resetEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEnabledControl",
+  telemetry: TELEMETRY,
+  span: "ResetEnabledControl",
 }));
 
 export type ResetLandingZoneError =
@@ -1369,6 +1428,8 @@ export const resetLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetLandingZone",
+  telemetry: TELEMETRY,
+  span: "ResetLandingZone",
 }));
 
 export type TagResourceError =
@@ -1397,6 +1458,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1425,6 +1488,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEnabledBaselineError =
@@ -1461,6 +1526,8 @@ export const updateEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnabledBaseline",
+  telemetry: TELEMETRY,
+  span: "UpdateEnabledBaseline",
 }));
 
 export type UpdateEnabledControlError =
@@ -1501,6 +1568,8 @@ export const updateEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnabledControl",
+  telemetry: TELEMETRY,
+  span: "UpdateEnabledControl",
 }));
 
 export type UpdateLandingZoneError =
@@ -1535,6 +1604,8 @@ export const updateLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLandingZone",
+  telemetry: TELEMETRY,
+  span: "UpdateLandingZone",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

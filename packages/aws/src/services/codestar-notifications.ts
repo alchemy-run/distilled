@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codestar-notifications.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "codestarnotifications",
+  service: "codestarnotifications",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -354,6 +369,8 @@ export const createNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationRule",
+  telemetry: TELEMETRY,
+  span: "CreateNotificationRule",
 }));
 
 export type DeleteNotificationRuleError =
@@ -376,6 +393,8 @@ export const deleteNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationRule",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationRule",
 }));
 
 export type DeleteTargetError = ValidationException | CommonErrors;
@@ -394,6 +413,8 @@ export const deleteTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTarget",
+  telemetry: TELEMETRY,
+  span: "DeleteTarget",
 }));
 
 export type DescribeNotificationRuleError =
@@ -415,6 +436,8 @@ export const describeNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotificationRule",
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationRule",
 }));
 
 export type ListEventTypesError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -440,6 +463,8 @@ export const listEventTypes: API.PaginatedOperationMethod<
     items: "EventTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventTypes",
 })) as any;
 
 export type ListNotificationRulesError =
@@ -468,6 +493,8 @@ export const listNotificationRules: API.PaginatedOperationMethod<
     items: "NotificationRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationRules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -489,6 +516,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetsError = InvalidNextTokenException | ValidationException | CommonErrors;
@@ -514,6 +543,8 @@ export const listTargets: API.PaginatedOperationMethod<
     items: "Targets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargets",
 })) as any;
 
 export type SubscribeError =
@@ -538,6 +569,8 @@ export const subscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Subscribe",
+  telemetry: TELEMETRY,
+  span: "Subscribe",
 }));
 
 export type TagResourceError =
@@ -566,6 +599,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnsubscribeError = ValidationException | CommonErrors;
@@ -586,6 +621,8 @@ export const unsubscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Unsubscribe",
+  telemetry: TELEMETRY,
+  span: "Unsubscribe",
 }));
 
 export type UntagResourceError =
@@ -615,6 +652,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateNotificationRuleError =
@@ -641,6 +680,8 @@ export const updateNotificationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationRule",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

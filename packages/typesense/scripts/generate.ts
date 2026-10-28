@@ -69,6 +69,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Typesense Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — there is no smithy-model patch chain.

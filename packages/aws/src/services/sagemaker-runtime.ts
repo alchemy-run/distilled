@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -84,6 +85,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://runtime.sagemaker.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SageMakerRuntime",
+  service: "SageMakerRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalDependencyException
   extends /*@__PURE__*/ S.TaggedError<InternalDependencyException>()(
@@ -279,6 +294,8 @@ export const invokeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpoint",
+  telemetry: TELEMETRY,
+  span: "InvokeEndpoint",
 }));
 
 export type InvokeEndpointAsyncError =
@@ -315,6 +332,8 @@ export const invokeEndpointAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointAsync",
+  telemetry: TELEMETRY,
+  span: "InvokeEndpointAsync",
 }));
 
 export type InvokeEndpointWithResponseStreamError =
@@ -370,6 +389,8 @@ export const invokeEndpointWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointWithResponseStream",
+  telemetry: TELEMETRY,
+  span: "InvokeEndpointWithResponseStream",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

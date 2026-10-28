@@ -7,15 +7,17 @@ description: Add or change a patch in packages/<pkg>/patches/ to correct a disti
 
 A patch is a claim that the upstream description is wrong about the wire.
 It lives in `packages/<pkg>/patches/` and is committed together with the
-`.generated-specs/` and `src/services/` it produces. Every package runs the
-same pipeline (engine: `packages/dev/src/codegen/patches.ts`):
+`src/services/` it produces. Every package runs the same pipeline (engine:
+`packages/dev/src/codegen/patches.ts`):
 
 1. convert the spec to a Smithy model, shapes named the way the spec names
    them;
 2. apply the patches: RFC-6902 ops on that model (`/shapes`, `/metadata`),
    in `finalizeConvert`;
 3. rename operations to verbNoun;
-4. write `.generated-specs/` — the patched, renamed model generate compiles.
+4. hand the patched, renamed models to generate, in memory. `pnpm convert`
+   instead writes them to the gitignored `.generated-specs/` for you to
+   read; they are never committed.
 
 A patch never edits the spec (`/paths`, `/components`, `/definitions`);
 convert rejects one that does. Stale pointers fail the run, and operation
@@ -43,7 +45,7 @@ callers a type they trust.
 | Package shape | Where the patch goes |
 | --- | --- |
 | One model (`planetscale`, `neon`) | flat `patches/<topic>.patch.json` |
-| Several models (`posthog`, `kubernetes`, `azure`, `gcp`, `fly-io`) | `patches/<model>/<topic>.json` — `<model>` is the `.generated-specs/<model>.json` it patches. `axiom` passes one patches dir per spec (`patches/v1-edge-ingest/`); follow its `convert.ts` |
+| Several models (`posthog`, `kubernetes`, `azure`, `gcp`, `fly-io`) | `patches/<model>/<topic>.json` — `<model>` is the model (`.generated-specs/<model>.json` in a `pnpm convert` dump) it patches. `axiom` passes one patches dir per spec (`patches/v1-edge-ingest/`); follow its `convert.ts` |
 | Cloudflare | `patches/<service>/<operation>.json`; error shapes shared by a service go once in `patches/<service>/_errors.json` |
 | AWS | `patches/<sdkId>.json` — a typed config for `applyAwsSpecPatches` (`errors`, `syntheticErrors`, `errorCategories`, `enums`, …), not RFC-6902. Follow the neighbours. |
 
@@ -62,15 +64,15 @@ file changes.
 
 Every pointer is `/shapes/<namespace>#<Shape>/…` on the converted model.
 Patches apply *before* the verbNoun rename, so they name shapes the way the
-spec does (`AppIPAssignmentsCreate`, not the `CreateAppIPAssignment` in
-`.generated-specs/`). Find the id with:
+spec does (`AppIPAssignmentsCreate`, not the `CreateAppIPAssignment` that
+`pnpm convert` writes to `.generated-specs/`). Find the id with:
 
 ```sh
 pnpm patches:names <pkg> CreateAppIPAssignment
 # machines: com.flyio.machines#CreateAppIPAssignment ← com.flyio.machines#AppIPAssignmentsCreate
 ```
 
-A shape `names` does not list keeps its `.generated-specs` id. A shape a
+A shape `names` does not list keeps its converted id. A shape a
 patch adds keeps the id the patch gives it — use the final name you want;
 one that takes an id the rename needs fails the convert.
 
@@ -168,6 +170,16 @@ generated interface then gains `[key: string]: unknown` and the schema an
 `remove …/shapes/<id>/traits/com.distilled.openapi#additionalProperties`; an
 object the wire extends but the spec closes gains it with `add` and `{}`.
 
+**Trace span carries the wrong thing.** Span names, kinds and attributes
+are the `com.distilled.telemetry#…` traits (spec:
+`packages/dev/src/codegen/telemetry-traits.md`). Convert stamps defaults
+after the patches and keeps any field a patch set, so a patch adds or
+replaces just the trait or field it means: `[]` as a member's
+`com.distilled.telemetry#attributes` stops recording that member, and an
+operation's `com.distilled.telemetry#operation` `{ "kind": "producer" }`
+changes only its kind. AWS patches are not RFC-6902: AWS spans come from
+the table in `packages/aws/scripts/telemetry.ts`.
+
 **One operation returns more than the shared shape promises.** Add a copy
 of the shape under a new name, change the copy, and re-point only that
 operation's member or output at it, so the other operations keep the shared
@@ -180,9 +192,7 @@ pnpm generate <pkg>
 ```
 
 Always regenerate with `pnpm generate <pkg>`, even for one service. It
-converts, generates and formats; a bare `convert` (with or without
-`--resource`) leaves `.generated-specs/` unformatted, and the diff then
-shows every file as changed.
+converts in memory, generates and formats.
 
 Do not add a per-package test for the patch. The generated diff in the next
 step shows what the patch changes, and the behaviour it relies on (error
@@ -193,11 +203,13 @@ that test in the same update.
 ## Step 5 — check the change
 
 ```sh
-git diff origin/main -- packages/<pkg>/.generated-specs packages/<pkg>/src/services
+git diff origin/main -- packages/<pkg>/src/services
 ```
 
 Diff against `origin/main` so a patch already committed on a PR branch
-still shows up. Read the diff against the description:
+still shows up. To see the patch at the model level, run `pnpm convert` in
+the package on both sides and diff the two `.generated-specs/` dumps. Read
+the diff against the description:
 
 - exactly the shapes and members meant changed — done.
 - nothing changed — the spec already says this (drop the patch), or the
@@ -212,6 +224,6 @@ has moved underneath them. That is the `distilled-sdk-update` skill's job.
 
 Then check the generated TypeScript reads the way a caller needs, run
 `pnpm exec tsrs -b packages/<pkg> --noCheck false`, and commit the patch
-with the `.generated-specs/` and `src/services/` it produced, as
+with the `src/services/` it produced, as
 `fix(<pkg>): …` naming what callers gain ("type 422s observed on the live
 API").

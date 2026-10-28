@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://repostspace.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "repostspace",
+  service: "repostspace",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -468,6 +483,8 @@ export const batchAddChannelRoleToAccessors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAddChannelRoleToAccessors",
+  telemetry: TELEMETRY,
+  span: "BatchAddChannelRoleToAccessors",
 }));
 
 export type BatchAddRoleError =
@@ -498,6 +515,8 @@ export const batchAddRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAddRole",
+  telemetry: TELEMETRY,
+  span: "BatchAddRole",
 }));
 
 export type BatchRemoveChannelRoleFromAccessorsError =
@@ -528,6 +547,8 @@ export const batchRemoveChannelRoleFromAccessors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRemoveChannelRoleFromAccessors",
+  telemetry: TELEMETRY,
+  span: "BatchRemoveChannelRoleFromAccessors",
 }));
 
 export type BatchRemoveRoleError =
@@ -558,6 +579,8 @@ export const batchRemoveRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRemoveRole",
+  telemetry: TELEMETRY,
+  span: "BatchRemoveRole",
 }));
 
 export type CreateChannelError =
@@ -592,6 +615,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateSpaceError =
@@ -626,6 +651,8 @@ export const createSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpace",
+  telemetry: TELEMETRY,
+  span: "CreateSpace",
 }));
 
 export type DeleteSpaceError =
@@ -656,6 +683,8 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
+  telemetry: TELEMETRY,
+  span: "DeleteSpace",
 }));
 
 export type DeregisterAdminError =
@@ -686,6 +715,8 @@ export const deregisterAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAdmin",
+  telemetry: TELEMETRY,
+  span: "DeregisterAdmin",
 }));
 
 export type GetChannelError =
@@ -716,6 +747,8 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
+  telemetry: TELEMETRY,
+  span: "GetChannel",
 }));
 
 export type GetSpaceError =
@@ -746,6 +779,8 @@ export const getSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpace",
+  telemetry: TELEMETRY,
+  span: "GetSpace",
 }));
 
 export type ListChannelsError =
@@ -783,6 +818,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "channels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListSpacesError =
@@ -818,6 +855,8 @@ export const listSpaces: API.PaginatedOperationMethod<
     items: "spaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpaces",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -848,6 +887,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterAdminError =
@@ -878,6 +919,8 @@ export const registerAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAdmin",
+  telemetry: TELEMETRY,
+  span: "RegisterAdmin",
 }));
 
 export type SendInvitesError =
@@ -908,6 +951,8 @@ export const sendInvites: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendInvites",
+  telemetry: TELEMETRY,
+  span: "SendInvites",
 }));
 
 export type TagResourceError =
@@ -938,6 +983,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -968,6 +1015,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError =
@@ -1000,6 +1049,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateSpaceError =
@@ -1032,6 +1083,8 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
+  telemetry: TELEMETRY,
+  span: "UpdateSpace",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

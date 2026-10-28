@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "TaskChannels",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -383,6 +396,8 @@ export const createTaskChannel: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskChannel",
 }));
 
 export type CreateTaskChannelsFeedError = PosthogOpError;
@@ -398,6 +413,8 @@ export const createTaskChannelsFeed: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskChannelsFeed",
 }));
 
 export type CreateTaskChannelsOnboardingSessionError = Conflict | PosthogOpError;
@@ -413,6 +430,8 @@ export const createTaskChannelsOnboardingSession: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskChannelsOnboardingSession",
 }));
 
 export type CreateTaskChannelsOnboardingSessionTestError = PosthogOpError;
@@ -428,6 +447,8 @@ export const createTaskChannelsOnboardingSessionTest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskChannelsOnboardingSessionTest",
 }));
 
 export type CreateTaskChannelsProvisionDefaultError = PosthogOpError;
@@ -443,6 +464,8 @@ export const createTaskChannelsProvisionDefault: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskChannelsProvisionDefault",
 }));
 
 export type CreateTaskChannelsSetupError = Conflict | PosthogOpError;
@@ -458,6 +481,8 @@ export const createTaskChannelsSetup: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskChannelsSetup",
 }));
 
 export type CreateTaskChannelsStarError = PosthogOpError;
@@ -473,6 +498,8 @@ export const createTaskChannelsStar: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskChannelsStar",
 }));
 
 export type CreateTaskChannelsTeachingCanvasTestError = PosthogOpError;
@@ -488,6 +515,8 @@ export const createTaskChannelsTeachingCanvasTest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskChannelsTeachingCanvasTest",
 }));
 
 export type GetTaskChannelError = PosthogOpError;
@@ -503,6 +532,8 @@ export const getTaskChannel: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskChannel",
 }));
 
 export type GetTaskChannelsContextGenerationError = PosthogOpError;
@@ -518,6 +549,8 @@ export const getTaskChannelsContextGeneration: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskChannelsContextGeneration",
 }));
 
 export type GetTaskChannelsContributorError = PosthogOpError;
@@ -533,6 +566,8 @@ export const getTaskChannelsContributor: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskChannelsContributor",
 }));
 
 export type GetTaskChannelsInstructionError = PosthogOpError;
@@ -548,6 +583,8 @@ export const getTaskChannelsInstruction: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskChannelsInstruction",
 }));
 
 export type GetTaskChannelsInstructionsVersionError = PosthogOpError;
@@ -563,6 +600,8 @@ export const getTaskChannelsInstructionsVersion: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskChannelsInstructionsVersion",
 }));
 
 export type GetTaskChannelsMemberError = PosthogOpError;
@@ -578,6 +617,8 @@ export const getTaskChannelsMember: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskChannelsMember",
 }));
 
 export type ListTaskChannelsError = PosthogOpError;
@@ -593,6 +634,8 @@ export const listTaskChannels: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTaskChannels",
 }));
 
 export type ListTaskChannelsFeedError = PosthogOpError;
@@ -608,6 +651,8 @@ export const listTaskChannelsFeed: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTaskChannelsFeed",
 }));
 
 export type TaskChannelsDestroyError = Conflict | PosthogOpError;
@@ -623,6 +668,8 @@ export const taskChannelsDestroy: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskChannelsDestroy",
 }));
 
 export type TaskChannelsInstructionsDestroyError = PosthogOpError;
@@ -638,6 +685,8 @@ export const taskChannelsInstructionsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskChannelsInstructionsDestroy",
 }));
 
 export type UpdateTaskChannelsContextGenerationError = PosthogOpError;
@@ -653,6 +702,8 @@ export const updateTaskChannelsContextGeneration: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaskChannelsContextGeneration",
 }));
 
 export type UpdateTaskChannelsInstructionError = PosthogOpError;
@@ -668,6 +719,8 @@ export const updateTaskChannelsInstruction: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaskChannelsInstruction",
 }));
 
 export type UpdateTaskChannelsInstructionsPartialError = PosthogOpError;
@@ -683,6 +736,8 @@ export const updateTaskChannelsInstructionsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaskChannelsInstructionsPartial",
 }));
 
 export type UpdateTaskChannelsMemberError = PosthogOpError;
@@ -698,6 +753,8 @@ export const updateTaskChannelsMember: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaskChannelsMember",
 }));
 
 export type UpdateTaskChannelsPartialError = PosthogOpError;
@@ -713,6 +770,8 @@ export const updateTaskChannelsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaskChannelsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

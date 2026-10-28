@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://guardduty.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GuardDuty",
+  service: "GuardDuty",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3379,6 +3394,8 @@ export const acceptAdministratorInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAdministratorInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptAdministratorInvitation",
 }));
 
 export type AcceptInvitationError =
@@ -3400,6 +3417,8 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptInvitation",
 }));
 
 export type ArchiveFindingsError =
@@ -3423,6 +3442,8 @@ export const archiveFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ArchiveFindings",
+  telemetry: TELEMETRY,
+  span: "ArchiveFindings",
 }));
 
 export type CreateCustomDetectionRuleAssociationError =
@@ -3453,6 +3474,8 @@ export const createCustomDetectionRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDetectionRuleAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateCustomDetectionRuleAssociation",
 }));
 
 export type CreateCustomDetectionRuleOrgConfigurationError =
@@ -3483,6 +3506,8 @@ export const createCustomDetectionRuleOrgConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDetectionRuleOrgConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateCustomDetectionRuleOrgConfiguration",
 }));
 
 export type CreateDetectorError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -3509,6 +3534,8 @@ export const createDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDetector",
+  telemetry: TELEMETRY,
+  span: "CreateDetector",
 }));
 
 export type CreateFilterError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -3527,6 +3554,8 @@ export const createFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFilter",
+  telemetry: TELEMETRY,
+  span: "CreateFilter",
 }));
 
 export type CreateInvestigationError =
@@ -3557,6 +3586,8 @@ export const createInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvestigation",
+  telemetry: TELEMETRY,
+  span: "CreateInvestigation",
 }));
 
 export type CreateIPSetError =
@@ -3579,6 +3610,8 @@ export const createIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIPSet",
+  telemetry: TELEMETRY,
+  span: "CreateIPSet",
 }));
 
 export type CreateMalwareProtectionPlanError =
@@ -3609,6 +3642,8 @@ export const createMalwareProtectionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMalwareProtectionPlan",
+  telemetry: TELEMETRY,
+  span: "CreateMalwareProtectionPlan",
 }));
 
 export type CreateMembersError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -3635,6 +3670,8 @@ export const createMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembers",
+  telemetry: TELEMETRY,
+  span: "CreateMembers",
 }));
 
 export type CreatePublishingDestinationError =
@@ -3656,6 +3693,8 @@ export const createPublishingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublishingDestination",
+  telemetry: TELEMETRY,
+  span: "CreatePublishingDestination",
 }));
 
 export type CreateSampleFindingsError =
@@ -3677,6 +3716,8 @@ export const createSampleFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSampleFindings",
+  telemetry: TELEMETRY,
+  span: "CreateSampleFindings",
 }));
 
 export type CreateThreatEntitySetError =
@@ -3698,6 +3739,8 @@ export const createThreatEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreatEntitySet",
+  telemetry: TELEMETRY,
+  span: "CreateThreatEntitySet",
 }));
 
 export type CreateThreatIntelSetError =
@@ -3720,6 +3763,8 @@ export const createThreatIntelSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreatIntelSet",
+  telemetry: TELEMETRY,
+  span: "CreateThreatIntelSet",
 }));
 
 export type CreateTrustedEntitySetError =
@@ -3743,6 +3788,8 @@ export const createTrustedEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustedEntitySet",
+  telemetry: TELEMETRY,
+  span: "CreateTrustedEntitySet",
 }));
 
 export type DeclineInvitationsError =
@@ -3764,6 +3811,8 @@ export const declineInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineInvitations",
+  telemetry: TELEMETRY,
+  span: "DeclineInvitations",
 }));
 
 export type DeleteCustomDetectionRuleAssociationError =
@@ -3792,6 +3841,8 @@ export const deleteCustomDetectionRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDetectionRuleAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDetectionRuleAssociation",
 }));
 
 export type DeleteCustomDetectionRuleOrgConfigurationError =
@@ -3822,6 +3873,8 @@ export const deleteCustomDetectionRuleOrgConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDetectionRuleOrgConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDetectionRuleOrgConfiguration",
 }));
 
 export type DeleteDetectorError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -3840,6 +3893,8 @@ export const deleteDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDetector",
+  telemetry: TELEMETRY,
+  span: "DeleteDetector",
 }));
 
 export type DeleteFilterError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -3858,6 +3913,8 @@ export const deleteFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteFilter",
 }));
 
 export type DeleteInvitationsError =
@@ -3879,6 +3936,8 @@ export const deleteInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvitations",
+  telemetry: TELEMETRY,
+  span: "DeleteInvitations",
 }));
 
 export type DeleteIPSetError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -3897,6 +3956,8 @@ export const deleteIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIPSet",
+  telemetry: TELEMETRY,
+  span: "DeleteIPSet",
 }));
 
 export type DeleteMalwareProtectionPlanError =
@@ -3925,6 +3986,8 @@ export const deleteMalwareProtectionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMalwareProtectionPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteMalwareProtectionPlan",
 }));
 
 export type DeleteMembersError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -3945,6 +4008,8 @@ export const deleteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembers",
+  telemetry: TELEMETRY,
+  span: "DeleteMembers",
 }));
 
 export type DeletePublishingDestinationError =
@@ -3966,6 +4031,8 @@ export const deletePublishingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublishingDestination",
+  telemetry: TELEMETRY,
+  span: "DeletePublishingDestination",
 }));
 
 export type DeleteThreatEntitySetError =
@@ -3987,6 +4054,8 @@ export const deleteThreatEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThreatEntitySet",
+  telemetry: TELEMETRY,
+  span: "DeleteThreatEntitySet",
 }));
 
 export type DeleteThreatIntelSetError =
@@ -4008,6 +4077,8 @@ export const deleteThreatIntelSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThreatIntelSet",
+  telemetry: TELEMETRY,
+  span: "DeleteThreatIntelSet",
 }));
 
 export type DeleteTrustedEntitySetError =
@@ -4029,6 +4100,8 @@ export const deleteTrustedEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustedEntitySet",
+  telemetry: TELEMETRY,
+  span: "DeleteTrustedEntitySet",
 }));
 
 export type DescribeMalwareScansError =
@@ -4059,6 +4132,8 @@ export const describeMalwareScans: API.PaginatedOperationMethod<
     items: "Scans",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMalwareScans",
 })) as any;
 
 export type DescribeOrganizationConfigurationError =
@@ -4088,6 +4163,8 @@ export const describeOrganizationConfiguration: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfiguration",
 })) as any;
 
 export type DescribePublishingDestinationError =
@@ -4109,6 +4186,8 @@ export const describePublishingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePublishingDestination",
+  telemetry: TELEMETRY,
+  span: "DescribePublishingDestination",
 }));
 
 export type DisableOrganizationAdminAccountError =
@@ -4130,6 +4209,8 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationAdminAccount",
 }));
 
 export type DisassociateFromAdministratorAccountError =
@@ -4155,6 +4236,8 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromAdministratorAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromAdministratorAccount",
 }));
 
 export type DisassociateFromMasterAccountError =
@@ -4178,6 +4261,8 @@ export const disassociateFromMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromMasterAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromMasterAccount",
 }));
 
 export type DisassociateMembersError =
@@ -4207,6 +4292,8 @@ export const disassociateMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMembers",
+  telemetry: TELEMETRY,
+  span: "DisassociateMembers",
 }));
 
 export type EnableOrganizationAdminAccountError =
@@ -4228,6 +4315,8 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationAdminAccount",
 }));
 
 export type GetAdministratorAccountError =
@@ -4257,6 +4346,8 @@ export const getAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdministratorAccount",
+  telemetry: TELEMETRY,
+  span: "GetAdministratorAccount",
 }));
 
 export type GetCoverageStatisticsError =
@@ -4278,6 +4369,8 @@ export const getCoverageStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoverageStatistics",
+  telemetry: TELEMETRY,
+  span: "GetCoverageStatistics",
 }));
 
 export type GetCustomDetectionRuleError =
@@ -4306,6 +4399,8 @@ export const getCustomDetectionRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDetectionRule",
+  telemetry: TELEMETRY,
+  span: "GetCustomDetectionRule",
 }));
 
 export type GetCustomDetectionRuleAssociationError =
@@ -4334,6 +4429,8 @@ export const getCustomDetectionRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDetectionRuleAssociation",
+  telemetry: TELEMETRY,
+  span: "GetCustomDetectionRuleAssociation",
 }));
 
 export type GetCustomDetectionRuleOrgConfigurationError =
@@ -4362,6 +4459,8 @@ export const getCustomDetectionRuleOrgConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDetectionRuleOrgConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetCustomDetectionRuleOrgConfiguration",
 }));
 
 export type GetDetectorError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4382,6 +4481,8 @@ export const getDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDetector",
+  telemetry: TELEMETRY,
+  span: "GetDetector",
 }));
 
 export type GetFilterError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4400,6 +4501,8 @@ export const getFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFilter",
+  telemetry: TELEMETRY,
+  span: "GetFilter",
 }));
 
 export type GetFindingsError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4418,6 +4521,8 @@ export const getFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindings",
+  telemetry: TELEMETRY,
+  span: "GetFindings",
 }));
 
 export type GetFindingsStatisticsError =
@@ -4443,6 +4548,8 @@ export const getFindingsStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsStatistics",
+  telemetry: TELEMETRY,
+  span: "GetFindingsStatistics",
 }));
 
 export type GetInvestigationError =
@@ -4475,6 +4582,8 @@ export const getInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigation",
+  telemetry: TELEMETRY,
+  span: "GetInvestigation",
 }));
 
 export type GetInvitationsCountError =
@@ -4496,6 +4605,8 @@ export const getInvitationsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvitationsCount",
+  telemetry: TELEMETRY,
+  span: "GetInvitationsCount",
 }));
 
 export type GetIPSetError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4514,6 +4625,8 @@ export const getIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIPSet",
+  telemetry: TELEMETRY,
+  span: "GetIPSet",
 }));
 
 export type GetMalwareProtectionPlanError =
@@ -4542,6 +4655,8 @@ export const getMalwareProtectionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMalwareProtectionPlan",
+  telemetry: TELEMETRY,
+  span: "GetMalwareProtectionPlan",
 }));
 
 export type GetMalwareScanError =
@@ -4566,6 +4681,8 @@ export const getMalwareScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMalwareScan",
+  telemetry: TELEMETRY,
+  span: "GetMalwareScan",
 }));
 
 export type GetMalwareScanSettingsError =
@@ -4589,6 +4706,8 @@ export const getMalwareScanSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMalwareScanSettings",
+  telemetry: TELEMETRY,
+  span: "GetMalwareScanSettings",
 }));
 
 export type GetMasterAccountError =
@@ -4610,6 +4729,8 @@ export const getMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMasterAccount",
+  telemetry: TELEMETRY,
+  span: "GetMasterAccount",
 }));
 
 export type GetMemberDetectorsError =
@@ -4633,6 +4754,8 @@ export const getMemberDetectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemberDetectors",
+  telemetry: TELEMETRY,
+  span: "GetMemberDetectors",
 }));
 
 export type GetMembersError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4651,6 +4774,8 @@ export const getMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembers",
+  telemetry: TELEMETRY,
+  span: "GetMembers",
 }));
 
 export type GetOrganizationStatisticsError =
@@ -4674,6 +4799,8 @@ export const getOrganizationStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationStatistics",
+  telemetry: TELEMETRY,
+  span: "GetOrganizationStatistics",
 }));
 
 export type GetRemainingFreeTrialDaysError =
@@ -4695,6 +4822,8 @@ export const getRemainingFreeTrialDays: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRemainingFreeTrialDays",
+  telemetry: TELEMETRY,
+  span: "GetRemainingFreeTrialDays",
 }));
 
 export type GetThreatEntitySetError =
@@ -4716,6 +4845,8 @@ export const getThreatEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThreatEntitySet",
+  telemetry: TELEMETRY,
+  span: "GetThreatEntitySet",
 }));
 
 export type GetThreatIntelSetError =
@@ -4737,6 +4868,8 @@ export const getThreatIntelSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThreatIntelSet",
+  telemetry: TELEMETRY,
+  span: "GetThreatIntelSet",
 }));
 
 export type GetTrustedEntitySetError =
@@ -4758,6 +4891,8 @@ export const getTrustedEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustedEntitySet",
+  telemetry: TELEMETRY,
+  span: "GetTrustedEntitySet",
 }));
 
 export type GetUsageStatisticsError =
@@ -4785,6 +4920,8 @@ export const getUsageStatistics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUsageStatistics",
 })) as any;
 
 export type InviteMembersError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4811,6 +4948,8 @@ export const inviteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteMembers",
+  telemetry: TELEMETRY,
+  span: "InviteMembers",
 }));
 
 export type ListCoverageError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4838,6 +4977,8 @@ export const listCoverage: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoverage",
 })) as any;
 
 export type ListCustomDetectionRuleAssociationsError =
@@ -4867,6 +5008,8 @@ export const listCustomDetectionRuleAssociations: API.PaginatedOperationMethod<
     items: "RuleAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomDetectionRuleAssociations",
 })) as any;
 
 export type ListCustomDetectionRuleOrgConfigurationsError =
@@ -4896,6 +5039,8 @@ export const listCustomDetectionRuleOrgConfigurations: API.PaginatedOperationMet
     items: "Configurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomDetectionRuleOrgConfigurations",
 })) as any;
 
 export type ListCustomDetectionRulesError =
@@ -4925,6 +5070,8 @@ export const listCustomDetectionRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomDetectionRules",
 })) as any;
 
 export type ListDetectorsError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4950,6 +5097,8 @@ export const listDetectors: API.PaginatedOperationMethod<
     items: "DetectorIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDetectors",
 })) as any;
 
 export type ListFiltersError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -4975,6 +5124,8 @@ export const listFilters: API.PaginatedOperationMethod<
     items: "FilterNames",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFilters",
 })) as any;
 
 export type ListFindingsError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -5002,6 +5153,8 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "FindingIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListInvestigationsError =
@@ -5035,6 +5188,8 @@ export const listInvestigations: API.PaginatedOperationMethod<
     items: "Investigations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvestigations",
 })) as any;
 
 export type ListInvitationsError =
@@ -5063,6 +5218,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     items: "Invitations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListIPSetsError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -5088,6 +5245,8 @@ export const listIPSets: API.PaginatedOperationMethod<
     items: "IpSetIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIPSets",
 })) as any;
 
 export type ListMalwareProtectionPlansError =
@@ -5110,6 +5269,8 @@ export const listMalwareProtectionPlans: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMalwareProtectionPlans",
+  telemetry: TELEMETRY,
+  span: "ListMalwareProtectionPlans",
 }));
 
 export type ListMalwareScansError =
@@ -5138,6 +5299,8 @@ export const listMalwareScans: API.PaginatedOperationMethod<
     items: "Scans",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMalwareScans",
 })) as any;
 
 export type ListMembersError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -5163,6 +5326,8 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "Members",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListOrganizationAdminAccountsError =
@@ -5191,6 +5356,8 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     items: "AdminAccounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAdminAccounts",
 })) as any;
 
 export type ListPublishingDestinationsError =
@@ -5218,6 +5385,8 @@ export const listPublishingDestinations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPublishingDestinations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5240,6 +5409,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListThreatEntitySetsError =
@@ -5268,6 +5439,8 @@ export const listThreatEntitySets: API.PaginatedOperationMethod<
     items: "ThreatEntitySetIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreatEntitySets",
 })) as any;
 
 export type ListThreatIntelSetsError =
@@ -5296,6 +5469,8 @@ export const listThreatIntelSets: API.PaginatedOperationMethod<
     items: "ThreatIntelSetIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreatIntelSets",
 })) as any;
 
 export type ListTrustedEntitySetsError =
@@ -5324,6 +5499,8 @@ export const listTrustedEntitySets: API.PaginatedOperationMethod<
     items: "TrustedEntitySetIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrustedEntitySets",
 })) as any;
 
 export type SendObjectMalwareScanError =
@@ -5348,6 +5525,8 @@ export const sendObjectMalwareScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendObjectMalwareScan",
+  telemetry: TELEMETRY,
+  span: "SendObjectMalwareScan",
 }));
 
 export type StartMalwareScanError =
@@ -5374,6 +5553,8 @@ export const startMalwareScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMalwareScan",
+  telemetry: TELEMETRY,
+  span: "StartMalwareScan",
 }));
 
 export type StartMonitoringMembersError =
@@ -5395,6 +5576,8 @@ export const startMonitoringMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitoringMembers",
+  telemetry: TELEMETRY,
+  span: "StartMonitoringMembers",
 }));
 
 export type StopMonitoringMembersError =
@@ -5418,6 +5601,8 @@ export const stopMonitoringMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMonitoringMembers",
+  telemetry: TELEMETRY,
+  span: "StopMonitoringMembers",
 }));
 
 export type TagResourceError =
@@ -5440,6 +5625,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnarchiveFindingsError =
@@ -5461,6 +5648,8 @@ export const unarchiveFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnarchiveFindings",
+  telemetry: TELEMETRY,
+  span: "UnarchiveFindings",
 }));
 
 export type UntagResourceError =
@@ -5483,6 +5672,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCustomDetectionRuleAssociationError =
@@ -5513,6 +5704,8 @@ export const updateCustomDetectionRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomDetectionRuleAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomDetectionRuleAssociation",
 }));
 
 export type UpdateCustomDetectionRuleOrgConfigurationError =
@@ -5543,6 +5736,8 @@ export const updateCustomDetectionRuleOrgConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomDetectionRuleOrgConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomDetectionRuleOrgConfiguration",
 }));
 
 export type UpdateDetectorError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -5565,6 +5760,8 @@ export const updateDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetector",
+  telemetry: TELEMETRY,
+  span: "UpdateDetector",
 }));
 
 export type UpdateFilterError = BadRequestException | InternalServerErrorException | CommonErrors;
@@ -5583,6 +5780,8 @@ export const updateFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFilter",
+  telemetry: TELEMETRY,
+  span: "UpdateFilter",
 }));
 
 export type UpdateFindingsFeedbackError =
@@ -5604,6 +5803,8 @@ export const updateFindingsFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindingsFeedback",
+  telemetry: TELEMETRY,
+  span: "UpdateFindingsFeedback",
 }));
 
 export type UpdateIPSetError =
@@ -5626,6 +5827,8 @@ export const updateIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIPSet",
+  telemetry: TELEMETRY,
+  span: "UpdateIPSet",
 }));
 
 export type UpdateMalwareProtectionPlanError =
@@ -5654,6 +5857,8 @@ export const updateMalwareProtectionPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMalwareProtectionPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateMalwareProtectionPlan",
 }));
 
 export type UpdateMalwareScanSettingsError =
@@ -5677,6 +5882,8 @@ export const updateMalwareScanSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMalwareScanSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateMalwareScanSettings",
 }));
 
 export type UpdateMemberDetectorsError =
@@ -5702,6 +5909,8 @@ export const updateMemberDetectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMemberDetectors",
+  telemetry: TELEMETRY,
+  span: "UpdateMemberDetectors",
 }));
 
 export type UpdateOrganizationConfigurationError =
@@ -5727,6 +5936,8 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationConfiguration",
 }));
 
 export type UpdatePublishingDestinationError =
@@ -5748,6 +5959,8 @@ export const updatePublishingDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublishingDestination",
+  telemetry: TELEMETRY,
+  span: "UpdatePublishingDestination",
 }));
 
 export type UpdateThreatEntitySetError =
@@ -5769,6 +5982,8 @@ export const updateThreatEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreatEntitySet",
+  telemetry: TELEMETRY,
+  span: "UpdateThreatEntitySet",
 }));
 
 export type UpdateThreatIntelSetError =
@@ -5791,6 +6006,8 @@ export const updateThreatIntelSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreatIntelSet",
+  telemetry: TELEMETRY,
+  span: "UpdateThreatIntelSet",
 }));
 
 export type UpdateTrustedEntitySetError =
@@ -5812,6 +6029,8 @@ export const updateTrustedEntitySet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustedEntitySet",
+  telemetry: TELEMETRY,
+  span: "UpdateTrustedEntitySet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

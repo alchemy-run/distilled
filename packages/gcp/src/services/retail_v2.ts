@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "retail" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Retail",
+  service: "retail",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2367,6 +2386,8 @@ export const addCatalogAttributeProjectsLocationsCatalogsAttributesConfig: API.O
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCatalogAttributeProjectsLocationsCatalogsAttributesConfig",
 }));
 
 export type AddControlProjectsLocationsCatalogsServingConfigsError =
@@ -2399,6 +2420,8 @@ export const addControlProjectsLocationsCatalogsServingConfigs: API.OperationMet
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddControlProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError =
@@ -2431,6 +2454,8 @@ export const addFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts: API.
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsError =
@@ -2463,6 +2488,8 @@ export const addLocalInventoriesProjectsLocationsCatalogsBranchesProducts: API.O
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddLocalInventoriesProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type BatchUpdateProjectsLocationsCatalogsGenerativeQuestionError =
@@ -2499,6 +2526,8 @@ export const batchUpdateProjectsLocationsCatalogsGenerativeQuestion: API.Operati
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateProjectsLocationsCatalogsGenerativeQuestion",
 }));
 
 export type CollectProjectsLocationsCatalogsUserEventsError =
@@ -2527,6 +2556,8 @@ export const collectProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CollectProjectsLocationsCatalogsUserEvents",
 }));
 
 export type CompleteQueryProjectsLocationsCatalogsError =
@@ -2546,6 +2577,8 @@ export const completeQueryProjectsLocationsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteQueryProjectsLocationsCatalogs",
 }));
 
 export type ConversationalSearchProjectsLocationsCatalogsPlacementsError =
@@ -2578,6 +2611,8 @@ export const conversationalSearchProjectsLocationsCatalogsPlacements: API.Operat
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationalSearchProjectsLocationsCatalogsPlacements",
 }));
 
 export type ConversationalSearchProjectsLocationsCatalogsServingConfigsError =
@@ -2610,6 +2645,8 @@ export const conversationalSearchProjectsLocationsCatalogsServingConfigs: API.Op
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationalSearchProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type CreateProjectsLocationsCatalogsBranchesProductsError =
@@ -2642,6 +2679,8 @@ export const createProjectsLocationsCatalogsBranchesProducts: API.OperationMetho
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type CreateProjectsLocationsCatalogsControlsError =
@@ -2670,6 +2709,8 @@ export const createProjectsLocationsCatalogsControls: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsCatalogsControls",
 }));
 
 export type CreateProjectsLocationsCatalogsModelsError =
@@ -2698,6 +2739,8 @@ export const createProjectsLocationsCatalogsModels: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsCatalogsModels",
 }));
 
 export type CreateProjectsLocationsCatalogsServingConfigsError =
@@ -2730,6 +2773,8 @@ export const createProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type DeleteProjectsLocationsCatalogsBranchesProductsError =
@@ -2762,6 +2807,8 @@ export const deleteProjectsLocationsCatalogsBranchesProducts: API.OperationMetho
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type DeleteProjectsLocationsCatalogsControlsError =
@@ -2790,6 +2837,8 @@ export const deleteProjectsLocationsCatalogsControls: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsCatalogsControls",
 }));
 
 export type DeleteProjectsLocationsCatalogsModelsError =
@@ -2818,6 +2867,8 @@ export const deleteProjectsLocationsCatalogsModels: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsCatalogsModels",
 }));
 
 export type DeleteProjectsLocationsCatalogsServingConfigsError =
@@ -2850,6 +2901,8 @@ export const deleteProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type ExportAnalyticsMetricsProjectsLocationsCatalogsError =
@@ -2882,6 +2935,8 @@ export const exportAnalyticsMetricsProjectsLocationsCatalogs: API.OperationMetho
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAnalyticsMetricsProjectsLocationsCatalogs",
 }));
 
 export type GetAttributesConfigProjectsLocationsCatalogsError =
@@ -2901,6 +2956,8 @@ export const getAttributesConfigProjectsLocationsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttributesConfigProjectsLocationsCatalogs",
 }));
 
 export type GetCompletionConfigProjectsLocationsCatalogsError =
@@ -2920,6 +2977,8 @@ export const getCompletionConfigProjectsLocationsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCompletionConfigProjectsLocationsCatalogs",
 }));
 
 export type GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsError =
@@ -2947,6 +3006,8 @@ export const getConversationalSearchCustomizationConfigProjectsLocationsCatalogs
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationalSearchCustomizationConfigProjectsLocationsCatalogs",
 }));
 
 export type GetDefaultBranchProjectsLocationsCatalogsError =
@@ -2966,6 +3027,8 @@ export const getDefaultBranchProjectsLocationsCatalogs: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultBranchProjectsLocationsCatalogs",
 }));
 
 export type GetGenerativeQuestionFeatureProjectsLocationsCatalogsError =
@@ -2993,6 +3056,8 @@ export const getGenerativeQuestionFeatureProjectsLocationsCatalogs: API.Operatio
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGenerativeQuestionFeatureProjectsLocationsCatalogs",
 }));
 
 export type GetProjectsLocationsCatalogsBranchesOperationsError =
@@ -3016,6 +3081,8 @@ export const getProjectsLocationsCatalogsBranchesOperations: API.OperationMethod
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogsBranchesOperations",
 }));
 
 export type GetProjectsLocationsCatalogsBranchesProductsError =
@@ -3039,6 +3106,8 @@ export const getProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type GetProjectsLocationsCatalogsControlsError =
@@ -3058,6 +3127,8 @@ export const getProjectsLocationsCatalogsControls: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogsControls",
 }));
 
 export type GetProjectsLocationsCatalogsModelsError =
@@ -3077,6 +3148,8 @@ export const getProjectsLocationsCatalogsModels: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogsModels",
 }));
 
 export type GetProjectsLocationsCatalogsOperationsError =
@@ -3096,6 +3169,8 @@ export const getProjectsLocationsCatalogsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogsOperations",
 }));
 
 export type GetProjectsLocationsCatalogsServingConfigsError =
@@ -3115,6 +3190,8 @@ export const getProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -3134,6 +3211,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsOperations",
 }));
 
 export type GetProjectsOperationsError =
@@ -3153,6 +3232,8 @@ export const getProjectsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsOperations",
 }));
 
 export type ImportProjectsLocationsCatalogsBranchesProductsError =
@@ -3185,6 +3266,8 @@ export const importProjectsLocationsCatalogsBranchesProducts: API.OperationMetho
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type ImportProjectsLocationsCatalogsCompletionDataError =
@@ -3217,6 +3300,8 @@ export const importProjectsLocationsCatalogsCompletionData: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportProjectsLocationsCatalogsCompletionData",
 }));
 
 export type ImportProjectsLocationsCatalogsUserEventsError =
@@ -3245,6 +3330,8 @@ export const importProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportProjectsLocationsCatalogsUserEvents",
 }));
 
 export type ListProjectsLocationsCatalogsError =
@@ -3265,6 +3352,8 @@ export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3290,6 +3379,8 @@ export const listProjectsLocationsCatalogsBranchesProducts: API.PaginatedOperati
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogsBranchesProducts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3311,6 +3402,8 @@ export const listProjectsLocationsCatalogsControls: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogsControls",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3339,6 +3432,8 @@ export const listProjectsLocationsCatalogsGenerativeQuestions: API.OperationMeth
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogsGenerativeQuestions",
 }));
 
 export type ListProjectsLocationsCatalogsModelsError =
@@ -3359,6 +3454,8 @@ export const listProjectsLocationsCatalogsModels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogsModels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3380,6 +3477,8 @@ export const listProjectsLocationsCatalogsOperations: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3401,6 +3500,8 @@ export const listProjectsLocationsCatalogsServingConfigs: API.PaginatedOperation
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsCatalogsServingConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3422,6 +3523,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3443,6 +3546,8 @@ export const listProjectsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, RetailDataUseTermsNotAccepted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3472,6 +3577,8 @@ export const patchProjectsLocationsCatalogs: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsCatalogs",
 }));
 
 export type PatchProjectsLocationsCatalogsBranchesProductsError =
@@ -3504,6 +3611,8 @@ export const patchProjectsLocationsCatalogsBranchesProducts: API.OperationMethod
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type PatchProjectsLocationsCatalogsControlsError =
@@ -3532,6 +3641,8 @@ export const patchProjectsLocationsCatalogsControls: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsCatalogsControls",
 }));
 
 export type PatchProjectsLocationsCatalogsModelsError =
@@ -3560,6 +3671,8 @@ export const patchProjectsLocationsCatalogsModels: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsCatalogsModels",
 }));
 
 export type PatchProjectsLocationsCatalogsServingConfigsError =
@@ -3592,6 +3705,8 @@ export const patchProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type PauseProjectsLocationsCatalogsModelsError =
@@ -3620,6 +3735,8 @@ export const pauseProjectsLocationsCatalogsModels: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseProjectsLocationsCatalogsModels",
 }));
 
 export type PredictProjectsLocationsCatalogsPlacementsError =
@@ -3648,6 +3765,8 @@ export const predictProjectsLocationsCatalogsPlacements: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PredictProjectsLocationsCatalogsPlacements",
 }));
 
 export type PredictProjectsLocationsCatalogsServingConfigsError =
@@ -3680,6 +3799,8 @@ export const predictProjectsLocationsCatalogsServingConfigs: API.OperationMethod
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PredictProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type PurgeProjectsLocationsCatalogsBranchesProductsError =
@@ -3712,6 +3833,8 @@ export const purgeProjectsLocationsCatalogsBranchesProducts: API.OperationMethod
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type PurgeProjectsLocationsCatalogsUserEventsError =
@@ -3740,6 +3863,8 @@ export const purgeProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeProjectsLocationsCatalogsUserEvents",
 }));
 
 export type RejoinProjectsLocationsCatalogsUserEventsError =
@@ -3768,6 +3893,8 @@ export const rejoinProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejoinProjectsLocationsCatalogsUserEvents",
 }));
 
 export type RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigError =
@@ -3800,6 +3927,8 @@ export const removeCatalogAttributeProjectsLocationsCatalogsAttributesConfig: AP
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfig",
 }));
 
 export type RemoveControlProjectsLocationsCatalogsServingConfigsError =
@@ -3832,6 +3961,8 @@ export const removeControlProjectsLocationsCatalogsServingConfigs: API.Operation
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveControlProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError =
@@ -3864,6 +3995,8 @@ export const removeFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts: A
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsError =
@@ -3896,6 +4029,8 @@ export const removeLocalInventoriesProjectsLocationsCatalogsBranchesProducts: AP
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigError =
@@ -3928,6 +4063,8 @@ export const replaceCatalogAttributeProjectsLocationsCatalogsAttributesConfig: A
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfig",
 }));
 
 export type ResumeProjectsLocationsCatalogsModelsError =
@@ -3956,6 +4093,8 @@ export const resumeProjectsLocationsCatalogsModels: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeProjectsLocationsCatalogsModels",
 }));
 
 export type SearchProjectsLocationsCatalogsPlacementsError =
@@ -3984,6 +4123,8 @@ export const searchProjectsLocationsCatalogsPlacements: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchProjectsLocationsCatalogsPlacements",
 }));
 
 export type SearchProjectsLocationsCatalogsServingConfigsError =
@@ -4016,6 +4157,8 @@ export const searchProjectsLocationsCatalogsServingConfigs: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchProjectsLocationsCatalogsServingConfigs",
 }));
 
 export type SetDefaultBranchProjectsLocationsCatalogsError =
@@ -4044,6 +4187,8 @@ export const setDefaultBranchProjectsLocationsCatalogs: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultBranchProjectsLocationsCatalogs",
 }));
 
 export type SetInventoryProjectsLocationsCatalogsBranchesProductsError =
@@ -4076,6 +4221,8 @@ export const setInventoryProjectsLocationsCatalogsBranchesProducts: API.Operatio
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetInventoryProjectsLocationsCatalogsBranchesProducts",
 }));
 
 export type TuneProjectsLocationsCatalogsModelsError =
@@ -4104,6 +4251,8 @@ export const tuneProjectsLocationsCatalogsModels: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TuneProjectsLocationsCatalogsModels",
 }));
 
 export type UpdateAttributesConfigProjectsLocationsCatalogsError =
@@ -4136,6 +4285,8 @@ export const updateAttributesConfigProjectsLocationsCatalogs: API.OperationMetho
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttributesConfigProjectsLocationsCatalogs",
 }));
 
 export type UpdateCompletionConfigProjectsLocationsCatalogsError =
@@ -4168,6 +4319,8 @@ export const updateCompletionConfigProjectsLocationsCatalogs: API.OperationMetho
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCompletionConfigProjectsLocationsCatalogs",
 }));
 
 export type UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsError =
@@ -4204,6 +4357,8 @@ export const updateConversationalSearchCustomizationConfigProjectsLocationsCatal
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogs",
 }));
 
 export type UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsError =
@@ -4240,6 +4395,8 @@ export const updateGenerativeQuestionFeatureProjectsLocationsCatalogs: API.Opera
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenerativeQuestionFeatureProjectsLocationsCatalogs",
 }));
 
 export type UpdateGenerativeQuestionProjectsLocationsCatalogsError =
@@ -4272,6 +4429,8 @@ export const updateGenerativeQuestionProjectsLocationsCatalogs: API.OperationMet
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGenerativeQuestionProjectsLocationsCatalogs",
 }));
 
 export type WriteProjectsLocationsCatalogsUserEventsError =
@@ -4300,6 +4459,8 @@ export const writeProjectsLocationsCatalogsUserEvents: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WriteProjectsLocationsCatalogsUserEvents",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

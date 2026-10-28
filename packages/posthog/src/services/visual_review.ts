@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "VisualReview",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -802,6 +815,8 @@ export const createVisualReviewRepos: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewRepos",
 }));
 
 export type CreateVisualReviewReposQuarantineError =
@@ -821,6 +836,8 @@ export const createVisualReviewReposQuarantine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewReposQuarantine",
 }));
 
 export type CreateVisualReviewReposQuarantineExpireError =
@@ -840,6 +857,8 @@ export const createVisualReviewReposQuarantineExpire: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewReposQuarantineExpire",
 }));
 
 export type CreateVisualReviewRunError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -855,6 +874,8 @@ export const createVisualReviewRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewRun",
 }));
 
 export type CreateVisualReviewRunsCompleteError = Forbidden | NotFound | PosthogOpError;
@@ -870,6 +891,8 @@ export const createVisualReviewRunsComplete: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewRunsComplete",
 }));
 
 export type CreateVisualReviewRunsFinalizeError = PosthogOpError;
@@ -885,6 +908,8 @@ export const createVisualReviewRunsFinalize: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewRunsFinalize",
 }));
 
 export type CreateVisualReviewRunsLiftOnMergeError = PosthogOpError;
@@ -900,6 +925,8 @@ export const createVisualReviewRunsLiftOnMerge: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewRunsLiftOnMerge",
 }));
 
 export type CreateVisualReviewRunsRecomputeError = Forbidden | NotFound | PosthogOpError;
@@ -915,6 +942,8 @@ export const createVisualReviewRunsRecompute: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewRunsRecompute",
 }));
 
 export type CreateVisualReviewRunsTolerateError =
@@ -934,6 +963,8 @@ export const createVisualReviewRunsTolerate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVisualReviewRunsTolerate",
 }));
 
 export type GetVisualReviewReposError = Forbidden | NotFound | PosthogOpError;
@@ -949,6 +980,8 @@ export const getVisualReviewRepos: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualReviewRepos",
 }));
 
 export type GetVisualReviewReposBaselineError = PosthogOpError;
@@ -964,6 +997,8 @@ export const getVisualReviewReposBaseline: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualReviewReposBaseline",
 }));
 
 export type GetVisualReviewReposFlakinessError = PosthogOpError;
@@ -979,6 +1014,8 @@ export const getVisualReviewReposFlakiness: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualReviewReposFlakiness",
 }));
 
 export type GetVisualReviewReposRunsCountError = PosthogOpError;
@@ -994,6 +1031,8 @@ export const getVisualReviewReposRunsCount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualReviewReposRunsCount",
 }));
 
 export type GetVisualReviewReposThumbnailError = PosthogOpError;
@@ -1009,6 +1048,8 @@ export const getVisualReviewReposThumbnail: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualReviewReposThumbnail",
 }));
 
 export type GetVisualReviewReposTolerationPileupError = PosthogOpError;
@@ -1024,6 +1065,8 @@ export const getVisualReviewReposTolerationPileup: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualReviewReposTolerationPileup",
 }));
 
 export type GetVisualReviewRunError = Forbidden | NotFound | PosthogOpError;
@@ -1039,6 +1082,8 @@ export const getVisualReviewRun: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualReviewRun",
 }));
 
 export type GetVisualReviewRunsCountError = Forbidden | NotFound | PosthogOpError;
@@ -1054,6 +1099,8 @@ export const getVisualReviewRunsCount: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVisualReviewRunsCount",
 }));
 
 export type ListVisualReviewReposError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1069,6 +1116,8 @@ export const listVisualReviewRepos: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewRepos",
 }));
 
 export type ListVisualReviewReposQuarantineError =
@@ -1088,6 +1137,8 @@ export const listVisualReviewReposQuarantine: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewReposQuarantine",
 }));
 
 export type ListVisualReviewReposRunsError = PosthogOpError;
@@ -1103,6 +1154,8 @@ export const listVisualReviewReposRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewReposRuns",
 }));
 
 export type ListVisualReviewReposSnapshotsError = PosthogOpError;
@@ -1118,6 +1171,8 @@ export const listVisualReviewReposSnapshots: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewReposSnapshots",
 }));
 
 export type ListVisualReviewRunsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1133,6 +1188,8 @@ export const listVisualReviewRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewRuns",
 }));
 
 export type ListVisualReviewRunsQuarantineLiftsError = PosthogOpError;
@@ -1148,6 +1205,8 @@ export const listVisualReviewRunsQuarantineLifts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewRunsQuarantineLifts",
 }));
 
 export type ListVisualReviewRunsSnapshotHistoryError =
@@ -1167,6 +1226,8 @@ export const listVisualReviewRunsSnapshotHistory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewRunsSnapshotHistory",
 }));
 
 export type ListVisualReviewRunsSnapshotsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1182,6 +1243,8 @@ export const listVisualReviewRunsSnapshots: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewRunsSnapshots",
 }));
 
 export type ListVisualReviewRunsToleratedHashesError =
@@ -1201,6 +1264,8 @@ export const listVisualReviewRunsToleratedHashes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVisualReviewRunsToleratedHashes",
 }));
 
 export type UpdateVisualReviewReposPartialError =
@@ -1220,6 +1285,8 @@ export const updateVisualReviewReposPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVisualReviewReposPartial",
 }));
 
 export type VisualReviewRunsAddSnapshotsCreateError =
@@ -1239,6 +1306,8 @@ export const visualReviewRunsAddSnapshotsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisualReviewRunsAddSnapshotsCreate",
 }));
 
 export type VisualReviewRunsApproveCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1254,6 +1323,8 @@ export const visualReviewRunsApproveCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisualReviewRunsApproveCreate",
 }));
 
 export type VisualReviewRunsQuarantineLiftsCancelCreateError = PosthogOpError;
@@ -1273,6 +1344,8 @@ export const visualReviewRunsQuarantineLiftsCancelCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VisualReviewRunsQuarantineLiftsCancelCreate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

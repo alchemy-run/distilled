@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://b2bi.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "b2bi",
+  service: "b2bi",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1160,6 +1175,8 @@ export const createCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapability",
+  telemetry: TELEMETRY,
+  span: "CreateCapability",
 }));
 
 export type CreatePartnershipError =
@@ -1194,6 +1211,8 @@ export const createPartnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnership",
+  telemetry: TELEMETRY,
+  span: "CreatePartnership",
 }));
 
 export type CreateProfileError =
@@ -1228,6 +1247,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateStarterMappingTemplateError =
@@ -1262,6 +1283,8 @@ export const createStarterMappingTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStarterMappingTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateStarterMappingTemplate",
 }));
 
 export type CreateTransformerError =
@@ -1308,6 +1331,8 @@ export const createTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransformer",
+  telemetry: TELEMETRY,
+  span: "CreateTransformer",
 }));
 
 export type DeleteCapabilityError =
@@ -1340,6 +1365,8 @@ export const deleteCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapability",
+  telemetry: TELEMETRY,
+  span: "DeleteCapability",
 }));
 
 export type DeletePartnershipError =
@@ -1372,6 +1399,8 @@ export const deletePartnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartnership",
+  telemetry: TELEMETRY,
+  span: "DeletePartnership",
 }));
 
 export type DeleteProfileError =
@@ -1404,6 +1433,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteTransformerError =
@@ -1436,6 +1467,8 @@ export const deleteTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransformer",
+  telemetry: TELEMETRY,
+  span: "DeleteTransformer",
 }));
 
 export type GenerateMappingError =
@@ -1474,6 +1507,8 @@ export const generateMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMapping",
+  telemetry: TELEMETRY,
+  span: "GenerateMapping",
 }));
 
 export type GetCapabilityError =
@@ -1504,6 +1539,8 @@ export const getCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapability",
+  telemetry: TELEMETRY,
+  span: "GetCapability",
 }));
 
 export type GetPartnershipError =
@@ -1534,6 +1571,8 @@ export const getPartnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartnership",
+  telemetry: TELEMETRY,
+  span: "GetPartnership",
 }));
 
 export type GetProfileError =
@@ -1564,6 +1603,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetTransformerError =
@@ -1594,6 +1635,8 @@ export const getTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransformer",
+  telemetry: TELEMETRY,
+  span: "GetTransformer",
 }));
 
 export type GetTransformerJobError =
@@ -1626,6 +1669,8 @@ export const getTransformerJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransformerJob",
+  telemetry: TELEMETRY,
+  span: "GetTransformerJob",
 }));
 
 export type ListCapabilitiesError =
@@ -1661,6 +1706,8 @@ export const listCapabilities: API.PaginatedOperationMethod<
     items: "capabilities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCapabilities",
 })) as any;
 
 export type ListPartnershipsError =
@@ -1698,6 +1745,8 @@ export const listPartnerships: API.PaginatedOperationMethod<
     items: "partnerships",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPartnerships",
 })) as any;
 
 export type ListProfilesError =
@@ -1733,6 +1782,8 @@ export const listProfiles: API.PaginatedOperationMethod<
     items: "profiles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfiles",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1755,6 +1806,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTransformersError =
@@ -1790,6 +1843,8 @@ export const listTransformers: API.PaginatedOperationMethod<
     items: "transformers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTransformers",
 })) as any;
 
 export type StartTransformerJobError =
@@ -1826,6 +1881,8 @@ export const startTransformerJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTransformerJob",
+  telemetry: TELEMETRY,
+  span: "StartTransformerJob",
 }));
 
 export type TagResourceError =
@@ -1856,6 +1913,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestConversionError =
@@ -1886,6 +1945,8 @@ export const testConversion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConversion",
+  telemetry: TELEMETRY,
+  span: "TestConversion",
 }));
 
 export type TestMappingError =
@@ -1916,6 +1977,8 @@ export const testMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestMapping",
+  telemetry: TELEMETRY,
+  span: "TestMapping",
 }));
 
 export type TestParsingError =
@@ -1946,6 +2009,8 @@ export const testParsing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestParsing",
+  telemetry: TELEMETRY,
+  span: "TestParsing",
 }));
 
 export type UntagResourceError =
@@ -1968,6 +2033,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCapabilityError =
@@ -2002,6 +2069,8 @@ export const updateCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapability",
+  telemetry: TELEMETRY,
+  span: "UpdateCapability",
 }));
 
 export type UpdatePartnershipError =
@@ -2036,6 +2105,8 @@ export const updatePartnership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartnership",
+  telemetry: TELEMETRY,
+  span: "UpdatePartnership",
 }));
 
 export type UpdateProfileError =
@@ -2070,6 +2141,8 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UpdateTransformerError =
@@ -2104,6 +2177,8 @@ export const updateTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTransformer",
+  telemetry: TELEMETRY,
+  span: "UpdateTransformer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

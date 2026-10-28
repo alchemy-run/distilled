@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ebs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EBS",
+  service: "EBS",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -353,6 +368,8 @@ export const completeSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "CompleteSnapshot",
 }));
 
 export type GetSnapshotBlockError =
@@ -390,6 +407,8 @@ export const getSnapshotBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnapshotBlock",
+  telemetry: TELEMETRY,
+  span: "GetSnapshotBlock",
 }));
 
 export type ListChangedBlocksError =
@@ -434,6 +453,8 @@ export const listChangedBlocks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChangedBlocks",
 })) as any;
 
 export type ListSnapshotBlocksError =
@@ -477,6 +498,8 @@ export const listSnapshotBlocks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotBlocks",
 })) as any;
 
 export type PutSnapshotBlockError =
@@ -520,6 +543,8 @@ export const putSnapshotBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSnapshotBlock",
+  telemetry: TELEMETRY,
+  span: "PutSnapshotBlock",
 }));
 
 export type StartSnapshotError =
@@ -565,6 +590,8 @@ export const startSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSnapshot",
+  telemetry: TELEMETRY,
+  span: "StartSnapshot",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

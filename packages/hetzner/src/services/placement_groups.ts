@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "PlacementGroups",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreatePlacementGroupRequestLabelsMap = { [key: string]: string | undefined };
 /** Define the Placement Group Type. */
@@ -247,6 +260,8 @@ export const createPlacementGroup: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlacementGroup",
 }));
 
 export type DeletePlacementGroupError = HetznerOpError;
@@ -262,6 +277,8 @@ export const deletePlacementGroup: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePlacementGroup",
 }));
 
 export type GetPlacementGroupError = HetznerOpError;
@@ -277,6 +294,8 @@ export const getPlacementGroup: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlacementGroup",
 }));
 
 export type ListPlacementGroupsError = HetznerOpError;
@@ -294,6 +313,8 @@ export const listPlacementGroups: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPlacementGroups",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -318,6 +339,8 @@ export const updatePlacementGroup: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePlacementGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

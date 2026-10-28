@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://s3-outposts.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "S3Outposts",
+  service: "S3Outposts",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -254,6 +269,8 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateEndpoint",
 }));
 
 export type DeleteEndpointError =
@@ -294,6 +311,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type ListEndpointsError =
@@ -337,6 +356,8 @@ export const listEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpoints",
 })) as any;
 
 export type ListOutpostsWithS3Error =
@@ -374,6 +395,8 @@ export const listOutpostsWithS3: API.PaginatedOperationMethod<
     items: "Outposts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOutpostsWithS3",
 })) as any;
 
 export type ListSharedEndpointsError =
@@ -417,6 +440,8 @@ export const listSharedEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSharedEndpoints",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

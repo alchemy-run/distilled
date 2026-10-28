@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DocumentDB" },
+  prefix: "Mongocluster",
+  service: "Mongocluster",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckMongoClusterNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1124,6 +1145,8 @@ export const CheckMongoClusterNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMongoClusterNameAvailability",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -1139,6 +1162,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type DeleteFirewallRuleError = AzureOpError;
@@ -1154,6 +1179,8 @@ export const DeleteFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRule",
 }));
 
 export type DeleteMongoClusterError = AzureOpError;
@@ -1169,6 +1196,8 @@ export const DeleteMongoCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMongoCluster",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1184,6 +1213,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteUserError = AzureOpError;
@@ -1199,6 +1230,8 @@ export const DeleteUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type FirewallRulesCreateOrUpdateError = AzureOpError;
@@ -1214,6 +1247,8 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FirewallRulesCreateOrUpdate",
 }));
 
 export type GetFirewallRuleError = AzureOpError;
@@ -1229,6 +1264,8 @@ export const GetFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewallRule",
 }));
 
 export type GetMongoClusterError = AzureOpError;
@@ -1244,6 +1281,8 @@ export const GetMongoCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMongoCluster",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1259,6 +1298,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetUserError = AzureOpError;
@@ -1274,6 +1315,8 @@ export const GetUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type ListFirewallRuleByMongoClusterError = AzureOpError;
@@ -1289,6 +1332,8 @@ export const ListFirewallRuleByMongoCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRuleByMongoCluster",
 }));
 
 export type ListMongoClusterByResourceGroupError = AzureOpError;
@@ -1304,6 +1349,8 @@ export const ListMongoClusterByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoClusterByResourceGroup",
 }));
 
 export type ListMongoClusterConnectionStringsError = AzureOpError;
@@ -1319,6 +1366,8 @@ export const ListMongoClusterConnectionStrings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoClusterConnectionStrings",
 }));
 
 export type ListMongoClustersError = AzureOpError;
@@ -1334,6 +1383,8 @@ export const ListMongoClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMongoClusters",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1349,6 +1400,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByMongoClusterError = AzureOpError;
@@ -1364,6 +1417,8 @@ export const ListPrivateEndpointConnectionByMongoCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByMongoCluster",
 }));
 
 export type ListPrivateLinkByMongoClusterError = AzureOpError;
@@ -1379,6 +1434,8 @@ export const ListPrivateLinkByMongoCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkByMongoCluster",
 }));
 
 export type ListReplicasByParentError = AzureOpError;
@@ -1394,6 +1451,8 @@ export const ListReplicasByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReplicasByParent",
 }));
 
 export type ListUserByMongoClusterError = AzureOpError;
@@ -1409,6 +1468,8 @@ export const ListUserByMongoCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserByMongoCluster",
 }));
 
 export type MongoClustersCreateOrUpdateError = AzureOpError;
@@ -1424,6 +1485,8 @@ export const MongoClustersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MongoClustersCreateOrUpdate",
 }));
 
 export type PromoteMongoClusterError = AzureOpError;
@@ -1439,6 +1502,8 @@ export const PromoteMongoCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteMongoCluster",
 }));
 
 export type UpdateMongoClusterError = AzureOpError;
@@ -1454,6 +1519,8 @@ export const UpdateMongoCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMongoCluster",
 }));
 
 export type UsersCreateOrUpdateError = AzureOpError;
@@ -1469,6 +1536,8 @@ export const UsersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

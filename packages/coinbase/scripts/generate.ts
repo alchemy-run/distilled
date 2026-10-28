@@ -82,6 +82,7 @@ const coinbaseSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Coinbase CDP Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // No patch chain: v0 coinbase ships zero patches (its patchDir never
   // existed on disk), and convert.ts runs with patchesDir: false too.

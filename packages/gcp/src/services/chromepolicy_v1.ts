@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "chromepolicy" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Chromepolicy",
+  service: "chromepolicy",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -674,6 +693,8 @@ export const batchDeleteCustomersPoliciesGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteCustomersPoliciesGroups",
 }));
 
 export type BatchInheritCustomersPoliciesOrgunitsError =
@@ -694,6 +715,8 @@ export const batchInheritCustomersPoliciesOrgunits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchInheritCustomersPoliciesOrgunits",
 }));
 
 export type BatchModifyCustomersPoliciesGroupsError =
@@ -714,6 +737,8 @@ export const batchModifyCustomersPoliciesGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchModifyCustomersPoliciesGroups",
 }));
 
 export type BatchModifyCustomersPoliciesOrgunitsError =
@@ -734,6 +759,8 @@ export const batchModifyCustomersPoliciesOrgunits: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchModifyCustomersPoliciesOrgunits",
 }));
 
 export type DefineCertificateCustomersPoliciesNetworksError =
@@ -758,6 +785,8 @@ export const defineCertificateCustomersPoliciesNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DefineCertificateCustomersPoliciesNetworks",
 }));
 
 export type DefineNetworkCustomersPoliciesNetworksError =
@@ -778,6 +807,8 @@ export const defineNetworkCustomersPoliciesNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DefineNetworkCustomersPoliciesNetworks",
 }));
 
 export type GetCustomersPolicySchemasError = NotFound | Forbidden | GcpOpError;
@@ -793,6 +824,8 @@ export const getCustomersPolicySchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersPolicySchemas",
 }));
 
 export type ListCustomersPolicySchemasError = NotFound | Forbidden | GcpOpError;
@@ -813,6 +846,8 @@ export const listCustomersPolicySchemas: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersPolicySchemas",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -842,6 +877,8 @@ export const listGroupPriorityOrderingCustomersPoliciesGroups: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupPriorityOrderingCustomersPoliciesGroups",
 }));
 
 export type RemoveCertificateCustomersPoliciesNetworksError =
@@ -866,6 +903,8 @@ export const removeCertificateCustomersPoliciesNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCertificateCustomersPoliciesNetworks",
 }));
 
 export type RemoveNetworkCustomersPoliciesNetworksError =
@@ -886,6 +925,8 @@ export const removeNetworkCustomersPoliciesNetworks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveNetworkCustomersPoliciesNetworks",
 }));
 
 export type ResolveCustomersPoliciesError =
@@ -906,6 +947,8 @@ export const resolveCustomersPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveCustomersPolicies",
 }));
 
 export type UpdateGroupPriorityOrderingCustomersPoliciesGroupsError =
@@ -930,6 +973,8 @@ export const updateGroupPriorityOrderingCustomersPoliciesGroups: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroupPriorityOrderingCustomersPoliciesGroups",
 }));
 
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -949,6 +994,8 @@ export const uploadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadMedia",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

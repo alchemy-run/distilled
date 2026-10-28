@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SupabaseOpError, SupabaseOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "supabase-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Supabase",
+  service: "Supabase",
+  labels: "supabase",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4452,6 +4465,8 @@ export const v1AcceptInviteExternalJitAccess: API.OperationMethod<
   errors: [],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1AcceptInviteExternalJitAccess",
 }));
 
 export type V1ActivateCustomHostnameError = BadRequest | Forbidden | SupabaseOpError;
@@ -4467,6 +4482,8 @@ export const v1ActivateCustomHostname: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ActivateCustomHostname",
 }));
 
 export type V1ActivateVanitySubdomainConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -4482,6 +4499,8 @@ export const v1ActivateVanitySubdomainConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ActivateVanitySubdomainConfig",
 }));
 
 export type V1ApplyAMigrationError = BadRequest | Forbidden | SupabaseOpError;
@@ -4497,6 +4516,8 @@ export const v1ApplyAMigration: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ApplyAMigration",
 }));
 
 export type V1ApplyProjectAddonError = BadRequest | Forbidden | SupabaseOpError;
@@ -4512,6 +4533,8 @@ export const v1ApplyProjectAddon: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ApplyProjectAddon",
 }));
 
 export type V1AuthorizeJitAccessError = BadRequest | Forbidden | SupabaseOpError;
@@ -4527,6 +4550,8 @@ export const v1AuthorizeJitAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1AuthorizeJitAccess",
 }));
 
 export type V1AuthorizeUserError = Forbidden | SupabaseOpError;
@@ -4542,6 +4567,8 @@ export const v1AuthorizeUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1AuthorizeUser",
 }));
 
 export type V1BulkCreateSecretsError = BadRequest | Forbidden | SupabaseOpError;
@@ -4557,6 +4584,8 @@ export const v1BulkCreateSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1BulkCreateSecrets",
 }));
 
 export type V1BulkDeleteSecretsError = BadRequest | Forbidden | SupabaseOpError;
@@ -4572,6 +4601,8 @@ export const v1BulkDeleteSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1BulkDeleteSecrets",
 }));
 
 export type V1BulkUpdateFunctionsError = BadRequest | Forbidden | SupabaseOpError;
@@ -4587,6 +4618,8 @@ export const v1BulkUpdateFunctions: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1BulkUpdateFunctions",
 }));
 
 export type V1CancelAProjectRestorationError = BadRequest | Forbidden | SupabaseOpError;
@@ -4602,6 +4635,8 @@ export const v1CancelAProjectRestoration: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CancelAProjectRestoration",
 }));
 
 export type V1CheckVanitySubdomainAvailabilityError = BadRequest | Forbidden | SupabaseOpError;
@@ -4617,6 +4652,8 @@ export const v1CheckVanitySubdomainAvailability: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CheckVanitySubdomainAvailability",
 }));
 
 export type V1ClaimProjectForOrganizationError =
@@ -4636,6 +4673,8 @@ export const v1ClaimProjectForOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ClaimProjectForOrganization",
 }));
 
 export type V1CreateABranchError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -4651,6 +4690,8 @@ export const v1CreateABranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateABranch",
 }));
 
 export type V1CreateAnOrganizationError = BadRequest | Forbidden | SupabaseOpError;
@@ -4666,6 +4707,8 @@ export const v1CreateAnOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateAnOrganization",
 }));
 
 export type V1CreateAProjectError = BadRequest | Forbidden | SupabaseOpError;
@@ -4681,6 +4724,8 @@ export const v1CreateAProject: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateAProject",
 }));
 
 export type V1CreateASsoProviderError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -4696,6 +4741,8 @@ export const v1CreateASsoProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateASsoProvider",
 }));
 
 export type V1CreateLegacySigningKeyError = BadRequest | Forbidden | SupabaseOpError;
@@ -4711,6 +4758,8 @@ export const v1CreateLegacySigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateLegacySigningKey",
 }));
 
 export type V1CreateLoginRoleError = BadRequest | Forbidden | SupabaseOpError;
@@ -4726,6 +4775,8 @@ export const v1CreateLoginRole: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateLoginRole",
 }));
 
 export type V1CreateProjectApiKeyError = BadRequest | Forbidden | SupabaseOpError;
@@ -4741,6 +4792,8 @@ export const v1CreateProjectApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateProjectApiKey",
 }));
 
 export type V1CreateProjectClaimTokenError = BadRequest | Forbidden | SupabaseOpError;
@@ -4756,6 +4809,8 @@ export const v1CreateProjectClaimToken: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateProjectClaimToken",
 }));
 
 export type V1CreateProjectSigningKeyError = BadRequest | Forbidden | SupabaseOpError;
@@ -4771,6 +4826,8 @@ export const v1CreateProjectSigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateProjectSigningKey",
 }));
 
 export type V1CreateProjectTpaIntegrationError = BadRequest | Forbidden | SupabaseOpError;
@@ -4786,6 +4843,8 @@ export const v1CreateProjectTpaIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateProjectTpaIntegration",
 }));
 
 export type V1CreateRestorePointError = BadRequest | Forbidden | SupabaseOpError;
@@ -4801,6 +4860,8 @@ export const v1CreateRestorePoint: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1CreateRestorePoint",
 }));
 
 export type V1DeactivateVanitySubdomainConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -4816,6 +4877,8 @@ export const v1DeactivateVanitySubdomainConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeactivateVanitySubdomainConfig",
 }));
 
 export type V1DeleteABranchError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -4831,6 +4894,8 @@ export const v1DeleteABranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteABranch",
 }));
 
 export type V1DeleteAFunctionError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -4846,6 +4911,8 @@ export const v1DeleteAFunction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteAFunction",
 }));
 
 export type V1DeleteAProjectError = BadRequest | Forbidden | SupabaseOpError;
@@ -4861,6 +4928,8 @@ export const v1DeleteAProject: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteAProject",
 }));
 
 export type V1DeleteASsoProviderError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -4876,6 +4945,8 @@ export const v1DeleteASsoProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteASsoProvider",
 }));
 
 export type V1DeleteHostnameConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -4891,6 +4962,8 @@ export const v1DeleteHostnameConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteHostnameConfig",
 }));
 
 export type V1DeleteInviteExternalJitAccessError = Forbidden | SupabaseOpError;
@@ -4906,6 +4979,8 @@ export const v1DeleteInviteExternalJitAccess: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteInviteExternalJitAccess",
 }));
 
 export type V1DeleteJitAccessError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -4921,6 +4996,8 @@ export const v1DeleteJitAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteJitAccess",
 }));
 
 export type V1DeleteLoginRolesError = BadRequest | Forbidden | SupabaseOpError;
@@ -4936,6 +5013,8 @@ export const v1DeleteLoginRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteLoginRoles",
 }));
 
 export type V1DeleteNetworkBansError = BadRequest | Forbidden | SupabaseOpError;
@@ -4951,6 +5030,8 @@ export const v1DeleteNetworkBans: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteNetworkBans",
 }));
 
 export type V1DeleteProjectApiKeyError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -4966,6 +5047,8 @@ export const v1DeleteProjectApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteProjectApiKey",
 }));
 
 export type V1DeleteProjectClaimTokenError = BadRequest | Forbidden | SupabaseOpError;
@@ -4981,6 +5064,8 @@ export const v1DeleteProjectClaimToken: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteProjectClaimToken",
 }));
 
 export type V1DeleteProjectTpaIntegrationError =
@@ -5000,6 +5085,8 @@ export const v1DeleteProjectTpaIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeleteProjectTpaIntegration",
 }));
 
 export type V1DeployAFunctionError = BadRequest | Forbidden | SupabaseOpError;
@@ -5015,6 +5102,8 @@ export const v1DeployAFunction: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DeployAFunction",
 }));
 
 export type V1DiffABranchError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5030,6 +5119,8 @@ export const v1DiffABranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DiffABranch",
 }));
 
 export type V1DisablePreviewBranchingError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5045,6 +5136,8 @@ export const v1DisablePreviewBranching: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DisablePreviewBranching",
 }));
 
 export type V1DisableReadonlyModeTemporarilyError = BadRequest | Forbidden | SupabaseOpError;
@@ -5060,6 +5153,8 @@ export const v1DisableReadonlyModeTemporarily: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1DisableReadonlyModeTemporarily",
 }));
 
 export type V1EnableDatabaseWebhookError = BadRequest | Forbidden | SupabaseOpError;
@@ -5075,6 +5170,8 @@ export const v1EnableDatabaseWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1EnableDatabaseWebhook",
 }));
 
 export type V1ExchangeOauthTokenError = BadRequest | Forbidden | SupabaseOpError;
@@ -5090,6 +5187,8 @@ export const v1ExchangeOauthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ExchangeOauthToken",
 }));
 
 export type V1GenerateTypescriptTypesError = BadRequest | Forbidden | SupabaseOpError;
@@ -5105,6 +5204,8 @@ export const v1GenerateTypescriptTypes: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GenerateTypescriptTypes",
 }));
 
 export type V1GetABranchError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5120,6 +5221,8 @@ export const v1GetABranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetABranch",
 }));
 
 export type V1GetABranchConfigError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5135,6 +5238,8 @@ export const v1GetABranchConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetABranchConfig",
 }));
 
 export type V1GetActionRunError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5150,6 +5255,8 @@ export const v1GetActionRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetActionRun",
 }));
 
 export type V1GetActionRunLogsError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5165,6 +5272,8 @@ export const v1GetActionRunLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetActionRunLogs",
 }));
 
 export type V1GetAFunctionError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5180,6 +5289,8 @@ export const v1GetAFunction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetAFunction",
 }));
 
 export type V1GetAFunctionBodyError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5195,6 +5306,8 @@ export const v1GetAFunctionBody: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetAFunctionBody",
 }));
 
 export type V1GetAllProjectsForOrganizationError =
@@ -5214,6 +5327,8 @@ export const v1GetAllProjectsForOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetAllProjectsForOrganization",
 }));
 
 export type V1GetAMigrationError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5229,6 +5344,8 @@ export const v1GetAMigration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetAMigration",
 }));
 
 export type V1GetAnOrganizationError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5244,6 +5361,8 @@ export const v1GetAnOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetAnOrganization",
 }));
 
 export type V1GetASnippetError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5259,6 +5378,8 @@ export const v1GetASnippet: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetASnippet",
 }));
 
 export type V1GetASsoProviderError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5274,6 +5395,8 @@ export const v1GetASsoProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetASsoProvider",
 }));
 
 export type V1GetAuthServiceConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5289,6 +5412,8 @@ export const v1GetAuthServiceConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetAuthServiceConfig",
 }));
 
 export type V1GetAvailableRegionsError = Forbidden | SupabaseOpError;
@@ -5304,6 +5429,8 @@ export const v1GetAvailableRegions: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetAvailableRegions",
 }));
 
 export type V1GetBackupScheduleError = Forbidden | NotFound | SupabaseOpError;
@@ -5319,6 +5446,8 @@ export const v1GetBackupSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetBackupSchedule",
 }));
 
 export type V1GetDatabaseDiskError = BadRequest | Forbidden | SupabaseOpError;
@@ -5334,6 +5463,8 @@ export const v1GetDatabaseDisk: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetDatabaseDisk",
 }));
 
 export type V1GetDatabaseMetadataError = BadRequest | Forbidden | SupabaseOpError;
@@ -5349,6 +5480,8 @@ export const v1GetDatabaseMetadata: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetDatabaseMetadata",
 }));
 
 export type V1GetDatabaseOpenapiError = Forbidden | SupabaseOpError;
@@ -5364,6 +5497,8 @@ export const v1GetDatabaseOpenapi: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetDatabaseOpenapi",
 }));
 
 export type V1GetDiskUtilizationError = BadRequest | Forbidden | SupabaseOpError;
@@ -5379,6 +5514,8 @@ export const v1GetDiskUtilization: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetDiskUtilization",
 }));
 
 export type V1GetHostnameConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5394,6 +5531,8 @@ export const v1GetHostnameConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetHostnameConfig",
 }));
 
 export type V1GetJitAccessError = BadRequest | Forbidden | SupabaseOpError;
@@ -5409,6 +5548,8 @@ export const v1GetJitAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetJitAccess",
 }));
 
 export type V1GetJitAccessConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5424,6 +5565,8 @@ export const v1GetJitAccessConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetJitAccessConfig",
 }));
 
 export type V1GetLegacySigningKeyError = BadRequest | Forbidden | SupabaseOpError;
@@ -5439,6 +5582,8 @@ export const v1GetLegacySigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetLegacySigningKey",
 }));
 
 export type V1GetNetworkRestrictionsError = BadRequest | Forbidden | SupabaseOpError;
@@ -5454,6 +5599,8 @@ export const v1GetNetworkRestrictions: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetNetworkRestrictions",
 }));
 
 export type V1GetOrganizationEntitlementsError = Forbidden | SupabaseOpError;
@@ -5469,6 +5616,8 @@ export const v1GetOrganizationEntitlements: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetOrganizationEntitlements",
 }));
 
 export type V1GetOrganizationProjectClaimError =
@@ -5488,6 +5637,8 @@ export const v1GetOrganizationProjectClaim: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetOrganizationProjectClaim",
 }));
 
 export type V1GetPerformanceAdvisorsError = BadRequest | Forbidden | SupabaseOpError;
@@ -5503,6 +5654,8 @@ export const v1GetPerformanceAdvisors: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetPerformanceAdvisors",
 }));
 
 export type V1GetPgsodiumConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5518,6 +5671,8 @@ export const v1GetPgsodiumConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetPgsodiumConfig",
 }));
 
 export type V1GetPoolerConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5533,6 +5688,8 @@ export const v1GetPoolerConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetPoolerConfig",
 }));
 
 export type V1GetPostgresConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5548,6 +5705,8 @@ export const v1GetPostgresConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetPostgresConfig",
 }));
 
 export type V1GetPostgrestServiceConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5563,6 +5722,8 @@ export const v1GetPostgrestServiceConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetPostgrestServiceConfig",
 }));
 
 export type V1GetPostgresUpgradeEligibilityError = BadRequest | Forbidden | SupabaseOpError;
@@ -5578,6 +5739,8 @@ export const v1GetPostgresUpgradeEligibility: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetPostgresUpgradeEligibility",
 }));
 
 export type V1GetPostgresUpgradeStatusError = BadRequest | Forbidden | SupabaseOpError;
@@ -5593,6 +5756,8 @@ export const v1GetPostgresUpgradeStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetPostgresUpgradeStatus",
 }));
 
 export type V1GetProfileError = SupabaseOpError;
@@ -5608,6 +5773,8 @@ export const v1GetProfile: API.OperationMethod<
   errors: [],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProfile",
 }));
 
 export type V1GetProjectError = BadRequest | Forbidden | SupabaseOpError;
@@ -5623,6 +5790,8 @@ export const v1GetProject: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProject",
 }));
 
 export type V1GetProjectApiKeyError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5638,6 +5807,8 @@ export const v1GetProjectApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectApiKey",
 }));
 
 export type V1GetProjectApiKeysError = BadRequest | Forbidden | SupabaseOpError;
@@ -5653,6 +5824,8 @@ export const v1GetProjectApiKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectApiKeys",
 }));
 
 export type V1GetProjectClaimTokenError = BadRequest | Forbidden | SupabaseOpError;
@@ -5668,6 +5841,8 @@ export const v1GetProjectClaimToken: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectClaimToken",
 }));
 
 export type V1GetProjectDiskAutoscaleConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5683,6 +5858,8 @@ export const v1GetProjectDiskAutoscaleConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectDiskAutoscaleConfig",
 }));
 
 export type V1GetProjectFunctionCombinedStatsError = BadRequest | Forbidden | SupabaseOpError;
@@ -5698,6 +5875,8 @@ export const v1GetProjectFunctionCombinedStats: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectFunctionCombinedStats",
 }));
 
 export type V1GetProjectLegacyApiKeysError = BadRequest | Forbidden | SupabaseOpError;
@@ -5713,6 +5892,8 @@ export const v1GetProjectLegacyApiKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectLegacyApiKeys",
 }));
 
 export type V1GetProjectLogsError = Forbidden | SupabaseOpError;
@@ -5728,6 +5909,8 @@ export const v1GetProjectLogs: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectLogs",
 }));
 
 export type V1GetProjectPgbouncerConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5743,6 +5926,8 @@ export const v1GetProjectPgbouncerConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectPgbouncerConfig",
 }));
 
 export type V1GetProjectSigningKeyError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5758,6 +5943,8 @@ export const v1GetProjectSigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectSigningKey",
 }));
 
 export type V1GetProjectSigningKeysError = BadRequest | Forbidden | SupabaseOpError;
@@ -5773,6 +5960,8 @@ export const v1GetProjectSigningKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectSigningKeys",
 }));
 
 export type V1GetProjectTpaIntegrationError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5788,6 +5977,8 @@ export const v1GetProjectTpaIntegration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectTpaIntegration",
 }));
 
 export type V1GetProjectUsageApiCountError = BadRequest | Forbidden | SupabaseOpError;
@@ -5803,6 +5994,8 @@ export const v1GetProjectUsageApiCount: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectUsageApiCount",
 }));
 
 export type V1GetProjectUsageRequestCountError = BadRequest | Forbidden | SupabaseOpError;
@@ -5818,6 +6011,8 @@ export const v1GetProjectUsageRequestCount: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetProjectUsageRequestCount",
 }));
 
 export type V1GetReadonlyModeStatusError = BadRequest | Forbidden | SupabaseOpError;
@@ -5833,6 +6028,8 @@ export const v1GetReadonlyModeStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetReadonlyModeStatus",
 }));
 
 export type V1GetRealtimeConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5848,6 +6045,8 @@ export const v1GetRealtimeConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetRealtimeConfig",
 }));
 
 export type V1GetRestorePointError = BadRequest | Forbidden | SupabaseOpError;
@@ -5863,6 +6062,8 @@ export const v1GetRestorePoint: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetRestorePoint",
 }));
 
 export type V1GetSecurityAdvisorsError = BadRequest | Forbidden | SupabaseOpError;
@@ -5878,6 +6079,8 @@ export const v1GetSecurityAdvisors: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetSecurityAdvisors",
 }));
 
 export type V1GetServicesHealthError = BadRequest | Forbidden | SupabaseOpError;
@@ -5893,6 +6096,8 @@ export const v1GetServicesHealth: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetServicesHealth",
 }));
 
 export type V1GetSslEnforcementConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5908,6 +6113,8 @@ export const v1GetSslEnforcementConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetSslEnforcementConfig",
 }));
 
 export type V1GetStorageConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5923,6 +6130,8 @@ export const v1GetStorageConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetStorageConfig",
 }));
 
 export type V1GetVanitySubdomainConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -5938,6 +6147,8 @@ export const v1GetVanitySubdomainConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1GetVanitySubdomainConfig",
 }));
 
 export type V1InviteExternalJitAccessError = Forbidden | SupabaseOpError;
@@ -5953,6 +6164,8 @@ export const v1InviteExternalJitAccess: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InviteExternalJitAccess",
 }));
 
 export type V1ListActionRunsError = BadRequest | Forbidden | SupabaseOpError;
@@ -5968,6 +6181,8 @@ export const v1ListActionRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListActionRuns",
 }));
 
 export type V1ListAllBackupsError = BadRequest | Forbidden | SupabaseOpError;
@@ -5983,6 +6198,8 @@ export const v1ListAllBackups: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllBackups",
 }));
 
 export type V1ListAllBranchesError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -5998,6 +6215,8 @@ export const v1ListAllBranches: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllBranches",
 }));
 
 export type V1ListAllBucketsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6013,6 +6232,8 @@ export const v1ListAllBuckets: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllBuckets",
 }));
 
 export type V1ListAllFunctionsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6028,6 +6249,8 @@ export const v1ListAllFunctions: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllFunctions",
 }));
 
 export type V1ListAllNetworkBansError = BadRequest | Forbidden | SupabaseOpError;
@@ -6043,6 +6266,8 @@ export const v1ListAllNetworkBans: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllNetworkBans",
 }));
 
 export type V1ListAllNetworkBansEnrichedError = BadRequest | Forbidden | SupabaseOpError;
@@ -6058,6 +6283,8 @@ export const v1ListAllNetworkBansEnriched: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllNetworkBansEnriched",
 }));
 
 export type V1ListAllOrganizationsError = Forbidden | SupabaseOpError;
@@ -6073,6 +6300,8 @@ export const v1ListAllOrganizations: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllOrganizations",
 }));
 
 export type V1ListAllProjectsError = Forbidden | SupabaseOpError;
@@ -6088,6 +6317,8 @@ export const v1ListAllProjects: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllProjects",
 }));
 
 export type V1ListAllSecretsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6103,6 +6334,8 @@ export const v1ListAllSecrets: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllSecrets",
 }));
 
 export type V1ListAllSnippetsError = Forbidden | SupabaseOpError;
@@ -6118,6 +6351,8 @@ export const v1ListAllSnippets: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllSnippets",
 }));
 
 export type V1ListAllSsoProviderError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6133,6 +6368,8 @@ export const v1ListAllSsoProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAllSsoProvider",
 }));
 
 export type V1ListAvailableRestoreVersionsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6148,6 +6385,8 @@ export const v1ListAvailableRestoreVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListAvailableRestoreVersions",
 }));
 
 export type V1ListJitAccessError = BadRequest | Forbidden | SupabaseOpError;
@@ -6163,6 +6402,8 @@ export const v1ListJitAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListJitAccess",
 }));
 
 export type V1ListMigrationHistoryError = BadRequest | Forbidden | SupabaseOpError;
@@ -6178,6 +6419,8 @@ export const v1ListMigrationHistory: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListMigrationHistory",
 }));
 
 export type V1ListOrganizationMembersError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6193,6 +6436,8 @@ export const v1ListOrganizationMembers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListOrganizationMembers",
 }));
 
 export type V1ListProjectAddonsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6208,6 +6453,8 @@ export const v1ListProjectAddons: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListProjectAddons",
 }));
 
 export type V1ListProjectTpaIntegrationsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6223,6 +6470,8 @@ export const v1ListProjectTpaIntegrations: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ListProjectTpaIntegrations",
 }));
 
 export type V1MergeABranchError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6238,6 +6487,8 @@ export const v1MergeABranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1MergeABranch",
 }));
 
 export type V1ModifyDatabaseDiskError = BadRequest | Forbidden | SupabaseOpError;
@@ -6253,6 +6504,8 @@ export const v1ModifyDatabaseDisk: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ModifyDatabaseDisk",
 }));
 
 export type V1OauthAuthorizeProjectClaimError = Forbidden | SupabaseOpError;
@@ -6268,6 +6521,8 @@ export const v1OauthAuthorizeProjectClaim: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1OauthAuthorizeProjectClaim",
 }));
 
 export type V1PatchAMigrationError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6283,6 +6538,8 @@ export const v1PatchAMigration: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1PatchAMigration",
 }));
 
 export type V1PatchNetworkRestrictionsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6298,6 +6555,8 @@ export const v1PatchNetworkRestrictions: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1PatchNetworkRestrictions",
 }));
 
 export type V1PauseAProjectError = BadRequest | Forbidden | SupabaseOpError;
@@ -6313,6 +6572,8 @@ export const v1PauseAProject: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1PauseAProject",
 }));
 
 export type V1PushABranchError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6328,6 +6589,8 @@ export const v1PushABranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1PushABranch",
 }));
 
 export type V1ReadOnlyQueryError = BadRequest | Forbidden | SupabaseOpError;
@@ -6343,6 +6606,8 @@ export const v1ReadOnlyQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ReadOnlyQuery",
 }));
 
 export type V1RemoveAReadReplicaError = BadRequest | Forbidden | SupabaseOpError;
@@ -6358,6 +6623,8 @@ export const v1RemoveAReadReplica: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RemoveAReadReplica",
 }));
 
 export type V1RemoveProjectAddonError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6373,6 +6640,8 @@ export const v1RemoveProjectAddon: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RemoveProjectAddon",
 }));
 
 export type V1RemoveProjectSigningKeyError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6388,6 +6657,8 @@ export const v1RemoveProjectSigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RemoveProjectSigningKey",
 }));
 
 export type V1ResetABranchError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6403,6 +6674,8 @@ export const v1ResetABranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ResetABranch",
 }));
 
 export type V1RestartAProjectError = Forbidden | SupabaseOpError;
@@ -6418,6 +6691,8 @@ export const v1RestartAProject: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RestartAProject",
 }));
 
 export type V1RestoreABranchError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6433,6 +6708,8 @@ export const v1RestoreABranch: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RestoreABranch",
 }));
 
 export type V1RestoreAProjectError = BadRequest | Forbidden | SupabaseOpError;
@@ -6448,6 +6725,8 @@ export const v1RestoreAProject: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RestoreAProject",
 }));
 
 export type V1RestorePhysicalBackupError = Forbidden | SupabaseOpError;
@@ -6463,6 +6742,8 @@ export const v1RestorePhysicalBackup: API.OperationMethod<
   errors: [Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RestorePhysicalBackup",
 }));
 
 export type V1RestorePitrBackupError = BadRequest | Forbidden | SupabaseOpError;
@@ -6478,6 +6759,8 @@ export const v1RestorePitrBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RestorePitrBackup",
 }));
 
 export type V1RevokeTokenError = BadRequest | Forbidden | SupabaseOpError;
@@ -6493,6 +6776,8 @@ export const v1RevokeToken: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RevokeToken",
 }));
 
 export type V1RollbackMigrationsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6508,6 +6793,8 @@ export const v1RollbackMigrations: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RollbackMigrations",
 }));
 
 export type V1RunAQueryError = BadRequest | Forbidden | SupabaseOpError;
@@ -6523,6 +6810,8 @@ export const v1RunAQuery: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1RunAQuery",
 }));
 
 export type V1ScrapeProjectMetricsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6538,6 +6827,8 @@ export const v1ScrapeProjectMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ScrapeProjectMetrics",
 }));
 
 export type V1SetupAReadReplicaError = BadRequest | Forbidden | SupabaseOpError;
@@ -6553,6 +6844,8 @@ export const v1SetupAReadReplica: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1SetupAReadReplica",
 }));
 
 export type V1ShutdownRealtimeError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6568,6 +6861,8 @@ export const v1ShutdownRealtime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ShutdownRealtime",
 }));
 
 export type V1UndoError = BadRequest | Forbidden | SupabaseOpError;
@@ -6583,6 +6878,8 @@ export const v1Undo: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1Undo",
 }));
 
 export type V1UpdateABranchConfigError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6598,6 +6895,8 @@ export const v1UpdateABranchConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateABranchConfig",
 }));
 
 export type V1UpdateActionRunStatusError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6613,6 +6912,8 @@ export const v1UpdateActionRunStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateActionRunStatus",
 }));
 
 export type V1UpdateAFunctionError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6628,6 +6929,8 @@ export const v1UpdateAFunction: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateAFunction",
 }));
 
 export type V1UpdateAProjectError = BadRequest | Forbidden | SupabaseOpError;
@@ -6643,6 +6946,8 @@ export const v1UpdateAProject: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateAProject",
 }));
 
 export type V1UpdateASsoProviderError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6658,6 +6963,8 @@ export const v1UpdateASsoProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateASsoProvider",
 }));
 
 export type V1UpdateAuthServiceConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6673,6 +6980,8 @@ export const v1UpdateAuthServiceConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateAuthServiceConfig",
 }));
 
 export type V1UpdateBackupScheduleError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6688,6 +6997,8 @@ export const v1UpdateBackupSchedule: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateBackupSchedule",
 }));
 
 export type V1UpdateDatabasePasswordError = BadRequest | Forbidden | SupabaseOpError;
@@ -6703,6 +7014,8 @@ export const v1UpdateDatabasePassword: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateDatabasePassword",
 }));
 
 export type V1UpdateHostnameConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6718,6 +7031,8 @@ export const v1UpdateHostnameConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateHostnameConfig",
 }));
 
 export type V1UpdateJitAccessError = BadRequest | Forbidden | SupabaseOpError;
@@ -6733,6 +7048,8 @@ export const v1UpdateJitAccess: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateJitAccess",
 }));
 
 export type V1UpdateJitAccessConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6748,6 +7065,8 @@ export const v1UpdateJitAccessConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateJitAccessConfig",
 }));
 
 export type V1UpdateNetworkRestrictionsError = BadRequest | Forbidden | SupabaseOpError;
@@ -6763,6 +7082,8 @@ export const v1UpdateNetworkRestrictions: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateNetworkRestrictions",
 }));
 
 export type V1UpdatePgsodiumConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6778,6 +7099,8 @@ export const v1UpdatePgsodiumConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdatePgsodiumConfig",
 }));
 
 export type V1UpdatePoolerConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6793,6 +7116,8 @@ export const v1UpdatePoolerConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdatePoolerConfig",
 }));
 
 export type V1UpdatePostgresConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6808,6 +7133,8 @@ export const v1UpdatePostgresConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdatePostgresConfig",
 }));
 
 export type V1UpdatePostgrestServiceConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6823,6 +7150,8 @@ export const v1UpdatePostgrestServiceConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdatePostgrestServiceConfig",
 }));
 
 export type V1UpdateProjectApiKeyError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6838,6 +7167,8 @@ export const v1UpdateProjectApiKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateProjectApiKey",
 }));
 
 export type V1UpdateProjectLegacyApiKeysError = BadRequest | Forbidden | SupabaseOpError;
@@ -6853,6 +7184,8 @@ export const v1UpdateProjectLegacyApiKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateProjectLegacyApiKeys",
 }));
 
 export type V1UpdateProjectSigningKeyError = BadRequest | Forbidden | NotFound | SupabaseOpError;
@@ -6868,6 +7201,8 @@ export const v1UpdateProjectSigningKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateProjectSigningKey",
 }));
 
 export type V1UpdateRealtimeConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6883,6 +7218,8 @@ export const v1UpdateRealtimeConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateRealtimeConfig",
 }));
 
 export type V1UpdateSslEnforcementConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6898,6 +7235,8 @@ export const v1UpdateSslEnforcementConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateSslEnforcementConfig",
 }));
 
 export type V1UpdateStorageConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6913,6 +7252,8 @@ export const v1UpdateStorageConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpdateStorageConfig",
 }));
 
 export type V1UpgradePostgresVersionError = BadRequest | Forbidden | SupabaseOpError;
@@ -6928,6 +7269,8 @@ export const v1UpgradePostgresVersion: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpgradePostgresVersion",
 }));
 
 export type V1UpsertAMigrationError = BadRequest | Forbidden | SupabaseOpError;
@@ -6943,6 +7286,8 @@ export const v1UpsertAMigration: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1UpsertAMigration",
 }));
 
 export type V1VerifyDnsConfigError = BadRequest | Forbidden | SupabaseOpError;
@@ -6958,6 +7303,8 @@ export const v1VerifyDnsConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: SupabaseProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1VerifyDnsConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -30,7 +30,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("GustoCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "GustoCredentials",
+  ) {}
 
 /** Layer from a redacted access token + optional base URL and API version. */
 export const fromApiKey = (config: {
@@ -69,5 +71,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl: process.env.GUSTO_API_BASE_URL ?? DEFAULT_API_BASE_URL,
       apiVersion: process.env.GUSTO_API_VERSION ?? DEFAULT_API_VERSION,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

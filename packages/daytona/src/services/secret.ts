@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Secret",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 /** Allowed hosts this secret may be sent to */
 export type CreateSecretRequestHostsList = Array<string>;
 export interface CreateSecretRequest {
@@ -109,6 +122,8 @@ export const createSecret: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSecret",
 }));
 
 export type DeleteSecretError = DaytonaOpError;
@@ -124,6 +139,8 @@ export const deleteSecret: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecret",
 }));
 
 export type GetSecretError = DaytonaOpError;
@@ -139,6 +156,8 @@ export const getSecret: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecret",
 }));
 
 export type ListSecretsPaginatedError = DaytonaOpError;
@@ -154,6 +173,8 @@ export const listSecretsPaginated: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretsPaginated",
 }));
 
 export type UpdateSecretError = DaytonaOpError;
@@ -169,6 +190,8 @@ export const updateSecret: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecret",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

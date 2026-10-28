@@ -32,6 +32,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   validityDays: "validity_days",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "ClientCertificates",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class ClientCertificateAlreadyRevoked
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ClientCertificateAlreadyRevoked>()(
@@ -356,6 +370,8 @@ export const createClientCertificate: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClientCertificate",
 }));
 
 export type DeleteClientCertificateError =
@@ -381,6 +397,8 @@ export const deleteClientCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClientCertificate",
 }));
 
 export type GetClientCertificateError = ClientCertificateNotFound | Forbidden | CloudflareOpError;
@@ -396,6 +414,8 @@ export const getClientCertificate: API.OperationMethod<
   errors: [ClientCertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClientCertificate",
 }));
 
 export type ListClientCertificatesError = Forbidden | CloudflareOpError;
@@ -413,6 +433,8 @@ export const listClientCertificates: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListClientCertificates",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -437,6 +459,8 @@ export const patchClientCertificate: API.OperationMethod<
   errors: [ClientCertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchClientCertificate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

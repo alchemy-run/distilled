@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Volumes",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateVolumeRequestLabelsMap = { [key: string]: string | undefined };
 export interface CreateVolumeRequest {
@@ -337,6 +350,8 @@ export const createVolume: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type DeleteVolumeError = HetznerOpError;
@@ -352,6 +367,8 @@ export const deleteVolume: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type GetVolumeError = HetznerOpError;
@@ -367,6 +384,8 @@ export const getVolume: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVolume",
 }));
 
 export type ListVolumesError = HetznerOpError;
@@ -384,6 +403,8 @@ export const listVolumes: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListVolumes",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -408,6 +429,8 @@ export const updateVolume: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVolume",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

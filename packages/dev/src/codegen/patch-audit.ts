@@ -316,8 +316,9 @@ const auditConvertStage = async (
   const jobs = Math.max(1, options.jobs ?? defaultJobs());
   const inMemoryKeys =
     options.inMemory === false ? [] : files.filter((f) => f.smithyOnly).map((f) => f.key);
-  // A dir's cost: the size of the committed model it patches (1 MB when
-  // there is none to go by, e.g. a root-level file patching every model).
+  // A dir's cost: the size of the model it patches in a `pnpm convert`
+  // dump (1 MB when there is none to go by: no dump, or a root-level file
+  // patching every model).
   const specsDir = join(pkgDir, ".generated-specs");
   const cost = (dir: string): number => {
     const model = join(specsDir, `${dir}.json`);

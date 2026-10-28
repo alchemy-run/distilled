@@ -48,6 +48,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   urlScanId: "url_scan_id",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "BrandProtection",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type QueriesBulkRequestQueriesItemMap = { [key: string]: unknown | undefined };
 export type QueriesBulkRequestQueriesList = Array<QueriesBulkRequestQueriesItemMap>;
 export interface BulkQueryRequest {
@@ -360,6 +374,8 @@ export const bulkQuery: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkQuery",
 }));
 
 export type CreateLogoError = CloudflareOpError;
@@ -375,6 +391,8 @@ export const createLogo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogo",
 }));
 
 export type CreateQueryError = CloudflareOpError;
@@ -390,6 +408,8 @@ export const createQuery: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQuery",
 }));
 
 export type CreateV2LogoError = CloudflareOpError;
@@ -405,6 +425,8 @@ export const createV2Logo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateV2Logo",
 }));
 
 export type DeleteLogoError = CloudflareOpError;
@@ -420,6 +442,8 @@ export const deleteLogo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogo",
 }));
 
 export type DeleteQueryError = CloudflareOpError;
@@ -435,6 +459,8 @@ export const deleteQuery: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQuery",
 }));
 
 export type DeleteV2LogoError = CloudflareOpError;
@@ -450,6 +476,8 @@ export const deleteV2Logo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteV2Logo",
 }));
 
 export type DownloadLogoMatchError = CloudflareOpError;
@@ -465,6 +493,8 @@ export const downloadLogoMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadLogoMatch",
 }));
 
 export type DownloadMatchError = CloudflareOpError;
@@ -480,6 +510,8 @@ export const downloadMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadMatch",
 }));
 
 export type GetLogoMatchError = CloudflareOpError;
@@ -495,6 +527,8 @@ export const getLogoMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogoMatch",
 }));
 
 export type GetMatchError = CloudflareOpError;
@@ -510,6 +544,8 @@ export const getMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMatch",
 }));
 
 export type GetV2LogoError = CloudflareOpError;
@@ -525,6 +561,8 @@ export const getV2Logo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Logo",
 }));
 
 export type GetV2LogoMatchError = CloudflareOpError;
@@ -540,6 +578,8 @@ export const getV2LogoMatch: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2LogoMatch",
 }));
 
 export type GetV2MatchError = CloudflareOpError;
@@ -555,6 +595,8 @@ export const getV2Match: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Match",
 }));
 
 export type GetV2QueryError = CloudflareOpError;
@@ -570,6 +612,8 @@ export const getV2Query: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetV2Query",
 }));
 
 export type SubmitBrandProtectionError = CloudflareOpError;
@@ -585,6 +629,8 @@ export const submitBrandProtection: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitBrandProtection",
 }));
 
 export type UrlInfoBrandProtectionError = CloudflareOpError;
@@ -602,6 +648,8 @@ export const urlInfoBrandProtection: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UrlInfoBrandProtection",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

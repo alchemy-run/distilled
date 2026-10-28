@@ -58,6 +58,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneSettings: "zone_settings",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Accounts",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AccountCreationForbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AccountCreationForbidden>()("AccountCreationForbidden", {
@@ -3044,6 +3058,8 @@ export const createAccount: API.OperationMethod<
   errors: [AccountCreationForbidden, MissingName, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type CreateAccountOrganizationError = CloudflareOpError;
@@ -3059,6 +3075,8 @@ export const createAccountOrganization: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountOrganization",
 }));
 
 export type CreateClientSecretError = CloudflareOpError;
@@ -3074,6 +3092,8 @@ export const createClientSecret: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClientSecret",
 }));
 
 export type CreateMemberError =
@@ -3099,6 +3119,8 @@ export const createMember: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMember",
 }));
 
 export type CreatePayBadDebtError = CloudflareOpError;
@@ -3114,6 +3136,8 @@ export const createPayBadDebt: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayBadDebt",
 }));
 
 export type CreatePayInvoiceError = CloudflareOpError;
@@ -3129,6 +3153,8 @@ export const createPayInvoice: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayInvoice",
 }));
 
 export type CreatePaymentMethodError = CloudflareOpError;
@@ -3144,6 +3170,8 @@ export const createPaymentMethod: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentMethod",
 }));
 
 export type CreateSubscriptionError = JsonDecodeFailure | InvalidRoute | CloudflareOpError;
@@ -3159,6 +3187,8 @@ export const createSubscription: API.OperationMethod<
   errors: [JsonDecodeFailure, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type CreateTokenError =
@@ -3184,6 +3214,8 @@ export const createToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DeleteAccountError = InvalidRoute | MethodNotAllowed | CloudflareOpError;
@@ -3199,6 +3231,8 @@ export const deleteAccount: API.OperationMethod<
   errors: [InvalidRoute, MethodNotAllowed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteMemberError = MemberNotFound | InvalidRoute | CloudflareOpError;
@@ -3214,6 +3248,8 @@ export const deleteMember: API.OperationMethod<
   errors: [MemberNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DeletePaymentMethodError = CloudflareOpError;
@@ -3229,6 +3265,8 @@ export const deletePaymentMethod: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePaymentMethod",
 }));
 
 export type DeleteSubscriptionError = InvalidRoute | EndpointNotFound | CloudflareOpError;
@@ -3244,6 +3282,8 @@ export const deleteSubscription: API.OperationMethod<
   errors: [InvalidRoute, EndpointNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscription",
 }));
 
 export type DeleteTokenError =
@@ -3271,6 +3311,8 @@ export const deleteToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type EditInvoiceError = CloudflareOpError;
@@ -3286,6 +3328,8 @@ export const editInvoice: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditInvoice",
 }));
 
 export type GetAccountError = InvalidRoute | CloudflareOpError;
@@ -3301,6 +3345,8 @@ export const getAccount: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountProfileError = CloudflareOpError;
@@ -3316,6 +3362,8 @@ export const getAccountProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountProfile",
 }));
 
 export type GetMemberError = MemberNotFound | InvalidRoute | CloudflareOpError;
@@ -3331,6 +3379,8 @@ export const getMember: API.OperationMethod<
   errors: [MemberNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetPaymentMethodError = CloudflareOpError;
@@ -3346,6 +3396,8 @@ export const getPaymentMethod: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethod",
 }));
 
 export type GetRoleError = InvalidRoute | CloudflareOpError;
@@ -3361,6 +3413,8 @@ export const getRole: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRole",
 }));
 
 export type GetSpeedSettingsTransformationError = CloudflareOpError;
@@ -3376,6 +3430,8 @@ export const getSpeedSettingsTransformation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpeedSettingsTransformation",
 }));
 
 export type GetSubscriptionError = CloudflareOpError;
@@ -3393,6 +3449,8 @@ export const getSubscription: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSubscription",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -3411,6 +3469,8 @@ export const getToken: API.OperationMethod<
   errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetToken",
 }));
 
 export type GetTokenPermissionGroupError = InvalidRoute | CloudflareOpError;
@@ -3426,6 +3486,8 @@ export const getTokenPermissionGroup: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenPermissionGroup",
 }));
 
 export type ListAccountsError = CloudflareOpError;
@@ -3443,6 +3505,8 @@ export const listAccounts: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccounts",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -3467,6 +3531,8 @@ export const listEntitlements: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEntitlements",
 }));
 
 export type ListLogAuditsError = CloudflareOpError;
@@ -3484,6 +3550,8 @@ export const listLogAudits: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogAudits",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3509,6 +3577,8 @@ export const listMembers: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMembers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -3533,6 +3603,8 @@ export const listPaymentMethods: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentMethods",
 }));
 
 export type ListRolesError = CloudflareOpError;
@@ -3550,6 +3622,8 @@ export const listRoles: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRoles",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -3576,6 +3650,8 @@ export const listTokens: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTokens",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -3600,6 +3676,8 @@ export const listTokensPermissionGroups: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTokensPermissionGroups",
 }));
 
 export type LogsAuditHistoryError = CloudflareOpError;
@@ -3615,6 +3693,8 @@ export const logsAuditHistory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsAuditHistory",
 }));
 
 export type LogsAuditProductCategoriesError = CloudflareOpError;
@@ -3630,6 +3710,8 @@ export const logsAuditProductCategories: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogsAuditProductCategories",
 }));
 
 export type PaymentMethodsSetAsDefaultError = CloudflareOpError;
@@ -3645,6 +3727,8 @@ export const paymentMethodsSetAsDefault: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PaymentMethodsSetAsDefault",
 }));
 
 export type PutTokenValueError = InvalidRoute | TokenNotFound | CloudflareOpError;
@@ -3660,6 +3744,8 @@ export const putTokenValue: API.OperationMethod<
   errors: [InvalidRoute, TokenNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutTokenValue",
 }));
 
 export type ReceiptsPdfError = CloudflareOpError;
@@ -3675,6 +3761,8 @@ export const receiptsPdf: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReceiptsPdf",
 }));
 
 export type SubscriptionsActionsAppendError = CloudflareOpError;
@@ -3690,6 +3778,8 @@ export const subscriptionsActionsAppend: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsActionsAppend",
 }));
 
 export type SubscriptionsBulkCreateError = CloudflareOpError;
@@ -3705,6 +3795,8 @@ export const subscriptionsBulkCreate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsBulkCreate",
 }));
 
 export type SubscriptionsCancelDowngradeError = CloudflareOpError;
@@ -3720,6 +3812,8 @@ export const subscriptionsCancelDowngrade: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsCancelDowngrade",
 }));
 
 export type SubscriptionsCancelReasonCreateError = CloudflareOpError;
@@ -3735,6 +3829,8 @@ export const subscriptionsCancelReasonCreate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsCancelReasonCreate",
 }));
 
 export type SubscriptionsCancelReasonGetError = CloudflareOpError;
@@ -3750,6 +3846,8 @@ export const subscriptionsCancelReasonGet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsCancelReasonGet",
 }));
 
 export type SubscriptionsGetByIdentifierError = CloudflareOpError;
@@ -3765,6 +3863,8 @@ export const subscriptionsGetByIdentifier: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsGetByIdentifier",
 }));
 
 export type UpdateAccountError =
@@ -3794,6 +3894,8 @@ export const updateAccount: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateAccountProfileError = CloudflareOpError;
@@ -3809,6 +3911,8 @@ export const updateAccountProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountProfile",
 }));
 
 export type UpdateMemberError =
@@ -3836,6 +3940,8 @@ export const updateMember: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMember",
 }));
 
 export type UpdatePaymentMethodError = CloudflareOpError;
@@ -3851,6 +3957,8 @@ export const updatePaymentMethod: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentMethod",
 }));
 
 export type UpdateSubscriptionError =
@@ -3876,6 +3984,8 @@ export const updateSubscription: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 export type UpdateTokenError =
@@ -3903,6 +4013,8 @@ export const updateToken: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateToken",
 }));
 
 export type VerifyTokenError = MissingAuthenticationToken | InvalidRoute | CloudflareOpError;
@@ -3918,6 +4030,8 @@ export const verifyToken: API.OperationMethod<
   errors: [MissingAuthenticationToken, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyToken",
 }));
 
 // Alias of getTokenPermissionGroup (same route, alternate export name upstream).

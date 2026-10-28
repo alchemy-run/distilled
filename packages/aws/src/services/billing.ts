@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -122,6 +123,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Billing",
+  service: "Billing",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -811,6 +827,8 @@ export const associateSourceViews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceViews",
+  telemetry: TELEMETRY,
+  span: "AssociateSourceViews",
 }));
 
 export type CreateBillingViewError =
@@ -847,6 +865,8 @@ export const createBillingView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillingView",
+  telemetry: TELEMETRY,
+  span: "CreateBillingView",
 }));
 
 export type DeleteBillingViewError =
@@ -877,6 +897,8 @@ export const deleteBillingView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillingView",
+  telemetry: TELEMETRY,
+  span: "DeleteBillingView",
 }));
 
 export type DisassociateSourceViewsError =
@@ -911,6 +933,8 @@ export const disassociateSourceViews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceViews",
+  telemetry: TELEMETRY,
+  span: "DisassociateSourceViews",
 }));
 
 export type GetBillingPreferencesError =
@@ -939,6 +963,8 @@ export const getBillingPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillingPreferences",
+  telemetry: TELEMETRY,
+  span: "GetBillingPreferences",
 }));
 
 export type GetBillingViewError =
@@ -969,6 +995,8 @@ export const getBillingView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillingView",
+  telemetry: TELEMETRY,
+  span: "GetBillingView",
 }));
 
 export type GetCreditAllocationHistoryError =
@@ -1004,6 +1032,8 @@ export const getCreditAllocationHistory: API.PaginatedOperationMethod<
     items: "creditAllocationHistoryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCreditAllocationHistory",
 })) as any;
 
 export type GetCreditsError =
@@ -1034,6 +1064,8 @@ export const getCredits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredits",
+  telemetry: TELEMETRY,
+  span: "GetCredits",
 }));
 
 export type GetEnterpriseSupportChargeSummaryError =
@@ -1064,6 +1096,8 @@ export const getEnterpriseSupportChargeSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnterpriseSupportChargeSummary",
+  telemetry: TELEMETRY,
+  span: "GetEnterpriseSupportChargeSummary",
 }));
 
 export type GetEnterpriseSupportContractDetailsError =
@@ -1094,6 +1128,8 @@ export const getEnterpriseSupportContractDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnterpriseSupportContractDetails",
+  telemetry: TELEMETRY,
+  span: "GetEnterpriseSupportContractDetails",
 }));
 
 export type GetResourcePolicyError =
@@ -1124,6 +1160,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListBillingViewsError =
@@ -1161,6 +1199,8 @@ export const listBillingViews: API.PaginatedOperationMethod<
     items: "billingViews",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListBillingViews", attributes: { "url.template": "/" } },
 })) as any;
 
 export type ListBillingViewSegmentsError =
@@ -1204,6 +1244,8 @@ export const listBillingViewSegments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillingViewSegments",
 })) as any;
 
 export type ListBusinessSupportAccountChargesError =
@@ -1241,6 +1283,8 @@ export const listBusinessSupportAccountCharges: API.PaginatedOperationMethod<
     items: "accountCharges",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBusinessSupportAccountCharges",
 })) as any;
 
 export type ListBusinessSupportSubscriptionHistoryError =
@@ -1278,6 +1322,8 @@ export const listBusinessSupportSubscriptionHistory: API.PaginatedOperationMetho
     items: "subscriptionContracts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBusinessSupportSubscriptionHistory",
 })) as any;
 
 export type ListEnterpriseSupportLinkedAccountChargesError =
@@ -1315,6 +1361,8 @@ export const listEnterpriseSupportLinkedAccountCharges: API.PaginatedOperationMe
     items: "linkedAccount",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnterpriseSupportLinkedAccountCharges",
 })) as any;
 
 export type ListSourceViewsForBillingViewError =
@@ -1352,6 +1400,8 @@ export const listSourceViewsForBillingView: API.PaginatedOperationMethod<
     items: "sourceViews",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceViewsForBillingView",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1382,6 +1432,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RedeemCreditsError =
@@ -1410,6 +1462,8 @@ export const redeemCredits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedeemCredits",
+  telemetry: TELEMETRY,
+  span: "RedeemCredits",
 }));
 
 export type TagResourceError =
@@ -1440,6 +1494,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1470,6 +1526,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBillingPreferencesError =
@@ -1500,6 +1558,8 @@ export const updateBillingPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingPreferences",
+  telemetry: TELEMETRY,
+  span: "UpdateBillingPreferences",
 }));
 
 export type UpdateBillingViewError =
@@ -1536,6 +1596,8 @@ export const updateBillingView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingView",
+  telemetry: TELEMETRY,
+  span: "UpdateBillingView",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

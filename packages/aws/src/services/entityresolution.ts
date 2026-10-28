@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://entityresolution.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EntityResolution",
+  service: "EntityResolution",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -947,6 +962,8 @@ export const addPolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPolicyStatement",
+  telemetry: TELEMETRY,
+  span: "AddPolicyStatement",
 }));
 
 export type BatchDeleteUniqueIdError =
@@ -969,6 +986,8 @@ export const batchDeleteUniqueId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteUniqueId",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteUniqueId",
 }));
 
 export type CreateIdMappingWorkflowError =
@@ -1003,6 +1022,8 @@ export const createIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdMappingWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateIdMappingWorkflow",
 }));
 
 export type CreateIdNamespaceError =
@@ -1035,6 +1056,8 @@ export const createIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateIdNamespace",
 }));
 
 export type CreateMatchingWorkflowError =
@@ -1069,6 +1092,8 @@ export const createMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchingWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateMatchingWorkflow",
 }));
 
 export type CreateSchemaMappingError =
@@ -1101,6 +1126,8 @@ export const createSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchemaMapping",
+  telemetry: TELEMETRY,
+  span: "CreateSchemaMapping",
 }));
 
 export type DeleteIdMappingWorkflowError =
@@ -1133,6 +1160,8 @@ export const deleteIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdMappingWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteIdMappingWorkflow",
 }));
 
 export type DeleteIdNamespaceError =
@@ -1165,6 +1194,8 @@ export const deleteIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteIdNamespace",
 }));
 
 export type DeleteMatchingWorkflowError =
@@ -1197,6 +1228,8 @@ export const deleteMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchingWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteMatchingWorkflow",
 }));
 
 export type DeletePolicyStatementError =
@@ -1229,6 +1262,8 @@ export const deletePolicyStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStatement",
+  telemetry: TELEMETRY,
+  span: "DeletePolicyStatement",
 }));
 
 export type DeleteSchemaMappingError =
@@ -1261,6 +1296,8 @@ export const deleteSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchemaMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteSchemaMapping",
 }));
 
 export type GenerateMatchIdError =
@@ -1293,6 +1330,8 @@ export const generateMatchId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMatchId",
+  telemetry: TELEMETRY,
+  span: "GenerateMatchId",
 }));
 
 export type GetIdMappingJobError =
@@ -1323,6 +1362,8 @@ export const getIdMappingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingJob",
+  telemetry: TELEMETRY,
+  span: "GetIdMappingJob",
 }));
 
 export type GetIdMappingWorkflowError =
@@ -1353,6 +1394,8 @@ export const getIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetIdMappingWorkflow",
 }));
 
 export type GetIdNamespaceError =
@@ -1383,6 +1426,8 @@ export const getIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdNamespace",
+  telemetry: TELEMETRY,
+  span: "GetIdNamespace",
 }));
 
 export type GetMatchIdError =
@@ -1415,6 +1460,8 @@ export const getMatchId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchId",
+  telemetry: TELEMETRY,
+  span: "GetMatchId",
 }));
 
 export type GetMatchingJobError =
@@ -1445,6 +1492,8 @@ export const getMatchingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchingJob",
+  telemetry: TELEMETRY,
+  span: "GetMatchingJob",
 }));
 
 export type GetMatchingWorkflowError =
@@ -1475,6 +1524,8 @@ export const getMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatchingWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetMatchingWorkflow",
 }));
 
 export type GetPolicyError =
@@ -1505,6 +1556,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetProviderServiceError =
@@ -1535,6 +1588,8 @@ export const getProviderService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProviderService",
+  telemetry: TELEMETRY,
+  span: "GetProviderService",
 }));
 
 export type GetSchemaMappingError =
@@ -1565,6 +1620,8 @@ export const getSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaMapping",
+  telemetry: TELEMETRY,
+  span: "GetSchemaMapping",
 }));
 
 export type ListIdMappingJobsError =
@@ -1602,6 +1659,8 @@ export const listIdMappingJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdMappingJobs",
 })) as any;
 
 export type ListIdMappingWorkflowsError =
@@ -1637,6 +1696,8 @@ export const listIdMappingWorkflows: API.PaginatedOperationMethod<
     items: "workflowSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdMappingWorkflows",
 })) as any;
 
 export type ListIdNamespacesError =
@@ -1672,6 +1733,8 @@ export const listIdNamespaces: API.PaginatedOperationMethod<
     items: "idNamespaceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdNamespaces",
 })) as any;
 
 export type ListMatchingJobsError =
@@ -1709,6 +1772,8 @@ export const listMatchingJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMatchingJobs",
 })) as any;
 
 export type ListMatchingWorkflowsError =
@@ -1744,6 +1809,8 @@ export const listMatchingWorkflows: API.PaginatedOperationMethod<
     items: "workflowSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMatchingWorkflows",
 })) as any;
 
 export type ListProviderServicesError =
@@ -1779,6 +1846,8 @@ export const listProviderServices: API.PaginatedOperationMethod<
     items: "providerServiceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProviderServices",
 })) as any;
 
 export type ListSchemaMappingsError =
@@ -1814,6 +1883,8 @@ export const listSchemaMappings: API.PaginatedOperationMethod<
     items: "schemaList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemaMappings",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1836,6 +1907,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutPolicyError =
@@ -1868,6 +1941,8 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPolicy",
 }));
 
 export type StartIdMappingJobError =
@@ -1902,6 +1977,8 @@ export const startIdMappingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIdMappingJob",
+  telemetry: TELEMETRY,
+  span: "StartIdMappingJob",
 }));
 
 export type StartMatchingJobError =
@@ -1936,6 +2013,8 @@ export const startMatchingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchingJob",
+  telemetry: TELEMETRY,
+  span: "StartMatchingJob",
 }));
 
 export type TagResourceError =
@@ -1958,6 +2037,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -1976,6 +2057,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIdMappingWorkflowError =
@@ -2008,6 +2091,8 @@ export const updateIdMappingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdMappingWorkflow",
+  telemetry: TELEMETRY,
+  span: "UpdateIdMappingWorkflow",
 }));
 
 export type UpdateIdNamespaceError =
@@ -2038,6 +2123,8 @@ export const updateIdNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdateIdNamespace",
 }));
 
 export type UpdateMatchingWorkflowError =
@@ -2070,6 +2157,8 @@ export const updateMatchingWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMatchingWorkflow",
+  telemetry: TELEMETRY,
+  span: "UpdateMatchingWorkflow",
 }));
 
 export type UpdateSchemaMappingError =
@@ -2104,6 +2193,8 @@ export const updateSchemaMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchemaMapping",
+  telemetry: TELEMETRY,
+  span: "UpdateSchemaMapping",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

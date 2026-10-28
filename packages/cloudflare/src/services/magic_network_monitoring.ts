@@ -31,6 +31,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zscoreTarget: "zscore_target",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "MagicNetworkMonitoring",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class DuplicateMnmRuleName
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DuplicateMnmRuleName>()("DuplicateMnmRuleName", {
@@ -588,6 +602,8 @@ export const createConfig: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfig",
 }));
 
 export type CreateRuleError =
@@ -613,6 +629,8 @@ export const createRule: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateVpcFlowTokenError = CloudflareOpError;
@@ -628,6 +646,8 @@ export const createVpcFlowToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVpcFlowToken",
 }));
 
 export type DeleteConfigError = MnmConfigNotFound | Forbidden | CloudflareOpError;
@@ -643,6 +663,8 @@ export const deleteConfig: API.OperationMethod<
   errors: [MnmConfigNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfig",
 }));
 
 export type DeleteRuleError = MnmRuleNotFound | Forbidden | CloudflareOpError;
@@ -658,6 +680,8 @@ export const deleteRule: API.OperationMethod<
   errors: [MnmRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type GetConfigError = Forbidden | CloudflareOpError;
@@ -673,6 +697,8 @@ export const getConfig: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type GetConfigFullError = CloudflareOpError;
@@ -688,6 +714,8 @@ export const getConfigFull: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigFull",
 }));
 
 export type GetRuleError = MnmRuleNotFound | Forbidden | CloudflareOpError;
@@ -703,6 +731,8 @@ export const getRule: API.OperationMethod<
   errors: [MnmRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type ListRulesError = Forbidden | CloudflareOpError;
@@ -720,6 +750,8 @@ export const listRules: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -738,6 +770,8 @@ export const patchConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchConfig",
 }));
 
 export type PatchRuleError = MnmRuleNotFound | Forbidden | CloudflareOpError;
@@ -753,6 +787,8 @@ export const patchRule: API.OperationMethod<
   errors: [MnmRuleNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRule",
 }));
 
 export type PatchRuleAdvertisementError = CloudflareOpError;
@@ -768,6 +804,8 @@ export const patchRuleAdvertisement: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRuleAdvertisement",
 }));
 
 export type UpdateConfigError = Forbidden | InvalidMnmConfig | CloudflareOpError;
@@ -783,6 +821,8 @@ export const updateConfig: API.OperationMethod<
   errors: [Forbidden, InvalidMnmConfig, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfig",
 }));
 
 export type UpdateRuleError = CloudflareOpError;
@@ -798,6 +838,8 @@ export const updateRule: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

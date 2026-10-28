@@ -14,6 +14,19 @@ const __s: any[] = [];
 
 export type { NeonOpError, NeonOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "neon-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Neon",
+  service: "Neon",
+  labels: "neon",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4038,6 +4051,8 @@ export const acceptProjectTransferRequest: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptProjectTransferRequest",
 }));
 
 export type AddBranchNeonAuthOauthProviderError = NeonOpError;
@@ -4053,6 +4068,8 @@ export const addBranchNeonAuthOauthProvider: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddBranchNeonAuthOauthProvider",
 }));
 
 export type AddBranchNeonAuthTrustedDomainError = NeonOpError;
@@ -4068,6 +4085,8 @@ export const addBranchNeonAuthTrustedDomain: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddBranchNeonAuthTrustedDomain",
 }));
 
 export type AddProjectJWKSError = NeonOpError;
@@ -4083,6 +4102,8 @@ export const addProjectJWKS: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddProjectJWKS",
 }));
 
 export type AssignOrganizationVPCEndpointError = NeonOpError;
@@ -4098,6 +4119,8 @@ export const assignOrganizationVPCEndpoint: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignOrganizationVPCEndpoint",
 }));
 
 export type AssignProjectVPCEndpointError = NeonOpError;
@@ -4113,6 +4136,8 @@ export const assignProjectVPCEndpoint: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignProjectVPCEndpoint",
 }));
 
 export type CountProjectBranchesError = NotFound | NeonOpError;
@@ -4128,6 +4153,8 @@ export const countProjectBranches: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountProjectBranches",
 }));
 
 export type CreateApiKeyError = NeonOpError;
@@ -4143,6 +4170,8 @@ export const createApiKey: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type CreateBranchNeonAuthNewUserError = NeonOpError;
@@ -4158,6 +4187,8 @@ export const createBranchNeonAuthNewUser: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBranchNeonAuthNewUser",
 }));
 
 export type CreateCredentialError = NeonOpError;
@@ -4173,6 +4204,8 @@ export const createCredential: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCredential",
 }));
 
 export type CreateNeonAuthError = NeonOpError;
@@ -4188,6 +4221,8 @@ export const createNeonAuth: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNeonAuth",
 }));
 
 export type CreateNeonAuthProviderSDKKeysError = NeonOpError;
@@ -4203,6 +4238,8 @@ export const createNeonAuthProviderSDKKeys: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNeonAuthProviderSDKKeys",
 }));
 
 export type CreateOrganizationInvitationsError = NeonOpError;
@@ -4218,6 +4255,8 @@ export const createOrganizationInvitations: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationInvitations",
 }));
 
 export type CreateOrgApiKeyError = NeonOpError;
@@ -4233,6 +4272,8 @@ export const createOrgApiKey: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgApiKey",
 }));
 
 export type CreateProjectError = NeonOpError;
@@ -4248,6 +4289,8 @@ export const createProject: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateProjectBranchError = Conflict | NeonOpError;
@@ -4263,6 +4306,8 @@ export const createProjectBranch: API.OperationMethod<
   errors: [Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranch",
 }));
 
 export type CreateProjectBranchAnonymizedError = NeonOpError;
@@ -4278,6 +4323,8 @@ export const createProjectBranchAnonymized: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranchAnonymized",
 }));
 
 export type CreateProjectBranchBucketError = NeonOpError;
@@ -4293,6 +4340,8 @@ export const createProjectBranchBucket: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranchBucket",
 }));
 
 export type CreateProjectBranchDataAPIError = NeonOpError;
@@ -4308,6 +4357,8 @@ export const createProjectBranchDataAPI: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranchDataAPI",
 }));
 
 export type CreateProjectBranchDatabaseError =
@@ -4328,6 +4379,8 @@ export const createProjectBranchDatabase: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranchDatabase",
 }));
 
 export type CreateProjectBranchFunctionDeploymentError = NeonOpError;
@@ -4343,6 +4396,8 @@ export const createProjectBranchFunctionDeployment: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranchFunctionDeployment",
 }));
 
 export type CreateProjectBranchRoleError = NotFound | Conflict | NeonOpError;
@@ -4358,6 +4413,8 @@ export const createProjectBranchRole: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranchRole",
 }));
 
 export type CreateProjectBranchTriggerError = NeonOpError;
@@ -4373,6 +4430,8 @@ export const createProjectBranchTrigger: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectBranchTrigger",
 }));
 
 export type CreateProjectEndpointError = NotFound | Conflict | NeonOpError;
@@ -4388,6 +4447,8 @@ export const createProjectEndpoint: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectEndpoint",
 }));
 
 export type CreateProjectTransferRequestError = NeonOpError;
@@ -4403,6 +4464,8 @@ export const createProjectTransferRequest: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectTransferRequest",
 }));
 
 export type CreateSnapshotError = NeonOpError;
@@ -4418,6 +4481,8 @@ export const createSnapshot: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type DeleteBranchNeonAuthOauthProviderError = NeonOpError;
@@ -4433,6 +4498,8 @@ export const deleteBranchNeonAuthOauthProvider: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranchNeonAuthOauthProvider",
 }));
 
 export type DeleteBranchNeonAuthTrustedDomainError = NeonOpError;
@@ -4448,6 +4515,8 @@ export const deleteBranchNeonAuthTrustedDomain: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranchNeonAuthTrustedDomain",
 }));
 
 export type DeleteBranchNeonAuthUserError = NeonOpError;
@@ -4463,6 +4532,8 @@ export const deleteBranchNeonAuthUser: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranchNeonAuthUser",
 }));
 
 export type DeleteOrganizationSpendingLimitError = NeonOpError;
@@ -4478,6 +4549,8 @@ export const deleteOrganizationSpendingLimit: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationSpendingLimit",
 }));
 
 export type DeleteOrganizationVPCEndpointError = NeonOpError;
@@ -4493,6 +4566,8 @@ export const deleteOrganizationVPCEndpoint: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationVPCEndpoint",
 }));
 
 export type DeleteProjectError = NotFound | NeonOpError;
@@ -4508,6 +4583,8 @@ export const deleteProject: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteProjectBranchError = NotFound | UnprocessableEntity | NeonOpError;
@@ -4523,6 +4600,8 @@ export const deleteProjectBranch: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranch",
 }));
 
 export type DeleteProjectBranchBucketError = NotFound | NeonOpError;
@@ -4538,6 +4617,8 @@ export const deleteProjectBranchBucket: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchBucket",
 }));
 
 export type DeleteProjectBranchBucketObjectError = NotFound | NeonOpError;
@@ -4553,6 +4634,8 @@ export const deleteProjectBranchBucketObject: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchBucketObject",
 }));
 
 export type DeleteProjectBranchBucketObjectsByPrefixError = NotFound | NeonOpError;
@@ -4568,6 +4651,8 @@ export const deleteProjectBranchBucketObjectsByPrefix: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchBucketObjectsByPrefix",
 }));
 
 export type DeleteProjectBranchCustomDomainError = NeonOpError;
@@ -4583,6 +4668,8 @@ export const deleteProjectBranchCustomDomain: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchCustomDomain",
 }));
 
 export type DeleteProjectBranchDataAPIError = NeonOpError;
@@ -4598,6 +4685,8 @@ export const deleteProjectBranchDataAPI: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchDataAPI",
 }));
 
 export type DeleteProjectBranchDatabaseError = NotFound | NeonOpError;
@@ -4613,6 +4702,8 @@ export const deleteProjectBranchDatabase: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchDatabase",
 }));
 
 export type DeleteProjectBranchFunctionError = NeonOpError;
@@ -4628,6 +4719,8 @@ export const deleteProjectBranchFunction: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchFunction",
 }));
 
 export type DeleteProjectBranchRoleError = NotFound | UnprocessableEntity | NeonOpError;
@@ -4643,6 +4736,8 @@ export const deleteProjectBranchRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchRole",
 }));
 
 export type DeleteProjectBranchTriggerError = NeonOpError;
@@ -4658,6 +4753,8 @@ export const deleteProjectBranchTrigger: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectBranchTrigger",
 }));
 
 export type DeleteProjectEndpointError = NotFound | NeonOpError;
@@ -4673,6 +4770,8 @@ export const deleteProjectEndpoint: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectEndpoint",
 }));
 
 export type DeleteProjectJWKSError = NeonOpError;
@@ -4688,6 +4787,8 @@ export const deleteProjectJWKS: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectJWKS",
 }));
 
 export type DeleteProjectVPCEndpointError = NeonOpError;
@@ -4703,6 +4804,8 @@ export const deleteProjectVPCEndpoint: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectVPCEndpoint",
 }));
 
 export type DeleteSnapshotError = NeonOpError;
@@ -4718,6 +4821,8 @@ export const deleteSnapshot: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DisableNeonAuthError = NeonOpError;
@@ -4733,6 +4838,8 @@ export const disableNeonAuth: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableNeonAuth",
 }));
 
 export type FinalizeRestoreBranchError = NeonOpError;
@@ -4748,6 +4855,8 @@ export const finalizeRestoreBranch: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FinalizeRestoreBranch",
 }));
 
 export type GetActiveRegionsError = NeonOpError;
@@ -4763,6 +4872,8 @@ export const getActiveRegions: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveRegions",
 }));
 
 export type GetAnonymizedBranchStatusError = NeonOpError;
@@ -4778,6 +4889,8 @@ export const getAnonymizedBranchStatus: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAnonymizedBranchStatus",
 }));
 
 export type GetAuthDetailsError = NeonOpError;
@@ -4793,6 +4906,8 @@ export const getAuthDetails: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthDetails",
 }));
 
 export type GetAvailablePreloadLibrariesError = NeonOpError;
@@ -4808,6 +4923,8 @@ export const getAvailablePreloadLibraries: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvailablePreloadLibraries",
 }));
 
 export type GetConnectionURIError = NotFound | NeonOpError;
@@ -4823,6 +4940,8 @@ export const getConnectionURI: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectionURI",
 }));
 
 export type GetConsumptionHistoryPerBranchV2Error = Forbidden | NotFound | NeonOpError;
@@ -4840,6 +4959,8 @@ export const getConsumptionHistoryPerBranchV2: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetConsumptionHistoryPerBranchV2",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4865,6 +4986,8 @@ export const getConsumptionHistoryPerProject: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetConsumptionHistoryPerProject",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4890,6 +5013,8 @@ export const getConsumptionHistoryPerProjectV2: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetConsumptionHistoryPerProjectV2",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -4913,6 +5038,8 @@ export const getCurrentUserInfo: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUserInfo",
 }));
 
 export type GetCurrentUserOrganizationsError = NeonOpError;
@@ -4928,6 +5055,8 @@ export const getCurrentUserOrganizations: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUserOrganizations",
 }));
 
 export type GetMaskingRulesError = NeonOpError;
@@ -4943,6 +5072,8 @@ export const getMaskingRules: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaskingRules",
 }));
 
 export type GetNeonAuthError = NeonOpError;
@@ -4958,6 +5089,8 @@ export const getNeonAuth: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuth",
 }));
 
 export type GetNeonAuthAllowLocalhostError = NeonOpError;
@@ -4973,6 +5106,8 @@ export const getNeonAuthAllowLocalhost: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuthAllowLocalhost",
 }));
 
 export type GetNeonAuthEmailAndPasswordConfigError = NeonOpError;
@@ -4988,6 +5123,8 @@ export const getNeonAuthEmailAndPasswordConfig: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuthEmailAndPasswordConfig",
 }));
 
 export type GetNeonAuthEmailProviderError = NeonOpError;
@@ -5003,6 +5140,8 @@ export const getNeonAuthEmailProvider: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuthEmailProvider",
 }));
 
 export type GetNeonAuthPhoneNumberPluginError = NeonOpError;
@@ -5018,6 +5157,8 @@ export const getNeonAuthPhoneNumberPlugin: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuthPhoneNumberPlugin",
 }));
 
 export type GetNeonAuthPluginConfigsError = NeonOpError;
@@ -5033,6 +5174,8 @@ export const getNeonAuthPluginConfigs: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuthPluginConfigs",
 }));
 
 export type GetNeonAuthWebhookConfigError = NeonOpError;
@@ -5048,6 +5191,8 @@ export const getNeonAuthWebhookConfig: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNeonAuthWebhookConfig",
 }));
 
 export type GetOrganizationError = NeonOpError;
@@ -5063,6 +5208,8 @@ export const getOrganization: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationInvitationsError = NeonOpError;
@@ -5078,6 +5225,8 @@ export const getOrganizationInvitations: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationInvitations",
 }));
 
 export type GetOrganizationMemberError = NeonOpError;
@@ -5093,6 +5242,8 @@ export const getOrganizationMember: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMember",
 }));
 
 export type GetOrganizationMembersError = NeonOpError;
@@ -5110,6 +5261,8 @@ export const getOrganizationMembers: API.PaginatedOperationMethod<
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetOrganizationMembers",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -5133,6 +5286,8 @@ export const getOrganizationSpendingLimit: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSpendingLimit",
 }));
 
 export type GetOrganizationVPCEndpointDetailsError = NeonOpError;
@@ -5148,6 +5303,8 @@ export const getOrganizationVPCEndpointDetails: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationVPCEndpointDetails",
 }));
 
 export type GetProjectError = BadRequest | NotFound | NeonOpError;
@@ -5163,6 +5320,8 @@ export const getProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetProjectAdvisorSecurityIssuesError = NeonOpError;
@@ -5178,6 +5337,8 @@ export const getProjectAdvisorSecurityIssues: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectAdvisorSecurityIssues",
 }));
 
 export type GetProjectBranchError = NotFound | NeonOpError;
@@ -5193,6 +5354,8 @@ export const getProjectBranch: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranch",
 }));
 
 export type GetProjectBranchAiGatewayError = NotFound | NeonOpError;
@@ -5208,6 +5371,8 @@ export const getProjectBranchAiGateway: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchAiGateway",
 }));
 
 export type GetProjectBranchBucketObjectError = NotFound | NeonOpError;
@@ -5223,6 +5388,8 @@ export const getProjectBranchBucketObject: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchBucketObject",
 }));
 
 export type GetProjectBranchDataAPIError = NeonOpError;
@@ -5238,6 +5405,8 @@ export const getProjectBranchDataAPI: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchDataAPI",
 }));
 
 export type GetProjectBranchDatabaseError = NotFound | NeonOpError;
@@ -5253,6 +5422,8 @@ export const getProjectBranchDatabase: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchDatabase",
 }));
 
 export type GetProjectBranchFunctionError = NotFound | NeonOpError;
@@ -5268,6 +5439,8 @@ export const getProjectBranchFunction: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchFunction",
 }));
 
 export type GetProjectBranchRoleError = NotFound | NeonOpError;
@@ -5283,6 +5456,8 @@ export const getProjectBranchRole: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchRole",
 }));
 
 export type GetProjectBranchRolePasswordError = NotFound | NeonOpError;
@@ -5298,6 +5473,8 @@ export const getProjectBranchRolePassword: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchRolePassword",
 }));
 
 export type GetProjectBranchSchemaError = NotFound | NeonOpError;
@@ -5313,6 +5490,8 @@ export const getProjectBranchSchema: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchSchema",
 }));
 
 export type GetProjectBranchSchemaComparisonError = NotFound | NeonOpError;
@@ -5328,6 +5507,8 @@ export const getProjectBranchSchemaComparison: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchSchemaComparison",
 }));
 
 export type GetProjectBranchStorageError = NotFound | NeonOpError;
@@ -5343,6 +5524,8 @@ export const getProjectBranchStorage: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchStorage",
 }));
 
 export type GetProjectBranchTriggerError = NotFound | NeonOpError;
@@ -5358,6 +5541,8 @@ export const getProjectBranchTrigger: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectBranchTrigger",
 }));
 
 export type GetProjectEndpointError = NotFound | NeonOpError;
@@ -5373,6 +5558,8 @@ export const getProjectEndpoint: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectEndpoint",
 }));
 
 export type GetProjectJWKSError = NeonOpError;
@@ -5388,6 +5575,8 @@ export const getProjectJWKS: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectJWKS",
 }));
 
 export type GetProjectOperationError = NotFound | NeonOpError;
@@ -5403,6 +5592,8 @@ export const getProjectOperation: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectOperation",
 }));
 
 export type GetSnapshotScheduleError = NeonOpError;
@@ -5418,6 +5609,8 @@ export const getSnapshotSchedule: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshotSchedule",
 }));
 
 export type GrantPermissionToProjectError = NeonOpError;
@@ -5433,6 +5626,8 @@ export const grantPermissionToProject: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GrantPermissionToProject",
 }));
 
 export type ListApiKeysError = NeonOpError;
@@ -5448,6 +5643,8 @@ export const listApiKeys: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiKeys",
 }));
 
 export type ListBranchNeonAuthOauthProvidersError = NeonOpError;
@@ -5463,6 +5660,8 @@ export const listBranchNeonAuthOauthProviders: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBranchNeonAuthOauthProviders",
 }));
 
 export type ListBranchNeonAuthTrustedDomainsError = NeonOpError;
@@ -5478,6 +5677,8 @@ export const listBranchNeonAuthTrustedDomains: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBranchNeonAuthTrustedDomains",
 }));
 
 export type ListCredentialsError = NeonOpError;
@@ -5493,6 +5694,8 @@ export const listCredentials: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCredentials",
 }));
 
 export type ListOrganizationVPCEndpointsError = NeonOpError;
@@ -5508,6 +5711,8 @@ export const listOrganizationVPCEndpoints: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationVPCEndpoints",
 }));
 
 export type ListOrganizationVPCEndpointsAllRegionsError = NeonOpError;
@@ -5523,6 +5728,8 @@ export const listOrganizationVPCEndpointsAllRegions: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationVPCEndpointsAllRegions",
 }));
 
 export type ListOrgApiKeysError = NeonOpError;
@@ -5538,6 +5745,8 @@ export const listOrgApiKeys: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgApiKeys",
 }));
 
 export type ListProjectBranchBucketObjectsError = NeonOpError;
@@ -5553,6 +5762,8 @@ export const listProjectBranchBucketObjects: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBranchBucketObjects",
 }));
 
 export type ListProjectBranchBucketsError = NeonOpError;
@@ -5568,6 +5779,8 @@ export const listProjectBranchBuckets: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBranchBuckets",
 }));
 
 export type ListProjectBranchCustomDomainsError = NeonOpError;
@@ -5585,6 +5798,8 @@ export const listProjectBranchCustomDomains: API.PaginatedOperationMethod<
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjectBranchCustomDomains",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -5608,6 +5823,8 @@ export const listProjectBranchDatabases: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBranchDatabases",
 }));
 
 export type ListProjectBranchEndpointsError = NotFound | NeonOpError;
@@ -5623,6 +5840,8 @@ export const listProjectBranchEndpoints: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBranchEndpoints",
 }));
 
 export type ListProjectBranchesError = NotFound | NeonOpError;
@@ -5640,6 +5859,8 @@ export const listProjectBranches: API.PaginatedOperationMethod<
     errors: [NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjectBranches",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -5665,6 +5886,8 @@ export const listProjectBranchFunctions: API.PaginatedOperationMethod<
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjectBranchFunctions",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -5688,6 +5911,8 @@ export const listProjectBranchLogFields: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBranchLogFields",
 }));
 
 export type ListProjectBranchLogFieldValuesError = BadRequest | NotFound | NeonOpError;
@@ -5703,6 +5928,8 @@ export const listProjectBranchLogFieldValues: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBranchLogFieldValues",
 }));
 
 export type ListProjectBranchRolesError = NotFound | NeonOpError;
@@ -5718,6 +5945,8 @@ export const listProjectBranchRoles: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBranchRoles",
 }));
 
 export type ListProjectBranchTriggersError = NeonOpError;
@@ -5733,6 +5962,8 @@ export const listProjectBranchTriggers: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectBranchTriggers",
 }));
 
 export type ListProjectEndpointsError = NotFound | NeonOpError;
@@ -5748,6 +5979,8 @@ export const listProjectEndpoints: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectEndpoints",
 }));
 
 export type ListProjectMembersError = NeonOpError;
@@ -5765,6 +5998,8 @@ export const listProjectMembers: API.PaginatedOperationMethod<
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjectMembers",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -5790,6 +6025,8 @@ export const listProjectOperations: API.PaginatedOperationMethod<
     errors: [NotFound, UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjectOperations",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -5813,6 +6050,8 @@ export const listProjectPermissions: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectPermissions",
 }));
 
 export type ListProjectsError = NeonOpError;
@@ -5830,6 +6069,8 @@ export const listProjects: API.PaginatedOperationMethod<
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListProjects",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -5853,6 +6094,8 @@ export const listProjectVPCEndpoints: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectVPCEndpoints",
 }));
 
 export type ListSharedProjectsError = NeonOpError;
@@ -5870,6 +6113,8 @@ export const listSharedProjects: API.PaginatedOperationMethod<
     errors: [UnknownNeonError],
     protocol: NeonProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSharedProjects",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -5893,6 +6138,8 @@ export const listSnapshots: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshots",
 }));
 
 export type PresignProjectBranchBucketObjectError = NotFound | NeonOpError;
@@ -5908,6 +6155,8 @@ export const presignProjectBranchBucketObject: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PresignProjectBranchBucketObject",
 }));
 
 export type QueryProjectBranchLogsError = BadRequest | NotFound | NeonOpError;
@@ -5923,6 +6172,8 @@ export const queryProjectBranchLogs: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProjectBranchLogs",
 }));
 
 export type RecoverProjectError = NeonOpError;
@@ -5938,6 +6189,8 @@ export const recoverProject: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecoverProject",
 }));
 
 export type RegisterProjectBranchCustomDomainError = NeonOpError;
@@ -5953,6 +6206,8 @@ export const registerProjectBranchCustomDomain: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterProjectBranchCustomDomain",
 }));
 
 export type RemoveOrganizationMemberError = NeonOpError;
@@ -5968,6 +6223,8 @@ export const removeOrganizationMember: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrganizationMember",
 }));
 
 export type RemoveProjectMemberRoleError = NeonOpError;
@@ -5983,6 +6240,8 @@ export const removeProjectMemberRole: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveProjectMemberRole",
 }));
 
 export type ResetProjectBranchRolePasswordError = NotFound | NeonOpError;
@@ -5998,6 +6257,8 @@ export const resetProjectBranchRolePassword: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetProjectBranchRolePassword",
 }));
 
 export type RestartProjectEndpointError = NotFound | NeonOpError;
@@ -6013,6 +6274,8 @@ export const restartProjectEndpoint: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartProjectEndpoint",
 }));
 
 export type RestoreProjectBranchError = NotFound | NeonOpError;
@@ -6028,6 +6291,8 @@ export const restoreProjectBranch: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreProjectBranch",
 }));
 
 export type RestoreSnapshotError = NeonOpError;
@@ -6043,6 +6308,8 @@ export const restoreSnapshot: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreSnapshot",
 }));
 
 export type RevealCredentialError = NotFound | Conflict | NeonOpError;
@@ -6058,6 +6325,8 @@ export const revealCredential: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevealCredential",
 }));
 
 export type RevokeApiKeyError = NotFound | NeonOpError;
@@ -6073,6 +6342,8 @@ export const revokeApiKey: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeApiKey",
 }));
 
 export type RevokeCredentialError = NotFound | NeonOpError;
@@ -6088,6 +6359,8 @@ export const revokeCredential: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeCredential",
 }));
 
 export type RevokeOrgApiKeyError = NeonOpError;
@@ -6103,6 +6376,8 @@ export const revokeOrgApiKey: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOrgApiKey",
 }));
 
 export type RevokePermissionFromProjectError = NeonOpError;
@@ -6118,6 +6393,8 @@ export const revokePermissionFromProject: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokePermissionFromProject",
 }));
 
 export type RotateCredentialError = NeonOpError;
@@ -6133,6 +6410,8 @@ export const rotateCredential: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateCredential",
 }));
 
 export type SendNeonAuthEmailProviderTestError = NeonOpError;
@@ -6148,6 +6427,8 @@ export const sendNeonAuthEmailProviderTest: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendNeonAuthEmailProviderTest",
 }));
 
 export type SetDefaultProjectBranchError = NotFound | NeonOpError;
@@ -6163,6 +6444,8 @@ export const setDefaultProjectBranch: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultProjectBranch",
 }));
 
 export type SetOrganizationSpendingLimitError = NeonOpError;
@@ -6178,6 +6461,8 @@ export const setOrganizationSpendingLimit: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOrganizationSpendingLimit",
 }));
 
 export type SetProjectMemberRoleError = NeonOpError;
@@ -6193,6 +6478,8 @@ export const setProjectMemberRole: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetProjectMemberRole",
 }));
 
 export type SetSnapshotScheduleError = NeonOpError;
@@ -6208,6 +6495,8 @@ export const setSnapshotSchedule: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSnapshotSchedule",
 }));
 
 export type StartAnonymizationError = NeonOpError;
@@ -6223,6 +6512,8 @@ export const startAnonymization: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartAnonymization",
 }));
 
 export type StartProjectEndpointError = NotFound | NeonOpError;
@@ -6238,6 +6529,8 @@ export const startProjectEndpoint: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartProjectEndpoint",
 }));
 
 export type SuspendProjectEndpointError = NotFound | NeonOpError;
@@ -6253,6 +6546,8 @@ export const suspendProjectEndpoint: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendProjectEndpoint",
 }));
 
 export type TransferNeonAuthProviderProjectError = NeonOpError;
@@ -6268,6 +6563,8 @@ export const transferNeonAuthProviderProject: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferNeonAuthProviderProject",
 }));
 
 export type TransferProjectsFromOrgToOrgError = UnprocessableEntity | NeonOpError;
@@ -6283,6 +6580,8 @@ export const transferProjectsFromOrgToOrg: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferProjectsFromOrgToOrg",
 }));
 
 export type UpdateBranchNeonAuthOauthProviderError = NeonOpError;
@@ -6298,6 +6597,8 @@ export const updateBranchNeonAuthOauthProvider: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranchNeonAuthOauthProvider",
 }));
 
 export type UpdateMaskingRulesError = NeonOpError;
@@ -6313,6 +6614,8 @@ export const updateMaskingRules: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMaskingRules",
 }));
 
 export type UpdateNeonAuthAllowLocalhostError = NeonOpError;
@@ -6328,6 +6631,8 @@ export const updateNeonAuthAllowLocalhost: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthAllowLocalhost",
 }));
 
 export type UpdateNeonAuthConfigError = NeonOpError;
@@ -6343,6 +6648,8 @@ export const updateNeonAuthConfig: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthConfig",
 }));
 
 export type UpdateNeonAuthEmailAndPasswordConfigError = NeonOpError;
@@ -6358,6 +6665,8 @@ export const updateNeonAuthEmailAndPasswordConfig: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthEmailAndPasswordConfig",
 }));
 
 export type UpdateNeonAuthEmailProviderError = NeonOpError;
@@ -6373,6 +6682,8 @@ export const updateNeonAuthEmailProvider: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthEmailProvider",
 }));
 
 export type UpdateNeonAuthMagicLinkPluginError = NeonOpError;
@@ -6388,6 +6699,8 @@ export const updateNeonAuthMagicLinkPlugin: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthMagicLinkPlugin",
 }));
 
 export type UpdateNeonAuthOrganizationPluginError = NeonOpError;
@@ -6403,6 +6716,8 @@ export const updateNeonAuthOrganizationPlugin: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthOrganizationPlugin",
 }));
 
 export type UpdateNeonAuthPhoneNumberPluginError = NeonOpError;
@@ -6418,6 +6733,8 @@ export const updateNeonAuthPhoneNumberPlugin: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthPhoneNumberPlugin",
 }));
 
 export type UpdateNeonAuthUserRoleError = NeonOpError;
@@ -6433,6 +6750,8 @@ export const updateNeonAuthUserRole: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthUserRole",
 }));
 
 export type UpdateNeonAuthWebhookConfigError = NeonOpError;
@@ -6448,6 +6767,8 @@ export const updateNeonAuthWebhookConfig: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNeonAuthWebhookConfig",
 }));
 
 export type UpdateOrganizationMemberError = NeonOpError;
@@ -6463,6 +6784,8 @@ export const updateOrganizationMember: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationMember",
 }));
 
 export type UpdateProjectError = BadRequest | NotFound | NeonOpError;
@@ -6478,6 +6801,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectBranchError = BadRequest | NotFound | NeonOpError;
@@ -6493,6 +6818,8 @@ export const updateProjectBranch: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectBranch",
 }));
 
 export type UpdateProjectBranchDataAPIError = NeonOpError;
@@ -6508,6 +6835,8 @@ export const updateProjectBranchDataAPI: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectBranchDataAPI",
 }));
 
 export type UpdateProjectBranchDatabaseError = NotFound | NeonOpError;
@@ -6523,6 +6852,8 @@ export const updateProjectBranchDatabase: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectBranchDatabase",
 }));
 
 export type UpdateProjectBranchFunctionError = NeonOpError;
@@ -6538,6 +6869,8 @@ export const updateProjectBranchFunction: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectBranchFunction",
 }));
 
 export type UpdateProjectBranchTriggerError = NeonOpError;
@@ -6553,6 +6886,8 @@ export const updateProjectBranchTrigger: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectBranchTrigger",
 }));
 
 export type UpdateProjectEndpointError = NotFound | NeonOpError;
@@ -6568,6 +6903,8 @@ export const updateProjectEndpoint: API.OperationMethod<
   errors: [NotFound, UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectEndpoint",
 }));
 
 export type UpdateSnapshotError = NeonOpError;
@@ -6583,6 +6920,8 @@ export const updateSnapshot: API.OperationMethod<
   errors: [UnknownNeonError],
   protocol: NeonProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshot",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

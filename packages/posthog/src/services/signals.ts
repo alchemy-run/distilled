@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Signals",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -5125,6 +5138,8 @@ export const cancelSignalsScoutReportCheck: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelSignalsScoutReportCheck",
 }));
 
 export type CheckSignalsScoutRecordResultError = BadRequest | NotFound | PosthogOpError;
@@ -5140,6 +5155,8 @@ export const checkSignalsScoutRecordResult: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSignalsScoutRecordResult",
 }));
 
 export type ClaimSignalsReportError = BadRequest | Conflict | PosthogOpError;
@@ -5155,6 +5172,8 @@ export const claimSignalsReport: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimSignalsReport",
 }));
 
 export type CreateSignalsConfigError = PosthogOpError;
@@ -5170,6 +5189,8 @@ export const createSignalsConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsConfig",
 }));
 
 export type CreateSignalsReportArtefactError = BadRequest | NotFound | PosthogOpError;
@@ -5185,6 +5206,8 @@ export const createSignalsReportArtefact: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportArtefact",
 }));
 
 export type CreateSignalsReportPrReviewCommentError =
@@ -5204,6 +5227,8 @@ export const createSignalsReportPrReviewComment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportPrReviewComment",
 }));
 
 export type CreateSignalsReportPrReviewCommentReactionError = Forbidden | NotFound | PosthogOpError;
@@ -5219,6 +5244,8 @@ export const createSignalsReportPrReviewCommentReaction: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportPrReviewCommentReaction",
 }));
 
 export type CreateSignalsReportsFeedbackError = PosthogOpError;
@@ -5234,6 +5261,8 @@ export const createSignalsReportsFeedback: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportsFeedback",
 }));
 
 export type CreateSignalsReportsMergeError = NotFound | Conflict | PosthogOpError;
@@ -5249,6 +5278,8 @@ export const createSignalsReportsMerge: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportsMerge",
 }));
 
 export type CreateSignalsReportsRefundError = BadRequest | NotFound | PosthogOpError;
@@ -5264,6 +5295,8 @@ export const createSignalsReportsRefund: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportsRefund",
 }));
 
 export type CreateSignalsReportsReingestError = PosthogOpError;
@@ -5279,6 +5312,8 @@ export const createSignalsReportsReingest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportsReingest",
 }));
 
 export type CreateSignalsReportsSourceMetadataError = PosthogOpError;
@@ -5294,6 +5329,8 @@ export const createSignalsReportsSourceMetadata: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportsSourceMetadata",
 }));
 
 export type CreateSignalsReportsStateError = PosthogOpError;
@@ -5309,6 +5346,8 @@ export const createSignalsReportsState: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportsState",
 }));
 
 export type CreateSignalsReportsViewedError = PosthogOpError;
@@ -5324,6 +5363,8 @@ export const createSignalsReportsViewed: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsReportsViewed",
 }));
 
 export type CreateSignalsScoutError = BadRequest | Conflict | PosthogOpError;
@@ -5339,6 +5380,8 @@ export const createSignalsScout: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsScout",
 }));
 
 export type CreateSignalsScoutChatTaskError = Forbidden | PosthogOpError;
@@ -5354,6 +5397,8 @@ export const createSignalsScoutChatTask: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsScoutChatTask",
 }));
 
 export type CreateSignalsScoutConfigError = BadRequest | Forbidden | PosthogOpError;
@@ -5369,6 +5414,8 @@ export const createSignalsScoutConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsScoutConfig",
 }));
 
 export type CreateSignalsScoutConfigTrialComparisonError = PosthogOpError;
@@ -5384,6 +5431,8 @@ export const createSignalsScoutConfigTrialComparison: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsScoutConfigTrialComparison",
 }));
 
 export type CreateSignalsScoutConfigTrialEvaluationError = PosthogOpError;
@@ -5399,6 +5448,8 @@ export const createSignalsScoutConfigTrialEvaluation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsScoutConfigTrialEvaluation",
 }));
 
 export type CreateSignalsScoutNoteError = BadRequest | PosthogOpError;
@@ -5414,6 +5465,8 @@ export const createSignalsScoutNote: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsScoutNote",
 }));
 
 export type CreateSignalsScoutReportCheckError = BadRequest | NotFound | PosthogOpError;
@@ -5429,6 +5482,8 @@ export const createSignalsScoutReportCheck: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsScoutReportCheck",
 }));
 
 export type CreateSignalsSourceConfigError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -5443,6 +5498,8 @@ export const createSignalsSourceConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSignalsSourceConfig",
 }));
 
 export type DismissSignalsScoutSuggestionError = NotFound | PosthogOpError;
@@ -5458,6 +5515,8 @@ export const dismissSignalsScoutSuggestion: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissSignalsScoutSuggestion",
 }));
 
 export type EditSignalsScoutReportError = BadRequest | NotFound | PosthogOpError;
@@ -5473,6 +5532,8 @@ export const editSignalsScoutReport: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSignalsScoutReport",
 }));
 
 export type GenerateSignalsScoutRubricError = PosthogOpError;
@@ -5487,6 +5548,8 @@ export const generateSignalsScoutRubric: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateSignalsScoutRubric",
 }));
 
 export type GetSignalsReportError = PosthogOpError;
@@ -5501,6 +5564,8 @@ export const getSignalsReport: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsReport",
 }));
 
 export type GetSignalsReportArtefactError = PosthogOpError;
@@ -5516,6 +5581,8 @@ export const getSignalsReportArtefact: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsReportArtefact",
 }));
 
 export type GetSignalsReportCheckError = PosthogOpError;
@@ -5531,6 +5598,8 @@ export const getSignalsReportCheck: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsReportCheck",
 }));
 
 export type GetSignalsReportsAvailableReviewerError = PosthogOpError;
@@ -5546,6 +5615,8 @@ export const getSignalsReportsAvailableReviewer: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsReportsAvailableReviewer",
 }));
 
 export type GetSignalsReportsForYouError = PosthogOpError;
@@ -5561,6 +5632,8 @@ export const getSignalsReportsForYou: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsReportsForYou",
 }));
 
 export type GetSignalsReportsRefundSummaryError = NotFound | PosthogOpError;
@@ -5576,6 +5649,8 @@ export const getSignalsReportsRefundSummary: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsReportsRefundSummary",
 }));
 
 export type GetSignalsReportsSignalError = PosthogOpError;
@@ -5591,6 +5666,8 @@ export const getSignalsReportsSignal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsReportsSignal",
 }));
 
 export type GetSignalsScoutConfigTrialComparisonError = PosthogOpError;
@@ -5606,6 +5683,8 @@ export const getSignalsScoutConfigTrialComparison: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsScoutConfigTrialComparison",
 }));
 
 export type GetSignalsScoutConfigTrialEvaluationError = PosthogOpError;
@@ -5621,6 +5700,8 @@ export const getSignalsScoutConfigTrialEvaluation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsScoutConfigTrialEvaluation",
 }));
 
 export type GetSignalsScoutMetadataError = PosthogOpError;
@@ -5636,6 +5717,8 @@ export const getSignalsScoutMetadata: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsScoutMetadata",
 }));
 
 export type GetSignalsScoutProjectProfileError = NotFound | PosthogOpError;
@@ -5651,6 +5734,8 @@ export const getSignalsScoutProjectProfile: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsScoutProjectProfile",
 }));
 
 export type GetSignalsScoutRubricError = PosthogOpError;
@@ -5665,6 +5750,8 @@ export const getSignalsScoutRubric: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsScoutRubric",
 }));
 
 export type GetSignalsScoutRunError = NotFound | PosthogOpError;
@@ -5680,6 +5767,8 @@ export const getSignalsScoutRun: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsScoutRun",
 }));
 
 export type GetSignalsSourceConfigError = Forbidden | NotFound | PosthogOpError;
@@ -5694,6 +5783,8 @@ export const getSignalsSourceConfig: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalsSourceConfig",
 }));
 
 export type ListSignalsConfigError = PosthogOpError;
@@ -5709,6 +5800,8 @@ export const listSignalsConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsConfig",
 }));
 
 export type ListSignalsProcessingError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -5724,6 +5817,8 @@ export const listSignalsProcessing: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsProcessing",
 }));
 
 export type ListSignalsReportArtefactsError = PosthogOpError;
@@ -5739,6 +5834,8 @@ export const listSignalsReportArtefacts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsReportArtefacts",
 }));
 
 export type ListSignalsReportChecksError = PosthogOpError;
@@ -5754,6 +5851,8 @@ export const listSignalsReportChecks: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsReportChecks",
 }));
 
 export type ListSignalsReportsError = PosthogOpError;
@@ -5768,6 +5867,8 @@ export const listSignalsReports: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsReports",
 }));
 
 export type ListSignalsScoutConfigError = PosthogOpError;
@@ -5783,6 +5884,8 @@ export const listSignalsScoutConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsScoutConfig",
 }));
 
 export type ListSignalsScoutMembersError = PosthogOpError;
@@ -5798,6 +5901,8 @@ export const listSignalsScoutMembers: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsScoutMembers",
 }));
 
 export type ListSignalsScoutNotesError = PosthogOpError;
@@ -5813,6 +5918,8 @@ export const listSignalsScoutNotes: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsScoutNotes",
 }));
 
 export type ListSignalsScoutReportCheckError = BadRequest | PosthogOpError;
@@ -5828,6 +5935,8 @@ export const listSignalsScoutReportCheck: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsScoutReportCheck",
 }));
 
 export type ListSignalsScoutReportChecksError = BadRequest | NotFound | PosthogOpError;
@@ -5843,6 +5952,8 @@ export const listSignalsScoutReportChecks: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsScoutReportChecks",
 }));
 
 export type ListSignalsScoutRunsError = PosthogOpError;
@@ -5858,6 +5969,8 @@ export const listSignalsScoutRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsScoutRuns",
 }));
 
 export type ListSignalsScoutSuggestionsError = PosthogOpError;
@@ -5873,6 +5986,8 @@ export const listSignalsScoutSuggestions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsScoutSuggestions",
 }));
 
 export type ListSignalsSourceConfigsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -5887,6 +6002,8 @@ export const listSignalsSourceConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalsSourceConfigs",
 }));
 
 export type PauseSignalsProcessingDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -5902,6 +6019,8 @@ export const pauseSignalsProcessingDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseSignalsProcessingDestroy",
 }));
 
 export type RefreshSignalsScoutSuggestionError = Forbidden | Conflict | PosthogOpError;
@@ -5917,6 +6036,8 @@ export const refreshSignalsScoutSuggestion: API.OperationMethod<
   errors: [Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshSignalsScoutSuggestion",
 }));
 
 export type ResumeSignalsScoutConfigTrialComparisonError = PosthogOpError;
@@ -5932,6 +6053,8 @@ export const resumeSignalsScoutConfigTrialComparison: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeSignalsScoutConfigTrialComparison",
 }));
 
 export type ReviewSignalsReportPrCommentDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -5947,6 +6070,8 @@ export const reviewSignalsReportPrCommentDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewSignalsReportPrCommentDestroy",
 }));
 
 export type ReviewSignalsReportPrCommentReactionDestroyError =
@@ -5969,6 +6094,8 @@ export const reviewSignalsReportPrCommentReactionDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewSignalsReportPrCommentReactionDestroy",
 }));
 
 export type RunSignalsScoutConfigError =
@@ -5989,6 +6116,8 @@ export const runSignalsScoutConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunSignalsScoutConfig",
 }));
 
 export type SearchSignalsScoutScratchpadError = PosthogOpError;
@@ -6004,6 +6133,8 @@ export const searchSignalsScoutScratchpad: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSignalsScoutScratchpad",
 }));
 
 export type SignalSignalsScoutEmitError = BadRequest | NotFound | PosthogOpError;
@@ -6019,6 +6150,8 @@ export const signalSignalsScoutEmit: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalSignalsScoutEmit",
 }));
 
 export type SignalsReportArtefactsDestroyError = BadRequest | NotFound | PosthogOpError;
@@ -6034,6 +6167,8 @@ export const signalsReportArtefactsDestroy: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportArtefactsDestroy",
 }));
 
 export type SignalsReportArtefactsDiffError = BadRequest | NotFound | PosthogOpError;
@@ -6049,6 +6184,8 @@ export const signalsReportArtefactsDiff: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportArtefactsDiff",
 }));
 
 export type SignalsReportChecksApproveCreateError = PosthogOpError;
@@ -6064,6 +6201,8 @@ export const signalsReportChecksApproveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportChecksApproveCreate",
 }));
 
 export type SignalsReportChecksDestroyError = PosthogOpError;
@@ -6079,6 +6218,8 @@ export const signalsReportChecksDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportChecksDestroy",
 }));
 
 export type SignalsReportChecksReplaceCreateError = PosthogOpError;
@@ -6094,6 +6235,8 @@ export const signalsReportChecksReplaceCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportChecksReplaceCreate",
 }));
 
 export type SignalsReportPrChecksError = Forbidden | NotFound | PosthogOpError;
@@ -6109,6 +6252,8 @@ export const signalsReportPrChecks: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportPrChecks",
 }));
 
 export type SignalsReportPrCommentsError = NotFound | PosthogOpError;
@@ -6124,6 +6269,8 @@ export const signalsReportPrComments: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportPrComments",
 }));
 
 export type SignalsReportsBulkStateCreateError = PosthogOpError;
@@ -6139,6 +6286,8 @@ export const signalsReportsBulkStateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportsBulkStateCreate",
 }));
 
 export type SignalsReportsDestroyError = PosthogOpError;
@@ -6154,6 +6303,8 @@ export const signalsReportsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportsDestroy",
 }));
 
 export type SignalsReportsPrCiStatusesError = BadRequest | PosthogOpError;
@@ -6169,6 +6320,8 @@ export const signalsReportsPrCiStatuses: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportsPrCiStatuses",
 }));
 
 export type SignalsReportsReadStateCreateError = PosthogOpError;
@@ -6183,6 +6336,8 @@ export const signalsReportsReadStateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportsReadStateCreate",
 }));
 
 export type SignalsReportsRefreshMetricsCreateError = PosthogOpError;
@@ -6198,6 +6353,8 @@ export const signalsReportsRefreshMetricsCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsReportsRefreshMetricsCreate",
 }));
 
 export type SignalsScoutConfigDestroyError = BadRequest | NotFound | PosthogOpError;
@@ -6213,6 +6370,8 @@ export const signalsScoutConfigDestroy: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutConfigDestroy",
 }));
 
 export type SignalsScoutConfigToolCatalogueError = PosthogOpError;
@@ -6228,6 +6387,8 @@ export const signalsScoutConfigToolCatalogue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutConfigToolCatalogue",
 }));
 
 export type SignalsScoutConfigTrialError = PosthogOpError;
@@ -6243,6 +6404,8 @@ export const signalsScoutConfigTrial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutConfigTrial",
 }));
 
 export type SignalsScoutConfigTrialComparisonHistoryError = PosthogOpError;
@@ -6258,6 +6421,8 @@ export const signalsScoutConfigTrialComparisonHistory: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutConfigTrialComparisonHistory",
 }));
 
 export type SignalsScoutConfigTrialHistoryError = PosthogOpError;
@@ -6273,6 +6438,8 @@ export const signalsScoutConfigTrialHistory: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutConfigTrialHistory",
 }));
 
 export type SignalsScoutConfigTrialResultError = PosthogOpError;
@@ -6288,6 +6455,8 @@ export const signalsScoutConfigTrialResult: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutConfigTrialResult",
 }));
 
 export type SignalsScoutConfigTrialSetupError = PosthogOpError;
@@ -6303,6 +6472,8 @@ export const signalsScoutConfigTrialSetup: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutConfigTrialSetup",
 }));
 
 export type SignalsScoutEmitReportError = BadRequest | NotFound | PosthogOpError;
@@ -6318,6 +6489,8 @@ export const signalsScoutEmitReport: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutEmitReport",
 }));
 
 export type SignalsScoutLighthouseAuditError = BadRequest | NotFound | PosthogOpError;
@@ -6333,6 +6506,8 @@ export const signalsScoutLighthouseAudit: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutLighthouseAudit",
 }));
 
 export type SignalsScoutNotesDestroyError = NotFound | PosthogOpError;
@@ -6348,6 +6523,8 @@ export const signalsScoutNotesDestroy: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutNotesDestroy",
 }));
 
 export type SignalsScoutRecordOutputError = BadRequest | NotFound | PosthogOpError;
@@ -6363,6 +6540,8 @@ export const signalsScoutRecordOutput: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRecordOutput",
 }));
 
 export type SignalsScoutRunsCostsError = Forbidden | PosthogOpError;
@@ -6378,6 +6557,8 @@ export const signalsScoutRunsCosts: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsCosts",
 }));
 
 export type SignalsScoutRunsEmissionReportsError = NotFound | PosthogOpError;
@@ -6393,6 +6574,8 @@ export const signalsScoutRunsEmissionReports: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsEmissionReports",
 }));
 
 export type SignalsScoutRunsEmissionReportsBatchError = PosthogOpError;
@@ -6408,6 +6591,8 @@ export const signalsScoutRunsEmissionReportsBatch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsEmissionReportsBatch",
 }));
 
 export type SignalsScoutRunsEmissionsError = NotFound | PosthogOpError;
@@ -6423,6 +6608,8 @@ export const signalsScoutRunsEmissions: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsEmissions",
 }));
 
 export type SignalsScoutRunsEmissionsBatchError = PosthogOpError;
@@ -6438,6 +6625,8 @@ export const signalsScoutRunsEmissionsBatch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsEmissionsBatch",
 }));
 
 export type SignalsScoutRunsFindingsSummaryError = PosthogOpError;
@@ -6453,6 +6642,8 @@ export const signalsScoutRunsFindingsSummary: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsFindingsSummary",
 }));
 
 export type SignalsScoutRunsRecentEmissionsError = PosthogOpError;
@@ -6468,6 +6659,8 @@ export const signalsScoutRunsRecentEmissions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsRecentEmissions",
 }));
 
 export type SignalsScoutRunsRecentPerScoutError = PosthogOpError;
@@ -6483,6 +6676,8 @@ export const signalsScoutRunsRecentPerScout: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsRecentPerScout",
 }));
 
 export type SignalsScoutRunsTokenCostsError = Forbidden | PosthogOpError;
@@ -6498,6 +6693,8 @@ export const signalsScoutRunsTokenCosts: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutRunsTokenCosts",
 }));
 
 export type SignalsScoutScratchpadForgetError = PosthogOpError;
@@ -6513,6 +6710,8 @@ export const signalsScoutScratchpadForget: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutScratchpadForget",
 }));
 
 export type SignalsScoutScratchpadRememberError = BadRequest | PosthogOpError;
@@ -6528,6 +6727,8 @@ export const signalsScoutScratchpadRemember: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsScoutScratchpadRemember",
 }));
 
 export type SignalsSourceConfigsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -6542,6 +6743,8 @@ export const signalsSourceConfigsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalsSourceConfigsDestroy",
 }));
 
 export type SyncSignalsScoutConfigError = PosthogOpError;
@@ -6557,6 +6760,8 @@ export const syncSignalsScoutConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncSignalsScoutConfig",
 }));
 
 export type UpdateSignalsProcessingPauseError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6572,6 +6777,8 @@ export const updateSignalsProcessingPause: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsProcessingPause",
 }));
 
 export type UpdateSignalsReportArtefactsPartialError = BadRequest | NotFound | PosthogOpError;
@@ -6587,6 +6794,8 @@ export const updateSignalsReportArtefactsPartial: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsReportArtefactsPartial",
 }));
 
 export type UpdateSignalsReportPrReviewCommentError = Forbidden | NotFound | PosthogOpError;
@@ -6602,6 +6811,8 @@ export const updateSignalsReportPrReviewComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsReportPrReviewComment",
 }));
 
 export type UpdateSignalsReportsPartialError = BadRequest | NotFound | PosthogOpError;
@@ -6617,6 +6828,8 @@ export const updateSignalsReportsPartial: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsReportsPartial",
 }));
 
 export type UpdateSignalsReportsReviewerError = PosthogOpError;
@@ -6632,6 +6845,8 @@ export const updateSignalsReportsReviewer: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsReportsReviewer",
 }));
 
 export type UpdateSignalsScoutConfigError = BadRequest | NotFound | PosthogOpError;
@@ -6647,6 +6862,8 @@ export const updateSignalsScoutConfig: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsScoutConfig",
 }));
 
 export type UpdateSignalsScoutRubricError = Conflict | PosthogOpError;
@@ -6661,6 +6878,8 @@ export const updateSignalsScoutRubric: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsScoutRubric",
 }));
 
 export type UpdateSignalsSourceConfigError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -6675,6 +6894,8 @@ export const updateSignalsSourceConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsSourceConfig",
 }));
 
 export type UpdateSignalsSourceConfigsPartialError =
@@ -6693,6 +6914,8 @@ export const updateSignalsSourceConfigsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalsSourceConfigsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

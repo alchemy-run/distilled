@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Sandbox",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface ArchiveSandboxRequest {
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
@@ -1095,6 +1108,8 @@ export const archiveSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveSandbox",
 }));
 
 export type CreateSandboxError = DaytonaOpError;
@@ -1110,6 +1125,8 @@ export const createSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandbox",
 }));
 
 export type CreateSandboxSnapshotError = DaytonaOpError;
@@ -1125,6 +1142,8 @@ export const createSandboxSnapshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxSnapshot",
 }));
 
 export type CreateSshAccessError = DaytonaOpError;
@@ -1140,6 +1159,8 @@ export const createSshAccess: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSshAccess",
 }));
 
 export type DeleteSandboxError = DaytonaOpError;
@@ -1155,6 +1176,8 @@ export const deleteSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandbox",
 }));
 
 export type ExpireSignedPortPreviewUrlError = DaytonaOpError;
@@ -1170,6 +1193,8 @@ export const expireSignedPortPreviewUrl: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExpireSignedPortPreviewUrl",
 }));
 
 export type ForkSandboxError = DaytonaOpError;
@@ -1185,6 +1210,8 @@ export const forkSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForkSandbox",
 }));
 
 export type GetBuildLogsUrlError = DaytonaOpError;
@@ -1200,6 +1227,8 @@ export const getBuildLogsUrl: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuildLogsUrl",
 }));
 
 export type GetOrganizationBySandboxIdError = DaytonaOpError;
@@ -1215,6 +1244,8 @@ export const getOrganizationBySandboxId: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationBySandboxId",
 }));
 
 export type GetPortPreviewUrlError = DaytonaOpError;
@@ -1230,6 +1261,8 @@ export const getPortPreviewUrl: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPortPreviewUrl",
 }));
 
 export type GetRegionQuotaBySandboxIdError = DaytonaOpError;
@@ -1245,6 +1278,8 @@ export const getRegionQuotaBySandboxId: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegionQuotaBySandboxId",
 }));
 
 export type GetSandboxError = DaytonaOpError;
@@ -1260,6 +1295,8 @@ export const getSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandbox",
 }));
 
 export type GetSandboxAncestorsError = DaytonaOpError;
@@ -1275,6 +1312,8 @@ export const getSandboxAncestors: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxAncestors",
 }));
 
 export type GetSandboxesForRunnerError = DaytonaOpError;
@@ -1290,6 +1329,8 @@ export const getSandboxesForRunner: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxesForRunner",
 }));
 
 export type GetSandboxForksError = DaytonaOpError;
@@ -1305,6 +1346,8 @@ export const getSandboxForks: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxForks",
 }));
 
 export type GetSandboxLogsError = DaytonaOpError;
@@ -1320,6 +1363,8 @@ export const getSandboxLogs: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxLogs",
 }));
 
 export type GetSandboxMetricsError = DaytonaOpError;
@@ -1335,6 +1380,8 @@ export const getSandboxMetrics: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxMetrics",
 }));
 
 export type GetSandboxParentError = DaytonaOpError;
@@ -1350,6 +1397,8 @@ export const getSandboxParent: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxParent",
 }));
 
 export type GetSandboxSigningKeyError = DaytonaOpError;
@@ -1365,6 +1414,8 @@ export const getSandboxSigningKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxSigningKey",
 }));
 
 export type GetSandboxTracesError = DaytonaOpError;
@@ -1380,6 +1431,8 @@ export const getSandboxTraces: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxTraces",
 }));
 
 export type GetSandboxTraceSpansError = DaytonaOpError;
@@ -1395,6 +1448,8 @@ export const getSandboxTraceSpans: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxTraceSpans",
 }));
 
 export type GetSignedPortPreviewUrlError = DaytonaOpError;
@@ -1410,6 +1465,8 @@ export const getSignedPortPreviewUrl: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignedPortPreviewUrl",
 }));
 
 export type GetToolboxProxyUrlError = DaytonaOpError;
@@ -1425,6 +1482,8 @@ export const getToolboxProxyUrl: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetToolboxProxyUrl",
 }));
 
 export type ListSandboxesError = DaytonaOpError;
@@ -1440,6 +1499,8 @@ export const listSandboxes: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxes",
 }));
 
 export type PauseSandboxError = DaytonaOpError;
@@ -1455,6 +1516,8 @@ export const pauseSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseSandbox",
 }));
 
 export type RecoverSandboxError = DaytonaOpError;
@@ -1470,6 +1533,8 @@ export const recoverSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecoverSandbox",
 }));
 
 export type ReplaceLabelsError = DaytonaOpError;
@@ -1485,6 +1550,8 @@ export const replaceLabels: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceLabels",
 }));
 
 export type ResizeSandboxError = DaytonaOpError;
@@ -1500,6 +1567,8 @@ export const resizeSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResizeSandbox",
 }));
 
 export type ResolveSandboxSecretsError = DaytonaOpError;
@@ -1515,6 +1584,8 @@ export const resolveSandboxSecrets: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveSandboxSecrets",
 }));
 
 export type RevokeSshAccessError = DaytonaOpError;
@@ -1530,6 +1601,8 @@ export const revokeSshAccess: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeSshAccess",
 }));
 
 export type RotateSigningKeyError = DaytonaOpError;
@@ -1545,6 +1618,8 @@ export const rotateSigningKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSigningKey",
 }));
 
 export type SetAutoArchiveIntervalError = DaytonaOpError;
@@ -1560,6 +1635,8 @@ export const setAutoArchiveInterval: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAutoArchiveInterval",
 }));
 
 export type SetAutoDeleteIntervalError = DaytonaOpError;
@@ -1575,6 +1652,8 @@ export const setAutoDeleteInterval: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAutoDeleteInterval",
 }));
 
 export type SetAutoPauseIntervalError = DaytonaOpError;
@@ -1590,6 +1669,8 @@ export const setAutoPauseInterval: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAutoPauseInterval",
 }));
 
 export type SetAutostopIntervalError = DaytonaOpError;
@@ -1605,6 +1686,8 @@ export const setAutostopInterval: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAutostopInterval",
 }));
 
 export type SetTtlError = DaytonaOpError;
@@ -1616,6 +1699,8 @@ export const setTtl: API.OperationMethod<SetTtlRequest, Sandbox2, SetTtlError, D
     errors: [UnknownDaytonaError],
     protocol: DaytonaProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SetTtl",
   }));
 
 export type StartSandboxError = DaytonaOpError;
@@ -1631,6 +1716,8 @@ export const startSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSandbox",
 }));
 
 export type StopSandboxError = DaytonaOpError;
@@ -1646,6 +1733,8 @@ export const stopSandbox: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSandbox",
 }));
 
 export type UpdateLastActivityError = DaytonaOpError;
@@ -1661,6 +1750,8 @@ export const updateLastActivity: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLastActivity",
 }));
 
 export type UpdateNetworkSettingsError = DaytonaOpError;
@@ -1676,6 +1767,8 @@ export const updateNetworkSettings: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkSettings",
 }));
 
 export type UpdatePublicStatusError = DaytonaOpError;
@@ -1691,6 +1784,8 @@ export const updatePublicStatus: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePublicStatus",
 }));
 
 export type UpdateSandboxSecretsError = DaytonaOpError;
@@ -1706,6 +1801,8 @@ export const updateSandboxSecrets: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxSecrets",
 }));
 
 export type UpdateSandboxStateError = DaytonaOpError;
@@ -1721,6 +1818,8 @@ export const updateSandboxState: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxState",
 }));
 
 export type ValidateSshAccessError = DaytonaOpError;
@@ -1736,6 +1835,8 @@ export const validateSshAccess: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateSshAccess",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

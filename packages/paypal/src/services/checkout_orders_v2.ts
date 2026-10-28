@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "CheckoutOrdersV2",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -12872,6 +12886,8 @@ export const authorizeOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeOrder",
 }));
 
 export type CaptureOrderError =
@@ -12893,6 +12909,8 @@ export const captureOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CaptureOrder",
 }));
 
 export type ConfirmOrderError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -12908,6 +12926,8 @@ export const confirmOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmOrder",
 }));
 
 export type CreateOrderError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -12923,6 +12943,8 @@ export const createOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrder",
 }));
 
 export type CreateOrdersTrackError =
@@ -12943,6 +12965,8 @@ export const createOrdersTrack: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrdersTrack",
 }));
 
 export type GetOrderError = Forbidden | NotFound | PaypalOpError;
@@ -12958,6 +12982,8 @@ export const getOrder: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrder",
 }));
 
 export type PatchOrderError =
@@ -12978,6 +13004,8 @@ export const patchOrder: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrder",
 }));
 
 export type PatchOrdersTrackerError =
@@ -12998,6 +13026,8 @@ export const patchOrdersTracker: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrdersTracker",
 }));
 
 export type ServerCallbackError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -13013,6 +13043,8 @@ export const serverCallback: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerCallback",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

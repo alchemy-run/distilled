@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codebuild.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeBuild",
+  service: "CodeBuild",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccountLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<AccountLimitExceededException>()(
@@ -1545,6 +1561,8 @@ export const batchDeleteBuilds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBuilds",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteBuilds",
 }));
 
 export type BatchGetBuildBatchesError = InvalidInputException | CommonErrors;
@@ -1563,6 +1581,8 @@ export const batchGetBuildBatches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetBuildBatches",
+  telemetry: TELEMETRY,
+  span: "BatchGetBuildBatches",
 }));
 
 export type BatchGetBuildsError = InvalidInputException | CommonErrors;
@@ -1581,6 +1601,8 @@ export const batchGetBuilds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetBuilds",
+  telemetry: TELEMETRY,
+  span: "BatchGetBuilds",
 }));
 
 export type BatchGetCommandExecutionsError = InvalidInputException | CommonErrors;
@@ -1599,6 +1621,8 @@ export const batchGetCommandExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCommandExecutions",
+  telemetry: TELEMETRY,
+  span: "BatchGetCommandExecutions",
 }));
 
 export type BatchGetFleetsError = InvalidInputException | CommonErrors;
@@ -1617,6 +1641,8 @@ export const batchGetFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFleets",
+  telemetry: TELEMETRY,
+  span: "BatchGetFleets",
 }));
 
 export type BatchGetProjectsError = InvalidInputException | CommonErrors;
@@ -1635,6 +1661,8 @@ export const batchGetProjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetProjects",
+  telemetry: TELEMETRY,
+  span: "BatchGetProjects",
 }));
 
 export type BatchGetReportGroupsError = InvalidInputException | CommonErrors;
@@ -1653,6 +1681,8 @@ export const batchGetReportGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetReportGroups",
+  telemetry: TELEMETRY,
+  span: "BatchGetReportGroups",
 }));
 
 export type BatchGetReportsError = InvalidInputException | CommonErrors;
@@ -1671,6 +1701,8 @@ export const batchGetReports: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetReports",
+  telemetry: TELEMETRY,
+  span: "BatchGetReports",
 }));
 
 export type BatchGetSandboxesError = InvalidInputException | CommonErrors;
@@ -1689,6 +1721,8 @@ export const batchGetSandboxes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSandboxes",
+  telemetry: TELEMETRY,
+  span: "BatchGetSandboxes",
 }));
 
 export type CreateFleetError =
@@ -1711,6 +1745,8 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateProjectError =
@@ -1733,6 +1769,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateReportGroupError =
@@ -1755,6 +1793,8 @@ export const createReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReportGroup",
+  telemetry: TELEMETRY,
+  span: "CreateReportGroup",
 }));
 
 export type CreateWebhookError =
@@ -1792,6 +1832,8 @@ export const createWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebhook",
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteBuildBatchError = InvalidInputException | CommonErrors;
@@ -1810,6 +1852,8 @@ export const deleteBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBuildBatch",
+  telemetry: TELEMETRY,
+  span: "DeleteBuildBatch",
 }));
 
 export type DeleteFleetError = InvalidInputException | CommonErrors;
@@ -1828,6 +1872,8 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteProjectError = InvalidInputException | CommonErrors;
@@ -1846,6 +1892,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteReportError = InvalidInputException | CommonErrors;
@@ -1864,6 +1912,8 @@ export const deleteReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReport",
+  telemetry: TELEMETRY,
+  span: "DeleteReport",
 }));
 
 export type DeleteReportGroupError = InvalidInputException | CommonErrors;
@@ -1882,6 +1932,8 @@ export const deleteReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteReportGroup",
 }));
 
 export type DeleteResourcePolicyError = InvalidInputException | CommonErrors;
@@ -1900,6 +1952,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteSourceCredentialsError =
@@ -1921,6 +1975,8 @@ export const deleteSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceCredentials",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceCredentials",
 }));
 
 export type DeleteWebhookError =
@@ -1945,6 +2001,8 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DescribeCodeCoveragesError = InvalidInputException | CommonErrors;
@@ -1970,6 +2028,8 @@ export const describeCodeCoverages: API.PaginatedOperationMethod<
     items: "codeCoverages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCodeCoverages",
 })) as any;
 
 export type DescribeTestCasesError =
@@ -1998,6 +2058,8 @@ export const describeTestCases: API.PaginatedOperationMethod<
     items: "testCases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTestCases",
 })) as any;
 
 export type GetReportGroupTrendError =
@@ -2019,6 +2081,8 @@ export const getReportGroupTrend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReportGroupTrend",
+  telemetry: TELEMETRY,
+  span: "GetReportGroupTrend",
 }));
 
 export type GetResourcePolicyError =
@@ -2040,6 +2104,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ImportSourceCredentialsError =
@@ -2063,6 +2129,8 @@ export const importSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSourceCredentials",
+  telemetry: TELEMETRY,
+  span: "ImportSourceCredentials",
 }));
 
 export type InvalidateProjectCacheError =
@@ -2084,6 +2152,8 @@ export const invalidateProjectCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvalidateProjectCache",
+  telemetry: TELEMETRY,
+  span: "InvalidateProjectCache",
 }));
 
 export type ListBuildBatchesError = InvalidInputException | CommonErrors;
@@ -2109,6 +2179,8 @@ export const listBuildBatches: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuildBatches",
 })) as any;
 
 export type ListBuildBatchesForProjectError =
@@ -2137,6 +2209,8 @@ export const listBuildBatchesForProject: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuildBatchesForProject",
 })) as any;
 
 export type ListBuildsError = InvalidInputException | CommonErrors;
@@ -2157,6 +2231,8 @@ export const listBuilds: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBuilds",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "ids" } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuilds",
 })) as any;
 
 export type ListBuildsForProjectError =
@@ -2181,6 +2257,8 @@ export const listBuildsForProject: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBuildsForProject",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "ids" } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuildsForProject",
 })) as any;
 
 export type ListCommandExecutionsForSandboxError =
@@ -2209,6 +2287,8 @@ export const listCommandExecutionsForSandbox: API.PaginatedOperationMethod<
     items: "commandExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCommandExecutionsForSandbox",
 })) as any;
 
 export type ListCuratedEnvironmentImagesError = CommonErrors;
@@ -2227,6 +2307,8 @@ export const listCuratedEnvironmentImages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCuratedEnvironmentImages",
+  telemetry: TELEMETRY,
+  span: "ListCuratedEnvironmentImages",
 }));
 
 export type ListFleetsError = InvalidInputException | CommonErrors;
@@ -2251,6 +2333,8 @@ export const listFleets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleets",
 })) as any;
 
 export type ListProjectsError = InvalidInputException | CommonErrors;
@@ -2272,6 +2356,8 @@ export const listProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "projects" } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListReportGroupsError = InvalidInputException | CommonErrors;
@@ -2297,6 +2383,8 @@ export const listReportGroups: API.PaginatedOperationMethod<
     items: "reportGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportGroups",
 })) as any;
 
 export type ListReportsError = InvalidInputException | CommonErrors;
@@ -2322,6 +2410,8 @@ export const listReports: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReports",
 })) as any;
 
 export type ListReportsForReportGroupError =
@@ -2350,6 +2440,8 @@ export const listReportsForReportGroup: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportsForReportGroup",
 })) as any;
 
 export type ListSandboxesError = InvalidInputException | CommonErrors;
@@ -2375,6 +2467,8 @@ export const listSandboxes: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSandboxes",
 })) as any;
 
 export type ListSandboxesForProjectError =
@@ -2403,6 +2497,8 @@ export const listSandboxesForProject: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSandboxesForProject",
 })) as any;
 
 export type ListSharedProjectsError = InvalidInputException | CommonErrors;
@@ -2428,6 +2524,8 @@ export const listSharedProjects: API.PaginatedOperationMethod<
     items: "projects",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSharedProjects",
 })) as any;
 
 export type ListSharedReportGroupsError = InvalidInputException | CommonErrors;
@@ -2453,6 +2551,8 @@ export const listSharedReportGroups: API.PaginatedOperationMethod<
     items: "reportGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSharedReportGroups",
 })) as any;
 
 export type ListSourceCredentialsError = InvalidInputException | CommonErrors;
@@ -2471,6 +2571,8 @@ export const listSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSourceCredentials",
+  telemetry: TELEMETRY,
+  span: "ListSourceCredentials",
 }));
 
 export type PutResourcePolicyError =
@@ -2493,6 +2595,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RetryBuildError =
@@ -2515,6 +2619,8 @@ export const retryBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryBuild",
+  telemetry: TELEMETRY,
+  span: "RetryBuild",
 }));
 
 export type RetryBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2533,6 +2639,8 @@ export const retryBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryBuildBatch",
+  telemetry: TELEMETRY,
+  span: "RetryBuildBatch",
 }));
 
 export type StartBuildError =
@@ -2559,6 +2667,8 @@ export const startBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBuild",
+  telemetry: TELEMETRY,
+  span: "StartBuild",
 }));
 
 export type StartBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2577,6 +2687,8 @@ export const startBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBuildBatch",
+  telemetry: TELEMETRY,
+  span: "StartBuildBatch",
 }));
 
 export type StartCommandExecutionError =
@@ -2598,6 +2710,8 @@ export const startCommandExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCommandExecution",
+  telemetry: TELEMETRY,
+  span: "StartCommandExecution",
 }));
 
 export type StartSandboxError =
@@ -2620,6 +2734,8 @@ export const startSandbox: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSandbox",
+  telemetry: TELEMETRY,
+  span: "StartSandbox",
 }));
 
 export type StartSandboxConnectionError =
@@ -2641,6 +2757,8 @@ export const startSandboxConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSandboxConnection",
+  telemetry: TELEMETRY,
+  span: "StartSandboxConnection",
 }));
 
 export type StopBuildError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2659,6 +2777,8 @@ export const stopBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBuild",
+  telemetry: TELEMETRY,
+  span: "StopBuild",
 }));
 
 export type StopBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2677,6 +2797,8 @@ export const stopBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBuildBatch",
+  telemetry: TELEMETRY,
+  span: "StopBuildBatch",
 }));
 
 export type StopSandboxError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2695,6 +2817,8 @@ export const stopSandbox: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSandbox",
+  telemetry: TELEMETRY,
+  span: "StopSandbox",
 }));
 
 export type UpdateFleetError =
@@ -2717,6 +2841,8 @@ export const updateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 export type UpdateProjectError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2735,6 +2861,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateProjectVisibilityError =
@@ -2782,6 +2910,8 @@ export const updateProjectVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProjectVisibility",
+  telemetry: TELEMETRY,
+  span: "UpdateProjectVisibility",
 }));
 
 export type UpdateReportGroupError =
@@ -2803,6 +2933,8 @@ export const updateReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateReportGroup",
 }));
 
 export type UpdateWebhookError =
@@ -2827,6 +2959,8 @@ export const updateWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebhook",
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

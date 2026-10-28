@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DeviceUpdate" },
+  prefix: "Deviceupdate",
+  service: "Deviceupdate",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckNameAvailabilityRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
@@ -1280,6 +1301,8 @@ export const CheckNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNameAvailability",
 }));
 
 export type CreateAccountError = AzureOpError;
@@ -1295,6 +1318,8 @@ export const CreateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type CreateInstanceError = AzureOpError;
@@ -1310,6 +1335,8 @@ export const CreateInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type DeleteAccountError = AzureOpError;
@@ -1325,6 +1352,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteInstanceError = AzureOpError;
@@ -1340,6 +1369,8 @@ export const DeleteInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1355,6 +1386,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeletePrivateEndpointConnectionProxyError = AzureOpError;
@@ -1370,6 +1403,8 @@ export const DeletePrivateEndpointConnectionProxy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionProxy",
 }));
 
 export type GetAccountError = AzureOpError;
@@ -1385,6 +1420,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetInstanceError = AzureOpError;
@@ -1400,6 +1437,8 @@ export const GetInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1415,6 +1454,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateEndpointConnectionProxyError = AzureOpError;
@@ -1430,6 +1471,8 @@ export const GetPrivateEndpointConnectionProxy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionProxy",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -1445,6 +1488,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type ListAccountByResourceGroupError = AzureOpError;
@@ -1460,6 +1505,8 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountByResourceGroup",
 }));
 
 export type ListAccountBySubscriptionError = AzureOpError;
@@ -1475,6 +1522,8 @@ export const ListAccountBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountBySubscription",
 }));
 
 export type ListInstanceByAccountError = AzureOpError;
@@ -1490,6 +1539,8 @@ export const ListInstanceByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstanceByAccount",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1505,6 +1556,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByAccountError = AzureOpError;
@@ -1520,6 +1573,8 @@ export const ListPrivateEndpointConnectionByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByAccount",
 }));
 
 export type ListPrivateEndpointConnectionProxyByAccountError = AzureOpError;
@@ -1535,6 +1590,8 @@ export const ListPrivateEndpointConnectionProxyByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionProxyByAccount",
 }));
 
 export type ListPrivateLinkResourceByAccountError = AzureOpError;
@@ -1550,6 +1607,8 @@ export const ListPrivateLinkResourceByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByAccount",
 }));
 
 export type PrivateEndpointConnectionProxiesCreateOrUpdateError = AzureOpError;
@@ -1573,6 +1632,8 @@ export const PrivateEndpointConnectionProxiesCreateOrUpdate: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionProxiesCreateOrUpdate",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -1588,6 +1649,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type UpdateAccountError = AzureOpError;
@@ -1603,6 +1666,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateInstanceError = AzureOpError;
@@ -1618,6 +1683,8 @@ export const UpdateInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 export type UpdatePrivateEndpointConnectionProxyPrivateEndpointPropertiesError = AzureOpError;
@@ -1641,6 +1708,8 @@ export const UpdatePrivateEndpointConnectionProxyPrivateEndpointProperties: API.
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnectionProxyPrivateEndpointProperties",
 }));
 
 export type ValidatePrivateEndpointConnectionProxyError = AzureOpError;
@@ -1656,6 +1725,8 @@ export const ValidatePrivateEndpointConnectionProxy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidatePrivateEndpointConnectionProxy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -32,7 +32,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "KubernetesCredentials",
   ) {}
 
@@ -77,5 +77,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       token: Redacted.make(token),
       apiBaseUrl,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

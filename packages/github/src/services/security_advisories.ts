@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "SecurityAdvisories",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -805,6 +823,8 @@ export const createFork: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFork",
 }));
 
 export type CreatePrivateVulnerabilityReportError =
@@ -824,6 +844,8 @@ export const createPrivateVulnerabilityReport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateVulnerabilityReport",
 }));
 
 export type CreateRepositoryAdvisoryError =
@@ -843,6 +865,8 @@ export const createRepositoryAdvisory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepositoryAdvisory",
 }));
 
 export type CreateRepositoryAdvisoryCveRequestError =
@@ -863,6 +887,8 @@ export const createRepositoryAdvisoryCveRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepositoryAdvisoryCveRequest",
 }));
 
 export type GetGlobalAdvisoryError = NotFound | GithubOpError;
@@ -878,6 +904,8 @@ export const getGlobalAdvisory: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGlobalAdvisory",
 }));
 
 export type GetRepositoryAdvisoryError = Forbidden | NotFound | GithubOpError;
@@ -893,6 +921,8 @@ export const getRepositoryAdvisory: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoryAdvisory",
 }));
 
 export type ListGlobalAdvisoriesError = UnprocessableEntity | GithubOpError;
@@ -908,6 +938,8 @@ export const listGlobalAdvisories: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGlobalAdvisories",
 }));
 
 export type ListOrgRepositoryAdvisoriesError = BadRequest | NotFound | GithubOpError;
@@ -923,6 +955,8 @@ export const listOrgRepositoryAdvisories: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgRepositoryAdvisories",
 }));
 
 export type ListRepositoryAdvisoriesError = BadRequest | NotFound | GithubOpError;
@@ -938,6 +972,8 @@ export const listRepositoryAdvisories: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryAdvisories",
 }));
 
 export type UpdateRepositoryAdvisoryError =
@@ -957,6 +993,8 @@ export const updateRepositoryAdvisory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryAdvisory",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

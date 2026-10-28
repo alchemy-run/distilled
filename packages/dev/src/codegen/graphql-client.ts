@@ -224,6 +224,12 @@ export const generateGraphQLClient = (
       (name): name is string => typeof name === "string",
     ),
   );
+  /**
+   * Root operation types are not emitted, so a field returning one (GitHub's
+   * Relay-compat `Query.relay: Query!`) cannot be selected; it is left out.
+   */
+  const selectable = ([, field]: [string, GraphQLField]): boolean =>
+    !skipRoots.has(peelRef(field.type).name);
   const tsNamed = (name: string): string => {
     const type = model.types[name];
     if (!type) return "unknown";
@@ -492,9 +498,12 @@ export const generateGraphQLClient = (
 
   for (const name of objects) {
     const type = model.types[name]!;
-    const fields = Object.entries(type.fields ?? {}).map(
-      ([fieldName, field]) => `  readonly ${fieldName}: ${tsOutput(field.type, field.sensitive)};`,
-    );
+    const fields = Object.entries(type.fields ?? {})
+      .filter(selectable)
+      .map(
+        ([fieldName, field]) =>
+          `  readonly ${fieldName}: ${tsOutput(field.type, field.sensitive)};`,
+      );
     lines.push(documentation(type.description) + `export interface ${name} {`, ...fields, "}", "");
   }
 
@@ -513,7 +522,7 @@ export const generateGraphQLClient = (
   for (const name of objects) {
     const type = model.types[name]!;
     lines.push(`const ${tables.get(name)}: TypeMeta["fields"] = {`);
-    for (const [fieldName, field] of Object.entries(type.fields ?? {})) {
+    for (const [fieldName, field] of Object.entries(type.fields ?? {}).filter(selectable)) {
       lines.push(`  ${fieldName}: ${fieldMeta(fieldName, field)},`);
     }
     lines.push("};", "");
@@ -523,7 +532,7 @@ export const generateGraphQLClient = (
   const queryNames = new Set<string>();
   const queryType = model.types[model.queryType];
   if (queryType?.fields) {
-    for (const [fieldName, field] of Object.entries(queryType.fields)) {
+    for (const [fieldName, field] of Object.entries(queryType.fields).filter(selectable)) {
       queryNames.add(fieldName);
       lines.push(rootFn("query", fieldName, field));
     }
@@ -531,7 +540,7 @@ export const generateGraphQLClient = (
   if (model.mutationType) {
     const mutationType = model.types[model.mutationType];
     if (mutationType?.fields) {
-      for (const [fieldName, field] of Object.entries(mutationType.fields)) {
+      for (const [fieldName, field] of Object.entries(mutationType.fields).filter(selectable)) {
         const exportName = queryNames.has(fieldName) ? `${fieldName}Mutation` : fieldName;
         const line = rootFn("mutation", fieldName, field);
         lines.push(

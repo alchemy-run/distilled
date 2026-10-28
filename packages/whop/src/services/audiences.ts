@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Audiences",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -335,6 +348,8 @@ export const addAudiencePeople: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAudiencePeople",
 }));
 
 export type CreateAudienceError = BadRequest | Conflict | WhopOpError;
@@ -350,6 +365,8 @@ export const createAudience: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAudience",
 }));
 
 export type DeleteAudienceError = WhopOpError;
@@ -365,6 +382,8 @@ export const deleteAudience: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAudience",
 }));
 
 export type ListAudiencesError = WhopOpError;
@@ -382,6 +401,8 @@ export const listAudiences: API.PaginatedOperationMethod<
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAudiences",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -407,6 +428,8 @@ export const updateAudience: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAudience",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

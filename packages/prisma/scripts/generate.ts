@@ -96,6 +96,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Prisma Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts, not to the Smithy model.

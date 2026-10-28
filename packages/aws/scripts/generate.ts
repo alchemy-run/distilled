@@ -44,6 +44,7 @@ const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 
 runGeneratorCli({
   description: "Generate the AWS Effect SDK from patched Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   smithyDir: ".generated-specs",
   manualSpecsDir: "manual-specs",

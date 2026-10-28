@@ -16,6 +16,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "BasinCatalog",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 /** Per-table snapshot expiration needs snapshot expiration enabled on the catalog first. */
 export class CatalogSnapshotExpirationDisabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -505,6 +519,8 @@ export const createCredentials: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCredentials",
 }));
 
 export type DeleteError = CloudflareOpError;
@@ -520,6 +536,8 @@ export const Delete: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Delete",
 }));
 
 export type DisableError = CloudflareOpError;
@@ -535,6 +553,8 @@ export const disable: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Disable",
 }));
 
 export type EnableError = CloudflareOpError;
@@ -550,6 +570,8 @@ export const enable: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Enable",
 }));
 
 export type GetError = CloudflareOpError;
@@ -561,6 +583,8 @@ export const get: API.OperationMethod<GetRequest, GetResponse, GetError, Cloudfl
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetMaintenanceConfigError = CloudflareOpError;
@@ -576,6 +600,8 @@ export const getMaintenanceConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceConfig",
 }));
 
 export type GetNamespacesTablesMaintenanceConfigError = CloudflareOpError;
@@ -591,6 +617,8 @@ export const getNamespacesTablesMaintenanceConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespacesTablesMaintenanceConfig",
 }));
 
 export type ListError = CloudflareOpError;
@@ -602,6 +630,8 @@ export const list: API.OperationMethod<ListRequest, ListResponse, ListError, Clo
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "List",
   }));
 
 export type ListNamespacesError = CloudflareOpError;
@@ -617,6 +647,8 @@ export const listNamespaces: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 }));
 
 export type ListNamespacesTablesError = CloudflareOpError;
@@ -632,6 +664,8 @@ export const listNamespacesTables: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespacesTables",
 }));
 
 export type UpdateMaintenanceConfigError = CloudflareOpError;
@@ -647,6 +681,8 @@ export const updateMaintenanceConfig: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceConfig",
 }));
 
 export type UpdateNamespacesTablesMaintenanceConfigError =
@@ -664,6 +700,8 @@ export const updateNamespacesTablesMaintenanceConfig: API.OperationMethod<
   errors: [CatalogSnapshotExpirationDisabled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespacesTablesMaintenanceConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

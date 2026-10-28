@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lambda.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LambdaMicrovms",
+  service: "LambdaMicrovms",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -726,6 +741,8 @@ export const createMicrovmAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmAuthToken",
+  telemetry: TELEMETRY,
+  span: "CreateMicrovmAuthToken",
 }));
 
 export type CreateMicrovmImageError =
@@ -760,6 +777,8 @@ export const createMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmImage",
+  telemetry: TELEMETRY,
+  span: "CreateMicrovmImage",
 }));
 
 export type CreateMicrovmShellAuthTokenError =
@@ -792,6 +811,8 @@ export const createMicrovmShellAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmShellAuthToken",
+  telemetry: TELEMETRY,
+  span: "CreateMicrovmShellAuthToken",
 }));
 
 export type DeleteMicrovmImageError =
@@ -824,6 +845,8 @@ export const deleteMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrovmImage",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrovmImage",
 }));
 
 export type DeleteMicrovmImageVersionError =
@@ -856,6 +879,8 @@ export const deleteMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrovmImageVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrovmImageVersion",
 }));
 
 export type GetMicrovmError =
@@ -886,6 +911,8 @@ export const getMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovm",
+  telemetry: TELEMETRY,
+  span: "GetMicrovm",
 }));
 
 export type GetMicrovmImageError =
@@ -916,6 +943,8 @@ export const getMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImage",
+  telemetry: TELEMETRY,
+  span: "GetMicrovmImage",
 }));
 
 export type GetMicrovmImageBuildError =
@@ -946,6 +975,8 @@ export const getMicrovmImageBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImageBuild",
+  telemetry: TELEMETRY,
+  span: "GetMicrovmImageBuild",
 }));
 
 export type GetMicrovmImageVersionError =
@@ -976,6 +1007,8 @@ export const getMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImageVersion",
+  telemetry: TELEMETRY,
+  span: "GetMicrovmImageVersion",
 }));
 
 export type ListManagedMicrovmImagesError =
@@ -1011,6 +1044,8 @@ export const listManagedMicrovmImages: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedMicrovmImages",
 })) as any;
 
 export type ListManagedMicrovmImageVersionsError =
@@ -1048,6 +1083,8 @@ export const listManagedMicrovmImageVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedMicrovmImageVersions",
 })) as any;
 
 export type ListMicrovmImageBuildsError =
@@ -1085,6 +1122,8 @@ export const listMicrovmImageBuilds: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrovmImageBuilds",
 })) as any;
 
 export type ListMicrovmImagesError =
@@ -1120,6 +1159,8 @@ export const listMicrovmImages: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrovmImages",
 })) as any;
 
 export type ListMicrovmImageVersionsError =
@@ -1157,6 +1198,8 @@ export const listMicrovmImageVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrovmImageVersions",
 })) as any;
 
 export type ListMicrovmsError =
@@ -1194,6 +1237,8 @@ export const listMicrovms: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrovms",
 })) as any;
 
 export type ListTagsError =
@@ -1222,6 +1267,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ResumeMicrovmError =
@@ -1254,6 +1301,8 @@ export const resumeMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeMicrovm",
+  telemetry: TELEMETRY,
+  span: "ResumeMicrovm",
 }));
 
 export type RunMicrovmError =
@@ -1290,6 +1339,8 @@ export const runMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunMicrovm",
+  telemetry: TELEMETRY,
+  span: "RunMicrovm",
 }));
 
 export type SuspendMicrovmError =
@@ -1322,6 +1373,8 @@ export const suspendMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendMicrovm",
+  telemetry: TELEMETRY,
+  span: "SuspendMicrovm",
 }));
 
 export type TagResourceError =
@@ -1352,6 +1405,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateMicrovmError =
@@ -1384,6 +1439,8 @@ export const terminateMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateMicrovm",
+  telemetry: TELEMETRY,
+  span: "TerminateMicrovm",
 }));
 
 export type UntagResourceError =
@@ -1414,6 +1471,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMicrovmImageError =
@@ -1448,6 +1507,8 @@ export const updateMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrovmImage",
+  telemetry: TELEMETRY,
+  span: "UpdateMicrovmImage",
 }));
 
 export type UpdateMicrovmImageVersionError =
@@ -1480,6 +1541,8 @@ export const updateMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrovmImageVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateMicrovmImageVersion",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

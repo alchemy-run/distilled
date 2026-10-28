@@ -94,6 +94,7 @@ const ovhSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the OVH Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.

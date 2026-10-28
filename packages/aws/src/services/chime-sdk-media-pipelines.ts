@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://media-pipelines-chime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ChimeSDKMediaPipelines",
+  service: "ChimeSDKMediaPipelines",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1056,6 +1071,8 @@ export const createMediaCapturePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaCapturePipeline",
+  telemetry: TELEMETRY,
+  span: "CreateMediaCapturePipeline",
 }));
 
 export type CreateMediaConcatenationPipelineError =
@@ -1090,6 +1107,8 @@ export const createMediaConcatenationPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaConcatenationPipeline",
+  telemetry: TELEMETRY,
+  span: "CreateMediaConcatenationPipeline",
 }));
 
 export type CreateMediaInsightsPipelineError =
@@ -1126,6 +1145,8 @@ export const createMediaInsightsPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaInsightsPipeline",
+  telemetry: TELEMETRY,
+  span: "CreateMediaInsightsPipeline",
 }));
 
 export type CreateMediaInsightsPipelineConfigurationError =
@@ -1163,6 +1184,8 @@ export const createMediaInsightsPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaInsightsPipelineConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateMediaInsightsPipelineConfiguration",
 }));
 
 export type CreateMediaLiveConnectorPipelineError =
@@ -1197,6 +1220,8 @@ export const createMediaLiveConnectorPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaLiveConnectorPipeline",
+  telemetry: TELEMETRY,
+  span: "CreateMediaLiveConnectorPipeline",
 }));
 
 export type CreateMediaPipelineKinesisVideoStreamPoolError =
@@ -1249,6 +1274,8 @@ export const createMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaPipelineKinesisVideoStreamPool",
+  telemetry: TELEMETRY,
+  span: "CreateMediaPipelineKinesisVideoStreamPool",
 }));
 
 export type CreateMediaStreamPipelineError =
@@ -1285,6 +1312,8 @@ export const createMediaStreamPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaStreamPipeline",
+  telemetry: TELEMETRY,
+  span: "CreateMediaStreamPipeline",
 }));
 
 export type DeleteMediaCapturePipelineError =
@@ -1319,6 +1348,8 @@ export const deleteMediaCapturePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaCapturePipeline",
+  telemetry: TELEMETRY,
+  span: "DeleteMediaCapturePipeline",
 }));
 
 export type DeleteMediaInsightsPipelineConfigurationError =
@@ -1355,6 +1386,8 @@ export const deleteMediaInsightsPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaInsightsPipelineConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteMediaInsightsPipelineConfiguration",
 }));
 
 export type DeleteMediaPipelineError =
@@ -1391,6 +1424,8 @@ export const deleteMediaPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaPipeline",
+  telemetry: TELEMETRY,
+  span: "DeleteMediaPipeline",
 }));
 
 export type DeleteMediaPipelineKinesisVideoStreamPoolError =
@@ -1427,6 +1462,8 @@ export const deleteMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaPipelineKinesisVideoStreamPool",
+  telemetry: TELEMETRY,
+  span: "DeleteMediaPipelineKinesisVideoStreamPool",
 }));
 
 export type GetMediaCapturePipelineError =
@@ -1461,6 +1498,8 @@ export const getMediaCapturePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaCapturePipeline",
+  telemetry: TELEMETRY,
+  span: "GetMediaCapturePipeline",
 }));
 
 export type GetMediaInsightsPipelineConfigurationError =
@@ -1495,6 +1534,8 @@ export const getMediaInsightsPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaInsightsPipelineConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetMediaInsightsPipelineConfiguration",
 }));
 
 export type GetMediaPipelineError =
@@ -1529,6 +1570,8 @@ export const getMediaPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaPipeline",
+  telemetry: TELEMETRY,
+  span: "GetMediaPipeline",
 }));
 
 export type GetMediaPipelineKinesisVideoStreamPoolError =
@@ -1563,6 +1606,8 @@ export const getMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaPipelineKinesisVideoStreamPool",
+  telemetry: TELEMETRY,
+  span: "GetMediaPipelineKinesisVideoStreamPool",
 }));
 
 export type GetSpeakerSearchTaskError =
@@ -1597,6 +1642,8 @@ export const getSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeakerSearchTask",
+  telemetry: TELEMETRY,
+  span: "GetSpeakerSearchTask",
 }));
 
 export type GetVoiceToneAnalysisTaskError =
@@ -1631,6 +1678,8 @@ export const getVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceToneAnalysisTask",
+  telemetry: TELEMETRY,
+  span: "GetVoiceToneAnalysisTask",
 }));
 
 export type ListMediaCapturePipelinesError =
@@ -1671,6 +1720,8 @@ export const listMediaCapturePipelines: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMediaCapturePipelines",
 })) as any;
 
 export type ListMediaInsightsPipelineConfigurationsError =
@@ -1711,6 +1762,8 @@ export const listMediaInsightsPipelineConfigurations: API.PaginatedOperationMeth
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMediaInsightsPipelineConfigurations",
 })) as any;
 
 export type ListMediaPipelineKinesisVideoStreamPoolsError =
@@ -1751,6 +1804,8 @@ export const listMediaPipelineKinesisVideoStreamPools: API.PaginatedOperationMet
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMediaPipelineKinesisVideoStreamPools",
 })) as any;
 
 export type ListMediaPipelinesError =
@@ -1791,6 +1846,8 @@ export const listMediaPipelines: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMediaPipelines",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1825,6 +1882,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartSpeakerSearchTaskError =
@@ -1864,6 +1923,8 @@ export const startSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeakerSearchTask",
+  telemetry: TELEMETRY,
+  span: "StartSpeakerSearchTask",
 }));
 
 export type StartVoiceToneAnalysisTaskError =
@@ -1905,6 +1966,8 @@ export const startVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVoiceToneAnalysisTask",
+  telemetry: TELEMETRY,
+  span: "StartVoiceToneAnalysisTask",
 }));
 
 export type StopSpeakerSearchTaskError =
@@ -1941,6 +2004,8 @@ export const stopSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSpeakerSearchTask",
+  telemetry: TELEMETRY,
+  span: "StopSpeakerSearchTask",
 }));
 
 export type StopVoiceToneAnalysisTaskError =
@@ -1977,6 +2042,8 @@ export const stopVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopVoiceToneAnalysisTask",
+  telemetry: TELEMETRY,
+  span: "StopVoiceToneAnalysisTask",
 }));
 
 export type TagResourceError =
@@ -2011,6 +2078,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2045,6 +2114,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMediaInsightsPipelineConfigurationError =
@@ -2081,6 +2152,8 @@ export const updateMediaInsightsPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaInsightsPipelineConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMediaInsightsPipelineConfiguration",
 }));
 
 export type UpdateMediaInsightsPipelineStatusError =
@@ -2117,6 +2190,8 @@ export const updateMediaInsightsPipelineStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaInsightsPipelineStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateMediaInsightsPipelineStatus",
 }));
 
 export type UpdateMediaPipelineKinesisVideoStreamPoolError =
@@ -2153,6 +2228,8 @@ export const updateMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaPipelineKinesisVideoStreamPool",
+  telemetry: TELEMETRY,
+  span: "UpdateMediaPipelineKinesisVideoStreamPool",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

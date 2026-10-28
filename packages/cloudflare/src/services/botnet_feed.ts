@@ -20,6 +20,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   offenseCount: "offense_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "BotnetFeed",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface DayReportAsnRequest {
   /** Identifier. */
   accountId: string;
@@ -73,6 +87,8 @@ export const dayReportAsn: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DayReportAsn",
 }));
 
 export type DeleteConfigAsnError = CloudflareOpError;
@@ -88,6 +104,8 @@ export const deleteConfigAsn: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigAsn",
 }));
 
 export type FullReportAsnError = CloudflareOpError;
@@ -103,6 +121,8 @@ export const fullReportAsn: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FullReportAsn",
 }));
 
 export type GetConfigAsnError = CloudflareOpError;
@@ -118,6 +138,8 @@ export const getConfigAsn: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigAsn",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

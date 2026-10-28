@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://batch.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Batch",
+  service: "Batch",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClientException
   extends /*@__PURE__*/ S.TaggedError<ClientException>()(
@@ -2214,6 +2229,8 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CancelJobsError = ClientException | ServerException | CommonErrors;
@@ -2258,6 +2275,8 @@ export const cancelJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobs",
+  telemetry: TELEMETRY,
+  span: "CancelJobs",
 }));
 
 export type CreateComputeEnvironmentError = ClientException | ServerException | CommonErrors;
@@ -2301,6 +2320,8 @@ export const createComputeEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputeEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateComputeEnvironment",
 }));
 
 export type CreateConsumableResourceError = ClientException | ServerException | CommonErrors;
@@ -2319,6 +2340,8 @@ export const createConsumableResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConsumableResource",
+  telemetry: TELEMETRY,
+  span: "CreateConsumableResource",
 }));
 
 export type CreateJobQueueError =
@@ -2349,6 +2372,8 @@ export const createJobQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobQueue",
+  telemetry: TELEMETRY,
+  span: "CreateJobQueue",
 }));
 
 export type CreateQuotaShareError = ClientException | ServerException | CommonErrors;
@@ -2367,6 +2392,8 @@ export const createQuotaShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuotaShare",
+  telemetry: TELEMETRY,
+  span: "CreateQuotaShare",
 }));
 
 export type CreateSchedulingPolicyError = ClientException | ServerException | CommonErrors;
@@ -2385,6 +2412,8 @@ export const createSchedulingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchedulingPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateSchedulingPolicy",
 }));
 
 export type CreateServiceEnvironmentError = ClientException | ServerException | CommonErrors;
@@ -2403,6 +2432,8 @@ export const createServiceEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateServiceEnvironment",
 }));
 
 export type DeleteComputeEnvironmentError =
@@ -2440,6 +2471,8 @@ export const deleteComputeEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComputeEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteComputeEnvironment",
 }));
 
 export type DeleteConsumableResourceError = ClientException | ServerException | CommonErrors;
@@ -2458,6 +2491,8 @@ export const deleteConsumableResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsumableResource",
+  telemetry: TELEMETRY,
+  span: "DeleteConsumableResource",
 }));
 
 export type DeleteJobQueueError =
@@ -2486,6 +2521,8 @@ export const deleteJobQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobQueue",
+  telemetry: TELEMETRY,
+  span: "DeleteJobQueue",
 }));
 
 export type DeleteQuotaShareError = ClientException | ServerException | CommonErrors;
@@ -2506,6 +2543,8 @@ export const deleteQuotaShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuotaShare",
+  telemetry: TELEMETRY,
+  span: "DeleteQuotaShare",
 }));
 
 export type DeleteSchedulingPolicyError = ClientException | ServerException | CommonErrors;
@@ -2526,6 +2565,8 @@ export const deleteSchedulingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedulingPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingPolicy",
 }));
 
 export type DeleteServiceEnvironmentError = ClientException | ServerException | CommonErrors;
@@ -2544,6 +2585,8 @@ export const deleteServiceEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceEnvironment",
 }));
 
 export type DeregisterJobDefinitionError = ClientException | ServerException | CommonErrors;
@@ -2563,6 +2606,8 @@ export const deregisterJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DeregisterJobDefinition",
 }));
 
 export type DescribeComputeEnvironmentsError = ClientException | ServerException | CommonErrors;
@@ -2592,6 +2637,8 @@ export const describeComputeEnvironments: API.PaginatedOperationMethod<
     items: "computeEnvironments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeComputeEnvironments",
 })) as any;
 
 export type DescribeConsumableResourceError = ClientException | ServerException | CommonErrors;
@@ -2610,6 +2657,8 @@ export const describeConsumableResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConsumableResource",
+  telemetry: TELEMETRY,
+  span: "DescribeConsumableResource",
 }));
 
 export type DescribeJobDefinitionsError = ClientException | ServerException | CommonErrors;
@@ -2636,6 +2685,8 @@ export const describeJobDefinitions: API.PaginatedOperationMethod<
     items: "jobDefinitions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeJobDefinitions",
 })) as any;
 
 export type DescribeJobQueuesError = ClientException | ServerException | CommonErrors;
@@ -2661,6 +2712,8 @@ export const describeJobQueues: API.PaginatedOperationMethod<
     items: "jobQueues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeJobQueues",
 })) as any;
 
 export type DescribeJobsError = ClientException | ServerException | CommonErrors;
@@ -2679,6 +2732,8 @@ export const describeJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobs",
+  telemetry: TELEMETRY,
+  span: "DescribeJobs",
 }));
 
 export type DescribeQuotaShareError = ClientException | ServerException | CommonErrors;
@@ -2697,6 +2752,8 @@ export const describeQuotaShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuotaShare",
+  telemetry: TELEMETRY,
+  span: "DescribeQuotaShare",
 }));
 
 export type DescribeSchedulingPoliciesError = ClientException | ServerException | CommonErrors;
@@ -2715,6 +2772,8 @@ export const describeSchedulingPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchedulingPolicies",
+  telemetry: TELEMETRY,
+  span: "DescribeSchedulingPolicies",
 }));
 
 export type DescribeServiceEnvironmentsError = ClientException | ServerException | CommonErrors;
@@ -2740,6 +2799,8 @@ export const describeServiceEnvironments: API.PaginatedOperationMethod<
     items: "serviceEnvironments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServiceEnvironments",
 })) as any;
 
 export type DescribeServiceJobError = ClientException | ServerException | CommonErrors;
@@ -2758,6 +2819,8 @@ export const describeServiceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceJob",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceJob",
 }));
 
 export type GetJobQueueSnapshotError = ClientException | ServerException | CommonErrors;
@@ -2779,6 +2842,8 @@ export const getJobQueueSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobQueueSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetJobQueueSnapshot",
 }));
 
 export type ListConsumableResourcesError = ClientException | ServerException | CommonErrors;
@@ -2804,6 +2869,8 @@ export const listConsumableResources: API.PaginatedOperationMethod<
     items: "consumableResources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConsumableResources",
 })) as any;
 
 export type ListJobsError = ClientException | ServerException | CommonErrors;
@@ -2837,6 +2904,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListJobsByConsumableResourceError = ClientException | ServerException | CommonErrors;
@@ -2862,6 +2931,8 @@ export const listJobsByConsumableResource: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobsByConsumableResource",
 })) as any;
 
 export type ListQuotaSharesError = ClientException | ServerException | CommonErrors;
@@ -2887,6 +2958,8 @@ export const listQuotaShares: API.PaginatedOperationMethod<
     items: "quotaShares",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQuotaShares",
 })) as any;
 
 export type ListSchedulingPoliciesError = ClientException | ServerException | CommonErrors;
@@ -2912,6 +2985,8 @@ export const listSchedulingPolicies: API.PaginatedOperationMethod<
     items: "schedulingPolicies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingPolicies",
 })) as any;
 
 export type ListServiceJobsError = ClientException | ServerException | CommonErrors;
@@ -2937,6 +3012,8 @@ export const listServiceJobs: API.PaginatedOperationMethod<
     items: "jobSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceJobs",
 })) as any;
 
 export type ListTagsForResourceError = ClientException | ServerException | CommonErrors;
@@ -2956,6 +3033,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterJobDefinitionError = ClientException | ServerException | CommonErrors;
@@ -2974,6 +3053,8 @@ export const registerJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterJobDefinition",
+  telemetry: TELEMETRY,
+  span: "RegisterJobDefinition",
 }));
 
 export type SubmitJobError = ClientException | ServerException | CommonErrors;
@@ -3004,6 +3085,8 @@ export const submitJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitJob",
+  telemetry: TELEMETRY,
+  span: "SubmitJob",
 }));
 
 export type SubmitServiceJobError = ClientException | ServerException | CommonErrors;
@@ -3022,6 +3105,8 @@ export const submitServiceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitServiceJob",
+  telemetry: TELEMETRY,
+  span: "SubmitServiceJob",
 }));
 
 export type TagResourceError = ClientException | ServerException | CommonErrors;
@@ -3044,6 +3129,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateJobError = ClientException | ServerException | CommonErrors;
@@ -3065,6 +3152,8 @@ export const terminateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateJob",
+  telemetry: TELEMETRY,
+  span: "TerminateJob",
 }));
 
 export type TerminateJobsError = ClientException | ServerException | CommonErrors;
@@ -3098,6 +3187,8 @@ export const terminateJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateJobs",
+  telemetry: TELEMETRY,
+  span: "TerminateJobs",
 }));
 
 export type TerminateServiceJobError = ClientException | ServerException | CommonErrors;
@@ -3116,6 +3207,8 @@ export const terminateServiceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateServiceJob",
+  telemetry: TELEMETRY,
+  span: "TerminateServiceJob",
 }));
 
 export type TerminateServiceJobsError = ClientException | ServerException | CommonErrors;
@@ -3141,6 +3234,8 @@ export const terminateServiceJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateServiceJobs",
+  telemetry: TELEMETRY,
+  span: "TerminateServiceJobs",
 }));
 
 export type UntagResourceError = ClientException | ServerException | CommonErrors;
@@ -3159,6 +3254,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateComputeEnvironmentError =
@@ -3187,6 +3284,8 @@ export const updateComputeEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComputeEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateComputeEnvironment",
 }));
 
 export type UpdateConsumableResourceError = ClientException | ServerException | CommonErrors;
@@ -3205,6 +3304,8 @@ export const updateConsumableResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConsumableResource",
+  telemetry: TELEMETRY,
+  span: "UpdateConsumableResource",
 }));
 
 export type UpdateJobQueueError =
@@ -3228,6 +3329,8 @@ export const updateJobQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobQueue",
+  telemetry: TELEMETRY,
+  span: "UpdateJobQueue",
 }));
 
 export type UpdateQuotaShareError = ClientException | ServerException | CommonErrors;
@@ -3246,6 +3349,8 @@ export const updateQuotaShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuotaShare",
+  telemetry: TELEMETRY,
+  span: "UpdateQuotaShare",
 }));
 
 export type UpdateSchedulingPolicyError = ClientException | ServerException | CommonErrors;
@@ -3264,6 +3369,8 @@ export const updateSchedulingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchedulingPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateSchedulingPolicy",
 }));
 
 export type UpdateServiceEnvironmentError = ClientException | ServerException | CommonErrors;
@@ -3282,6 +3389,8 @@ export const updateServiceEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceEnvironment",
 }));
 
 export type UpdateServiceJobError = ClientException | ServerException | CommonErrors;
@@ -3300,6 +3409,8 @@ export const updateServiceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceJob",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceJob",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

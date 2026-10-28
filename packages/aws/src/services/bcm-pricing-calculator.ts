@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BCMPricingCalculator",
+  service: "BCMPricingCalculator",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -1060,6 +1076,8 @@ export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioCommitmentModification",
+  telemetry: TELEMETRY,
+  span: "BatchCreateBillScenarioCommitmentModification",
 }));
 
 export type BatchCreateBillScenarioUsageModificationError =
@@ -1090,6 +1108,8 @@ export const batchCreateBillScenarioUsageModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioUsageModification",
+  telemetry: TELEMETRY,
+  span: "BatchCreateBillScenarioUsageModification",
 }));
 
 export type BatchCreateWorkloadEstimateUsageError =
@@ -1120,6 +1140,8 @@ export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateWorkloadEstimateUsage",
+  telemetry: TELEMETRY,
+  span: "BatchCreateWorkloadEstimateUsage",
 }));
 
 export type BatchDeleteBillScenarioCommitmentModificationError =
@@ -1152,6 +1174,8 @@ export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioCommitmentModification",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteBillScenarioCommitmentModification",
 }));
 
 export type BatchDeleteBillScenarioUsageModificationError =
@@ -1182,6 +1206,8 @@ export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioUsageModification",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteBillScenarioUsageModification",
 }));
 
 export type BatchDeleteWorkloadEstimateUsageError =
@@ -1206,6 +1232,8 @@ export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteWorkloadEstimateUsage",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteWorkloadEstimateUsage",
 }));
 
 export type BatchUpdateBillScenarioCommitmentModificationError =
@@ -1230,6 +1258,8 @@ export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioCommitmentModification",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateBillScenarioCommitmentModification",
 }));
 
 export type BatchUpdateBillScenarioUsageModificationError =
@@ -1260,6 +1290,8 @@ export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioUsageModification",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateBillScenarioUsageModification",
 }));
 
 export type BatchUpdateWorkloadEstimateUsageError =
@@ -1284,6 +1316,8 @@ export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateWorkloadEstimateUsage",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateWorkloadEstimateUsage",
 }));
 
 export type CreateBillEstimateError =
@@ -1306,6 +1340,8 @@ export const createBillEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillEstimate",
+  telemetry: TELEMETRY,
+  span: "CreateBillEstimate",
 }));
 
 export type CreateBillScenarioError =
@@ -1328,6 +1364,8 @@ export const createBillScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillScenario",
+  telemetry: TELEMETRY,
+  span: "CreateBillScenario",
 }));
 
 export type CreateWorkloadEstimateError =
@@ -1350,6 +1388,8 @@ export const createWorkloadEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadEstimate",
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadEstimate",
 }));
 
 export type DeleteBillEstimateError = ConflictException | DataUnavailableException | CommonErrors;
@@ -1368,6 +1408,8 @@ export const deleteBillEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillEstimate",
+  telemetry: TELEMETRY,
+  span: "DeleteBillEstimate",
 }));
 
 export type DeleteBillScenarioError = ConflictException | DataUnavailableException | CommonErrors;
@@ -1386,6 +1428,8 @@ export const deleteBillScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillScenario",
+  telemetry: TELEMETRY,
+  span: "DeleteBillScenario",
 }));
 
 export type DeleteWorkloadEstimateError = DataUnavailableException | CommonErrors;
@@ -1404,6 +1448,8 @@ export const deleteWorkloadEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadEstimate",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadEstimate",
 }));
 
 export type GetBillEstimateError =
@@ -1425,6 +1471,8 @@ export const getBillEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillEstimate",
+  telemetry: TELEMETRY,
+  span: "GetBillEstimate",
 }));
 
 export type GetBillScenarioError =
@@ -1446,6 +1494,8 @@ export const getBillScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillScenario",
+  telemetry: TELEMETRY,
+  span: "GetBillScenario",
 }));
 
 export type GetPreferencesError = DataUnavailableException | CommonErrors;
@@ -1464,6 +1514,8 @@ export const getPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreferences",
+  telemetry: TELEMETRY,
+  span: "GetPreferences",
 }));
 
 export type GetWorkloadEstimateError =
@@ -1485,6 +1537,8 @@ export const getWorkloadEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadEstimate",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadEstimate",
 }));
 
 export type ListBillEstimateCommitmentsError =
@@ -1513,6 +1567,8 @@ export const listBillEstimateCommitments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillEstimateCommitments",
 })) as any;
 
 export type ListBillEstimateInputCommitmentModificationsError =
@@ -1545,6 +1601,8 @@ export const listBillEstimateInputCommitmentModifications: API.PaginatedOperatio
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillEstimateInputCommitmentModifications",
 })) as any;
 
 export type ListBillEstimateInputUsageModificationsError =
@@ -1573,6 +1631,8 @@ export const listBillEstimateInputUsageModifications: API.PaginatedOperationMeth
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillEstimateInputUsageModifications",
 })) as any;
 
 export type ListBillEstimateLineItemsError =
@@ -1601,6 +1661,8 @@ export const listBillEstimateLineItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillEstimateLineItems",
 })) as any;
 
 export type ListBillEstimatesError = DataUnavailableException | CommonErrors;
@@ -1626,6 +1688,8 @@ export const listBillEstimates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillEstimates",
 })) as any;
 
 export type ListBillScenarioCommitmentModificationsError =
@@ -1654,6 +1718,8 @@ export const listBillScenarioCommitmentModifications: API.PaginatedOperationMeth
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillScenarioCommitmentModifications",
 })) as any;
 
 export type ListBillScenariosError = DataUnavailableException | CommonErrors;
@@ -1679,6 +1745,8 @@ export const listBillScenarios: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillScenarios",
 })) as any;
 
 export type ListBillScenarioUsageModificationsError =
@@ -1707,6 +1775,8 @@ export const listBillScenarioUsageModifications: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillScenarioUsageModifications",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1725,6 +1795,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkloadEstimatesError = DataUnavailableException | CommonErrors;
@@ -1750,6 +1822,8 @@ export const listWorkloadEstimates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadEstimates",
 })) as any;
 
 export type ListWorkloadEstimateUsageError =
@@ -1778,6 +1852,8 @@ export const listWorkloadEstimateUsage: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadEstimateUsage",
 })) as any;
 
 export type TagResourceError =
@@ -1799,6 +1875,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -1817,6 +1895,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBillEstimateError =
@@ -1839,6 +1919,8 @@ export const updateBillEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillEstimate",
+  telemetry: TELEMETRY,
+  span: "UpdateBillEstimate",
 }));
 
 export type UpdateBillScenarioError =
@@ -1861,6 +1943,8 @@ export const updateBillScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillScenario",
+  telemetry: TELEMETRY,
+  span: "UpdateBillScenario",
 }));
 
 export type UpdatePreferencesError =
@@ -1882,6 +1966,8 @@ export const updatePreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreferences",
+  telemetry: TELEMETRY,
+  span: "UpdatePreferences",
 }));
 
 export type UpdateWorkloadEstimateError =
@@ -1904,6 +1990,8 @@ export const updateWorkloadEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadEstimate",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadEstimate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

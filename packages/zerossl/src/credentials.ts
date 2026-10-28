@@ -23,7 +23,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "ZeroSslCredentials",
   ) {}
 
@@ -44,7 +44,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       accessKey,
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),
-    Effect.orDie,
   ),
 );
 

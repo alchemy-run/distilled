@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.NotificationHubs" },
+  prefix: "Notificationhubs",
+  service: "Notificationhubs",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Gets or sets resource tags */
 export type CheckNamespaceAvailabilityRequestTagsMap = { [key: string]: string | undefined };
 /** Namespace SKU name. */
@@ -1375,6 +1396,8 @@ export const CheckNamespaceAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNamespaceAvailability",
 }));
 
 export type CheckNotificationHubNotificationHubAvailabilityError = AzureOpError;
@@ -1398,6 +1421,8 @@ export const CheckNotificationHubNotificationHubAvailability: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNotificationHubNotificationHubAvailability",
 }));
 
 export type DeleteNamespaceError = AzureOpError;
@@ -1413,6 +1438,8 @@ export const DeleteNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteNamespaceAuthorizationRuleError = AzureOpError;
@@ -1428,6 +1455,8 @@ export const DeleteNamespaceAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceAuthorizationRule",
 }));
 
 export type DeleteNotificationHubError = AzureOpError;
@@ -1443,6 +1472,8 @@ export const DeleteNotificationHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationHub",
 }));
 
 export type DeleteNotificationHubAuthorizationRuleError = AzureOpError;
@@ -1458,6 +1489,8 @@ export const DeleteNotificationHubAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationHubAuthorizationRule",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1473,6 +1506,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type GetNamespaceError = AzureOpError;
@@ -1488,6 +1523,8 @@ export const GetNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetNamespaceAuthorizationRuleError = AzureOpError;
@@ -1503,6 +1540,8 @@ export const GetNamespaceAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceAuthorizationRule",
 }));
 
 export type GetNamespacePnsCredentialsError = AzureOpError;
@@ -1518,6 +1557,8 @@ export const GetNamespacePnsCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespacePnsCredentials",
 }));
 
 export type GetNotificationHubError = AzureOpError;
@@ -1533,6 +1574,8 @@ export const GetNotificationHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotificationHub",
 }));
 
 export type GetNotificationHubAuthorizationRuleError = AzureOpError;
@@ -1548,6 +1591,8 @@ export const GetNotificationHubAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotificationHubAuthorizationRule",
 }));
 
 export type GetNotificationHubPnsCredentialsError = AzureOpError;
@@ -1563,6 +1608,8 @@ export const GetNotificationHubPnsCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotificationHubPnsCredentials",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1578,6 +1625,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateEndpointConnectionGroupIdError = AzureOpError;
@@ -1593,6 +1642,8 @@ export const GetPrivateEndpointConnectionGroupId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionGroupId",
 }));
 
 export type ListNamespaceAllError = AzureOpError;
@@ -1608,6 +1659,8 @@ export const ListNamespaceAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceAll",
 }));
 
 export type ListNamespaceAuthorizationRulesError = AzureOpError;
@@ -1623,6 +1676,8 @@ export const ListNamespaceAuthorizationRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceAuthorizationRules",
 }));
 
 export type ListNamespaceKeysError = AzureOpError;
@@ -1638,6 +1693,8 @@ export const ListNamespaceKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceKeys",
 }));
 
 export type ListNamespacesError = AzureOpError;
@@ -1653,6 +1710,8 @@ export const ListNamespaces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 }));
 
 export type ListNotificationHubAuthorizationRulesError = AzureOpError;
@@ -1668,6 +1727,8 @@ export const ListNotificationHubAuthorizationRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationHubAuthorizationRules",
 }));
 
 export type ListNotificationHubKeysError = AzureOpError;
@@ -1683,6 +1744,8 @@ export const ListNotificationHubKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationHubKeys",
 }));
 
 export type ListNotificationHubsError = AzureOpError;
@@ -1698,6 +1761,8 @@ export const ListNotificationHubs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationHubs",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1713,6 +1778,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionGroupIdsError = AzureOpError;
@@ -1728,6 +1795,8 @@ export const ListPrivateEndpointConnectionGroupIds: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionGroupIds",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -1743,6 +1812,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type NamespacesCreateOrUpdateError = AzureOpError;
@@ -1758,6 +1829,8 @@ export const NamespacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesCreateOrUpdate",
 }));
 
 export type NamespacesCreateOrUpdateAuthorizationRuleError = AzureOpError;
@@ -1773,6 +1846,8 @@ export const NamespacesCreateOrUpdateAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesCreateOrUpdateAuthorizationRule",
 }));
 
 export type NotificationHubsCreateOrUpdateError = AzureOpError;
@@ -1788,6 +1863,8 @@ export const NotificationHubsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotificationHubsCreateOrUpdate",
 }));
 
 export type NotificationHubsCreateOrUpdateAuthorizationRuleError = AzureOpError;
@@ -1811,6 +1888,8 @@ export const NotificationHubsCreateOrUpdateAuthorizationRule: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotificationHubsCreateOrUpdateAuthorizationRule",
 }));
 
 export type RegenerateNamespaceKeysError = AzureOpError;
@@ -1826,6 +1905,8 @@ export const RegenerateNamespaceKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateNamespaceKeys",
 }));
 
 export type RegenerateNotificationHubKeysError = AzureOpError;
@@ -1841,6 +1922,8 @@ export const RegenerateNotificationHubKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateNotificationHubKeys",
 }));
 
 export type SendNotificationHubsDebugError = AzureOpError;
@@ -1856,6 +1939,8 @@ export const SendNotificationHubsDebug: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendNotificationHubsDebug",
 }));
 
 export type UpdateNamespaceError = AzureOpError;
@@ -1871,6 +1956,8 @@ export const UpdateNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespace",
 }));
 
 export type UpdateNotificationHubError = AzureOpError;
@@ -1886,6 +1973,8 @@ export const UpdateNotificationHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationHub",
 }));
 
 export type UpdatePrivateEndpointConnectionError = AzureOpError;
@@ -1901,6 +1990,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

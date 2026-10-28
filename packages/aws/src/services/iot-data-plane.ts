@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -112,6 +113,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://data-ats.iot.{R}.{D}","properties":{},"headers":{}}',
   ["cn-north-1"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTDataPlane",
+  service: "IoTDataPlane",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -378,6 +393,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteThingShadowError =
@@ -420,6 +437,8 @@ export const deleteThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThingShadow",
+  telemetry: TELEMETRY,
+  span: "DeleteThingShadow",
 }));
 
 export type GetConnectionError =
@@ -452,6 +471,8 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetRetainedMessageError =
@@ -497,6 +518,8 @@ export const getRetainedMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetainedMessage",
+  telemetry: TELEMETRY,
+  span: "GetRetainedMessage",
 }));
 
 export type GetThingShadowError =
@@ -540,6 +563,8 @@ export const getThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingShadow",
+  telemetry: TELEMETRY,
+  span: "GetThingShadow",
 }));
 
 export type ListNamedShadowsForThingError =
@@ -578,6 +603,8 @@ export const listNamedShadowsForThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNamedShadowsForThing",
+  telemetry: TELEMETRY,
+  span: "ListNamedShadowsForThing",
 }));
 
 export type ListRetainedMessagesError =
@@ -632,6 +659,8 @@ export const listRetainedMessages: API.PaginatedOperationMethod<
     items: "retainedTopics",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetainedMessages",
 })) as any;
 
 export type ListSubscriptionsError =
@@ -671,6 +700,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type PublishError =
@@ -712,6 +743,8 @@ export const publish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Publish",
+  telemetry: TELEMETRY,
+  span: "Publish",
 }));
 
 export type SendDirectMessageError =
@@ -756,6 +789,8 @@ export const sendDirectMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDirectMessage",
+  telemetry: TELEMETRY,
+  span: "SendDirectMessage",
 }));
 
 export type UpdateThingShadowError =
@@ -801,6 +836,8 @@ export const updateThingShadow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingShadow",
+  telemetry: TELEMETRY,
+  span: "UpdateThingShadow",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

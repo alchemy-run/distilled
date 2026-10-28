@@ -20,7 +20,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "StripeCredentials",
   ) {}
 
@@ -41,7 +41,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       apiKey: Redacted.make(apiKey),
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),
-    Effect.orDie,
   ),
 );
 

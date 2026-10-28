@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Calendar",
+  service: "calendar",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1155,6 +1168,8 @@ export const clearCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearCalendars",
 }));
 
 export type DeleteAclError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
@@ -1170,6 +1185,8 @@ export const deleteAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAcl",
 }));
 
 export type DeleteCalendarListError =
@@ -1190,6 +1207,8 @@ export const deleteCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCalendarList",
 }));
 
 export type DeleteCalendarsError =
@@ -1210,6 +1229,8 @@ export const deleteCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCalendars",
 }));
 
 export type DeleteEventsError =
@@ -1230,6 +1251,8 @@ export const deleteEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEvents",
 }));
 
 export type GetAclError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1245,6 +1268,8 @@ export const getAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAcl",
 }));
 
 export type GetCalendarListError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1260,6 +1285,8 @@ export const getCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCalendarList",
 }));
 
 export type GetCalendarsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1275,6 +1302,8 @@ export const getCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCalendars",
 }));
 
 export type GetColorsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1290,6 +1319,8 @@ export const getColors: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetColors",
 }));
 
 export type GetEventsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1305,6 +1336,8 @@ export const getEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvents",
 }));
 
 export type GetSettingsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1320,6 +1353,8 @@ export const getSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettings",
 }));
 
 export type ImportEventsError =
@@ -1340,6 +1375,8 @@ export const importEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportEvents",
 }));
 
 export type InsertAclError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
@@ -1355,6 +1392,8 @@ export const insertAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAcl",
 }));
 
 export type InsertCalendarListError =
@@ -1375,6 +1414,8 @@ export const insertCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCalendarList",
 }));
 
 export type InsertCalendarsError =
@@ -1395,6 +1436,8 @@ export const insertCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCalendars",
 }));
 
 export type InsertEventsError =
@@ -1415,6 +1458,8 @@ export const insertEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertEvents",
 }));
 
 export type InstancesEventsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1431,6 +1476,8 @@ export const instancesEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstancesEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1448,6 +1495,8 @@ export const listAcl: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAcl",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1465,6 +1514,8 @@ export const listCalendarList: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCalendarList",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1482,6 +1533,8 @@ export const listEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1499,6 +1552,8 @@ export const listSettings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSettings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1515,6 +1570,8 @@ export const moveEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveEvents",
 }));
 
 export type PatchAclError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
@@ -1530,6 +1587,8 @@ export const patchAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAcl",
 }));
 
 export type PatchCalendarListError =
@@ -1550,6 +1609,8 @@ export const patchCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCalendarList",
 }));
 
 export type PatchCalendarsError =
@@ -1570,6 +1631,8 @@ export const patchCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCalendars",
 }));
 
 export type PatchEventsError =
@@ -1590,6 +1653,8 @@ export const patchEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEvents",
 }));
 
 export type QueryFreebusyError =
@@ -1610,6 +1675,8 @@ export const queryFreebusy: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryFreebusy",
 }));
 
 export type QuickAddEventsError =
@@ -1630,6 +1697,8 @@ export const quickAddEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QuickAddEvents",
 }));
 
 export type StopChannelsError =
@@ -1650,6 +1719,8 @@ export const stopChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopChannels",
 }));
 
 export type TransferOwnershipCalendarsError =
@@ -1670,6 +1741,8 @@ export const transferOwnershipCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferOwnershipCalendars",
 }));
 
 export type UpdateAclError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
@@ -1685,6 +1758,8 @@ export const updateAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAcl",
 }));
 
 export type UpdateCalendarListError =
@@ -1705,6 +1780,8 @@ export const updateCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCalendarList",
 }));
 
 export type UpdateCalendarsError =
@@ -1725,6 +1802,8 @@ export const updateCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCalendars",
 }));
 
 export type UpdateEventsError =
@@ -1745,6 +1824,8 @@ export const updateEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvents",
 }));
 
 export type WatchAclError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
@@ -1760,6 +1841,8 @@ export const watchAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAcl",
 }));
 
 export type WatchCalendarListError =
@@ -1780,6 +1863,8 @@ export const watchCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCalendarList",
 }));
 
 export type WatchEventsError =
@@ -1800,6 +1885,8 @@ export const watchEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchEvents",
 }));
 
 export type WatchSettingsError =
@@ -1820,6 +1907,8 @@ export const watchSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
