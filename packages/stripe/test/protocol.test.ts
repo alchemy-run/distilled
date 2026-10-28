@@ -198,6 +198,12 @@ describe("Form encoding (POST /v1)", () => {
     expect(requests[0]!.url.pathname).toBe("/v1/products/prod%2F1%202");
     expect(requests[0]!.body._tag).toBe("Empty");
   });
+
+  test("an empty label fails with InvalidInput and sends nothing", async () => {
+    const { result, requests } = run(Effect.flip(DeleteProduct({ id: "" })));
+    expect((await result)._tag).toBe("InvalidInput");
+    expect(requests).toEqual([]);
+  });
 });
 
 describe("Query encoding (GET /v1)", () => {
