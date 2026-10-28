@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Neon
  * Effect SDK.
@@ -8,14 +8,14 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/neon.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Neon's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Neon's provider spec.
  * Neon keeps the wire's snake_case member names on the TS surface (v0
  * parity — the distilled v0 Neon SDK and its alchemy consumers use
  * snake_case fields), so no member renaming or wire dictionaries appear
  * here.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { JSON_PRELUDE, TS_JSON_PRELUDE } from "@distilled.cloud/core/codegen/prelude";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { JSON_PRELUDE, TS_JSON_PRELUDE } from "@distilled.cloud/dev/codegen/prelude";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -133,6 +133,7 @@ const neonSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Neon Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.

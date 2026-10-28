@@ -36,6 +36,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   updatedAt: "updated_at",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Connectivity",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -408,6 +422,8 @@ export const createDirectoryService: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDirectoryService",
 }));
 
 export type DeleteDirectoryServiceError = VpcServiceNotFound | Forbidden | CloudflareOpError;
@@ -423,6 +439,8 @@ export const deleteDirectoryService: API.OperationMethod<
   errors: [VpcServiceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDirectoryService",
 }));
 
 export type GetDirectoryServiceError = VpcServiceNotFound | Forbidden | CloudflareOpError;
@@ -438,6 +456,8 @@ export const getDirectoryService: API.OperationMethod<
   errors: [VpcServiceNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDirectoryService",
 }));
 
 export type ListDirectoryServicesError = Forbidden | CloudflareOpError;
@@ -455,6 +475,8 @@ export const listDirectoryServices: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDirectoryServices",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -491,6 +513,8 @@ export const updateDirectoryService: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDirectoryService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -85,6 +86,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://states.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SFN",
+  service: "SFN",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ActivityAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<ActivityAlreadyExists>()("ActivityAlreadyExists", {
@@ -1239,6 +1255,8 @@ export const createActivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActivity",
+  telemetry: TELEMETRY,
+  span: "CreateActivity",
 }));
 
 export type CreateStateMachineError =
@@ -1310,6 +1328,8 @@ export const createStateMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStateMachine",
+  telemetry: TELEMETRY,
+  span: "CreateStateMachine",
 }));
 
 export type CreateStateMachineAliasError =
@@ -1372,6 +1392,8 @@ export const createStateMachineAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStateMachineAlias",
+  telemetry: TELEMETRY,
+  span: "CreateStateMachineAlias",
 }));
 
 export type DeleteActivityError = InvalidArn | CommonErrors;
@@ -1390,6 +1412,11 @@ export const deleteActivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivity",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteActivity",
+    input: { activityArn: [{ name: "aws.step_functions.activity.arn" }] },
+  },
 }));
 
 export type DeleteStateMachineError = InvalidArn | ValidationException | CommonErrors;
@@ -1429,6 +1456,11 @@ export const deleteStateMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateMachine",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteStateMachine",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 }));
 
 export type DeleteStateMachineAliasError =
@@ -1466,6 +1498,8 @@ export const deleteStateMachineAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateMachineAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteStateMachineAlias",
 }));
 
 export type DeleteStateMachineVersionError =
@@ -1500,6 +1534,8 @@ export const deleteStateMachineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateMachineVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteStateMachineVersion",
 }));
 
 export type DescribeActivityError = ActivityDoesNotExist | InvalidArn | CommonErrors;
@@ -1520,6 +1556,11 @@ export const describeActivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActivity",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeActivity",
+    input: { activityArn: [{ name: "aws.step_functions.activity.arn" }] },
+  },
 }));
 
 export type DescribeExecutionError =
@@ -1557,6 +1598,8 @@ export const describeExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeExecution",
 }));
 
 export type DescribeMapRunError = InvalidArn | ResourceNotFound | CommonErrors;
@@ -1575,6 +1618,8 @@ export const describeMapRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMapRun",
+  telemetry: TELEMETRY,
+  span: "DescribeMapRun",
 }));
 
 export type DescribeStateMachineError =
@@ -1630,6 +1675,11 @@ export const describeStateMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStateMachine",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DescribeStateMachine",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 }));
 
 export type DescribeStateMachineAliasError =
@@ -1662,6 +1712,8 @@ export const describeStateMachineAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStateMachineAlias",
+  telemetry: TELEMETRY,
+  span: "DescribeStateMachineAlias",
 }));
 
 export type DescribeStateMachineForExecutionError =
@@ -1699,6 +1751,8 @@ export const describeStateMachineForExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStateMachineForExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeStateMachineForExecution",
 }));
 
 export type GetActivityTaskError =
@@ -1743,6 +1797,11 @@ export const getActivityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActivityTask",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetActivityTask",
+    input: { activityArn: [{ name: "aws.step_functions.activity.arn" }] },
+  },
 }));
 
 export type GetExecutionHistoryError =
@@ -1789,6 +1848,8 @@ export const getExecutionHistory: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetExecutionHistory",
 })) as any;
 
 export type ListActivitiesError = InvalidToken | CommonErrors;
@@ -1819,6 +1880,8 @@ export const listActivities: API.PaginatedOperationMethod<
     items: "activities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActivities",
 })) as any;
 
 export type ListExecutionsError =
@@ -1869,6 +1932,11 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListExecutions",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 })) as any;
 
 export type ListMapRunsError = ExecutionDoesNotExist | InvalidArn | InvalidToken | CommonErrors;
@@ -1894,6 +1962,8 @@ export const listMapRuns: API.PaginatedOperationMethod<
     items: "mapRuns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMapRuns",
 })) as any;
 
 export type ListStateMachineAliasesError =
@@ -1939,6 +2009,11 @@ export const listStateMachineAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStateMachineAliases",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListStateMachineAliases",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 }));
 
 export type ListStateMachinesError = InvalidToken | CommonErrors;
@@ -1969,6 +2044,8 @@ export const listStateMachines: API.PaginatedOperationMethod<
     items: "stateMachines",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStateMachines",
 })) as any;
 
 export type ListStateMachineVersionsError =
@@ -2002,6 +2079,11 @@ export const listStateMachineVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStateMachineVersions",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListStateMachineVersions",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 }));
 
 export type ListTagsForResourceError = InvalidArn | ResourceNotFound | CommonErrors;
@@ -2022,6 +2104,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PublishStateMachineVersionError =
@@ -2072,6 +2156,11 @@ export const publishStateMachineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishStateMachineVersion",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PublishStateMachineVersion",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 }));
 
 export type RedriveExecutionError =
@@ -2120,6 +2209,8 @@ export const redriveExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedriveExecution",
+  telemetry: TELEMETRY,
+  span: "RedriveExecution",
 }));
 
 export type SendTaskFailureError =
@@ -2157,6 +2248,8 @@ export const sendTaskFailure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTaskFailure",
+  telemetry: TELEMETRY,
+  span: "SendTaskFailure",
 }));
 
 export type SendTaskHeartbeatError = InvalidToken | TaskDoesNotExist | TaskTimedOut | CommonErrors;
@@ -2188,6 +2281,8 @@ export const sendTaskHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTaskHeartbeat",
+  telemetry: TELEMETRY,
+  span: "SendTaskHeartbeat",
 }));
 
 export type SendTaskSuccessError =
@@ -2224,6 +2319,8 @@ export const sendTaskSuccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTaskSuccess",
+  telemetry: TELEMETRY,
+  span: "SendTaskSuccess",
 }));
 
 export type StartExecutionError =
@@ -2299,6 +2396,11 @@ export const startExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExecution",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartExecution",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 }));
 
 export type StartSyncExecutionError =
@@ -2345,6 +2447,11 @@ export const startSyncExecution: API.OperationMethod<
   retry: Retry,
   operationName: "StartSyncExecution",
   endpointHostPrefix: "sync-",
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartSyncExecution",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 }));
 
 export type StopExecutionError =
@@ -2383,6 +2490,8 @@ export const stopExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExecution",
+  telemetry: TELEMETRY,
+  span: "StopExecution",
 }));
 
 export type TagResourceError = InvalidArn | ResourceNotFound | TooManyTags | CommonErrors;
@@ -2408,6 +2517,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestStateError =
@@ -2459,6 +2570,8 @@ export const testState: API.OperationMethod<
   retry: Retry,
   operationName: "TestState",
   endpointHostPrefix: "sync-",
+  telemetry: TELEMETRY,
+  span: "TestState",
 }));
 
 export type UntagResourceError = InvalidArn | ResourceNotFound | CommonErrors;
@@ -2477,6 +2590,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMapRunError = InvalidArn | ResourceNotFound | ValidationException | CommonErrors;
@@ -2495,6 +2610,8 @@ export const updateMapRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMapRun",
+  telemetry: TELEMETRY,
+  span: "UpdateMapRun",
 }));
 
 export type UpdateStateMachineError =
@@ -2578,6 +2695,11 @@ export const updateStateMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStateMachine",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateStateMachine",
+    input: { stateMachineArn: [{ name: "aws.step_functions.state_machine.arn" }] },
+  },
 }));
 
 export type UpdateStateMachineAliasError =
@@ -2630,6 +2752,8 @@ export const updateStateMachineAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStateMachineAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateStateMachineAlias",
 }));
 
 export type ValidateStateMachineDefinitionError = ValidationException | CommonErrors;
@@ -2679,6 +2803,8 @@ export const validateStateMachineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateStateMachineDefinition",
+  telemetry: TELEMETRY,
+  span: "ValidateStateMachineDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

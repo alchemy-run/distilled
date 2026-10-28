@@ -110,7 +110,7 @@ const loadToken = (loginSession: string): Effect.Effect<LoginToken, CredentialSo
 /** Best effort: failing to update the cache does not invalidate the token. */
 const saveToken = (loginSession: string, token: LoginToken) => {
   const path = tokenFilePath(loginSession);
-  return Effect.promise(() =>
+  return Effect.tryPromise(() =>
     mkdir(dirname(path), { recursive: true }).then(() =>
       writeFile(path, JSON.stringify(token, null, 2), "utf8"),
     ),
@@ -270,23 +270,36 @@ const refresh = (
       ),
       withDpop(proof),
       withHttpClient,
-      Effect.map((response) => {
+      Effect.flatMap((response) => {
         // The payload-bound `tokenOutput` member is not re-wrapped when the
         // response is decoded, so the operation resolves with the payload
         // itself; accept either shape.
         const output = response.tokenOutput ?? response;
+        // Lenient response validation passes a malformed body through as read.
+        const accessToken = output.accessToken as Partial<typeof output.accessToken> | undefined;
+        const expiry = new Date(Date.now() + (output.expiresIn || 900) * 1000);
+        if (
+          typeof accessToken?.accessKeyId !== "string" ||
+          typeof accessToken.secretAccessKey !== "string" ||
+          typeof accessToken.sessionToken !== "string" ||
+          Number.isNaN(expiry.getTime())
+        ) {
+          return Effect.fail(
+            invalidToken("The signin service returned a malformed token response."),
+          );
+        }
         const updated: LoginToken = {
           ...token,
           accessToken: {
             ...token.accessToken,
-            accessKeyId: output.accessToken.accessKeyId,
-            secretAccessKey: output.accessToken.secretAccessKey,
-            sessionToken: output.accessToken.sessionToken,
-            expiresAt: new Date(Date.now() + (output.expiresIn || 900) * 1000).toISOString(),
+            accessKeyId: accessToken.accessKeyId,
+            secretAccessKey: accessToken.secretAccessKey,
+            sessionToken: accessToken.sessionToken,
+            expiresAt: expiry.toISOString(),
           },
           refreshToken: unredact(output.refreshToken),
         };
-        return updated;
+        return Effect.succeed(updated);
       }),
       Effect.catch((cause) =>
         cause._tag === "AccessDeniedException"

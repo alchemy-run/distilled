@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { S2OpError, S2OpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "s2-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "S2",
+  service: "AccessTokens",
+  labels: "s2",
+  propagate: "w3c",
+} as const;
+
 /** Match only the resource with this exact name. Use an empty string to match no resources. */
 export interface ResourceSetCase0 {
   /** Match only the resource with this exact name. Use an empty string to match no resources. */
@@ -128,6 +141,8 @@ export const issueAccessToken: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssueAccessToken",
 }));
 
 export type ListAccessTokensError = S2OpError;
@@ -145,6 +160,8 @@ export const listAccessTokens: API.PaginatedOperationMethod<
     errors: [UnknownS2Error],
     protocol: S2Protocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccessTokens",
     pagination: {
       inputToken: "start_after",
       outputToken: "id",
@@ -169,6 +186,8 @@ export const revokeAccessToken: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAccessToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

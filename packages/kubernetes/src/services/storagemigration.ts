@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Storagemigration",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -896,6 +909,8 @@ export const createStoragemigrationV1beta1StorageVersionMigration: API.Operation
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStoragemigrationV1beta1StorageVersionMigration",
 }));
 
 export type CreateStoragemigrationV1StorageVersionMigrationError = KubernetesOpError;
@@ -915,6 +930,8 @@ export const createStoragemigrationV1StorageVersionMigration: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStoragemigrationV1StorageVersionMigration",
 }));
 
 export type DeleteStoragemigrationV1beta1CollectionStorageVersionMigrationError = KubernetesOpError;
@@ -934,6 +951,8 @@ export const deleteStoragemigrationV1beta1CollectionStorageVersionMigration: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStoragemigrationV1beta1CollectionStorageVersionMigration",
 }));
 
 export type DeleteStoragemigrationV1beta1StorageVersionMigrationError =
@@ -956,6 +975,8 @@ export const deleteStoragemigrationV1beta1StorageVersionMigration: API.Operation
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStoragemigrationV1beta1StorageVersionMigration",
 }));
 
 export type DeleteStoragemigrationV1CollectionStorageVersionMigrationError = KubernetesOpError;
@@ -975,6 +996,8 @@ export const deleteStoragemigrationV1CollectionStorageVersionMigration: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStoragemigrationV1CollectionStorageVersionMigration",
 }));
 
 export type DeleteStoragemigrationV1StorageVersionMigrationError = KubernetesOpError;
@@ -994,6 +1017,8 @@ export const deleteStoragemigrationV1StorageVersionMigration: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStoragemigrationV1StorageVersionMigration",
 }));
 
 export type GetStoragemigrationAPIGroupError = KubernetesOpError;
@@ -1009,6 +1034,8 @@ export const getStoragemigrationAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStoragemigrationAPIGroup",
 }));
 
 export type GetStoragemigrationV1APIResourcesError = KubernetesOpError;
@@ -1024,6 +1051,8 @@ export const getStoragemigrationV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStoragemigrationV1APIResources",
 }));
 
 export type GetStoragemigrationV1beta1APIResourcesError = KubernetesOpError;
@@ -1039,6 +1068,8 @@ export const getStoragemigrationV1beta1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStoragemigrationV1beta1APIResources",
 }));
 
 export type ListStoragemigrationV1beta1StorageVersionMigrationError = KubernetesOpError;
@@ -1062,6 +1093,8 @@ export const listStoragemigrationV1beta1StorageVersionMigration: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStoragemigrationV1beta1StorageVersionMigration",
 }));
 
 export type ListStoragemigrationV1StorageVersionMigrationError = KubernetesOpError;
@@ -1081,6 +1114,8 @@ export const listStoragemigrationV1StorageVersionMigration: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStoragemigrationV1StorageVersionMigration",
 }));
 
 export type PatchStoragemigrationV1beta1StorageVersionMigrationError =
@@ -1108,6 +1143,8 @@ export const patchStoragemigrationV1beta1StorageVersionMigration: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStoragemigrationV1beta1StorageVersionMigration",
 }));
 
 export type PatchStoragemigrationV1beta1StorageVersionMigrationStatusError =
@@ -1135,6 +1172,8 @@ export const patchStoragemigrationV1beta1StorageVersionMigrationStatus: API.Oper
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStoragemigrationV1beta1StorageVersionMigrationStatus",
 }));
 
 export type PatchStoragemigrationV1StorageVersionMigrationError = KubernetesOpError;
@@ -1154,6 +1193,8 @@ export const patchStoragemigrationV1StorageVersionMigration: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStoragemigrationV1StorageVersionMigration",
 }));
 
 export type PatchStoragemigrationV1StorageVersionMigrationStatusError = KubernetesOpError;
@@ -1173,6 +1214,8 @@ export const patchStoragemigrationV1StorageVersionMigrationStatus: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchStoragemigrationV1StorageVersionMigrationStatus",
 }));
 
 export type ReadStoragemigrationV1beta1StorageVersionMigrationError = NotFound | KubernetesOpError;
@@ -1196,6 +1239,8 @@ export const readStoragemigrationV1beta1StorageVersionMigration: API.OperationMe
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStoragemigrationV1beta1StorageVersionMigration",
 }));
 
 export type ReadStoragemigrationV1beta1StorageVersionMigrationStatusError =
@@ -1221,6 +1266,8 @@ export const readStoragemigrationV1beta1StorageVersionMigrationStatus: API.Opera
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStoragemigrationV1beta1StorageVersionMigrationStatus",
 }));
 
 export type ReadStoragemigrationV1StorageVersionMigrationError = KubernetesOpError;
@@ -1240,6 +1287,8 @@ export const readStoragemigrationV1StorageVersionMigration: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStoragemigrationV1StorageVersionMigration",
 }));
 
 export type ReadStoragemigrationV1StorageVersionMigrationStatusError = KubernetesOpError;
@@ -1259,6 +1308,8 @@ export const readStoragemigrationV1StorageVersionMigrationStatus: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadStoragemigrationV1StorageVersionMigrationStatus",
 }));
 
 export type ReplaceStoragemigrationV1beta1StorageVersionMigrationError =
@@ -1286,6 +1337,8 @@ export const replaceStoragemigrationV1beta1StorageVersionMigration: API.Operatio
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStoragemigrationV1beta1StorageVersionMigration",
 }));
 
 export type ReplaceStoragemigrationV1beta1StorageVersionMigrationStatusError =
@@ -1313,6 +1366,8 @@ export const replaceStoragemigrationV1beta1StorageVersionMigrationStatus: API.Op
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStoragemigrationV1beta1StorageVersionMigrationStatus",
 }));
 
 export type ReplaceStoragemigrationV1StorageVersionMigrationError = KubernetesOpError;
@@ -1332,6 +1387,8 @@ export const replaceStoragemigrationV1StorageVersionMigration: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStoragemigrationV1StorageVersionMigration",
 }));
 
 export type ReplaceStoragemigrationV1StorageVersionMigrationStatusError = KubernetesOpError;
@@ -1351,6 +1408,8 @@ export const replaceStoragemigrationV1StorageVersionMigrationStatus: API.Operati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceStoragemigrationV1StorageVersionMigrationStatus",
 }));
 
 export type WatchStoragemigrationV1beta1StorageVersionMigrationError = KubernetesOpError;
@@ -1370,6 +1429,8 @@ export const watchStoragemigrationV1beta1StorageVersionMigration: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStoragemigrationV1beta1StorageVersionMigration",
 }));
 
 export type WatchStoragemigrationV1beta1StorageVersionMigrationListError = KubernetesOpError;
@@ -1389,6 +1450,8 @@ export const watchStoragemigrationV1beta1StorageVersionMigrationList: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStoragemigrationV1beta1StorageVersionMigrationList",
 }));
 
 export type WatchStoragemigrationV1StorageVersionMigrationError = KubernetesOpError;
@@ -1408,6 +1471,8 @@ export const watchStoragemigrationV1StorageVersionMigration: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStoragemigrationV1StorageVersionMigration",
 }));
 
 export type WatchStoragemigrationV1StorageVersionMigrationListError = KubernetesOpError;
@@ -1427,6 +1492,8 @@ export const watchStoragemigrationV1StorageVersionMigrationList: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchStoragemigrationV1StorageVersionMigrationList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

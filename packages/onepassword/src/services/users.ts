@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { OnepasswordOpError, UsersOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "onepassword-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "OnePassword",
+  service: "OnepasswordUsers",
+  labels: "onepassword",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -107,6 +120,8 @@ export const getUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: UsersProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type ListUsersError = BadRequest | Forbidden | NotFound | OnepasswordOpError;
@@ -124,6 +139,8 @@ export const listUsers: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
     protocol: UsersProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUsers",
     pagination: {
       inputToken: "page_token",
       outputToken: "next_page_token",
@@ -148,6 +165,8 @@ export const reactivateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: UsersProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactivateUser",
 }));
 
 export type SuspendUserError = BadRequest | Forbidden | NotFound | OnepasswordOpError;
@@ -163,6 +182,8 @@ export const suspendUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: UsersProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

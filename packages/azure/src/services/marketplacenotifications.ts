@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.MarketplaceNotifications" },
+  prefix: "Marketplacenotifications",
+  service: "Marketplacenotifications",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface GetNotificationRequest {
   /** user's subscription id */
   subscription: string;
@@ -167,6 +187,8 @@ export const GetNotification: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotification",
 }));
 
 export type GetNotificationOperationsError = AzureOpError;
@@ -181,6 +203,8 @@ export const GetNotificationOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNotificationOperations",
 }));
 
 export type ListNotificationsError = AzureOpError;
@@ -195,6 +219,8 @@ export const ListNotifications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotifications",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

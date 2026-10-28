@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * ArchilProtocol -- hand-written.
@@ -35,7 +35,8 @@ export type ArchilOpError =
   | UnknownArchilError
   | ConfigError
   | HttpClientError.HttpClientError
-  | ArchilParseError;
+  | ArchilParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Archil operation. */
 export type ArchilOpContext = Credentials | HttpClient.HttpClient;

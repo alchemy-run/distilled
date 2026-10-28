@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -123,6 +124,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53RecoveryControlConfig",
+  service: "Route53RecoveryControlConfig",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -558,6 +573,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateControlPanelError =
@@ -592,6 +609,8 @@ export const createControlPanel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateControlPanel",
+  telemetry: TELEMETRY,
+  span: "CreateControlPanel",
 }));
 
 export type CreateRoutingControlError =
@@ -630,6 +649,8 @@ export const createRoutingControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoutingControl",
+  telemetry: TELEMETRY,
+  span: "CreateRoutingControl",
 }));
 
 export type CreateSafetyRuleError = InternalServerException | ValidationException | CommonErrors;
@@ -656,6 +677,8 @@ export const createSafetyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSafetyRule",
+  telemetry: TELEMETRY,
+  span: "CreateSafetyRule",
 }));
 
 export type DeleteClusterError =
@@ -688,6 +711,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteControlPanelError =
@@ -720,6 +745,8 @@ export const deleteControlPanel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteControlPanel",
+  telemetry: TELEMETRY,
+  span: "DeleteControlPanel",
 }));
 
 export type DeleteRoutingControlError =
@@ -752,6 +779,8 @@ export const deleteRoutingControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoutingControl",
+  telemetry: TELEMETRY,
+  span: "DeleteRoutingControl",
 }));
 
 export type DeleteSafetyRuleError =
@@ -775,6 +804,8 @@ export const deleteSafetyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSafetyRule",
+  telemetry: TELEMETRY,
+  span: "DeleteSafetyRule",
 }));
 
 export type DescribeClusterError =
@@ -807,6 +838,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeControlPanelError =
@@ -839,6 +872,8 @@ export const describeControlPanel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeControlPanel",
+  telemetry: TELEMETRY,
+  span: "DescribeControlPanel",
 }));
 
 export type DescribeRoutingControlError =
@@ -873,6 +908,8 @@ export const describeRoutingControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoutingControl",
+  telemetry: TELEMETRY,
+  span: "DescribeRoutingControl",
 }));
 
 export type DescribeSafetyRuleError =
@@ -894,6 +931,8 @@ export const describeSafetyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSafetyRule",
+  telemetry: TELEMETRY,
+  span: "DescribeSafetyRule",
 }));
 
 export type GetResourcePolicyError =
@@ -915,6 +954,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListAssociatedRoute53HealthChecksError =
@@ -944,6 +985,8 @@ export const listAssociatedRoute53HealthChecks: API.PaginatedOperationMethod<
     items: "HealthCheckIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedRoute53HealthChecks",
 })) as any;
 
 export type ListClustersError =
@@ -981,6 +1024,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListControlPanelsError =
@@ -1018,6 +1063,8 @@ export const listControlPanels: API.PaginatedOperationMethod<
     items: "ControlPanels",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListControlPanels",
 })) as any;
 
 export type ListRoutingControlsError =
@@ -1055,6 +1102,8 @@ export const listRoutingControls: API.PaginatedOperationMethod<
     items: "RoutingControls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoutingControls",
 })) as any;
 
 export type ListSafetyRulesError =
@@ -1092,6 +1141,8 @@ export const listSafetyRules: API.PaginatedOperationMethod<
     items: "SafetyRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSafetyRules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1114,6 +1165,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1136,6 +1189,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1158,6 +1213,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateClusterError =
@@ -1190,6 +1247,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateControlPanelError =
@@ -1222,6 +1281,8 @@ export const updateControlPanel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateControlPanel",
+  telemetry: TELEMETRY,
+  span: "UpdateControlPanel",
 }));
 
 export type UpdateRoutingControlError =
@@ -1254,6 +1315,8 @@ export const updateRoutingControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingControl",
+  telemetry: TELEMETRY,
+  span: "UpdateRoutingControl",
 }));
 
 export type UpdateSafetyRuleError =
@@ -1276,6 +1339,8 @@ export const updateSafetyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSafetyRule",
+  telemetry: TELEMETRY,
+  span: "UpdateSafetyRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

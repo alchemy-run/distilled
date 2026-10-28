@@ -1,4 +1,4 @@
-import { runValidationModes } from "@distilled.cloud/core/testing";
+import { runValidationModes } from "@distilled.cloud/dev/testing";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
@@ -178,6 +178,42 @@ describe("Container applications, one response type per scheduling policy", () =
         environment_variables: [{ name: "MODE", value: "prod" }],
       },
       constraints: { regions: ["WNAM"] },
+    });
+  });
+
+  // The API rejects camelCase network keys: `unrecognized key: "assignipv4"`.
+  test("sends and decodes network in wire names", async () => {
+    let sent: { configuration?: unknown } | undefined;
+    const network = { assign_ipv4: "none", assign_ipv6: "none", mode: "private" };
+    const { strict } = await runValidationModes(
+      createContainerApplication({
+        accountId: "account",
+        name: "fleet",
+        maxInstances: 5,
+        configuration: {
+          image: "registry.cloudflare.com/account/app:1",
+          network: { assignIpv4: "none", assignIpv6: "none", mode: "private" },
+        },
+      }).pipe(Retry.none, withCredentials),
+      (request) => {
+        sent = bodyOf(request);
+        return {
+          body: envelope({
+            ...scheduledApp,
+            configuration: { ...scheduledApp.configuration, network },
+          }),
+        };
+      },
+    );
+    expect(sent?.configuration).toEqual({
+      image: "registry.cloudflare.com/account/app:1",
+      network,
+    });
+    expect(strict).toMatchObject({
+      _tag: "Success",
+      success: {
+        configuration: { network: { assignIpv4: "none", assignIpv6: "none", mode: "private" } },
+      },
     });
   });
 });

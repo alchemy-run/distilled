@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -80,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://access-analyzer.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AccessAnalyzer",
+  service: "AccessAnalyzer",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1407,6 +1422,8 @@ export const applyArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyArchiveRule",
+  telemetry: TELEMETRY,
+  span: "ApplyArchiveRule",
 }));
 
 export type CancelPolicyGenerationError =
@@ -1435,6 +1452,8 @@ export const cancelPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPolicyGeneration",
+  telemetry: TELEMETRY,
+  span: "CancelPolicyGeneration",
 }));
 
 export type CheckAccessNotGrantedError =
@@ -1467,6 +1486,8 @@ export const checkAccessNotGranted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckAccessNotGranted",
+  telemetry: TELEMETRY,
+  span: "CheckAccessNotGranted",
 }));
 
 export type CheckNoNewAccessError =
@@ -1501,6 +1522,8 @@ export const checkNoNewAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckNoNewAccess",
+  telemetry: TELEMETRY,
+  span: "CheckNoNewAccess",
 }));
 
 export type CheckNoPublicAccessError =
@@ -1533,6 +1556,8 @@ export const checkNoPublicAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckNoPublicAccess",
+  telemetry: TELEMETRY,
+  span: "CheckNoPublicAccess",
 }));
 
 export type CreateAccessPreviewError =
@@ -1567,6 +1592,8 @@ export const createAccessPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPreview",
+  telemetry: TELEMETRY,
+  span: "CreateAccessPreview",
 }));
 
 export type CreateAnalyzerError =
@@ -1599,6 +1626,8 @@ export const createAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnalyzer",
+  telemetry: TELEMETRY,
+  span: "CreateAnalyzer",
 }));
 
 export type CreateArchiveRuleError =
@@ -1635,6 +1664,8 @@ export const createArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchiveRule",
+  telemetry: TELEMETRY,
+  span: "CreateArchiveRule",
 }));
 
 export type CreateServiceLinkedAnalyzerError =
@@ -1669,6 +1700,8 @@ export const createServiceLinkedAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLinkedAnalyzer",
+  telemetry: TELEMETRY,
+  span: "CreateServiceLinkedAnalyzer",
 }));
 
 export type DeleteAnalyzerError =
@@ -1699,6 +1732,8 @@ export const deleteAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalyzer",
+  telemetry: TELEMETRY,
+  span: "DeleteAnalyzer",
 }));
 
 export type DeleteArchiveRuleError =
@@ -1729,6 +1764,8 @@ export const deleteArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchiveRule",
+  telemetry: TELEMETRY,
+  span: "DeleteArchiveRule",
 }));
 
 export type DeleteServiceLinkedAnalyzerError =
@@ -1763,6 +1800,8 @@ export const deleteServiceLinkedAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedAnalyzer",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceLinkedAnalyzer",
 }));
 
 export type GenerateFindingRecommendationError =
@@ -1791,6 +1830,8 @@ export const generateFindingRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateFindingRecommendation",
+  telemetry: TELEMETRY,
+  span: "GenerateFindingRecommendation",
 }));
 
 export type GetAccessPreviewError =
@@ -1821,6 +1862,8 @@ export const getAccessPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPreview",
+  telemetry: TELEMETRY,
+  span: "GetAccessPreview",
 }));
 
 export type GetAnalyzedResourceError =
@@ -1853,6 +1896,8 @@ export const getAnalyzedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalyzedResource",
+  telemetry: TELEMETRY,
+  span: "GetAnalyzedResource",
 }));
 
 export type GetAnalyzerError =
@@ -1883,6 +1928,8 @@ export const getAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalyzer",
+  telemetry: TELEMETRY,
+  span: "GetAnalyzer",
 }));
 
 export type GetArchiveRuleError =
@@ -1915,6 +1962,8 @@ export const getArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveRule",
+  telemetry: TELEMETRY,
+  span: "GetArchiveRule",
 }));
 
 export type GetFindingError =
@@ -1947,6 +1996,8 @@ export const getFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFinding",
+  telemetry: TELEMETRY,
+  span: "GetFinding",
 }));
 
 export type GetFindingRecommendationError =
@@ -1984,6 +2035,8 @@ export const getFindingRecommendation: API.PaginatedOperationMethod<
     items: "recommendedSteps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingRecommendation",
 })) as any;
 
 export type GetFindingsStatisticsError =
@@ -2014,6 +2067,8 @@ export const getFindingsStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsStatistics",
+  telemetry: TELEMETRY,
+  span: "GetFindingsStatistics",
 }));
 
 export type GetFindingV2Error =
@@ -2051,6 +2106,8 @@ export const getFindingV2: API.PaginatedOperationMethod<
     items: "findingDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingV2",
 })) as any;
 
 export type GetGeneratedPolicyError =
@@ -2079,6 +2136,8 @@ export const getGeneratedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeneratedPolicy",
+  telemetry: TELEMETRY,
+  span: "GetGeneratedPolicy",
 }));
 
 export type ListAccessPreviewFindingsError =
@@ -2118,6 +2177,8 @@ export const listAccessPreviewFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPreviewFindings",
 })) as any;
 
 export type ListAccessPreviewsError =
@@ -2155,6 +2216,8 @@ export const listAccessPreviews: API.PaginatedOperationMethod<
     items: "accessPreviews",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPreviews",
 })) as any;
 
 export type ListAnalyzedResourcesError =
@@ -2192,6 +2255,8 @@ export const listAnalyzedResources: API.PaginatedOperationMethod<
     items: "analyzedResources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalyzedResources",
 })) as any;
 
 export type ListAnalyzersError =
@@ -2227,6 +2292,8 @@ export const listAnalyzers: API.PaginatedOperationMethod<
     items: "analyzers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnalyzers",
 })) as any;
 
 export type ListArchiveRulesError =
@@ -2262,6 +2329,8 @@ export const listArchiveRules: API.PaginatedOperationMethod<
     items: "archiveRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArchiveRules",
 })) as any;
 
 export type ListFindingsError =
@@ -2303,6 +2372,8 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListFindingsV2Error =
@@ -2342,6 +2413,8 @@ export const listFindingsV2: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindingsV2",
 })) as any;
 
 export type ListPolicyGenerationsError =
@@ -2377,6 +2450,8 @@ export const listPolicyGenerations: API.PaginatedOperationMethod<
     items: "policyGenerations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyGenerations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2407,6 +2482,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartPolicyGenerationError =
@@ -2439,6 +2516,8 @@ export const startPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPolicyGeneration",
+  telemetry: TELEMETRY,
+  span: "StartPolicyGeneration",
 }));
 
 export type StartResourceScanError =
@@ -2471,6 +2550,8 @@ export const startResourceScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceScan",
+  telemetry: TELEMETRY,
+  span: "StartResourceScan",
 }));
 
 export type TagResourceError =
@@ -2501,6 +2582,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2531,6 +2614,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAnalyzerError =
@@ -2565,6 +2650,8 @@ export const updateAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalyzer",
+  telemetry: TELEMETRY,
+  span: "UpdateAnalyzer",
 }));
 
 export type UpdateArchiveRuleError =
@@ -2595,6 +2682,8 @@ export const updateArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchiveRule",
+  telemetry: TELEMETRY,
+  span: "UpdateArchiveRule",
 }));
 
 export type UpdateFindingsError =
@@ -2625,6 +2714,8 @@ export const updateFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindings",
+  telemetry: TELEMETRY,
+  span: "UpdateFindings",
 }));
 
 export type ValidatePolicyError =
@@ -2660,6 +2751,8 @@ export const validatePolicy: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ValidatePolicy",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

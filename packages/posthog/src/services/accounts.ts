@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Accounts",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface AccountsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -561,6 +574,8 @@ export const accountsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsDestroy",
 }));
 
 export type CreateAccountError = PosthogOpError;
@@ -575,6 +590,8 @@ export const createAccount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type CreateAccountsPresenceError = PosthogOpError;
@@ -589,6 +606,8 @@ export const createAccountsPresence: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsPresence",
 }));
 
 export type GetAccountError = PosthogOpError;
@@ -603,6 +622,8 @@ export const getAccount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountsByExternalIdError = PosthogOpError;
@@ -617,6 +638,8 @@ export const getAccountsByExternalId: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsByExternalId",
 }));
 
 export type ListAccountsError = PosthogOpError;
@@ -631,6 +654,8 @@ export const listAccounts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 }));
 
 export type ListAccountsEmailThreadMessagesError = PosthogOpError;
@@ -645,6 +670,8 @@ export const listAccountsEmailThreadMessages: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsEmailThreadMessages",
 }));
 
 export type ListAccountsEmailThreadsError = PosthogOpError;
@@ -659,6 +686,8 @@ export const listAccountsEmailThreads: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsEmailThreads",
 }));
 
 export type ListAccountsMeetingsError = PosthogOpError;
@@ -673,6 +702,8 @@ export const listAccountsMeetings: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsMeetings",
 }));
 
 export type ListAccountsPresenceError = PosthogOpError;
@@ -687,6 +718,8 @@ export const listAccountsPresence: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsPresence",
 }));
 
 export type ListAccountsSummariesError = PosthogOpError;
@@ -701,6 +734,8 @@ export const listAccountsSummaries: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsSummaries",
 }));
 
 export type ListAccountsSupportTicketMessagesError = PosthogOpError;
@@ -715,6 +750,8 @@ export const listAccountsSupportTicketMessages: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsSupportTicketMessages",
 }));
 
 export type ListAccountsSupportTicketsError = PosthogOpError;
@@ -729,6 +766,8 @@ export const listAccountsSupportTickets: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsSupportTickets",
 }));
 
 export type UpdateAccountError = PosthogOpError;
@@ -743,6 +782,8 @@ export const updateAccount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateAccountsPartialError = PosthogOpError;
@@ -757,6 +798,8 @@ export const updateAccountsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

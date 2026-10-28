@@ -1,0 +1,63 @@
+{
+  "description": "GitHub GraphQL error types. GitHub reports an error's code as a top-level `type` (moved to `extensions.code` by src/graphql-transport.ts). These types apply throughout the graph: any node lookup can miss, and any field can be forbidden to the token.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/GitHubNotFound",
+      "value": {
+        "description": "The node, or something the query refers to, does not exist or the token cannot see it.",
+        "category": "notFound",
+        "matchers": [{ "code": "NOT_FOUND" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/GitHubForbidden",
+      "value": {
+        "description": "The token lacks the permission the field or mutation requires.",
+        "category": "auth",
+        "matchers": [{ "code": "FORBIDDEN" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/GitHubUnprocessable",
+      "value": {
+        "description": "GitHub refused the mutation for the object's current state, e.g. a draft transition on a closed pull request.",
+        "category": "badRequest",
+        "matchers": [{ "code": "UNPROCESSABLE" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/GitHubRateLimited",
+      "value": {
+        "description": "The token's GraphQL rate limit is exhausted.",
+        "category": "throttling",
+        "retryable": true,
+        "matchers": [{ "code": "RATE_LIMITED" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/GitHubInternalError",
+      "value": {
+        "description": "GitHub failed to resolve the query.",
+        "category": "server",
+        "retryable": true,
+        "matchers": [{ "code": "INTERNAL" }]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/globalErrors",
+      "value": [
+        "GitHubNotFound",
+        "GitHubForbidden",
+        "GitHubUnprocessable",
+        "GitHubRateLimited",
+        "GitHubInternalError"
+      ]
+    }
+  ]
+}

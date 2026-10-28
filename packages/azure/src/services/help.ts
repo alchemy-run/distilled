@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Help" },
+  prefix: "Help",
+  service: "Help",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckDiagnosticNameAvailabilityRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
   scope: string;
@@ -266,6 +286,11 @@ export const CheckDiagnosticNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CheckDiagnosticNameAvailability",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Help/checkNameAvailability" },
+  },
 }));
 
 export type CreateDiagnosticError = AzureOpError;
@@ -281,6 +306,13 @@ export const CreateDiagnostic: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateDiagnostic",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+    },
+  },
 }));
 
 export type GetDiagnosticError = AzureOpError;
@@ -296,6 +328,13 @@ export const GetDiagnostic: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDiagnostic",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+    },
+  },
 }));
 
 export type ListDiscoverySolutionError = AzureOpError;
@@ -311,6 +350,11 @@ export const ListDiscoverySolution: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDiscoverySolution",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Help/discoverySolutions" },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -326,6 +370,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

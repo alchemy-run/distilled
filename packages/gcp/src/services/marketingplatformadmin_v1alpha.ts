@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "marketingplatformadmin" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Marketingplatformadmin",
+  service: "marketingplatformadmin",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -422,6 +441,8 @@ export const createOrganizationsAdminAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsAdminAccessBindings",
 }));
 
 export type CreateOrganizationsAnalyticsAccountLinksError =
@@ -442,6 +463,8 @@ export const createOrganizationsAnalyticsAccountLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsAnalyticsAccountLinks",
 }));
 
 export type CreateOrganizationsUserGroupsError =
@@ -462,6 +485,8 @@ export const createOrganizationsUserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsUserGroups",
 }));
 
 export type CreateOrganizationsUserGroupsMembersError =
@@ -482,6 +507,8 @@ export const createOrganizationsUserGroupsMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsUserGroupsMembers",
 }));
 
 export type DeleteOrganizationsAnalyticsAccountLinksError =
@@ -502,6 +529,8 @@ export const deleteOrganizationsAnalyticsAccountLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsAnalyticsAccountLinks",
 }));
 
 export type DeleteOrganizationsUserGroupsError =
@@ -522,6 +551,8 @@ export const deleteOrganizationsUserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsUserGroups",
 }));
 
 export type DeleteOrganizationsUserGroupsMembersError =
@@ -542,6 +573,8 @@ export const deleteOrganizationsUserGroupsMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsUserGroupsMembers",
 }));
 
 export type FindSalesPartnerManagedClientsOrganizationsError =
@@ -562,6 +595,8 @@ export const findSalesPartnerManagedClientsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindSalesPartnerManagedClientsOrganizations",
 }));
 
 export type GetOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -577,6 +612,8 @@ export const getOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizations",
 }));
 
 export type GetOrganizationsAdminAccessBindingsError = NotFound | Forbidden | GcpOpError;
@@ -592,6 +629,8 @@ export const getOrganizationsAdminAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsAdminAccessBindings",
 }));
 
 export type GetOrganizationsUserGroupsError = NotFound | Forbidden | GcpOpError;
@@ -607,6 +646,8 @@ export const getOrganizationsUserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsUserGroups",
 }));
 
 export type GetOrganizationsUserGroupsMembersError = NotFound | Forbidden | GcpOpError;
@@ -622,6 +663,8 @@ export const getOrganizationsUserGroupsMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsUserGroupsMembers",
 }));
 
 export type ListOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -638,6 +681,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -655,6 +700,8 @@ export const listOrganizationsAdminAccessBindings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsAdminAccessBindings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -672,6 +719,8 @@ export const listOrganizationsAnalyticsAccountLinks: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsAnalyticsAccountLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -689,6 +738,8 @@ export const listOrganizationsUserGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsUserGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -706,6 +757,8 @@ export const listOrganizationsUserGroupsMembers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsUserGroupsMembers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -727,6 +780,8 @@ export const patchOrganizationsAdminAccessBindings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsAdminAccessBindings",
 }));
 
 export type PatchOrganizationsUserGroupsError =
@@ -747,6 +802,8 @@ export const patchOrganizationsUserGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsUserGroups",
 }));
 
 export type PatchOrganizationsUserGroupsMembersError =
@@ -767,6 +824,8 @@ export const patchOrganizationsUserGroupsMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsUserGroupsMembers",
 }));
 
 export type ReportPropertyUsageOrganizationsError =
@@ -787,6 +846,8 @@ export const reportPropertyUsageOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportPropertyUsageOrganizations",
 }));
 
 export type SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksError =
@@ -811,6 +872,8 @@ export const setPropertyServiceLevelOrganizationsAnalyticsAccountLinks: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPropertyServiceLevelOrganizationsAnalyticsAccountLinks",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.SignalRService" },
+  prefix: "Signalr",
+  service: "Signalr",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckSignalRNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1441,6 +1462,8 @@ export const CheckSignalRNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSignalRNameAvailability",
 }));
 
 export type DeleteSignalRError = AzureOpError;
@@ -1456,6 +1479,8 @@ export const DeleteSignalR: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSignalR",
 }));
 
 export type DeleteSignalRCustomCertificateError = AzureOpError;
@@ -1471,6 +1496,8 @@ export const DeleteSignalRCustomCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSignalRCustomCertificate",
 }));
 
 export type DeleteSignalRCustomDomainError = AzureOpError;
@@ -1486,6 +1513,8 @@ export const DeleteSignalRCustomDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSignalRCustomDomain",
 }));
 
 export type DeleteSignalRPrivateEndpointConnectionError = AzureOpError;
@@ -1501,6 +1530,8 @@ export const DeleteSignalRPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSignalRPrivateEndpointConnection",
 }));
 
 export type DeleteSignalRReplicasError = AzureOpError;
@@ -1516,6 +1547,8 @@ export const DeleteSignalRReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSignalRReplicas",
 }));
 
 export type DeleteSignalRSharedPrivateLinkResourceError = AzureOpError;
@@ -1531,6 +1564,8 @@ export const DeleteSignalRSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSignalRSharedPrivateLinkResource",
 }));
 
 export type GetSignalRError = AzureOpError;
@@ -1546,6 +1581,8 @@ export const GetSignalR: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalR",
 }));
 
 export type GetSignalRCustomCertificateError = AzureOpError;
@@ -1561,6 +1598,8 @@ export const GetSignalRCustomCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalRCustomCertificate",
 }));
 
 export type GetSignalRCustomDomainError = AzureOpError;
@@ -1576,6 +1615,8 @@ export const GetSignalRCustomDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalRCustomDomain",
 }));
 
 export type GetSignalRPrivateEndpointConnectionError = AzureOpError;
@@ -1591,6 +1632,8 @@ export const GetSignalRPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalRPrivateEndpointConnection",
 }));
 
 export type GetSignalRReplicasError = AzureOpError;
@@ -1606,6 +1649,8 @@ export const GetSignalRReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalRReplicas",
 }));
 
 export type GetSignalRReplicaSharedPrivateLinkResourceError = AzureOpError;
@@ -1625,6 +1670,8 @@ export const GetSignalRReplicaSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalRReplicaSharedPrivateLinkResource",
 }));
 
 export type GetSignalRSharedPrivateLinkResourceError = AzureOpError;
@@ -1640,6 +1687,8 @@ export const GetSignalRSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalRSharedPrivateLinkResource",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1655,6 +1704,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSignalRByResourceGroupError = AzureOpError;
@@ -1670,6 +1721,8 @@ export const ListSignalRByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRByResourceGroup",
 }));
 
 export type ListSignalRBySubscriptionError = AzureOpError;
@@ -1685,6 +1738,8 @@ export const ListSignalRBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRBySubscription",
 }));
 
 export type ListSignalRCustomCertificatesError = AzureOpError;
@@ -1700,6 +1755,8 @@ export const ListSignalRCustomCertificates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRCustomCertificates",
 }));
 
 export type ListSignalRCustomDomainsError = AzureOpError;
@@ -1715,6 +1772,8 @@ export const ListSignalRCustomDomains: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRCustomDomains",
 }));
 
 export type ListSignalRKeysError = AzureOpError;
@@ -1730,6 +1789,8 @@ export const ListSignalRKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRKeys",
 }));
 
 export type ListSignalRPrivateEndpointConnectionsError = AzureOpError;
@@ -1745,6 +1806,8 @@ export const ListSignalRPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRPrivateEndpointConnections",
 }));
 
 export type ListSignalRPrivateLinkResourcesError = AzureOpError;
@@ -1760,6 +1823,8 @@ export const ListSignalRPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRPrivateLinkResources",
 }));
 
 export type ListSignalRReplicasError = AzureOpError;
@@ -1775,6 +1840,8 @@ export const ListSignalRReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRReplicas",
 }));
 
 export type ListSignalRReplicaSharedPrivateLinkResourcesError = AzureOpError;
@@ -1790,6 +1857,8 @@ export const ListSignalRReplicaSharedPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRReplicaSharedPrivateLinkResources",
 }));
 
 export type ListSignalRReplicaSkusError = AzureOpError;
@@ -1805,6 +1874,8 @@ export const ListSignalRReplicaSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRReplicaSkus",
 }));
 
 export type ListSignalRSharedPrivateLinkResourcesError = AzureOpError;
@@ -1820,6 +1891,8 @@ export const ListSignalRSharedPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRSharedPrivateLinkResources",
 }));
 
 export type ListSignalRSkusError = AzureOpError;
@@ -1835,6 +1908,8 @@ export const ListSignalRSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalRSkus",
 }));
 
 export type ListUsagesError = AzureOpError;
@@ -1850,6 +1925,8 @@ export const ListUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsages",
 }));
 
 export type RegenerateSignalRKeyError = AzureOpError;
@@ -1865,6 +1942,8 @@ export const RegenerateSignalRKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateSignalRKey",
 }));
 
 export type RestartSignalRError = AzureOpError;
@@ -1880,6 +1959,8 @@ export const RestartSignalR: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartSignalR",
 }));
 
 export type RestartSignalRReplicasError = AzureOpError;
@@ -1895,6 +1976,8 @@ export const RestartSignalRReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartSignalRReplicas",
 }));
 
 export type SignalRCreateOrUpdateError = AzureOpError;
@@ -1910,6 +1993,8 @@ export const SignalRCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalRCreateOrUpdate",
 }));
 
 export type SignalRCustomCertificatesCreateOrUpdateError = AzureOpError;
@@ -1925,6 +2010,8 @@ export const SignalRCustomCertificatesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalRCustomCertificatesCreateOrUpdate",
 }));
 
 export type SignalRCustomDomainsCreateOrUpdateError = AzureOpError;
@@ -1940,6 +2027,8 @@ export const SignalRCustomDomainsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalRCustomDomainsCreateOrUpdate",
 }));
 
 export type SignalRReplicasCreateOrUpdateError = AzureOpError;
@@ -1955,6 +2044,8 @@ export const SignalRReplicasCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalRReplicasCreateOrUpdate",
 }));
 
 export type SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateError = AzureOpError;
@@ -1978,6 +2069,8 @@ export const SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdate: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdate",
 }));
 
 export type SignalRSharedPrivateLinkResourcesCreateOrUpdateError = AzureOpError;
@@ -2001,6 +2094,8 @@ export const SignalRSharedPrivateLinkResourcesCreateOrUpdate: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalRSharedPrivateLinkResourcesCreateOrUpdate",
 }));
 
 export type UpdateSignalRError = AzureOpError;
@@ -2016,6 +2111,8 @@ export const UpdateSignalR: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalR",
 }));
 
 export type UpdateSignalRPrivateEndpointConnectionError = AzureOpError;
@@ -2031,6 +2128,8 @@ export const UpdateSignalRPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalRPrivateEndpointConnection",
 }));
 
 export type UpdateSignalRReplicasError = AzureOpError;
@@ -2046,6 +2145,8 @@ export const UpdateSignalRReplicas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSignalRReplicas",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

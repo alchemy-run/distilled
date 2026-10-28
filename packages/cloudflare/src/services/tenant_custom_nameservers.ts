@@ -25,6 +25,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneTag: "zone_tag",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "TenantCustomNameservers",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface CreateTenantCustomNameserverRequest {
   /** Tenant identifier tag. */
   tenantTag: string;
@@ -113,6 +127,8 @@ export const createTenantCustomNameserver: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTenantCustomNameserver",
 }));
 
 export type DeleteTenantCustomNameserverError = CloudflareOpError;
@@ -130,6 +146,8 @@ export const deleteTenantCustomNameserver: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DeleteTenantCustomNameserver",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -150,6 +168,8 @@ export const getTenantCustomNameserver: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetTenantCustomNameserver",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

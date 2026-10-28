@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://evs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "evs",
+  service: "evs",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -660,6 +676,8 @@ export const associateEipToVlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEipToVlan",
+  telemetry: TELEMETRY,
+  span: "AssociateEipToVlan",
 }));
 
 export type CreateEntitlementError =
@@ -682,6 +700,8 @@ export const createEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
+  telemetry: TELEMETRY,
+  span: "CreateEntitlement",
 }));
 
 export type CreateEnvironmentError = ValidationException | CommonErrors;
@@ -708,6 +728,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateEnvironmentConnectorError =
@@ -734,6 +756,8 @@ export const createEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentConnector",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentConnector",
 }));
 
 export type CreateEnvironmentHostError = ThrottlingException | ValidationException | CommonErrors;
@@ -762,6 +786,8 @@ export const createEnvironmentHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentHost",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentHost",
 }));
 
 export type DeleteEntitlementError =
@@ -784,6 +810,8 @@ export const deleteEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
+  telemetry: TELEMETRY,
+  span: "DeleteEntitlement",
 }));
 
 export type DeleteEnvironmentError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -806,6 +834,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEnvironmentConnectorError =
@@ -830,6 +860,8 @@ export const deleteEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentConnector",
 }));
 
 export type DeleteEnvironmentHostError =
@@ -853,6 +885,8 @@ export const deleteEnvironmentHost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentHost",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentHost",
 }));
 
 export type DisassociateEipFromVlanError =
@@ -875,6 +909,8 @@ export const disassociateEipFromVlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEipFromVlan",
+  telemetry: TELEMETRY,
+  span: "DisassociateEipFromVlan",
 }));
 
 export type GetAccountSettingsError =
@@ -897,6 +933,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetDepotUrlError =
@@ -921,6 +959,8 @@ export const getDepotUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDepotUrl",
+  telemetry: TELEMETRY,
+  span: "GetDepotUrl",
 }));
 
 export type GetEnvironmentError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -939,6 +979,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetVersionsError = InternalServerException | ThrottlingException | CommonErrors;
@@ -957,6 +999,8 @@ export const getVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVersions",
+  telemetry: TELEMETRY,
+  span: "GetVersions",
 }));
 
 export type ListEnvironmentConnectorsError =
@@ -985,6 +1029,8 @@ export const listEnvironmentConnectors: API.PaginatedOperationMethod<
     items: "connectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentConnectors",
 })) as any;
 
 export type ListEnvironmentHostsError =
@@ -1013,6 +1059,8 @@ export const listEnvironmentHosts: API.PaginatedOperationMethod<
     items: "environmentHosts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentHosts",
 })) as any;
 
 export type ListEnvironmentsError = ValidationException | CommonErrors;
@@ -1038,6 +1086,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environmentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListEnvironmentVlansError =
@@ -1066,6 +1116,8 @@ export const listEnvironmentVlans: API.PaginatedOperationMethod<
     items: "environmentVlans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentVlans",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1084,6 +1136,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVmEntitlementsError =
@@ -1112,6 +1166,8 @@ export const listVmEntitlements: API.PaginatedOperationMethod<
     items: "entitlements",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVmEntitlements",
 })) as any;
 
 export type PutAccountSettingsError =
@@ -1136,6 +1192,8 @@ export const putAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSettings",
+  telemetry: TELEMETRY,
+  span: "PutAccountSettings",
 }));
 
 export type TagResourceError =
@@ -1164,6 +1222,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | TagPolicyException | CommonErrors;
@@ -1182,6 +1242,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEnvironmentConnectorError =
@@ -1206,6 +1268,8 @@ export const updateEnvironmentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentConnector",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

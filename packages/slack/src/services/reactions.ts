@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Reactions",
+  propagate: "w3c",
+} as const;
+
 export interface AddReactionRequest {
   /** Channel where the message to add reaction to was posted. */
   channel: string;
@@ -103,6 +116,8 @@ export const addReaction: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddReaction",
 }));
 
 export type GetReactionError = SlackOpError;
@@ -118,6 +133,8 @@ export const getReaction: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReaction",
 }));
 
 export type ListReactionsError = SlackOpError;
@@ -135,6 +152,8 @@ export const listReactions: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListReactions",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -159,6 +178,8 @@ export const removeReaction: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveReaction",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

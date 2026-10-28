@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Snapshots",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface ActivateSnapshotRequest {
   /** Snapshot ID */
   id: string;
@@ -193,6 +206,8 @@ export const activateSnapshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateSnapshot",
 }));
 
 export type CreateSnapshotError = DaytonaOpError;
@@ -208,6 +223,8 @@ export const createSnapshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type DeactivateSnapshotError = DaytonaOpError;
@@ -223,6 +240,8 @@ export const deactivateSnapshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateSnapshot",
 }));
 
 export type GetAllSnapshotsError = DaytonaOpError;
@@ -238,6 +257,8 @@ export const getAllSnapshots: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllSnapshots",
 }));
 
 export type GetSnapshotError = DaytonaOpError;
@@ -253,6 +274,8 @@ export const getSnapshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type GetSnapshotBuildLogsUrlError = DaytonaOpError;
@@ -268,6 +291,8 @@ export const getSnapshotBuildLogsUrl: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshotBuildLogsUrl",
 }));
 
 export type RemoveSnapshotError = DaytonaOpError;
@@ -283,6 +308,8 @@ export const removeSnapshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSnapshot",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AppComplianceAutomation" },
+  prefix: "Appcomplianceautomation",
+  service: "Appcomplianceautomation",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckProviderActionNameAvailabilityRequest {
   /** The name of the resource for which availability needs to be checked. */
   name?: string;
@@ -1326,6 +1346,8 @@ export const CheckProviderActionNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckProviderActionNameAvailability",
 }));
 
 export type DeleteEvidenceError = AzureOpError;
@@ -1341,6 +1363,8 @@ export const DeleteEvidence: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEvidence",
 }));
 
 export type DeleteReportError = AzureOpError;
@@ -1356,6 +1380,8 @@ export const DeleteReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReport",
 }));
 
 export type DeleteScopingConfigurationError = AzureOpError;
@@ -1371,6 +1397,8 @@ export const DeleteScopingConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScopingConfiguration",
 }));
 
 export type DeleteWebhookError = AzureOpError;
@@ -1386,6 +1414,8 @@ export const DeleteWebhook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DownloadEvidenceError = AzureOpError;
@@ -1401,6 +1431,8 @@ export const DownloadEvidence: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadEvidence",
 }));
 
 export type DownloadSnapshotError = AzureOpError;
@@ -1416,6 +1448,8 @@ export const DownloadSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadSnapshot",
 }));
 
 export type EvidenceCreateOrUpdateError = AzureOpError;
@@ -1431,6 +1465,8 @@ export const EvidenceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EvidenceCreateOrUpdate",
 }));
 
 export type GetEvidenceError = AzureOpError;
@@ -1446,6 +1482,8 @@ export const GetEvidence: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvidence",
 }));
 
 export type GetProviderActionCollectionCountError = AzureOpError;
@@ -1461,6 +1499,8 @@ export const GetProviderActionCollectionCount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderActionCollectionCount",
 }));
 
 export type GetProviderActionOverviewStatusError = AzureOpError;
@@ -1476,6 +1516,8 @@ export const GetProviderActionOverviewStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderActionOverviewStatus",
 }));
 
 export type GetReportError = AzureOpError;
@@ -1491,6 +1533,8 @@ export const GetReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetReportScopingQuestionsError = AzureOpError;
@@ -1506,6 +1550,8 @@ export const GetReportScopingQuestions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportScopingQuestions",
 }));
 
 export type GetScopingConfigurationError = AzureOpError;
@@ -1521,6 +1567,8 @@ export const GetScopingConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScopingConfiguration",
 }));
 
 export type GetSnapshotError = AzureOpError;
@@ -1536,6 +1584,8 @@ export const GetSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshot",
 }));
 
 export type GetWebhookError = AzureOpError;
@@ -1551,6 +1601,8 @@ export const GetWebhook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ListEvidenceByReportError = AzureOpError;
@@ -1566,6 +1618,8 @@ export const ListEvidenceByReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvidenceByReport",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1581,6 +1635,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProviderActionInUseStorageAccountsError = AzureOpError;
@@ -1596,6 +1652,8 @@ export const ListProviderActionInUseStorageAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderActionInUseStorageAccounts",
 }));
 
 export type ListReportError = AzureOpError;
@@ -1611,6 +1669,8 @@ export const ListReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReport",
 }));
 
 export type ListScopingConfigurationError = AzureOpError;
@@ -1626,6 +1686,8 @@ export const ListScopingConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScopingConfiguration",
 }));
 
 export type ListSnapshotError = AzureOpError;
@@ -1641,6 +1703,8 @@ export const ListSnapshot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshot",
 }));
 
 export type ListWebhookError = AzureOpError;
@@ -1656,6 +1720,8 @@ export const ListWebhook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhook",
 }));
 
 export type ProviderActionsOnboardError = AzureOpError;
@@ -1671,6 +1737,8 @@ export const ProviderActionsOnboard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProviderActionsOnboard",
 }));
 
 export type ReportCreateOrUpdateError = AzureOpError;
@@ -1686,6 +1754,8 @@ export const ReportCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportCreateOrUpdate",
 }));
 
 export type ReportFixError = AzureOpError;
@@ -1701,6 +1771,8 @@ export const ReportFix: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportFix",
 }));
 
 export type ReportNestedResourceCheckNameAvailabilityError = AzureOpError;
@@ -1716,6 +1788,8 @@ export const ReportNestedResourceCheckNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReportNestedResourceCheckNameAvailability",
 }));
 
 export type ScopingConfigurationCreateOrUpdateError = AzureOpError;
@@ -1731,6 +1805,8 @@ export const ScopingConfigurationCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScopingConfigurationCreateOrUpdate",
 }));
 
 export type SyncReportCertRecordError = AzureOpError;
@@ -1746,6 +1822,8 @@ export const SyncReportCertRecord: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncReportCertRecord",
 }));
 
 export type TriggerProviderActionEvaluationError = AzureOpError;
@@ -1761,6 +1839,8 @@ export const TriggerProviderActionEvaluation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerProviderActionEvaluation",
 }));
 
 export type UpdateReportError = AzureOpError;
@@ -1776,6 +1856,8 @@ export const UpdateReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReport",
 }));
 
 export type UpdateWebhookError = AzureOpError;
@@ -1791,6 +1873,8 @@ export const UpdateWebhook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type VerifyReportError = AzureOpError;
@@ -1806,6 +1890,8 @@ export const VerifyReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyReport",
 }));
 
 export type WebhookCreateOrUpdateError = AzureOpError;
@@ -1821,6 +1907,8 @@ export const WebhookCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhookCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

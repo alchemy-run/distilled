@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "MapService",
+  propagate: "w3c",
+} as const;
+
 export interface MapAwaitRequest {
   functionCallId?: string;
   mapToken?: string;
@@ -153,6 +165,8 @@ export const mapAwait: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MapAwait",
 }));
 
 export type MapCheckInputsError = ModalOpError;
@@ -167,6 +181,8 @@ export const mapCheckInputs: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MapCheckInputs",
 }));
 
 export type MapStartOrContinueError = ModalOpError;
@@ -181,6 +197,8 @@ export const mapStartOrContinue: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MapStartOrContinue",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

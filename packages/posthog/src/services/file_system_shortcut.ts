@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "FileSystemShortcut",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -173,6 +186,8 @@ export const createFileSystemShortcut: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFileSystemShortcut",
 }));
 
 export type CreateFileSystemShortcutReorderError = PosthogOpError;
@@ -188,6 +203,8 @@ export const createFileSystemShortcutReorder: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFileSystemShortcutReorder",
 }));
 
 export type FileSystemShortcutBulkUpdateCreateError = PosthogOpError;
@@ -203,6 +220,8 @@ export const fileSystemShortcutBulkUpdateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileSystemShortcutBulkUpdateCreate",
 }));
 
 export type FileSystemShortcutDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -217,6 +236,8 @@ export const fileSystemShortcutDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileSystemShortcutDestroy",
 }));
 
 export type GetFileSystemShortcutError = Forbidden | NotFound | PosthogOpError;
@@ -231,6 +252,8 @@ export const getFileSystemShortcut: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileSystemShortcut",
 }));
 
 export type ListFileSystemShortcutError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -245,6 +268,8 @@ export const listFileSystemShortcut: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFileSystemShortcut",
 }));
 
 export type UpdateFileSystemShortcutError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -259,6 +284,8 @@ export const updateFileSystemShortcut: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystemShortcut",
 }));
 
 export type UpdateFileSystemShortcutPartialError =
@@ -277,6 +304,8 @@ export const updateFileSystemShortcutPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystemShortcutPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

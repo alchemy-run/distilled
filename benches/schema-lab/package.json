@@ -15,5 +15,8 @@
     "typebox": "1.0.81",
     "valibot": "1.2.0",
     "zod": "4.1.12"
+  },
+  "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*"
   }
 }

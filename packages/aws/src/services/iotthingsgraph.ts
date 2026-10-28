@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://iotthingsgraph.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTThingsGraph",
+  service: "IoTThingsGraph",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
@@ -621,6 +637,8 @@ export const associateEntityToThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEntityToThing",
+  telemetry: TELEMETRY,
+  span: "AssociateEntityToThing",
 }));
 
 export type CreateFlowTemplateError =
@@ -653,6 +671,8 @@ export const createFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateFlowTemplate",
 }));
 
 export type CreateSystemInstanceError =
@@ -695,6 +715,8 @@ export const createSystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSystemInstance",
+  telemetry: TELEMETRY,
+  span: "CreateSystemInstance",
 }));
 
 export type CreateSystemTemplateError =
@@ -724,6 +746,8 @@ export const createSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateSystemTemplate",
 }));
 
 export type DeleteFlowTemplateError =
@@ -753,6 +777,8 @@ export const deleteFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteFlowTemplate",
 }));
 
 export type DeleteNamespaceError = InternalFailureException | ThrottlingException | CommonErrors;
@@ -772,6 +798,8 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteSystemInstanceError =
@@ -803,6 +831,8 @@ export const deleteSystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSystemInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteSystemInstance",
 }));
 
 export type DeleteSystemTemplateError =
@@ -832,6 +862,8 @@ export const deleteSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteSystemTemplate",
 }));
 
 export type DeploySystemInstanceError =
@@ -874,6 +906,8 @@ export const deploySystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeploySystemInstance",
+  telemetry: TELEMETRY,
+  span: "DeploySystemInstance",
 }));
 
 export type DeprecateFlowTemplateError =
@@ -902,6 +936,8 @@ export const deprecateFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "DeprecateFlowTemplate",
 }));
 
 export type DeprecateSystemTemplateError =
@@ -930,6 +966,8 @@ export const deprecateSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "DeprecateSystemTemplate",
 }));
 
 export type DescribeNamespaceError =
@@ -958,6 +996,8 @@ export const describeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNamespace",
+  telemetry: TELEMETRY,
+  span: "DescribeNamespace",
 }));
 
 export type DissociateEntityFromThingError =
@@ -987,6 +1027,8 @@ export const dissociateEntityFromThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociateEntityFromThing",
+  telemetry: TELEMETRY,
+  span: "DissociateEntityFromThing",
 }));
 
 export type GetEntitiesError =
@@ -1036,6 +1078,8 @@ export const getEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEntities",
+  telemetry: TELEMETRY,
+  span: "GetEntities",
 }));
 
 export type GetFlowTemplateError =
@@ -1064,6 +1108,8 @@ export const getFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "GetFlowTemplate",
 }));
 
 export type GetFlowTemplateRevisionsError =
@@ -1100,6 +1146,8 @@ export const getFlowTemplateRevisions: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFlowTemplateRevisions",
 })) as any;
 
 export type GetNamespaceDeletionStatusError =
@@ -1122,6 +1170,8 @@ export const getNamespaceDeletionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespaceDeletionStatus",
+  telemetry: TELEMETRY,
+  span: "GetNamespaceDeletionStatus",
 }));
 
 export type GetSystemInstanceError =
@@ -1150,6 +1200,8 @@ export const getSystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystemInstance",
+  telemetry: TELEMETRY,
+  span: "GetSystemInstance",
 }));
 
 export type GetSystemTemplateError =
@@ -1178,6 +1230,8 @@ export const getSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "GetSystemTemplate",
 }));
 
 export type GetSystemTemplateRevisionsError =
@@ -1214,6 +1268,8 @@ export const getSystemTemplateRevisions: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSystemTemplateRevisions",
 })) as any;
 
 export type GetUploadStatusError =
@@ -1242,6 +1298,8 @@ export const getUploadStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUploadStatus",
+  telemetry: TELEMETRY,
+  span: "GetUploadStatus",
 }));
 
 export type ListFlowExecutionMessagesError =
@@ -1277,6 +1335,8 @@ export const listFlowExecutionMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowExecutionMessages",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1312,6 +1372,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type SearchEntitiesError =
@@ -1341,6 +1403,8 @@ export const searchEntities: API.PaginatedOperationMethod<
     items: "descriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchEntities",
 })) as any;
 
 export type SearchFlowExecutionsError =
@@ -1376,6 +1440,8 @@ export const searchFlowExecutions: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFlowExecutions",
 })) as any;
 
 export type SearchFlowTemplatesError =
@@ -1405,6 +1471,8 @@ export const searchFlowTemplates: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchFlowTemplates",
 })) as any;
 
 export type SearchSystemInstancesError =
@@ -1434,6 +1502,8 @@ export const searchSystemInstances: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSystemInstances",
 })) as any;
 
 export type SearchSystemTemplatesError =
@@ -1463,6 +1533,8 @@ export const searchSystemTemplates: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSystemTemplates",
 })) as any;
 
 export type SearchThingsError =
@@ -1503,6 +1575,8 @@ export const searchThings: API.PaginatedOperationMethod<
     items: "things",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchThings",
 })) as any;
 
 export type TagResourceError =
@@ -1531,6 +1605,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UndeploySystemInstanceError =
@@ -1561,6 +1637,8 @@ export const undeploySystemInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeploySystemInstance",
+  telemetry: TELEMETRY,
+  span: "UndeploySystemInstance",
 }));
 
 export type UntagResourceError =
@@ -1589,6 +1667,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFlowTemplateError =
@@ -1618,6 +1698,8 @@ export const updateFlowTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowTemplate",
 }));
 
 export type UpdateSystemTemplateError =
@@ -1646,6 +1728,8 @@ export const updateSystemTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSystemTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateSystemTemplate",
 }));
 
 export type UploadEntityDefinitionsError =
@@ -1680,6 +1764,8 @@ export const uploadEntityDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadEntityDefinitions",
+  telemetry: TELEMETRY,
+  span: "UploadEntityDefinitions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

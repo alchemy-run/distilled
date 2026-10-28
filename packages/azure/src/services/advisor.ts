@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Advisor" },
+  prefix: "Advisor",
+  service: "Advisor",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export type CreateConfigurationInResourceGroupRequestConfigurationName = "default";
 /** Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20. */
 export type ConfigDataPropertiesLowCpuThreshold = "5" | "10" | "15" | "20";
@@ -635,6 +655,8 @@ export const CreateConfigurationInResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationInResourceGroup",
 }));
 
 export type CreateConfigurationInSubscriptionError = AzureOpError;
@@ -650,6 +672,8 @@ export const CreateConfigurationInSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationInSubscription",
 }));
 
 export type CreateSuppressionError = AzureOpError;
@@ -665,6 +689,14 @@ export const CreateSuppression: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateSuppression",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+    },
+  },
 }));
 
 export type DeleteSuppressionError = AzureOpError;
@@ -680,6 +712,14 @@ export const DeleteSuppression: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteSuppression",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+    },
+  },
 }));
 
 export type GenerateRecommendationError = AzureOpError;
@@ -695,6 +735,8 @@ export const GenerateRecommendation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateRecommendation",
 }));
 
 export type GetAdvisorScoreError = AzureOpError;
@@ -710,6 +752,8 @@ export const GetAdvisorScore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdvisorScore",
 }));
 
 export type GetRecommendationError = AzureOpError;
@@ -725,6 +769,14 @@ export const GetRecommendation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRecommendation",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+    },
+  },
 }));
 
 export type GetRecommendationMetadataError = AzureOpError;
@@ -740,6 +792,8 @@ export const GetRecommendationMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecommendationMetadata",
 }));
 
 export type GetSuppressionError = AzureOpError;
@@ -755,6 +809,14 @@ export const GetSuppression: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSuppression",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+    },
+  },
 }));
 
 export type ListAdvisorScoresError = AzureOpError;
@@ -770,6 +832,8 @@ export const ListAdvisorScores: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdvisorScores",
 }));
 
 export type ListConfigurationByResourceGroupError = AzureOpError;
@@ -785,6 +849,8 @@ export const ListConfigurationByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationByResourceGroup",
 }));
 
 export type ListConfigurationBySubscriptionError = AzureOpError;
@@ -800,6 +866,8 @@ export const ListConfigurationBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -815,6 +883,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListRecommendationMetadataError = AzureOpError;
@@ -830,6 +900,8 @@ export const ListRecommendationMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecommendationMetadata",
 }));
 
 export type ListRecommendationsError = AzureOpError;
@@ -845,6 +917,8 @@ export const ListRecommendations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 }));
 
 export type ListSuppressionsError = AzureOpError;
@@ -860,6 +934,8 @@ export const ListSuppressions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSuppressions",
 }));
 
 export type PredictError = AzureOpError;
@@ -875,6 +951,8 @@ export const Predict: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Predict",
 }));
 
 export type RecommendationsGetGenerateStatusError = AzureOpError;
@@ -890,6 +968,8 @@ export const RecommendationsGetGenerateStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecommendationsGetGenerateStatus",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

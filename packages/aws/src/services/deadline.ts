@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://deadline.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "deadline",
+  service: "deadline",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3563,6 +3578,8 @@ export const associateMemberToFarm: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssociateMemberToFarm",
 }));
 
 export type AssociateMemberToFleetError =
@@ -3596,6 +3613,8 @@ export const associateMemberToFleet: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssociateMemberToFleet",
 }));
 
 export type AssociateMemberToJobError =
@@ -3629,6 +3648,8 @@ export const associateMemberToJob: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssociateMemberToJob",
 }));
 
 export type AssociateMemberToQueueError =
@@ -3662,6 +3683,8 @@ export const associateMemberToQueue: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateMemberToQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssociateMemberToQueue",
 }));
 
 export type AssumeFleetRoleForReadError =
@@ -3693,6 +3716,8 @@ export const assumeFleetRoleForRead: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeFleetRoleForRead",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssumeFleetRoleForRead",
 }));
 
 export type AssumeFleetRoleForWorkerError =
@@ -3726,6 +3751,8 @@ export const assumeFleetRoleForWorker: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeFleetRoleForWorker",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "AssumeFleetRoleForWorker",
 }));
 
 export type AssumeQueueRoleForReadError =
@@ -3757,6 +3784,8 @@ export const assumeQueueRoleForRead: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForRead",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssumeQueueRoleForRead",
 }));
 
 export type AssumeQueueRoleForUserError =
@@ -3788,6 +3817,8 @@ export const assumeQueueRoleForUser: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForUser",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "AssumeQueueRoleForUser",
 }));
 
 export type AssumeQueueRoleForWorkerError =
@@ -3821,6 +3852,8 @@ export const assumeQueueRoleForWorker: API.OperationMethod<
   retry: Retry,
   operationName: "AssumeQueueRoleForWorker",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "AssumeQueueRoleForWorker",
 }));
 
 export type BatchGetJobError =
@@ -3852,6 +3885,8 @@ export const batchGetJob: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetJob",
 }));
 
 export type BatchGetJobEntityError =
@@ -3883,6 +3918,8 @@ export const batchGetJobEntity: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetJobEntity",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "BatchGetJobEntity",
 }));
 
 export type BatchGetSessionError =
@@ -3914,6 +3951,8 @@ export const batchGetSession: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetSession",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetSession",
 }));
 
 export type BatchGetSessionActionError =
@@ -3945,6 +3984,8 @@ export const batchGetSessionAction: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetSessionAction",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetSessionAction",
 }));
 
 export type BatchGetStepError =
@@ -3976,6 +4017,8 @@ export const batchGetStep: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetStep",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetStep",
 }));
 
 export type BatchGetTaskError =
@@ -4007,6 +4050,8 @@ export const batchGetTask: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetTask",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetTask",
 }));
 
 export type BatchGetWorkerError =
@@ -4038,6 +4083,8 @@ export const batchGetWorker: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetWorker",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchGetWorker",
 }));
 
 export type BatchUpdateJobError =
@@ -4073,6 +4120,8 @@ export const batchUpdateJob: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateJob",
 }));
 
 export type BatchUpdateTaskError =
@@ -4104,6 +4153,8 @@ export const batchUpdateTask: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateTask",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateTask",
 }));
 
 export type CopyJobTemplateError =
@@ -4135,6 +4186,8 @@ export const copyJobTemplate: API.OperationMethod<
   retry: Retry,
   operationName: "CopyJobTemplate",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CopyJobTemplate",
 }));
 
 export type CreateBudgetError =
@@ -4170,6 +4223,8 @@ export const createBudget: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBudget",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateBudget",
 }));
 
 export type CreateFarmError =
@@ -4203,6 +4258,8 @@ export const createFarm: API.OperationMethod<
   retry: Retry,
   operationName: "CreateFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateFarm",
 }));
 
 export type CreateFleetError =
@@ -4240,6 +4297,8 @@ export const createFleet: API.OperationMethod<
   retry: Retry,
   operationName: "CreateFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateJobError =
@@ -4273,6 +4332,8 @@ export const createJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateJob",
 }));
 
 export type CreateLicenseEndpointError =
@@ -4306,6 +4367,8 @@ export const createLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "CreateLicenseEndpoint",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseEndpoint",
 }));
 
 export type CreateLimitError =
@@ -4341,6 +4404,8 @@ export const createLimit: API.OperationMethod<
   retry: Retry,
   operationName: "CreateLimit",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateLimit",
 }));
 
 export type CreateMonitorError =
@@ -4374,6 +4439,8 @@ export const createMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMonitor",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type CreateQueueError =
@@ -4409,6 +4476,8 @@ export const createQueue: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type CreateQueueEnvironmentError =
@@ -4442,6 +4511,8 @@ export const createQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueEnvironment",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateQueueEnvironment",
 }));
 
 export type CreateQueueFleetAssociationError =
@@ -4473,6 +4544,8 @@ export const createQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateQueueFleetAssociation",
 }));
 
 export type CreateQueueLimitAssociationError =
@@ -4504,6 +4577,8 @@ export const createQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "CreateQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateQueueLimitAssociation",
 }));
 
 export type CreateStorageProfileError =
@@ -4539,6 +4614,8 @@ export const createStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateStorageProfile",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "CreateStorageProfile",
 }));
 
 export type CreateWorkerError =
@@ -4574,6 +4651,8 @@ export const createWorker: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorker",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "CreateWorker",
 }));
 
 export type DeleteBudgetError =
@@ -4607,6 +4686,8 @@ export const deleteBudget: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBudget",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteBudget",
 }));
 
 export type DeleteFarmError =
@@ -4640,6 +4721,8 @@ export const deleteFarm: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteFarm",
 }));
 
 export type DeleteFleetError =
@@ -4673,6 +4756,8 @@ export const deleteFleet: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteLicenseEndpointError =
@@ -4706,6 +4791,8 @@ export const deleteLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteLicenseEndpoint",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseEndpoint",
 }));
 
 export type DeleteLimitError =
@@ -4735,6 +4822,8 @@ export const deleteLimit: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteLimit",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteLimit",
 }));
 
 export type DeleteMeteredProductError =
@@ -4766,6 +4855,8 @@ export const deleteMeteredProduct: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMeteredProduct",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteMeteredProduct",
 }));
 
 export type DeleteMonitorError =
@@ -4799,6 +4890,8 @@ export const deleteMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMonitor",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteQueueError =
@@ -4834,6 +4927,8 @@ export const deleteQueue: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type DeleteQueueEnvironmentError =
@@ -4863,6 +4958,8 @@ export const deleteQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueEnvironment",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteQueueEnvironment",
 }));
 
 export type DeleteQueueFleetAssociationError =
@@ -4896,6 +4993,8 @@ export const deleteQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteQueueFleetAssociation",
 }));
 
 export type DeleteQueueLimitAssociationError =
@@ -4929,6 +5028,8 @@ export const deleteQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteQueueLimitAssociation",
 }));
 
 export type DeleteStorageProfileError =
@@ -4962,6 +5063,8 @@ export const deleteStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteStorageProfile",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteStorageProfile",
 }));
 
 export type DeleteVolumeError =
@@ -4995,6 +5098,8 @@ export const deleteVolume: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteVolume",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DeleteWorkerError =
@@ -5028,6 +5133,8 @@ export const deleteWorker: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorker",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DeleteWorker",
 }));
 
 export type DisassociateMemberFromFarmError =
@@ -5059,6 +5166,8 @@ export const disassociateMemberFromFarm: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DisassociateMemberFromFarm",
 }));
 
 export type DisassociateMemberFromFleetError =
@@ -5092,6 +5201,8 @@ export const disassociateMemberFromFleet: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DisassociateMemberFromFleet",
 }));
 
 export type DisassociateMemberFromJobError =
@@ -5123,6 +5234,8 @@ export const disassociateMemberFromJob: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DisassociateMemberFromJob",
 }));
 
 export type DisassociateMemberFromQueueError =
@@ -5156,6 +5269,8 @@ export const disassociateMemberFromQueue: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateMemberFromQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "DisassociateMemberFromQueue",
 }));
 
 export type GetBudgetError =
@@ -5187,6 +5302,8 @@ export const getBudget: API.OperationMethod<
   retry: Retry,
   operationName: "GetBudget",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetBudget",
 }));
 
 export type GetFarmError =
@@ -5218,6 +5335,8 @@ export const getFarm: API.OperationMethod<
   retry: Retry,
   operationName: "GetFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetFarm",
 }));
 
 export type GetFleetError =
@@ -5249,6 +5368,8 @@ export const getFleet: API.OperationMethod<
   retry: Retry,
   operationName: "GetFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetFleet",
 }));
 
 export type GetJobError =
@@ -5280,6 +5401,8 @@ export const getJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetLicenseEndpointError =
@@ -5311,6 +5434,8 @@ export const getLicenseEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "GetLicenseEndpoint",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetLicenseEndpoint",
 }));
 
 export type GetLimitError =
@@ -5342,6 +5467,8 @@ export const getLimit: API.OperationMethod<
   retry: Retry,
   operationName: "GetLimit",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetLimit",
 }));
 
 export type GetMonitorError =
@@ -5373,6 +5500,8 @@ export const getMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "GetMonitor",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetMonitorSettingsError =
@@ -5404,6 +5533,8 @@ export const getMonitorSettings: API.OperationMethod<
   retry: Retry,
   operationName: "GetMonitorSettings",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetMonitorSettings",
 }));
 
 export type GetQueueError =
@@ -5435,6 +5566,8 @@ export const getQueue: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetQueue",
 }));
 
 export type GetQueueEnvironmentError =
@@ -5466,6 +5599,8 @@ export const getQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueEnvironment",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetQueueEnvironment",
 }));
 
 export type GetQueueFleetAssociationError =
@@ -5497,6 +5632,8 @@ export const getQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetQueueFleetAssociation",
 }));
 
 export type GetQueueLimitAssociationError =
@@ -5528,6 +5665,8 @@ export const getQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetQueueLimitAssociation",
 }));
 
 export type GetSessionError =
@@ -5559,6 +5698,8 @@ export const getSession: API.OperationMethod<
   retry: Retry,
   operationName: "GetSession",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionActionError =
@@ -5590,6 +5731,8 @@ export const getSessionAction: API.OperationMethod<
   retry: Retry,
   operationName: "GetSessionAction",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetSessionAction",
 }));
 
 export type GetSessionsStatisticsAggregationError =
@@ -5628,6 +5771,8 @@ export const getSessionsStatisticsAggregation: API.PaginatedOperationMethod<
     items: "statistics",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSessionsStatisticsAggregation",
 })) as any;
 
 export type GetStepError =
@@ -5659,6 +5804,8 @@ export const getStep: API.OperationMethod<
   retry: Retry,
   operationName: "GetStep",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetStep",
 }));
 
 export type GetStorageProfileError =
@@ -5690,6 +5837,8 @@ export const getStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageProfile",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetStorageProfile",
 }));
 
 export type GetStorageProfileForQueueError =
@@ -5721,6 +5870,8 @@ export const getStorageProfileForQueue: API.OperationMethod<
   retry: Retry,
   operationName: "GetStorageProfileForQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetStorageProfileForQueue",
 }));
 
 export type GetTaskError =
@@ -5752,6 +5903,8 @@ export const getTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetTask",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetTask",
 }));
 
 export type GetVolumeError =
@@ -5783,6 +5936,8 @@ export const getVolume: API.OperationMethod<
   retry: Retry,
   operationName: "GetVolume",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetVolume",
 }));
 
 export type GetWorkerError =
@@ -5814,6 +5969,8 @@ export const getWorker: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorker",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "GetWorker",
 }));
 
 export type ListAvailableMeteredProductsError =
@@ -5843,6 +6000,8 @@ export const listAvailableMeteredProducts: API.PaginatedOperationMethod<
     items: "meteredProducts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAvailableMeteredProducts",
 })) as any;
 
 export type ListBudgetsError =
@@ -5881,6 +6040,8 @@ export const listBudgets: API.PaginatedOperationMethod<
     items: "budgets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBudgets",
 })) as any;
 
 export type ListFarmMembersError =
@@ -5919,6 +6080,8 @@ export const listFarmMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFarmMembers",
 })) as any;
 
 export type ListFarmsError =
@@ -5955,6 +6118,8 @@ export const listFarms: API.PaginatedOperationMethod<
     items: "farms",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFarms",
 })) as any;
 
 export type ListFleetMembersError =
@@ -5993,6 +6158,8 @@ export const listFleetMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleetMembers",
 })) as any;
 
 export type ListFleetsError =
@@ -6031,6 +6198,8 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "fleets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleets",
 })) as any;
 
 export type ListJobMembersError =
@@ -6069,6 +6238,8 @@ export const listJobMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobMembers",
 })) as any;
 
 export type ListJobParameterDefinitionsError =
@@ -6107,6 +6278,8 @@ export const listJobParameterDefinitions: API.PaginatedOperationMethod<
     items: "jobParameterDefinitions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobParameterDefinitions",
 })) as any;
 
 export type ListJobsError =
@@ -6145,6 +6318,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListLicenseEndpointsError =
@@ -6183,6 +6358,8 @@ export const listLicenseEndpoints: API.PaginatedOperationMethod<
     items: "licenseEndpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLicenseEndpoints",
 })) as any;
 
 export type ListLimitsError =
@@ -6221,6 +6398,8 @@ export const listLimits: API.PaginatedOperationMethod<
     items: "limits",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLimits",
 })) as any;
 
 export type ListMeteredProductsError =
@@ -6259,6 +6438,8 @@ export const listMeteredProducts: API.PaginatedOperationMethod<
     items: "meteredProducts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMeteredProducts",
 })) as any;
 
 export type ListMonitorsError =
@@ -6295,6 +6476,8 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "monitors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 })) as any;
 
 export type ListQueueEnvironmentsError =
@@ -6333,6 +6516,8 @@ export const listQueueEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueEnvironments",
 })) as any;
 
 export type ListQueueFleetAssociationsError =
@@ -6369,6 +6554,8 @@ export const listQueueFleetAssociations: API.PaginatedOperationMethod<
     items: "queueFleetAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueFleetAssociations",
 })) as any;
 
 export type ListQueueLimitAssociationsError =
@@ -6405,6 +6592,8 @@ export const listQueueLimitAssociations: API.PaginatedOperationMethod<
     items: "queueLimitAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueLimitAssociations",
 })) as any;
 
 export type ListQueueMembersError =
@@ -6443,6 +6632,8 @@ export const listQueueMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueueMembers",
 })) as any;
 
 export type ListQueuesError =
@@ -6481,6 +6672,8 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "queues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListSessionActionsError =
@@ -6519,6 +6712,8 @@ export const listSessionActions: API.PaginatedOperationMethod<
     items: "sessionActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionActions",
 })) as any;
 
 export type ListSessionsError =
@@ -6557,6 +6752,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListSessionsForWorkerError =
@@ -6595,6 +6792,8 @@ export const listSessionsForWorker: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessionsForWorker",
 })) as any;
 
 export type ListStepConsumersError =
@@ -6633,6 +6832,8 @@ export const listStepConsumers: API.PaginatedOperationMethod<
     items: "consumers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStepConsumers",
 })) as any;
 
 export type ListStepDependenciesError =
@@ -6671,6 +6872,8 @@ export const listStepDependencies: API.PaginatedOperationMethod<
     items: "dependencies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStepDependencies",
 })) as any;
 
 export type ListStepsError =
@@ -6709,6 +6912,8 @@ export const listSteps: API.PaginatedOperationMethod<
     items: "steps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSteps",
 })) as any;
 
 export type ListStorageProfilesError =
@@ -6747,6 +6952,8 @@ export const listStorageProfiles: API.PaginatedOperationMethod<
     items: "storageProfiles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStorageProfiles",
 })) as any;
 
 export type ListStorageProfilesForQueueError =
@@ -6785,6 +6992,8 @@ export const listStorageProfilesForQueue: API.PaginatedOperationMethod<
     items: "storageProfiles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStorageProfilesForQueue",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -6816,6 +7025,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTasksError =
@@ -6854,6 +7065,8 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 })) as any;
 
 export type ListVolumesError =
@@ -6892,6 +7105,8 @@ export const listVolumes: API.PaginatedOperationMethod<
     items: "volumes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVolumes",
 })) as any;
 
 export type ListWorkersError =
@@ -6930,6 +7145,8 @@ export const listWorkers: API.PaginatedOperationMethod<
     items: "workers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkers",
 })) as any;
 
 export type PutMeteredProductError =
@@ -6961,6 +7178,8 @@ export const putMeteredProduct: API.OperationMethod<
   retry: Retry,
   operationName: "PutMeteredProduct",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "PutMeteredProduct",
 }));
 
 export type SearchJobsError =
@@ -6992,6 +7211,8 @@ export const searchJobs: API.OperationMethod<
   retry: Retry,
   operationName: "SearchJobs",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "SearchJobs",
 }));
 
 export type SearchStepsError =
@@ -7023,6 +7244,8 @@ export const searchSteps: API.OperationMethod<
   retry: Retry,
   operationName: "SearchSteps",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "SearchSteps",
 }));
 
 export type SearchTasksError =
@@ -7054,6 +7277,8 @@ export const searchTasks: API.OperationMethod<
   retry: Retry,
   operationName: "SearchTasks",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "SearchTasks",
 }));
 
 export type SearchWorkersError =
@@ -7085,6 +7310,8 @@ export const searchWorkers: API.OperationMethod<
   retry: Retry,
   operationName: "SearchWorkers",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "SearchWorkers",
 }));
 
 export type StartSessionsStatisticsAggregationError =
@@ -7116,6 +7343,8 @@ export const startSessionsStatisticsAggregation: API.OperationMethod<
   retry: Retry,
   operationName: "StartSessionsStatisticsAggregation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "StartSessionsStatisticsAggregation",
 }));
 
 export type TagResourceError =
@@ -7149,6 +7378,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -7182,6 +7413,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBudgetError =
@@ -7217,6 +7450,8 @@ export const updateBudget: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateBudget",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateBudget",
 }));
 
 export type UpdateFarmError =
@@ -7250,6 +7485,8 @@ export const updateFarm: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateFarm",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateFarm",
 }));
 
 export type UpdateFleetError =
@@ -7287,6 +7524,8 @@ export const updateFleet: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateFleet",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 export type UpdateJobError =
@@ -7324,6 +7563,8 @@ export const updateJob: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateJob",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateJob",
 }));
 
 export type UpdateLimitError =
@@ -7355,6 +7596,8 @@ export const updateLimit: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateLimit",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateLimit",
 }));
 
 export type UpdateMonitorError =
@@ -7388,6 +7631,8 @@ export const updateMonitor: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMonitor",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateMonitorSettingsError =
@@ -7419,6 +7664,8 @@ export const updateMonitorSettings: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMonitorSettings",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitorSettings",
 }));
 
 export type UpdateQueueError =
@@ -7452,6 +7699,8 @@ export const updateQueue: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueue",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateQueue",
 }));
 
 export type UpdateQueueEnvironmentError =
@@ -7483,6 +7732,8 @@ export const updateQueueEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueEnvironment",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueEnvironment",
 }));
 
 export type UpdateQueueFleetAssociationError =
@@ -7514,6 +7765,8 @@ export const updateQueueFleetAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueFleetAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueFleetAssociation",
 }));
 
 export type UpdateQueueLimitAssociationError =
@@ -7545,6 +7798,8 @@ export const updateQueueLimitAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateQueueLimitAssociation",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueLimitAssociation",
 }));
 
 export type UpdateSessionError =
@@ -7578,6 +7833,8 @@ export const updateSession: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSession",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateSession",
 }));
 
 export type UpdateStepError =
@@ -7611,6 +7868,8 @@ export const updateStep: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStep",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateStep",
 }));
 
 export type UpdateStorageProfileError =
@@ -7644,6 +7903,8 @@ export const updateStorageProfile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateStorageProfile",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateStorageProfile",
 }));
 
 export type UpdateTaskError =
@@ -7677,6 +7938,8 @@ export const updateTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTask",
   endpointHostPrefix: "management.",
+  telemetry: TELEMETRY,
+  span: "UpdateTask",
 }));
 
 export type UpdateWorkerError =
@@ -7710,6 +7973,8 @@ export const updateWorker: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorker",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "UpdateWorker",
 }));
 
 export type UpdateWorkerScheduleError =
@@ -7743,6 +8008,8 @@ export const updateWorkerSchedule: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkerSchedule",
   endpointHostPrefix: "scheduling.",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkerSchedule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

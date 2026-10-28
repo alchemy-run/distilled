@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://arc-zonal-shift.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ARCZonalShift",
+  service: "ARCZonalShift",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -427,6 +442,8 @@ export const cancelPracticeRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPracticeRun",
+  telemetry: TELEMETRY,
+  span: "CancelPracticeRun",
 }));
 
 export type CancelZonalShiftError =
@@ -461,6 +478,8 @@ export const cancelZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelZonalShift",
+  telemetry: TELEMETRY,
+  span: "CancelZonalShift",
 }));
 
 export type CreatePracticeRunConfigurationError =
@@ -497,6 +516,8 @@ export const createPracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePracticeRunConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreatePracticeRunConfiguration",
 }));
 
 export type DeletePracticeRunConfigurationError =
@@ -529,6 +550,8 @@ export const deletePracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePracticeRunConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeletePracticeRunConfiguration",
 }));
 
 export type GetAutoshiftObserverNotificationStatusError =
@@ -551,6 +574,8 @@ export const getAutoshiftObserverNotificationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoshiftObserverNotificationStatus",
+  telemetry: TELEMETRY,
+  span: "GetAutoshiftObserverNotificationStatus",
 }));
 
 export type GetManagedResourceError =
@@ -581,6 +606,8 @@ export const getManagedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedResource",
+  telemetry: TELEMETRY,
+  span: "GetManagedResource",
 }));
 
 export type ListAutoshiftsError =
@@ -616,6 +643,8 @@ export const listAutoshifts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutoshifts",
 })) as any;
 
 export type ListManagedResourcesError =
@@ -651,6 +680,8 @@ export const listManagedResources: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedResources",
 })) as any;
 
 export type ListZonalShiftsError =
@@ -688,6 +719,8 @@ export const listZonalShifts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListZonalShifts",
 })) as any;
 
 export type StartPracticeRunError =
@@ -722,6 +755,8 @@ export const startPracticeRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPracticeRun",
+  telemetry: TELEMETRY,
+  span: "StartPracticeRun",
 }));
 
 export type StartZonalShiftError =
@@ -768,6 +803,8 @@ export const startZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartZonalShift",
+  telemetry: TELEMETRY,
+  span: "StartZonalShift",
 }));
 
 export type UpdateAutoshiftObserverNotificationStatusError =
@@ -800,6 +837,8 @@ export const updateAutoshiftObserverNotificationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoshiftObserverNotificationStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAutoshiftObserverNotificationStatus",
 }));
 
 export type UpdatePracticeRunConfigurationError =
@@ -832,6 +871,8 @@ export const updatePracticeRunConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePracticeRunConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdatePracticeRunConfiguration",
 }));
 
 export type UpdateZonalAutoshiftConfigurationError =
@@ -866,6 +907,8 @@ export const updateZonalAutoshiftConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateZonalAutoshiftConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateZonalAutoshiftConfiguration",
 }));
 
 export type UpdateZonalShiftError =
@@ -898,6 +941,8 @@ export const updateZonalShift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateZonalShift",
+  telemetry: TELEMETRY,
+  span: "UpdateZonalShift",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -105,6 +106,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BCMDataExports",
+  service: "BCMDataExports",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -421,6 +437,8 @@ export const createExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExport",
+  telemetry: TELEMETRY,
+  span: "CreateExport",
 }));
 
 export type DeleteExportError =
@@ -449,6 +467,8 @@ export const deleteExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExport",
+  telemetry: TELEMETRY,
+  span: "DeleteExport",
 }));
 
 export type GetExecutionError =
@@ -477,6 +497,8 @@ export const getExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecution",
+  telemetry: TELEMETRY,
+  span: "GetExecution",
 }));
 
 export type GetExportError =
@@ -505,6 +527,8 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type GetTableError =
@@ -527,6 +551,8 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type ListExecutionsError =
@@ -562,6 +588,8 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "Executions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutions",
 })) as any;
 
 export type ListExportsError =
@@ -591,6 +619,8 @@ export const listExports: API.PaginatedOperationMethod<
     items: "Exports",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExports",
 })) as any;
 
 export type ListTablesError =
@@ -620,6 +650,8 @@ export const listTables: API.PaginatedOperationMethod<
     items: "Tables",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -650,6 +682,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -680,6 +714,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -710,6 +746,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateExportError =
@@ -738,6 +776,8 @@ export const updateExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExport",
+  telemetry: TELEMETRY,
+  span: "UpdateExport",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

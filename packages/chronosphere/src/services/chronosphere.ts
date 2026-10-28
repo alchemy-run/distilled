@@ -18,6 +18,19 @@ const __s: any[] = [];
 
 export type { ChronosphereOpError, ChronosphereOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "chronosphere-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Chronosphere",
+  service: "Chronosphere",
+  labels: "chronosphere",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3527,6 +3540,8 @@ export const createBucket: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBucket",
 }));
 
 export type CreateClassicDashboardError = BadRequest | Conflict | ChronosphereOpError;
@@ -3541,6 +3556,8 @@ export const createClassicDashboard: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClassicDashboard",
 }));
 
 export type CreateCollectionError = BadRequest | Conflict | ChronosphereOpError;
@@ -3555,6 +3572,8 @@ export const createCollection: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type CreateDashboardError = BadRequest | Conflict | ChronosphereOpError;
@@ -3569,6 +3588,8 @@ export const createDashboard: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDashboard",
 }));
 
 export type CreateDatasetError = BadRequest | Conflict | ChronosphereOpError;
@@ -3583,6 +3604,8 @@ export const createDataset: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDerivedLabelError = BadRequest | Conflict | ChronosphereOpError;
@@ -3597,6 +3620,8 @@ export const createDerivedLabel: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDerivedLabel",
 }));
 
 export type CreateDerivedMetricError = BadRequest | Conflict | ChronosphereOpError;
@@ -3611,6 +3636,8 @@ export const createDerivedMetric: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDerivedMetric",
 }));
 
 export type CreateDropRuleError = BadRequest | Conflict | ChronosphereOpError;
@@ -3625,6 +3652,8 @@ export const createDropRule: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDropRule",
 }));
 
 export type CreateGcpMetricsIntegrationError = BadRequest | Conflict | ChronosphereOpError;
@@ -3639,6 +3668,8 @@ export const createGcpMetricsIntegration: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGcpMetricsIntegration",
 }));
 
 export type CreateGrafanaDashboardError = BadRequest | Conflict | ChronosphereOpError;
@@ -3653,6 +3684,8 @@ export const createGrafanaDashboard: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGrafanaDashboard",
 }));
 
 export type CreateLogAllocationConfigError = BadRequest | Conflict | ChronosphereOpError;
@@ -3667,6 +3700,8 @@ export const createLogAllocationConfig: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogAllocationConfig",
 }));
 
 export type CreateLogIngestConfigError = BadRequest | Conflict | ChronosphereOpError;
@@ -3681,6 +3716,8 @@ export const createLogIngestConfig: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogIngestConfig",
 }));
 
 export type CreateLogScaleActionError = BadRequest | Conflict | ChronosphereOpError;
@@ -3695,6 +3732,8 @@ export const createLogScaleAction: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogScaleAction",
 }));
 
 export type CreateLogScaleAlertError = BadRequest | Conflict | ChronosphereOpError;
@@ -3709,6 +3748,8 @@ export const createLogScaleAlert: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLogScaleAlert",
 }));
 
 export type CreateMappingRuleError = BadRequest | Conflict | ChronosphereOpError;
@@ -3723,6 +3764,8 @@ export const createMappingRule: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMappingRule",
 }));
 
 export type CreateMonitorError = BadRequest | Conflict | ChronosphereOpError;
@@ -3737,6 +3780,8 @@ export const createMonitor: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type CreateMutingRuleError = BadRequest | Conflict | ChronosphereOpError;
@@ -3751,6 +3796,8 @@ export const createMutingRule: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMutingRule",
 }));
 
 export type CreateNotificationPolicyError = BadRequest | Conflict | ChronosphereOpError;
@@ -3765,6 +3812,8 @@ export const createNotificationPolicy: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotificationPolicy",
 }));
 
 export type CreateNotifierError = BadRequest | Conflict | ChronosphereOpError;
@@ -3779,6 +3828,8 @@ export const createNotifier: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNotifier",
 }));
 
 export type CreateOtelMetricsIngestionError = BadRequest | Conflict | ChronosphereOpError;
@@ -3793,6 +3844,8 @@ export const createOtelMetricsIngestion: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOtelMetricsIngestion",
 }));
 
 export type CreateRecordingRuleError = BadRequest | Conflict | ChronosphereOpError;
@@ -3807,6 +3860,8 @@ export const createRecordingRule: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRecordingRule",
 }));
 
 export type CreateResourcePoolsError = BadRequest | Conflict | ChronosphereOpError;
@@ -3822,6 +3877,8 @@ export const createResourcePools: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourcePools",
 }));
 
 export type CreateRollupRuleError = BadRequest | Conflict | ChronosphereOpError;
@@ -3836,6 +3893,8 @@ export const createRollupRule: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRollupRule",
 }));
 
 export type CreateServiceAccountError = BadRequest | Conflict | ChronosphereOpError;
@@ -3850,6 +3909,8 @@ export const createServiceAccount: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccount",
 }));
 
 export type CreateSLOError = BadRequest | Conflict | ChronosphereOpError;
@@ -3864,6 +3925,8 @@ export const createSLO: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSLO",
 }));
 
 export type CreateTeamError = BadRequest | Conflict | ChronosphereOpError;
@@ -3878,6 +3941,8 @@ export const createTeam: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeam",
 }));
 
 export type CreateTraceBehaviorError = BadRequest | Conflict | ChronosphereOpError;
@@ -3892,6 +3957,8 @@ export const createTraceBehavior: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTraceBehavior",
 }));
 
 export type CreateTraceBehaviorConfigError = BadRequest | Conflict | ChronosphereOpError;
@@ -3906,6 +3973,8 @@ export const createTraceBehaviorConfig: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTraceBehaviorConfig",
 }));
 
 export type CreateTraceJaegerRemoteSamplingStrategyError =
@@ -3927,6 +3996,8 @@ export const createTraceJaegerRemoteSamplingStrategy: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTraceJaegerRemoteSamplingStrategy",
 }));
 
 export type CreateTraceMetricsRuleError = BadRequest | Conflict | ChronosphereOpError;
@@ -3942,6 +4013,8 @@ export const createTraceMetricsRule: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTraceMetricsRule",
 }));
 
 export type CreateTraceTailSamplingRulesError = BadRequest | Conflict | ChronosphereOpError;
@@ -3957,6 +4030,8 @@ export const createTraceTailSamplingRules: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTraceTailSamplingRules",
 }));
 
 export type DeleteBucketError = BadRequest | NotFound | ChronosphereOpError;
@@ -3971,6 +4046,8 @@ export const deleteBucket: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBucket",
 }));
 
 export type DeleteClassicDashboardError = BadRequest | NotFound | ChronosphereOpError;
@@ -3985,6 +4062,8 @@ export const deleteClassicDashboard: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClassicDashboard",
 }));
 
 export type DeleteCollectionError = BadRequest | NotFound | ChronosphereOpError;
@@ -3999,6 +4078,8 @@ export const deleteCollection: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteDashboardError = BadRequest | NotFound | ChronosphereOpError;
@@ -4013,6 +4094,8 @@ export const deleteDashboard: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteDatasetError = BadRequest | NotFound | ChronosphereOpError;
@@ -4027,6 +4110,8 @@ export const deleteDataset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteDerivedLabelError = BadRequest | NotFound | ChronosphereOpError;
@@ -4041,6 +4126,8 @@ export const deleteDerivedLabel: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDerivedLabel",
 }));
 
 export type DeleteDerivedMetricError = BadRequest | NotFound | ChronosphereOpError;
@@ -4055,6 +4142,8 @@ export const deleteDerivedMetric: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDerivedMetric",
 }));
 
 export type DeleteDropRuleError = BadRequest | NotFound | ChronosphereOpError;
@@ -4069,6 +4158,8 @@ export const deleteDropRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDropRule",
 }));
 
 export type DeleteGcpMetricsIntegrationError = BadRequest | NotFound | ChronosphereOpError;
@@ -4083,6 +4174,8 @@ export const deleteGcpMetricsIntegration: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGcpMetricsIntegration",
 }));
 
 export type DeleteGrafanaDashboardError = BadRequest | NotFound | ChronosphereOpError;
@@ -4097,6 +4190,8 @@ export const deleteGrafanaDashboard: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGrafanaDashboard",
 }));
 
 export type DeleteLogAllocationConfigError = BadRequest | NotFound | ChronosphereOpError;
@@ -4111,6 +4206,8 @@ export const deleteLogAllocationConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogAllocationConfig",
 }));
 
 export type DeleteLogIngestConfigError = BadRequest | NotFound | ChronosphereOpError;
@@ -4125,6 +4222,8 @@ export const deleteLogIngestConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogIngestConfig",
 }));
 
 export type DeleteLogScaleActionError = BadRequest | NotFound | ChronosphereOpError;
@@ -4139,6 +4238,8 @@ export const deleteLogScaleAction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogScaleAction",
 }));
 
 export type DeleteLogScaleAlertError = BadRequest | NotFound | ChronosphereOpError;
@@ -4153,6 +4254,8 @@ export const deleteLogScaleAlert: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogScaleAlert",
 }));
 
 export type DeleteMappingRuleError = BadRequest | NotFound | ChronosphereOpError;
@@ -4167,6 +4270,8 @@ export const deleteMappingRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMappingRule",
 }));
 
 export type DeleteMonitorError = BadRequest | NotFound | ChronosphereOpError;
@@ -4181,6 +4286,8 @@ export const deleteMonitor: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteMutingRuleError = BadRequest | NotFound | ChronosphereOpError;
@@ -4195,6 +4302,8 @@ export const deleteMutingRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMutingRule",
 }));
 
 export type DeleteNotificationPolicyError = BadRequest | NotFound | ChronosphereOpError;
@@ -4209,6 +4318,8 @@ export const deleteNotificationPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationPolicy",
 }));
 
 export type DeleteNotifierError = BadRequest | NotFound | ChronosphereOpError;
@@ -4223,6 +4334,8 @@ export const deleteNotifier: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNotifier",
 }));
 
 export type DeleteOtelMetricsIngestionError = BadRequest | NotFound | ChronosphereOpError;
@@ -4237,6 +4350,8 @@ export const deleteOtelMetricsIngestion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOtelMetricsIngestion",
 }));
 
 export type DeleteRecordingRuleError = BadRequest | NotFound | ChronosphereOpError;
@@ -4251,6 +4366,8 @@ export const deleteRecordingRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecordingRule",
 }));
 
 export type DeleteResourcePoolsError = BadRequest | NotFound | ChronosphereOpError;
@@ -4265,6 +4382,8 @@ export const deleteResourcePools: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePools",
 }));
 
 export type DeleteRollupRuleError = BadRequest | NotFound | ChronosphereOpError;
@@ -4279,6 +4398,8 @@ export const deleteRollupRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRollupRule",
 }));
 
 export type DeleteServiceAccountError = BadRequest | NotFound | ChronosphereOpError;
@@ -4293,6 +4414,8 @@ export const deleteServiceAccount: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAccount",
 }));
 
 export type DeleteSLOError = BadRequest | NotFound | ChronosphereOpError;
@@ -4307,6 +4430,8 @@ export const deleteSLO: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSLO",
 }));
 
 export type DeleteTeamError = BadRequest | NotFound | ChronosphereOpError;
@@ -4321,6 +4446,8 @@ export const deleteTeam: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeam",
 }));
 
 export type DeleteTraceBehaviorError = BadRequest | NotFound | ChronosphereOpError;
@@ -4335,6 +4462,8 @@ export const deleteTraceBehavior: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTraceBehavior",
 }));
 
 export type DeleteTraceBehaviorConfigError = BadRequest | NotFound | ChronosphereOpError;
@@ -4349,6 +4478,8 @@ export const deleteTraceBehaviorConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTraceBehaviorConfig",
 }));
 
 export type DeleteTraceJaegerRemoteSamplingStrategyError =
@@ -4366,6 +4497,8 @@ export const deleteTraceJaegerRemoteSamplingStrategy: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTraceJaegerRemoteSamplingStrategy",
 }));
 
 export type DeleteTraceMetricsRuleError = BadRequest | NotFound | ChronosphereOpError;
@@ -4380,6 +4513,8 @@ export const deleteTraceMetricsRule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTraceMetricsRule",
 }));
 
 export type DeleteTraceTailSamplingRulesError = BadRequest | NotFound | ChronosphereOpError;
@@ -4394,6 +4529,8 @@ export const deleteTraceTailSamplingRules: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTraceTailSamplingRules",
 }));
 
 export type ListBucketsError = ChronosphereOpError;
@@ -4410,6 +4547,8 @@ export const listBuckets: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBuckets",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4435,6 +4574,8 @@ export const listClassicDashboards: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListClassicDashboards",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4460,6 +4601,8 @@ export const listCollections: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCollections",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4485,6 +4628,8 @@ export const listDashboards: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDashboards",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4510,6 +4655,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDatasets",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4535,6 +4682,8 @@ export const listDerivedLabels: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDerivedLabels",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4560,6 +4709,8 @@ export const listDerivedMetrics: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDerivedMetrics",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4585,6 +4736,8 @@ export const listDropRules: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDropRules",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4610,6 +4763,8 @@ export const listGcpMetricsIntegrations: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGcpMetricsIntegrations",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4635,6 +4790,8 @@ export const listGrafanaDashboards: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListGrafanaDashboards",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4660,6 +4817,8 @@ export const listLogScaleActions: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogScaleActions",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4685,6 +4844,8 @@ export const listLogScaleAlerts: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogScaleAlerts",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4710,6 +4871,8 @@ export const listMappingRules: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMappingRules",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4735,6 +4898,8 @@ export const listMonitors: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMonitors",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4760,6 +4925,8 @@ export const listMutingRules: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMutingRules",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4785,6 +4952,8 @@ export const listNotificationPolicies: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNotificationPolicies",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4810,6 +4979,8 @@ export const listNotifiers: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNotifiers",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4835,6 +5006,8 @@ export const listRecordingRules: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRecordingRules",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4860,6 +5033,8 @@ export const listRollupRules: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRollupRules",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4885,6 +5060,8 @@ export const listServiceAccounts: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListServiceAccounts",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4910,6 +5087,8 @@ export const listSLOs: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSLOs",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4935,6 +5114,8 @@ export const listTeams: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTeams",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4960,6 +5141,8 @@ export const listTraceBehaviors: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTraceBehaviors",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -4989,6 +5172,8 @@ export const listTraceJaegerRemoteSamplingStrategies: API.PaginatedOperationMeth
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTraceJaegerRemoteSamplingStrategies",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -5014,6 +5199,8 @@ export const listTraceMetricsRules: API.PaginatedOperationMethod<
     errors: [UnknownChronosphereError],
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTraceMetricsRules",
     pagination: {
       mode: "cursor",
       inputToken: "page_token",
@@ -5037,6 +5224,8 @@ export const readBucket: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadBucket",
 }));
 
 export type ReadClassicDashboardError = NotFound | ChronosphereOpError;
@@ -5051,6 +5240,8 @@ export const readClassicDashboard: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadClassicDashboard",
 }));
 
 export type ReadCollectionError = NotFound | ChronosphereOpError;
@@ -5065,6 +5256,8 @@ export const readCollection: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCollection",
 }));
 
 export type ReadDashboardError = NotFound | ChronosphereOpError;
@@ -5079,6 +5272,8 @@ export const readDashboard: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadDashboard",
 }));
 
 export type ReadDatasetError = NotFound | ChronosphereOpError;
@@ -5093,6 +5288,8 @@ export const readDataset: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadDataset",
 }));
 
 export type ReadDerivedLabelError = NotFound | ChronosphereOpError;
@@ -5107,6 +5304,8 @@ export const readDerivedLabel: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadDerivedLabel",
 }));
 
 export type ReadDerivedMetricError = NotFound | ChronosphereOpError;
@@ -5121,6 +5320,8 @@ export const readDerivedMetric: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadDerivedMetric",
 }));
 
 export type ReadDropRuleError = NotFound | ChronosphereOpError;
@@ -5135,6 +5336,8 @@ export const readDropRule: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadDropRule",
 }));
 
 export type ReadGcpMetricsIntegrationError = NotFound | ChronosphereOpError;
@@ -5149,6 +5352,8 @@ export const readGcpMetricsIntegration: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadGcpMetricsIntegration",
 }));
 
 export type ReadGrafanaDashboardError = NotFound | ChronosphereOpError;
@@ -5163,6 +5368,8 @@ export const readGrafanaDashboard: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadGrafanaDashboard",
 }));
 
 export type ReadLogAllocationConfigError = NotFound | ChronosphereOpError;
@@ -5177,6 +5384,8 @@ export const readLogAllocationConfig: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadLogAllocationConfig",
 }));
 
 export type ReadLogIngestConfigError = NotFound | ChronosphereOpError;
@@ -5191,6 +5400,8 @@ export const readLogIngestConfig: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadLogIngestConfig",
 }));
 
 export type ReadLogScaleActionError = NotFound | ChronosphereOpError;
@@ -5205,6 +5416,8 @@ export const readLogScaleAction: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadLogScaleAction",
 }));
 
 export type ReadLogScaleAlertError = NotFound | ChronosphereOpError;
@@ -5219,6 +5432,8 @@ export const readLogScaleAlert: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadLogScaleAlert",
 }));
 
 export type ReadMappingRuleError = NotFound | ChronosphereOpError;
@@ -5233,6 +5448,8 @@ export const readMappingRule: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadMappingRule",
 }));
 
 export type ReadMonitorError = NotFound | ChronosphereOpError;
@@ -5247,6 +5464,8 @@ export const readMonitor: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadMonitor",
 }));
 
 export type ReadMutingRuleError = NotFound | ChronosphereOpError;
@@ -5261,6 +5480,8 @@ export const readMutingRule: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadMutingRule",
 }));
 
 export type ReadNotificationPolicyError = NotFound | ChronosphereOpError;
@@ -5275,6 +5496,8 @@ export const readNotificationPolicy: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNotificationPolicy",
 }));
 
 export type ReadNotifierError = NotFound | ChronosphereOpError;
@@ -5289,6 +5512,8 @@ export const readNotifier: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNotifier",
 }));
 
 export type ReadOtelMetricsIngestionError = NotFound | ChronosphereOpError;
@@ -5303,6 +5528,8 @@ export const readOtelMetricsIngestion: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadOtelMetricsIngestion",
 }));
 
 export type ReadRecordingRuleError = NotFound | ChronosphereOpError;
@@ -5317,6 +5544,8 @@ export const readRecordingRule: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadRecordingRule",
 }));
 
 export type ReadResourcePoolsError = NotFound | ChronosphereOpError;
@@ -5331,6 +5560,8 @@ export const readResourcePools: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadResourcePools",
 }));
 
 export type ReadRollupRuleError = NotFound | ChronosphereOpError;
@@ -5345,6 +5576,8 @@ export const readRollupRule: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadRollupRule",
 }));
 
 export type ReadServiceError = NotFound | ChronosphereOpError;
@@ -5359,6 +5592,8 @@ export const readService: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadService",
 }));
 
 export type ReadServiceAccountError = NotFound | ChronosphereOpError;
@@ -5373,6 +5608,8 @@ export const readServiceAccount: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadServiceAccount",
 }));
 
 export type ReadSLOError = NotFound | ChronosphereOpError;
@@ -5387,6 +5624,8 @@ export const readSLO: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSLO",
 }));
 
 export type ReadTeamError = NotFound | ChronosphereOpError;
@@ -5401,6 +5640,8 @@ export const readTeam: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadTeam",
 }));
 
 export type ReadTraceBehaviorError = NotFound | ChronosphereOpError;
@@ -5415,6 +5656,8 @@ export const readTraceBehavior: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadTraceBehavior",
 }));
 
 export type ReadTraceBehaviorConfigError = NotFound | ChronosphereOpError;
@@ -5429,6 +5672,8 @@ export const readTraceBehaviorConfig: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadTraceBehaviorConfig",
 }));
 
 export type ReadTraceJaegerRemoteSamplingStrategyError = NotFound | ChronosphereOpError;
@@ -5447,6 +5692,8 @@ export const readTraceJaegerRemoteSamplingStrategy: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadTraceJaegerRemoteSamplingStrategy",
 }));
 
 export type ReadTraceMetricsRuleError = NotFound | ChronosphereOpError;
@@ -5461,6 +5708,8 @@ export const readTraceMetricsRule: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadTraceMetricsRule",
 }));
 
 export type ReadTraceTailSamplingRulesError = NotFound | ChronosphereOpError;
@@ -5475,6 +5724,8 @@ export const readTraceTailSamplingRules: API.OperationMethod<
   errors: [NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadTraceTailSamplingRules",
 }));
 
 export type UpdateBucketError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5489,6 +5740,8 @@ export const updateBucket: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBucket",
 }));
 
 export type UpdateClassicDashboardError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5503,6 +5756,8 @@ export const updateClassicDashboard: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClassicDashboard",
 }));
 
 export type UpdateCollectionError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5517,6 +5772,8 @@ export const updateCollection: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCollection",
 }));
 
 export type UpdateDashboardError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5531,6 +5788,8 @@ export const updateDashboard: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 export type UpdateDatasetError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5545,6 +5804,8 @@ export const updateDataset: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateDerivedLabelError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5559,6 +5820,8 @@ export const updateDerivedLabel: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDerivedLabel",
 }));
 
 export type UpdateDerivedMetricError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5573,6 +5836,8 @@ export const updateDerivedMetric: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDerivedMetric",
 }));
 
 export type UpdateDropRuleError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5587,6 +5852,8 @@ export const updateDropRule: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDropRule",
 }));
 
 export type UpdateGcpMetricsIntegrationError =
@@ -5605,6 +5872,8 @@ export const updateGcpMetricsIntegration: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGcpMetricsIntegration",
 }));
 
 export type UpdateGrafanaDashboardError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5619,6 +5888,8 @@ export const updateGrafanaDashboard: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGrafanaDashboard",
 }));
 
 export type UpdateLogAllocationConfigError = BadRequest | NotFound | ChronosphereOpError;
@@ -5633,6 +5904,8 @@ export const updateLogAllocationConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogAllocationConfig",
 }));
 
 export type UpdateLogIngestConfigError = BadRequest | NotFound | ChronosphereOpError;
@@ -5647,6 +5920,8 @@ export const updateLogIngestConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogIngestConfig",
 }));
 
 export type UpdateLogScaleActionError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5661,6 +5936,8 @@ export const updateLogScaleAction: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogScaleAction",
 }));
 
 export type UpdateLogScaleAlertError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5675,6 +5952,8 @@ export const updateLogScaleAlert: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogScaleAlert",
 }));
 
 export type UpdateMappingRuleError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5689,6 +5968,8 @@ export const updateMappingRule: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMappingRule",
 }));
 
 export type UpdateMonitorError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5703,6 +5984,8 @@ export const updateMonitor: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateMutingRuleError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5717,6 +6000,8 @@ export const updateMutingRule: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMutingRule",
 }));
 
 export type UpdateNotificationPolicyError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5731,6 +6016,8 @@ export const updateNotificationPolicy: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationPolicy",
 }));
 
 export type UpdateNotifierError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5745,6 +6032,8 @@ export const updateNotifier: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNotifier",
 }));
 
 export type UpdateOtelMetricsIngestionError = BadRequest | NotFound | ChronosphereOpError;
@@ -5759,6 +6048,8 @@ export const updateOtelMetricsIngestion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOtelMetricsIngestion",
 }));
 
 export type UpdateRecordingRuleError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5773,6 +6064,8 @@ export const updateRecordingRule: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRecordingRule",
 }));
 
 export type UpdateResourcePoolsError = BadRequest | NotFound | ChronosphereOpError;
@@ -5787,6 +6080,8 @@ export const updateResourcePools: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourcePools",
 }));
 
 export type UpdateRollupRuleError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5801,6 +6096,8 @@ export const updateRollupRule: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRollupRule",
 }));
 
 export type UpdateSLOError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5815,6 +6112,8 @@ export const updateSLO: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSLO",
 }));
 
 export type UpdateTeamError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5829,6 +6128,8 @@ export const updateTeam: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeam",
 }));
 
 export type UpdateTraceBehaviorError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5843,6 +6144,8 @@ export const updateTraceBehavior: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTraceBehavior",
 }));
 
 export type UpdateTraceBehaviorConfigError = BadRequest | NotFound | ChronosphereOpError;
@@ -5857,6 +6160,8 @@ export const updateTraceBehaviorConfig: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTraceBehaviorConfig",
 }));
 
 export type UpdateTraceJaegerRemoteSamplingStrategyError =
@@ -5879,6 +6184,8 @@ export const updateTraceJaegerRemoteSamplingStrategy: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTraceJaegerRemoteSamplingStrategy",
 }));
 
 export type UpdateTraceMetricsRuleError = BadRequest | NotFound | Conflict | ChronosphereOpError;
@@ -5893,6 +6200,8 @@ export const updateTraceMetricsRule: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTraceMetricsRule",
 }));
 
 export type UpdateTraceTailSamplingRulesError = BadRequest | NotFound | ChronosphereOpError;
@@ -5907,6 +6216,8 @@ export const updateTraceTailSamplingRules: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownChronosphereError],
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTraceTailSamplingRules",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

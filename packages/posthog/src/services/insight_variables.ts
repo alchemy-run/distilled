@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "InsightVariables",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -160,6 +173,8 @@ export const createInsightVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightVariable",
 }));
 
 export type GetInsightVariableError = Forbidden | NotFound | PosthogOpError;
@@ -174,6 +189,8 @@ export const getInsightVariable: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightVariable",
 }));
 
 export type InsightVariablesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -188,6 +205,8 @@ export const insightVariablesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsightVariablesDestroy",
 }));
 
 export type ListInsightVariablesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -202,6 +221,8 @@ export const listInsightVariables: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightVariables",
 }));
 
 export type UpdateInsightVariableError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -216,6 +237,8 @@ export const updateInsightVariable: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInsightVariable",
 }));
 
 export type UpdateInsightVariablesPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -230,6 +253,8 @@ export const updateInsightVariablesPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInsightVariablesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

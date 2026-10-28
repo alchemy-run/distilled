@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediapackage.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaPackage",
+  service: "MediaPackage",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
@@ -880,6 +895,8 @@ export const configureLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogs",
+  telemetry: TELEMETRY,
+  span: "ConfigureLogs",
 }));
 
 export type CreateChannelError =
@@ -912,6 +929,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateHarvestJobError =
@@ -944,6 +963,8 @@ export const createHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarvestJob",
+  telemetry: TELEMETRY,
+  span: "CreateHarvestJob",
 }));
 
 export type CreateOriginEndpointError =
@@ -976,6 +997,8 @@ export const createOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateOriginEndpoint",
 }));
 
 export type DeleteChannelError =
@@ -1008,6 +1031,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteOriginEndpointError =
@@ -1040,6 +1065,8 @@ export const deleteOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginEndpoint",
 }));
 
 export type DescribeChannelError =
@@ -1072,6 +1099,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeHarvestJobError =
@@ -1104,6 +1133,8 @@ export const describeHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHarvestJob",
+  telemetry: TELEMETRY,
+  span: "DescribeHarvestJob",
 }));
 
 export type DescribeOriginEndpointError =
@@ -1136,6 +1167,8 @@ export const describeOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeOriginEndpoint",
 }));
 
 export type ListChannelsError =
@@ -1175,6 +1208,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Channels",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListHarvestJobsError =
@@ -1214,6 +1249,8 @@ export const listHarvestJobs: API.PaginatedOperationMethod<
     items: "HarvestJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHarvestJobs",
 })) as any;
 
 export type ListOriginEndpointsError =
@@ -1253,6 +1290,8 @@ export const listOriginEndpoints: API.PaginatedOperationMethod<
     items: "OriginEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOriginEndpoints",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -1271,6 +1310,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RotateChannelCredentialsError =
@@ -1303,6 +1344,8 @@ export const rotateChannelCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateChannelCredentials",
+  telemetry: TELEMETRY,
+  span: "RotateChannelCredentials",
 }));
 
 export type RotateIngestEndpointCredentialsError =
@@ -1335,6 +1378,8 @@ export const rotateIngestEndpointCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateIngestEndpointCredentials",
+  telemetry: TELEMETRY,
+  span: "RotateIngestEndpointCredentials",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -1353,6 +1398,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -1371,6 +1418,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError =
@@ -1403,6 +1452,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateOriginEndpointError =
@@ -1435,6 +1486,8 @@ export const updateOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateOriginEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

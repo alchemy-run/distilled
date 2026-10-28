@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://globalaccelerator.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GlobalAccelerator",
+  service: "GlobalAccelerator",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AcceleratorNotDisabledException
   extends /*@__PURE__*/ S.TaggedError<AcceleratorNotDisabledException>()(
@@ -915,6 +931,8 @@ export const addCustomRoutingEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCustomRoutingEndpoints",
+  telemetry: TELEMETRY,
+  span: "AddCustomRoutingEndpoints",
 }));
 
 export type AddEndpointsError =
@@ -964,6 +982,8 @@ export const addEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddEndpoints",
+  telemetry: TELEMETRY,
+  span: "AddEndpoints",
 }));
 
 export type AdvertiseByoipCidrError =
@@ -1002,6 +1022,8 @@ export const advertiseByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdvertiseByoipCidr",
+  telemetry: TELEMETRY,
+  span: "AdvertiseByoipCidr",
 }));
 
 export type AllowCustomRoutingTrafficError =
@@ -1030,6 +1052,8 @@ export const allowCustomRoutingTraffic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllowCustomRoutingTraffic",
+  telemetry: TELEMETRY,
+  span: "AllowCustomRoutingTraffic",
 }));
 
 export type CreateAcceleratorError =
@@ -1065,6 +1089,8 @@ export const createAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccelerator",
+  telemetry: TELEMETRY,
+  span: "CreateAccelerator",
 }));
 
 export type CreateCrossAccountAttachmentError =
@@ -1114,6 +1140,8 @@ export const createCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCrossAccountAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateCrossAccountAttachment",
 }));
 
 export type CreateCustomRoutingAcceleratorError =
@@ -1154,6 +1182,8 @@ export const createCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingAccelerator",
+  telemetry: TELEMETRY,
+  span: "CreateCustomRoutingAccelerator",
 }));
 
 export type CreateCustomRoutingEndpointGroupError =
@@ -1192,6 +1222,8 @@ export const createCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCustomRoutingEndpointGroup",
 }));
 
 export type CreateCustomRoutingListenerError =
@@ -1223,6 +1255,8 @@ export const createCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingListener",
+  telemetry: TELEMETRY,
+  span: "CreateCustomRoutingListener",
 }));
 
 export type CreateEndpointGroupError =
@@ -1262,6 +1296,8 @@ export const createEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "CreateEndpointGroup",
 }));
 
 export type CreateListenerError =
@@ -1293,6 +1329,8 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
+  telemetry: TELEMETRY,
+  span: "CreateListener",
 }));
 
 export type DeleteAcceleratorError =
@@ -1337,6 +1375,8 @@ export const deleteAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccelerator",
+  telemetry: TELEMETRY,
+  span: "DeleteAccelerator",
 }));
 
 export type DeleteCrossAccountAttachmentError =
@@ -1373,6 +1413,8 @@ export const deleteCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrossAccountAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteCrossAccountAttachment",
 }));
 
 export type DeleteCustomRoutingAcceleratorError =
@@ -1417,6 +1459,8 @@ export const deleteCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingAccelerator",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRoutingAccelerator",
 }));
 
 export type DeleteCustomRoutingEndpointGroupError =
@@ -1439,6 +1483,8 @@ export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRoutingEndpointGroup",
 }));
 
 export type DeleteCustomRoutingListenerError =
@@ -1467,6 +1513,8 @@ export const deleteCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingListener",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomRoutingListener",
 }));
 
 export type DeleteEndpointGroupError =
@@ -1489,6 +1537,8 @@ export const deleteEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpointGroup",
 }));
 
 export type DeleteListenerError =
@@ -1517,6 +1567,8 @@ export const deleteListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
+  telemetry: TELEMETRY,
+  span: "DeleteListener",
 }));
 
 export type DenyCustomRoutingTrafficError =
@@ -1545,6 +1597,8 @@ export const denyCustomRoutingTraffic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DenyCustomRoutingTraffic",
+  telemetry: TELEMETRY,
+  span: "DenyCustomRoutingTraffic",
 }));
 
 export type DeprovisionByoipCidrError =
@@ -1582,6 +1636,8 @@ export const deprovisionByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprovisionByoipCidr",
+  telemetry: TELEMETRY,
+  span: "DeprovisionByoipCidr",
 }));
 
 export type DescribeAcceleratorError =
@@ -1604,6 +1660,8 @@ export const describeAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccelerator",
+  telemetry: TELEMETRY,
+  span: "DescribeAccelerator",
 }));
 
 export type DescribeAcceleratorAttributesError =
@@ -1626,6 +1684,8 @@ export const describeAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcceleratorAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeAcceleratorAttributes",
 }));
 
 export type DescribeCrossAccountAttachmentError =
@@ -1654,6 +1714,8 @@ export const describeCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCrossAccountAttachment",
+  telemetry: TELEMETRY,
+  span: "DescribeCrossAccountAttachment",
 }));
 
 export type DescribeCustomRoutingAcceleratorError =
@@ -1676,6 +1738,8 @@ export const describeCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingAccelerator",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomRoutingAccelerator",
 }));
 
 export type DescribeCustomRoutingAcceleratorAttributesError =
@@ -1698,6 +1762,8 @@ export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingAcceleratorAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomRoutingAcceleratorAttributes",
 }));
 
 export type DescribeCustomRoutingEndpointGroupError =
@@ -1720,6 +1786,8 @@ export const describeCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomRoutingEndpointGroup",
 }));
 
 export type DescribeCustomRoutingListenerError =
@@ -1742,6 +1810,8 @@ export const describeCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingListener",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomRoutingListener",
 }));
 
 export type DescribeEndpointGroupError =
@@ -1764,6 +1834,8 @@ export const describeEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpointGroup",
 }));
 
 export type DescribeListenerError =
@@ -1786,6 +1858,8 @@ export const describeListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListener",
+  telemetry: TELEMETRY,
+  span: "DescribeListener",
 }));
 
 export type ListAcceleratorsError =
@@ -1815,6 +1889,8 @@ export const listAccelerators: API.PaginatedOperationMethod<
     items: "Accelerators",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccelerators",
 })) as any;
 
 export type ListByoipCidrsError =
@@ -1851,6 +1927,8 @@ export const listByoipCidrs: API.PaginatedOperationMethod<
     items: "ByoipCidrs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListByoipCidrs",
 })) as any;
 
 export type ListCrossAccountAttachmentsError =
@@ -1886,6 +1964,8 @@ export const listCrossAccountAttachments: API.PaginatedOperationMethod<
     items: "CrossAccountAttachments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCrossAccountAttachments",
 })) as any;
 
 export type ListCrossAccountResourceAccountsError =
@@ -1911,6 +1991,8 @@ export const listCrossAccountResourceAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrossAccountResourceAccounts",
+  telemetry: TELEMETRY,
+  span: "ListCrossAccountResourceAccounts",
 }));
 
 export type ListCrossAccountResourcesError =
@@ -1948,6 +2030,8 @@ export const listCrossAccountResources: API.PaginatedOperationMethod<
     items: "CrossAccountResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCrossAccountResources",
 })) as any;
 
 export type ListCustomRoutingAcceleratorsError =
@@ -1977,6 +2061,8 @@ export const listCustomRoutingAccelerators: API.PaginatedOperationMethod<
     items: "Accelerators",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingAccelerators",
 })) as any;
 
 export type ListCustomRoutingEndpointGroupsError =
@@ -2012,6 +2098,8 @@ export const listCustomRoutingEndpointGroups: API.PaginatedOperationMethod<
     items: "EndpointGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingEndpointGroups",
 })) as any;
 
 export type ListCustomRoutingListenersError =
@@ -2047,6 +2135,8 @@ export const listCustomRoutingListeners: API.PaginatedOperationMethod<
     items: "Listeners",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingListeners",
 })) as any;
 
 export type ListCustomRoutingPortMappingsError =
@@ -2094,6 +2184,8 @@ export const listCustomRoutingPortMappings: API.PaginatedOperationMethod<
     items: "PortMappings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingPortMappings",
 })) as any;
 
 export type ListCustomRoutingPortMappingsByDestinationError =
@@ -2132,6 +2224,8 @@ export const listCustomRoutingPortMappingsByDestination: API.PaginatedOperationM
     items: "DestinationPortMappings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomRoutingPortMappingsByDestination",
 })) as any;
 
 export type ListEndpointGroupsError =
@@ -2167,6 +2261,8 @@ export const listEndpointGroups: API.PaginatedOperationMethod<
     items: "EndpointGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpointGroups",
 })) as any;
 
 export type ListListenersError =
@@ -2202,6 +2298,8 @@ export const listListeners: API.PaginatedOperationMethod<
     items: "Listeners",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListListeners",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2237,6 +2335,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ProvisionByoipCidrError =
@@ -2273,6 +2373,8 @@ export const provisionByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionByoipCidr",
+  telemetry: TELEMETRY,
+  span: "ProvisionByoipCidr",
 }));
 
 export type RemoveCustomRoutingEndpointsError =
@@ -2305,6 +2407,8 @@ export const removeCustomRoutingEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveCustomRoutingEndpoints",
+  telemetry: TELEMETRY,
+  span: "RemoveCustomRoutingEndpoints",
 }));
 
 export type RemoveEndpointsError =
@@ -2348,6 +2452,8 @@ export const removeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveEndpoints",
+  telemetry: TELEMETRY,
+  span: "RemoveEndpoints",
 }));
 
 export type TagResourceError =
@@ -2373,6 +2479,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2399,6 +2507,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAcceleratorError =
@@ -2447,6 +2557,8 @@ export const updateAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccelerator",
+  telemetry: TELEMETRY,
+  span: "UpdateAccelerator",
 }));
 
 export type UpdateAcceleratorAttributesError =
@@ -2477,6 +2589,8 @@ export const updateAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcceleratorAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateAcceleratorAttributes",
 }));
 
 export type UpdateCrossAccountAttachmentError =
@@ -2515,6 +2629,8 @@ export const updateCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrossAccountAttachment",
+  telemetry: TELEMETRY,
+  span: "UpdateCrossAccountAttachment",
 }));
 
 export type UpdateCustomRoutingAcceleratorError =
@@ -2545,6 +2661,8 @@ export const updateCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingAccelerator",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRoutingAccelerator",
 }));
 
 export type UpdateCustomRoutingAcceleratorAttributesError =
@@ -2575,6 +2693,8 @@ export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingAcceleratorAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRoutingAcceleratorAttributes",
 }));
 
 export type UpdateCustomRoutingListenerError =
@@ -2605,6 +2725,8 @@ export const updateCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingListener",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomRoutingListener",
 }));
 
 export type UpdateEndpointGroupError =
@@ -2635,6 +2757,8 @@ export const updateEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpointGroup",
 }));
 
 export type UpdateListenerError =
@@ -2665,6 +2789,8 @@ export const updateListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateListener",
+  telemetry: TELEMETRY,
+  span: "UpdateListener",
 }));
 
 export type WithdrawByoipCidrError =
@@ -2703,6 +2829,8 @@ export const withdrawByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WithdrawByoipCidr",
+  telemetry: TELEMETRY,
+  span: "WithdrawByoipCidr",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

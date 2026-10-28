@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ResourceGraph" },
+  prefix: "Resourcegraph",
+  service: "Resourcegraph",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteGraphQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -338,6 +359,8 @@ export const DeleteGraphQuery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGraphQuery",
 }));
 
 export type GetGraphQueryError = AzureOpError;
@@ -353,6 +376,8 @@ export const GetGraphQuery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGraphQuery",
 }));
 
 export type GraphQueryCreateOrUpdateError = AzureOpError;
@@ -368,6 +393,8 @@ export const GraphQueryCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GraphQueryCreateOrUpdate",
 }));
 
 export type ListGraphQueryError = AzureOpError;
@@ -383,6 +410,8 @@ export const ListGraphQuery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGraphQuery",
 }));
 
 export type ListGraphQueryBySubscriptionError = AzureOpError;
@@ -398,6 +427,8 @@ export const ListGraphQueryBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGraphQueryBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -413,6 +444,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ResourcesError = AzureOpError;
@@ -428,6 +461,8 @@ export const Resources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Resources",
 }));
 
 export type UpdateGraphQueryError = AzureOpError;
@@ -443,6 +478,8 @@ export const UpdateGraphQuery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGraphQuery",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

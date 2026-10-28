@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lookoutequipment.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LookoutEquipment",
+  service: "LookoutEquipment",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1098,6 +1114,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateInferenceSchedulerError =
@@ -1136,6 +1154,8 @@ export const createInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "CreateInferenceScheduler",
 }));
 
 export type CreateLabelError =
@@ -1170,6 +1190,8 @@ export const createLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabel",
+  telemetry: TELEMETRY,
+  span: "CreateLabel",
 }));
 
 export type CreateLabelGroupError =
@@ -1202,6 +1224,8 @@ export const createLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabelGroup",
+  telemetry: TELEMETRY,
+  span: "CreateLabelGroup",
 }));
 
 export type CreateModelError =
@@ -1246,6 +1270,8 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
+  telemetry: TELEMETRY,
+  span: "CreateModel",
 }));
 
 export type CreateRetrainingSchedulerError =
@@ -1278,6 +1304,8 @@ export const createRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "CreateRetrainingScheduler",
 }));
 
 export type DeleteDatasetError =
@@ -1314,6 +1342,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteInferenceSchedulerError =
@@ -1347,6 +1377,8 @@ export const deleteInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "DeleteInferenceScheduler",
 }));
 
 export type DeleteLabelError =
@@ -1379,6 +1411,8 @@ export const deleteLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabel",
+  telemetry: TELEMETRY,
+  span: "DeleteLabel",
 }));
 
 export type DeleteLabelGroupError =
@@ -1411,6 +1445,8 @@ export const deleteLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabelGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteLabelGroup",
 }));
 
 export type DeleteModelError =
@@ -1444,6 +1480,8 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
+  telemetry: TELEMETRY,
+  span: "DeleteModel",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1476,6 +1514,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRetrainingSchedulerError =
@@ -1509,6 +1549,8 @@ export const deleteRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "DeleteRetrainingScheduler",
 }));
 
 export type DescribeDataIngestionJobError =
@@ -1540,6 +1582,8 @@ export const describeDataIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataIngestionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDataIngestionJob",
 }));
 
 export type DescribeDatasetError =
@@ -1571,6 +1615,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeInferenceSchedulerError =
@@ -1602,6 +1648,8 @@ export const describeInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "DescribeInferenceScheduler",
 }));
 
 export type DescribeLabelError =
@@ -1632,6 +1680,8 @@ export const describeLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabel",
+  telemetry: TELEMETRY,
+  span: "DescribeLabel",
 }));
 
 export type DescribeLabelGroupError =
@@ -1662,6 +1712,8 @@ export const describeLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabelGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeLabelGroup",
 }));
 
 export type DescribeModelError =
@@ -1694,6 +1746,8 @@ export const describeModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModel",
+  telemetry: TELEMETRY,
+  span: "DescribeModel",
 }));
 
 export type DescribeModelVersionError =
@@ -1724,6 +1778,8 @@ export const describeModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeModelVersion",
 }));
 
 export type DescribeResourcePolicyError =
@@ -1754,6 +1810,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeRetrainingSchedulerError =
@@ -1785,6 +1843,8 @@ export const describeRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "DescribeRetrainingScheduler",
 }));
 
 export type ImportDatasetError =
@@ -1819,6 +1879,8 @@ export const importDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDataset",
+  telemetry: TELEMETRY,
+  span: "ImportDataset",
 }));
 
 export type ImportModelVersionError =
@@ -1853,6 +1915,8 @@ export const importModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportModelVersion",
+  telemetry: TELEMETRY,
+  span: "ImportModelVersion",
 }));
 
 export type ListDataIngestionJobsError =
@@ -1888,6 +1952,8 @@ export const listDataIngestionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIngestionJobs",
 })) as any;
 
 export type ListDatasetsError =
@@ -1922,6 +1988,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListInferenceEventsError =
@@ -1958,6 +2026,8 @@ export const listInferenceEvents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceEvents",
 })) as any;
 
 export type ListInferenceExecutionsError =
@@ -1995,6 +2065,8 @@ export const listInferenceExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceExecutions",
 })) as any;
 
 export type ListInferenceSchedulersError =
@@ -2029,6 +2101,8 @@ export const listInferenceSchedulers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceSchedulers",
 })) as any;
 
 export type ListLabelGroupsError =
@@ -2063,6 +2137,8 @@ export const listLabelGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLabelGroups",
 })) as any;
 
 export type ListLabelsError =
@@ -2097,6 +2173,8 @@ export const listLabels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLabels",
 })) as any;
 
 export type ListModelsError =
@@ -2132,6 +2210,8 @@ export const listModels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModels",
 })) as any;
 
 export type ListModelVersionsError =
@@ -2170,6 +2250,8 @@ export const listModelVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelVersions",
 })) as any;
 
 export type ListRetrainingSchedulersError =
@@ -2205,6 +2287,8 @@ export const listRetrainingSchedulers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetrainingSchedulers",
 })) as any;
 
 export type ListSensorStatisticsError =
@@ -2243,6 +2327,8 @@ export const listSensorStatistics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSensorStatistics",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2273,6 +2359,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePolicyError =
@@ -2307,6 +2395,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type StartDataIngestionJobError =
@@ -2341,6 +2431,8 @@ export const startDataIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataIngestionJob",
+  telemetry: TELEMETRY,
+  span: "StartDataIngestionJob",
 }));
 
 export type StartInferenceSchedulerError =
@@ -2373,6 +2465,8 @@ export const startInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "StartInferenceScheduler",
 }));
 
 export type StartRetrainingSchedulerError =
@@ -2405,6 +2499,8 @@ export const startRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "StartRetrainingScheduler",
 }));
 
 export type StopInferenceSchedulerError =
@@ -2437,6 +2533,8 @@ export const stopInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "StopInferenceScheduler",
 }));
 
 export type StopRetrainingSchedulerError =
@@ -2469,6 +2567,8 @@ export const stopRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "StopRetrainingScheduler",
 }));
 
 export type TagResourceError =
@@ -2505,6 +2605,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2535,6 +2637,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateActiveModelVersionError =
@@ -2567,6 +2671,8 @@ export const updateActiveModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActiveModelVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateActiveModelVersion",
 }));
 
 export type UpdateInferenceSchedulerError =
@@ -2599,6 +2705,8 @@ export const updateInferenceScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceScheduler",
+  telemetry: TELEMETRY,
+  span: "UpdateInferenceScheduler",
 }));
 
 export type UpdateLabelGroupError =
@@ -2631,6 +2739,8 @@ export const updateLabelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLabelGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateLabelGroup",
 }));
 
 export type UpdateModelError =
@@ -2663,6 +2773,8 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
+  telemetry: TELEMETRY,
+  span: "UpdateModel",
 }));
 
 export type UpdateRetrainingSchedulerError =
@@ -2695,6 +2807,8 @@ export const updateRetrainingScheduler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRetrainingScheduler",
+  telemetry: TELEMETRY,
+  span: "UpdateRetrainingScheduler",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

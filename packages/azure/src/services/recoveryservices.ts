@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.RecoveryServices" },
+  prefix: "Recoveryservices",
+  service: "Recoveryservices",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckRecoveryServiceNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1207,6 +1228,8 @@ export const CheckRecoveryServiceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckRecoveryServiceNameAvailability",
 }));
 
 export type CreateVaultCertificateError = AzureOpError;
@@ -1222,6 +1245,8 @@ export const CreateVaultCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVaultCertificate",
 }));
 
 export type DeleteRegisteredIdentityError = AzureOpError;
@@ -1237,6 +1262,8 @@ export const DeleteRegisteredIdentity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegisteredIdentity",
 }));
 
 export type DeleteVaultError = AzureOpError;
@@ -1252,6 +1279,8 @@ export const DeleteVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVault",
 }));
 
 export type GetDeletedVaultError = AzureOpError;
@@ -1267,6 +1296,8 @@ export const GetDeletedVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeletedVault",
 }));
 
 export type GetDeletedVaultOperationStatusError = AzureOpError;
@@ -1282,6 +1313,8 @@ export const GetDeletedVaultOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeletedVaultOperationStatus",
 }));
 
 export type GetOperationResultError = AzureOpError;
@@ -1297,6 +1330,8 @@ export const GetOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationResult",
 }));
 
 export type GetOperationStatusError = AzureOpError;
@@ -1312,6 +1347,8 @@ export const GetOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatus",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -1327,6 +1364,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetVaultError = AzureOpError;
@@ -1342,6 +1381,8 @@ export const GetVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVault",
 }));
 
 export type GetVaultExtendedInfoError = AzureOpError;
@@ -1357,6 +1398,8 @@ export const GetVaultExtendedInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVaultExtendedInfo",
 }));
 
 export type ListDeletedVaultBySubscriptionIdError = AzureOpError;
@@ -1372,6 +1415,8 @@ export const ListDeletedVaultBySubscriptionId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeletedVaultBySubscriptionId",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1387,6 +1432,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -1402,6 +1449,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type ListReplicationUsagesError = AzureOpError;
@@ -1417,6 +1466,8 @@ export const ListReplicationUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReplicationUsages",
 }));
 
 export type ListUsageByVaultsError = AzureOpError;
@@ -1432,6 +1483,8 @@ export const ListUsageByVaults: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsageByVaults",
 }));
 
 export type ListVaultByResourceGroupError = AzureOpError;
@@ -1447,6 +1500,8 @@ export const ListVaultByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVaultByResourceGroup",
 }));
 
 export type ListVaultBySubscriptionIdError = AzureOpError;
@@ -1462,6 +1517,8 @@ export const ListVaultBySubscriptionId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVaultBySubscriptionId",
 }));
 
 export type RecoveryServicesCapabilitiesError = AzureOpError;
@@ -1477,6 +1534,8 @@ export const RecoveryServicesCapabilities: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecoveryServicesCapabilities",
 }));
 
 export type UndeleteDeletedVaultError = AzureOpError;
@@ -1492,6 +1551,8 @@ export const UndeleteDeletedVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteDeletedVault",
 }));
 
 export type UpdateVaultError = AzureOpError;
@@ -1507,6 +1568,8 @@ export const UpdateVault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVault",
 }));
 
 export type UpdateVaultExtendedInfoError = AzureOpError;
@@ -1522,6 +1585,8 @@ export const UpdateVaultExtendedInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVaultExtendedInfo",
 }));
 
 export type VaultExtendedInfoCreateOrUpdateError = AzureOpError;
@@ -1537,6 +1602,8 @@ export const VaultExtendedInfoCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VaultExtendedInfoCreateOrUpdate",
 }));
 
 export type VaultsCreateOrUpdateError = AzureOpError;
@@ -1552,6 +1619,8 @@ export const VaultsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VaultsCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

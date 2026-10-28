@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudsupport" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudsupport",
+  service: "cloudsupport",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -690,6 +709,8 @@ export const closeCases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloseCases",
 }));
 
 export type CreateCasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -705,6 +726,8 @@ export const createCases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCases",
 }));
 
 export type CreateCasesCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -720,6 +743,8 @@ export const createCasesComments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCasesComments",
 }));
 
 export type CreateOrganizationsSupportEventSubscriptionsError =
@@ -740,6 +765,8 @@ export const createOrganizationsSupportEventSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationsSupportEventSubscriptions",
 }));
 
 export type DeleteOrganizationsSupportEventSubscriptionsError =
@@ -760,6 +787,8 @@ export const deleteOrganizationsSupportEventSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationsSupportEventSubscriptions",
 }));
 
 export type DownloadMediaError = NotFound | Forbidden | GcpOpError;
@@ -775,6 +804,8 @@ export const downloadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadMedia",
 }));
 
 export type EscalateCasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -790,6 +821,8 @@ export const escalateCases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EscalateCases",
 }));
 
 export type ExpungeOrganizationsSupportEventSubscriptionsError =
@@ -810,6 +843,8 @@ export const expungeOrganizationsSupportEventSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExpungeOrganizationsSupportEventSubscriptions",
 }));
 
 export type GetCasesError = NotFound | Forbidden | GcpOpError;
@@ -821,6 +856,8 @@ export const getCases: API.OperationMethod<GetCasesRequest, Case, GetCasesError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetCases",
   }));
 
 export type GetCasesAttachmentsError = NotFound | Forbidden | GcpOpError;
@@ -836,6 +873,8 @@ export const getCasesAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasesAttachments",
 }));
 
 export type GetCasesCommentsError = NotFound | Forbidden | GcpOpError;
@@ -851,6 +890,8 @@ export const getCasesComments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCasesComments",
 }));
 
 export type GetFeedCasesError = NotFound | Forbidden | GcpOpError;
@@ -867,6 +908,8 @@ export const getFeedCases: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeedCases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -883,6 +926,8 @@ export const getOrganizationsSupportEventSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsSupportEventSubscriptions",
 }));
 
 export type ListCasesError = NotFound | Forbidden | GcpOpError;
@@ -899,6 +944,8 @@ export const listCases: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -916,6 +963,8 @@ export const listCasesAttachments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasesAttachments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -933,6 +982,8 @@ export const listCasesComments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCasesComments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -950,6 +1001,8 @@ export const listOrganizationsSupportEventSubscriptions: API.PaginatedOperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationsSupportEventSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -966,6 +1019,8 @@ export const patchCases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCases",
 }));
 
 export type PatchOrganizationsSupportEventSubscriptionsError =
@@ -986,6 +1041,8 @@ export const patchOrganizationsSupportEventSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOrganizationsSupportEventSubscriptions",
 }));
 
 export type SearchCaseClassificationsError = NotFound | Forbidden | GcpOpError;
@@ -1002,6 +1059,8 @@ export const searchCaseClassifications: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCaseClassifications",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1019,6 +1078,8 @@ export const searchCases: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1044,6 +1105,8 @@ export const undeleteOrganizationsSupportEventSubscriptions: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteOrganizationsSupportEventSubscriptions",
 }));
 
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1059,6 +1122,8 @@ export const uploadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadMedia",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

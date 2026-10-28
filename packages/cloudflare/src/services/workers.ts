@@ -130,6 +130,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   ignoreBaseConfig: "ignore_base_config",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Workers",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class ContentTypeRequired
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ContentTypeRequired>()("ContentTypeRequired", {
@@ -15760,6 +15774,8 @@ export const betaWorkersVersionsProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BetaWorkersVersionsProfile",
 }));
 
 export type BulkUpdateScriptSecretsError = CloudflareOpError;
@@ -15775,6 +15791,8 @@ export const bulkUpdateScriptSecrets: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkUpdateScriptSecrets",
 }));
 
 export type CreateAssetUploadError = InvalidRoute | CloudflareOpError;
@@ -15790,6 +15808,8 @@ export const createAssetUpload: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAssetUpload",
 }));
 
 export type CreateBetaWorkerError = InvalidRoute | CloudflareOpError;
@@ -15805,6 +15825,8 @@ export const createBetaWorker: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBetaWorker",
 }));
 
 export type CreateBetaWorkerVersionError = WorkerNotFound | CloudflareOpError;
@@ -15820,6 +15842,8 @@ export const createBetaWorkerVersion: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBetaWorkerVersion",
 }));
 
 export type CreateObservabilityDestinationError =
@@ -15838,6 +15862,8 @@ export const createObservabilityDestination: API.OperationMethod<
   errors: [ObservabilityDestinationCreateFailed, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateObservabilityDestination",
 }));
 
 export type CreateObservabilityIssueAutomationError =
@@ -15856,6 +15882,8 @@ export const createObservabilityIssueAutomation: API.OperationMethod<
   errors: [ObservabilityIssueAutomationInvalid, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateObservabilityIssueAutomation",
 }));
 
 export type CreateObservabilityQueryError = CloudflareOpError;
@@ -15871,6 +15899,8 @@ export const createObservabilityQuery: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateObservabilityQuery",
 }));
 
 export type CreateObservabilitySharedQueryError = CloudflareOpError;
@@ -15886,6 +15916,8 @@ export const createObservabilitySharedQuery: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateObservabilitySharedQuery",
 }));
 
 export type CreatePreviewError = WorkerNotFound | PreviewAlreadyExists | CloudflareOpError;
@@ -15901,6 +15933,8 @@ export const createPreview: API.OperationMethod<
   errors: [WorkerNotFound, PreviewAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePreview",
 }));
 
 export type CreatePreviewDeploymentError = PreviewNotFound | WorkerNotFound | CloudflareOpError;
@@ -15916,6 +15950,8 @@ export const createPreviewDeployment: API.OperationMethod<
   errors: [PreviewNotFound, WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePreviewDeployment",
 }));
 
 export type CreateRouteError =
@@ -15943,6 +15979,8 @@ export const createRoute: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRoute",
 }));
 
 export type CreateScriptAssetUploadError = CloudflareOpError;
@@ -15958,6 +15996,8 @@ export const createScriptAssetUpload: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScriptAssetUpload",
 }));
 
 export type CreateScriptDeploymentError = WorkerNotFound | CloudflareOpError;
@@ -15973,6 +16013,8 @@ export const createScriptDeployment: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScriptDeployment",
 }));
 
 export type CreateScriptEdgePreviewError = InvalidRoute | CloudflareOpError;
@@ -15988,6 +16030,8 @@ export const createScriptEdgePreview: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScriptEdgePreview",
 }));
 
 export type CreateScriptSubdomainError = WorkerNotFound | CloudflareOpError;
@@ -16003,6 +16047,8 @@ export const createScriptSubdomain: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScriptSubdomain",
 }));
 
 export type CreateScriptTailError = WorkerNotFound | CloudflareOpError;
@@ -16018,6 +16064,8 @@ export const createScriptTail: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScriptTail",
 }));
 
 export type CreateScriptVersionError = WorkerNotFound | CloudflareOpError;
@@ -16033,6 +16081,8 @@ export const createScriptVersion: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScriptVersion",
 }));
 
 export type CreateServiceEdgePreviewError = InvalidRoute | CloudflareOpError;
@@ -16048,6 +16098,8 @@ export const createServiceEdgePreview: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceEdgePreview",
 }));
 
 export type CreateSubdomainEdgePreviewSessionError = InvalidRoute | CloudflareOpError;
@@ -16063,6 +16115,8 @@ export const createSubdomainEdgePreviewSession: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubdomainEdgePreviewSession",
 }));
 
 export type CreateZoneEdgePreviewSessionError = InvalidRoute | CloudflareOpError;
@@ -16078,6 +16132,8 @@ export const createZoneEdgePreviewSession: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateZoneEdgePreviewSession",
 }));
 
 export type DeleteBetaWorkerError = WorkerNotFound | CloudflareOpError;
@@ -16093,6 +16149,8 @@ export const deleteBetaWorker: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBetaWorker",
 }));
 
 export type DeleteBetaWorkerVersionError =
@@ -16111,6 +16169,8 @@ export const deleteBetaWorkerVersion: API.OperationMethod<
   errors: [WorkerNotFound, WorkerVersionNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBetaWorkerVersion",
 }));
 
 export type DeleteDomainError = DomainNotFound | CloudflareOpError;
@@ -16126,6 +16186,8 @@ export const deleteDomain: API.OperationMethod<
   errors: [DomainNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteObservabilityDestinationError =
@@ -16144,6 +16206,8 @@ export const deleteObservabilityDestination: API.OperationMethod<
   errors: [ObservabilityDestinationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteObservabilityDestination",
 }));
 
 export type DeleteObservabilityIssueAutomationError =
@@ -16162,6 +16226,8 @@ export const deleteObservabilityIssueAutomation: API.OperationMethod<
   errors: [ObservabilityIssueAutomationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteObservabilityIssueAutomation",
 }));
 
 export type DeletePreviewError = PreviewNotFound | WorkerNotFound | CloudflareOpError;
@@ -16177,6 +16243,8 @@ export const deletePreview: API.OperationMethod<
   errors: [PreviewNotFound, WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePreview",
 }));
 
 export type DeleteRouteError = RouteNotFound | CloudflareOpError;
@@ -16192,6 +16260,8 @@ export const deleteRoute: API.OperationMethod<
   errors: [RouteNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoute",
 }));
 
 export type DeleteScriptError =
@@ -16217,6 +16287,8 @@ export const deleteScript: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScript",
 }));
 
 export type DeleteScriptDeploymentError = WorkerNotFound | DeploymentNotFound | CloudflareOpError;
@@ -16232,6 +16304,8 @@ export const deleteScriptDeployment: API.OperationMethod<
   errors: [WorkerNotFound, DeploymentNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScriptDeployment",
 }));
 
 export type DeleteScriptSecretError = WorkerNotFound | SecretNotFound | CloudflareOpError;
@@ -16247,6 +16321,8 @@ export const deleteScriptSecret: API.OperationMethod<
   errors: [WorkerNotFound, SecretNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScriptSecret",
 }));
 
 export type DeleteScriptSubdomainError = WorkerNotFound | CloudflareOpError;
@@ -16262,6 +16338,8 @@ export const deleteScriptSubdomain: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScriptSubdomain",
 }));
 
 export type DeleteScriptTailError = WorkerNotFound | CloudflareOpError;
@@ -16277,6 +16355,8 @@ export const deleteScriptTail: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScriptTail",
 }));
 
 export type DeleteSubdomainError = InvalidRoute | SubdomainNotFound | Forbidden | CloudflareOpError;
@@ -16292,6 +16372,8 @@ export const deleteSubdomain: API.OperationMethod<
   errors: [InvalidRoute, SubdomainNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubdomain",
 }));
 
 export type GetAccountSettingError = InvalidRoute | Forbidden | CloudflareOpError;
@@ -16307,6 +16389,8 @@ export const getAccountSetting: API.OperationMethod<
   errors: [InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountSetting",
 }));
 
 export type GetBetaWorkerError = WorkerNotFound | InvalidRoute | CloudflareOpError;
@@ -16322,6 +16406,8 @@ export const getBetaWorker: API.OperationMethod<
   errors: [WorkerNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBetaWorker",
 }));
 
 export type GetBetaWorkerVersionError = WorkerNotFound | WorkerVersionNotFound | CloudflareOpError;
@@ -16337,6 +16423,8 @@ export const getBetaWorkerVersion: API.OperationMethod<
   errors: [WorkerNotFound, WorkerVersionNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBetaWorkerVersion",
 }));
 
 export type GetDomainError = DomainNotFound | InvalidRoute | CloudflareOpError;
@@ -16352,6 +16440,8 @@ export const getDomain: API.OperationMethod<
   errors: [DomainNotFound, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetObservabilityIssueAutomationError =
@@ -16370,6 +16460,8 @@ export const getObservabilityIssueAutomation: API.OperationMethod<
   errors: [ObservabilityIssueAutomationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilityIssueAutomation",
 }));
 
 export type GetObservabilitySharedQueryError = CloudflareOpError;
@@ -16385,6 +16477,8 @@ export const getObservabilitySharedQuery: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObservabilitySharedQuery",
 }));
 
 export type GetPreviewError = PreviewNotFound | WorkerNotFound | CloudflareOpError;
@@ -16400,6 +16494,8 @@ export const getPreview: API.OperationMethod<
   errors: [PreviewNotFound, WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreview",
 }));
 
 export type GetPreviewDeploymentError =
@@ -16425,6 +16521,8 @@ export const getPreviewDeployment: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPreviewDeployment",
 }));
 
 export type GetRouteError =
@@ -16452,6 +16550,8 @@ export const getRoute: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRoute",
 }));
 
 export type GetScriptError =
@@ -16477,6 +16577,8 @@ export const getScript: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScript",
 }));
 
 export type GetScriptContentError = WorkerNotFound | CloudflareOpError;
@@ -16492,6 +16594,8 @@ export const getScriptContent: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptContent",
 }));
 
 export type GetScriptDeploymentError = WorkerNotFound | DeploymentNotFound | CloudflareOpError;
@@ -16507,6 +16611,8 @@ export const getScriptDeployment: API.OperationMethod<
   errors: [WorkerNotFound, DeploymentNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptDeployment",
 }));
 
 export type GetScriptEventTriggersError = CloudflareOpError;
@@ -16522,6 +16628,8 @@ export const getScriptEventTriggers: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptEventTriggers",
 }));
 
 export type GetScriptScheduleError = WorkerNotFound | CloudflareOpError;
@@ -16537,6 +16645,8 @@ export const getScriptSchedule: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptSchedule",
 }));
 
 export type GetScriptScriptAndVersionSettingError =
@@ -16555,6 +16665,8 @@ export const getScriptScriptAndVersionSetting: API.OperationMethod<
   errors: [WorkerNotFound, WorkerHasNoVersions, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptScriptAndVersionSetting",
 }));
 
 export type GetScriptSecretError = WorkerNotFound | SecretNotFound | CloudflareOpError;
@@ -16570,6 +16682,8 @@ export const getScriptSecret: API.OperationMethod<
   errors: [WorkerNotFound, SecretNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptSecret",
 }));
 
 export type GetScriptSettingError = WorkerNotFound | WorkerHasNoVersions | CloudflareOpError;
@@ -16585,6 +16699,8 @@ export const getScriptSetting: API.OperationMethod<
   errors: [WorkerNotFound, WorkerHasNoVersions, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptSetting",
 }));
 
 export type GetScriptSubdomainError = WorkerNotFound | CloudflareOpError;
@@ -16600,6 +16716,8 @@ export const getScriptSubdomain: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptSubdomain",
 }));
 
 export type GetScriptTailError = WorkerNotFound | CloudflareOpError;
@@ -16615,6 +16733,8 @@ export const getScriptTail: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptTail",
 }));
 
 export type GetScriptVersionError = WorkerNotFound | VersionNotFound | CloudflareOpError;
@@ -16630,6 +16750,8 @@ export const getScriptVersion: API.OperationMethod<
   errors: [WorkerNotFound, VersionNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScriptVersion",
 }));
 
 export type GetSubdomainError = InvalidRoute | SubdomainNotFound | Forbidden | CloudflareOpError;
@@ -16645,6 +16767,8 @@ export const getSubdomain: API.OperationMethod<
   errors: [InvalidRoute, SubdomainNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubdomain",
 }));
 
 export type KeysObservabilityTelemetryError = InvalidRoute | CloudflareOpError;
@@ -16662,6 +16786,8 @@ export const keysObservabilityTelemetry: API.PaginatedOperationMethod<
     errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "KeysObservabilityTelemetry",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -16682,6 +16808,8 @@ export const listBetaWorkers: API.PaginatedOperationMethod<
     errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBetaWorkers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16708,6 +16836,8 @@ export const listBetaWorkerVersions: API.PaginatedOperationMethod<
     errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBetaWorkerVersions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16734,6 +16864,8 @@ export const listDomains: API.PaginatedOperationMethod<
     errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDomains",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -16754,6 +16886,8 @@ export const listObservabilityDestinations: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListObservabilityDestinations",
     pagination: { mode: "page", items: "result", inputToken: "page" } as const,
   }),
   cloudflarePaginate,
@@ -16772,6 +16906,8 @@ export const listObservabilityIssueAutomations: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListObservabilityIssueAutomations",
 }));
 
 export type ListObservabilityQueriesError = CloudflareOpError;
@@ -16789,6 +16925,8 @@ export const listObservabilityQueries: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListObservabilityQueries",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -16809,6 +16947,8 @@ export const listRoutes: API.PaginatedOperationMethod<
     errors: [InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRoutes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -16827,6 +16967,8 @@ export const listScriptDeployments: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScriptDeployments",
 }));
 
 export type ListScriptsError = InvalidRoute | CloudflareOpError;
@@ -16844,6 +16986,8 @@ export const listScripts: API.PaginatedOperationMethod<
     errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListScripts",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -16864,6 +17008,8 @@ export const listScriptSecrets: API.PaginatedOperationMethod<
     errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListScriptSecrets",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -16882,6 +17028,8 @@ export const listScriptVersions: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScriptVersions",
 }));
 
 export type LiveTailHeartbeatObservabilityTelemetryError = CloudflareOpError;
@@ -16897,6 +17045,8 @@ export const liveTailHeartbeatObservabilityTelemetry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LiveTailHeartbeatObservabilityTelemetry",
 }));
 
 export type LiveTailObservabilityTelemetryError = CloudflareOpError;
@@ -16912,6 +17062,8 @@ export const liveTailObservabilityTelemetry: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LiveTailObservabilityTelemetry",
 }));
 
 export type PatchBetaWorkerError = WorkerNotFound | CloudflareOpError;
@@ -16927,6 +17079,8 @@ export const patchBetaWorker: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchBetaWorker",
 }));
 
 export type PatchObservabilityDestinationError =
@@ -16952,6 +17106,8 @@ export const patchObservabilityDestination: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchObservabilityDestination",
 }));
 
 export type PatchScriptScriptAndVersionSettingError =
@@ -16970,6 +17126,8 @@ export const patchScriptScriptAndVersionSetting: API.OperationMethod<
   errors: [WorkerNotFound, ContentTypeRequired, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchScriptScriptAndVersionSetting",
 }));
 
 export type PatchScriptSettingError = WorkerNotFound | CloudflareOpError;
@@ -16985,6 +17143,8 @@ export const patchScriptSetting: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchScriptSetting",
 }));
 
 export type PutAccountSettingError = InvalidRoute | Forbidden | CloudflareOpError;
@@ -17000,6 +17160,8 @@ export const putAccountSetting: API.OperationMethod<
   errors: [InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutAccountSetting",
 }));
 
 export type PutDomainError =
@@ -17025,6 +17187,8 @@ export const putDomain: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutDomain",
 }));
 
 export type PutScriptError =
@@ -17078,6 +17242,8 @@ export const putScript: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScript",
 }));
 
 export type PutScriptContentError =
@@ -17105,6 +17271,8 @@ export const putScriptContent: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScriptContent",
 }));
 
 export type PutScriptEventTriggersError =
@@ -17128,6 +17296,8 @@ export const putScriptEventTriggers: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScriptEventTriggers",
 }));
 
 export type PutScriptScheduleError = WorkerNotFound | CloudflareOpError;
@@ -17143,6 +17313,8 @@ export const putScriptSchedule: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScriptSchedule",
 }));
 
 export type PutScriptSecretError = WorkerNotFound | CloudflareOpError;
@@ -17158,6 +17330,8 @@ export const putScriptSecret: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutScriptSecret",
 }));
 
 export type PutSubdomainError =
@@ -17177,6 +17351,8 @@ export const putSubdomain: API.OperationMethod<
   errors: [SubdomainAlreadyExists, InvalidRoute, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSubdomain",
 }));
 
 export type QueryObservabilityTelemetryError = InvalidRoute | CloudflareOpError;
@@ -17192,6 +17368,8 @@ export const queryObservabilityTelemetry: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryObservabilityTelemetry",
 }));
 
 export type SearchScriptError = InvalidRoute | CloudflareOpError;
@@ -17207,6 +17385,8 @@ export const searchScript: API.OperationMethod<
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchScript",
 }));
 
 export type UpdateBetaWorkerError = WorkerNotFound | CloudflareOpError;
@@ -17222,6 +17402,8 @@ export const updateBetaWorker: API.OperationMethod<
   errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBetaWorker",
 }));
 
 export type UpdateObservabilityIssueAutomationError =
@@ -17247,6 +17429,8 @@ export const updateObservabilityIssueAutomation: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateObservabilityIssueAutomation",
 }));
 
 export type UpdateRouteError = RouteNotFound | InvalidRoutePattern | CloudflareOpError;
@@ -17262,6 +17446,8 @@ export const updateRoute: API.OperationMethod<
   errors: [RouteNotFound, InvalidRoutePattern, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRoute",
 }));
 
 export type ValuesObservabilityTelemetryError = InvalidRoute | CloudflareOpError;
@@ -17279,6 +17465,8 @@ export const valuesObservabilityTelemetry: API.PaginatedOperationMethod<
     errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ValuesObservabilityTelemetry",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

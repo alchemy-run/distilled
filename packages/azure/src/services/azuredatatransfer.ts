@@ -12,6 +12,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AzureDataTransfer" },
+  prefix: "Azuredatatransfer",
+  service: "Azuredatatransfer",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface ApprovePipelineConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2036,6 +2057,8 @@ export const ApprovePipelineConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApprovePipelineConnection",
 }));
 
 export type ConnectionsCreateOrUpdateError = AzureOpError;
@@ -2051,6 +2074,8 @@ export const ConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectionsCreateOrUpdate",
 }));
 
 export type ConnectionsLinkError = AzureOpError;
@@ -2066,6 +2091,8 @@ export const ConnectionsLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectionsLink",
 }));
 
 export type DeleteConnectionError = AzureOpError;
@@ -2081,6 +2108,8 @@ export const DeleteConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteFlowError = AzureOpError;
@@ -2096,6 +2125,8 @@ export const DeleteFlow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFlow",
 }));
 
 export type DeletePipelineError = AzureOpError;
@@ -2111,6 +2142,8 @@ export const DeletePipeline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DisableFlowError = AzureOpError;
@@ -2126,6 +2159,8 @@ export const DisableFlow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableFlow",
 }));
 
 export type EnableFlowError = AzureOpError;
@@ -2141,6 +2176,8 @@ export const EnableFlow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableFlow",
 }));
 
 export type ExecutePipelineActionError = AzureOpError;
@@ -2156,6 +2193,8 @@ export const ExecutePipelineAction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecutePipelineAction",
 }));
 
 export type FlowsCreateOrUpdateError = AzureOpError;
@@ -2171,6 +2210,8 @@ export const FlowsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlowsCreateOrUpdate",
 }));
 
 export type FlowsLinkError = AzureOpError;
@@ -2186,6 +2227,8 @@ export const FlowsLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlowsLink",
 }));
 
 export type GenerateFlowPassphraseError = AzureOpError;
@@ -2201,6 +2244,8 @@ export const GenerateFlowPassphrase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateFlowPassphrase",
 }));
 
 export type GetConnectionError = AzureOpError;
@@ -2216,6 +2261,8 @@ export const GetConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetFlowError = AzureOpError;
@@ -2231,6 +2278,8 @@ export const GetFlow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlow",
 }));
 
 export type GetFlowDestinationEndpointPortsError = AzureOpError;
@@ -2246,6 +2295,8 @@ export const GetFlowDestinationEndpointPorts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowDestinationEndpointPorts",
 }));
 
 export type GetFlowDestinationEndpointsError = AzureOpError;
@@ -2261,6 +2312,8 @@ export const GetFlowDestinationEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowDestinationEndpoints",
 }));
 
 export type GetFlowSourceAddressesError = AzureOpError;
@@ -2276,6 +2329,8 @@ export const GetFlowSourceAddresses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowSourceAddresses",
 }));
 
 export type GetFlowStreamConnectionStringError = AzureOpError;
@@ -2291,6 +2346,8 @@ export const GetFlowStreamConnectionString: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFlowStreamConnectionString",
 }));
 
 export type GetPipelineError = AzureOpError;
@@ -2306,6 +2363,8 @@ export const GetPipeline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPipeline",
 }));
 
 export type ListAzureDataTransferApprovedSchemasError = AzureOpError;
@@ -2321,6 +2380,8 @@ export const ListAzureDataTransferApprovedSchemas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureDataTransferApprovedSchemas",
 }));
 
 export type ListConnectionByResourceGroupError = AzureOpError;
@@ -2336,6 +2397,8 @@ export const ListConnectionByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectionByResourceGroup",
 }));
 
 export type ListConnectionBySubscriptionError = AzureOpError;
@@ -2351,6 +2414,8 @@ export const ListConnectionBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectionBySubscription",
 }));
 
 export type ListFlowByConnectionError = AzureOpError;
@@ -2366,6 +2431,8 @@ export const ListFlowByConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlowByConnection",
 }));
 
 export type ListListFlowsByPipelineError = AzureOpError;
@@ -2381,6 +2448,8 @@ export const ListListFlowsByPipeline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListListFlowsByPipeline",
 }));
 
 export type ListListPendingConnectionsError = AzureOpError;
@@ -2396,6 +2465,8 @@ export const ListListPendingConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListListPendingConnections",
 }));
 
 export type ListListPendingFlowsError = AzureOpError;
@@ -2411,6 +2482,8 @@ export const ListListPendingFlows: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListListPendingFlows",
 }));
 
 export type ListListSchemasError = AzureOpError;
@@ -2426,6 +2499,8 @@ export const ListListSchemas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListListSchemas",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2441,6 +2516,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPipelineByResourceGroupError = AzureOpError;
@@ -2456,6 +2533,8 @@ export const ListPipelineByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPipelineByResourceGroup",
 }));
 
 export type ListPipelineBySubscriptionError = AzureOpError;
@@ -2471,6 +2550,8 @@ export const ListPipelineBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPipelineBySubscription",
 }));
 
 export type PipelinesCreateOrUpdateError = AzureOpError;
@@ -2486,6 +2567,8 @@ export const PipelinesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PipelinesCreateOrUpdate",
 }));
 
 export type RejectPipelineConnectionError = AzureOpError;
@@ -2501,6 +2584,8 @@ export const RejectPipelineConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectPipelineConnection",
 }));
 
 export type SetFlowDestinationEndpointPortsError = AzureOpError;
@@ -2516,6 +2601,8 @@ export const SetFlowDestinationEndpointPorts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFlowDestinationEndpointPorts",
 }));
 
 export type SetFlowDestinationEndpointsError = AzureOpError;
@@ -2531,6 +2618,8 @@ export const SetFlowDestinationEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFlowDestinationEndpoints",
 }));
 
 export type SetFlowPassphraseError = AzureOpError;
@@ -2546,6 +2635,8 @@ export const SetFlowPassphrase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFlowPassphrase",
 }));
 
 export type SetFlowSourceAddressesError = AzureOpError;
@@ -2561,6 +2652,8 @@ export const SetFlowSourceAddresses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFlowSourceAddresses",
 }));
 
 export type UpdateConnectionError = AzureOpError;
@@ -2576,6 +2669,8 @@ export const UpdateConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnection",
 }));
 
 export type UpdateFlowError = AzureOpError;
@@ -2591,6 +2686,8 @@ export const UpdateFlow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFlow",
 }));
 
 export type UpdatePipelineError = AzureOpError;
@@ -2606,6 +2703,8 @@ export const UpdatePipeline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 export type ValidateAzureDataTransferSchemaError = AzureOpError;
@@ -2621,6 +2720,8 @@ export const ValidateAzureDataTransferSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAzureDataTransferSchema",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://backup-gateway.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BackupGateway",
+  service: "BackupGateway",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -427,6 +443,8 @@ export const associateGatewayToServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateGatewayToServer",
+  telemetry: TELEMETRY,
+  span: "AssociateGatewayToServer",
 }));
 
 export type CreateGatewayError = CommonErrors;
@@ -445,6 +463,8 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
+  telemetry: TELEMETRY,
+  span: "CreateGateway",
 }));
 
 export type DeleteGatewayError = ResourceNotFoundException | CommonErrors;
@@ -463,6 +483,8 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteGateway",
 }));
 
 export type DeleteHypervisorError =
@@ -485,6 +507,8 @@ export const deleteHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHypervisor",
+  telemetry: TELEMETRY,
+  span: "DeleteHypervisor",
 }));
 
 export type DisassociateGatewayFromServerError =
@@ -506,6 +530,8 @@ export const disassociateGatewayFromServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGatewayFromServer",
+  telemetry: TELEMETRY,
+  span: "DisassociateGatewayFromServer",
 }));
 
 export type GetBandwidthRateLimitScheduleError = ResourceNotFoundException | CommonErrors;
@@ -524,6 +550,8 @@ export const getBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBandwidthRateLimitSchedule",
+  telemetry: TELEMETRY,
+  span: "GetBandwidthRateLimitSchedule",
 }));
 
 export type GetGatewayError = ResourceNotFoundException | CommonErrors;
@@ -542,6 +570,8 @@ export const getGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGateway",
+  telemetry: TELEMETRY,
+  span: "GetGateway",
 }));
 
 export type GetHypervisorError = ResourceNotFoundException | CommonErrors;
@@ -560,6 +590,8 @@ export const getHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHypervisor",
+  telemetry: TELEMETRY,
+  span: "GetHypervisor",
 }));
 
 export type GetHypervisorPropertyMappingsError = ResourceNotFoundException | CommonErrors;
@@ -578,6 +610,8 @@ export const getHypervisorPropertyMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHypervisorPropertyMappings",
+  telemetry: TELEMETRY,
+  span: "GetHypervisorPropertyMappings",
 }));
 
 export type GetVirtualMachineError = ResourceNotFoundException | CommonErrors;
@@ -596,6 +630,8 @@ export const getVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVirtualMachine",
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachine",
 }));
 
 export type ImportHypervisorConfigurationError =
@@ -617,6 +653,8 @@ export const importHypervisorConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportHypervisorConfiguration",
+  telemetry: TELEMETRY,
+  span: "ImportHypervisorConfiguration",
 }));
 
 export type ListGatewaysError = CommonErrors;
@@ -642,6 +680,8 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "Gateways",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGateways",
 })) as any;
 
 export type ListHypervisorsError = CommonErrors;
@@ -667,6 +707,8 @@ export const listHypervisors: API.PaginatedOperationMethod<
     items: "Hypervisors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHypervisors",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -685,6 +727,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVirtualMachinesError = CommonErrors;
@@ -710,6 +754,8 @@ export const listVirtualMachines: API.PaginatedOperationMethod<
     items: "VirtualMachines",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVirtualMachines",
 })) as any;
 
 export type PutBandwidthRateLimitScheduleError = ResourceNotFoundException | CommonErrors;
@@ -728,6 +774,8 @@ export const putBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBandwidthRateLimitSchedule",
+  telemetry: TELEMETRY,
+  span: "PutBandwidthRateLimitSchedule",
 }));
 
 export type PutHypervisorPropertyMappingsError =
@@ -750,6 +798,8 @@ export const putHypervisorPropertyMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutHypervisorPropertyMappings",
+  telemetry: TELEMETRY,
+  span: "PutHypervisorPropertyMappings",
 }));
 
 export type PutMaintenanceStartTimeError =
@@ -771,6 +821,8 @@ export const putMaintenanceStartTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMaintenanceStartTime",
+  telemetry: TELEMETRY,
+  span: "PutMaintenanceStartTime",
 }));
 
 export type StartVirtualMachinesMetadataSyncError =
@@ -792,6 +844,8 @@ export const startVirtualMachinesMetadataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVirtualMachinesMetadataSync",
+  telemetry: TELEMETRY,
+  span: "StartVirtualMachinesMetadataSync",
 }));
 
 export type TagResourceError = ResourceNotFoundException | CommonErrors;
@@ -810,6 +864,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestHypervisorConfigurationError =
@@ -831,6 +887,8 @@ export const testHypervisorConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestHypervisorConfiguration",
+  telemetry: TELEMETRY,
+  span: "TestHypervisorConfiguration",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -849,6 +907,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGatewayInformationError =
@@ -870,6 +930,8 @@ export const updateGatewayInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInformation",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewayInformation",
 }));
 
 export type UpdateGatewaySoftwareNowError = ResourceNotFoundException | CommonErrors;
@@ -890,6 +952,8 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewaySoftwareNow",
+  telemetry: TELEMETRY,
+  span: "UpdateGatewaySoftwareNow",
 }));
 
 export type UpdateHypervisorError =
@@ -912,6 +976,8 @@ export const updateHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHypervisor",
+  telemetry: TELEMETRY,
+  span: "UpdateHypervisor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

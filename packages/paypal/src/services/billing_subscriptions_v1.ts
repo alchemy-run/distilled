@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "BillingSubscriptionsV1",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1005,6 +1019,8 @@ export const activatePlan: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivatePlan",
 }));
 
 export type ActivateSubscriptionError =
@@ -1025,6 +1041,8 @@ export const activateSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateSubscription",
 }));
 
 export type CancelSubscriptionError =
@@ -1045,6 +1063,8 @@ export const cancelSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelSubscription",
 }));
 
 export type CaptureSubscriptionError =
@@ -1065,6 +1085,8 @@ export const captureSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CaptureSubscription",
 }));
 
 export type CreatePlanError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -1080,6 +1102,8 @@ export const createPlan: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePlan",
 }));
 
 export type CreateSubscriptionError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;
@@ -1095,6 +1119,8 @@ export const createSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type DeactivatePlanError = Forbidden | NotFound | UnprocessableEntity | PaypalOpError;
@@ -1110,6 +1136,8 @@ export const deactivatePlan: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivatePlan",
 }));
 
 export type GetPlanError = Forbidden | NotFound | PaypalOpError;
@@ -1121,6 +1149,8 @@ export const getPlan: API.OperationMethod<GetPlanRequest, Plan, GetPlanError, Pa
     errors: [Forbidden, NotFound, UnknownPaypalError],
     protocol: PaypalProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetPlan",
   }));
 
 export type GetSubscriptionError = Forbidden | NotFound | PaypalOpError;
@@ -1136,6 +1166,8 @@ export const getSubscription: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type ListPlansError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1151,6 +1183,8 @@ export const listPlans: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlans",
 }));
 
 export type PatchPlanError =
@@ -1171,6 +1205,8 @@ export const patchPlan: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPlan",
 }));
 
 export type PatchSubscriptionError =
@@ -1191,6 +1227,8 @@ export const patchSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSubscription",
 }));
 
 export type PlansUpdatePricingSchemesError =
@@ -1211,6 +1249,8 @@ export const plansUpdatePricingSchemes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PlansUpdatePricingSchemes",
 }));
 
 export type SubscriptionsReviseError =
@@ -1231,6 +1271,8 @@ export const subscriptionsRevise: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsRevise",
 }));
 
 export type SubscriptionsTransactionsError = BadRequest | Forbidden | NotFound | PaypalOpError;
@@ -1246,6 +1288,8 @@ export const subscriptionsTransactions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscriptionsTransactions",
 }));
 
 export type SuspendSubscriptionError =
@@ -1266,6 +1310,8 @@ export const suspendSubscription: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendSubscription",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

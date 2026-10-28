@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PartnerCentralAccount",
+  service: "PartnerCentralAccount",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -987,6 +1003,8 @@ export const acceptConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptConnectionInvitation",
 }));
 
 export type AssociateAwsTrainingCertificationEmailDomainError =
@@ -1023,6 +1041,8 @@ export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAwsTrainingCertificationEmailDomain",
+  telemetry: TELEMETRY,
+  span: "AssociateAwsTrainingCertificationEmailDomain",
 }));
 
 export type CancelConnectionError =
@@ -1055,6 +1075,8 @@ export const cancelConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConnection",
+  telemetry: TELEMETRY,
+  span: "CancelConnection",
 }));
 
 export type CancelConnectionInvitationError =
@@ -1087,6 +1109,8 @@ export const cancelConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "CancelConnectionInvitation",
 }));
 
 export type CancelProfileUpdateTaskError =
@@ -1119,6 +1143,8 @@ export const cancelProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelProfileUpdateTask",
+  telemetry: TELEMETRY,
+  span: "CancelProfileUpdateTask",
 }));
 
 export type CreateConnectionInvitationError =
@@ -1153,6 +1179,8 @@ export const createConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "CreateConnectionInvitation",
 }));
 
 export type CreatePartnerError =
@@ -1183,6 +1211,8 @@ export const createPartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartner",
+  telemetry: TELEMETRY,
+  span: "CreatePartner",
 }));
 
 export type DisassociateAwsTrainingCertificationEmailDomainError =
@@ -1221,6 +1251,8 @@ export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAwsTrainingCertificationEmailDomain",
+  telemetry: TELEMETRY,
+  span: "DisassociateAwsTrainingCertificationEmailDomain",
 }));
 
 export type GetAllianceLeadContactError =
@@ -1251,6 +1283,8 @@ export const getAllianceLeadContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAllianceLeadContact",
+  telemetry: TELEMETRY,
+  span: "GetAllianceLeadContact",
 }));
 
 export type GetConnectionError =
@@ -1281,6 +1315,8 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetConnectionInvitationError =
@@ -1311,6 +1347,8 @@ export const getConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "GetConnectionInvitation",
 }));
 
 export type GetConnectionPreferencesError =
@@ -1339,6 +1377,8 @@ export const getConnectionPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionPreferences",
+  telemetry: TELEMETRY,
+  span: "GetConnectionPreferences",
 }));
 
 export type GetPartnerError =
@@ -1369,6 +1409,8 @@ export const getPartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartner",
+  telemetry: TELEMETRY,
+  span: "GetPartner",
 }));
 
 export type GetProfileUpdateTaskError =
@@ -1399,6 +1441,8 @@ export const getProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileUpdateTask",
+  telemetry: TELEMETRY,
+  span: "GetProfileUpdateTask",
 }));
 
 export type GetProfileVisibilityError =
@@ -1429,6 +1473,8 @@ export const getProfileVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileVisibility",
+  telemetry: TELEMETRY,
+  span: "GetProfileVisibility",
 }));
 
 export type GetQualificationsAssociationDetailsError =
@@ -1459,6 +1505,8 @@ export const getQualificationsAssociationDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsAssociationDetails",
+  telemetry: TELEMETRY,
+  span: "GetQualificationsAssociationDetails",
 }));
 
 export type GetQualificationsAssociationTaskError =
@@ -1489,6 +1537,8 @@ export const getQualificationsAssociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsAssociationTask",
+  telemetry: TELEMETRY,
+  span: "GetQualificationsAssociationTask",
 }));
 
 export type GetQualificationsDisassociationTaskError =
@@ -1519,6 +1569,8 @@ export const getQualificationsDisassociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQualificationsDisassociationTask",
+  telemetry: TELEMETRY,
+  span: "GetQualificationsDisassociationTask",
 }));
 
 export type GetVerificationError =
@@ -1549,6 +1601,8 @@ export const getVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVerification",
+  telemetry: TELEMETRY,
+  span: "GetVerification",
 }));
 
 export type ListConnectionInvitationsError =
@@ -1584,6 +1638,8 @@ export const listConnectionInvitations: API.PaginatedOperationMethod<
     items: "ConnectionInvitationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectionInvitations",
 })) as any;
 
 export type ListConnectionsError =
@@ -1619,6 +1675,8 @@ export const listConnections: API.PaginatedOperationMethod<
     items: "ConnectionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 })) as any;
 
 export type ListPartnersError =
@@ -1653,6 +1711,8 @@ export const listPartners: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PartnerSummaryList",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPartners",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1683,6 +1743,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAllianceLeadContactError =
@@ -1713,6 +1775,8 @@ export const putAllianceLeadContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAllianceLeadContact",
+  telemetry: TELEMETRY,
+  span: "PutAllianceLeadContact",
 }));
 
 export type PutProfileVisibilityError =
@@ -1745,6 +1809,8 @@ export const putProfileVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileVisibility",
+  telemetry: TELEMETRY,
+  span: "PutProfileVisibility",
 }));
 
 export type RejectConnectionInvitationError =
@@ -1777,6 +1843,8 @@ export const rejectConnectionInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectConnectionInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectConnectionInvitation",
 }));
 
 export type SendEmailVerificationCodeError =
@@ -1807,6 +1875,8 @@ export const sendEmailVerificationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmailVerificationCode",
+  telemetry: TELEMETRY,
+  span: "SendEmailVerificationCode",
 }));
 
 export type StartProfileUpdateTaskError =
@@ -1841,6 +1911,8 @@ export const startProfileUpdateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProfileUpdateTask",
+  telemetry: TELEMETRY,
+  span: "StartProfileUpdateTask",
 }));
 
 export type StartQualificationsAssociationTaskError =
@@ -1873,6 +1945,8 @@ export const startQualificationsAssociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQualificationsAssociationTask",
+  telemetry: TELEMETRY,
+  span: "StartQualificationsAssociationTask",
 }));
 
 export type StartQualificationsDisassociationTaskError =
@@ -1905,6 +1979,8 @@ export const startQualificationsDisassociationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQualificationsDisassociationTask",
+  telemetry: TELEMETRY,
+  span: "StartQualificationsDisassociationTask",
 }));
 
 export type StartVerificationError =
@@ -1937,6 +2013,8 @@ export const startVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVerification",
+  telemetry: TELEMETRY,
+  span: "StartVerification",
 }));
 
 export type TagResourceError =
@@ -1969,6 +2047,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2001,6 +2081,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectionPreferencesError =
@@ -2031,6 +2113,8 @@ export const updateConnectionPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionPreferences",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectionPreferences",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

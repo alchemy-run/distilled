@@ -12,6 +12,24 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "www" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Identitytoolkit",
+  service: "identitytoolkit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -937,6 +955,8 @@ export const createAuthUriRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthUriRelyingparty",
 }));
 
 export type DeleteAccountRelyingpartyError =
@@ -957,6 +977,8 @@ export const deleteAccountRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountRelyingparty",
 }));
 
 export type DownloadAccountRelyingpartyError =
@@ -977,6 +999,8 @@ export const downloadAccountRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadAccountRelyingparty",
 }));
 
 export type EmailLinkSigninRelyingpartyError =
@@ -997,6 +1021,8 @@ export const emailLinkSigninRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailLinkSigninRelyingparty",
 }));
 
 export type GetAccountInfoRelyingpartyError =
@@ -1017,6 +1043,8 @@ export const getAccountInfoRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountInfoRelyingparty",
 }));
 
 export type GetOobConfirmationCodeRelyingpartyError =
@@ -1037,6 +1065,8 @@ export const getOobConfirmationCodeRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOobConfirmationCodeRelyingparty",
 }));
 
 export type GetProjectConfigRelyingpartyError = NotFound | Forbidden | GcpOpError;
@@ -1052,6 +1082,8 @@ export const getProjectConfigRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectConfigRelyingparty",
 }));
 
 export type GetPublicKeysRelyingpartyError = NotFound | Forbidden | GcpOpError;
@@ -1067,6 +1099,8 @@ export const getPublicKeysRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicKeysRelyingparty",
 }));
 
 export type GetRecaptchaParamRelyingpartyError = NotFound | Forbidden | GcpOpError;
@@ -1082,6 +1116,8 @@ export const getRecaptchaParamRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecaptchaParamRelyingparty",
 }));
 
 export type ResetPasswordRelyingpartyError =
@@ -1102,6 +1138,8 @@ export const resetPasswordRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetPasswordRelyingparty",
 }));
 
 export type SendVerificationCodeRelyingpartyError =
@@ -1126,6 +1164,8 @@ export const sendVerificationCodeRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendVerificationCodeRelyingparty",
 }));
 
 export type SetAccountInfoRelyingpartyError =
@@ -1146,6 +1186,8 @@ export const setAccountInfoRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAccountInfoRelyingparty",
 }));
 
 export type SetProjectConfigRelyingpartyError =
@@ -1166,6 +1208,8 @@ export const setProjectConfigRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetProjectConfigRelyingparty",
 }));
 
 export type SignOutUserRelyingpartyError =
@@ -1186,6 +1230,8 @@ export const signOutUserRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignOutUserRelyingparty",
 }));
 
 export type SignupNewUserRelyingpartyError =
@@ -1206,6 +1252,8 @@ export const signupNewUserRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignupNewUserRelyingparty",
 }));
 
 export type UploadAccountRelyingpartyError =
@@ -1226,6 +1274,8 @@ export const uploadAccountRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadAccountRelyingparty",
 }));
 
 export type VerifyAssertionRelyingpartyError =
@@ -1246,6 +1296,8 @@ export const verifyAssertionRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyAssertionRelyingparty",
 }));
 
 export type VerifyCustomTokenRelyingpartyError =
@@ -1266,6 +1318,8 @@ export const verifyCustomTokenRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyCustomTokenRelyingparty",
 }));
 
 export type VerifyPasswordRelyingpartyError =
@@ -1286,6 +1340,8 @@ export const verifyPasswordRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyPasswordRelyingparty",
 }));
 
 export type VerifyPhoneNumberRelyingpartyError =
@@ -1310,6 +1366,8 @@ export const verifyPhoneNumberRelyingparty: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyPhoneNumberRelyingparty",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

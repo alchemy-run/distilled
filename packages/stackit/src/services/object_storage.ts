@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "ObjectStorage",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -371,6 +384,8 @@ export const createAccessKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccessKey",
 }));
 
 export type CreateBucketError = NotFound | Conflict | UnprocessableEntity | StackitOpError;
@@ -386,6 +401,8 @@ export const createBucket: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBucket",
 }));
 
 export type CreateComplianceLockError = NotFound | Conflict | StackitOpError;
@@ -401,6 +418,8 @@ export const createComplianceLock: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateComplianceLock",
 }));
 
 export type CreateCredentialsGroupError =
@@ -421,6 +440,8 @@ export const createCredentialsGroup: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCredentialsGroup",
 }));
 
 export type DeleteAccessKeyError = Forbidden | NotFound | UnprocessableEntity | StackitOpError;
@@ -436,6 +457,8 @@ export const deleteAccessKey: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessKey",
 }));
 
 export type DeleteBucketError = NotFound | UnprocessableEntity | StackitOpError;
@@ -451,6 +474,8 @@ export const deleteBucket: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBucket",
 }));
 
 export type DeleteComplianceLockError = NotFound | Conflict | StackitOpError;
@@ -466,6 +491,8 @@ export const deleteComplianceLock: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComplianceLock",
 }));
 
 export type DeleteCredentialsGroupError = NotFound | UnprocessableEntity | StackitOpError;
@@ -481,6 +508,8 @@ export const deleteCredentialsGroup: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentialsGroup",
 }));
 
 export type DeleteDefaultRetentionError = NotFound | Conflict | StackitOpError;
@@ -496,6 +525,8 @@ export const deleteDefaultRetention: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDefaultRetention",
 }));
 
 export type DisableServiceError =
@@ -517,6 +548,8 @@ export const disableService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableService",
 }));
 
 export type EnableServiceError = Forbidden | Conflict | UnprocessableEntity | StackitOpError;
@@ -532,6 +565,8 @@ export const enableService: API.OperationMethod<
   errors: [Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableService",
 }));
 
 export type GetBucketError = Forbidden | NotFound | UnprocessableEntity | StackitOpError;
@@ -547,6 +582,8 @@ export const getBucket: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBucket",
 }));
 
 export type GetComplianceLockError = NotFound | StackitOpError;
@@ -562,6 +599,8 @@ export const getComplianceLock: API.OperationMethod<
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComplianceLock",
 }));
 
 export type GetCredentialsGroupError = NotFound | UnprocessableEntity | StackitOpError;
@@ -577,6 +616,8 @@ export const getCredentialsGroup: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredentialsGroup",
 }));
 
 export type GetDefaultRetentionError = NotFound | Conflict | StackitOpError;
@@ -592,6 +633,8 @@ export const getDefaultRetention: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultRetention",
 }));
 
 export type GetServiceStatusError = Forbidden | NotFound | UnprocessableEntity | StackitOpError;
@@ -607,6 +650,8 @@ export const getServiceStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceStatus",
 }));
 
 export type ListAccessKeysError = Forbidden | NotFound | UnprocessableEntity | StackitOpError;
@@ -622,6 +667,8 @@ export const listAccessKeys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessKeys",
 }));
 
 export type ListBucketsError = Forbidden | NotFound | UnprocessableEntity | StackitOpError;
@@ -637,6 +684,8 @@ export const listBuckets: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuckets",
 }));
 
 export type ListCredentialsGroupsError = NotFound | UnprocessableEntity | StackitOpError;
@@ -652,6 +701,8 @@ export const listCredentialsGroups: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCredentialsGroups",
 }));
 
 export type SetDefaultRetentionError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -667,6 +718,8 @@ export const setDefaultRetention: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultRetention",
 }));
 
 export type UpdateServiceError = Forbidden | NotFound | UnprocessableEntity | StackitOpError;
@@ -682,6 +735,8 @@ export const updateService: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

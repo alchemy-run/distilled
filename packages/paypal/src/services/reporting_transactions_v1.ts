@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "ReportingTransactionsV1",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -411,6 +424,8 @@ export const getBalance: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBalance",
 }));
 
 export type SearchGetError = PaypalOpError;
@@ -426,6 +441,8 @@ export const searchGet: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchGet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://devops-guru.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DevOpsGuru",
+  service: "DevOpsGuru",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1235,6 +1250,8 @@ export const addNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "AddNotificationChannel",
 }));
 
 export type DeleteInsightError =
@@ -1267,6 +1284,8 @@ export const deleteInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsight",
+  telemetry: TELEMETRY,
+  span: "DeleteInsight",
 }));
 
 export type DescribeAccountHealthError =
@@ -1297,6 +1316,8 @@ export const describeAccountHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountHealth",
 }));
 
 export type DescribeAccountOverviewError =
@@ -1327,6 +1348,8 @@ export const describeAccountOverview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountOverview",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountOverview",
 }));
 
 export type DescribeAnomalyError =
@@ -1357,6 +1380,8 @@ export const describeAnomaly: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnomaly",
+  telemetry: TELEMETRY,
+  span: "DescribeAnomaly",
 }));
 
 export type DescribeEventSourcesConfigError =
@@ -1388,6 +1413,8 @@ export const describeEventSourcesConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventSourcesConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeEventSourcesConfig",
 }));
 
 export type DescribeFeedbackError =
@@ -1418,6 +1445,8 @@ export const describeFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeedback",
+  telemetry: TELEMETRY,
+  span: "DescribeFeedback",
 }));
 
 export type DescribeInsightError =
@@ -1448,6 +1477,8 @@ export const describeInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsight",
+  telemetry: TELEMETRY,
+  span: "DescribeInsight",
 }));
 
 export type DescribeOrganizationHealthError =
@@ -1477,6 +1508,8 @@ export const describeOrganizationHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationHealth",
 }));
 
 export type DescribeOrganizationOverviewError =
@@ -1506,6 +1539,8 @@ export const describeOrganizationOverview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationOverview",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationOverview",
 }));
 
 export type DescribeOrganizationResourceCollectionHealthError =
@@ -1542,6 +1577,8 @@ export const describeOrganizationResourceCollectionHealth: API.PaginatedOperatio
   retry: Retry,
   operationName: "DescribeOrganizationResourceCollectionHealth",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationResourceCollectionHealth",
 })) as any;
 
 export type DescribeResourceCollectionHealthError =
@@ -1576,6 +1613,8 @@ export const describeResourceCollectionHealth: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeResourceCollectionHealth",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeResourceCollectionHealth",
 })) as any;
 
 export type DescribeServiceIntegrationError =
@@ -1608,6 +1647,8 @@ export const describeServiceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceIntegration",
+  telemetry: TELEMETRY,
+  span: "DescribeServiceIntegration",
 }));
 
 export type GetCostEstimationError =
@@ -1644,6 +1685,8 @@ export const getCostEstimation: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetCostEstimation",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetCostEstimation",
 })) as any;
 
 export type GetResourceCollectionError =
@@ -1679,6 +1722,8 @@ export const getResourceCollection: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetResourceCollection",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceCollection",
 })) as any;
 
 export type ListAnomaliesForInsightError =
@@ -1716,6 +1761,8 @@ export const listAnomaliesForInsight: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnomaliesForInsight",
 })) as any;
 
 export type ListAnomalousLogGroupsError =
@@ -1752,6 +1799,8 @@ export const listAnomalousLogGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnomalousLogGroups",
 })) as any;
 
 export type ListEventsError =
@@ -1790,6 +1839,8 @@ export const listEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEvents",
 })) as any;
 
 export type ListInsightsError =
@@ -1826,6 +1877,8 @@ export const listInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInsights",
 })) as any;
 
 export type ListMonitoredResourcesError =
@@ -1860,6 +1913,8 @@ export const listMonitoredResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitoredResources",
 })) as any;
 
 export type ListNotificationChannelsError =
@@ -1893,6 +1948,8 @@ export const listNotificationChannels: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListNotificationChannels",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Channels" } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationChannels",
 })) as any;
 
 export type ListOrganizationInsightsError =
@@ -1927,6 +1984,8 @@ export const listOrganizationInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationInsights",
 })) as any;
 
 export type ListRecommendationsError =
@@ -1964,6 +2023,8 @@ export const listRecommendations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Recommendations",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 })) as any;
 
 export type PutFeedbackError =
@@ -1996,6 +2057,8 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
+  telemetry: TELEMETRY,
+  span: "PutFeedback",
 }));
 
 export type RemoveNotificationChannelError =
@@ -2030,6 +2093,8 @@ export const removeNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "RemoveNotificationChannel",
 }));
 
 export type SearchInsightsError =
@@ -2071,6 +2136,8 @@ export const searchInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchInsights",
 })) as any;
 
 export type SearchOrganizationInsightsError =
@@ -2113,6 +2180,8 @@ export const searchOrganizationInsights: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchOrganizationInsights",
 })) as any;
 
 export type StartCostEstimationError =
@@ -2146,6 +2215,8 @@ export const startCostEstimation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCostEstimation",
+  telemetry: TELEMETRY,
+  span: "StartCostEstimation",
 }));
 
 export type UpdateEventSourcesConfigError =
@@ -2176,6 +2247,8 @@ export const updateEventSourcesConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventSourcesConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateEventSourcesConfig",
 }));
 
 export type UpdateResourceCollectionError =
@@ -2210,6 +2283,8 @@ export const updateResourceCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceCollection",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceCollection",
 }));
 
 export type UpdateServiceIntegrationError =
@@ -2242,6 +2317,8 @@ export const updateServiceIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceIntegration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

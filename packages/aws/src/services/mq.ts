@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mq.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "mq",
+  service: "mq",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -814,6 +829,8 @@ export const createBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBroker",
+  telemetry: TELEMETRY,
+  span: "CreateBroker",
 }));
 
 export type CreateConfigurationError =
@@ -842,6 +859,8 @@ export const createConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguration",
 }));
 
 export type CreateTagsError =
@@ -870,6 +889,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type CreateUserError =
@@ -902,6 +923,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteBrokerError =
@@ -930,6 +953,8 @@ export const deleteBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBroker",
+  telemetry: TELEMETRY,
+  span: "DeleteBroker",
 }));
 
 export type DeleteConfigurationError =
@@ -960,6 +985,8 @@ export const deleteConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type DeleteTagsError =
@@ -988,6 +1015,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DeleteUserError =
@@ -1016,6 +1045,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeBrokerError =
@@ -1044,6 +1075,8 @@ export const describeBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBroker",
+  telemetry: TELEMETRY,
+  span: "DescribeBroker",
 }));
 
 export type DescribeBrokerEngineTypesError =
@@ -1066,6 +1099,8 @@ export const describeBrokerEngineTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrokerEngineTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeBrokerEngineTypes",
 }));
 
 export type DescribeBrokerInstanceOptionsError =
@@ -1088,6 +1123,8 @@ export const describeBrokerInstanceOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrokerInstanceOptions",
+  telemetry: TELEMETRY,
+  span: "DescribeBrokerInstanceOptions",
 }));
 
 export type DescribeConfigurationError =
@@ -1116,6 +1153,8 @@ export const describeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeConfiguration",
 }));
 
 export type DescribeConfigurationRevisionError =
@@ -1144,6 +1183,8 @@ export const describeConfigurationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRevision",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationRevision",
 }));
 
 export type DescribeSharedResourcesError =
@@ -1179,6 +1220,8 @@ export const describeSharedResources: API.PaginatedOperationMethod<
     items: "SharedResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSharedResources",
 })) as any;
 
 export type DescribeUserError =
@@ -1207,6 +1250,8 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  telemetry: TELEMETRY,
+  span: "DescribeUser",
 }));
 
 export type ListBrokersError =
@@ -1236,6 +1281,8 @@ export const listBrokers: API.PaginatedOperationMethod<
     items: "BrokerSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrokers",
 })) as any;
 
 export type ListConfigurationRevisionsError =
@@ -1264,6 +1311,8 @@ export const listConfigurationRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationRevisions",
+  telemetry: TELEMETRY,
+  span: "ListConfigurationRevisions",
 }));
 
 export type ListConfigurationsError =
@@ -1286,6 +1335,8 @@ export const listConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 }));
 
 export type ListTagsError =
@@ -1314,6 +1365,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListUsersError =
@@ -1342,6 +1395,8 @@ export const listUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsers",
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type PromoteError =
@@ -1370,6 +1425,8 @@ export const promote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Promote",
+  telemetry: TELEMETRY,
+  span: "Promote",
 }));
 
 export type RebootBrokerError =
@@ -1398,6 +1455,8 @@ export const rebootBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootBroker",
+  telemetry: TELEMETRY,
+  span: "RebootBroker",
 }));
 
 export type UpdateBrokerError =
@@ -1428,6 +1487,8 @@ export const updateBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBroker",
+  telemetry: TELEMETRY,
+  span: "UpdateBroker",
 }));
 
 export type UpdateConfigurationError =
@@ -1458,6 +1519,8 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguration",
 }));
 
 export type UpdateUserError =
@@ -1488,6 +1551,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

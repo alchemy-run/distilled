@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "User",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -10704,6 +10717,8 @@ export const deleteRequest: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRequest",
 }));
 
 export type GetAuthUserError = BadRequest | Forbidden | Conflict | VercelOpError;
@@ -10719,6 +10734,8 @@ export const getAuthUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthUser",
 }));
 
 export type ListEventTypesError = BadRequest | Forbidden | VercelOpError;
@@ -10734,6 +10751,8 @@ export const listEventTypes: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventTypes",
 }));
 
 export type ListUserEventsError = BadRequest | Forbidden | VercelOpError;
@@ -10749,6 +10768,8 @@ export const listUserEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserEvents",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

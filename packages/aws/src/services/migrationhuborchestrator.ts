@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://migrationhub-orchestrator.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MigrationHubOrchestrator",
+  service: "MigrationHubOrchestrator",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -736,6 +751,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type CreateWorkflowError =
@@ -764,6 +781,8 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type CreateWorkflowStepError =
@@ -792,6 +811,8 @@ export const createWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowStep",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowStep",
 }));
 
 export type CreateWorkflowStepGroupError =
@@ -820,6 +841,8 @@ export const createWorkflowStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowStepGroup",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowStepGroup",
 }));
 
 export type DeleteTemplateError =
@@ -850,6 +873,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type DeleteWorkflowError =
@@ -881,6 +906,8 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DeleteWorkflowStepError =
@@ -912,6 +939,8 @@ export const deleteWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowStep",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowStep",
 }));
 
 export type DeleteWorkflowStepGroupError =
@@ -942,6 +971,8 @@ export const deleteWorkflowStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowStepGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowStepGroup",
 }));
 
 export type GetTemplateError =
@@ -970,6 +1001,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type GetTemplateStepError =
@@ -1000,6 +1033,8 @@ export const getTemplateStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateStep",
+  telemetry: TELEMETRY,
+  span: "GetTemplateStep",
 }));
 
 export type GetTemplateStepGroupError =
@@ -1030,6 +1065,8 @@ export const getTemplateStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateStepGroup",
+  telemetry: TELEMETRY,
+  span: "GetTemplateStepGroup",
 }));
 
 export type GetWorkflowError =
@@ -1060,6 +1097,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowStepError =
@@ -1088,6 +1127,8 @@ export const getWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowStep",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowStep",
 }));
 
 export type GetWorkflowStepGroupError =
@@ -1118,6 +1159,8 @@ export const getWorkflowStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowStepGroup",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowStepGroup",
 }));
 
 export type ListPluginsError =
@@ -1147,6 +1190,8 @@ export const listPlugins: API.PaginatedOperationMethod<
     items: "plugins",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlugins",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1168,6 +1213,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplatesError =
@@ -1197,6 +1244,8 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "templateSummary",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 })) as any;
 
 export type ListTemplateStepGroupsError =
@@ -1232,6 +1281,8 @@ export const listTemplateStepGroups: API.PaginatedOperationMethod<
     items: "templateStepGroupSummary",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateStepGroups",
 })) as any;
 
 export type ListTemplateStepsError =
@@ -1269,6 +1320,8 @@ export const listTemplateSteps: API.PaginatedOperationMethod<
     items: "templateStepSummaryList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateSteps",
 })) as any;
 
 export type ListWorkflowsError =
@@ -1306,6 +1359,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "migrationWorkflowSummary",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type ListWorkflowStepGroupsError =
@@ -1343,6 +1398,8 @@ export const listWorkflowStepGroups: API.PaginatedOperationMethod<
     items: "workflowStepGroupsSummary",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowStepGroups",
 })) as any;
 
 export type ListWorkflowStepsError =
@@ -1378,6 +1435,8 @@ export const listWorkflowSteps: API.PaginatedOperationMethod<
     items: "workflowStepsSummary",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowSteps",
 })) as any;
 
 export type RetryWorkflowStepError =
@@ -1406,6 +1465,8 @@ export const retryWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryWorkflowStep",
+  telemetry: TELEMETRY,
+  span: "RetryWorkflowStep",
 }));
 
 export type StartWorkflowError =
@@ -1436,6 +1497,8 @@ export const startWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflow",
+  telemetry: TELEMETRY,
+  span: "StartWorkflow",
 }));
 
 export type StopWorkflowError =
@@ -1466,6 +1529,8 @@ export const stopWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkflow",
+  telemetry: TELEMETRY,
+  span: "StopWorkflow",
 }));
 
 export type TagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1484,6 +1549,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1502,6 +1569,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateTemplateError =
@@ -1532,6 +1601,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 export type UpdateWorkflowError =
@@ -1562,6 +1633,8 @@ export const updateWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflow",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflow",
 }));
 
 export type UpdateWorkflowStepError =
@@ -1590,6 +1663,8 @@ export const updateWorkflowStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflowStep",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowStep",
 }));
 
 export type UpdateWorkflowStepGroupError =
@@ -1620,6 +1695,8 @@ export const updateWorkflowStepGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflowStepGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowStepGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

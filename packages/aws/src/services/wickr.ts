@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -74,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://admin.wickr.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Wickr",
+  service: "Wickr",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestError
   extends /*@__PURE__*/ S.TaggedError<BadRequestError>()(
@@ -931,6 +946,8 @@ export const batchCreateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateUser",
+  telemetry: TELEMETRY,
+  span: "BatchCreateUser",
 }));
 
 export type BatchDeleteUserError =
@@ -965,6 +982,8 @@ export const batchDeleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteUser",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteUser",
 }));
 
 export type BatchLookupUserUnameError =
@@ -999,6 +1018,8 @@ export const batchLookupUserUname: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchLookupUserUname",
+  telemetry: TELEMETRY,
+  span: "BatchLookupUserUname",
 }));
 
 export type BatchReinviteUserError =
@@ -1033,6 +1054,8 @@ export const batchReinviteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchReinviteUser",
+  telemetry: TELEMETRY,
+  span: "BatchReinviteUser",
 }));
 
 export type BatchResetDevicesForUserError =
@@ -1067,6 +1090,8 @@ export const batchResetDevicesForUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchResetDevicesForUser",
+  telemetry: TELEMETRY,
+  span: "BatchResetDevicesForUser",
 }));
 
 export type BatchToggleUserSuspendStatusError =
@@ -1101,6 +1126,8 @@ export const batchToggleUserSuspendStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchToggleUserSuspendStatus",
+  telemetry: TELEMETRY,
+  span: "BatchToggleUserSuspendStatus",
 }));
 
 export type CreateBotError =
@@ -1135,6 +1162,8 @@ export const createBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBot",
+  telemetry: TELEMETRY,
+  span: "CreateBot",
 }));
 
 export type CreateDataRetentionBotError =
@@ -1169,6 +1198,8 @@ export const createDataRetentionBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataRetentionBot",
+  telemetry: TELEMETRY,
+  span: "CreateDataRetentionBot",
 }));
 
 export type CreateDataRetentionBotChallengeError =
@@ -1203,6 +1234,8 @@ export const createDataRetentionBotChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataRetentionBotChallenge",
+  telemetry: TELEMETRY,
+  span: "CreateDataRetentionBotChallenge",
 }));
 
 export type CreateNetworkError =
@@ -1237,6 +1270,8 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateNetwork",
 }));
 
 export type CreateSecurityGroupError =
@@ -1271,6 +1306,8 @@ export const createSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityGroup",
 }));
 
 export type DeleteBotError =
@@ -1305,6 +1342,8 @@ export const deleteBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBot",
+  telemetry: TELEMETRY,
+  span: "DeleteBot",
 }));
 
 export type DeleteDataRetentionBotError =
@@ -1339,6 +1378,8 @@ export const deleteDataRetentionBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataRetentionBot",
+  telemetry: TELEMETRY,
+  span: "DeleteDataRetentionBot",
 }));
 
 export type DeleteNetworkError =
@@ -1373,6 +1414,8 @@ export const deleteNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteNetwork",
 }));
 
 export type DeleteSecurityGroupError =
@@ -1407,6 +1450,8 @@ export const deleteSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityGroup",
 }));
 
 export type GetBotError =
@@ -1441,6 +1486,8 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
+  telemetry: TELEMETRY,
+  span: "GetBot",
 }));
 
 export type GetBotsCountError =
@@ -1475,6 +1522,8 @@ export const getBotsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotsCount",
+  telemetry: TELEMETRY,
+  span: "GetBotsCount",
 }));
 
 export type GetDataRetentionBotError =
@@ -1509,6 +1558,8 @@ export const getDataRetentionBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataRetentionBot",
+  telemetry: TELEMETRY,
+  span: "GetDataRetentionBot",
 }));
 
 export type GetGuestUserHistoryCountError =
@@ -1543,6 +1594,8 @@ export const getGuestUserHistoryCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGuestUserHistoryCount",
+  telemetry: TELEMETRY,
+  span: "GetGuestUserHistoryCount",
 }));
 
 export type GetNetworkError =
@@ -1577,6 +1630,8 @@ export const getNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetwork",
+  telemetry: TELEMETRY,
+  span: "GetNetwork",
 }));
 
 export type GetNetworkSettingsError =
@@ -1611,6 +1666,8 @@ export const getNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkSettings",
+  telemetry: TELEMETRY,
+  span: "GetNetworkSettings",
 }));
 
 export type GetOidcInfoError =
@@ -1645,6 +1702,8 @@ export const getOidcInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOidcInfo",
+  telemetry: TELEMETRY,
+  span: "GetOidcInfo",
 }));
 
 export type GetOpentdfConfigError =
@@ -1679,6 +1738,8 @@ export const getOpentdfConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpentdfConfig",
+  telemetry: TELEMETRY,
+  span: "GetOpentdfConfig",
 }));
 
 export type GetSecurityGroupError =
@@ -1713,6 +1774,8 @@ export const getSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "GetSecurityGroup",
 }));
 
 export type GetUserError =
@@ -1747,6 +1810,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUsersCountError =
@@ -1781,6 +1846,8 @@ export const getUsersCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsersCount",
+  telemetry: TELEMETRY,
+  span: "GetUsersCount",
 }));
 
 export type ListBlockedGuestUsersError =
@@ -1822,6 +1889,8 @@ export const listBlockedGuestUsers: API.PaginatedOperationMethod<
     items: "blocklist",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBlockedGuestUsers",
 })) as any;
 
 export type ListBotsError =
@@ -1863,6 +1932,8 @@ export const listBots: API.PaginatedOperationMethod<
     items: "bots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBots",
 })) as any;
 
 export type ListDevicesForUserError =
@@ -1904,6 +1975,8 @@ export const listDevicesForUser: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevicesForUser",
 })) as any;
 
 export type ListGuestUsersError =
@@ -1945,6 +2018,8 @@ export const listGuestUsers: API.PaginatedOperationMethod<
     items: "guestlist",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGuestUsers",
 })) as any;
 
 export type ListNetworksError =
@@ -1984,6 +2059,8 @@ export const listNetworks: API.PaginatedOperationMethod<
     items: "networks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNetworks",
 })) as any;
 
 export type ListSecurityGroupsError =
@@ -2025,6 +2102,8 @@ export const listSecurityGroups: API.PaginatedOperationMethod<
     items: "securityGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityGroups",
 })) as any;
 
 export type ListSecurityGroupUsersError =
@@ -2066,6 +2145,8 @@ export const listSecurityGroupUsers: API.PaginatedOperationMethod<
     items: "users",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityGroupUsers",
 })) as any;
 
 export type ListUsersError =
@@ -2107,6 +2188,8 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "users",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type RegisterOidcConfigError =
@@ -2141,6 +2224,8 @@ export const registerOidcConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOidcConfig",
+  telemetry: TELEMETRY,
+  span: "RegisterOidcConfig",
 }));
 
 export type RegisterOidcConfigTestError =
@@ -2175,6 +2260,8 @@ export const registerOidcConfigTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOidcConfigTest",
+  telemetry: TELEMETRY,
+  span: "RegisterOidcConfigTest",
 }));
 
 export type RegisterOpentdfConfigError =
@@ -2209,6 +2296,8 @@ export const registerOpentdfConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOpentdfConfig",
+  telemetry: TELEMETRY,
+  span: "RegisterOpentdfConfig",
 }));
 
 export type UpdateBotError =
@@ -2243,6 +2332,8 @@ export const updateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBot",
+  telemetry: TELEMETRY,
+  span: "UpdateBot",
 }));
 
 export type UpdateDataRetentionError =
@@ -2277,6 +2368,8 @@ export const updateDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataRetention",
+  telemetry: TELEMETRY,
+  span: "UpdateDataRetention",
 }));
 
 export type UpdateGuestUserError =
@@ -2311,6 +2404,8 @@ export const updateGuestUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGuestUser",
+  telemetry: TELEMETRY,
+  span: "UpdateGuestUser",
 }));
 
 export type UpdateNetworkError =
@@ -2345,6 +2440,8 @@ export const updateNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateNetwork",
 }));
 
 export type UpdateNetworkSettingsError =
@@ -2379,6 +2476,8 @@ export const updateNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkSettings",
 }));
 
 export type UpdateSecurityGroupError =
@@ -2413,6 +2512,8 @@ export const updateSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityGroup",
 }));
 
 export type UpdateUserError =
@@ -2449,6 +2550,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

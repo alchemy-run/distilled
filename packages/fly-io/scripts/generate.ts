@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn Smithy JSON models in .generated-specs into Effect SDKs.
  *
@@ -12,12 +12,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Patches and model stamps apply in scripts/convert.ts. Generate only
  * compiles the already-patched Smithy models.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const CORE_ERROR_CLASSES = [
   "BadRequest",
@@ -254,6 +254,7 @@ const machinesSpec = restSpec({
 
 runGeneratorCli({
   description: "Generate the Fly.io Effect SDK from Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: (model) => {

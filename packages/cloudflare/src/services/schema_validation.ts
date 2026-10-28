@@ -31,6 +31,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   validationOverrideMitigationAction: "validation_override_mitigation_action",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "SchemaValidation",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -359,6 +373,8 @@ export const bulkPatchSettingOperations: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkPatchSettingOperations",
 }));
 
 export type CreateSchemaError = InvalidSchema | Forbidden | CloudflareOpError;
@@ -374,6 +390,8 @@ export const createSchema: API.OperationMethod<
   errors: [InvalidSchema, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchema",
 }));
 
 export type DeleteSchemaError = SchemaNotFound | CloudflareOpError;
@@ -389,6 +407,8 @@ export const deleteSchema: API.OperationMethod<
   errors: [SchemaNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchema",
 }));
 
 export type DeleteSettingOperationError = OperationNotFound | CloudflareOpError;
@@ -404,6 +424,8 @@ export const deleteSettingOperation: API.OperationMethod<
   errors: [OperationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSettingOperation",
 }));
 
 export type GetSchemaError = SchemaNotFound | Forbidden | CloudflareOpError;
@@ -419,6 +441,8 @@ export const getSchema: API.OperationMethod<
   errors: [SchemaNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchema",
 }));
 
 export type GetSettingError = Forbidden | CloudflareOpError;
@@ -434,6 +458,8 @@ export const getSetting: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSetting",
 }));
 
 export type GetSettingOperationError = OperationNotFound | Forbidden | CloudflareOpError;
@@ -449,6 +475,8 @@ export const getSettingOperation: API.OperationMethod<
   errors: [OperationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingOperation",
 }));
 
 export type ListSchemasError = ZonePurged | Forbidden | CloudflareOpError;
@@ -466,6 +494,8 @@ export const listSchemas: API.PaginatedOperationMethod<
     errors: [ZonePurged, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSchemas",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -492,6 +522,8 @@ export const listSettingOperations: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSettingOperations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -516,6 +548,8 @@ export const patchSchema: API.OperationMethod<
   errors: [SchemaNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchema",
 }));
 
 export type PatchSettingError = CloudflareOpError;
@@ -531,6 +565,8 @@ export const patchSetting: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSetting",
 }));
 
 export type PutSettingError = UnentitledMitigationAction | Forbidden | CloudflareOpError;
@@ -546,6 +582,8 @@ export const putSetting: API.OperationMethod<
   errors: [UnentitledMitigationAction, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSetting",
 }));
 
 export type PutSettingOperationError =
@@ -564,6 +602,8 @@ export const putSettingOperation: API.OperationMethod<
   errors: [OperationNotFound, UnentitledMitigationAction, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSettingOperation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

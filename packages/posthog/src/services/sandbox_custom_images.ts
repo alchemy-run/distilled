@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "SandboxCustomImages",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateSandboxCustomImageRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -117,6 +130,8 @@ export const createSandboxCustomImage: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxCustomImage",
 }));
 
 export type CreateSandboxCustomImagesBuildError = PosthogOpError;
@@ -132,6 +147,8 @@ export const createSandboxCustomImagesBuild: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxCustomImagesBuild",
 }));
 
 export type CreateSandboxCustomImagesBuilderTaskError = PosthogOpError;
@@ -147,6 +164,8 @@ export const createSandboxCustomImagesBuilderTask: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxCustomImagesBuilderTask",
 }));
 
 export type GetSandboxCustomImageError = PosthogOpError;
@@ -162,6 +181,8 @@ export const getSandboxCustomImage: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxCustomImage",
 }));
 
 export type ListSandboxCustomImagesError = PosthogOpError;
@@ -177,6 +198,8 @@ export const listSandboxCustomImages: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxCustomImages",
 }));
 
 export type SandboxCustomImagesDestroyError = PosthogOpError;
@@ -192,6 +215,8 @@ export const sandboxCustomImagesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxCustomImagesDestroy",
 }));
 
 export type UpdateSandboxCustomImagesPartialError = PosthogOpError;
@@ -207,6 +232,8 @@ export const updateSandboxCustomImagesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxCustomImagesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

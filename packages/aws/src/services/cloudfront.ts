@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -141,6 +142,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudFront",
+  service: "CloudFront",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDenied
   extends /*@__PURE__*/ S.TaggedError<AccessDenied>()(
@@ -3840,6 +3855,8 @@ export const associateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAlias",
+  telemetry: TELEMETRY,
+  span: "AssociateAlias",
 }));
 
 export type AssociateDistributionTenantWebACLError =
@@ -3872,6 +3889,8 @@ export const associateDistributionTenantWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionTenantWebACL",
+  telemetry: TELEMETRY,
+  span: "AssociateDistributionTenantWebACL",
 }));
 
 export type AssociateDistributionWebACLError =
@@ -3904,6 +3923,8 @@ export const associateDistributionWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionWebACL",
+  telemetry: TELEMETRY,
+  span: "AssociateDistributionWebACL",
 }));
 
 export type CopyDistributionError =
@@ -4062,6 +4083,8 @@ export const copyDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDistribution",
+  telemetry: TELEMETRY,
+  span: "CopyDistribution",
 }));
 
 export type CreateAnycastIpListError =
@@ -4094,6 +4117,8 @@ export const createAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnycastIpList",
+  telemetry: TELEMETRY,
+  span: "CreateAnycastIpList",
 }));
 
 export type CreateCachePolicyError =
@@ -4142,6 +4167,8 @@ export const createCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCachePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateCachePolicy",
 }));
 
 export type CreateCloudFrontOriginAccessIdentityError =
@@ -4172,6 +4199,8 @@ export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFrontOriginAccessIdentity",
+  telemetry: TELEMETRY,
+  span: "CreateCloudFrontOriginAccessIdentity",
 }));
 
 export type CreateConnectionFunctionError =
@@ -4206,6 +4235,8 @@ export const createConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "CreateConnectionFunction",
 }));
 
 export type CreateConnectionGroupError =
@@ -4238,6 +4269,8 @@ export const createConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionGroup",
+  telemetry: TELEMETRY,
+  span: "CreateConnectionGroup",
 }));
 
 export type CreateContinuousDeploymentPolicyError =
@@ -4274,6 +4307,8 @@ export const createContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContinuousDeploymentPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateContinuousDeploymentPolicy",
 }));
 
 export type CreateDistributionError =
@@ -4428,6 +4463,8 @@ export const createDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistribution",
+  telemetry: TELEMETRY,
+  span: "CreateDistribution",
 }));
 
 export type CreateDistributionTenantError =
@@ -4464,6 +4501,8 @@ export const createDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "CreateDistributionTenant",
 }));
 
 export type CreateDistributionWithTagsError =
@@ -4622,6 +4661,8 @@ export const createDistributionWithTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionWithTags",
+  telemetry: TELEMETRY,
+  span: "CreateDistributionWithTags",
 }));
 
 export type CreateFieldLevelEncryptionConfigError =
@@ -4658,6 +4699,8 @@ export const createFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "CreateFieldLevelEncryptionConfig",
 }));
 
 export type CreateFieldLevelEncryptionProfileError =
@@ -4694,6 +4737,8 @@ export const createFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionProfile",
+  telemetry: TELEMETRY,
+  span: "CreateFieldLevelEncryptionProfile",
 }));
 
 export type CreateFunctionError =
@@ -4730,6 +4775,8 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
+  telemetry: TELEMETRY,
+  span: "CreateFunction",
 }));
 
 export type CreateInvalidationError =
@@ -4764,6 +4811,8 @@ export const createInvalidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidation",
+  telemetry: TELEMETRY,
+  span: "CreateInvalidation",
 }));
 
 export type CreateInvalidationForDistributionTenantError =
@@ -4798,6 +4847,8 @@ export const createInvalidationForDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidationForDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "CreateInvalidationForDistributionTenant",
 }));
 
 export type CreateKeyGroupError =
@@ -4823,6 +4874,8 @@ export const createKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyGroup",
+  telemetry: TELEMETRY,
+  span: "CreateKeyGroup",
 }));
 
 export type CreateKeyValueStoreError =
@@ -4855,6 +4908,8 @@ export const createKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "CreateKeyValueStore",
 }));
 
 export type CreateMonitoringSubscriptionError =
@@ -4885,6 +4940,8 @@ export const createMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitoringSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateMonitoringSubscription",
 }));
 
 export type CreateOriginAccessControlError =
@@ -4911,6 +4968,8 @@ export const createOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginAccessControl",
+  telemetry: TELEMETRY,
+  span: "CreateOriginAccessControl",
 }));
 
 export type CreateOriginRequestPolicyError =
@@ -4959,6 +5018,8 @@ export const createOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginRequestPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateOriginRequestPolicy",
 }));
 
 export type CreatePublicKeyError =
@@ -4981,6 +5042,8 @@ export const createPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicKey",
+  telemetry: TELEMETRY,
+  span: "CreatePublicKey",
 }));
 
 export type CreateRealtimeLogConfigError =
@@ -5013,6 +5076,8 @@ export const createRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "CreateRealtimeLogConfig",
 }));
 
 export type CreateResponseHeadersPolicyError =
@@ -5055,6 +5120,8 @@ export const createResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponseHeadersPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateResponseHeadersPolicy",
 }));
 
 export type CreateStreamingDistributionError =
@@ -5101,6 +5168,8 @@ export const createStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistribution",
+  telemetry: TELEMETRY,
+  span: "CreateStreamingDistribution",
 }));
 
 export type CreateStreamingDistributionWithTagsError =
@@ -5149,6 +5218,8 @@ export const createStreamingDistributionWithTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistributionWithTags",
+  telemetry: TELEMETRY,
+  span: "CreateStreamingDistributionWithTags",
 }));
 
 export type CreateTrustStoreError =
@@ -5181,6 +5252,8 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
+  telemetry: TELEMETRY,
+  span: "CreateTrustStore",
 }));
 
 export type CreateVpcOriginError =
@@ -5215,6 +5288,8 @@ export const createVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcOrigin",
+  telemetry: TELEMETRY,
+  span: "CreateVpcOrigin",
 }));
 
 export type DeleteAnycastIpListError =
@@ -5251,6 +5326,8 @@ export const deleteAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnycastIpList",
+  telemetry: TELEMETRY,
+  span: "DeleteAnycastIpList",
 }));
 
 export type DeleteCachePolicyError =
@@ -5287,6 +5364,8 @@ export const deleteCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCachePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteCachePolicy",
 }));
 
 export type DeleteCloudFrontOriginAccessIdentityError =
@@ -5317,6 +5396,8 @@ export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudFrontOriginAccessIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudFrontOriginAccessIdentity",
 }));
 
 export type DeleteConnectionFunctionError =
@@ -5351,6 +5432,8 @@ export const deleteConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectionFunction",
 }));
 
 export type DeleteConnectionGroupError =
@@ -5383,6 +5466,8 @@ export const deleteConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectionGroup",
 }));
 
 export type DeleteContinuousDeploymentPolicyError =
@@ -5417,6 +5502,8 @@ export const deleteContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContinuousDeploymentPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteContinuousDeploymentPolicy",
 }));
 
 export type DeleteDistributionError =
@@ -5451,6 +5538,8 @@ export const deleteDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistribution",
+  telemetry: TELEMETRY,
+  span: "DeleteDistribution",
 }));
 
 export type DeleteDistributionTenantError =
@@ -5483,6 +5572,8 @@ export const deleteDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "DeleteDistributionTenant",
 }));
 
 export type DeleteFieldLevelEncryptionConfigError =
@@ -5513,6 +5604,8 @@ export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteFieldLevelEncryptionConfig",
 }));
 
 export type DeleteFieldLevelEncryptionProfileError =
@@ -5543,6 +5636,8 @@ export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteFieldLevelEncryptionProfile",
 }));
 
 export type DeleteFunctionError =
@@ -5577,6 +5672,8 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteFunction",
 }));
 
 export type DeleteKeyGroupError =
@@ -5604,6 +5701,8 @@ export const deleteKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteKeyGroup",
 }));
 
 export type DeleteKeyValueStoreError =
@@ -5636,6 +5735,8 @@ export const deleteKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "DeleteKeyValueStore",
 }));
 
 export type DeleteMonitoringSubscriptionError =
@@ -5659,6 +5760,8 @@ export const deleteMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitoringSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitoringSubscription",
 }));
 
 export type DeleteOriginAccessControlError =
@@ -5691,6 +5794,8 @@ export const deleteOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginAccessControl",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginAccessControl",
 }));
 
 export type DeleteOriginRequestPolicyError =
@@ -5727,6 +5832,8 @@ export const deleteOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginRequestPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteOriginRequestPolicy",
 }));
 
 export type DeletePublicKeyError =
@@ -5757,6 +5864,8 @@ export const deletePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
+  telemetry: TELEMETRY,
+  span: "DeletePublicKey",
 }));
 
 export type DeleteRealtimeLogConfigError =
@@ -5784,6 +5893,8 @@ export const deleteRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteRealtimeLogConfig",
 }));
 
 export type DeleteResourcePolicyError =
@@ -5816,6 +5927,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteResponseHeadersPolicyError =
@@ -5852,6 +5965,8 @@ export const deleteResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponseHeadersPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResponseHeadersPolicy",
 }));
 
 export type DeleteStreamingDistributionError =
@@ -5902,6 +6017,8 @@ export const deleteStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamingDistribution",
+  telemetry: TELEMETRY,
+  span: "DeleteStreamingDistribution",
 }));
 
 export type DeleteTrustStoreError =
@@ -5934,6 +6051,8 @@ export const deleteTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
+  telemetry: TELEMETRY,
+  span: "DeleteTrustStore",
 }));
 
 export type DeleteVpcOriginError =
@@ -5970,6 +6089,8 @@ export const deleteVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcOrigin",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcOrigin",
 }));
 
 export type DescribeConnectionFunctionError =
@@ -5993,6 +6114,8 @@ export const describeConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "DescribeConnectionFunction",
 }));
 
 export type DescribeFunctionError = NoSuchFunctionExists | UnsupportedOperation | CommonErrors;
@@ -6013,6 +6136,8 @@ export const describeFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFunction",
+  telemetry: TELEMETRY,
+  span: "DescribeFunction",
 }));
 
 export type DescribeKeyValueStoreError =
@@ -6036,6 +6161,8 @@ export const describeKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "DescribeKeyValueStore",
 }));
 
 export type DisassociateDistributionTenantWebACLError =
@@ -6066,6 +6193,8 @@ export const disassociateDistributionTenantWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionTenantWebACL",
+  telemetry: TELEMETRY,
+  span: "DisassociateDistributionTenantWebACL",
 }));
 
 export type DisassociateDistributionWebACLError =
@@ -6096,6 +6225,8 @@ export const disassociateDistributionWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionWebACL",
+  telemetry: TELEMETRY,
+  span: "DisassociateDistributionWebACL",
 }));
 
 export type GetAnycastIpListError =
@@ -6119,6 +6250,8 @@ export const getAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnycastIpList",
+  telemetry: TELEMETRY,
+  span: "GetAnycastIpList",
 }));
 
 export type GetCachePolicyError = AccessDenied | NoSuchCachePolicy | CommonErrors;
@@ -6143,6 +6276,8 @@ export const getCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicy",
+  telemetry: TELEMETRY,
+  span: "GetCachePolicy",
 }));
 
 export type GetCachePolicyConfigError = AccessDenied | NoSuchCachePolicy | CommonErrors;
@@ -6163,6 +6298,8 @@ export const getCachePolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicyConfig",
+  telemetry: TELEMETRY,
+  span: "GetCachePolicyConfig",
 }));
 
 export type GetCloudFrontOriginAccessIdentityError =
@@ -6184,6 +6321,8 @@ export const getCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentity",
+  telemetry: TELEMETRY,
+  span: "GetCloudFrontOriginAccessIdentity",
 }));
 
 export type GetCloudFrontOriginAccessIdentityConfigError =
@@ -6205,6 +6344,8 @@ export const getCloudFrontOriginAccessIdentityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentityConfig",
+  telemetry: TELEMETRY,
+  span: "GetCloudFrontOriginAccessIdentityConfig",
 }));
 
 export type GetConnectionFunctionError =
@@ -6227,6 +6368,8 @@ export const getConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "GetConnectionFunction",
 }));
 
 export type GetConnectionGroupError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6245,6 +6388,8 @@ export const getConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroup",
+  telemetry: TELEMETRY,
+  span: "GetConnectionGroup",
 }));
 
 export type GetConnectionGroupByRoutingEndpointError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6263,6 +6408,8 @@ export const getConnectionGroupByRoutingEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroupByRoutingEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetConnectionGroupByRoutingEndpoint",
 }));
 
 export type GetContinuousDeploymentPolicyError =
@@ -6284,6 +6431,8 @@ export const getContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicy",
+  telemetry: TELEMETRY,
+  span: "GetContinuousDeploymentPolicy",
 }));
 
 export type GetContinuousDeploymentPolicyConfigError =
@@ -6305,6 +6454,8 @@ export const getContinuousDeploymentPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicyConfig",
+  telemetry: TELEMETRY,
+  span: "GetContinuousDeploymentPolicyConfig",
 }));
 
 export type GetDistributionError = AccessDenied | NoSuchDistribution | CommonErrors;
@@ -6323,6 +6474,8 @@ export const getDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistribution",
+  telemetry: TELEMETRY,
+  span: "GetDistribution",
 }));
 
 export type GetDistributionConfigError = AccessDenied | NoSuchDistribution | CommonErrors;
@@ -6341,6 +6494,8 @@ export const getDistributionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionConfig",
+  telemetry: TELEMETRY,
+  span: "GetDistributionConfig",
 }));
 
 export type GetDistributionTenantError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6359,6 +6514,8 @@ export const getDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "GetDistributionTenant",
 }));
 
 export type GetDistributionTenantByDomainError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6377,6 +6534,8 @@ export const getDistributionTenantByDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenantByDomain",
+  telemetry: TELEMETRY,
+  span: "GetDistributionTenantByDomain",
 }));
 
 export type GetFieldLevelEncryptionError =
@@ -6398,6 +6557,8 @@ export const getFieldLevelEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryption",
+  telemetry: TELEMETRY,
+  span: "GetFieldLevelEncryption",
 }));
 
 export type GetFieldLevelEncryptionConfigError =
@@ -6419,6 +6580,8 @@ export const getFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "GetFieldLevelEncryptionConfig",
 }));
 
 export type GetFieldLevelEncryptionProfileError =
@@ -6440,6 +6603,8 @@ export const getFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfile",
+  telemetry: TELEMETRY,
+  span: "GetFieldLevelEncryptionProfile",
 }));
 
 export type GetFieldLevelEncryptionProfileConfigError =
@@ -6461,6 +6626,8 @@ export const getFieldLevelEncryptionProfileConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfileConfig",
+  telemetry: TELEMETRY,
+  span: "GetFieldLevelEncryptionProfileConfig",
 }));
 
 export type GetFunctionError = NoSuchFunctionExists | UnsupportedOperation | CommonErrors;
@@ -6481,6 +6648,8 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
+  telemetry: TELEMETRY,
+  span: "GetFunction",
 }));
 
 export type GetInvalidationError =
@@ -6503,6 +6672,8 @@ export const getInvalidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidation",
+  telemetry: TELEMETRY,
+  span: "GetInvalidation",
 }));
 
 export type GetInvalidationForDistributionTenantError =
@@ -6525,6 +6696,8 @@ export const getInvalidationForDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidationForDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "GetInvalidationForDistributionTenant",
 }));
 
 export type GetKeyGroupError = NoSuchResource | CommonErrors;
@@ -6545,6 +6718,8 @@ export const getKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroup",
+  telemetry: TELEMETRY,
+  span: "GetKeyGroup",
 }));
 
 export type GetKeyGroupConfigError = NoSuchResource | CommonErrors;
@@ -6565,6 +6740,8 @@ export const getKeyGroupConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroupConfig",
+  telemetry: TELEMETRY,
+  span: "GetKeyGroupConfig",
 }));
 
 export type GetManagedCertificateDetailsError = AccessDenied | EntityNotFound | CommonErrors;
@@ -6583,6 +6760,8 @@ export const getManagedCertificateDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedCertificateDetails",
+  telemetry: TELEMETRY,
+  span: "GetManagedCertificateDetails",
 }));
 
 export type GetMonitoringSubscriptionError =
@@ -6606,6 +6785,8 @@ export const getMonitoringSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitoringSubscription",
+  telemetry: TELEMETRY,
+  span: "GetMonitoringSubscription",
 }));
 
 export type GetOriginAccessControlError = AccessDenied | NoSuchOriginAccessControl | CommonErrors;
@@ -6624,6 +6805,8 @@ export const getOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControl",
+  telemetry: TELEMETRY,
+  span: "GetOriginAccessControl",
 }));
 
 export type GetOriginAccessControlConfigError =
@@ -6645,6 +6828,8 @@ export const getOriginAccessControlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControlConfig",
+  telemetry: TELEMETRY,
+  span: "GetOriginAccessControlConfig",
 }));
 
 export type GetOriginRequestPolicyError = AccessDenied | NoSuchOriginRequestPolicy | CommonErrors;
@@ -6669,6 +6854,8 @@ export const getOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicy",
+  telemetry: TELEMETRY,
+  span: "GetOriginRequestPolicy",
 }));
 
 export type GetOriginRequestPolicyConfigError =
@@ -6692,6 +6879,8 @@ export const getOriginRequestPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicyConfig",
+  telemetry: TELEMETRY,
+  span: "GetOriginRequestPolicyConfig",
 }));
 
 export type GetPublicKeyError = AccessDenied | NoSuchPublicKey | CommonErrors;
@@ -6710,6 +6899,8 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
+  telemetry: TELEMETRY,
+  span: "GetPublicKey",
 }));
 
 export type GetPublicKeyConfigError = AccessDenied | NoSuchPublicKey | CommonErrors;
@@ -6728,6 +6919,8 @@ export const getPublicKeyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKeyConfig",
+  telemetry: TELEMETRY,
+  span: "GetPublicKeyConfig",
 }));
 
 export type GetRealtimeLogConfigError =
@@ -6752,6 +6945,8 @@ export const getRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "GetRealtimeLogConfig",
 }));
 
 export type GetResourcePolicyError =
@@ -6775,6 +6970,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetResponseHeadersPolicyError =
@@ -6798,6 +6995,8 @@ export const getResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicy",
+  telemetry: TELEMETRY,
+  span: "GetResponseHeadersPolicy",
 }));
 
 export type GetResponseHeadersPolicyConfigError =
@@ -6821,6 +7020,8 @@ export const getResponseHeadersPolicyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicyConfig",
+  telemetry: TELEMETRY,
+  span: "GetResponseHeadersPolicyConfig",
 }));
 
 export type GetStreamingDistributionError =
@@ -6842,6 +7043,8 @@ export const getStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistribution",
+  telemetry: TELEMETRY,
+  span: "GetStreamingDistribution",
 }));
 
 export type GetStreamingDistributionConfigError =
@@ -6863,6 +7066,8 @@ export const getStreamingDistributionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistributionConfig",
+  telemetry: TELEMETRY,
+  span: "GetStreamingDistributionConfig",
 }));
 
 export type GetTrustStoreError = AccessDenied | EntityNotFound | InvalidArgument | CommonErrors;
@@ -6881,6 +7086,8 @@ export const getTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStore",
+  telemetry: TELEMETRY,
+  span: "GetTrustStore",
 }));
 
 export type GetVpcOriginError =
@@ -6904,6 +7111,8 @@ export const getVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcOrigin",
+  telemetry: TELEMETRY,
+  span: "GetVpcOrigin",
 }));
 
 export type ListAnycastIpListsError =
@@ -6927,6 +7136,8 @@ export const listAnycastIpLists: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnycastIpLists",
+  telemetry: TELEMETRY,
+  span: "ListAnycastIpLists",
 }));
 
 export type ListCachePoliciesError =
@@ -6953,6 +7164,8 @@ export const listCachePolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCachePolicies",
+  telemetry: TELEMETRY,
+  span: "ListCachePolicies",
 }));
 
 export type ListCloudFrontOriginAccessIdentitiesError = InvalidArgument | CommonErrors;
@@ -6978,6 +7191,8 @@ export const listCloudFrontOriginAccessIdentities: API.PaginatedOperationMethod<
     items: "CloudFrontOriginAccessIdentityList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudFrontOriginAccessIdentities",
 })) as any;
 
 export type ListConflictingAliasesError = InvalidArgument | NoSuchDistribution | CommonErrors;
@@ -7006,6 +7221,8 @@ export const listConflictingAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConflictingAliases",
+  telemetry: TELEMETRY,
+  span: "ListConflictingAliases",
 }));
 
 export type ListConnectionFunctionsError =
@@ -7035,6 +7252,8 @@ export const listConnectionFunctions: API.PaginatedOperationMethod<
     items: "ConnectionFunctions",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectionFunctions",
 })) as any;
 
 export type ListConnectionGroupsError =
@@ -7064,6 +7283,8 @@ export const listConnectionGroups: API.PaginatedOperationMethod<
     items: "ConnectionGroups",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectionGroups",
 })) as any;
 
 export type ListContinuousDeploymentPoliciesError =
@@ -7088,6 +7309,8 @@ export const listContinuousDeploymentPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContinuousDeploymentPolicies",
+  telemetry: TELEMETRY,
+  span: "ListContinuousDeploymentPolicies",
 }));
 
 export type ListDistributionsError = InvalidArgument | CommonErrors;
@@ -7113,6 +7336,8 @@ export const listDistributions: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributions",
 })) as any;
 
 export type ListDistributionsByAnycastIpListIdError =
@@ -7136,6 +7361,8 @@ export const listDistributionsByAnycastIpListId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByAnycastIpListId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByAnycastIpListId",
 }));
 
 export type ListDistributionsByCachePolicyIdError =
@@ -7160,6 +7387,8 @@ export const listDistributionsByCachePolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByCachePolicyId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByCachePolicyId",
 }));
 
 export type ListDistributionsByConnectionFunctionError =
@@ -7189,6 +7418,8 @@ export const listDistributionsByConnectionFunction: API.PaginatedOperationMethod
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByConnectionFunction",
 })) as any;
 
 export type ListDistributionsByConnectionModeError = AccessDenied | InvalidArgument | CommonErrors;
@@ -7214,6 +7445,8 @@ export const listDistributionsByConnectionMode: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByConnectionMode",
 })) as any;
 
 export type ListDistributionsByKeyGroupError = InvalidArgument | NoSuchResource | CommonErrors;
@@ -7234,6 +7467,8 @@ export const listDistributionsByKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByKeyGroup",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByKeyGroup",
 }));
 
 export type ListDistributionsByOriginRequestPolicyIdError =
@@ -7258,6 +7493,8 @@ export const listDistributionsByOriginRequestPolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOriginRequestPolicyId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByOriginRequestPolicyId",
 }));
 
 export type ListDistributionsByOwnedResourceError =
@@ -7281,6 +7518,8 @@ export const listDistributionsByOwnedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOwnedResource",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByOwnedResource",
 }));
 
 export type ListDistributionsByRealtimeLogConfigError = InvalidArgument | CommonErrors;
@@ -7303,6 +7542,8 @@ export const listDistributionsByRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByRealtimeLogConfig",
 }));
 
 export type ListDistributionsByResponseHeadersPolicyIdError =
@@ -7327,6 +7568,8 @@ export const listDistributionsByResponseHeadersPolicyId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByResponseHeadersPolicyId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByResponseHeadersPolicyId",
 }));
 
 export type ListDistributionsByTrustStoreError =
@@ -7356,6 +7599,8 @@ export const listDistributionsByTrustStore: API.PaginatedOperationMethod<
     items: "DistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByTrustStore",
 })) as any;
 
 export type ListDistributionsByVpcOriginIdError =
@@ -7379,6 +7624,8 @@ export const listDistributionsByVpcOriginId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByVpcOriginId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByVpcOriginId",
 }));
 
 export type ListDistributionsByWebACLIdError = InvalidArgument | InvalidWebACLId | CommonErrors;
@@ -7397,6 +7644,8 @@ export const listDistributionsByWebACLId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByWebACLId",
+  telemetry: TELEMETRY,
+  span: "ListDistributionsByWebACLId",
 }));
 
 export type ListDistributionTenantsError =
@@ -7426,6 +7675,8 @@ export const listDistributionTenants: API.PaginatedOperationMethod<
     items: "DistributionTenantList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionTenants",
 })) as any;
 
 export type ListDistributionTenantsByCustomizationError =
@@ -7457,6 +7708,8 @@ export const listDistributionTenantsByCustomization: API.PaginatedOperationMetho
     items: "DistributionTenantList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDistributionTenantsByCustomization",
 })) as any;
 
 export type ListDomainConflictsError =
@@ -7502,6 +7755,8 @@ export const listDomainConflicts: API.PaginatedOperationMethod<
     items: "DomainConflicts",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainConflicts",
 })) as any;
 
 export type ListFieldLevelEncryptionConfigsError = InvalidArgument | CommonErrors;
@@ -7520,6 +7775,8 @@ export const listFieldLevelEncryptionConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionConfigs",
+  telemetry: TELEMETRY,
+  span: "ListFieldLevelEncryptionConfigs",
 }));
 
 export type ListFieldLevelEncryptionProfilesError = InvalidArgument | CommonErrors;
@@ -7538,6 +7795,8 @@ export const listFieldLevelEncryptionProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionProfiles",
+  telemetry: TELEMETRY,
+  span: "ListFieldLevelEncryptionProfiles",
 }));
 
 export type ListFunctionsError = InvalidArgument | UnsupportedOperation | CommonErrors;
@@ -7560,6 +7819,8 @@ export const listFunctions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctions",
+  telemetry: TELEMETRY,
+  span: "ListFunctions",
 }));
 
 export type ListInvalidationsError =
@@ -7589,6 +7850,8 @@ export const listInvalidations: API.PaginatedOperationMethod<
     items: "InvalidationList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvalidations",
 })) as any;
 
 export type ListInvalidationsForDistributionTenantError =
@@ -7618,6 +7881,8 @@ export const listInvalidationsForDistributionTenant: API.PaginatedOperationMetho
     items: "InvalidationList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvalidationsForDistributionTenant",
 })) as any;
 
 export type ListKeyGroupsError = InvalidArgument | CommonErrors;
@@ -7638,6 +7903,8 @@ export const listKeyGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKeyGroups",
+  telemetry: TELEMETRY,
+  span: "ListKeyGroups",
 }));
 
 export type ListKeyValueStoresError =
@@ -7667,6 +7934,8 @@ export const listKeyValueStores: API.PaginatedOperationMethod<
     items: "KeyValueStoreList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyValueStores",
 })) as any;
 
 export type ListOriginAccessControlsError = InvalidArgument | CommonErrors;
@@ -7696,6 +7965,8 @@ export const listOriginAccessControls: API.PaginatedOperationMethod<
     items: "OriginAccessControlList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOriginAccessControls",
 })) as any;
 
 export type ListOriginRequestPoliciesError =
@@ -7722,6 +7993,8 @@ export const listOriginRequestPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOriginRequestPolicies",
+  telemetry: TELEMETRY,
+  span: "ListOriginRequestPolicies",
 }));
 
 export type ListPublicKeysError = InvalidArgument | CommonErrors;
@@ -7747,6 +8020,8 @@ export const listPublicKeys: API.PaginatedOperationMethod<
     items: "PublicKeyList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPublicKeys",
 })) as any;
 
 export type ListRealtimeLogConfigsError =
@@ -7771,6 +8046,8 @@ export const listRealtimeLogConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRealtimeLogConfigs",
+  telemetry: TELEMETRY,
+  span: "ListRealtimeLogConfigs",
 }));
 
 export type ListResponseHeadersPoliciesError =
@@ -7797,6 +8074,8 @@ export const listResponseHeadersPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResponseHeadersPolicies",
+  telemetry: TELEMETRY,
+  span: "ListResponseHeadersPolicies",
 }));
 
 export type ListStreamingDistributionsError = InvalidArgument | CommonErrors;
@@ -7822,6 +8101,8 @@ export const listStreamingDistributions: API.PaginatedOperationMethod<
     items: "StreamingDistributionList.Items",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamingDistributions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -7845,6 +8126,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTrustStoresError = AccessDenied | EntityNotFound | InvalidArgument | CommonErrors;
@@ -7870,6 +8153,8 @@ export const listTrustStores: API.PaginatedOperationMethod<
     items: "TrustStoreList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrustStores",
 })) as any;
 
 export type ListVpcOriginsError =
@@ -7893,6 +8178,8 @@ export const listVpcOrigins: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcOrigins",
+  telemetry: TELEMETRY,
+  span: "ListVpcOrigins",
 }));
 
 export type PublishConnectionFunctionError =
@@ -7925,6 +8212,8 @@ export const publishConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "PublishConnectionFunction",
 }));
 
 export type PublishFunctionError =
@@ -7959,6 +8248,8 @@ export const publishFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishFunction",
+  telemetry: TELEMETRY,
+  span: "PublishFunction",
 }));
 
 export type PutResourcePolicyError =
@@ -7991,6 +8282,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type TagResourceError =
@@ -8014,6 +8307,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestConnectionFunctionError =
@@ -8046,6 +8341,8 @@ export const testConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "TestConnectionFunction",
 }));
 
 export type TestFunctionError =
@@ -8080,6 +8377,8 @@ export const testFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFunction",
+  telemetry: TELEMETRY,
+  span: "TestFunction",
 }));
 
 export type UntagResourceError =
@@ -8103,6 +8402,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAnycastIpListError =
@@ -8135,6 +8436,8 @@ export const updateAnycastIpList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnycastIpList",
+  telemetry: TELEMETRY,
+  span: "UpdateAnycastIpList",
 }));
 
 export type UpdateCachePolicyError =
@@ -8187,6 +8490,8 @@ export const updateCachePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCachePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateCachePolicy",
 }));
 
 export type UpdateCloudFrontOriginAccessIdentityError =
@@ -8223,6 +8528,8 @@ export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudFrontOriginAccessIdentity",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudFrontOriginAccessIdentity",
 }));
 
 export type UpdateConnectionFunctionError =
@@ -8257,6 +8564,8 @@ export const updateConnectionFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionFunction",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectionFunction",
 }));
 
 export type UpdateConnectionGroupError =
@@ -8293,6 +8602,8 @@ export const updateConnectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectionGroup",
 }));
 
 export type UpdateContinuousDeploymentPolicyError =
@@ -8335,6 +8646,8 @@ export const updateContinuousDeploymentPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContinuousDeploymentPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateContinuousDeploymentPolicy",
 }));
 
 export type UpdateDistributionError =
@@ -8503,6 +8816,8 @@ export const updateDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistribution",
+  telemetry: TELEMETRY,
+  span: "UpdateDistribution",
 }));
 
 export type UpdateDistributionTenantError =
@@ -8541,6 +8856,8 @@ export const updateDistributionTenant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionTenant",
+  telemetry: TELEMETRY,
+  span: "UpdateDistributionTenant",
 }));
 
 export type UpdateDistributionWithStagingConfigError =
@@ -8695,6 +9012,8 @@ export const updateDistributionWithStagingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionWithStagingConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateDistributionWithStagingConfig",
 }));
 
 export type UpdateDomainAssociationError =
@@ -8733,6 +9052,8 @@ export const updateDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainAssociation",
 }));
 
 export type UpdateFieldLevelEncryptionConfigError =
@@ -8775,6 +9096,8 @@ export const updateFieldLevelEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateFieldLevelEncryptionConfig",
 }));
 
 export type UpdateFieldLevelEncryptionProfileError =
@@ -8819,6 +9142,8 @@ export const updateFieldLevelEncryptionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateFieldLevelEncryptionProfile",
 }));
 
 export type UpdateFunctionError =
@@ -8855,6 +9180,8 @@ export const updateFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
+  telemetry: TELEMETRY,
+  span: "UpdateFunction",
 }));
 
 export type UpdateKeyGroupError =
@@ -8895,6 +9222,8 @@ export const updateKeyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyGroup",
 }));
 
 export type UpdateKeyValueStoreError =
@@ -8927,6 +9256,8 @@ export const updateKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "UpdateKeyValueStore",
 }));
 
 export type UpdateOriginAccessControlError =
@@ -8961,6 +9292,8 @@ export const updateOriginAccessControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginAccessControl",
+  telemetry: TELEMETRY,
+  span: "UpdateOriginAccessControl",
 }));
 
 export type UpdateOriginRequestPolicyError =
@@ -9011,6 +9344,8 @@ export const updateOriginRequestPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginRequestPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateOriginRequestPolicy",
 }));
 
 export type UpdatePublicKeyError =
@@ -9045,6 +9380,8 @@ export const updatePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicKey",
+  telemetry: TELEMETRY,
+  span: "UpdatePublicKey",
 }));
 
 export type UpdateRealtimeLogConfigError =
@@ -9077,6 +9414,8 @@ export const updateRealtimeLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRealtimeLogConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateRealtimeLogConfig",
 }));
 
 export type UpdateResponseHeadersPolicyError =
@@ -9127,6 +9466,8 @@ export const updateResponseHeadersPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponseHeadersPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateResponseHeadersPolicy",
 }));
 
 export type UpdateStreamingDistributionError =
@@ -9175,6 +9516,8 @@ export const updateStreamingDistribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamingDistribution",
+  telemetry: TELEMETRY,
+  span: "UpdateStreamingDistribution",
 }));
 
 export type UpdateTrustStoreError =
@@ -9205,6 +9548,8 @@ export const updateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustStore",
+  telemetry: TELEMETRY,
+  span: "UpdateTrustStore",
 }));
 
 export type UpdateVpcOriginError =
@@ -9247,6 +9592,8 @@ export const updateVpcOrigin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcOrigin",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcOrigin",
 }));
 
 export type VerifyDnsConfigurationError =
@@ -9269,6 +9616,8 @@ export const verifyDnsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDnsConfiguration",
+  telemetry: TELEMETRY,
+  span: "VerifyDnsConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

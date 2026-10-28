@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Webhooks",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -845,6 +858,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteWebhookError = Forbidden | NotFound | WhopOpError;
@@ -860,6 +875,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DeliveriesWebhookError =
@@ -882,6 +899,8 @@ export const deliveriesWebhook: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "DeliveriesWebhook",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -907,6 +926,8 @@ export const getWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ListWebhookDeliveriesError = Forbidden | NotFound | WhopOpError;
@@ -924,6 +945,8 @@ export const listWebhookDeliveries: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWebhookDeliveries",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -951,6 +974,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWebhooks",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -976,6 +1001,8 @@ export const replayWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplayWebhook",
 }));
 
 export type ReplayWebhookDeliveryError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -991,6 +1018,8 @@ export const replayWebhookDelivery: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplayWebhookDelivery",
 }));
 
 export type TestWebhookError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -1006,6 +1035,8 @@ export const testWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestWebhook",
 }));
 
 export type UpdateWebhookError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -1021,6 +1052,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

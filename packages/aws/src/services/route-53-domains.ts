@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://route53domains.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53Domains",
+  service: "Route53Domains",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DnssecLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<DnssecLimitExceeded>()(
@@ -977,6 +993,8 @@ export const acceptDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDomainTransferFromAnotherAwsAccount",
+  telemetry: TELEMETRY,
+  span: "AcceptDomainTransferFromAnotherAwsAccount",
 }));
 
 export type AssociateDelegationSignerToDomainError =
@@ -1017,6 +1035,8 @@ export const associateDelegationSignerToDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDelegationSignerToDomain",
+  telemetry: TELEMETRY,
+  span: "AssociateDelegationSignerToDomain",
 }));
 
 export type CancelDomainTransferToAnotherAwsAccountError =
@@ -1046,6 +1066,8 @@ export const cancelDomainTransferToAnotherAwsAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDomainTransferToAnotherAwsAccount",
+  telemetry: TELEMETRY,
+  span: "CancelDomainTransferToAnotherAwsAccount",
 }));
 
 export type CheckDomainAvailabilityError =
@@ -1070,6 +1092,8 @@ export const checkDomainAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDomainAvailability",
+  telemetry: TELEMETRY,
+  span: "CheckDomainAvailability",
 }));
 
 export type CheckDomainTransferabilityError =
@@ -1092,6 +1116,8 @@ export const checkDomainTransferability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDomainTransferability",
+  telemetry: TELEMETRY,
+  span: "CheckDomainTransferability",
 }));
 
 export type DeleteDomainError =
@@ -1132,6 +1158,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteTagsForDomainError =
@@ -1157,6 +1185,8 @@ export const deleteTagsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTagsForDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteTagsForDomain",
 }));
 
 export type DisableDomainAutoRenewError = InvalidInput | UnsupportedTLD | CommonErrors;
@@ -1176,6 +1206,8 @@ export const disableDomainAutoRenew: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDomainAutoRenew",
+  telemetry: TELEMETRY,
+  span: "DisableDomainAutoRenew",
 }));
 
 export type DisableDomainTransferLockError =
@@ -1211,6 +1243,8 @@ export const disableDomainTransferLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDomainTransferLock",
+  telemetry: TELEMETRY,
+  span: "DisableDomainTransferLock",
 }));
 
 export type DisassociateDelegationSignerFromDomainError =
@@ -1242,6 +1276,8 @@ export const disassociateDelegationSignerFromDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDelegationSignerFromDomain",
+  telemetry: TELEMETRY,
+  span: "DisassociateDelegationSignerFromDomain",
 }));
 
 export type EnableDomainAutoRenewError =
@@ -1272,6 +1308,8 @@ export const enableDomainAutoRenew: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDomainAutoRenew",
+  telemetry: TELEMETRY,
+  span: "EnableDomainAutoRenew",
 }));
 
 export type EnableDomainTransferLockError =
@@ -1306,6 +1344,8 @@ export const enableDomainTransferLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDomainTransferLock",
+  telemetry: TELEMETRY,
+  span: "EnableDomainTransferLock",
 }));
 
 export type GetContactReachabilityStatusError =
@@ -1333,6 +1373,8 @@ export const getContactReachabilityStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactReachabilityStatus",
+  telemetry: TELEMETRY,
+  span: "GetContactReachabilityStatus",
 }));
 
 export type GetDomainDetailError = InvalidInput | UnsupportedTLD | DomainNotFound | CommonErrors;
@@ -1353,6 +1395,8 @@ export const getDomainDetail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainDetail",
+  telemetry: TELEMETRY,
+  span: "GetDomainDetail",
 }));
 
 export type GetDomainSuggestionsError =
@@ -1375,6 +1419,8 @@ export const getDomainSuggestions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainSuggestions",
+  telemetry: TELEMETRY,
+  span: "GetDomainSuggestions",
 }));
 
 export type GetOperationDetailError = InvalidInput | CommonErrors;
@@ -1394,6 +1440,8 @@ export const getOperationDetail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperationDetail",
+  telemetry: TELEMETRY,
+  span: "GetOperationDetail",
 }));
 
 export type ListDomainsError = InvalidInput | CommonErrors;
@@ -1420,6 +1468,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListOperationsError = InvalidInput | CommonErrors;
@@ -1448,6 +1498,8 @@ export const listOperations: API.PaginatedOperationMethod<
     items: "Operations",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 })) as any;
 
 export type ListPricesError = InvalidInput | UnsupportedTLD | CommonErrors;
@@ -1484,6 +1536,8 @@ export const listPrices: API.PaginatedOperationMethod<
     items: "Prices",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrices",
 })) as any;
 
 export type ListTagsForDomainError =
@@ -1510,6 +1564,8 @@ export const listTagsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForDomain",
+  telemetry: TELEMETRY,
+  span: "ListTagsForDomain",
 }));
 
 export type PushDomainError =
@@ -1538,6 +1594,8 @@ export const pushDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PushDomain",
+  telemetry: TELEMETRY,
+  span: "PushDomain",
 }));
 
 export type RegisterDomainError =
@@ -1597,6 +1655,8 @@ export const registerDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDomain",
+  telemetry: TELEMETRY,
+  span: "RegisterDomain",
 }));
 
 export type RejectDomainTransferFromAnotherAwsAccountError =
@@ -1623,6 +1683,8 @@ export const rejectDomainTransferFromAnotherAwsAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDomainTransferFromAnotherAwsAccount",
+  telemetry: TELEMETRY,
+  span: "RejectDomainTransferFromAnotherAwsAccount",
 }));
 
 export type RenewDomainError =
@@ -1662,6 +1724,8 @@ export const renewDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewDomain",
+  telemetry: TELEMETRY,
+  span: "RenewDomain",
 }));
 
 export type ResendContactReachabilityEmailError =
@@ -1687,6 +1751,8 @@ export const resendContactReachabilityEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendContactReachabilityEmail",
+  telemetry: TELEMETRY,
+  span: "ResendContactReachabilityEmail",
 }));
 
 export type ResendOperationAuthorizationError = InvalidInput | TLDInMaintenance | CommonErrors;
@@ -1705,6 +1771,8 @@ export const resendOperationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendOperationAuthorization",
+  telemetry: TELEMETRY,
+  span: "ResendOperationAuthorization",
 }));
 
 export type RetrieveDomainAuthCodeError =
@@ -1729,6 +1797,8 @@ export const retrieveDomainAuthCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveDomainAuthCode",
+  telemetry: TELEMETRY,
+  span: "RetrieveDomainAuthCode",
 }));
 
 export type TransferDomainError =
@@ -1794,6 +1864,8 @@ export const transferDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferDomain",
+  telemetry: TELEMETRY,
+  span: "TransferDomain",
 }));
 
 export type TransferDomainToAnotherAwsAccountError =
@@ -1836,6 +1908,8 @@ export const transferDomainToAnotherAwsAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferDomainToAnotherAwsAccount",
+  telemetry: TELEMETRY,
+  span: "TransferDomainToAnotherAwsAccount",
 }));
 
 export type UpdateDomainContactError =
@@ -1872,6 +1946,8 @@ export const updateDomainContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainContact",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainContact",
 }));
 
 export type UpdateDomainContactPrivacyError =
@@ -1922,6 +1998,8 @@ export const updateDomainContactPrivacy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainContactPrivacy",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainContactPrivacy",
 }));
 
 export type UpdateDomainNameserversError =
@@ -1960,6 +2038,8 @@ export const updateDomainNameservers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainNameservers",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainNameservers",
 }));
 
 export type UpdateTagsForDomainError =
@@ -1985,6 +2065,8 @@ export const updateTagsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagsForDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateTagsForDomain",
 }));
 
 export type ViewBillingError = InvalidInput | CommonErrors;
@@ -2010,6 +2092,8 @@ export const viewBilling: API.PaginatedOperationMethod<
     items: "BillingRecords",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ViewBilling",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

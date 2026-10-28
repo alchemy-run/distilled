@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -76,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://workdocs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WorkDocs",
+  service: "WorkDocs",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -1104,6 +1119,8 @@ export const abortDocumentVersionUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortDocumentVersionUpload",
+  telemetry: TELEMETRY,
+  span: "AbortDocumentVersionUpload",
 }));
 
 export type ActivateUserError =
@@ -1135,6 +1152,8 @@ export const activateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateUser",
+  telemetry: TELEMETRY,
+  span: "ActivateUser",
 }));
 
 export type AddResourcePermissionsError =
@@ -1167,6 +1186,8 @@ export const addResourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddResourcePermissions",
+  telemetry: TELEMETRY,
+  span: "AddResourcePermissions",
 }));
 
 export type CreateCommentError =
@@ -1203,6 +1224,8 @@ export const createComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComment",
+  telemetry: TELEMETRY,
+  span: "CreateComment",
 }));
 
 export type CreateCustomMetadataError =
@@ -1238,6 +1261,8 @@ export const createCustomMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomMetadata",
+  telemetry: TELEMETRY,
+  span: "CreateCustomMetadata",
 }));
 
 export type CreateFolderError =
@@ -1278,6 +1303,8 @@ export const createFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFolder",
+  telemetry: TELEMETRY,
+  span: "CreateFolder",
 }));
 
 export type CreateLabelsError =
@@ -1311,6 +1338,8 @@ export const createLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabels",
+  telemetry: TELEMETRY,
+  span: "CreateLabels",
 }));
 
 export type CreateNotificationSubscriptionError =
@@ -1343,6 +1372,8 @@ export const createNotificationSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateNotificationSubscription",
 }));
 
 export type CreateUserError =
@@ -1374,6 +1405,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeactivateUserError =
@@ -1405,6 +1438,8 @@ export const deactivateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateUser",
+  telemetry: TELEMETRY,
+  span: "DeactivateUser",
 }));
 
 export type DeleteCommentError =
@@ -1439,6 +1474,8 @@ export const deleteComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComment",
+  telemetry: TELEMETRY,
+  span: "DeleteComment",
 }));
 
 export type DeleteCustomMetadataError =
@@ -1471,6 +1508,8 @@ export const deleteCustomMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomMetadata",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomMetadata",
 }));
 
 export type DeleteDocumentError =
@@ -1509,6 +1548,8 @@ export const deleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocument",
+  telemetry: TELEMETRY,
+  span: "DeleteDocument",
 }));
 
 export type DeleteDocumentVersionError =
@@ -1545,6 +1586,8 @@ export const deleteDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentVersion",
 }));
 
 export type DeleteFolderError =
@@ -1583,6 +1626,8 @@ export const deleteFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolder",
+  telemetry: TELEMETRY,
+  span: "DeleteFolder",
 }));
 
 export type DeleteFolderContentsError =
@@ -1617,6 +1662,8 @@ export const deleteFolderContents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolderContents",
+  telemetry: TELEMETRY,
+  span: "DeleteFolderContents",
 }));
 
 export type DeleteLabelsError =
@@ -1649,6 +1696,8 @@ export const deleteLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabels",
+  telemetry: TELEMETRY,
+  span: "DeleteLabels",
 }));
 
 export type DeleteNotificationSubscriptionError =
@@ -1677,6 +1726,8 @@ export const deleteNotificationSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationSubscription",
 }));
 
 export type DeleteUserError =
@@ -1709,6 +1760,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeActivitiesError =
@@ -1746,6 +1799,8 @@ export const describeActivities: API.PaginatedOperationMethod<
     items: "UserActivities",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeActivities",
 })) as any;
 
 export type DescribeCommentsError =
@@ -1785,6 +1840,8 @@ export const describeComments: API.PaginatedOperationMethod<
     items: "Comments",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeComments",
 })) as any;
 
 export type DescribeDocumentVersionsError =
@@ -1830,6 +1887,8 @@ export const describeDocumentVersions: API.PaginatedOperationMethod<
     items: "DocumentVersions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDocumentVersions",
 })) as any;
 
 export type DescribeFolderContentsError =
@@ -1870,6 +1929,8 @@ export const describeFolderContents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeFolderContents",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFolderContents",
 })) as any;
 
 export type DescribeGroupsError =
@@ -1906,6 +1967,8 @@ export const describeGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGroups",
 })) as any;
 
 export type DescribeNotificationSubscriptionsError =
@@ -1939,6 +2002,8 @@ export const describeNotificationSubscriptions: API.PaginatedOperationMethod<
     items: "Subscriptions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationSubscriptions",
 })) as any;
 
 export type DescribeResourcePermissionsError =
@@ -1976,6 +2041,8 @@ export const describeResourcePermissions: API.PaginatedOperationMethod<
     items: "Principals",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePermissions",
 })) as any;
 
 export type DescribeRootFoldersError =
@@ -2022,6 +2089,8 @@ export const describeRootFolders: API.PaginatedOperationMethod<
     items: "Folders",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRootFolders",
 })) as any;
 
 export type DescribeUsersError =
@@ -2068,6 +2137,8 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUsers",
 })) as any;
 
 export type GetCurrentUserError =
@@ -2105,6 +2176,8 @@ export const getCurrentUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCurrentUser",
+  telemetry: TELEMETRY,
+  span: "GetCurrentUser",
 }));
 
 export type GetDocumentError =
@@ -2139,6 +2212,8 @@ export const getDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocument",
+  telemetry: TELEMETRY,
+  span: "GetDocument",
 }));
 
 export type GetDocumentPathError =
@@ -2175,6 +2250,8 @@ export const getDocumentPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentPath",
+  telemetry: TELEMETRY,
+  span: "GetDocumentPath",
 }));
 
 export type GetDocumentVersionError =
@@ -2209,6 +2286,8 @@ export const getDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentVersion",
+  telemetry: TELEMETRY,
+  span: "GetDocumentVersion",
 }));
 
 export type GetFolderError =
@@ -2243,6 +2322,8 @@ export const getFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolder",
+  telemetry: TELEMETRY,
+  span: "GetFolder",
 }));
 
 export type GetFolderPathError =
@@ -2279,6 +2360,8 @@ export const getFolderPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolderPath",
+  telemetry: TELEMETRY,
+  span: "GetFolderPath",
 }));
 
 export type GetResourcesError =
@@ -2310,6 +2393,8 @@ export const getResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResources",
+  telemetry: TELEMETRY,
+  span: "GetResources",
 }));
 
 export type InitiateDocumentVersionUploadError =
@@ -2365,6 +2450,8 @@ export const initiateDocumentVersionUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateDocumentVersionUpload",
+  telemetry: TELEMETRY,
+  span: "InitiateDocumentVersionUpload",
 }));
 
 export type RemoveAllResourcePermissionsError =
@@ -2393,6 +2480,8 @@ export const removeAllResourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAllResourcePermissions",
+  telemetry: TELEMETRY,
+  span: "RemoveAllResourcePermissions",
 }));
 
 export type RemoveResourcePermissionError =
@@ -2422,6 +2511,8 @@ export const removeResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveResourcePermission",
+  telemetry: TELEMETRY,
+  span: "RemoveResourcePermission",
 }));
 
 export type RestoreDocumentVersionsError =
@@ -2458,6 +2549,8 @@ export const restoreDocumentVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDocumentVersions",
+  telemetry: TELEMETRY,
+  span: "RestoreDocumentVersions",
 }));
 
 export type SearchResourcesError =
@@ -2493,6 +2586,8 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchResources",
 })) as any;
 
 export type UpdateDocumentError =
@@ -2534,6 +2629,8 @@ export const updateDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocument",
+  telemetry: TELEMETRY,
+  span: "UpdateDocument",
 }));
 
 export type UpdateDocumentVersionError =
@@ -2574,6 +2671,8 @@ export const updateDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateDocumentVersion",
 }));
 
 export type UpdateFolderError =
@@ -2615,6 +2714,8 @@ export const updateFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFolder",
+  telemetry: TELEMETRY,
+  span: "UpdateFolder",
 }));
 
 export type UpdateUserError =
@@ -2654,6 +2755,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

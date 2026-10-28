@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PartnerCentralSelling",
+  service: "PartnerCentralSelling",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2233,6 +2248,8 @@ export const acceptEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptEngagementInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptEngagementInvitation",
 }));
 
 export type AssignOpportunityError =
@@ -2265,6 +2282,8 @@ export const assignOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssignOpportunity",
+  telemetry: TELEMETRY,
+  span: "AssignOpportunity",
 }));
 
 export type AssociateOpportunityError =
@@ -2309,6 +2328,8 @@ export const associateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOpportunity",
+  telemetry: TELEMETRY,
+  span: "AssociateOpportunity",
 }));
 
 export type CreateEngagementError =
@@ -2343,6 +2364,8 @@ export const createEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagement",
+  telemetry: TELEMETRY,
+  span: "CreateEngagement",
 }));
 
 export type CreateEngagementContextError =
@@ -2377,6 +2400,8 @@ export const createEngagementContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagementContext",
+  telemetry: TELEMETRY,
+  span: "CreateEngagementContext",
 }));
 
 export type CreateEngagementInvitationError =
@@ -2411,6 +2436,8 @@ export const createEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagementInvitation",
+  telemetry: TELEMETRY,
+  span: "CreateEngagementInvitation",
 }));
 
 export type CreateOpportunityError =
@@ -2455,6 +2482,8 @@ export const createOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpportunity",
+  telemetry: TELEMETRY,
+  span: "CreateOpportunity",
 }));
 
 export type CreateResourceSnapshotError =
@@ -2489,6 +2518,8 @@ export const createResourceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateResourceSnapshot",
 }));
 
 export type CreateResourceSnapshotJobError =
@@ -2523,6 +2554,8 @@ export const createResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "CreateResourceSnapshotJob",
 }));
 
 export type DeleteResourceSnapshotJobError =
@@ -2555,6 +2588,8 @@ export const deleteResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceSnapshotJob",
 }));
 
 export type DisassociateOpportunityError =
@@ -2587,6 +2622,8 @@ export const disassociateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOpportunity",
+  telemetry: TELEMETRY,
+  span: "DisassociateOpportunity",
 }));
 
 export type GetAwsOpportunitySummaryError =
@@ -2617,6 +2654,8 @@ export const getAwsOpportunitySummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAwsOpportunitySummary",
+  telemetry: TELEMETRY,
+  span: "GetAwsOpportunitySummary",
 }));
 
 export type GetEngagementError =
@@ -2647,6 +2686,8 @@ export const getEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngagement",
+  telemetry: TELEMETRY,
+  span: "GetEngagement",
 }));
 
 export type GetEngagementInvitationError =
@@ -2677,6 +2718,8 @@ export const getEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngagementInvitation",
+  telemetry: TELEMETRY,
+  span: "GetEngagementInvitation",
 }));
 
 export type GetOpportunityError =
@@ -2709,6 +2752,8 @@ export const getOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpportunity",
+  telemetry: TELEMETRY,
+  span: "GetOpportunity",
 }));
 
 export type GetProspectingFromEngagementTaskError =
@@ -2739,6 +2784,8 @@ export const getProspectingFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProspectingFromEngagementTask",
+  telemetry: TELEMETRY,
+  span: "GetProspectingFromEngagementTask",
 }));
 
 export type GetResourceSnapshotError =
@@ -2769,6 +2816,8 @@ export const getResourceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetResourceSnapshot",
 }));
 
 export type GetResourceSnapshotJobError =
@@ -2799,6 +2848,8 @@ export const getResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "GetResourceSnapshotJob",
 }));
 
 export type GetSellingSystemSettingsError =
@@ -2829,6 +2880,8 @@ export const getSellingSystemSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSellingSystemSettings",
+  telemetry: TELEMETRY,
+  span: "GetSellingSystemSettings",
 }));
 
 export type ListEngagementByAcceptingInvitationTasksError =
@@ -2866,6 +2919,8 @@ export const listEngagementByAcceptingInvitationTasks: API.PaginatedOperationMet
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementByAcceptingInvitationTasks",
 })) as any;
 
 export type ListEngagementFromOpportunityTasksError =
@@ -2903,6 +2958,8 @@ export const listEngagementFromOpportunityTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementFromOpportunityTasks",
 })) as any;
 
 export type ListEngagementInvitationsError =
@@ -2940,6 +2997,8 @@ export const listEngagementInvitations: API.PaginatedOperationMethod<
     items: "EngagementInvitationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementInvitations",
 })) as any;
 
 export type ListEngagementMembersError =
@@ -2977,6 +3036,8 @@ export const listEngagementMembers: API.PaginatedOperationMethod<
     items: "EngagementMemberList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementMembers",
 })) as any;
 
 export type ListEngagementResourceAssociationsError =
@@ -3014,6 +3075,8 @@ export const listEngagementResourceAssociations: API.PaginatedOperationMethod<
     items: "EngagementResourceAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagementResourceAssociations",
 })) as any;
 
 export type ListEngagementsError =
@@ -3051,6 +3114,8 @@ export const listEngagements: API.PaginatedOperationMethod<
     items: "EngagementSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEngagements",
 })) as any;
 
 export type ListOpportunitiesError =
@@ -3098,6 +3163,8 @@ export const listOpportunities: API.PaginatedOperationMethod<
     items: "OpportunitySummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpportunities",
 })) as any;
 
 export type ListOpportunityFromEngagementTasksError =
@@ -3135,6 +3202,8 @@ export const listOpportunityFromEngagementTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpportunityFromEngagementTasks",
 })) as any;
 
 export type ListProspectingFromEngagementTasksError =
@@ -3170,6 +3239,8 @@ export const listProspectingFromEngagementTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProspectingFromEngagementTasks",
 })) as any;
 
 export type ListResourceSnapshotJobsError =
@@ -3207,6 +3278,8 @@ export const listResourceSnapshotJobs: API.PaginatedOperationMethod<
     items: "ResourceSnapshotJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceSnapshotJobs",
 })) as any;
 
 export type ListResourceSnapshotsError =
@@ -3254,6 +3327,8 @@ export const listResourceSnapshots: API.PaginatedOperationMethod<
     items: "ResourceSnapshotSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceSnapshots",
 })) as any;
 
 export type ListSolutionsError =
@@ -3291,6 +3366,8 @@ export const listSolutions: API.PaginatedOperationMethod<
     items: "SolutionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolutions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3321,6 +3398,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutSellingSystemSettingsError =
@@ -3351,6 +3430,8 @@ export const putSellingSystemSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSellingSystemSettings",
+  telemetry: TELEMETRY,
+  span: "PutSellingSystemSettings",
 }));
 
 export type RejectEngagementInvitationError =
@@ -3383,6 +3464,8 @@ export const rejectEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectEngagementInvitation",
+  telemetry: TELEMETRY,
+  span: "RejectEngagementInvitation",
 }));
 
 export type StartEngagementByAcceptingInvitationTaskError =
@@ -3417,6 +3500,8 @@ export const startEngagementByAcceptingInvitationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagementByAcceptingInvitationTask",
+  telemetry: TELEMETRY,
+  span: "StartEngagementByAcceptingInvitationTask",
 }));
 
 export type StartEngagementFromOpportunityTaskError =
@@ -3451,6 +3536,8 @@ export const startEngagementFromOpportunityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagementFromOpportunityTask",
+  telemetry: TELEMETRY,
+  span: "StartEngagementFromOpportunityTask",
 }));
 
 export type StartOpportunityFromEngagementTaskError =
@@ -3485,6 +3572,8 @@ export const startOpportunityFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOpportunityFromEngagementTask",
+  telemetry: TELEMETRY,
+  span: "StartOpportunityFromEngagementTask",
 }));
 
 export type StartProspectingFromEngagementTaskError =
@@ -3517,6 +3606,8 @@ export const startProspectingFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProspectingFromEngagementTask",
+  telemetry: TELEMETRY,
+  span: "StartProspectingFromEngagementTask",
 }));
 
 export type StartResourceSnapshotJobError =
@@ -3547,6 +3638,8 @@ export const startResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "StartResourceSnapshotJob",
 }));
 
 export type StopResourceSnapshotJobError =
@@ -3577,6 +3670,8 @@ export const stopResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopResourceSnapshotJob",
+  telemetry: TELEMETRY,
+  span: "StopResourceSnapshotJob",
 }));
 
 export type SubmitOpportunityError =
@@ -3607,6 +3702,8 @@ export const submitOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitOpportunity",
+  telemetry: TELEMETRY,
+  span: "SubmitOpportunity",
 }));
 
 export type TagResourceError =
@@ -3639,6 +3736,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3671,6 +3770,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEngagementContextError =
@@ -3705,6 +3806,8 @@ export const updateEngagementContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEngagementContext",
+  telemetry: TELEMETRY,
+  span: "UpdateEngagementContext",
 }));
 
 export type UpdateOpportunityError =
@@ -3739,6 +3842,8 @@ export const updateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpportunity",
+  telemetry: TELEMETRY,
+  span: "UpdateOpportunity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

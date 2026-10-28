@@ -87,6 +87,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneName: "ZoneName",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Billing",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface AddressValidationRequest {
   /** Address line 1. */
   address?: string;
@@ -883,6 +897,8 @@ export const addressValidation: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddressValidation",
 }));
 
 export type CreateProfileError = CloudflareOpError;
@@ -898,6 +914,8 @@ export const createProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateProfilesPaymentMethodError = CloudflareOpError;
@@ -913,6 +931,8 @@ export const createProfilesPaymentMethod: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProfilesPaymentMethod",
 }));
 
 export type DeleteProfileError = CloudflareOpError;
@@ -928,6 +948,8 @@ export const deleteProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type GetBadDebtError = CloudflareOpError;
@@ -943,6 +965,8 @@ export const getBadDebt: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBadDebt",
 }));
 
 export type GetCreditError = CloudflareOpError;
@@ -958,6 +982,8 @@ export const getCredit: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredit",
 }));
 
 export type GetProfileError = CloudflareOpError;
@@ -973,6 +999,8 @@ export const getProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetRatePlanError = CloudflareOpError;
@@ -988,6 +1016,8 @@ export const getRatePlan: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRatePlan",
 }));
 
 export type GetUnpaidInvoiceError = CloudflareOpError;
@@ -1003,6 +1033,8 @@ export const getUnpaidInvoice: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUnpaidInvoice",
 }));
 
 export type GetUsageError = CloudflareOpError;
@@ -1018,6 +1050,8 @@ export const getUsage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsage",
 }));
 
 export type ListHistoryError = CloudflareOpError;
@@ -1033,6 +1067,8 @@ export const listHistory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHistory",
 }));
 
 export type PaygoUsageError = CloudflareOpError;
@@ -1048,6 +1084,8 @@ export const paygoUsage: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PaygoUsage",
 }));
 
 export type ProfilesUpdateBillingEmailError = CloudflareOpError;
@@ -1063,6 +1101,8 @@ export const profilesUpdateBillingEmail: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProfilesUpdateBillingEmail",
 }));
 
 export type UpdateProfileError = CloudflareOpError;
@@ -1078,6 +1118,8 @@ export const updateProfile: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UsageGetAccountUsageInfoV1Error = CloudflareOpError;
@@ -1093,6 +1135,8 @@ export const usageGetAccountUsageInfoV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsageGetAccountUsageInfoV1",
 }));
 
 export type UsageGetAccountUsageV1Error = CloudflareOpError;
@@ -1108,6 +1152,8 @@ export const usageGetAccountUsageV1: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsageGetAccountUsageV1",
 }));
 
 export type UsageGetAccountUsageV2Error = CloudflareOpError;
@@ -1123,6 +1169,8 @@ export const usageGetAccountUsageV2: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsageGetAccountUsageV2",
 }));
 
 export type UsagePaygoInfoError = CloudflareOpError;
@@ -1138,6 +1186,8 @@ export const usagePaygoInfo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsagePaygoInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

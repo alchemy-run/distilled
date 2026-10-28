@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Admin",
+  propagate: "w3c",
+} as const;
+
 export interface AddAliasRequest {
   /** The new alias for the specified emoji. Any wrapping whitespace or colons will be automatically trimmed. */
   name: string;
@@ -2280,6 +2293,8 @@ export const addAlias: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAlias",
 }));
 
 export type AddAppsPermissionsError = SlackOpError;
@@ -2295,6 +2310,8 @@ export const addAppsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAppsPermissions",
 }));
 
 export type AddAssignmentsError = SlackOpError;
@@ -2310,6 +2327,8 @@ export const addAssignments: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddAssignments",
 }));
 
 export type AddChannelsError = SlackOpError;
@@ -2325,6 +2344,8 @@ export const addChannels: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddChannels",
 }));
 
 export type AddEmojiError = SlackOpError;
@@ -2340,6 +2361,8 @@ export const addEmoji: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddEmoji",
 }));
 
 export type AddGroupError = SlackOpError;
@@ -2355,6 +2378,8 @@ export const addGroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddGroup",
 }));
 
 export type AddTeamsError = SlackOpError;
@@ -2370,6 +2395,8 @@ export const addTeams: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddTeams",
 }));
 
 export type AddUsersError = SlackOpError;
@@ -2385,6 +2412,8 @@ export const addUsers: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddUsers",
 }));
 
 export type AddWorkflowsCollaboratorError = SlackOpError;
@@ -2400,6 +2429,8 @@ export const addWorkflowsCollaborator: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddWorkflowsCollaborator",
 }));
 
 export type AnalyticsMessagesActivityError = SlackOpError;
@@ -2415,6 +2446,8 @@ export const analyticsMessagesActivity: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyticsMessagesActivity",
 }));
 
 export type AnalyticsMessagesMetadataError = SlackOpError;
@@ -2432,6 +2465,8 @@ export const analyticsMessagesMetadata: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "AnalyticsMessagesMetadata",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2455,6 +2490,8 @@ export const approveApp: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveApp",
 }));
 
 export type ApproveInviteRequestError = SlackOpError;
@@ -2470,6 +2507,8 @@ export const approveInviteRequest: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveInviteRequest",
 }));
 
 export type AppsRestrictError = SlackOpError;
@@ -2485,6 +2524,8 @@ export const appsRestrict: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppsRestrict",
 }));
 
 export type ArchiveConversationError = SlackOpError;
@@ -2500,6 +2541,8 @@ export const archiveConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveConversation",
 }));
 
 export type AssignEntitiesError = SlackOpError;
@@ -2515,6 +2558,8 @@ export const assignEntities: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignEntities",
 }));
 
 export type AssignUserError = SlackOpError;
@@ -2530,6 +2575,8 @@ export const assignUser: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignUser",
 }));
 
 export type BulkArchiveError = SlackOpError;
@@ -2545,6 +2592,8 @@ export const bulkArchive: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkArchive",
 }));
 
 export type BulkDeleteError = SlackOpError;
@@ -2560,6 +2609,8 @@ export const bulkDelete: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDelete",
 }));
 
 export type BulkMoveError = SlackOpError;
@@ -2575,6 +2626,8 @@ export const bulkMove: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkMove",
 }));
 
 export type BulkSetExcludeFromSlackAiError = SlackOpError;
@@ -2590,6 +2643,8 @@ export const bulkSetExcludeFromSlackAi: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkSetExcludeFromSlackAi",
 }));
 
 export type BulkSetPropertiesError = SlackOpError;
@@ -2605,6 +2660,8 @@ export const bulkSetProperties: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkSetProperties",
 }));
 
 export type CancelAppsRequestError = SlackOpError;
@@ -2620,6 +2677,8 @@ export const cancelAppsRequest: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAppsRequest",
 }));
 
 export type ClearResolutionError = SlackOpError;
@@ -2635,6 +2694,8 @@ export const clearResolution: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearResolution",
 }));
 
 export type ClearSettingsError = SlackOpError;
@@ -2650,6 +2711,8 @@ export const clearSettings: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearSettings",
 }));
 
 export type ConvertToPrivateError = SlackOpError;
@@ -2665,6 +2728,8 @@ export const convertToPrivate: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertToPrivate",
 }));
 
 export type ConvertToPublicError = SlackOpError;
@@ -2680,6 +2745,8 @@ export const convertToPublic: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertToPublic",
 }));
 
 export type CreateBarrierError = SlackOpError;
@@ -2695,6 +2762,8 @@ export const createBarrier: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBarrier",
 }));
 
 export type CreateConversationError = SlackOpError;
@@ -2710,6 +2779,8 @@ export const createConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversation",
 }));
 
 export type CreateForObjectsError = SlackOpError;
@@ -2725,6 +2796,8 @@ export const createForObjects: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForObjects",
 }));
 
 export type CreateTeamError = SlackOpError;
@@ -2740,6 +2813,8 @@ export const createTeam: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeam",
 }));
 
 export type CreateUsergroupError = SlackOpError;
@@ -2755,6 +2830,8 @@ export const createUsergroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsergroup",
 }));
 
 export type DeleteBarrierError = SlackOpError;
@@ -2770,6 +2847,8 @@ export const deleteBarrier: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBarrier",
 }));
 
 export type DeleteConversationError = SlackOpError;
@@ -2785,6 +2864,8 @@ export const deleteConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConversation",
 }));
 
 export type DisconnectSharedError = SlackOpError;
@@ -2800,6 +2881,8 @@ export const disconnectShared: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectShared",
 }));
 
 export type ExportUsersUnsupportedVersionError = SlackOpError;
@@ -2815,6 +2898,8 @@ export const exportUsersUnsupportedVersion: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportUsersUnsupportedVersion",
 }));
 
 export type FetchUsergroupError = SlackOpError;
@@ -2830,6 +2915,8 @@ export const fetchUsergroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchUsergroup",
 }));
 
 export type GetConversationPrefsError = SlackOpError;
@@ -2845,6 +2932,8 @@ export const getConversationPrefs: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversationPrefs",
 }));
 
 export type GetCustomRetentionError = SlackOpError;
@@ -2860,6 +2949,8 @@ export const getCustomRetention: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomRetention",
 }));
 
 export type GetEntitiesError = SlackOpError;
@@ -2877,6 +2968,8 @@ export const getEntities: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetEntities",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2901,6 +2994,8 @@ export const getExpiration: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpiration",
 }));
 
 export type GetFileError = SlackOpError;
@@ -2916,6 +3011,8 @@ export const getFile: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFile",
 }));
 
 export type GetItemError = SlackOpError;
@@ -2931,6 +3028,8 @@ export const getItem: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItem",
 }));
 
 export type GetSettingsError = SlackOpError;
@@ -2946,6 +3045,8 @@ export const getSettings: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettings",
 }));
 
 export type GetTeamsError = SlackOpError;
@@ -2961,6 +3062,8 @@ export const getTeams: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeams",
 }));
 
 export type InvalidateUsersSessionError = SlackOpError;
@@ -2976,6 +3079,8 @@ export const invalidateUsersSession: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateUsersSession",
 }));
 
 export type InviteConversationError = SlackOpError;
@@ -2991,6 +3096,8 @@ export const inviteConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteConversation",
 }));
 
 export type InviteRequestsDenyError = SlackOpError;
@@ -3006,6 +3113,8 @@ export const inviteRequestsDeny: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteRequestsDeny",
 }));
 
 export type InviteUserError = SlackOpError;
@@ -3021,6 +3130,8 @@ export const inviteUser: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteUser",
 }));
 
 export type LinkObjectsError = SlackOpError;
@@ -3036,6 +3147,8 @@ export const linkObjects: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkObjects",
 }));
 
 export type ListAppsActivitiesError = SlackOpError;
@@ -3053,6 +3166,8 @@ export const listAppsActivities: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppsActivities",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3079,6 +3194,8 @@ export const listAppsApproved: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppsApproved",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3105,6 +3222,8 @@ export const listAppsMcpServers: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppsMcpServers",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3129,6 +3248,8 @@ export const listAppsMcpServersPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsMcpServersPermissions",
 }));
 
 export type ListAppsPermissionsError = SlackOpError;
@@ -3144,6 +3265,8 @@ export const listAppsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsPermissions",
 }));
 
 export type ListAppsRequestsError = SlackOpError;
@@ -3161,6 +3284,8 @@ export const listAppsRequests: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppsRequests",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3187,6 +3312,8 @@ export const listAppsRestricted: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAppsRestricted",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3213,6 +3340,8 @@ export const listAssignments: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAssignments",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3239,6 +3368,8 @@ export const listBarriers: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBarriers",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3263,6 +3394,8 @@ export const listChannels: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 }));
 
 export type ListEmojiError = SlackOpError;
@@ -3278,6 +3411,8 @@ export const listEmoji: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmoji",
 }));
 
 export type ListFunctionsError = SlackOpError;
@@ -3295,6 +3430,8 @@ export const listFunctions: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFunctions",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3319,6 +3456,8 @@ export const listGroups: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListInviteRequestsError = SlackOpError;
@@ -3336,6 +3475,8 @@ export const listInviteRequests: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInviteRequests",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3362,6 +3503,8 @@ export const listInviteRequestsApproved: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInviteRequestsApproved",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3388,6 +3531,8 @@ export const listInviteRequestsDenied: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInviteRequestsDenied",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3414,6 +3559,8 @@ export const listOriginalConnectedChannelInfo: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOriginalConnectedChannelInfo",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3440,6 +3587,8 @@ export const listTeams: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTeams",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3466,6 +3615,8 @@ export const listTeamsAdmins: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTeamsAdmins",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3492,6 +3643,8 @@ export const listTeamsOwners: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTeamsOwners",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3518,6 +3671,8 @@ export const listUsers: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUsers",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3544,6 +3699,8 @@ export const listUsersSession: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUsersSession",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3568,6 +3725,8 @@ export const lookupAppsConfig: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupAppsConfig",
 }));
 
 export type LookupConversationError = SlackOpError;
@@ -3585,6 +3744,8 @@ export const lookupConversation: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "LookupConversation",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3609,6 +3770,8 @@ export const lookupFunctionsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupFunctionsPermissions",
 }));
 
 export type LookupWorkflowsPermissionsError = SlackOpError;
@@ -3624,6 +3787,8 @@ export const lookupWorkflowsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupWorkflowsPermissions",
 }));
 
 export type LookupWorkflowsTriggersTypesPermissionsError = SlackOpError;
@@ -3639,6 +3804,8 @@ export const lookupWorkflowsTriggersTypesPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupWorkflowsTriggersTypesPermissions",
 }));
 
 export type RemoveAppsPermissionsError = SlackOpError;
@@ -3654,6 +3821,8 @@ export const removeAppsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAppsPermissions",
 }));
 
 export type RemoveAssignmentsError = SlackOpError;
@@ -3669,6 +3838,8 @@ export const removeAssignments: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAssignments",
 }));
 
 export type RemoveChannelsError = SlackOpError;
@@ -3684,6 +3855,8 @@ export const removeChannels: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveChannels",
 }));
 
 export type RemoveCustomRetentionError = SlackOpError;
@@ -3699,6 +3872,8 @@ export const removeCustomRetention: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCustomRetention",
 }));
 
 export type RemoveEmojiError = SlackOpError;
@@ -3714,6 +3889,8 @@ export const removeEmoji: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveEmoji",
 }));
 
 export type RemoveEntitiesError = SlackOpError;
@@ -3729,6 +3906,8 @@ export const removeEntities: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveEntities",
 }));
 
 export type RemoveGroupError = SlackOpError;
@@ -3744,6 +3923,8 @@ export const removeGroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveGroup",
 }));
 
 export type RemoveTeamsError = SlackOpError;
@@ -3759,6 +3940,8 @@ export const removeTeams: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTeams",
 }));
 
 export type RemoveUserError = SlackOpError;
@@ -3774,6 +3957,8 @@ export const removeUser: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUser",
 }));
 
 export type RemoveUsersError = SlackOpError;
@@ -3789,6 +3974,8 @@ export const removeUsers: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUsers",
 }));
 
 export type RemoveWorkflowsCollaboratorError = SlackOpError;
@@ -3804,6 +3991,8 @@ export const removeWorkflowsCollaborator: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveWorkflowsCollaborator",
 }));
 
 export type RenameConversationError = SlackOpError;
@@ -3819,6 +4008,8 @@ export const renameConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameConversation",
 }));
 
 export type RenameEmojiError = SlackOpError;
@@ -3834,6 +4025,8 @@ export const renameEmoji: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameEmoji",
 }));
 
 export type ResetBulkError = SlackOpError;
@@ -3849,6 +4042,8 @@ export const resetBulk: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetBulk",
 }));
 
 export type ResetUsersSessionError = SlackOpError;
@@ -3864,6 +4059,8 @@ export const resetUsersSession: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetUsersSession",
 }));
 
 export type SearchConversationError = SlackOpError;
@@ -3881,6 +4078,8 @@ export const searchConversation: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SearchConversation",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3907,6 +4106,8 @@ export const searchWorkflow: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "SearchWorkflow",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -3931,6 +4132,8 @@ export const setAdmin: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAdmin",
 }));
 
 export type SetAppsConfigError = SlackOpError;
@@ -3946,6 +4149,8 @@ export const setAppsConfig: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAppsConfig",
 }));
 
 export type SetAppsMcpServersPermissionsError = SlackOpError;
@@ -3961,6 +4166,8 @@ export const setAppsMcpServersPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAppsMcpServersPermissions",
 }));
 
 export type SetAppsPermissionsError = SlackOpError;
@@ -3976,6 +4183,8 @@ export const setAppsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAppsPermissions",
 }));
 
 export type SetConversationPrefsError = SlackOpError;
@@ -3991,6 +4200,8 @@ export const setConversationPrefs: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetConversationPrefs",
 }));
 
 export type SetCustomRetentionError = SlackOpError;
@@ -4006,6 +4217,8 @@ export const setCustomRetention: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCustomRetention",
 }));
 
 export type SetDefaultChannelsError = SlackOpError;
@@ -4021,6 +4234,8 @@ export const setDefaultChannels: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultChannels",
 }));
 
 export type SetDescriptionError = SlackOpError;
@@ -4036,6 +4251,8 @@ export const setDescription: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDescription",
 }));
 
 export type SetDiscoverabilityError = SlackOpError;
@@ -4051,6 +4268,8 @@ export const setDiscoverability: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDiscoverability",
 }));
 
 export type SetExpirationError = SlackOpError;
@@ -4066,6 +4285,8 @@ export const setExpiration: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetExpiration",
 }));
 
 export type SetFunctionsPermissionsError = SlackOpError;
@@ -4081,6 +4302,8 @@ export const setFunctionsPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFunctionsPermissions",
 }));
 
 export type SetIconError = SlackOpError;
@@ -4096,6 +4319,8 @@ export const setIcon: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIcon",
 }));
 
 export type SetNameError = SlackOpError;
@@ -4111,6 +4336,8 @@ export const setName: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetName",
 }));
 
 export type SetOwnerError = SlackOpError;
@@ -4126,6 +4353,8 @@ export const setOwner: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetOwner",
 }));
 
 export type SetRegularError = SlackOpError;
@@ -4141,6 +4370,8 @@ export const setRegular: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetRegular",
 }));
 
 export type SetSettingsError = SlackOpError;
@@ -4156,6 +4387,8 @@ export const setSettings: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSettings",
 }));
 
 export type SetTeamsError = SlackOpError;
@@ -4171,6 +4404,8 @@ export const setTeams: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTeams",
 }));
 
 export type SetWorkflowsTriggersTypesPermissionsError = SlackOpError;
@@ -4186,6 +4421,8 @@ export const setWorkflowsTriggersTypesPermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWorkflowsTriggersTypesPermissions",
 }));
 
 export type TeamsSettingsInfoError = SlackOpError;
@@ -4201,6 +4438,8 @@ export const teamsSettingsInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TeamsSettingsInfo",
 }));
 
 export type UnarchiveConversationError = SlackOpError;
@@ -4216,6 +4455,8 @@ export const unarchiveConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveConversation",
 }));
 
 export type UninstallAppError = SlackOpError;
@@ -4231,6 +4472,8 @@ export const uninstallApp: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UninstallApp",
 }));
 
 export type UnlinkObjectsError = SlackOpError;
@@ -4246,6 +4489,8 @@ export const unlinkObjects: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkObjects",
 }));
 
 export type UnpublishWorkflowError = SlackOpError;
@@ -4261,6 +4506,8 @@ export const unpublishWorkflow: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpublishWorkflow",
 }));
 
 export type UpdateBarrierError = SlackOpError;
@@ -4276,6 +4523,8 @@ export const updateBarrier: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBarrier",
 }));
 
 export type UpdateItemError = SlackOpError;
@@ -4291,6 +4540,8 @@ export const updateItem: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItem",
 }));
 
 export type UpdateUsergroupError = SlackOpError;
@@ -4306,6 +4557,8 @@ export const updateUsergroup: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsergroup",
 }));
 
 export type UploadUsersError = SlackOpError;
@@ -4321,6 +4574,8 @@ export const uploadUsers: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadUsers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.StorageSync" },
+  prefix: "Storagesync",
+  service: "Storagesync",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface AbortWorkflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2085,6 +2106,8 @@ export const AbortWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AbortWorkflow",
 }));
 
 export type CheckStorageSyncServiceNameAvailabilityError = AzureOpError;
@@ -2100,6 +2123,8 @@ export const CheckStorageSyncServiceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckStorageSyncServiceNameAvailability",
 }));
 
 export type CloudEndpointsAfsShareMetadataCertificatePublicKeysError = AzureOpError;
@@ -2119,6 +2144,8 @@ export const CloudEndpointsAfsShareMetadataCertificatePublicKeys: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudEndpointsAfsShareMetadataCertificatePublicKeys",
 }));
 
 export type CloudEndpointsPostRestoreError = AzureOpError;
@@ -2134,6 +2161,8 @@ export const CloudEndpointsPostRestore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudEndpointsPostRestore",
 }));
 
 export type CloudEndpointsPreBackupError = AzureOpError;
@@ -2149,6 +2178,8 @@ export const CloudEndpointsPreBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudEndpointsPreBackup",
 }));
 
 export type CloudEndpointsRestoreheartbeatError = AzureOpError;
@@ -2164,6 +2195,8 @@ export const CloudEndpointsRestoreheartbeat: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudEndpointsRestoreheartbeat",
 }));
 
 export type CreateCloudEndpointError = AzureOpError;
@@ -2179,6 +2212,8 @@ export const CreateCloudEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudEndpoint",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -2194,6 +2229,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type CreateRegisteredServerError = AzureOpError;
@@ -2209,6 +2246,8 @@ export const CreateRegisteredServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegisteredServer",
 }));
 
 export type CreateServerEndpointError = AzureOpError;
@@ -2224,6 +2263,8 @@ export const CreateServerEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServerEndpoint",
 }));
 
 export type CreateStorageSyncServiceError = AzureOpError;
@@ -2239,6 +2280,8 @@ export const CreateStorageSyncService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateStorageSyncService",
 }));
 
 export type CreateSyncGroupError = AzureOpError;
@@ -2254,6 +2297,8 @@ export const CreateSyncGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSyncGroup",
 }));
 
 export type DeleteCloudEndpointError = AzureOpError;
@@ -2269,6 +2314,8 @@ export const DeleteCloudEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudEndpoint",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -2284,6 +2331,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteRegisteredServerError = AzureOpError;
@@ -2299,6 +2348,8 @@ export const DeleteRegisteredServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegisteredServer",
 }));
 
 export type DeleteServerEndpointError = AzureOpError;
@@ -2314,6 +2365,8 @@ export const DeleteServerEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServerEndpoint",
 }));
 
 export type DeleteStorageSyncServiceError = AzureOpError;
@@ -2329,6 +2382,8 @@ export const DeleteStorageSyncService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageSyncService",
 }));
 
 export type DeleteSyncGroupError = AzureOpError;
@@ -2344,6 +2399,8 @@ export const DeleteSyncGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSyncGroup",
 }));
 
 export type GetCloudEndpointError = AzureOpError;
@@ -2359,6 +2416,8 @@ export const GetCloudEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudEndpoint",
 }));
 
 export type GetOperationStatusError = AzureOpError;
@@ -2374,6 +2433,8 @@ export const GetOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatus",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -2389,6 +2450,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetRegisteredServerError = AzureOpError;
@@ -2404,6 +2467,8 @@ export const GetRegisteredServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegisteredServer",
 }));
 
 export type GetServerEndpointError = AzureOpError;
@@ -2419,6 +2484,8 @@ export const GetServerEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerEndpoint",
 }));
 
 export type GetStorageSyncServiceError = AzureOpError;
@@ -2434,6 +2501,8 @@ export const GetStorageSyncService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageSyncService",
 }));
 
 export type GetSyncGroupError = AzureOpError;
@@ -2449,6 +2518,8 @@ export const GetSyncGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSyncGroup",
 }));
 
 export type GetWorkflowError = AzureOpError;
@@ -2464,6 +2535,8 @@ export const GetWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type ListCloudEndpointBySyncGroupError = AzureOpError;
@@ -2479,6 +2552,8 @@ export const ListCloudEndpointBySyncGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudEndpointBySyncGroup",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2494,6 +2569,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByStorageSyncServiceError = AzureOpError;
@@ -2513,6 +2590,8 @@ export const ListPrivateEndpointConnectionByStorageSyncService: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByStorageSyncService",
 }));
 
 export type ListPrivateLinkResourceByStorageSyncServiceError = AzureOpError;
@@ -2532,6 +2611,8 @@ export const ListPrivateLinkResourceByStorageSyncService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByStorageSyncService",
 }));
 
 export type ListRegisteredServerByStorageSyncServiceError = AzureOpError;
@@ -2547,6 +2628,8 @@ export const ListRegisteredServerByStorageSyncService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegisteredServerByStorageSyncService",
 }));
 
 export type ListServerEndpointBySyncGroupError = AzureOpError;
@@ -2562,6 +2645,8 @@ export const ListServerEndpointBySyncGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerEndpointBySyncGroup",
 }));
 
 export type ListStorageSyncServiceByResourceGroupError = AzureOpError;
@@ -2577,6 +2662,8 @@ export const ListStorageSyncServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageSyncServiceByResourceGroup",
 }));
 
 export type ListStorageSyncServiceBySubscriptionError = AzureOpError;
@@ -2592,6 +2679,8 @@ export const ListStorageSyncServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageSyncServiceBySubscription",
 }));
 
 export type ListSyncGroupByStorageSyncServiceError = AzureOpError;
@@ -2607,6 +2696,8 @@ export const ListSyncGroupByStorageSyncService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSyncGroupByStorageSyncService",
 }));
 
 export type ListWorkflowByStorageSyncServiceError = AzureOpError;
@@ -2622,6 +2713,8 @@ export const ListWorkflowByStorageSyncService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowByStorageSyncService",
 }));
 
 export type LocationOperationStatus2Error = AzureOpError;
@@ -2637,6 +2730,8 @@ export const LocationOperationStatus2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LocationOperationStatus2",
 }));
 
 export type PostCloudEndpointBackupError = AzureOpError;
@@ -2652,6 +2747,8 @@ export const PostCloudEndpointBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCloudEndpointBackup",
 }));
 
 export type RestoreCloudEndpointsPreError = AzureOpError;
@@ -2667,6 +2764,8 @@ export const RestoreCloudEndpointsPre: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreCloudEndpointsPre",
 }));
 
 export type ServerEndpointsRecallActionError = AzureOpError;
@@ -2682,6 +2781,8 @@ export const ServerEndpointsRecallAction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerEndpointsRecallAction",
 }));
 
 export type TriggerCloudEndpointChangeDetectionError = AzureOpError;
@@ -2697,6 +2798,8 @@ export const TriggerCloudEndpointChangeDetection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerCloudEndpointChangeDetection",
 }));
 
 export type TriggerRegisteredServerRolloverError = AzureOpError;
@@ -2712,6 +2815,8 @@ export const TriggerRegisteredServerRollover: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerRegisteredServerRollover",
 }));
 
 export type UpdateCloudEndpointError = AzureOpError;
@@ -2727,6 +2832,8 @@ export const UpdateCloudEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudEndpoint",
 }));
 
 export type UpdateRegisteredServerError = AzureOpError;
@@ -2742,6 +2849,8 @@ export const UpdateRegisteredServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRegisteredServer",
 }));
 
 export type UpdateServerEndpointError = AzureOpError;
@@ -2757,6 +2866,8 @@ export const UpdateServerEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerEndpoint",
 }));
 
 export type UpdateStorageSyncServiceError = AzureOpError;
@@ -2772,6 +2883,8 @@ export const UpdateStorageSyncService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageSyncService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

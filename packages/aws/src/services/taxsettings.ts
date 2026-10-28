@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -110,6 +111,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "TaxSettings",
+  service: "TaxSettings",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -743,6 +758,8 @@ export const batchDeleteTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteTaxRegistration",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteTaxRegistration",
 }));
 
 export type BatchGetTaxExemptionsError =
@@ -765,6 +782,8 @@ export const batchGetTaxExemptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTaxExemptions",
+  telemetry: TELEMETRY,
+  span: "BatchGetTaxExemptions",
 }));
 
 export type BatchPutTaxRegistrationError =
@@ -927,6 +946,8 @@ export const batchPutTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutTaxRegistration",
+  telemetry: TELEMETRY,
+  span: "BatchPutTaxRegistration",
 }));
 
 export type DeleteSupplementalTaxRegistrationError =
@@ -955,6 +976,8 @@ export const deleteSupplementalTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSupplementalTaxRegistration",
+  telemetry: TELEMETRY,
+  span: "DeleteSupplementalTaxRegistration",
 }));
 
 export type DeleteTaxRegistrationError =
@@ -985,6 +1008,8 @@ export const deleteTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTaxRegistration",
+  telemetry: TELEMETRY,
+  span: "DeleteTaxRegistration",
 }));
 
 export type GetTaxExemptionTypesError =
@@ -1007,6 +1032,8 @@ export const getTaxExemptionTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaxExemptionTypes",
+  telemetry: TELEMETRY,
+  span: "GetTaxExemptionTypes",
 }));
 
 export type GetTaxInheritanceError =
@@ -1029,6 +1056,8 @@ export const getTaxInheritance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaxInheritance",
+  telemetry: TELEMETRY,
+  span: "GetTaxInheritance",
 }));
 
 export type GetTaxRegistrationError =
@@ -1051,6 +1080,8 @@ export const getTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaxRegistration",
+  telemetry: TELEMETRY,
+  span: "GetTaxRegistration",
 }));
 
 export type GetTaxRegistrationDocumentError =
@@ -1072,6 +1103,8 @@ export const getTaxRegistrationDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaxRegistrationDocument",
+  telemetry: TELEMETRY,
+  span: "GetTaxRegistrationDocument",
 }));
 
 export type ListSupplementalTaxRegistrationsError =
@@ -1101,6 +1134,8 @@ export const listSupplementalTaxRegistrations: API.PaginatedOperationMethod<
     items: "taxRegistrations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSupplementalTaxRegistrations",
 })) as any;
 
 export type ListTaxExemptionsError =
@@ -1130,6 +1165,8 @@ export const listTaxExemptions: API.PaginatedOperationMethod<
     items: "taxExemptionDetailsMap",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTaxExemptions",
 })) as any;
 
 export type ListTaxRegistrationsError =
@@ -1159,6 +1196,8 @@ export const listTaxRegistrations: API.PaginatedOperationMethod<
     items: "accountDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTaxRegistrations",
 })) as any;
 
 export type PutSupplementalTaxRegistrationError =
@@ -1181,6 +1220,8 @@ export const putSupplementalTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSupplementalTaxRegistration",
+  telemetry: TELEMETRY,
+  span: "PutSupplementalTaxRegistration",
 }));
 
 export type PutTaxExemptionError =
@@ -1213,6 +1254,8 @@ export const putTaxExemption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTaxExemption",
+  telemetry: TELEMETRY,
+  span: "PutTaxExemption",
 }));
 
 export type PutTaxInheritanceError =
@@ -1241,6 +1284,8 @@ export const putTaxInheritance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTaxInheritance",
+  telemetry: TELEMETRY,
+  span: "PutTaxInheritance",
 }));
 
 export type PutTaxRegistrationError =
@@ -1403,6 +1448,8 @@ export const putTaxRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTaxRegistration",
+  telemetry: TELEMETRY,
+  span: "PutTaxRegistration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

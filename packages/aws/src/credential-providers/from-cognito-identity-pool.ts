@@ -41,17 +41,35 @@ const storage = (): Storage | undefined => {
   }
 };
 
+/**
+ * `f` on `localStorage`, or `undefined` without one. A call that throws
+ * (quota exceeded, storage disabled) counts as no storage too: a failed read
+ * is a cache miss and a failed write or remove is skipped.
+ */
+const withStorage = <A>(f: (storage: Storage) => A): A | undefined => {
+  const store = storage();
+  if (store === undefined) return undefined;
+  try {
+    return f(store);
+  } catch {
+    return undefined;
+  }
+};
+
 export const defaultIdentityIdCache: IdentityIdCache = {
-  get: (key) => Effect.sync(() => storage()?.getItem(key) ?? memoryStore.get(key) ?? undefined),
+  get: (key) =>
+    Effect.sync(
+      () => withStorage((store) => store.getItem(key)) ?? memoryStore.get(key) ?? undefined,
+    ),
   set: (key, value) =>
     Effect.sync(() => {
       memoryStore.set(key, value);
-      storage()?.setItem(key, value);
+      withStorage((store) => store.setItem(key, value));
     }),
   remove: (key) =>
     Effect.sync(() => {
       memoryStore.delete(key);
-      storage()?.removeItem(key);
+      withStorage((store) => store.removeItem(key));
     }),
 };
 

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -31,6 +32,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p) => {
   }
   return e("https://pricingplanmanager.us-east-1.api.aws", _p0(), {});
 }, '{"url":"https://pricingplanmanager.us-east-1.api.aws","properties":{"authSchemes":[{"name":"sigv4","signingName":"pricingplanmanager","signingRegion":"us-east-1"}]},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PricingPlanManager",
+  service: "PricingPlanManager",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -231,6 +246,8 @@ export const approvePaidSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApprovePaidSubscription",
+  telemetry: TELEMETRY,
+  span: "ApprovePaidSubscription",
 }));
 
 export type AssociateResourcesToSubscriptionError =
@@ -265,6 +282,8 @@ export const associateResourcesToSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourcesToSubscription",
+  telemetry: TELEMETRY,
+  span: "AssociateResourcesToSubscription",
 }));
 
 export type CancelSubscriptionError =
@@ -301,6 +320,8 @@ export const cancelSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
+  telemetry: TELEMETRY,
+  span: "CancelSubscription",
 }));
 
 export type CancelSubscriptionChangeError =
@@ -335,6 +356,8 @@ export const cancelSubscriptionChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscriptionChange",
+  telemetry: TELEMETRY,
+  span: "CancelSubscriptionChange",
 }));
 
 export type CreateSubscriptionError =
@@ -373,6 +396,8 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type DisassociateResourcesFromSubscriptionError =
@@ -407,6 +432,8 @@ export const disassociateResourcesFromSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourcesFromSubscription",
+  telemetry: TELEMETRY,
+  span: "DisassociateResourcesFromSubscription",
 }));
 
 export type GetSubscriptionError =
@@ -437,6 +464,8 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
+  telemetry: TELEMETRY,
+  span: "GetSubscription",
 }));
 
 export type ListSubscriptionsError =
@@ -473,6 +502,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "subscriptionSummaries",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type UpdateSubscriptionError =
@@ -511,6 +542,8 @@ export const updateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,7 +12,7 @@ import { join } from "node:path";
  *
  * Name the packages to audit; a convert-stage audit re-runs convert once
  * per patch file, so it is never run across the whole repo. The engine is
- * `@distilled.cloud/core/codegen/patch-audit`:
+ * `@distilled.cloud/dev/codegen/patch-audit`:
  *
  *   no effect   the model is identical without it — delete the file
  *   needed      the model differs; the report lists where
@@ -36,7 +36,7 @@ import {
   auditPackage,
   renameMaps,
   type FileVerdict,
-} from "../packages/core/src/codegen/patch-audit.ts";
+} from "../packages/dev/src/codegen/patch-audit.ts";
 
 const ROOT = join(import.meta.dirname, "..");
 const MAX_DIFF_LINES = 12;

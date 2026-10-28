@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoActivitypub",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -82,6 +95,8 @@ export const activitypubInstanceActor: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubInstanceActor",
 }));
 
 export type ActivitypubInstanceActorInboxError = ForgejoOpError;
@@ -97,6 +112,8 @@ export const activitypubInstanceActorInbox: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubInstanceActorInbox",
 }));
 
 export type ActivitypubInstanceActorOutboxError = ForgejoOpError;
@@ -112,6 +129,8 @@ export const activitypubInstanceActorOutbox: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubInstanceActorOutbox",
 }));
 
 export type ActivitypubPersonError = ForgejoOpError;
@@ -127,6 +146,8 @@ export const activitypubPerson: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubPerson",
 }));
 
 export type ActivitypubPersonActivityError = ForgejoOpError;
@@ -142,6 +163,8 @@ export const activitypubPersonActivity: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubPersonActivity",
 }));
 
 export type ActivitypubPersonActivityNoteError = ForgejoOpError;
@@ -157,6 +180,8 @@ export const activitypubPersonActivityNote: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubPersonActivityNote",
 }));
 
 export type ActivitypubPersonFeedError = Forbidden | ForgejoOpError;
@@ -172,6 +197,8 @@ export const activitypubPersonFeed: API.OperationMethod<
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubPersonFeed",
 }));
 
 export type ActivitypubPersonInboxError = ForgejoOpError;
@@ -187,6 +214,8 @@ export const activitypubPersonInbox: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubPersonInbox",
 }));
 
 export type ActivitypubRepositoryError = ForgejoOpError;
@@ -202,6 +231,8 @@ export const activitypubRepository: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubRepository",
 }));
 
 export type ActivitypubRepositoryInboxError = ForgejoOpError;
@@ -217,6 +248,8 @@ export const activitypubRepositoryInbox: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubRepositoryInbox",
 }));
 
 export type ActivitypubRepositoryOutboxError = ForgejoOpError;
@@ -232,6 +265,8 @@ export const activitypubRepositoryOutbox: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivitypubRepositoryOutbox",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

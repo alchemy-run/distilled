@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ProductEnablement",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `conversations` - conversations * `error_tracking` - error_tracking * `session_replay` - session_replay */
 export type ProductsEnum = "conversations" | "error_tracking" | "session_replay";
 /** Products to turn on for this project, each enabled with server-owned conservative defaults. */
@@ -38,6 +51,8 @@ export const createProductEnablement: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProductEnablement",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

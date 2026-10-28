@@ -30,7 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "DatadogCredentials",
   ) {}
 
@@ -77,5 +77,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       site,
       apiBaseUrl: process.env.DD_API_BASE_URL ?? apiBaseUrlForSite(site),
     };
-  }).pipe(Effect.orDie),
+  }),
 );
