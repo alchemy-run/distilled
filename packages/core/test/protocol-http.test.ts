@@ -126,8 +126,13 @@ describe("query parameter styles", () => {
   const queryOf = (value: unknown, style?: T.QueryStyleTrait) =>
     decodeURIComponent(
       new URL(
-        buildRequest({ input: value, inputAst: input(style).ast, baseUrl: "https://example.test" })
-          .url,
+        Effect.runSync(
+          buildRequest({
+            input: value,
+            inputAst: input(style).ast,
+            baseUrl: "https://example.test",
+          }),
+        ).url,
       ).search,
     );
 
