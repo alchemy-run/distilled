@@ -1,3 +1,4 @@
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import { failUnlessLenient } from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import { ParseError } from "../errors.ts";
@@ -90,14 +91,17 @@ export const loadHandler = (
   handler: ProtocolHandler | LazyHandler,
 ): Effect.Effect<ProtocolHandler> => ("ready" in handler ? handler.ready : Effect.succeed(handler));
 
-/** `serialize` as an effect: a thrown `ParseError` fails, anything else dies. */
+/**
+ * `serialize` as an effect: a thrown `ParseError` or `InvalidInput` fails,
+ * anything else dies.
+ */
 export const serializeEffect =
   (serialize: (input: unknown) => Request) =>
-  (input: unknown): Effect.Effect<Request, ParseError> => {
+  (input: unknown): Effect.Effect<Request, ParseError | InvalidInput> => {
     try {
       return Effect.succeed(serialize(input));
     } catch (e) {
-      return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+      return e instanceof ParseError || e instanceof InvalidInput ? Effect.fail(e) : Effect.die(e);
     }
   };
 

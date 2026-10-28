@@ -5,6 +5,7 @@
  * based on Smithy HTTP trait annotations.
  */
 
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import type * as AST from "effect/SchemaAST";
 import type { Request } from "../client/request.ts";
 import {
@@ -38,15 +39,21 @@ export const encodeGreedyLabel = (value: string): string =>
   value.split("/").map(encodeLabel).join("/");
 
 /**
- * Throw on a label value the URL parser would resolve to another resource: an
- * empty value, or a `.` or `..` value or (greedy) segment. Empty greedy
- * segments are legal (S3 key `a//b`).
+ * The refusal for a label value the URL parser would resolve to another
+ * resource, or `undefined`: an empty value, or a `.` or `..` value or
+ * (greedy) segment. Empty greedy segments are legal (S3 key `a//b`).
  */
-export const validateLabel = (name: string, value: string, greedy: boolean): void => {
-  if (value === "" || (greedy ? value.split("/") : [value]).some((s) => s === "." || s === "..")) {
-    throw new Error(`invalid value for input HTTP label: ${name}`);
-  }
-};
+export const invalidLabel = (
+  member: string,
+  value: string,
+  greedy: boolean,
+): InvalidInput | undefined =>
+  value === "" || (greedy ? value.split("/") : [value]).some((s) => s === "." || s === "..")
+    ? new InvalidInput({
+        member,
+        message: `Input member ${member} cannot be ${JSON.stringify(value)}: as a path label it would address another resource`,
+      })
+    : undefined;
 
 /** The @http trait of each input schema, read once. */
 const httpTraits = /*@__PURE__*/ new WeakMap<AST.AST, { trait: ReturnType<typeof getHttpTrait> }>();
@@ -111,8 +118,9 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
  *
  * This processes each input member and:
  * - Adds @httpHeader values to request.headers
- * - Substitutes @httpLabel values in request.path, throwing (a defect, before
- *   anything is signed or sent) on a value {@link validateLabel} refuses
+ * - Substitutes @httpLabel values in request.path, throwing the
+ *   {@link InvalidInput} of a value {@link invalidLabel} refuses, before
+ *   anything is signed or sent
  * - Adds @httpQuery values to request.query
  * - Adds @httpPrefixHeaders values to request.headers
  * - Collects @httpPayload for body serialization
@@ -135,7 +143,8 @@ export function bindInputToRequest(ast: AST.AST, input: Record<string, unknown>,
     } else if (member.label !== undefined) {
       const text = String(value);
       request.path = request.path.replace(member.label, (_, greedy: string) => {
-        validateLabel(name, text, greedy !== "");
+        const invalid = invalidLabel(name, text, greedy !== "");
+        if (invalid) throw invalid;
         return greedy ? encodeGreedyLabel(text) : encodeLabel(text);
       });
     } else if (member.queryParam !== undefined) {

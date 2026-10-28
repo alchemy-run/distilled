@@ -1,3 +1,4 @@
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
@@ -6,10 +7,14 @@ import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import * as SigV4 from "./sigv4.ts";
-import { encodeGreedyLabel, encodeLabel, validateLabel } from "./util/serialize-input.ts";
+import { encodeGreedyLabel, encodeLabel, invalidLabel } from "./util/serialize-input.ts";
 
 /** Errors returned when resolving credentials or signing a URL. */
-export type PresignError = Credentials.CredentialsError | SourceError | SigV4.SigningError;
+export type PresignError =
+  | Credentials.CredentialsError
+  | SourceError
+  | SigV4.SigningError
+  | InvalidInput;
 
 /** `url` parsed, or the `InvalidSigningUrl` the signer would fail it with. */
 const parseUrl = (url: string): Effect.Effect<URL, SigV4.InvalidSigningUrl> =>
@@ -165,7 +170,8 @@ export interface PresignS3UrlOptions {
  *
  * An empty bucket or key, a `.` or `..` bucket or key segment, or (without a
  * custom endpoint) a bucket that cannot sit in a hostname would move the URL
- * to another resource, so it is refused as a defect before anything is signed.
+ * to another resource, so it fails with `InvalidInput` before anything is
+ * signed.
  */
 export const presignS3Url: (
   options: PresignS3UrlOptions,
@@ -176,11 +182,17 @@ export const presignS3Url: (
       Effect.map(Option.getOrElse(() => Effect.undefined)),
     );
 
-    validateLabel("bucket", options.bucket, false);
-    validateLabel("key", options.key, true);
+    const invalid =
+      invalidLabel("bucket", options.bucket, false) ?? invalidLabel("key", options.key, true);
+    if (invalid) return yield* Effect.fail(invalid);
     // Virtual-hosted, a bucket that needs percent-encoding would move the host.
     if (!customEndpoint && encodeLabel(options.bucket) !== options.bucket) {
-      throw new Error("invalid value for input host label: bucket");
+      return yield* Effect.fail(
+        new InvalidInput({
+          member: "bucket",
+          message: `Input member bucket cannot be ${JSON.stringify(options.bucket)}: as a host label it would address another host`,
+        }),
+      );
     }
     const encodedKey = encodeGreedyLabel(options.key);
     const url = yield* parseUrl(

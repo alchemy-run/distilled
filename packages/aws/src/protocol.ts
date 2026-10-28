@@ -1,4 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
@@ -264,15 +265,18 @@ const toHttpRequest = (
   // must be a valid host label (dots allowed), else a value such as
   // "attacker.invalid/" would send the request to another host.
   if (prepared.hostPrefix !== undefined && !customEndpoint) {
-    let invalidLabel: string | undefined;
+    let invalid: InvalidInput | undefined;
     const resolvedPrefix = prepared.hostPrefix.replace(/\{(\w+)\}/g, (_, member: string) => {
       const value = String((input as Record<string, unknown>)?.[member] ?? "");
-      if (invalidLabel === undefined && !isValidHostLabel(value, true)) invalidLabel = member;
+      if (invalid === undefined && !isValidHostLabel(value, true)) {
+        invalid = new InvalidInput({
+          member,
+          message: `Input member ${member} cannot be ${JSON.stringify(value)}: as a host label it would address another host`,
+        });
+      }
       return value;
     });
-    if (invalidLabel !== undefined) {
-      return Effect.die(new Error(`invalid value for input host label: ${invalidLabel}`));
-    }
+    if (invalid !== undefined) return Effect.fail(invalid);
     // The endpoint rules engine may already have baked the same label into
     // the host (e.g. S3 Control resolves `{AccountId}.s3-control.{region}`
     // from the AccountId context param, and the operations ALSO carry the
@@ -479,7 +483,7 @@ const stampRetryAfter = (error: unknown): unknown => {
  * outputs that are read as text. Missing parts run as effects.
  */
 interface Plan {
-  readonly build: (input: unknown) => Request | Effect.Effect<Request, ParseError>;
+  readonly build: (input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput>;
   readonly decodeText:
     | ((context: Context.Context<any>, response: Response, text: string) => Decoded)
     | undefined;
@@ -585,18 +589,20 @@ const encodeWith = <A>(
             const r = plan.build(input);
             return Effect.isEffect(r) ? r : Effect.succeed(r);
           } catch (e) {
-            return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+            return e instanceof ParseError || e instanceof InvalidInput
+              ? Effect.fail(e)
+              : Effect.die(e);
           }
         }),
       ),
       send,
     );
   }
-  let request: Request | Effect.Effect<Request, ParseError>;
+  let request: Request | Effect.Effect<Request, ParseError | InvalidInput>;
   try {
     request = plan.build(input);
   } catch (e) {
-    return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+    return e instanceof ParseError || e instanceof InvalidInput ? Effect.fail(e) : Effect.die(e);
   }
   return Effect.isEffect(request) ? Effect.flatMap(request, send) : send(request);
 };
