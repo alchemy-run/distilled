@@ -38,8 +38,9 @@
  *   node --conditions=bun scripts/spec-to-smithy.ts --specs specs/spec-mirror-cloudflare/specs/api/resources --out .generated-specs
  */
 
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect } from "effect";
 import { Flag } from "effect/cli";
@@ -2016,15 +2017,207 @@ const opIdentity = (relPath: string): { top: string; opName: string } => {
 // CLI command
 // ============================================================================
 
+interface ConvertConfig {
+  /** Directory of mirrored markdown specs, relative to the package. */
+  readonly specs: string;
+  /** Output directory for Smithy JSON models, relative to the package. */
+  readonly out: string;
+  /** Only convert this top-level resource (e.g. ai); "" for all. */
+  readonly resource: string;
+  /** Only convert the first N operations (0 = all). */
+  readonly limit: number;
+}
+
+const DEFAULT_SPECS = "specs/spec-mirror-cloudflare/specs/api/resources";
+const DEFAULT_OUT = ".generated-specs";
+
+const run = (config: ConvertConfig) =>
+  Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+    const path = yield* Path.Path;
+    const root = path.resolve(import.meta.dirname, "..");
+    const specsDir = resolveSpecPath(root, config.specs);
+    const outDir = path.resolve(root, config.out);
+
+    yield* Console.log("🛠️  spec-to-smithy");
+    yield* Console.log(`   Specs:  ${specsDir}`);
+    yield* Console.log(`   Output: ${outDir}`);
+
+    const pages = yield* walkMarkdown(specsDir);
+    const isMethodPage = (f: string) => f.replace(/\\/g, "/").includes("/methods/");
+    const files = pages.filter(isMethodPage);
+    const resourcePages = pages.filter((f) => !isMethodPage(f));
+    yield* Console.log(
+      `\n📄 Found ${files.length} method pages and ${resourcePages.length} resource pages.`,
+    );
+
+    // A hand-authored `manual-specs/<resource>.json` owns its resource: the
+    // docs may start covering it with different names and shapes, and
+    // switching over is a breaking change someone has to verify against the
+    // live API. Deleting the manual spec is that switch.
+    const manualDir = path.join(root, "manual-specs");
+    const manualOwned = new Set(
+      (yield* fs.exists(manualDir))
+        ? (yield* fs.readDirectory(manualDir))
+            .filter((f) => f.endsWith(".json"))
+            .map((f) => f.slice(0, -".json".length))
+        : [],
+    );
+    const isManualOwned = (top: string) => manualOwned.has(sanitizeNsSegment(top));
+    const documented = new Set(files.map((f) => opIdentity(f.slice(specsDir.length + 1)).top));
+    for (const top of documented) {
+      if (isManualOwned(top)) {
+        yield* Console.warn(
+          `⚠️  ${top}: the docs now cover it, but manual-specs/${sanitizeNsSegment(top)}.json ` +
+            `owns it — delete the manual spec to switch to the documented model`,
+        );
+      }
+    }
+
+    // The models a resource's index pages define, shared by all its method
+    // pages: subresources define most of them, and a reference can point at
+    // any of them.
+    const models = new Map<string, Map<string, ModelDef>>();
+    for (const file of resourcePages) {
+      const rel = file.slice(specsDir.length + 1);
+      const top = opIdentity(rel).top;
+      if (config.resource && top !== config.resource) continue;
+      if (isManualOwned(top)) continue;
+      let into = models.get(top);
+      if (!into) {
+        into = new Map();
+        models.set(top, into);
+      }
+      collectModels(yield* fs.readFileString(file), into);
+    }
+
+    // Group operations per top-level resource into one Bag each.
+    const bags = new Map<string, Bag>();
+    const serviceOps = new Map<string, { target: string }[]>();
+    let converted = 0;
+    let skipped = 0;
+
+    for (const file of files) {
+      if (config.limit > 0 && converted >= config.limit) break;
+      const rel = file.slice(specsDir.length + 1);
+      const { top, opName } = opIdentity(rel);
+      if (config.resource && top !== config.resource) continue;
+      if (isManualOwned(top)) continue;
+      modelRegistry = models.get(top) ?? new Map();
+
+      const md = yield* fs.readFileString(file);
+      const parsed = parseMarkdown(md);
+      if (!parsed) {
+        skipped++;
+        yield* Console.warn(`⚠️  Could not parse ${rel} — skipping`);
+        continue;
+      }
+
+      const ns = RESOURCE_NS(top);
+      let bag = bags.get(top);
+      if (!bag) {
+        bag = newBag(ns);
+        bags.set(top, bag);
+        serviceOps.set(top, []);
+      }
+
+      try {
+        for (const variant of splitDualScope(opName, parsed)) {
+          const opId = buildOperation(bag, variant.opName, variant.parsed);
+          serviceOps.get(top)!.push({ target: opId });
+        }
+        converted++;
+      } catch (err) {
+        skipped++;
+        yield* Console.warn(`⚠️  Failed to convert ${rel}: ${err} — skipping`);
+      }
+    }
+
+    // Add a service shape (carrying the protocol) to each resource bag.
+    for (const [top, bag] of bags) {
+      const serviceName = pascal(top);
+      const serviceId = `${bag.namespace}#${serviceName}`;
+      bag.shapes[serviceId] = {
+        type: "service",
+        version: "4.0",
+        operations: serviceOps.get(top),
+        traits: {
+          [`${PROTOCOL_NS}#v4Json`]: {},
+          "smithy.api#title": `Cloudflare ${serviceName}`,
+          "smithy.api#documentation":
+            `Cloudflare API — ${top} resource. Speaks the v4 JSON envelope protocol; ` +
+            "operation outputs describe the unwrapped `result` payload.",
+        },
+      };
+    }
+
+    // Write output.
+    const protocolPath = path.join(outDir, "cloudflare.protocols.json");
+    writeModel(protocolPath, buildProtocolModel());
+
+    const suppressions = {
+      suppressions: [
+        { id: "HttpUriConflict", namespace: "*" },
+        { id: "HttpMethodSemantics", namespace: "*" },
+        { id: "UnreferencedShape", namespace: "*" },
+      ],
+    };
+
+    for (const [top, bag] of bags) {
+      const model = {
+        smithy: "2.0",
+        metadata: suppressions,
+        shapes: bag.shapes,
+      };
+      const fp = path.join(outDir, `${sanitizeNsSegment(top)}.json`);
+      writeModel(fp, model);
+    }
+
+    const convertedResources = new Set([...bags.keys()].map((top) => sanitizeNsSegment(top)));
+    yield* Effect.promise(() =>
+      finalizeConvert({
+        root,
+        outDir,
+        exclude: (f) => f === "cloudflare.protocols.json",
+        include: (resource) => convertedResources.has(resource),
+        transform: (model, resource) => {
+          const { families, removed } = dedupeScopeTwins(model);
+          return families
+            ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
+            : undefined;
+        },
+      }),
+    );
+
+    yield* Console.log(
+      `\n✅ Done. ${converted} operations across ${bags.size} resources` +
+        `${skipped ? `, ⚠️  ${skipped} skipped` : ""}.`,
+    );
+    yield* Console.log(`   Protocol model: ${protocolPath}`);
+    yield* Console.log(`   Resource models: ${outDir}\\<resource>.json`);
+  });
+
+/**
+ * Convert the mirrored specs into the Smithy models under `.generated-specs`
+ * — written through `@distilled.cloud/dev/codegen/models`, so in memory
+ * when generate runs this, on disk when the CLI below does.
+ */
+export const convert = (config: Partial<ConvertConfig> = {}): Promise<void> =>
+  Effect.runPromise(
+    run({ specs: DEFAULT_SPECS, out: DEFAULT_OUT, resource: "", limit: 0, ...config }).pipe(
+      Effect.provide(NodeServices.layer),
+    ),
+  );
+
 const command = Command.make(
   "spec-to-smithy",
   {
     specs: Flag.String("specs").pipe(
-      Flag.withDefault("specs/spec-mirror-cloudflare/specs/api/resources"),
+      Flag.withDefault(DEFAULT_SPECS),
       Flag.withDescription("Directory of mirrored markdown specs"),
     ),
     out: Flag.String("out").pipe(
-      Flag.withDefault(".generated-specs"),
+      Flag.withDefault(DEFAULT_OUT),
       Flag.withDescription("Output directory for Smithy JSON models"),
     ),
     resource: Flag.String("resource").pipe(
@@ -2036,177 +2229,13 @@ const command = Command.make(
       Flag.withDescription("Only convert the first N operations (0 = all)"),
     ),
   },
-  (config) =>
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
-      const path = yield* Path.Path;
-      const root = path.resolve(import.meta.dirname, "..");
-      const specsDir = resolveSpecPath(root, config.specs);
-      const outDir = path.resolve(root, config.out);
-
-      yield* Console.log("🛠️  spec-to-smithy");
-      yield* Console.log(`   Specs:  ${specsDir}`);
-      yield* Console.log(`   Output: ${outDir}`);
-
-      const pages = yield* walkMarkdown(specsDir);
-      const isMethodPage = (f: string) => f.replace(/\\/g, "/").includes("/methods/");
-      const files = pages.filter(isMethodPage);
-      const resourcePages = pages.filter((f) => !isMethodPage(f));
-      yield* Console.log(
-        `\n📄 Found ${files.length} method pages and ${resourcePages.length} resource pages.`,
-      );
-
-      // A hand-authored `manual-specs/<resource>.json` owns its resource: the
-      // docs may start covering it with different names and shapes, and
-      // switching over is a breaking change someone has to verify against the
-      // live API. Deleting the manual spec is that switch.
-      const manualDir = path.join(root, "manual-specs");
-      const manualOwned = new Set(
-        (yield* fs.exists(manualDir))
-          ? (yield* fs.readDirectory(manualDir))
-              .filter((f) => f.endsWith(".json"))
-              .map((f) => f.slice(0, -".json".length))
-          : [],
-      );
-      const isManualOwned = (top: string) => manualOwned.has(sanitizeNsSegment(top));
-      const documented = new Set(files.map((f) => opIdentity(f.slice(specsDir.length + 1)).top));
-      for (const top of documented) {
-        if (isManualOwned(top)) {
-          yield* Console.warn(
-            `⚠️  ${top}: the docs now cover it, but manual-specs/${sanitizeNsSegment(top)}.json ` +
-              `owns it — delete the manual spec to switch to the documented model`,
-          );
-        }
-      }
-
-      // The models a resource's index pages define, shared by all its method
-      // pages: subresources define most of them, and a reference can point at
-      // any of them.
-      const models = new Map<string, Map<string, ModelDef>>();
-      for (const file of resourcePages) {
-        const rel = file.slice(specsDir.length + 1);
-        const top = opIdentity(rel).top;
-        if (config.resource && top !== config.resource) continue;
-        if (isManualOwned(top)) continue;
-        let into = models.get(top);
-        if (!into) {
-          into = new Map();
-          models.set(top, into);
-        }
-        collectModels(yield* fs.readFileString(file), into);
-      }
-
-      // Group operations per top-level resource into one Bag each.
-      const bags = new Map<string, Bag>();
-      const serviceOps = new Map<string, { target: string }[]>();
-      let converted = 0;
-      let skipped = 0;
-
-      for (const file of files) {
-        if (config.limit > 0 && converted >= config.limit) break;
-        const rel = file.slice(specsDir.length + 1);
-        const { top, opName } = opIdentity(rel);
-        if (config.resource && top !== config.resource) continue;
-        if (isManualOwned(top)) continue;
-        modelRegistry = models.get(top) ?? new Map();
-
-        const md = yield* fs.readFileString(file);
-        const parsed = parseMarkdown(md);
-        if (!parsed) {
-          skipped++;
-          yield* Console.warn(`⚠️  Could not parse ${rel} — skipping`);
-          continue;
-        }
-
-        const ns = RESOURCE_NS(top);
-        let bag = bags.get(top);
-        if (!bag) {
-          bag = newBag(ns);
-          bags.set(top, bag);
-          serviceOps.set(top, []);
-        }
-
-        try {
-          for (const variant of splitDualScope(opName, parsed)) {
-            const opId = buildOperation(bag, variant.opName, variant.parsed);
-            serviceOps.get(top)!.push({ target: opId });
-          }
-          converted++;
-        } catch (err) {
-          skipped++;
-          yield* Console.warn(`⚠️  Failed to convert ${rel}: ${err} — skipping`);
-        }
-      }
-
-      // Add a service shape (carrying the protocol) to each resource bag.
-      for (const [top, bag] of bags) {
-        const serviceName = pascal(top);
-        const serviceId = `${bag.namespace}#${serviceName}`;
-        bag.shapes[serviceId] = {
-          type: "service",
-          version: "4.0",
-          operations: serviceOps.get(top),
-          traits: {
-            [`${PROTOCOL_NS}#v4Json`]: {},
-            "smithy.api#title": `Cloudflare ${serviceName}`,
-            "smithy.api#documentation":
-              `Cloudflare API — ${top} resource. Speaks the v4 JSON envelope protocol; ` +
-              "operation outputs describe the unwrapped `result` payload.",
-          },
-        };
-      }
-
-      // Write output.
-      yield* fs.makeDirectory(outDir, { recursive: true });
-
-      const protocolPath = path.join(outDir, "cloudflare.protocols.json");
-      yield* fs.writeFileString(protocolPath, `${JSON.stringify(buildProtocolModel(), null, 2)}\n`);
-
-      const suppressions = {
-        suppressions: [
-          { id: "HttpUriConflict", namespace: "*" },
-          { id: "HttpMethodSemantics", namespace: "*" },
-          { id: "UnreferencedShape", namespace: "*" },
-        ],
-      };
-
-      for (const [top, bag] of bags) {
-        const model = {
-          smithy: "2.0",
-          metadata: suppressions,
-          shapes: bag.shapes,
-        };
-        const fp = path.join(outDir, `${sanitizeNsSegment(top)}.json`);
-        yield* fs.writeFileString(fp, `${JSON.stringify(model, null, 2)}\n`);
-      }
-
-      const convertedResources = new Set([...bags.keys()].map((top) => sanitizeNsSegment(top)));
-      yield* Effect.promise(() =>
-        finalizeConvert({
-          root,
-          outDir,
-          exclude: (f) => f === "cloudflare.protocols.json",
-          include: (resource) => convertedResources.has(resource),
-          transform: (model, resource) => {
-            const { families, removed } = dedupeScopeTwins(model);
-            return families
-              ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
-              : undefined;
-          },
-        }),
-      );
-
-      yield* Console.log(
-        `\n✅ Done. ${converted} operations across ${bags.size} resources` +
-          `${skipped ? `, ⚠️  ${skipped} skipped` : ""}.`,
-      );
-      yield* Console.log(`   Protocol model: ${protocolPath}`);
-      yield* Console.log(`   Resource models: ${outDir}\\<resource>.json`);
-    }),
+  run,
 ).pipe(
   Command.withDescription("Convert Cloudflare markdown API specs into Smithy 2.0 JSON models"),
 );
 
-const program = Command.run(command, { version: "1.0.0" });
-
-NodeRuntime.runMain(Effect.provide(program, NodeServices.layer));
+if (import.meta.main) {
+  NodeRuntime.runMain(
+    Effect.provide(Command.run(command, { version: "1.0.0" }), NodeServices.layer),
+  );
+}

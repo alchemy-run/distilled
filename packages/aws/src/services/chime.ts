@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -108,6 +109,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Chime",
+  service: "Chime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -992,6 +1007,8 @@ export const associatePhoneNumberWithUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumberWithUser",
+  telemetry: TELEMETRY,
+  span: "AssociatePhoneNumberWithUser",
 }));
 
 export type AssociateSigninDelegateGroupsWithAccountError =
@@ -1026,6 +1043,8 @@ export const associateSigninDelegateGroupsWithAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSigninDelegateGroupsWithAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateSigninDelegateGroupsWithAccount",
 }));
 
 export type BatchCreateRoomMembershipError =
@@ -1061,6 +1080,8 @@ export const batchCreateRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRoomMembership",
+  telemetry: TELEMETRY,
+  span: "BatchCreateRoomMembership",
 }));
 
 export type BatchDeletePhoneNumberError =
@@ -1099,6 +1120,8 @@ export const batchDeletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "BatchDeletePhoneNumber",
 }));
 
 export type BatchSuspendUserError =
@@ -1147,6 +1170,8 @@ export const batchSuspendUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchSuspendUser",
+  telemetry: TELEMETRY,
+  span: "BatchSuspendUser",
 }));
 
 export type BatchUnsuspendUserError =
@@ -1190,6 +1215,8 @@ export const batchUnsuspendUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUnsuspendUser",
+  telemetry: TELEMETRY,
+  span: "BatchUnsuspendUser",
 }));
 
 export type BatchUpdatePhoneNumberError =
@@ -1228,6 +1255,8 @@ export const batchUpdatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdatePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "BatchUpdatePhoneNumber",
 }));
 
 export type BatchUpdateUserError =
@@ -1262,6 +1291,8 @@ export const batchUpdateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateUser",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateUser",
 }));
 
 export type CreateAccountError =
@@ -1299,6 +1330,8 @@ export const createAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccount",
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type CreateBotError =
@@ -1335,6 +1368,8 @@ export const createBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBot",
+  telemetry: TELEMETRY,
+  span: "CreateBot",
 }));
 
 export type CreateMeetingDialOutError =
@@ -1377,6 +1412,8 @@ export const createMeetingDialOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeetingDialOut",
+  telemetry: TELEMETRY,
+  span: "CreateMeetingDialOut",
 }));
 
 export type CreatePhoneNumberOrderError =
@@ -1414,6 +1451,8 @@ export const createPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePhoneNumberOrder",
+  telemetry: TELEMETRY,
+  span: "CreatePhoneNumberOrder",
 }));
 
 export type CreateRoomError =
@@ -1450,6 +1489,8 @@ export const createRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoom",
+  telemetry: TELEMETRY,
+  span: "CreateRoom",
 }));
 
 export type CreateRoomMembershipError =
@@ -1488,6 +1529,8 @@ export const createRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoomMembership",
+  telemetry: TELEMETRY,
+  span: "CreateRoomMembership",
 }));
 
 export type CreateUserError =
@@ -1524,6 +1567,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteAccountError =
@@ -1573,6 +1618,8 @@ export const deleteAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccount",
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteEventsConfigurationError =
@@ -1605,6 +1652,8 @@ export const deleteEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteEventsConfiguration",
 }));
 
 export type DeletePhoneNumberError =
@@ -1645,6 +1694,8 @@ export const deletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "DeletePhoneNumber",
 }));
 
 export type DeleteRoomError =
@@ -1679,6 +1730,8 @@ export const deleteRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoom",
+  telemetry: TELEMETRY,
+  span: "DeleteRoom",
 }));
 
 export type DeleteRoomMembershipError =
@@ -1713,6 +1766,8 @@ export const deleteRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoomMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteRoomMembership",
 }));
 
 export type DisassociatePhoneNumberFromUserError =
@@ -1747,6 +1802,8 @@ export const disassociatePhoneNumberFromUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumberFromUser",
+  telemetry: TELEMETRY,
+  span: "DisassociatePhoneNumberFromUser",
 }));
 
 export type DisassociateSigninDelegateGroupsFromAccountError =
@@ -1781,6 +1838,8 @@ export const disassociateSigninDelegateGroupsFromAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSigninDelegateGroupsFromAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateSigninDelegateGroupsFromAccount",
 }));
 
 export type GetAccountError =
@@ -1816,6 +1875,8 @@ export const getAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccount",
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountSettingsError =
@@ -1852,6 +1913,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetBotError =
@@ -1886,6 +1949,8 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
+  telemetry: TELEMETRY,
+  span: "GetBot",
 }));
 
 export type GetEventsConfigurationError =
@@ -1920,6 +1985,8 @@ export const getEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEventsConfiguration",
 }));
 
 export type GetGlobalSettingsError =
@@ -1953,6 +2020,8 @@ export const getGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "GetGlobalSettings",
 }));
 
 export type GetPhoneNumberError =
@@ -1987,6 +2056,8 @@ export const getPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumber",
 }));
 
 export type GetPhoneNumberOrderError =
@@ -2022,6 +2093,8 @@ export const getPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberOrder",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumberOrder",
 }));
 
 export type GetPhoneNumberSettingsError =
@@ -2054,6 +2127,8 @@ export const getPhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberSettings",
+  telemetry: TELEMETRY,
+  span: "GetPhoneNumberSettings",
 }));
 
 export type GetRetentionSettingsError =
@@ -2089,6 +2164,8 @@ export const getRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetentionSettings",
+  telemetry: TELEMETRY,
+  span: "GetRetentionSettings",
 }));
 
 export type GetRoomError =
@@ -2123,6 +2200,8 @@ export const getRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoom",
+  telemetry: TELEMETRY,
+  span: "GetRoom",
 }));
 
 export type GetUserError =
@@ -2160,6 +2239,8 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserSettingsError =
@@ -2194,6 +2275,8 @@ export const getUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserSettings",
+  telemetry: TELEMETRY,
+  span: "GetUserSettings",
 }));
 
 export type InviteUsersError =
@@ -2230,6 +2313,8 @@ export const inviteUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteUsers",
+  telemetry: TELEMETRY,
+  span: "InviteUsers",
 }));
 
 export type ListAccountsError =
@@ -2272,6 +2357,8 @@ export const listAccounts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 })) as any;
 
 export type ListBotsError =
@@ -2312,6 +2399,8 @@ export const listBots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBots",
 })) as any;
 
 export type ListPhoneNumberOrdersError =
@@ -2350,6 +2439,8 @@ export const listPhoneNumberOrders: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumberOrders",
 })) as any;
 
 export type ListPhoneNumbersError =
@@ -2390,6 +2481,8 @@ export const listPhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumbers",
 })) as any;
 
 export type ListRoomMembershipsError =
@@ -2431,6 +2524,8 @@ export const listRoomMemberships: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoomMemberships",
 })) as any;
 
 export type ListRoomsError =
@@ -2471,6 +2566,8 @@ export const listRooms: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRooms",
 })) as any;
 
 export type ListSupportedPhoneNumberCountriesError =
@@ -2505,6 +2602,8 @@ export const listSupportedPhoneNumberCountries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSupportedPhoneNumberCountries",
+  telemetry: TELEMETRY,
+  span: "ListSupportedPhoneNumberCountries",
 }));
 
 export type ListUsersError =
@@ -2546,6 +2645,8 @@ export const listUsers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 })) as any;
 
 export type LogoutUserError =
@@ -2580,6 +2681,8 @@ export const logoutUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LogoutUser",
+  telemetry: TELEMETRY,
+  span: "LogoutUser",
 }));
 
 export type PutEventsConfigurationError =
@@ -2616,6 +2719,8 @@ export const putEventsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventsConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutEventsConfiguration",
 }));
 
 export type PutRetentionSettingsError =
@@ -2662,6 +2767,8 @@ export const putRetentionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionSettings",
+  telemetry: TELEMETRY,
+  span: "PutRetentionSettings",
 }));
 
 export type RedactConversationMessageError =
@@ -2696,6 +2803,8 @@ export const redactConversationMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactConversationMessage",
+  telemetry: TELEMETRY,
+  span: "RedactConversationMessage",
 }));
 
 export type RedactRoomMessageError =
@@ -2730,6 +2839,8 @@ export const redactRoomMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactRoomMessage",
+  telemetry: TELEMETRY,
+  span: "RedactRoomMessage",
 }));
 
 export type RegenerateSecurityTokenError =
@@ -2764,6 +2875,8 @@ export const regenerateSecurityToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegenerateSecurityToken",
+  telemetry: TELEMETRY,
+  span: "RegenerateSecurityToken",
 }));
 
 export type ResetPersonalPINError =
@@ -2799,6 +2912,8 @@ export const resetPersonalPIN: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetPersonalPIN",
+  telemetry: TELEMETRY,
+  span: "ResetPersonalPIN",
 }));
 
 export type RestorePhoneNumberError =
@@ -2836,6 +2951,8 @@ export const restorePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestorePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "RestorePhoneNumber",
 }));
 
 export type SearchAvailablePhoneNumbersError =
@@ -2880,6 +2997,8 @@ export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchAvailablePhoneNumbers",
 })) as any;
 
 export type UpdateAccountError =
@@ -2914,6 +3033,8 @@ export const updateAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccount",
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateAccountSettingsError =
@@ -2954,6 +3075,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateBotError =
@@ -2988,6 +3111,8 @@ export const updateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBot",
+  telemetry: TELEMETRY,
+  span: "UpdateBot",
 }));
 
 export type UpdateGlobalSettingsError =
@@ -3020,6 +3145,8 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalSettings",
 }));
 
 export type UpdatePhoneNumberError =
@@ -3060,6 +3187,8 @@ export const updatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumber",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumber",
 }));
 
 export type UpdatePhoneNumberSettingsError =
@@ -3094,6 +3223,8 @@ export const updatePhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumberSettings",
+  telemetry: TELEMETRY,
+  span: "UpdatePhoneNumberSettings",
 }));
 
 export type UpdateRoomError =
@@ -3128,6 +3259,8 @@ export const updateRoom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoom",
+  telemetry: TELEMETRY,
+  span: "UpdateRoom",
 }));
 
 export type UpdateRoomMembershipError =
@@ -3165,6 +3298,8 @@ export const updateRoomMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoomMembership",
+  telemetry: TELEMETRY,
+  span: "UpdateRoomMembership",
 }));
 
 export type UpdateUserError =
@@ -3199,6 +3334,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUserSettingsError =
@@ -3233,6 +3370,8 @@ export const updateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateUserSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

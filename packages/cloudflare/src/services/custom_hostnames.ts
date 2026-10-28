@@ -52,6 +52,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   verificationErrors: "verification_errors",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "CustomHostnames",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CustomHostnameNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CustomHostnameNotFound>()("CustomHostnameNotFound", {
@@ -1402,6 +1416,8 @@ export const createCustomHostname: API.OperationMethod<
   errors: [SaasQuotaNotAllocated, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomHostname",
 }));
 
 export type DeleteCertificatePackCertificateError = CloudflareOpError;
@@ -1417,6 +1433,8 @@ export const deleteCertificatePackCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatePackCertificate",
 }));
 
 export type DeleteCustomHostnameError =
@@ -1435,6 +1453,8 @@ export const deleteCustomHostname: API.OperationMethod<
   errors: [CustomHostnameNotFound, SaasQuotaNotAllocated, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomHostname",
 }));
 
 export type DeleteFallbackOriginError =
@@ -1453,6 +1473,8 @@ export const deleteFallbackOrigin: API.OperationMethod<
   errors: [FallbackOriginNotFound, SaasAccessNotGranted, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFallbackOrigin",
 }));
 
 export type GetCustomHostnameError =
@@ -1478,6 +1500,8 @@ export const getCustomHostname: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomHostname",
 }));
 
 export type GetFallbackOriginError =
@@ -1503,6 +1527,8 @@ export const getFallbackOrigin: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFallbackOrigin",
 }));
 
 export type GetQuotaError = CloudflareOpError;
@@ -1518,6 +1544,8 @@ export const getQuota: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuota",
 }));
 
 export type ListCustomHostnamesError = SaasQuotaNotAllocated | Forbidden | CloudflareOpError;
@@ -1535,6 +1563,8 @@ export const listCustomHostnames: API.PaginatedOperationMethod<
     errors: [SaasQuotaNotAllocated, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomHostnames",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1562,6 +1592,8 @@ export const patchCustomHostname: API.OperationMethod<
   errors: [CustomHostnameNotFound, SaasQuotaNotAllocated, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomHostname",
 }));
 
 export type PutCertificatePackCertificateError = CloudflareOpError;
@@ -1577,6 +1609,8 @@ export const putCertificatePackCertificate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCertificatePackCertificate",
 }));
 
 export type PutFallbackOriginError = SaasAccessNotGranted | CloudflareOpError;
@@ -1592,6 +1626,8 @@ export const putFallbackOrigin: API.OperationMethod<
   errors: [SaasAccessNotGranted, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutFallbackOrigin",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

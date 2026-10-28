@@ -1,7 +1,7 @@
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
-import { extractItems, paginateCursor, type PaginatedTrait } from "../src/pagination.ts";
+import { extractItems, nextLink, paginateCursor, type PaginatedTrait } from "../src/pagination.ts";
 
 const pagination: PaginatedTrait = {
   mode: "cursor",
@@ -176,4 +176,26 @@ describe("cursor pagination", () => {
         expect(calls).toBe(12);
       }),
     ));
+});
+
+describe("nextLink", () => {
+  test("finds rel=next among several links", () => {
+    expect(
+      nextLink(
+        '<https://api.github.com/repositories/1/issues?page=2>; rel="next", <https://api.github.com/repositories/1/issues?page=5>; rel="last"',
+      ),
+    ).toBe("https://api.github.com/repositories/1/issues?page=2");
+  });
+
+  test("reads space-separated and unquoted rel values", () => {
+    expect(nextLink('<https://x.test/a?after=c1>; rel="next last"')).toBe(
+      "https://x.test/a?after=c1",
+    );
+    expect(nextLink("<https://x.test/a?after=c1>;rel=next")).toBe("https://x.test/a?after=c1");
+  });
+
+  test("is undefined without a next link", () => {
+    expect(nextLink('<https://x.test/a?page=1>; rel="first"')).toBeUndefined();
+    expect(nextLink(undefined)).toBeUndefined();
+  });
 });

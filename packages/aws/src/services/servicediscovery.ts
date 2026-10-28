@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://servicediscovery.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServiceDiscovery",
+  service: "ServiceDiscovery",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CustomHealthNotFound
   extends /*@__PURE__*/ S.TaggedError<CustomHealthNotFound>()(
@@ -717,6 +733,8 @@ export const createHttpNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHttpNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateHttpNamespace",
 }));
 
 export type CreatePrivateDnsNamespaceError =
@@ -754,6 +772,8 @@ export const createPrivateDnsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateDnsNamespace",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateDnsNamespace",
 }));
 
 export type CreatePublicDnsNamespaceError =
@@ -792,6 +812,8 @@ export const createPublicDnsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicDnsNamespace",
+  telemetry: TELEMETRY,
+  span: "CreatePublicDnsNamespace",
 }));
 
 export type CreateServiceError =
@@ -844,6 +866,8 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type DeleteNamespaceError =
@@ -868,6 +892,8 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteServiceError = InvalidInput | ResourceInUse | ServiceNotFound | CommonErrors;
@@ -887,6 +913,8 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteServiceAttributesError = InvalidInput | ServiceNotFound | CommonErrors;
@@ -905,6 +933,8 @@ export const deleteServiceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceAttributes",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAttributes",
 }));
 
 export type DeregisterInstanceError =
@@ -930,6 +960,8 @@ export const deregisterInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterInstance",
+  telemetry: TELEMETRY,
+  span: "DeregisterInstance",
 }));
 
 export type DiscoverInstancesError =
@@ -958,6 +990,8 @@ export const discoverInstances: API.OperationMethod<
   retry: Retry,
   operationName: "DiscoverInstances",
   endpointHostPrefix: "data-",
+  telemetry: TELEMETRY,
+  span: "DiscoverInstances",
 }));
 
 export type DiscoverInstancesRevisionError =
@@ -982,6 +1016,8 @@ export const discoverInstancesRevision: API.OperationMethod<
   retry: Retry,
   operationName: "DiscoverInstancesRevision",
   endpointHostPrefix: "data-",
+  telemetry: TELEMETRY,
+  span: "DiscoverInstancesRevision",
 }));
 
 export type GetInstanceError = InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors;
@@ -1000,6 +1036,8 @@ export const getInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstance",
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetInstancesHealthStatusError =
@@ -1033,6 +1071,8 @@ export const getInstancesHealthStatus: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetInstancesHealthStatus",
 })) as any;
 
 export type GetNamespaceError = InvalidInput | NamespaceNotFound | CommonErrors;
@@ -1051,6 +1091,8 @@ export const getNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespace",
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetOperationError = InvalidInput | OperationNotFound | CommonErrors;
@@ -1072,6 +1114,8 @@ export const getOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperation",
+  telemetry: TELEMETRY,
+  span: "GetOperation",
 }));
 
 export type GetServiceError = InvalidInput | ServiceNotFound | CommonErrors;
@@ -1090,6 +1134,8 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceAttributesError = InvalidInput | ServiceNotFound | CommonErrors;
@@ -1108,6 +1154,8 @@ export const getServiceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceAttributes",
+  telemetry: TELEMETRY,
+  span: "GetServiceAttributes",
 }));
 
 export type ListInstancesError = InvalidInput | ServiceNotFound | CommonErrors;
@@ -1133,6 +1181,8 @@ export const listInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 })) as any;
 
 export type ListNamespacesError = InvalidInput | CommonErrors;
@@ -1157,6 +1207,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 })) as any;
 
 export type ListOperationsError = InvalidInput | CommonErrors;
@@ -1181,6 +1233,8 @@ export const listOperations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 })) as any;
 
 export type ListServicesError = InvalidInput | CommonErrors;
@@ -1206,6 +1260,8 @@ export const listServices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListTagsForResourceError = InvalidInput | ResourceNotFoundException | CommonErrors;
@@ -1224,6 +1280,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterInstanceError =
@@ -1280,6 +1338,8 @@ export const registerInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterInstance",
+  telemetry: TELEMETRY,
+  span: "RegisterInstance",
 }));
 
 export type TagResourceError =
@@ -1302,6 +1362,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InvalidInput | ResourceNotFoundException | CommonErrors;
@@ -1320,6 +1382,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateHttpNamespaceError =
@@ -1344,6 +1408,8 @@ export const updateHttpNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHttpNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdateHttpNamespace",
 }));
 
 export type UpdateInstanceCustomHealthStatusError =
@@ -1375,6 +1441,8 @@ export const updateInstanceCustomHealthStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceCustomHealthStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceCustomHealthStatus",
 }));
 
 export type UpdatePrivateDnsNamespaceError =
@@ -1399,6 +1467,8 @@ export const updatePrivateDnsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivateDnsNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateDnsNamespace",
 }));
 
 export type UpdatePublicDnsNamespaceError =
@@ -1422,6 +1492,8 @@ export const updatePublicDnsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicDnsNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdatePublicDnsNamespace",
 }));
 
 export type UpdateServiceError = DuplicateRequest | InvalidInput | ServiceNotFound | CommonErrors;
@@ -1468,6 +1540,8 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateServiceAttributesError =
@@ -1490,6 +1564,8 @@ export const updateServiceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceAttributes",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

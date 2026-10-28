@@ -22,6 +22,19 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   jdcloudCidrs: "jdcloud_cidrs",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Ips",
+  propagate: "w3c",
+} as const;
+
 export interface ListIpsRequest {
   /** Specified as `jdcloud` to list IPs used by JD Cloud data centers. */
   networks?: string;
@@ -64,6 +77,8 @@ export const listIps: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIps",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

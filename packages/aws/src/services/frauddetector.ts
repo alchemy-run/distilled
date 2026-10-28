@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://frauddetector.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "FraudDetector",
+  service: "FraudDetector",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1285,6 +1301,8 @@ export const batchCreateVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateVariable",
+  telemetry: TELEMETRY,
+  span: "BatchCreateVariable",
 }));
 
 export type BatchGetVariableError =
@@ -1313,6 +1331,8 @@ export const batchGetVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetVariable",
+  telemetry: TELEMETRY,
+  span: "BatchGetVariable",
 }));
 
 export type CancelBatchImportJobError =
@@ -1343,6 +1363,8 @@ export const cancelBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBatchImportJob",
+  telemetry: TELEMETRY,
+  span: "CancelBatchImportJob",
 }));
 
 export type CancelBatchPredictionJobError =
@@ -1373,6 +1395,8 @@ export const cancelBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBatchPredictionJob",
+  telemetry: TELEMETRY,
+  span: "CancelBatchPredictionJob",
 }));
 
 export type CreateBatchImportJobError =
@@ -1403,6 +1427,8 @@ export const createBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateBatchImportJob",
 }));
 
 export type CreateBatchPredictionJobError =
@@ -1433,6 +1459,8 @@ export const createBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchPredictionJob",
+  telemetry: TELEMETRY,
+  span: "CreateBatchPredictionJob",
 }));
 
 export type CreateDetectorVersionError =
@@ -1463,6 +1491,8 @@ export const createDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDetectorVersion",
+  telemetry: TELEMETRY,
+  span: "CreateDetectorVersion",
 }));
 
 export type CreateListError =
@@ -1494,6 +1524,8 @@ export const createList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateList",
+  telemetry: TELEMETRY,
+  span: "CreateList",
 }));
 
 export type CreateModelError =
@@ -1522,6 +1554,8 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
+  telemetry: TELEMETRY,
+  span: "CreateModel",
 }));
 
 export type CreateModelVersionError =
@@ -1552,6 +1586,8 @@ export const createModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelVersion",
+  telemetry: TELEMETRY,
+  span: "CreateModelVersion",
 }));
 
 export type CreateRuleError =
@@ -1580,6 +1616,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateVariableError =
@@ -1608,6 +1646,8 @@ export const createVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVariable",
+  telemetry: TELEMETRY,
+  span: "CreateVariable",
 }));
 
 export type DeleteBatchImportJobError =
@@ -1636,6 +1676,8 @@ export const deleteBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchImportJob",
+  telemetry: TELEMETRY,
+  span: "DeleteBatchImportJob",
 }));
 
 export type DeleteBatchPredictionJobError =
@@ -1664,6 +1706,8 @@ export const deleteBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchPredictionJob",
+  telemetry: TELEMETRY,
+  span: "DeleteBatchPredictionJob",
 }));
 
 export type DeleteDetectorError =
@@ -1696,6 +1740,8 @@ export const deleteDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDetector",
+  telemetry: TELEMETRY,
+  span: "DeleteDetector",
 }));
 
 export type DeleteDetectorVersionError =
@@ -1730,6 +1776,8 @@ export const deleteDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDetectorVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteDetectorVersion",
 }));
 
 export type DeleteEntityTypeError =
@@ -1764,6 +1812,8 @@ export const deleteEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntityType",
+  telemetry: TELEMETRY,
+  span: "DeleteEntityType",
 }));
 
 export type DeleteEventError =
@@ -1795,6 +1845,8 @@ export const deleteEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvent",
+  telemetry: TELEMETRY,
+  span: "DeleteEvent",
 }));
 
 export type DeleteEventsByEventTypeError =
@@ -1827,6 +1879,8 @@ export const deleteEventsByEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventsByEventType",
+  telemetry: TELEMETRY,
+  span: "DeleteEventsByEventType",
 }));
 
 export type DeleteEventTypeError =
@@ -1861,6 +1915,8 @@ export const deleteEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventType",
+  telemetry: TELEMETRY,
+  span: "DeleteEventType",
 }));
 
 export type DeleteExternalModelError =
@@ -1893,6 +1949,8 @@ export const deleteExternalModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExternalModel",
+  telemetry: TELEMETRY,
+  span: "DeleteExternalModel",
 }));
 
 export type DeleteLabelError =
@@ -1922,6 +1980,8 @@ export const deleteLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabel",
+  telemetry: TELEMETRY,
+  span: "DeleteLabel",
 }));
 
 export type DeleteListError =
@@ -1954,6 +2014,8 @@ export const deleteList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteList",
+  telemetry: TELEMETRY,
+  span: "DeleteList",
 }));
 
 export type DeleteModelError =
@@ -1988,6 +2050,8 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
+  telemetry: TELEMETRY,
+  span: "DeleteModel",
 }));
 
 export type DeleteModelVersionError =
@@ -2022,6 +2086,8 @@ export const deleteModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteModelVersion",
 }));
 
 export type DeleteOutcomeError =
@@ -2056,6 +2122,8 @@ export const deleteOutcome: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutcome",
+  telemetry: TELEMETRY,
+  span: "DeleteOutcome",
 }));
 
 export type DeleteRuleError =
@@ -2088,6 +2156,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteVariableError =
@@ -2124,6 +2194,8 @@ export const deleteVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVariable",
+  telemetry: TELEMETRY,
+  span: "DeleteVariable",
 }));
 
 export type DescribeDetectorError =
@@ -2154,6 +2226,8 @@ export const describeDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDetector",
+  telemetry: TELEMETRY,
+  span: "DescribeDetector",
 }));
 
 export type DescribeModelVersionsError =
@@ -2190,6 +2264,8 @@ export const describeModelVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeModelVersions",
 })) as any;
 
 export type GetBatchImportJobsError =
@@ -2229,6 +2305,8 @@ export const getBatchImportJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBatchImportJobs",
 })) as any;
 
 export type GetBatchPredictionJobsError =
@@ -2265,6 +2343,8 @@ export const getBatchPredictionJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBatchPredictionJobs",
 })) as any;
 
 export type GetDeleteEventsByEventTypeStatusError =
@@ -2295,6 +2375,8 @@ export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeleteEventsByEventTypeStatus",
+  telemetry: TELEMETRY,
+  span: "GetDeleteEventsByEventTypeStatus",
 }));
 
 export type GetDetectorsError =
@@ -2336,6 +2418,8 @@ export const getDetectors: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDetectors",
 })) as any;
 
 export type GetDetectorVersionError =
@@ -2366,6 +2450,8 @@ export const getDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDetectorVersion",
+  telemetry: TELEMETRY,
+  span: "GetDetectorVersion",
 }));
 
 export type GetEntityTypesError =
@@ -2407,6 +2493,8 @@ export const getEntityTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEntityTypes",
 })) as any;
 
 export type GetEventError =
@@ -2437,6 +2525,8 @@ export const getEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvent",
+  telemetry: TELEMETRY,
+  span: "GetEvent",
 }));
 
 export type GetEventPredictionError =
@@ -2471,6 +2561,8 @@ export const getEventPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventPrediction",
+  telemetry: TELEMETRY,
+  span: "GetEventPrediction",
 }));
 
 export type GetEventPredictionMetadataError =
@@ -2501,6 +2593,8 @@ export const getEventPredictionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventPredictionMetadata",
+  telemetry: TELEMETRY,
+  span: "GetEventPredictionMetadata",
 }));
 
 export type GetEventTypesError =
@@ -2542,6 +2636,8 @@ export const getEventTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetEventTypes",
 })) as any;
 
 export type GetExternalModelsError =
@@ -2583,6 +2679,8 @@ export const getExternalModels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetExternalModels",
 })) as any;
 
 export type GetKMSEncryptionKeyError =
@@ -2611,6 +2709,8 @@ export const getKMSEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKMSEncryptionKey",
+  telemetry: TELEMETRY,
+  span: "GetKMSEncryptionKey",
 }));
 
 export type GetLabelsError =
@@ -2652,6 +2752,8 @@ export const getLabels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLabels",
 })) as any;
 
 export type GetListElementsError =
@@ -2688,6 +2790,8 @@ export const getListElements: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetListElements",
 })) as any;
 
 export type GetListsMetadataError =
@@ -2724,6 +2828,8 @@ export const getListsMetadata: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetListsMetadata",
 })) as any;
 
 export type GetModelsError =
@@ -2767,6 +2873,8 @@ export const getModels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetModels",
 })) as any;
 
 export type GetModelVersionError =
@@ -2797,6 +2905,8 @@ export const getModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelVersion",
+  telemetry: TELEMETRY,
+  span: "GetModelVersion",
 }));
 
 export type GetOutcomesError =
@@ -2838,6 +2948,8 @@ export const getOutcomes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOutcomes",
 })) as any;
 
 export type GetRulesError =
@@ -2876,6 +2988,8 @@ export const getRules: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRules",
 })) as any;
 
 export type GetVariablesError =
@@ -2917,6 +3031,8 @@ export const getVariables: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetVariables",
 })) as any;
 
 export type ListEventPredictionsError =
@@ -2962,6 +3078,8 @@ export const listEventPredictions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventPredictions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2998,6 +3116,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PutDetectorError =
@@ -3028,6 +3148,8 @@ export const putDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDetector",
+  telemetry: TELEMETRY,
+  span: "PutDetector",
 }));
 
 export type PutEntityTypeError =
@@ -3058,6 +3180,8 @@ export const putEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEntityType",
+  telemetry: TELEMETRY,
+  span: "PutEntityType",
 }));
 
 export type PutEventTypeError =
@@ -3088,6 +3212,8 @@ export const putEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventType",
+  telemetry: TELEMETRY,
+  span: "PutEventType",
 }));
 
 export type PutExternalModelError =
@@ -3118,6 +3244,8 @@ export const putExternalModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutExternalModel",
+  telemetry: TELEMETRY,
+  span: "PutExternalModel",
 }));
 
 export type PutKMSEncryptionKeyError =
@@ -3150,6 +3278,8 @@ export const putKMSEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKMSEncryptionKey",
+  telemetry: TELEMETRY,
+  span: "PutKMSEncryptionKey",
 }));
 
 export type PutLabelError =
@@ -3180,6 +3310,8 @@ export const putLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLabel",
+  telemetry: TELEMETRY,
+  span: "PutLabel",
 }));
 
 export type PutOutcomeError =
@@ -3210,6 +3342,8 @@ export const putOutcome: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOutcome",
+  telemetry: TELEMETRY,
+  span: "PutOutcome",
 }));
 
 export type SendEventError =
@@ -3242,6 +3376,8 @@ export const sendEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEvent",
+  telemetry: TELEMETRY,
+  span: "SendEvent",
 }));
 
 export type TagResourceError =
@@ -3270,6 +3406,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3298,6 +3436,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDetectorVersionError =
@@ -3330,6 +3470,8 @@ export const updateDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateDetectorVersion",
 }));
 
 export type UpdateDetectorVersionMetadataError =
@@ -3361,6 +3503,8 @@ export const updateDetectorVersionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersionMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateDetectorVersionMetadata",
 }));
 
 export type UpdateDetectorVersionStatusError =
@@ -3394,6 +3538,8 @@ export const updateDetectorVersionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersionStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateDetectorVersionStatus",
 }));
 
 export type UpdateEventLabelError =
@@ -3426,6 +3572,8 @@ export const updateEventLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventLabel",
+  telemetry: TELEMETRY,
+  span: "UpdateEventLabel",
 }));
 
 export type UpdateListError =
@@ -3458,6 +3606,8 @@ export const updateList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateList",
+  telemetry: TELEMETRY,
+  span: "UpdateList",
 }));
 
 export type UpdateModelError =
@@ -3490,6 +3640,8 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
+  telemetry: TELEMETRY,
+  span: "UpdateModel",
 }));
 
 export type UpdateModelVersionError =
@@ -3522,6 +3674,8 @@ export const updateModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateModelVersion",
 }));
 
 export type UpdateModelVersionStatusError =
@@ -3562,6 +3716,8 @@ export const updateModelVersionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelVersionStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateModelVersionStatus",
 }));
 
 export type UpdateRuleMetadataError =
@@ -3594,6 +3750,8 @@ export const updateRuleMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleMetadata",
 }));
 
 export type UpdateRuleVersionError =
@@ -3626,6 +3784,8 @@ export const updateRuleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleVersion",
 }));
 
 export type UpdateVariableError =
@@ -3658,6 +3818,8 @@ export const updateVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVariable",
+  telemetry: TELEMETRY,
+  span: "UpdateVariable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

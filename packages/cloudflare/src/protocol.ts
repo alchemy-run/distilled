@@ -8,6 +8,7 @@ import {
   InternalServerError,
   TooManyRequests,
   Unauthorized,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -29,6 +30,7 @@ import {
   SchemaMismatch,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 import {
   bodySymbol,
   headerSymbol,
@@ -135,7 +137,8 @@ export type CloudflareOpError =
   // fail the two ways every operation can.
   | CloudflareError
   | CloudflareRateLimited
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Cloudflare operation. */
 export type CloudflareOpContext = Credentials | HttpClient.HttpClient;
@@ -304,7 +307,7 @@ const requestFor = (
   creds: ResolvedCredentials,
   input: unknown,
   inputAst: AST.AST,
-): HttpClientRequest.HttpClientRequest =>
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> =>
   buildRequest({
     input,
     inputAst,
@@ -333,7 +336,7 @@ const withCredentials = <B>(
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.withFiber((fiber) =>
     withCredentials(fiber.context as Context.Context<any>, (creds) =>
-      Effect.succeed(requestFor(creds, input, inputAst)),
+      requestFor(creds, input, inputAst),
     ),
   );
 
@@ -454,7 +457,7 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     // Read as text and parse tolerantly -- Cloudflare answers some errors
     // (HTML 5xx pages, bare plain-text 4xx) with non-JSON bodies.
     return Effect.matchEffect(response.text, {
-      onFailure: Effect.die,
+      onFailure: fail,
       onSuccess: (read): Effect.Effect<unknown> => {
         const text = read ?? "";
         debugResponse(response.status, text, outputAst);
@@ -665,10 +668,15 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
-        const request = requestFor(creds, input, op.inputAst);
         const client = Context.get(context, HttpClient.HttpClient);
-        return Effect.flatMap(client.execute(request), (response) =>
-          decodeResponse(context, response, op.outputAst, op.errors),
+        return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
+          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+            Telemetry.phase(
+              context,
+              "cloudflare.decode",
+              decodeResponse(context, response, op.outputAst, op.errors),
+            ),
+          ),
         );
       });
     }) as Effect.Effect<unknown>;

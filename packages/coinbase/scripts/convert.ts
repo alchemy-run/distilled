@@ -7,7 +7,7 @@
  * Output: .generated-specs/cdp.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Coinbase's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Coinbase's
  * pipeline config. v0 parity notes:
  *
  *  - `skipDeprecated: true` (the v0 generator flag)
@@ -18,7 +18,7 @@
  *    existed; the spec is used unpatched)
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { parse as parseYaml } from "yaml";
 
 await runOpenApiConvert({

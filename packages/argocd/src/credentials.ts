@@ -26,7 +26,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "ArgocdCredentials",
   ) {}
 
@@ -61,5 +61,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       token: Redacted.make(token),
       apiBaseUrl: process.env.ARGOCD_SERVER ?? DEFAULT_API_BASE_URL,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

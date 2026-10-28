@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -104,6 +105,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PartnerCentralChannel",
+  service: "PartnerCentralChannel",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -683,6 +698,8 @@ export const acceptChannelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptChannelHandshake",
+  telemetry: TELEMETRY,
+  span: "AcceptChannelHandshake",
 }));
 
 export type CancelChannelHandshakeError =
@@ -713,6 +730,8 @@ export const cancelChannelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelChannelHandshake",
+  telemetry: TELEMETRY,
+  span: "CancelChannelHandshake",
 }));
 
 export type CreateChannelHandshakeError =
@@ -747,6 +766,8 @@ export const createChannelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelHandshake",
+  telemetry: TELEMETRY,
+  span: "CreateChannelHandshake",
 }));
 
 export type CreateProgramManagementAccountError =
@@ -781,6 +802,8 @@ export const createProgramManagementAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProgramManagementAccount",
+  telemetry: TELEMETRY,
+  span: "CreateProgramManagementAccount",
 }));
 
 export type CreateRelationshipError =
@@ -815,6 +838,8 @@ export const createRelationship: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationship",
+  telemetry: TELEMETRY,
+  span: "CreateRelationship",
 }));
 
 export type DeleteProgramManagementAccountError =
@@ -847,6 +872,8 @@ export const deleteProgramManagementAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProgramManagementAccount",
+  telemetry: TELEMETRY,
+  span: "DeleteProgramManagementAccount",
 }));
 
 export type DeleteRelationshipError =
@@ -879,6 +906,8 @@ export const deleteRelationship: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelationship",
+  telemetry: TELEMETRY,
+  span: "DeleteRelationship",
 }));
 
 export type GetRelationshipError =
@@ -909,6 +938,8 @@ export const getRelationship: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationship",
+  telemetry: TELEMETRY,
+  span: "GetRelationship",
 }));
 
 export type ListChannelHandshakesError =
@@ -946,6 +977,8 @@ export const listChannelHandshakes: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelHandshakes",
 })) as any;
 
 export type ListProgramManagementAccountsError =
@@ -983,6 +1016,8 @@ export const listProgramManagementAccounts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProgramManagementAccounts",
 })) as any;
 
 export type ListRelationshipsError =
@@ -1020,6 +1055,8 @@ export const listRelationships: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRelationships",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1050,6 +1087,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectChannelHandshakeError =
@@ -1080,6 +1119,8 @@ export const rejectChannelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectChannelHandshake",
+  telemetry: TELEMETRY,
+  span: "RejectChannelHandshake",
 }));
 
 export type TagResourceError =
@@ -1112,6 +1153,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1144,6 +1187,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateProgramManagementAccountError =
@@ -1176,6 +1221,8 @@ export const updateProgramManagementAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProgramManagementAccount",
+  telemetry: TELEMETRY,
+  span: "UpdateProgramManagementAccount",
 }));
 
 export type UpdateRelationshipError =
@@ -1208,6 +1255,8 @@ export const updateRelationship: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelationship",
+  telemetry: TELEMETRY,
+  span: "UpdateRelationship",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

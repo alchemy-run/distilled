@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://messaging-chime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ChimeSDKMessaging",
+  service: "ChimeSDKMessaging",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -972,6 +987,8 @@ export const associateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateChannelFlow",
+  telemetry: TELEMETRY,
+  span: "AssociateChannelFlow",
 }));
 
 export type BatchCreateChannelMembershipError =
@@ -1008,6 +1025,8 @@ export const batchCreateChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateChannelMembership",
+  telemetry: TELEMETRY,
+  span: "BatchCreateChannelMembership",
 }));
 
 export type ChannelFlowCallbackError =
@@ -1050,6 +1069,8 @@ export const channelFlowCallback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChannelFlowCallback",
+  telemetry: TELEMETRY,
+  span: "ChannelFlowCallback",
 }));
 
 export type CreateChannelError =
@@ -1093,6 +1114,8 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  telemetry: TELEMETRY,
+  span: "CreateChannel",
 }));
 
 export type CreateChannelBanError =
@@ -1139,6 +1162,8 @@ export const createChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelBan",
+  telemetry: TELEMETRY,
+  span: "CreateChannelBan",
 }));
 
 export type CreateChannelFlowError =
@@ -1189,6 +1214,8 @@ export const createChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelFlow",
+  telemetry: TELEMETRY,
+  span: "CreateChannelFlow",
 }));
 
 export type CreateChannelMembershipError =
@@ -1249,6 +1276,8 @@ export const createChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelMembership",
+  telemetry: TELEMETRY,
+  span: "CreateChannelMembership",
 }));
 
 export type CreateChannelModeratorError =
@@ -1299,6 +1328,8 @@ export const createChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelModerator",
+  telemetry: TELEMETRY,
+  span: "CreateChannelModerator",
 }));
 
 export type DeleteChannelError =
@@ -1338,6 +1369,8 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  telemetry: TELEMETRY,
+  span: "DeleteChannel",
 }));
 
 export type DeleteChannelBanError =
@@ -1374,6 +1407,8 @@ export const deleteChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelBan",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelBan",
 }));
 
 export type DeleteChannelFlowError =
@@ -1411,6 +1446,8 @@ export const deleteChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelFlow",
 }));
 
 export type DeleteChannelMembershipError =
@@ -1449,6 +1486,8 @@ export const deleteChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelMembership",
 }));
 
 export type DeleteChannelMessageError =
@@ -1487,6 +1526,8 @@ export const deleteChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelMessage",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelMessage",
 }));
 
 export type DeleteChannelModeratorError =
@@ -1523,6 +1564,8 @@ export const deleteChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelModerator",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelModerator",
 }));
 
 export type DeleteMessagingStreamingConfigurationsError =
@@ -1556,6 +1599,8 @@ export const deleteMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessagingStreamingConfigurations",
+  telemetry: TELEMETRY,
+  span: "DeleteMessagingStreamingConfigurations",
 }));
 
 export type DescribeChannelError =
@@ -1593,6 +1638,8 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  telemetry: TELEMETRY,
+  span: "DescribeChannel",
 }));
 
 export type DescribeChannelBanError =
@@ -1631,6 +1678,8 @@ export const describeChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelBan",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelBan",
 }));
 
 export type DescribeChannelFlowError =
@@ -1663,6 +1712,8 @@ export const describeChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelFlow",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelFlow",
 }));
 
 export type DescribeChannelMembershipError =
@@ -1701,6 +1752,8 @@ export const describeChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelMembership",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelMembership",
 }));
 
 export type DescribeChannelMembershipForAppInstanceUserError =
@@ -1742,6 +1795,8 @@ export const describeChannelMembershipForAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelMembershipForAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelMembershipForAppInstanceUser",
 }));
 
 export type DescribeChannelModeratedByAppInstanceUserError =
@@ -1779,6 +1834,8 @@ export const describeChannelModeratedByAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelModeratedByAppInstanceUser",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelModeratedByAppInstanceUser",
 }));
 
 export type DescribeChannelModeratorError =
@@ -1817,6 +1874,8 @@ export const describeChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelModerator",
+  telemetry: TELEMETRY,
+  span: "DescribeChannelModerator",
 }));
 
 export type DisassociateChannelFlowError =
@@ -1860,6 +1919,8 @@ export const disassociateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateChannelFlow",
+  telemetry: TELEMETRY,
+  span: "DisassociateChannelFlow",
 }));
 
 export type GetChannelMembershipPreferencesError =
@@ -1900,6 +1961,8 @@ export const getChannelMembershipPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMembershipPreferences",
+  telemetry: TELEMETRY,
+  span: "GetChannelMembershipPreferences",
 }));
 
 export type GetChannelMessageError =
@@ -1938,6 +2001,8 @@ export const getChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMessage",
+  telemetry: TELEMETRY,
+  span: "GetChannelMessage",
 }));
 
 export type GetChannelMessageStatusError =
@@ -1997,6 +2062,8 @@ export const getChannelMessageStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMessageStatus",
+  telemetry: TELEMETRY,
+  span: "GetChannelMessageStatus",
 }));
 
 export type GetMessagingSessionEndpointError =
@@ -2027,6 +2094,8 @@ export const getMessagingSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessagingSessionEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetMessagingSessionEndpoint",
 }));
 
 export type GetMessagingStreamingConfigurationsError =
@@ -2062,6 +2131,8 @@ export const getMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessagingStreamingConfigurations",
+  telemetry: TELEMETRY,
+  span: "GetMessagingStreamingConfigurations",
 }));
 
 export type ListChannelBansError =
@@ -2104,6 +2175,8 @@ export const listChannelBans: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelBans",
 })) as any;
 
 export type ListChannelFlowsError =
@@ -2142,6 +2215,8 @@ export const listChannelFlows: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelFlows",
 })) as any;
 
 export type ListChannelMembershipsError =
@@ -2187,6 +2262,8 @@ export const listChannelMemberships: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelMemberships",
 })) as any;
 
 export type ListChannelMembershipsForAppInstanceUserError =
@@ -2230,6 +2307,8 @@ export const listChannelMembershipsForAppInstanceUser: API.PaginatedOperationMet
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelMembershipsForAppInstanceUser",
 })) as any;
 
 export type ListChannelMessagesError =
@@ -2278,6 +2357,8 @@ export const listChannelMessages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelMessages",
 })) as any;
 
 export type ListChannelModeratorsError =
@@ -2320,6 +2401,8 @@ export const listChannelModerators: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelModerators",
 })) as any;
 
 export type ListChannelsError =
@@ -2371,6 +2454,8 @@ export const listChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListChannelsAssociatedWithChannelFlowError =
@@ -2409,6 +2494,8 @@ export const listChannelsAssociatedWithChannelFlow: API.PaginatedOperationMethod
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelsAssociatedWithChannelFlow",
 })) as any;
 
 export type ListChannelsModeratedByAppInstanceUserError =
@@ -2451,6 +2538,8 @@ export const listChannelsModeratedByAppInstanceUser: API.PaginatedOperationMetho
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelsModeratedByAppInstanceUser",
 })) as any;
 
 export type ListSubChannelsError =
@@ -2489,6 +2578,8 @@ export const listSubChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubChannels",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2521,6 +2612,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutChannelExpirationSettingsError =
@@ -2565,6 +2658,8 @@ export const putChannelExpirationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelExpirationSettings",
+  telemetry: TELEMETRY,
+  span: "PutChannelExpirationSettings",
 }));
 
 export type PutChannelMembershipPreferencesError =
@@ -2607,6 +2702,8 @@ export const putChannelMembershipPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelMembershipPreferences",
+  telemetry: TELEMETRY,
+  span: "PutChannelMembershipPreferences",
 }));
 
 export type PutMessagingStreamingConfigurationsError =
@@ -2644,6 +2741,8 @@ export const putMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMessagingStreamingConfigurations",
+  telemetry: TELEMETRY,
+  span: "PutMessagingStreamingConfigurations",
 }));
 
 export type RedactChannelMessageError =
@@ -2683,6 +2782,8 @@ export const redactChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactChannelMessage",
+  telemetry: TELEMETRY,
+  span: "RedactChannelMessage",
 }));
 
 export type SearchChannelsError =
@@ -2729,6 +2830,8 @@ export const searchChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchChannels",
 })) as any;
 
 export type SendChannelMessageError =
@@ -2772,6 +2875,8 @@ export const sendChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendChannelMessage",
+  telemetry: TELEMETRY,
+  span: "SendChannelMessage",
 }));
 
 export type TagResourceError =
@@ -2806,6 +2911,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2838,6 +2945,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateChannelError =
@@ -2878,6 +2987,8 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  telemetry: TELEMETRY,
+  span: "UpdateChannel",
 }));
 
 export type UpdateChannelFlowError =
@@ -2912,6 +3023,8 @@ export const updateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelFlow",
 }));
 
 export type UpdateChannelMessageError =
@@ -2950,6 +3063,8 @@ export const updateChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelMessage",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelMessage",
 }));
 
 export type UpdateChannelReadMarkerError =
@@ -2988,6 +3103,8 @@ export const updateChannelReadMarker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelReadMarker",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelReadMarker",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

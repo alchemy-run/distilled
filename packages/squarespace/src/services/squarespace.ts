@@ -18,6 +18,19 @@ const __s: any[] = [];
 
 export type { SquarespaceOpError, SquarespaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "squarespace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Squarespace",
+  service: "Squarespace",
+  labels: "squarespace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2229,6 +2242,8 @@ export const adjustInventoryStockLevels: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AdjustInventoryStockLevels",
 }));
 
 export type AssociateProductVariantImageError = BadRequest | NotFound | SquarespaceOpError;
@@ -2244,6 +2259,8 @@ export const associateProductVariantImage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssociateProductVariantImage",
 }));
 
 export type CreateAddressBookEntryError = BadRequest | Forbidden | NotFound | SquarespaceOpError;
@@ -2259,6 +2276,8 @@ export const createAddressBookEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAddressBookEntry",
 }));
 
 export type CreateContactError = BadRequest | Forbidden | Conflict | SquarespaceOpError;
@@ -2274,6 +2293,8 @@ export const createContact: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContact",
 }));
 
 export type CreateDiscountError = BadRequest | Forbidden | Conflict | SquarespaceOpError;
@@ -2289,6 +2310,8 @@ export const createDiscount: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDiscount",
 }));
 
 export type CreateOrderError = BadRequest | Conflict | SquarespaceOpError;
@@ -2304,6 +2327,8 @@ export const createOrder: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrder",
 }));
 
 export type CreateProductError = BadRequest | Conflict | SquarespaceOpError;
@@ -2319,6 +2344,8 @@ export const createProduct: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProduct",
 }));
 
 export type CreateProductVariantError = BadRequest | NotFound | Conflict | SquarespaceOpError;
@@ -2334,6 +2361,8 @@ export const createProductVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProductVariant",
 }));
 
 export type CreateWebhookSubscriptionError = BadRequest | NotFound | Conflict | SquarespaceOpError;
@@ -2349,6 +2378,8 @@ export const createWebhookSubscription: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhookSubscription",
 }));
 
 export type DeleteAddressBookEntryError = Forbidden | NotFound | SquarespaceOpError;
@@ -2364,6 +2395,8 @@ export const deleteAddressBookEntry: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAddressBookEntry",
 }));
 
 export type DeleteContactError = Forbidden | NotFound | SquarespaceOpError;
@@ -2379,6 +2412,8 @@ export const deleteContact: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContact",
 }));
 
 export type DeleteDiscountError = Forbidden | NotFound | SquarespaceOpError;
@@ -2394,6 +2429,8 @@ export const deleteDiscount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDiscount",
 }));
 
 export type DeleteProductError = NotFound | SquarespaceOpError;
@@ -2409,6 +2446,8 @@ export const deleteProduct: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProduct",
 }));
 
 export type DeleteProductImageError = NotFound | SquarespaceOpError;
@@ -2424,6 +2463,8 @@ export const deleteProductImage: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProductImage",
 }));
 
 export type DeleteProductVariantError = NotFound | Conflict | SquarespaceOpError;
@@ -2439,6 +2480,8 @@ export const deleteProductVariant: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProductVariant",
 }));
 
 export type DeleteWebhookSubscriptionError = NotFound | SquarespaceOpError;
@@ -2454,6 +2497,8 @@ export const deleteWebhookSubscription: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhookSubscription",
 }));
 
 export type FulfillOrderError = BadRequest | NotFound | Conflict | SquarespaceOpError;
@@ -2469,6 +2514,8 @@ export const fulfillOrder: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FulfillOrder",
 }));
 
 export type GetAddressBookError = Forbidden | NotFound | SquarespaceOpError;
@@ -2484,6 +2531,8 @@ export const getAddressBook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddressBook",
 }));
 
 export type GetAddressBookEntryError = Forbidden | NotFound | SquarespaceOpError;
@@ -2499,6 +2548,8 @@ export const getAddressBookEntry: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAddressBookEntry",
 }));
 
 export type GetContactError = Forbidden | NotFound | SquarespaceOpError;
@@ -2514,6 +2565,8 @@ export const getContact: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContact",
 }));
 
 export type GetContactsError = BadRequest | Forbidden | SquarespaceOpError;
@@ -2531,6 +2584,8 @@ export const getContacts: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetContacts",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2555,6 +2610,8 @@ export const getDiscount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscount",
 }));
 
 export type GetDocumentsByIdError = BadRequest | NotFound | SquarespaceOpError;
@@ -2570,6 +2627,8 @@ export const getDocumentsById: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDocumentsById",
 }));
 
 export type GetDocumentsByUpdatedOnError = BadRequest | SquarespaceOpError;
@@ -2587,6 +2646,8 @@ export const getDocumentsByUpdatedOn: API.PaginatedOperationMethod<
     errors: [BadRequest, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDocumentsByUpdatedOn",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2610,6 +2671,8 @@ export const getFulfillmentOptions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFulfillmentOptions",
 }));
 
 export type GetInventoryItemsError = BadRequest | NotFound | SquarespaceOpError;
@@ -2627,6 +2690,8 @@ export const getInventoryItems: API.PaginatedOperationMethod<
     errors: [BadRequest, NotFound, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetInventoryItems",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2650,6 +2715,8 @@ export const getMemberProfile: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMemberProfile",
 }));
 
 export type GetOrderError = BadRequest | NotFound | SquarespaceOpError;
@@ -2665,6 +2732,8 @@ export const getOrder: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrder",
 }));
 
 export type GetOrdersError = BadRequest | SquarespaceOpError;
@@ -2682,6 +2751,8 @@ export const getOrders: API.PaginatedOperationMethod<
     errors: [BadRequest, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetOrders",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2705,6 +2776,8 @@ export const getProductImageProcessingStatus: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductImageProcessingStatus",
 }));
 
 export type GetProductsError = BadRequest | SquarespaceOpError;
@@ -2722,6 +2795,8 @@ export const getProducts: API.PaginatedOperationMethod<
     errors: [BadRequest, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetProducts",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2747,6 +2822,8 @@ export const getProfiles: API.PaginatedOperationMethod<
     errors: [BadRequest, NotFound, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetProfiles",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2770,6 +2847,8 @@ export const getSpecificInventoryItems: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpecificInventoryItems",
 }));
 
 export type GetSpecificProductsError = BadRequest | NotFound | SquarespaceOpError;
@@ -2785,6 +2864,8 @@ export const getSpecificProducts: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpecificProducts",
 }));
 
 export type GetSpecificProfilesError = BadRequest | NotFound | SquarespaceOpError;
@@ -2800,6 +2881,8 @@ export const getSpecificProfiles: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpecificProfiles",
 }));
 
 export type GetStorePagesError = NotFound | SquarespaceOpError;
@@ -2817,6 +2900,8 @@ export const getStorePages: API.PaginatedOperationMethod<
     errors: [NotFound, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetStorePages",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2840,6 +2925,8 @@ export const getTransactionsSummaries: API.OperationMethod<
   errors: [BadRequest, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionsSummaries",
 }));
 
 export type GetWebhookSubscriptionError = NotFound | SquarespaceOpError;
@@ -2855,6 +2942,8 @@ export const getWebhookSubscription: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookSubscription",
 }));
 
 export type GetWebhookSubscriptionsError = NotFound | SquarespaceOpError;
@@ -2870,6 +2959,8 @@ export const getWebhookSubscriptions: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookSubscriptions",
 }));
 
 export type GetWebsiteProfileError = NotFound | SquarespaceOpError;
@@ -2885,6 +2976,8 @@ export const getWebsiteProfile: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebsiteProfile",
 }));
 
 export type ListDiscountsError = BadRequest | Forbidden | SquarespaceOpError;
@@ -2900,6 +2993,8 @@ export const listDiscounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiscounts",
 }));
 
 export type QueryContactsError = BadRequest | Forbidden | SquarespaceOpError;
@@ -2917,6 +3012,8 @@ export const queryContacts: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "QueryContacts",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -2941,6 +3038,8 @@ export const rotateSubscriptionSecret: API.OperationMethod<
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSubscriptionSecret",
 }));
 
 export type SendTestNotificationForWebhookSubscriptionError =
@@ -2959,6 +3058,8 @@ export const sendTestNotificationForWebhookSubscription: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendTestNotificationForWebhookSubscription",
 }));
 
 export type UpdateAddressBookEntryError = BadRequest | Forbidden | NotFound | SquarespaceOpError;
@@ -2974,6 +3075,8 @@ export const updateAddressBookEntry: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAddressBookEntry",
 }));
 
 export type UpdateContactError = BadRequest | Forbidden | NotFound | Conflict | SquarespaceOpError;
@@ -2989,6 +3092,8 @@ export const updateContact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContact",
 }));
 
 export type UpdateDiscountError = BadRequest | Forbidden | NotFound | Conflict | SquarespaceOpError;
@@ -3004,6 +3109,8 @@ export const updateDiscount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDiscount",
 }));
 
 export type UpdateProductError = BadRequest | NotFound | Conflict | SquarespaceOpError;
@@ -3019,6 +3126,8 @@ export const updateProduct: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProduct",
 }));
 
 export type UpdateProductImageError = BadRequest | NotFound | SquarespaceOpError;
@@ -3034,6 +3143,8 @@ export const updateProductImage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProductImage",
 }));
 
 export type UpdateProductImageOrderError = BadRequest | NotFound | SquarespaceOpError;
@@ -3049,6 +3160,8 @@ export const updateProductImageOrder: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProductImageOrder",
 }));
 
 export type UpdateProductVariantError = BadRequest | NotFound | Conflict | SquarespaceOpError;
@@ -3064,6 +3177,8 @@ export const updateProductVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProductVariant",
 }));
 
 export type UpdateWebhookSubscriptionError = BadRequest | NotFound | SquarespaceOpError;
@@ -3079,6 +3194,8 @@ export const updateWebhookSubscription: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookSubscription",
 }));
 
 export type UploadProductImageError = BadRequest | NotFound | Conflict | SquarespaceOpError;
@@ -3094,6 +3211,8 @@ export const uploadProductImage: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadProductImage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "searchads360" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Searchads360",
+  service: "searchads360",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -23116,6 +23135,8 @@ export const addOperationsCustomersBatchJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOperationsCustomersBatchJobs",
 }));
 
 export type AddOperationsCustomersOfflineUserDataJobsError =
@@ -23140,6 +23161,8 @@ export const addOperationsCustomersOfflineUserDataJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOperationsCustomersOfflineUserDataJobs",
 }));
 
 export type AppendLeadConversationCustomersLocalServicesError =
@@ -23168,6 +23191,8 @@ export const appendLeadConversationCustomersLocalServices: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppendLeadConversationCustomersLocalServices",
 }));
 
 export type ApplyCustomersRecommendationsError =
@@ -23192,6 +23217,8 @@ export const applyCustomersRecommendations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyCustomersRecommendations",
 }));
 
 export type ApplyIncentiveCustomersIncentivesError =
@@ -23216,6 +23243,8 @@ export const applyIncentiveCustomersIncentives: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyIncentiveCustomersIncentives",
 }));
 
 export type ConfigureCampaignLifecycleGoalsCustomersCampaignLifecycleGoalError =
@@ -23244,6 +23273,8 @@ export const configureCampaignLifecycleGoalsCustomersCampaignLifecycleGoal: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigureCampaignLifecycleGoalsCustomersCampaignLifecycleGoal",
 }));
 
 export type ConfigureCustomerLifecycleGoalsCustomersCustomerLifecycleGoalError =
@@ -23272,6 +23303,8 @@ export const configureCustomerLifecycleGoalsCustomersCustomerLifecycleGoal: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigureCustomerLifecycleGoalsCustomersCustomerLifecycleGoal",
 }));
 
 export type CreateCustomerClientCustomersError =
@@ -23296,6 +23329,8 @@ export const createCustomerClientCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerClientCustomers",
 }));
 
 export type CreateCustomersAccountLinksError =
@@ -23320,6 +23355,8 @@ export const createCustomersAccountLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersAccountLinks",
 }));
 
 export type CreateCustomersDataLinksError =
@@ -23344,6 +23381,8 @@ export const createCustomersDataLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersDataLinks",
 }));
 
 export type CreateCustomersOfflineUserDataJobsError =
@@ -23368,6 +23407,8 @@ export const createCustomersOfflineUserDataJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersOfflineUserDataJobs",
 }));
 
 export type CreateCustomersProductLinkInvitationsError =
@@ -23392,6 +23433,8 @@ export const createCustomersProductLinkInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersProductLinkInvitations",
 }));
 
 export type CreateCustomersProductLinksError =
@@ -23416,6 +23459,8 @@ export const createCustomersProductLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomersProductLinks",
 }));
 
 export type DismissCustomersRecommendationsError =
@@ -23440,6 +23485,8 @@ export const dismissCustomersRecommendations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissCustomersRecommendations",
 }));
 
 export type EnablePMaxBrandGuidelinesCustomersCampaignsError =
@@ -23468,6 +23515,8 @@ export const enablePMaxBrandGuidelinesCustomersCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnablePMaxBrandGuidelinesCustomersCampaigns",
 }));
 
 export type EndExperimentCustomersExperimentsError =
@@ -23488,6 +23537,8 @@ export const endExperimentCustomersExperiments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndExperimentCustomersExperiments",
 }));
 
 export type FetchIncentiveIncentivesError = NotFound | Forbidden | GcpOpError;
@@ -23507,6 +23558,8 @@ export const fetchIncentiveIncentives: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchIncentiveIncentives",
 }));
 
 export type GenerateAdGroupThemesCustomersError =
@@ -23531,6 +23584,8 @@ export const generateAdGroupThemesCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAdGroupThemesCustomers",
 }));
 
 export type GenerateAudienceCompositionInsightsCustomersError =
@@ -23559,6 +23614,8 @@ export const generateAudienceCompositionInsightsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAudienceCompositionInsightsCustomers",
 }));
 
 export type GenerateAudienceDefinitionCustomersError =
@@ -23583,6 +23640,8 @@ export const generateAudienceDefinitionCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAudienceDefinitionCustomers",
 }));
 
 export type GenerateAudienceOverlapInsightsCustomersError =
@@ -23607,6 +23666,8 @@ export const generateAudienceOverlapInsightsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAudienceOverlapInsightsCustomers",
 }));
 
 export type GenerateBenchmarksMetricsCustomersError =
@@ -23631,6 +23692,8 @@ export const generateBenchmarksMetricsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateBenchmarksMetricsCustomers",
 }));
 
 export type GenerateConversionRatesV23Error =
@@ -23655,6 +23718,8 @@ export const generateConversionRatesV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateConversionRatesV23",
 }));
 
 export type GenerateCustomersRecommendationsError =
@@ -23679,6 +23744,8 @@ export const generateCustomersRecommendations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateCustomersRecommendations",
 }));
 
 export type GenerateInsightsFinderReportCustomersError =
@@ -23703,6 +23770,8 @@ export const generateInsightsFinderReportCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateInsightsFinderReportCustomers",
 }));
 
 export type GenerateKeywordForecastMetricsCustomersError =
@@ -23727,6 +23796,8 @@ export const generateKeywordForecastMetricsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateKeywordForecastMetricsCustomers",
 }));
 
 export type GenerateKeywordHistoricalMetricsCustomersError =
@@ -23751,6 +23822,8 @@ export const generateKeywordHistoricalMetricsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateKeywordHistoricalMetricsCustomers",
 }));
 
 export type GenerateKeywordIdeasCustomersError =
@@ -23775,6 +23848,8 @@ export const generateKeywordIdeasCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateKeywordIdeasCustomers",
 }));
 
 export type GenerateReachForecastCustomersError =
@@ -23799,6 +23874,8 @@ export const generateReachForecastCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateReachForecastCustomers",
 }));
 
 export type GenerateSuggestedTargetingInsightsCustomersError =
@@ -23827,6 +23904,8 @@ export const generateSuggestedTargetingInsightsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateSuggestedTargetingInsightsCustomers",
 }));
 
 export type GenerateTargetingSuggestionMetricsCustomersError =
@@ -23855,6 +23934,8 @@ export const generateTargetingSuggestionMetricsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateTargetingSuggestionMetricsCustomers",
 }));
 
 export type GetCustomersCustomColumnsError = NotFound | Forbidden | GcpOpError;
@@ -23870,6 +23951,8 @@ export const getCustomersCustomColumns: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersCustomColumns",
 }));
 
 export type GetIdentityVerificationCustomersError = NotFound | Forbidden | GcpOpError;
@@ -23889,6 +23972,8 @@ export const getIdentityVerificationCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerificationCustomers",
 }));
 
 export type GetSearchAds360FieldsError = NotFound | Forbidden | GcpOpError;
@@ -23908,6 +23993,8 @@ export const getSearchAds360Fields: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSearchAds360Fields",
 }));
 
 export type GetSmartCampaignStatusCustomersSmartCampaignSettingsError =
@@ -23934,6 +24021,8 @@ export const getSmartCampaignStatusCustomersSmartCampaignSettings: API.Operation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmartCampaignStatusCustomersSmartCampaignSettings",
 }));
 
 export type GraduateExperimentCustomersExperimentsError =
@@ -23954,6 +24043,8 @@ export const graduateExperimentCustomersExperiments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GraduateExperimentCustomersExperiments",
 }));
 
 export type ListAccessibleCustomersCustomersError = NotFound | Forbidden | GcpOpError;
@@ -23973,6 +24064,8 @@ export const listAccessibleCustomersCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessibleCustomersCustomers",
 }));
 
 export type ListAsyncErrorsCustomersCampaignDraftsError = NotFound | Forbidden | GcpOpError;
@@ -23993,6 +24086,8 @@ export const listAsyncErrorsCustomersCampaignDrafts: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAsyncErrorsCustomersCampaignDrafts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -24018,6 +24113,8 @@ export const listBenchmarksAvailableDatesV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBenchmarksAvailableDatesV23",
 }));
 
 export type ListBenchmarksLocationsV23Error =
@@ -24042,6 +24139,8 @@ export const listBenchmarksLocationsV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBenchmarksLocationsV23",
 }));
 
 export type ListBenchmarksProductsV23Error =
@@ -24066,6 +24165,8 @@ export const listBenchmarksProductsV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBenchmarksProductsV23",
 }));
 
 export type ListBenchmarksSourcesV23Error =
@@ -24090,6 +24191,8 @@ export const listBenchmarksSourcesV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBenchmarksSourcesV23",
 }));
 
 export type ListCustomersCustomColumnsError = NotFound | Forbidden | GcpOpError;
@@ -24109,6 +24212,8 @@ export const listCustomersCustomColumns: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersCustomColumns",
 }));
 
 export type ListCustomersInvoicesError = NotFound | Forbidden | GcpOpError;
@@ -24128,6 +24233,8 @@ export const listCustomersInvoices: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersInvoices",
 }));
 
 export type ListCustomersPaymentsAccountsError = NotFound | Forbidden | GcpOpError;
@@ -24147,6 +24254,8 @@ export const listCustomersPaymentsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersPaymentsAccounts",
 }));
 
 export type ListExperimentAsyncErrorsCustomersExperimentsError = NotFound | Forbidden | GcpOpError;
@@ -24171,6 +24280,8 @@ export const listExperimentAsyncErrorsCustomersExperiments: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentAsyncErrorsCustomersExperiments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -24196,6 +24307,8 @@ export const listInsightsEligibleDatesAudienceInsights: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightsEligibleDatesAudienceInsights",
 }));
 
 export type ListPlannableLocationsV23Error =
@@ -24220,6 +24333,8 @@ export const listPlannableLocationsV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlannableLocationsV23",
 }));
 
 export type ListPlannableProductsV23Error =
@@ -24244,6 +24359,8 @@ export const listPlannableProductsV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlannableProductsV23",
 }));
 
 export type ListPlannableUserInterestsV23Error =
@@ -24268,6 +24385,8 @@ export const listPlannableUserInterestsV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlannableUserInterestsV23",
 }));
 
 export type ListPlannableUserListsV23Error =
@@ -24292,6 +24411,8 @@ export const listPlannableUserListsV23: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlannableUserListsV23",
 }));
 
 export type ListResultsCustomersBatchJobsError = NotFound | Forbidden | GcpOpError;
@@ -24312,6 +24433,8 @@ export const listResultsCustomersBatchJobs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResultsCustomersBatchJobs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -24341,6 +24464,8 @@ export const moveManagerLinkCustomersCustomerManagerLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveManagerLinkCustomersCustomerManagerLinks",
 }));
 
 export type MutateCustomersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -24360,6 +24485,8 @@ export const mutateCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomers",
 }));
 
 export type MutateCustomersAccountBudgetProposalsError =
@@ -24384,6 +24511,8 @@ export const mutateCustomersAccountBudgetProposals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAccountBudgetProposals",
 }));
 
 export type MutateCustomersAccountLinksError =
@@ -24408,6 +24537,8 @@ export const mutateCustomersAccountLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAccountLinks",
 }));
 
 export type MutateCustomersAdGroupAdLabelsError =
@@ -24432,6 +24563,8 @@ export const mutateCustomersAdGroupAdLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupAdLabels",
 }));
 
 export type MutateCustomersAdGroupAdsError =
@@ -24456,6 +24589,8 @@ export const mutateCustomersAdGroupAds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupAds",
 }));
 
 export type MutateCustomersAdGroupAssetsError =
@@ -24480,6 +24615,8 @@ export const mutateCustomersAdGroupAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupAssets",
 }));
 
 export type MutateCustomersAdGroupAssetSetsError =
@@ -24504,6 +24641,8 @@ export const mutateCustomersAdGroupAssetSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupAssetSets",
 }));
 
 export type MutateCustomersAdGroupBidModifiersError =
@@ -24528,6 +24667,8 @@ export const mutateCustomersAdGroupBidModifiers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupBidModifiers",
 }));
 
 export type MutateCustomersAdGroupCriteriaError =
@@ -24552,6 +24693,8 @@ export const mutateCustomersAdGroupCriteria: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupCriteria",
 }));
 
 export type MutateCustomersAdGroupCriterionCustomizersError =
@@ -24580,6 +24723,8 @@ export const mutateCustomersAdGroupCriterionCustomizers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupCriterionCustomizers",
 }));
 
 export type MutateCustomersAdGroupCriterionLabelsError =
@@ -24604,6 +24749,8 @@ export const mutateCustomersAdGroupCriterionLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupCriterionLabels",
 }));
 
 export type MutateCustomersAdGroupCustomizersError =
@@ -24628,6 +24775,8 @@ export const mutateCustomersAdGroupCustomizers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupCustomizers",
 }));
 
 export type MutateCustomersAdGroupLabelsError =
@@ -24652,6 +24801,8 @@ export const mutateCustomersAdGroupLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroupLabels",
 }));
 
 export type MutateCustomersAdGroupsError =
@@ -24676,6 +24827,8 @@ export const mutateCustomersAdGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdGroups",
 }));
 
 export type MutateCustomersAdParametersError =
@@ -24700,6 +24853,8 @@ export const mutateCustomersAdParameters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAdParameters",
 }));
 
 export type MutateCustomersAdsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -24719,6 +24874,8 @@ export const mutateCustomersAds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAds",
 }));
 
 export type MutateCustomersAssetGroupAssetsError =
@@ -24743,6 +24900,8 @@ export const mutateCustomersAssetGroupAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAssetGroupAssets",
 }));
 
 export type MutateCustomersAssetGroupListingGroupFiltersError =
@@ -24771,6 +24930,8 @@ export const mutateCustomersAssetGroupListingGroupFilters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAssetGroupListingGroupFilters",
 }));
 
 export type MutateCustomersAssetGroupsError =
@@ -24795,6 +24956,8 @@ export const mutateCustomersAssetGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAssetGroups",
 }));
 
 export type MutateCustomersAssetGroupSignalsError =
@@ -24819,6 +24982,8 @@ export const mutateCustomersAssetGroupSignals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAssetGroupSignals",
 }));
 
 export type MutateCustomersAssetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -24838,6 +25003,8 @@ export const mutateCustomersAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAssets",
 }));
 
 export type MutateCustomersAssetSetAssetsError =
@@ -24862,6 +25029,8 @@ export const mutateCustomersAssetSetAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAssetSetAssets",
 }));
 
 export type MutateCustomersAssetSetsError =
@@ -24886,6 +25055,8 @@ export const mutateCustomersAssetSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAssetSets",
 }));
 
 export type MutateCustomersAudiencesError =
@@ -24910,6 +25081,8 @@ export const mutateCustomersAudiences: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersAudiences",
 }));
 
 export type MutateCustomersBatchJobsError =
@@ -24934,6 +25107,8 @@ export const mutateCustomersBatchJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersBatchJobs",
 }));
 
 export type MutateCustomersBiddingDataExclusionsError =
@@ -24958,6 +25133,8 @@ export const mutateCustomersBiddingDataExclusions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersBiddingDataExclusions",
 }));
 
 export type MutateCustomersBiddingSeasonalityAdjustmentsError =
@@ -24986,6 +25163,8 @@ export const mutateCustomersBiddingSeasonalityAdjustments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersBiddingSeasonalityAdjustments",
 }));
 
 export type MutateCustomersBiddingStrategiesError =
@@ -25010,6 +25189,8 @@ export const mutateCustomersBiddingStrategies: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersBiddingStrategies",
 }));
 
 export type MutateCustomersBillingSetupsError =
@@ -25034,6 +25215,8 @@ export const mutateCustomersBillingSetups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersBillingSetups",
 }));
 
 export type MutateCustomersCampaignAssetsError =
@@ -25058,6 +25241,8 @@ export const mutateCustomersCampaignAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignAssets",
 }));
 
 export type MutateCustomersCampaignAssetSetsError =
@@ -25082,6 +25267,8 @@ export const mutateCustomersCampaignAssetSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignAssetSets",
 }));
 
 export type MutateCustomersCampaignBidModifiersError =
@@ -25106,6 +25293,8 @@ export const mutateCustomersCampaignBidModifiers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignBidModifiers",
 }));
 
 export type MutateCustomersCampaignBudgetsError =
@@ -25130,6 +25319,8 @@ export const mutateCustomersCampaignBudgets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignBudgets",
 }));
 
 export type MutateCustomersCampaignConversionGoalsError =
@@ -25154,6 +25345,8 @@ export const mutateCustomersCampaignConversionGoals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignConversionGoals",
 }));
 
 export type MutateCustomersCampaignCriteriaError =
@@ -25178,6 +25371,8 @@ export const mutateCustomersCampaignCriteria: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignCriteria",
 }));
 
 export type MutateCustomersCampaignCustomizersError =
@@ -25202,6 +25397,8 @@ export const mutateCustomersCampaignCustomizers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignCustomizers",
 }));
 
 export type MutateCustomersCampaignDraftsError =
@@ -25226,6 +25423,8 @@ export const mutateCustomersCampaignDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignDrafts",
 }));
 
 export type MutateCustomersCampaignGoalConfigsError =
@@ -25250,6 +25449,8 @@ export const mutateCustomersCampaignGoalConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignGoalConfigs",
 }));
 
 export type MutateCustomersCampaignGroupsError =
@@ -25274,6 +25475,8 @@ export const mutateCustomersCampaignGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignGroups",
 }));
 
 export type MutateCustomersCampaignLabelsError =
@@ -25298,6 +25501,8 @@ export const mutateCustomersCampaignLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignLabels",
 }));
 
 export type MutateCustomersCampaignsError =
@@ -25322,6 +25527,8 @@ export const mutateCustomersCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaigns",
 }));
 
 export type MutateCustomersCampaignSharedSetsError =
@@ -25346,6 +25553,8 @@ export const mutateCustomersCampaignSharedSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCampaignSharedSets",
 }));
 
 export type MutateCustomersConversionActionsError =
@@ -25370,6 +25579,8 @@ export const mutateCustomersConversionActions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersConversionActions",
 }));
 
 export type MutateCustomersConversionCustomVariablesError =
@@ -25394,6 +25605,8 @@ export const mutateCustomersConversionCustomVariables: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersConversionCustomVariables",
 }));
 
 export type MutateCustomersConversionGoalCampaignConfigsError =
@@ -25418,6 +25631,8 @@ export const mutateCustomersConversionGoalCampaignConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersConversionGoalCampaignConfigs",
 }));
 
 export type MutateCustomersConversionValueRulesError =
@@ -25442,6 +25657,8 @@ export const mutateCustomersConversionValueRules: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersConversionValueRules",
 }));
 
 export type MutateCustomersConversionValueRuleSetsError =
@@ -25466,6 +25683,8 @@ export const mutateCustomersConversionValueRuleSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersConversionValueRuleSets",
 }));
 
 export type MutateCustomersCustomAudiencesError =
@@ -25490,6 +25709,8 @@ export const mutateCustomersCustomAudiences: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomAudiences",
 }));
 
 export type MutateCustomersCustomConversionGoalsError =
@@ -25514,6 +25735,8 @@ export const mutateCustomersCustomConversionGoals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomConversionGoals",
 }));
 
 export type MutateCustomersCustomerAssetsError =
@@ -25538,6 +25761,8 @@ export const mutateCustomersCustomerAssets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerAssets",
 }));
 
 export type MutateCustomersCustomerAssetSetsError =
@@ -25562,6 +25787,8 @@ export const mutateCustomersCustomerAssetSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerAssetSets",
 }));
 
 export type MutateCustomersCustomerClientLinksError =
@@ -25586,6 +25813,8 @@ export const mutateCustomersCustomerClientLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerClientLinks",
 }));
 
 export type MutateCustomersCustomerConversionGoalsError =
@@ -25610,6 +25839,8 @@ export const mutateCustomersCustomerConversionGoals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerConversionGoals",
 }));
 
 export type MutateCustomersCustomerCustomizersError =
@@ -25634,6 +25865,8 @@ export const mutateCustomersCustomerCustomizers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerCustomizers",
 }));
 
 export type MutateCustomersCustomerLabelsError =
@@ -25658,6 +25891,8 @@ export const mutateCustomersCustomerLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerLabels",
 }));
 
 export type MutateCustomersCustomerManagerLinksError =
@@ -25682,6 +25917,8 @@ export const mutateCustomersCustomerManagerLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerManagerLinks",
 }));
 
 export type MutateCustomersCustomerNegativeCriteriaError =
@@ -25706,6 +25943,8 @@ export const mutateCustomersCustomerNegativeCriteria: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerNegativeCriteria",
 }));
 
 export type MutateCustomersCustomerSkAdNetworkConversionValueSchemasError =
@@ -25734,6 +25973,8 @@ export const mutateCustomersCustomerSkAdNetworkConversionValueSchemas: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerSkAdNetworkConversionValueSchemas",
 }));
 
 export type MutateCustomersCustomerUserAccessesError =
@@ -25758,6 +25999,8 @@ export const mutateCustomersCustomerUserAccesses: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerUserAccesses",
 }));
 
 export type MutateCustomersCustomerUserAccessInvitationsError =
@@ -25782,6 +26025,8 @@ export const mutateCustomersCustomerUserAccessInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomerUserAccessInvitations",
 }));
 
 export type MutateCustomersCustomInterestsError =
@@ -25806,6 +26051,8 @@ export const mutateCustomersCustomInterests: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomInterests",
 }));
 
 export type MutateCustomersCustomizerAttributesError =
@@ -25830,6 +26077,8 @@ export const mutateCustomersCustomizerAttributes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersCustomizerAttributes",
 }));
 
 export type MutateCustomersExperimentArmsError =
@@ -25854,6 +26103,8 @@ export const mutateCustomersExperimentArms: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersExperimentArms",
 }));
 
 export type MutateCustomersExperimentsError =
@@ -25878,6 +26129,8 @@ export const mutateCustomersExperiments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersExperiments",
 }));
 
 export type MutateCustomersGoalsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -25897,6 +26150,8 @@ export const mutateCustomersGoals: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersGoals",
 }));
 
 export type MutateCustomersKeywordPlanAdGroupKeywordsError =
@@ -25921,6 +26176,8 @@ export const mutateCustomersKeywordPlanAdGroupKeywords: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersKeywordPlanAdGroupKeywords",
 }));
 
 export type MutateCustomersKeywordPlanAdGroupsError =
@@ -25945,6 +26202,8 @@ export const mutateCustomersKeywordPlanAdGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersKeywordPlanAdGroups",
 }));
 
 export type MutateCustomersKeywordPlanCampaignKeywordsError =
@@ -25969,6 +26228,8 @@ export const mutateCustomersKeywordPlanCampaignKeywords: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersKeywordPlanCampaignKeywords",
 }));
 
 export type MutateCustomersKeywordPlanCampaignsError =
@@ -25993,6 +26254,8 @@ export const mutateCustomersKeywordPlanCampaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersKeywordPlanCampaigns",
 }));
 
 export type MutateCustomersKeywordPlansError =
@@ -26017,6 +26280,8 @@ export const mutateCustomersKeywordPlans: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersKeywordPlans",
 }));
 
 export type MutateCustomersLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -26036,6 +26301,8 @@ export const mutateCustomersLabels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersLabels",
 }));
 
 export type MutateCustomersRemarketingActionsError =
@@ -26060,6 +26327,8 @@ export const mutateCustomersRemarketingActions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersRemarketingActions",
 }));
 
 export type MutateCustomersSearchAds360Error =
@@ -26084,6 +26353,8 @@ export const mutateCustomersSearchAds360: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersSearchAds360",
 }));
 
 export type MutateCustomersSearchAds360CampaignsError =
@@ -26108,6 +26379,8 @@ export const mutateCustomersSearchAds360Campaigns: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersSearchAds360Campaigns",
 }));
 
 export type MutateCustomersSharedCriteriaError =
@@ -26132,6 +26405,8 @@ export const mutateCustomersSharedCriteria: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersSharedCriteria",
 }));
 
 export type MutateCustomersSharedSetsError =
@@ -26156,6 +26431,8 @@ export const mutateCustomersSharedSets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersSharedSets",
 }));
 
 export type MutateCustomersSmartCampaignSettingsError =
@@ -26180,6 +26457,8 @@ export const mutateCustomersSmartCampaignSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersSmartCampaignSettings",
 }));
 
 export type MutateCustomersUserListCustomerTypesError =
@@ -26204,6 +26483,8 @@ export const mutateCustomersUserListCustomerTypes: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersUserListCustomerTypes",
 }));
 
 export type MutateCustomersUserListsError =
@@ -26228,6 +26509,8 @@ export const mutateCustomersUserLists: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateCustomersUserLists",
 }));
 
 export type MutateRecommendationSubscriptionCustomersRecommendationSubscriptionsError =
@@ -26256,6 +26539,8 @@ export const mutateRecommendationSubscriptionCustomersRecommendationSubscription
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MutateRecommendationSubscriptionCustomersRecommendationSubscriptions",
 }));
 
 export type PromoteCustomersCampaignDraftsError =
@@ -26276,6 +26561,8 @@ export const promoteCustomersCampaignDrafts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteCustomersCampaignDrafts",
 }));
 
 export type PromoteExperimentCustomersExperimentsError =
@@ -26296,6 +26583,8 @@ export const promoteExperimentCustomersExperiments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteExperimentCustomersExperiments",
 }));
 
 export type ProvideLeadFeedbackCustomersLocalServicesLeadsError =
@@ -26324,6 +26613,8 @@ export const provideLeadFeedbackCustomersLocalServicesLeads: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvideLeadFeedbackCustomersLocalServicesLeads",
 }));
 
 export type RegenerateShareableLinkIdCustomersThirdPartyAppAnalyticsLinksError =
@@ -26352,6 +26643,8 @@ export const regenerateShareableLinkIdCustomersThirdPartyAppAnalyticsLinks: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateShareableLinkIdCustomersThirdPartyAppAnalyticsLinks",
 }));
 
 export type RemoveAutomaticallyCreatedAssetsCustomersAdGroupAdsError =
@@ -26376,6 +26669,8 @@ export const removeAutomaticallyCreatedAssetsCustomersAdGroupAds: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAutomaticallyCreatedAssetsCustomersAdGroupAds",
 }));
 
 export type RemoveCampaignAutomaticallyCreatedAssetCustomersError =
@@ -26404,6 +26699,8 @@ export const removeCampaignAutomaticallyCreatedAssetCustomers: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCampaignAutomaticallyCreatedAssetCustomers",
 }));
 
 export type RemoveCustomersDataLinksError =
@@ -26428,6 +26725,8 @@ export const removeCustomersDataLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCustomersDataLinks",
 }));
 
 export type RemoveCustomersProductLinkInvitationsError =
@@ -26452,6 +26751,8 @@ export const removeCustomersProductLinkInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCustomersProductLinkInvitations",
 }));
 
 export type RemoveCustomersProductLinksError =
@@ -26476,6 +26777,8 @@ export const removeCustomersProductLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCustomersProductLinks",
 }));
 
 export type RunCustomersBatchJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -26491,6 +26794,8 @@ export const runCustomersBatchJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunCustomersBatchJobs",
 }));
 
 export type RunCustomersOfflineUserDataJobsError =
@@ -26511,6 +26816,8 @@ export const runCustomersOfflineUserDataJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunCustomersOfflineUserDataJobs",
 }));
 
 export type ScheduleExperimentCustomersExperimentsError =
@@ -26531,6 +26838,8 @@ export const scheduleExperimentCustomersExperiments: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduleExperimentCustomersExperiments",
 }));
 
 export type SearchAudienceInsightsAttributesCustomersError =
@@ -26555,6 +26864,8 @@ export const searchAudienceInsightsAttributesCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAudienceInsightsAttributesCustomers",
 }));
 
 export type SearchCustomersSearchAds360Error =
@@ -26579,6 +26890,8 @@ export const searchCustomersSearchAds360: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchCustomersSearchAds360",
 }));
 
 export type SearchSearchAds360FieldsError =
@@ -26603,6 +26916,8 @@ export const searchSearchAds360Fields: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSearchAds360Fields",
 }));
 
 export type StartIdentityVerificationCustomersError =
@@ -26623,6 +26938,8 @@ export const startIdentityVerificationCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartIdentityVerificationCustomers",
 }));
 
 export type SuggestGeoTargetConstantsError =
@@ -26647,6 +26964,8 @@ export const suggestGeoTargetConstants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuggestGeoTargetConstants",
 }));
 
 export type SuggestKeywordThemeConstantsError =
@@ -26671,6 +26990,8 @@ export const suggestKeywordThemeConstants: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuggestKeywordThemeConstants",
 }));
 
 export type SuggestKeywordThemesCustomersError =
@@ -26695,6 +27016,8 @@ export const suggestKeywordThemesCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuggestKeywordThemesCustomers",
 }));
 
 export type SuggestSmartCampaignAdCustomersError =
@@ -26719,6 +27042,8 @@ export const suggestSmartCampaignAdCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuggestSmartCampaignAdCustomers",
 }));
 
 export type SuggestSmartCampaignBudgetOptionsCustomersError =
@@ -26743,6 +27068,8 @@ export const suggestSmartCampaignBudgetOptionsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuggestSmartCampaignBudgetOptionsCustomers",
 }));
 
 export type SuggestTravelAssetsCustomersError =
@@ -26767,6 +27094,8 @@ export const suggestTravelAssetsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuggestTravelAssetsCustomers",
 }));
 
 export type UpdateCustomersDataLinksError =
@@ -26791,6 +27120,8 @@ export const updateCustomersDataLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomersDataLinks",
 }));
 
 export type UpdateCustomersProductLinkInvitationsError =
@@ -26815,6 +27146,8 @@ export const updateCustomersProductLinkInvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomersProductLinkInvitations",
 }));
 
 export type UploadCallConversionsCustomersError =
@@ -26839,6 +27172,8 @@ export const uploadCallConversionsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadCallConversionsCustomers",
 }));
 
 export type UploadClickConversionsCustomersError =
@@ -26863,6 +27198,8 @@ export const uploadClickConversionsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadClickConversionsCustomers",
 }));
 
 export type UploadConversionAdjustmentsCustomersError =
@@ -26887,6 +27224,8 @@ export const uploadConversionAdjustmentsCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadConversionAdjustmentsCustomers",
 }));
 
 export type UploadUserDataCustomersError =
@@ -26911,6 +27250,8 @@ export const uploadUserDataCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadUserDataCustomers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

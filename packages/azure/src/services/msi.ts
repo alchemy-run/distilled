@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ManagedIdentity" },
+  prefix: "Msi",
+  service: "Msi",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface DeleteFederatedIdentityCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -361,6 +382,8 @@ export const DeleteFederatedIdentityCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFederatedIdentityCredentials",
 }));
 
 export type DeleteUserAssignedIdentityError = AzureOpError;
@@ -376,6 +399,8 @@ export const DeleteUserAssignedIdentity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserAssignedIdentity",
 }));
 
 export type FederatedIdentityCredentialsCreateOrUpdateError = AzureOpError;
@@ -391,6 +416,8 @@ export const FederatedIdentityCredentialsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FederatedIdentityCredentialsCreateOrUpdate",
 }));
 
 export type GetFederatedIdentityCredentialsError = AzureOpError;
@@ -406,6 +433,8 @@ export const GetFederatedIdentityCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFederatedIdentityCredentials",
 }));
 
 export type GetSystemAssignedIdentityByScopeError = AzureOpError;
@@ -421,6 +450,13 @@ export const GetSystemAssignedIdentityByScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSystemAssignedIdentityByScope",
+    attributes: {
+      "url.template": "/{scope}/providers/Microsoft.ManagedIdentity/identities/default",
+    },
+  },
 }));
 
 export type GetUserAssignedIdentityError = AzureOpError;
@@ -436,6 +472,8 @@ export const GetUserAssignedIdentity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAssignedIdentity",
 }));
 
 export type ListFederatedIdentityCredentialsError = AzureOpError;
@@ -451,6 +489,8 @@ export const ListFederatedIdentityCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFederatedIdentityCredentials",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -466,6 +506,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListUserAssignedIdentityByResourceGroupError = AzureOpError;
@@ -481,6 +523,8 @@ export const ListUserAssignedIdentityByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserAssignedIdentityByResourceGroup",
 }));
 
 export type ListUserAssignedIdentityBySubscriptionError = AzureOpError;
@@ -496,6 +540,8 @@ export const ListUserAssignedIdentityBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUserAssignedIdentityBySubscription",
 }));
 
 export type UpdateUserAssignedIdentityError = AzureOpError;
@@ -511,6 +557,8 @@ export const UpdateUserAssignedIdentity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserAssignedIdentity",
 }));
 
 export type UserAssignedIdentitiesCreateOrUpdateError = AzureOpError;
@@ -526,6 +574,8 @@ export const UserAssignedIdentitiesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserAssignedIdentitiesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

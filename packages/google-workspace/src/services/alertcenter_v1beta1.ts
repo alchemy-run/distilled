@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Alertcenter",
+  service: "alertcenter",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -303,6 +316,8 @@ export const batchDeleteAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchDeleteAlerts",
 }));
 
 export type BatchUndeleteAlertsError =
@@ -323,6 +338,8 @@ export const batchUndeleteAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUndeleteAlerts",
 }));
 
 export type CreateAlertsFeedbackError =
@@ -343,6 +360,8 @@ export const createAlertsFeedback: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAlertsFeedback",
 }));
 
 export type DeleteAlertsError =
@@ -363,6 +382,8 @@ export const deleteAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlerts",
 }));
 
 export type GetAlertsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -378,6 +399,8 @@ export const getAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlerts",
 }));
 
 export type GetMetadataAlertsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -393,6 +416,8 @@ export const getMetadataAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadataAlerts",
 }));
 
 export type GetSettingsV1beta1Error = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -408,6 +433,8 @@ export const getSettingsV1beta1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingsV1beta1",
 }));
 
 export type ListAlertsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -424,6 +451,8 @@ export const listAlerts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlerts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -440,6 +469,8 @@ export const listAlertsFeedback: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertsFeedback",
 }));
 
 export type UndeleteAlertsError =
@@ -460,6 +491,8 @@ export const undeleteAlerts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteAlerts",
 }));
 
 export type UpdateSettingsV1beta1Error =
@@ -480,6 +513,8 @@ export const updateSettingsV1beta1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSettingsV1beta1",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

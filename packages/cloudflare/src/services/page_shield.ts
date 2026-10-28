@@ -48,6 +48,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   useConnectionUrlPath: "use_connection_url_path",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "PageShield",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -570,6 +584,8 @@ export const createPolicy: API.OperationMethod<
   errors: [PolicyQuotaExceeded, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicy",
 }));
 
 export type DeletePolicyError = PolicyNotFound | Forbidden | CloudflareOpError;
@@ -585,6 +601,8 @@ export const deletePolicy: API.OperationMethod<
   errors: [PolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type GetConnectionError = CloudflareOpError;
@@ -600,6 +618,8 @@ export const getConnection: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetCookyError = CloudflareOpError;
@@ -615,6 +635,8 @@ export const getCooky: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCooky",
 }));
 
 export type GetPageShieldError = Forbidden | CloudflareOpError;
@@ -630,6 +652,8 @@ export const getPageShield: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPageShield",
 }));
 
 export type GetPolicyError = PolicyNotFound | Forbidden | CloudflareOpError;
@@ -645,6 +669,8 @@ export const getPolicy: API.OperationMethod<
   errors: [PolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetScriptError = CloudflareOpError;
@@ -660,6 +686,8 @@ export const getScript: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScript",
 }));
 
 export type ListConnectionsError = CloudflareOpError;
@@ -677,6 +705,8 @@ export const listConnections: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConnections",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -697,6 +727,8 @@ export const listCookies: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCookies",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -717,6 +749,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPolicies",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -737,6 +771,8 @@ export const listScripts: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListScripts",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -755,6 +791,8 @@ export const putPageShield: API.OperationMethod<
   errors: [NotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPageShield",
 }));
 
 export type UpdatePolicyError = PolicyNotFound | Forbidden | CloudflareOpError;
@@ -770,6 +808,8 @@ export const updatePolicy: API.OperationMethod<
   errors: [PolicyNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

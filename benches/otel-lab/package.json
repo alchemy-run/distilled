@@ -1,0 +1,27 @@
+{
+  "name": "@distilled.cloud/otel-lab",
+  "private": true,
+  "description": "Brainstorm lab: what distilled's errors, stack traces and spans look like in each telemetry mode. Offline (mocked HTTP).",
+  "type": "module",
+  "scripts": {
+    "lab": "node --experimental-transform-types --no-warnings --conditions=bun lab.ts"
+  },
+  "dependencies": {
+    "@distilled.cloud/aws": "workspace:*",
+    "@distilled.cloud/azure": "workspace:*",
+    "@distilled.cloud/cloudflare": "workspace:*",
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/fly-io": "workspace:*",
+    "@distilled.cloud/gcp": "workspace:*",
+    "@distilled.cloud/github": "workspace:*",
+    "@distilled.cloud/neon": "workspace:*",
+    "@distilled.cloud/railway": "workspace:*",
+    "@distilled.cloud/slack": "workspace:*",
+    "@distilled.cloud/stripe": "workspace:*",
+    "@distilled.cloud/vercel": "workspace:*",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  }
+}

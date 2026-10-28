@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://translate.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Translate",
+  service: "Translate",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -580,6 +596,8 @@ export const createParallelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParallelData",
+  telemetry: TELEMETRY,
+  span: "CreateParallelData",
 }));
 
 export type DeleteParallelDataError =
@@ -608,6 +626,8 @@ export const deleteParallelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParallelData",
+  telemetry: TELEMETRY,
+  span: "DeleteParallelData",
 }));
 
 export type DeleteTerminologyError =
@@ -636,6 +656,8 @@ export const deleteTerminology: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTerminology",
+  telemetry: TELEMETRY,
+  span: "DeleteTerminology",
 }));
 
 export type DescribeTextTranslationJobError =
@@ -659,6 +681,8 @@ export const describeTextTranslationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTextTranslationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeTextTranslationJob",
 }));
 
 export type GetParallelDataError =
@@ -687,6 +711,8 @@ export const getParallelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParallelData",
+  telemetry: TELEMETRY,
+  span: "GetParallelData",
 }));
 
 export type GetTerminologyError =
@@ -715,6 +741,8 @@ export const getTerminology: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTerminology",
+  telemetry: TELEMETRY,
+  span: "GetTerminology",
 }));
 
 export type ImportTerminologyError =
@@ -755,6 +783,8 @@ export const importTerminology: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportTerminology",
+  telemetry: TELEMETRY,
+  span: "ImportTerminology",
 }));
 
 export type ListLanguagesError =
@@ -789,6 +819,8 @@ export const listLanguages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLanguages",
 })) as any;
 
 export type ListParallelDataError =
@@ -817,6 +849,8 @@ export const listParallelData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListParallelData",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -841,6 +875,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTerminologiesError =
@@ -869,6 +905,8 @@ export const listTerminologies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTerminologies",
 })) as any;
 
 export type ListTextTranslationJobsError =
@@ -903,6 +941,8 @@ export const listTextTranslationJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTextTranslationJobs",
 })) as any;
 
 export type StartTextTranslationJobError =
@@ -943,6 +983,8 @@ export const startTextTranslationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTextTranslationJob",
+  telemetry: TELEMETRY,
+  span: "StartTextTranslationJob",
 }));
 
 export type StopTextTranslationJobError =
@@ -973,6 +1015,8 @@ export const stopTextTranslationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTextTranslationJob",
+  telemetry: TELEMETRY,
+  span: "StopTextTranslationJob",
 }));
 
 export type TagResourceError =
@@ -1006,6 +1050,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TranslateDocumentError =
@@ -1049,6 +1095,8 @@ export const translateDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TranslateDocument",
+  telemetry: TELEMETRY,
+  span: "TranslateDocument",
 }));
 
 export type TranslateTextError =
@@ -1086,6 +1134,8 @@ export const translateText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TranslateText",
+  telemetry: TELEMETRY,
+  span: "TranslateText",
 }));
 
 export type UntagResourceError =
@@ -1116,6 +1166,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateParallelDataError =
@@ -1153,6 +1205,8 @@ export const updateParallelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParallelData",
+  telemetry: TELEMETRY,
+  span: "UpdateParallelData",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

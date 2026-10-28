@@ -278,6 +278,35 @@ header {
   border-left: 1px solid var(--line-2);
 }
 
+/* Page tabs: Benchmarks / Repo size / Telemetry */
+@media (max-width: 560px) {
+  .brand .eyebrow {
+    display: none;
+  }
+  .bar {
+    gap: 12px;
+  }
+}
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+}
+.tabs a {
+  font-size: 13px;
+  color: var(--fg-3);
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.tabs a.on {
+  color: var(--fg);
+  background: var(--bg-3);
+}
+.tabs a:hover {
+  text-decoration: none;
+  color: var(--fg);
+}
+
 .theme-toggle {
   display: grid;
   place-items: center;

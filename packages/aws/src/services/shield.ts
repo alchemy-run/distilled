@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -111,6 +112,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Shield",
+  service: "Shield",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
@@ -641,6 +657,8 @@ export const associateDRTLogBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDRTLogBucket",
+  telemetry: TELEMETRY,
+  span: "AssociateDRTLogBucket",
 }));
 
 export type AssociateDRTRoleError =
@@ -684,6 +702,8 @@ export const associateDRTRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDRTRole",
+  telemetry: TELEMETRY,
+  span: "AssociateDRTRole",
 }));
 
 export type AssociateHealthCheckError =
@@ -718,6 +738,8 @@ export const associateHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateHealthCheck",
+  telemetry: TELEMETRY,
+  span: "AssociateHealthCheck",
 }));
 
 export type AssociateProactiveEngagementDetailsError =
@@ -754,6 +776,8 @@ export const associateProactiveEngagementDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProactiveEngagementDetails",
+  telemetry: TELEMETRY,
+  span: "AssociateProactiveEngagementDetails",
 }));
 
 export type CreateProtectionError =
@@ -798,6 +822,8 @@ export const createProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProtection",
+  telemetry: TELEMETRY,
+  span: "CreateProtection",
 }));
 
 export type CreateProtectionGroupError =
@@ -832,6 +858,8 @@ export const createProtectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProtectionGroup",
+  telemetry: TELEMETRY,
+  span: "CreateProtectionGroup",
 }));
 
 export type CreateSubscriptionError =
@@ -858,6 +886,8 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateSubscription",
 }));
 
 export type DeleteProtectionError =
@@ -886,6 +916,8 @@ export const deleteProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtection",
+  telemetry: TELEMETRY,
+  span: "DeleteProtection",
 }));
 
 export type DeleteProtectionGroupError =
@@ -914,6 +946,8 @@ export const deleteProtectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtectionGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteProtectionGroup",
 }));
 
 export type DeleteSubscriptionError =
@@ -942,6 +976,8 @@ export const deleteSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteSubscription",
 }));
 
 export type DescribeAttackError = AccessDeniedException | InternalErrorException | CommonErrors;
@@ -960,6 +996,8 @@ export const describeAttack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttack",
+  telemetry: TELEMETRY,
+  span: "DescribeAttack",
 }));
 
 export type DescribeAttackStatisticsError = InternalErrorException | CommonErrors;
@@ -982,6 +1020,8 @@ export const describeAttackStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttackStatistics",
+  telemetry: TELEMETRY,
+  span: "DescribeAttackStatistics",
 }));
 
 export type DescribeDRTAccessError =
@@ -1003,6 +1043,8 @@ export const describeDRTAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDRTAccess",
+  telemetry: TELEMETRY,
+  span: "DescribeDRTAccess",
 }));
 
 export type DescribeEmergencyContactSettingsError =
@@ -1024,6 +1066,8 @@ export const describeEmergencyContactSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEmergencyContactSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeEmergencyContactSettings",
 }));
 
 export type DescribeProtectionError =
@@ -1052,6 +1096,8 @@ export const describeProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProtection",
+  telemetry: TELEMETRY,
+  span: "DescribeProtection",
 }));
 
 export type DescribeProtectionGroupError =
@@ -1074,6 +1120,8 @@ export const describeProtectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProtectionGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeProtectionGroup",
 }));
 
 export type DescribeSubscriptionError =
@@ -1096,6 +1144,8 @@ export const describeSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSubscription",
+  telemetry: TELEMETRY,
+  span: "DescribeSubscription",
 }));
 
 export type DisableApplicationLayerAutomaticResponseError =
@@ -1127,6 +1177,8 @@ export const disableApplicationLayerAutomaticResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableApplicationLayerAutomaticResponse",
+  telemetry: TELEMETRY,
+  span: "DisableApplicationLayerAutomaticResponse",
 }));
 
 export type DisableProactiveEngagementError =
@@ -1157,6 +1209,8 @@ export const disableProactiveEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableProactiveEngagement",
+  telemetry: TELEMETRY,
+  span: "DisableProactiveEngagement",
 }));
 
 export type DisassociateDRTLogBucketError =
@@ -1189,6 +1243,8 @@ export const disassociateDRTLogBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDRTLogBucket",
+  telemetry: TELEMETRY,
+  span: "DisassociateDRTLogBucket",
 }));
 
 export type DisassociateDRTRoleError =
@@ -1217,6 +1273,8 @@ export const disassociateDRTRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDRTRole",
+  telemetry: TELEMETRY,
+  span: "DisassociateDRTRole",
 }));
 
 export type DisassociateHealthCheckError =
@@ -1249,6 +1307,8 @@ export const disassociateHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateHealthCheck",
+  telemetry: TELEMETRY,
+  span: "DisassociateHealthCheck",
 }));
 
 export type EnableApplicationLayerAutomaticResponseError =
@@ -1295,6 +1355,8 @@ export const enableApplicationLayerAutomaticResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableApplicationLayerAutomaticResponse",
+  telemetry: TELEMETRY,
+  span: "EnableApplicationLayerAutomaticResponse",
 }));
 
 export type EnableProactiveEngagementError =
@@ -1325,6 +1387,8 @@ export const enableProactiveEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableProactiveEngagement",
+  telemetry: TELEMETRY,
+  span: "EnableProactiveEngagement",
 }));
 
 export type GetSubscriptionStateError = InternalErrorException | CommonErrors;
@@ -1343,6 +1407,8 @@ export const getSubscriptionState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionState",
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionState",
 }));
 
 export type ListAttacksError =
@@ -1373,6 +1439,8 @@ export const listAttacks: API.PaginatedOperationMethod<
     items: "AttackSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttacks",
 })) as any;
 
 export type ListProtectionGroupsError =
@@ -1408,6 +1476,8 @@ export const listProtectionGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtectionGroups",
 })) as any;
 
 export type ListProtectionsError =
@@ -1444,6 +1514,8 @@ export const listProtections: API.PaginatedOperationMethod<
     items: "Protections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtections",
 })) as any;
 
 export type ListResourcesInProtectionGroupError =
@@ -1472,6 +1544,8 @@ export const listResourcesInProtectionGroup: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcesInProtectionGroup",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1500,6 +1574,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1530,6 +1606,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1560,6 +1638,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationLayerAutomaticResponseError =
@@ -1590,6 +1670,8 @@ export const updateApplicationLayerAutomaticResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationLayerAutomaticResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationLayerAutomaticResponse",
 }));
 
 export type UpdateEmergencyContactSettingsError =
@@ -1618,6 +1700,8 @@ export const updateEmergencyContactSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmergencyContactSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateEmergencyContactSettings",
 }));
 
 export type UpdateProtectionGroupError =
@@ -1648,6 +1732,8 @@ export const updateProtectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectionGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateProtectionGroup",
 }));
 
 export type UpdateSubscriptionError =
@@ -1683,6 +1769,8 @@ export const updateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscription",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

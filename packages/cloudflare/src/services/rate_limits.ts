@@ -24,6 +24,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "RateLimits",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type CreateRequestActionMode =
   | "simulate"
   | "ban"
@@ -198,6 +212,8 @@ export const createRateLimit: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRateLimit",
 }));
 
 export type DeleteRateLimitError = CloudflareOpError;
@@ -213,6 +229,8 @@ export const deleteRateLimit: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRateLimit",
 }));
 
 export type EditRateLimitError = CloudflareOpError;
@@ -228,6 +246,8 @@ export const editRateLimit: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditRateLimit",
 }));
 
 export type GetRateLimitError = CloudflareOpError;
@@ -243,6 +263,8 @@ export const getRateLimit: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRateLimit",
 }));
 
 export type ListRateLimitsError = CloudflareOpError;
@@ -258,6 +280,8 @@ export const listRateLimits: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRateLimits",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

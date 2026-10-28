@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "TaskRuns",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1002,6 +1015,8 @@ export const createTasksRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRun",
 }));
 
 export type CreateTasksRunsAnalysisActivityError =
@@ -1021,6 +1036,8 @@ export const createTasksRunsAnalysisActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsAnalysisActivity",
 }));
 
 export type CreateTasksRunsAnalyzeError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1036,6 +1053,8 @@ export const createTasksRunsAnalyze: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsAnalyze",
 }));
 
 export type CreateTasksRunsAppendLogError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1051,6 +1070,8 @@ export const createTasksRunsAppendLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsAppendLog",
 }));
 
 export type CreateTasksRunsArtifactError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1066,6 +1087,8 @@ export const createTasksRunsArtifact: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsArtifact",
 }));
 
 export type CreateTasksRunsArtifactsDismissError = NotFound | PosthogOpError;
@@ -1081,6 +1104,8 @@ export const createTasksRunsArtifactsDismiss: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsArtifactsDismiss",
 }));
 
 export type CreateTasksRunsArtifactsPresignError =
@@ -1100,6 +1125,8 @@ export const createTasksRunsArtifactsPresign: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsArtifactsPresign",
 }));
 
 export type CreateTasksRunsArtifactsReferenceError = NotFound | PosthogOpError;
@@ -1115,6 +1142,8 @@ export const createTasksRunsArtifactsReference: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsArtifactsReference",
 }));
 
 export type CreateTasksRunsClearConversationError = NotFound | Conflict | PosthogOpError;
@@ -1130,6 +1159,8 @@ export const createTasksRunsClearConversation: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsClearConversation",
 }));
 
 export type CreateTasksRunsCommandError =
@@ -1150,6 +1181,8 @@ export const createTasksRunsCommand: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsCommand",
 }));
 
 export type CreateTasksRunsPeersMessageError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1165,6 +1198,8 @@ export const createTasksRunsPeersMessage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsPeersMessage",
 }));
 
 export type CreateTasksRunsRelayMessageError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1180,6 +1215,8 @@ export const createTasksRunsRelayMessage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsRelayMessage",
 }));
 
 export type CreateTasksRunsSubscriptionTokenError =
@@ -1200,6 +1237,8 @@ export const createTasksRunsSubscriptionToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsSubscriptionToken",
 }));
 
 export type CreateTasksRunsTaskSessionSyncError =
@@ -1220,6 +1259,8 @@ export const createTasksRunsTaskSessionSync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksRunsTaskSessionSync",
 }));
 
 export type GetTasksRunError = Forbidden | NotFound | PosthogOpError;
@@ -1235,6 +1276,8 @@ export const getTasksRun: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRun",
 }));
 
 export type GetTasksRunsConnectionTokenError = Forbidden | NotFound | PosthogOpError;
@@ -1250,6 +1293,8 @@ export const getTasksRunsConnectionToken: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsConnectionToken",
 }));
 
 export type GetTasksRunsLogError = Forbidden | NotFound | PosthogOpError;
@@ -1265,6 +1310,8 @@ export const getTasksRunsLog: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsLog",
 }));
 
 export type GetTasksRunsPeerError = Forbidden | NotFound | PosthogOpError;
@@ -1280,6 +1327,8 @@ export const getTasksRunsPeer: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsPeer",
 }));
 
 export type GetTasksRunsPreviewError = Forbidden | NotFound | PosthogOpError;
@@ -1295,6 +1344,8 @@ export const getTasksRunsPreview: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsPreview",
 }));
 
 export type GetTasksRunsSessionLogError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1310,6 +1361,8 @@ export const getTasksRunsSessionLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsSessionLog",
 }));
 
 export type GetTasksRunsStreamError = Forbidden | NotFound | PosthogOpError;
@@ -1325,6 +1378,8 @@ export const getTasksRunsStream: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsStream",
 }));
 
 export type GetTasksRunsStreamTokenError = NotFound | PosthogOpError;
@@ -1340,6 +1395,8 @@ export const getTasksRunsStreamToken: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsStreamToken",
 }));
 
 export type GetTasksRunsTaskSessionError = NotFound | PosthogOpError;
@@ -1355,6 +1412,8 @@ export const getTasksRunsTaskSession: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsTaskSession",
 }));
 
 export type ListTasksRunsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1370,6 +1429,8 @@ export const listTasksRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasksRuns",
 }));
 
 export type TasksRunsArtifactsDownloadCreateError =
@@ -1389,6 +1450,8 @@ export const tasksRunsArtifactsDownloadCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksRunsArtifactsDownloadCreate",
 }));
 
 export type TasksRunsArtifactsDownloadRetrieveError = BadRequest | NotFound | PosthogOpError;
@@ -1404,6 +1467,8 @@ export const tasksRunsArtifactsDownloadRetrieve: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksRunsArtifactsDownloadRetrieve",
 }));
 
 export type TasksRunsArtifactsFinalizeUploadCreateError =
@@ -1423,6 +1488,8 @@ export const tasksRunsArtifactsFinalizeUploadCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksRunsArtifactsFinalizeUploadCreate",
 }));
 
 export type TasksRunsArtifactsPrepareUploadCreateError =
@@ -1442,6 +1509,8 @@ export const tasksRunsArtifactsPrepareUploadCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksRunsArtifactsPrepareUploadCreate",
 }));
 
 export type TasksRunsCancelCreateError = BadRequest | NotFound | PosthogOpError;
@@ -1457,6 +1526,8 @@ export const tasksRunsCancelCreate: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksRunsCancelCreate",
 }));
 
 export type TasksRunsResumeInCloudCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1472,6 +1543,8 @@ export const tasksRunsResumeInCloudCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksRunsResumeInCloudCreate",
 }));
 
 export type TasksRunsStartCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1487,6 +1560,8 @@ export const tasksRunsStartCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TasksRunsStartCreate",
 }));
 
 export type UpdateTasksRunsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1502,6 +1577,8 @@ export const updateTasksRunsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTasksRunsPartial",
 }));
 
 export type UpdateTasksRunsSetOutputPartialError =
@@ -1521,6 +1598,8 @@ export const updateTasksRunsSetOutputPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTasksRunsSetOutputPartial",
 }));
 
 export type UpdateTasksRunsSetSummaryPartialError = NotFound | PosthogOpError;
@@ -1536,6 +1615,8 @@ export const updateTasksRunsSetSummaryPartial: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTasksRunsSetSummaryPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

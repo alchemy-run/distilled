@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -83,6 +84,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticloadbalancing.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElasticLoadBalancing",
+  service: "ElasticLoadBalancing",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessPointNotFoundException
   extends /*@__PURE__*/ S.TaggedError<AccessPointNotFoundException>()(
@@ -711,6 +727,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type ApplySecurityGroupsToLoadBalancerError =
@@ -740,6 +758,8 @@ export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplySecurityGroupsToLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "ApplySecurityGroupsToLoadBalancer",
 }));
 
 export type AttachLoadBalancerToSubnetsError =
@@ -772,6 +792,8 @@ export const attachLoadBalancerToSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerToSubnets",
+  telemetry: TELEMETRY,
+  span: "AttachLoadBalancerToSubnets",
 }));
 
 export type ConfigureHealthCheckError = AccessPointNotFoundException | CommonErrors;
@@ -793,6 +815,8 @@ export const configureHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureHealthCheck",
+  telemetry: TELEMETRY,
+  span: "ConfigureHealthCheck",
 }));
 
 export type CreateAppCookieStickinessPolicyError =
@@ -832,6 +856,8 @@ export const createAppCookieStickinessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppCookieStickinessPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateAppCookieStickinessPolicy",
 }));
 
 export type CreateLBCookieStickinessPolicyError =
@@ -868,6 +894,8 @@ export const createLBCookieStickinessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLBCookieStickinessPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLBCookieStickinessPolicy",
 }));
 
 export type CreateLoadBalancerError =
@@ -926,6 +954,8 @@ export const createLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancer",
 }));
 
 export type CreateLoadBalancerListenersError =
@@ -959,6 +989,8 @@ export const createLoadBalancerListeners: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancerListeners",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancerListeners",
 }));
 
 export type CreateLoadBalancerPolicyError =
@@ -991,6 +1023,8 @@ export const createLoadBalancerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancerPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancerPolicy",
 }));
 
 export type DeleteLoadBalancerError = CommonErrors;
@@ -1014,6 +1048,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancer",
 }));
 
 export type DeleteLoadBalancerListenersError = AccessPointNotFoundException | CommonErrors;
@@ -1032,6 +1068,8 @@ export const deleteLoadBalancerListeners: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancerListeners",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancerListeners",
 }));
 
 export type DeleteLoadBalancerPolicyError =
@@ -1053,6 +1091,8 @@ export const deleteLoadBalancerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancerPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancerPolicy",
 }));
 
 export type DeregisterInstancesFromLoadBalancerError =
@@ -1079,6 +1119,8 @@ export const deregisterInstancesFromLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterInstancesFromLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DeregisterInstancesFromLoadBalancer",
 }));
 
 export type DescribeAccountLimitsError = CommonErrors;
@@ -1100,6 +1142,8 @@ export const describeAccountLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountLimits",
 }));
 
 export type DescribeInstanceHealthError =
@@ -1121,6 +1165,8 @@ export const describeInstanceHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceHealth",
 }));
 
 export type DescribeLoadBalancerAttributesError =
@@ -1142,6 +1188,8 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerAttributes",
 }));
 
 export type DescribeLoadBalancerPoliciesError =
@@ -1168,6 +1216,8 @@ export const describeLoadBalancerPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerPolicies",
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerPolicies",
 }));
 
 export type DescribeLoadBalancerPolicyTypesError = PolicyTypeNotFoundException | CommonErrors;
@@ -1195,6 +1245,8 @@ export const describeLoadBalancerPolicyTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerPolicyTypes",
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancerPolicyTypes",
 }));
 
 export type DescribeLoadBalancersError =
@@ -1222,6 +1274,8 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
     outputToken: "NextMarker",
     items: "LoadBalancerDescriptions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLoadBalancers",
 })) as any;
 
 export type DescribeTagsError = AccessPointNotFoundException | CommonErrors;
@@ -1240,6 +1294,8 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 }));
 
 export type DetachLoadBalancerFromSubnetsError =
@@ -1265,6 +1321,8 @@ export const detachLoadBalancerFromSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancerFromSubnets",
+  telemetry: TELEMETRY,
+  span: "DetachLoadBalancerFromSubnets",
 }));
 
 export type DisableAvailabilityZonesForLoadBalancerError =
@@ -1297,6 +1355,8 @@ export const disableAvailabilityZonesForLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAvailabilityZonesForLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "DisableAvailabilityZonesForLoadBalancer",
 }));
 
 export type EnableAvailabilityZonesForLoadBalancerError =
@@ -1324,6 +1384,8 @@ export const enableAvailabilityZonesForLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAvailabilityZonesForLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "EnableAvailabilityZonesForLoadBalancer",
 }));
 
 export type ModifyLoadBalancerAttributesError =
@@ -1364,6 +1426,8 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLoadBalancerAttributes",
+  telemetry: TELEMETRY,
+  span: "ModifyLoadBalancerAttributes",
 }));
 
 export type RegisterInstancesWithLoadBalancerError =
@@ -1403,6 +1467,8 @@ export const registerInstancesWithLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterInstancesWithLoadBalancer",
+  telemetry: TELEMETRY,
+  span: "RegisterInstancesWithLoadBalancer",
 }));
 
 export type RemoveTagsError = AccessPointNotFoundException | CommonErrors;
@@ -1421,6 +1487,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type SetLoadBalancerListenerSSLCertificateError =
@@ -1455,6 +1523,8 @@ export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerListenerSSLCertificate",
+  telemetry: TELEMETRY,
+  span: "SetLoadBalancerListenerSSLCertificate",
 }));
 
 export type SetLoadBalancerPoliciesForBackendServerError =
@@ -1493,6 +1563,8 @@ export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerPoliciesForBackendServer",
+  telemetry: TELEMETRY,
+  span: "SetLoadBalancerPoliciesForBackendServer",
 }));
 
 export type SetLoadBalancerPoliciesOfListenerError =
@@ -1529,6 +1601,8 @@ export const setLoadBalancerPoliciesOfListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerPoliciesOfListener",
+  telemetry: TELEMETRY,
+  span: "SetLoadBalancerPoliciesOfListener",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

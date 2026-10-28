@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudasset" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudasset",
+  service: "cloudasset",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -661,6 +680,8 @@ export const batchGetAssetsHistoryOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetsHistoryOrganizations",
 }));
 
 export type BatchGetAssetsHistoryProjectsError = NotFound | Forbidden | GcpOpError;
@@ -676,6 +697,8 @@ export const batchGetAssetsHistoryProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetsHistoryProjects",
 }));
 
 export type ExportAssetsFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -691,6 +714,8 @@ export const exportAssetsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAssetsFolders",
 }));
 
 export type ExportAssetsOrganizationsError =
@@ -711,6 +736,8 @@ export const exportAssetsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAssetsOrganizations",
 }));
 
 export type ExportAssetsProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -726,6 +753,8 @@ export const exportAssetsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAssetsProjects",
 }));
 
 export type GetFoldersOperationsError = NotFound | Forbidden | GcpOpError;
@@ -741,6 +770,8 @@ export const getFoldersOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFoldersOperations",
 }));
 
 export type GetOrganizationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -756,6 +787,8 @@ export const getOrganizationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationsOperations",
 }));
 
 export type GetProjectsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -771,6 +804,8 @@ export const getProjectsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsOperations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

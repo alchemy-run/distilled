@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -81,6 +82,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudhsmv2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudHSMV2",
+  service: "CloudHSMV2",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CloudHsmAccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<CloudHsmAccessDeniedException>()(
@@ -422,6 +438,8 @@ export const copyBackupToRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyBackupToRegion",
+  telemetry: TELEMETRY,
+  span: "CopyBackupToRegion",
 }));
 
 export type CreateClusterError =
@@ -457,6 +475,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateHsmError =
@@ -490,6 +510,8 @@ export const createHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsm",
+  telemetry: TELEMETRY,
+  span: "CreateHsm",
 }));
 
 export type DeleteBackupError =
@@ -524,6 +546,8 @@ export const deleteBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteBackup",
 }));
 
 export type DeleteClusterError =
@@ -559,6 +583,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteHsmError =
@@ -593,6 +619,8 @@ export const deleteHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsm",
+  telemetry: TELEMETRY,
+  span: "DeleteHsm",
 }));
 
 export type DeleteResourcePolicyError =
@@ -627,6 +655,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DescribeBackupsError =
@@ -673,6 +703,8 @@ export const describeBackups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBackups",
 })) as any;
 
 export type DescribeClustersError =
@@ -717,6 +749,8 @@ export const describeClusters: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusters",
 })) as any;
 
 export type GetResourcePolicyError =
@@ -749,6 +783,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type InitializeClusterError =
@@ -784,6 +820,8 @@ export const initializeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeCluster",
+  telemetry: TELEMETRY,
+  span: "InitializeCluster",
 }));
 
 export type ListTagsError =
@@ -830,6 +868,8 @@ export const listTags: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 })) as any;
 
 export type ModifyBackupAttributesError =
@@ -862,6 +902,8 @@ export const modifyBackupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyBackupAttributes",
+  telemetry: TELEMETRY,
+  span: "ModifyBackupAttributes",
 }));
 
 export type ModifyClusterError =
@@ -894,6 +936,8 @@ export const modifyCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyCluster",
 }));
 
 export type PutResourcePolicyError =
@@ -940,6 +984,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RestoreBackupError =
@@ -974,6 +1020,8 @@ export const restoreBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreBackup",
+  telemetry: TELEMETRY,
+  span: "RestoreBackup",
 }));
 
 export type TagResourceError =
@@ -1010,6 +1058,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1044,6 +1094,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

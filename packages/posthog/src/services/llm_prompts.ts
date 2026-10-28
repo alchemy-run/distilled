@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "LlmPrompts",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -358,6 +371,8 @@ export const createLlmPrompt: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmPrompt",
 }));
 
 export type GetLlmPromptsNameError = PosthogOpError;
@@ -372,6 +387,8 @@ export const getLlmPromptsName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmPromptsName",
 }));
 
 export type GetLlmPromptsResolveNameError = PosthogOpError;
@@ -386,6 +403,8 @@ export const getLlmPromptsResolveName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLlmPromptsResolveName",
 }));
 
 export type ListLlmPromptsError = PosthogOpError;
@@ -400,6 +419,8 @@ export const listLlmPrompts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmPrompts",
 }));
 
 export type LlmPromptsNameArchiveCreateError = Conflict | PosthogOpError;
@@ -414,6 +435,8 @@ export const llmPromptsNameArchiveCreate: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmPromptsNameArchiveCreate",
 }));
 
 export type LlmPromptsNameDuplicateCreateError = PosthogOpError;
@@ -428,6 +451,8 @@ export const llmPromptsNameDuplicateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmPromptsNameDuplicateCreate",
 }));
 
 export type LlmPromptsNameLabelsDestroyError = Conflict | PosthogOpError;
@@ -442,6 +467,8 @@ export const llmPromptsNameLabelsDestroy: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmPromptsNameLabelsDestroy",
 }));
 
 export type UpdateLlmPromptsNameLabelError = BadRequest | PosthogOpError;
@@ -456,6 +483,8 @@ export const updateLlmPromptsNameLabel: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmPromptsNameLabel",
 }));
 
 export type UpdateLlmPromptsNamePartialError = PosthogOpError;
@@ -470,6 +499,8 @@ export const updateLlmPromptsNamePartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLlmPromptsNamePartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

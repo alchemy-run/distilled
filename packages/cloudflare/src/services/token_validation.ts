@@ -30,6 +30,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "TokenValidation",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1350,6 +1364,8 @@ export const bulkCreateRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkCreateRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1370,6 +1386,8 @@ export const bulkPatchRules: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "BulkPatchRules",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1388,6 +1406,8 @@ export const createConfiguration: API.OperationMethod<
   errors: [TokenValidationNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConfiguration",
 }));
 
 export type CreateRuleError = TokenValidationNotEntitled | Forbidden | CloudflareOpError;
@@ -1403,6 +1423,8 @@ export const createRule: API.OperationMethod<
   errors: [TokenValidationNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type DeleteConfigurationError =
@@ -1428,6 +1450,8 @@ export const deleteConfiguration: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type DeleteRuleError =
@@ -1453,6 +1477,8 @@ export const deleteRule: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type EditConfigurationCredentialsError = CloudflareOpError;
@@ -1468,6 +1494,8 @@ export const editConfigurationCredentials: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditConfigurationCredentials",
 }));
 
 export type GetConfigurationError =
@@ -1493,6 +1521,8 @@ export const getConfiguration: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetRuleError =
@@ -1518,6 +1548,8 @@ export const getRule: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type ListConfigurationsError = TokenValidationNotEntitled | Forbidden | CloudflareOpError;
@@ -1535,6 +1567,8 @@ export const listConfigurations: API.PaginatedOperationMethod<
     errors: [TokenValidationNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConfigurations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1561,6 +1595,8 @@ export const listRules: API.PaginatedOperationMethod<
     errors: [TokenValidationNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRules",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1595,6 +1631,8 @@ export const patchConfiguration: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchConfiguration",
 }));
 
 export type PatchRuleError =
@@ -1620,6 +1658,8 @@ export const patchRule: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRule",
 }));
 
 export type PutConfigurationCredentialError =
@@ -1645,6 +1685,8 @@ export const putConfigurationCredential: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutConfigurationCredential",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

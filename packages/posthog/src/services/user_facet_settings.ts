@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "UserFacetSettings",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export type GetUserFacetSettingsRequestProduct = "logs" | "tracing";
 export interface GetUserFacetSettingsRequest {
   uuid: string;
@@ -53,6 +66,8 @@ export const getUserFacetSettings: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserFacetSettings",
 }));
 
 export type UpdateUserFacetSettingsPartialError = PosthogOpError;
@@ -68,6 +83,8 @@ export const updateUserFacetSettingsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserFacetSettingsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

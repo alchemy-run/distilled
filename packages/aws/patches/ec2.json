@@ -1041,6 +1041,7 @@
     "runInstances": {
       "errors": [
         "RequestLimitExceeded",
+        "IdempotentParameterMismatch",
         "InvalidAMIID.Malformed",
         "InvalidAMIID.NotFound",
         "InvalidParameterValue",
@@ -1753,9 +1754,17 @@
     "createVolume": {
       "errors": [
         "RequestLimitExceeded",
+        "IdempotentParameterMismatch",
         "InvalidZone.NotFound",
         "MissingParameter",
         "UnauthorizedOperation"
+      ],
+      "syntheticErrors": [
+        {
+          "name": "IdempotentVolumeDeleted",
+          "from": "IdempotentParameterMismatch",
+          "message": { "includes": "associated with a resource that is already deleted" }
+        }
       ]
     },
     "createPlacementGroup": {

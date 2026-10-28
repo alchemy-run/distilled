@@ -15,6 +15,19 @@ const __s: any[] = [];
 
 export type { TurbopufferOpError, TurbopufferOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "turbopuffer-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Turbopuffer",
+  service: "Turbopuffer",
+  labels: "turbopuffer",
+  propagate: "w3c",
+} as const;
+
 /** Encrypt the namespace with a customer-managed encryption key (CMEK). */
 export interface EncryptionCase0 {
   mode: unknown;
@@ -686,6 +699,8 @@ export const createNamespaceAsync: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceAsync",
 }));
 
 export type CreateNamespaceDebugRecallError = TurbopufferOpError;
@@ -701,6 +716,8 @@ export const createNamespaceDebugRecall: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceDebugRecall",
 }));
 
 export type CreateNamespaceExplainQueryError = TurbopufferOpError;
@@ -716,6 +733,8 @@ export const createNamespaceExplainQuery: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceExplainQuery",
 }));
 
 export type CreateNamespaceQueryError = TurbopufferOpError;
@@ -731,6 +750,8 @@ export const createNamespaceQuery: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceQuery",
 }));
 
 export type CreateNamespaceQuery2Error = TurbopufferOpError;
@@ -746,6 +767,8 @@ export const createNamespaceQuery2: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceQuery2",
 }));
 
 export type CreateNamespaceSchemaError = TurbopufferOpError;
@@ -761,6 +784,8 @@ export const createNamespaceSchema: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNamespaceSchema",
 }));
 
 export type DeleteNamespaceError = TurbopufferOpError;
@@ -776,6 +801,8 @@ export const deleteNamespace: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type GetNamespaceHintCacheWarmError = TurbopufferOpError;
@@ -791,6 +818,8 @@ export const getNamespaceHintCacheWarm: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceHintCacheWarm",
 }));
 
 export type GetNamespaceMetadataError = TurbopufferOpError;
@@ -806,6 +835,8 @@ export const getNamespaceMetadata: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceMetadata",
 }));
 
 export type GetNamespaceOperationError = TurbopufferOpError;
@@ -821,6 +852,8 @@ export const getNamespaceOperation: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceOperation",
 }));
 
 export type GetNamespaceSchemaError = TurbopufferOpError;
@@ -836,6 +869,8 @@ export const getNamespaceSchema: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceSchema",
 }));
 
 export type ListNamespacesError = TurbopufferOpError;
@@ -851,6 +886,8 @@ export const listNamespaces: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 }));
 
 export type UpdateNamespaceError = TurbopufferOpError;
@@ -866,6 +903,8 @@ export const updateNamespace: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespace",
 }));
 
 export type UpdateNamespaceByNamespaceError = TurbopufferOpError;
@@ -881,6 +920,8 @@ export const updateNamespaceByNamespace: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespaceByNamespace",
 }));
 
 export type UpdateNamespaceByNamespace2Error = TurbopufferOpError;
@@ -896,6 +937,8 @@ export const updateNamespaceByNamespace2: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespaceByNamespace2",
 }));
 
 export type UpdateNamespaceMetadataError = TurbopufferOpError;
@@ -911,6 +954,8 @@ export const updateNamespaceMetadata: API.OperationMethod<
   errors: [UnknownTurbopufferError],
   protocol: TurbopufferProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespaceMetadata",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

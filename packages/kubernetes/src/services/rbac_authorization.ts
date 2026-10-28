@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "RbacAuthorization",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -1449,6 +1462,8 @@ export const createRbacAuthorizationV1ClusterRole: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRbacAuthorizationV1ClusterRole",
 }));
 
 export type CreateRbacAuthorizationV1ClusterRoleBindingError =
@@ -1467,6 +1482,8 @@ export const createRbacAuthorizationV1ClusterRoleBinding: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRbacAuthorizationV1ClusterRoleBinding",
 }));
 
 export type CreateRbacAuthorizationV1NamespacedRoleError =
@@ -1485,6 +1502,8 @@ export const createRbacAuthorizationV1NamespacedRole: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRbacAuthorizationV1NamespacedRole",
 }));
 
 export type CreateRbacAuthorizationV1NamespacedRoleBindingError =
@@ -1507,6 +1526,8 @@ export const createRbacAuthorizationV1NamespacedRoleBinding: API.OperationMethod
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRbacAuthorizationV1NamespacedRoleBinding",
 }));
 
 export type DeleteRbacAuthorizationV1ClusterRoleError = NotFound | Conflict | KubernetesOpError;
@@ -1522,6 +1543,8 @@ export const deleteRbacAuthorizationV1ClusterRole: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRbacAuthorizationV1ClusterRole",
 }));
 
 export type DeleteRbacAuthorizationV1ClusterRoleBindingError =
@@ -1540,6 +1563,8 @@ export const deleteRbacAuthorizationV1ClusterRoleBinding: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRbacAuthorizationV1ClusterRoleBinding",
 }));
 
 export type DeleteRbacAuthorizationV1CollectionClusterRoleError = KubernetesOpError;
@@ -1559,6 +1584,8 @@ export const deleteRbacAuthorizationV1CollectionClusterRole: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRbacAuthorizationV1CollectionClusterRole",
 }));
 
 export type DeleteRbacAuthorizationV1CollectionClusterRoleBindingError = KubernetesOpError;
@@ -1578,6 +1605,8 @@ export const deleteRbacAuthorizationV1CollectionClusterRoleBinding: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRbacAuthorizationV1CollectionClusterRoleBinding",
 }));
 
 export type DeleteRbacAuthorizationV1CollectionNamespacedRoleError = KubernetesOpError;
@@ -1597,6 +1626,8 @@ export const deleteRbacAuthorizationV1CollectionNamespacedRole: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRbacAuthorizationV1CollectionNamespacedRole",
 }));
 
 export type DeleteRbacAuthorizationV1CollectionNamespacedRoleBindingError = KubernetesOpError;
@@ -1616,6 +1647,8 @@ export const deleteRbacAuthorizationV1CollectionNamespacedRoleBinding: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRbacAuthorizationV1CollectionNamespacedRoleBinding",
 }));
 
 export type DeleteRbacAuthorizationV1NamespacedRoleError = NotFound | Conflict | KubernetesOpError;
@@ -1631,6 +1664,8 @@ export const deleteRbacAuthorizationV1NamespacedRole: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRbacAuthorizationV1NamespacedRole",
 }));
 
 export type DeleteRbacAuthorizationV1NamespacedRoleBindingError =
@@ -1649,6 +1684,8 @@ export const deleteRbacAuthorizationV1NamespacedRoleBinding: API.OperationMethod
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRbacAuthorizationV1NamespacedRoleBinding",
 }));
 
 export type GetRbacAuthorizationAPIGroupError = KubernetesOpError;
@@ -1664,6 +1701,8 @@ export const getRbacAuthorizationAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRbacAuthorizationAPIGroup",
 }));
 
 export type GetRbacAuthorizationV1APIResourcesError = KubernetesOpError;
@@ -1679,6 +1718,8 @@ export const getRbacAuthorizationV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRbacAuthorizationV1APIResources",
 }));
 
 export type ListRbacAuthorizationV1ClusterRoleError = KubernetesOpError;
@@ -1694,6 +1735,8 @@ export const listRbacAuthorizationV1ClusterRole: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRbacAuthorizationV1ClusterRole",
 }));
 
 export type ListRbacAuthorizationV1ClusterRoleBindingError = KubernetesOpError;
@@ -1709,6 +1752,8 @@ export const listRbacAuthorizationV1ClusterRoleBinding: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRbacAuthorizationV1ClusterRoleBinding",
 }));
 
 export type ListRbacAuthorizationV1NamespacedRoleError = KubernetesOpError;
@@ -1724,6 +1769,8 @@ export const listRbacAuthorizationV1NamespacedRole: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRbacAuthorizationV1NamespacedRole",
 }));
 
 export type ListRbacAuthorizationV1NamespacedRoleBindingError = KubernetesOpError;
@@ -1739,6 +1786,8 @@ export const listRbacAuthorizationV1NamespacedRoleBinding: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRbacAuthorizationV1NamespacedRoleBinding",
 }));
 
 export type ListRbacAuthorizationV1RoleBindingForAllNamespacesError = KubernetesOpError;
@@ -1758,6 +1807,8 @@ export const listRbacAuthorizationV1RoleBindingForAllNamespaces: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRbacAuthorizationV1RoleBindingForAllNamespaces",
 }));
 
 export type ListRbacAuthorizationV1RoleForAllNamespacesError = KubernetesOpError;
@@ -1773,6 +1824,8 @@ export const listRbacAuthorizationV1RoleForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRbacAuthorizationV1RoleForAllNamespaces",
 }));
 
 export type PatchRbacAuthorizationV1ClusterRoleError =
@@ -1792,6 +1845,8 @@ export const patchRbacAuthorizationV1ClusterRole: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRbacAuthorizationV1ClusterRole",
 }));
 
 export type PatchRbacAuthorizationV1ClusterRoleBindingError =
@@ -1811,6 +1866,8 @@ export const patchRbacAuthorizationV1ClusterRoleBinding: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRbacAuthorizationV1ClusterRoleBinding",
 }));
 
 export type PatchRbacAuthorizationV1NamespacedRoleError =
@@ -1830,6 +1887,8 @@ export const patchRbacAuthorizationV1NamespacedRole: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRbacAuthorizationV1NamespacedRole",
 }));
 
 export type PatchRbacAuthorizationV1NamespacedRoleBindingError =
@@ -1853,6 +1912,8 @@ export const patchRbacAuthorizationV1NamespacedRoleBinding: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRbacAuthorizationV1NamespacedRoleBinding",
 }));
 
 export type ReadRbacAuthorizationV1ClusterRoleError = NotFound | KubernetesOpError;
@@ -1868,6 +1929,8 @@ export const readRbacAuthorizationV1ClusterRole: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadRbacAuthorizationV1ClusterRole",
 }));
 
 export type ReadRbacAuthorizationV1ClusterRoleBindingError = NotFound | KubernetesOpError;
@@ -1883,6 +1946,8 @@ export const readRbacAuthorizationV1ClusterRoleBinding: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadRbacAuthorizationV1ClusterRoleBinding",
 }));
 
 export type ReadRbacAuthorizationV1NamespacedRoleError = NotFound | KubernetesOpError;
@@ -1898,6 +1963,8 @@ export const readRbacAuthorizationV1NamespacedRole: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadRbacAuthorizationV1NamespacedRole",
 }));
 
 export type ReadRbacAuthorizationV1NamespacedRoleBindingError = NotFound | KubernetesOpError;
@@ -1913,6 +1980,8 @@ export const readRbacAuthorizationV1NamespacedRoleBinding: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadRbacAuthorizationV1NamespacedRoleBinding",
 }));
 
 export type ReplaceRbacAuthorizationV1ClusterRoleError =
@@ -1932,6 +2001,8 @@ export const replaceRbacAuthorizationV1ClusterRole: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRbacAuthorizationV1ClusterRole",
 }));
 
 export type ReplaceRbacAuthorizationV1ClusterRoleBindingError =
@@ -1951,6 +2022,8 @@ export const replaceRbacAuthorizationV1ClusterRoleBinding: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRbacAuthorizationV1ClusterRoleBinding",
 }));
 
 export type ReplaceRbacAuthorizationV1NamespacedRoleError =
@@ -1970,6 +2043,8 @@ export const replaceRbacAuthorizationV1NamespacedRole: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRbacAuthorizationV1NamespacedRole",
 }));
 
 export type ReplaceRbacAuthorizationV1NamespacedRoleBindingError =
@@ -1993,6 +2068,8 @@ export const replaceRbacAuthorizationV1NamespacedRoleBinding: API.OperationMetho
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceRbacAuthorizationV1NamespacedRoleBinding",
 }));
 
 export type WatchRbacAuthorizationV1ClusterRoleError = KubernetesOpError;
@@ -2008,6 +2085,8 @@ export const watchRbacAuthorizationV1ClusterRole: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1ClusterRole",
 }));
 
 export type WatchRbacAuthorizationV1ClusterRoleBindingError = KubernetesOpError;
@@ -2023,6 +2102,8 @@ export const watchRbacAuthorizationV1ClusterRoleBinding: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1ClusterRoleBinding",
 }));
 
 export type WatchRbacAuthorizationV1ClusterRoleBindingListError = KubernetesOpError;
@@ -2042,6 +2123,8 @@ export const watchRbacAuthorizationV1ClusterRoleBindingList: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1ClusterRoleBindingList",
 }));
 
 export type WatchRbacAuthorizationV1ClusterRoleListError = KubernetesOpError;
@@ -2057,6 +2140,8 @@ export const watchRbacAuthorizationV1ClusterRoleList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1ClusterRoleList",
 }));
 
 export type WatchRbacAuthorizationV1NamespacedRoleError = KubernetesOpError;
@@ -2072,6 +2157,8 @@ export const watchRbacAuthorizationV1NamespacedRole: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1NamespacedRole",
 }));
 
 export type WatchRbacAuthorizationV1NamespacedRoleBindingError = KubernetesOpError;
@@ -2091,6 +2178,8 @@ export const watchRbacAuthorizationV1NamespacedRoleBinding: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1NamespacedRoleBinding",
 }));
 
 export type WatchRbacAuthorizationV1NamespacedRoleBindingListError = KubernetesOpError;
@@ -2110,6 +2199,8 @@ export const watchRbacAuthorizationV1NamespacedRoleBindingList: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1NamespacedRoleBindingList",
 }));
 
 export type WatchRbacAuthorizationV1NamespacedRoleListError = KubernetesOpError;
@@ -2125,6 +2216,8 @@ export const watchRbacAuthorizationV1NamespacedRoleList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1NamespacedRoleList",
 }));
 
 export type WatchRbacAuthorizationV1RoleBindingListForAllNamespacesError = KubernetesOpError;
@@ -2144,6 +2237,8 @@ export const watchRbacAuthorizationV1RoleBindingListForAllNamespaces: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1RoleBindingListForAllNamespaces",
 }));
 
 export type WatchRbacAuthorizationV1RoleListForAllNamespacesError = KubernetesOpError;
@@ -2163,6 +2258,8 @@ export const watchRbacAuthorizationV1RoleListForAllNamespaces: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchRbacAuthorizationV1RoleListForAllNamespaces",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

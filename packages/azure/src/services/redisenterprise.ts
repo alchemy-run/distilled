@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Cache" },
+  prefix: "Redisenterprise",
+  service: "Redisenterprise",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The user associated with the access policy. */
 export interface AccessPolicyAssignmentPropertiesInputUser {
   /** The object ID of the user. */
@@ -1370,6 +1391,8 @@ export const AccessPolicyAssignmentCreateUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccessPolicyAssignmentCreateUpdate",
 }));
 
 export type CreateDatabaseError = AzureOpError;
@@ -1385,6 +1408,8 @@ export const CreateDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateRedisEnterpriseError = AzureOpError;
@@ -1400,6 +1425,8 @@ export const CreateRedisEnterprise: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRedisEnterprise",
 }));
 
 export type DatabasesForceLinkToReplicationGroupError = AzureOpError;
@@ -1415,6 +1442,8 @@ export const DatabasesForceLinkToReplicationGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabasesForceLinkToReplicationGroup",
 }));
 
 export type DatabasesUpgradeDBRedisVersionError = AzureOpError;
@@ -1430,6 +1459,8 @@ export const DatabasesUpgradeDBRedisVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabasesUpgradeDBRedisVersion",
 }));
 
 export type DeleteAccessPolicyAssignmentError = AzureOpError;
@@ -1445,6 +1476,8 @@ export const DeleteAccessPolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicyAssignment",
 }));
 
 export type DeleteDatabaseError = AzureOpError;
@@ -1460,6 +1493,8 @@ export const DeleteDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1475,6 +1510,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteRedisEnterpriseError = AzureOpError;
@@ -1490,6 +1527,8 @@ export const DeleteRedisEnterprise: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRedisEnterprise",
 }));
 
 export type ExportDatabaseError = AzureOpError;
@@ -1505,6 +1544,8 @@ export const ExportDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportDatabase",
 }));
 
 export type FlushDatabaseError = AzureOpError;
@@ -1520,6 +1561,8 @@ export const FlushDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushDatabase",
 }));
 
 export type GetAccessPolicyAssignmentError = AzureOpError;
@@ -1535,6 +1578,8 @@ export const GetAccessPolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicyAssignment",
 }));
 
 export type GetDatabaseError = AzureOpError;
@@ -1550,6 +1595,8 @@ export const GetDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetOperationsStatusError = AzureOpError;
@@ -1565,6 +1612,8 @@ export const GetOperationsStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationsStatus",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1580,6 +1629,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetRedisEnterpriseError = AzureOpError;
@@ -1595,6 +1646,8 @@ export const GetRedisEnterprise: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedisEnterprise",
 }));
 
 export type ImportDatabaseError = AzureOpError;
@@ -1610,6 +1663,8 @@ export const ImportDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDatabase",
 }));
 
 export type ListAccessPolicyAssignmentError = AzureOpError;
@@ -1625,6 +1680,8 @@ export const ListAccessPolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicyAssignment",
 }));
 
 export type ListDatabaseByClusterError = AzureOpError;
@@ -1640,6 +1697,8 @@ export const ListDatabaseByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseByCluster",
 }));
 
 export type ListDatabaseKeysError = AzureOpError;
@@ -1655,6 +1714,8 @@ export const ListDatabaseKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseKeys",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1670,6 +1731,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -1685,6 +1748,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourceByClusterError = AzureOpError;
@@ -1700,6 +1765,8 @@ export const ListPrivateLinkResourceByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByCluster",
 }));
 
 export type ListRedisEnterpriseError = AzureOpError;
@@ -1715,6 +1782,8 @@ export const ListRedisEnterprise: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisEnterprise",
 }));
 
 export type ListRedisEnterpriseByResourceGroupError = AzureOpError;
@@ -1730,6 +1799,8 @@ export const ListRedisEnterpriseByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisEnterpriseByResourceGroup",
 }));
 
 export type ListRedisEnterpriseSkusForScalingError = AzureOpError;
@@ -1745,6 +1816,8 @@ export const ListRedisEnterpriseSkusForScaling: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisEnterpriseSkusForScaling",
 }));
 
 export type PutPrivateEndpointConnectionError = AzureOpError;
@@ -1760,6 +1833,8 @@ export const PutPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPrivateEndpointConnection",
 }));
 
 export type RegenerateDatabaseKeyError = AzureOpError;
@@ -1775,6 +1850,8 @@ export const RegenerateDatabaseKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateDatabaseKey",
 }));
 
 export type UnlinkDatabasesForceError = AzureOpError;
@@ -1790,6 +1867,8 @@ export const UnlinkDatabasesForce: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkDatabasesForce",
 }));
 
 export type UpdateDatabaseError = AzureOpError;
@@ -1805,6 +1884,8 @@ export const UpdateDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 export type UpdateRedisEnterpriseError = AzureOpError;
@@ -1820,6 +1901,8 @@ export const UpdateRedisEnterprise: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRedisEnterprise",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

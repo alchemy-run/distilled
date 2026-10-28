@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -81,6 +82,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.sagemaker.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SageMaker",
+  service: "SageMaker",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
@@ -16790,6 +16806,8 @@ export const addAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddAssociation",
+  telemetry: TELEMETRY,
+  span: "AddAssociation",
 }));
 
 export type AddTagsError = CommonErrors;
@@ -16814,6 +16832,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type AssociateTrialComponentError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -16832,6 +16852,8 @@ export const associateTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTrialComponent",
+  telemetry: TELEMETRY,
+  span: "AssociateTrialComponent",
 }));
 
 export type AttachClusterNodeNetworkInterfaceError =
@@ -16855,6 +16877,8 @@ export const attachClusterNodeNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachClusterNodeNetworkInterface",
+  telemetry: TELEMETRY,
+  span: "AttachClusterNodeNetworkInterface",
 }));
 
 export type AttachClusterNodeVolumeError = ResourceNotFound | CommonErrors;
@@ -16875,6 +16899,8 @@ export const attachClusterNodeVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachClusterNodeVolume",
+  telemetry: TELEMETRY,
+  span: "AttachClusterNodeVolume",
 }));
 
 export type BatchAddClusterNodesError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -16895,6 +16921,8 @@ export const batchAddClusterNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAddClusterNodes",
+  telemetry: TELEMETRY,
+  span: "BatchAddClusterNodes",
 }));
 
 export type BatchDeleteClusterNodesError = ResourceNotFound | CommonErrors;
@@ -16917,6 +16945,8 @@ export const batchDeleteClusterNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteClusterNodes",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteClusterNodes",
 }));
 
 export type BatchDescribeModelPackageError = CommonErrors;
@@ -16935,6 +16965,8 @@ export const batchDescribeModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeModelPackage",
+  telemetry: TELEMETRY,
+  span: "BatchDescribeModelPackage",
 }));
 
 export type BatchRebootClusterNodesError = ResourceNotFound | CommonErrors;
@@ -16961,6 +16993,8 @@ export const batchRebootClusterNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRebootClusterNodes",
+  telemetry: TELEMETRY,
+  span: "BatchRebootClusterNodes",
 }));
 
 export type BatchReplaceClusterNodesError = ResourceNotFound | CommonErrors;
@@ -16989,6 +17023,8 @@ export const batchReplaceClusterNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchReplaceClusterNodes",
+  telemetry: TELEMETRY,
+  span: "BatchReplaceClusterNodes",
 }));
 
 export type CreateActionError = ResourceLimitExceeded | CommonErrors;
@@ -17007,6 +17043,8 @@ export const createAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAction",
+  telemetry: TELEMETRY,
+  span: "CreateAction",
 }));
 
 export type CreateAIBenchmarkJobError =
@@ -17029,6 +17067,8 @@ export const createAIBenchmarkJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIBenchmarkJob",
+  telemetry: TELEMETRY,
+  span: "CreateAIBenchmarkJob",
 }));
 
 export type CreateAIRecommendationJobError =
@@ -17051,6 +17091,8 @@ export const createAIRecommendationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIRecommendationJob",
+  telemetry: TELEMETRY,
+  span: "CreateAIRecommendationJob",
 }));
 
 export type CreateAIWorkloadConfigError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17069,6 +17111,8 @@ export const createAIWorkloadConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIWorkloadConfig",
+  telemetry: TELEMETRY,
+  span: "CreateAIWorkloadConfig",
 }));
 
 export type CreateAlgorithmError = CommonErrors;
@@ -17087,6 +17131,8 @@ export const createAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlgorithm",
+  telemetry: TELEMETRY,
+  span: "CreateAlgorithm",
 }));
 
 export type CreateAppError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17105,6 +17151,8 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
+  telemetry: TELEMETRY,
+  span: "CreateApp",
 }));
 
 export type CreateAppImageConfigError = ResourceInUse | CommonErrors;
@@ -17123,6 +17171,8 @@ export const createAppImageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppImageConfig",
+  telemetry: TELEMETRY,
+  span: "CreateAppImageConfig",
 }));
 
 export type CreateArtifactError = ResourceLimitExceeded | CommonErrors;
@@ -17141,6 +17191,8 @@ export const createArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArtifact",
+  telemetry: TELEMETRY,
+  span: "CreateArtifact",
 }));
 
 export type CreateAutoMLJobError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17171,6 +17223,8 @@ export const createAutoMLJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoMLJob",
+  telemetry: TELEMETRY,
+  span: "CreateAutoMLJob",
 }));
 
 export type CreateAutoMLJobV2Error = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17205,6 +17259,8 @@ export const createAutoMLJobV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoMLJobV2",
+  telemetry: TELEMETRY,
+  span: "CreateAutoMLJobV2",
 }));
 
 export type CreateClusterError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17223,6 +17279,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateClusterSchedulerConfigError =
@@ -17244,6 +17302,8 @@ export const createClusterSchedulerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSchedulerConfig",
+  telemetry: TELEMETRY,
+  span: "CreateClusterSchedulerConfig",
 }));
 
 export type CreateCodeRepositoryError = CommonErrors;
@@ -17264,6 +17324,8 @@ export const createCodeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeRepository",
+  telemetry: TELEMETRY,
+  span: "CreateCodeRepository",
 }));
 
 export type CreateCompilationJobError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17298,6 +17360,8 @@ export const createCompilationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCompilationJob",
+  telemetry: TELEMETRY,
+  span: "CreateCompilationJob",
 }));
 
 export type CreateComputeQuotaError = ConflictException | ResourceLimitExceeded | CommonErrors;
@@ -17316,6 +17380,8 @@ export const createComputeQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputeQuota",
+  telemetry: TELEMETRY,
+  span: "CreateComputeQuota",
 }));
 
 export type CreateContextError = ResourceLimitExceeded | CommonErrors;
@@ -17334,6 +17400,8 @@ export const createContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContext",
+  telemetry: TELEMETRY,
+  span: "CreateContext",
 }));
 
 export type CreateDataQualityJobDefinitionError =
@@ -17355,6 +17423,8 @@ export const createDataQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataQualityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateDataQualityJobDefinition",
 }));
 
 export type CreateDeviceFleetError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17373,6 +17443,8 @@ export const createDeviceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceFleet",
+  telemetry: TELEMETRY,
+  span: "CreateDeviceFleet",
 }));
 
 export type CreateDomainError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17411,6 +17483,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateEdgeDeploymentPlanError = ResourceLimitExceeded | CommonErrors;
@@ -17429,6 +17503,8 @@ export const createEdgeDeploymentPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEdgeDeploymentPlan",
+  telemetry: TELEMETRY,
+  span: "CreateEdgeDeploymentPlan",
 }));
 
 export type CreateEdgeDeploymentStageError = ResourceLimitExceeded | CommonErrors;
@@ -17447,6 +17523,8 @@ export const createEdgeDeploymentStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEdgeDeploymentStage",
+  telemetry: TELEMETRY,
+  span: "CreateEdgeDeploymentStage",
 }));
 
 export type CreateEdgePackagingJobError = ResourceLimitExceeded | CommonErrors;
@@ -17465,6 +17543,8 @@ export const createEdgePackagingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEdgePackagingJob",
+  telemetry: TELEMETRY,
+  span: "CreateEdgePackagingJob",
 }));
 
 export type CreateEndpointError =
@@ -17519,6 +17599,8 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateEndpoint",
 }));
 
 export type CreateEndpointConfigError =
@@ -17548,6 +17630,8 @@ export const createEndpointConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointConfig",
+  telemetry: TELEMETRY,
+  span: "CreateEndpointConfig",
 }));
 
 export type CreateExperimentError = ResourceLimitExceeded | CommonErrors;
@@ -17578,6 +17662,8 @@ export const createExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperiment",
+  telemetry: TELEMETRY,
+  span: "CreateExperiment",
 }));
 
 export type CreateFeatureGroupError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17602,6 +17688,8 @@ export const createFeatureGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFeatureGroup",
+  telemetry: TELEMETRY,
+  span: "CreateFeatureGroup",
 }));
 
 export type CreateFlowDefinitionError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17620,6 +17708,8 @@ export const createFlowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlowDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateFlowDefinition",
 }));
 
 export type CreateHubError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17638,6 +17728,8 @@ export const createHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHub",
+  telemetry: TELEMETRY,
+  span: "CreateHub",
 }));
 
 export type CreateHubContentPresignedUrlsError = CommonErrors;
@@ -17663,6 +17755,8 @@ export const createHubContentPresignedUrls: API.PaginatedOperationMethod<
     items: "AuthorizedUrlConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "CreateHubContentPresignedUrls",
 })) as any;
 
 export type CreateHubContentReferenceError =
@@ -17685,6 +17779,8 @@ export const createHubContentReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHubContentReference",
+  telemetry: TELEMETRY,
+  span: "CreateHubContentReference",
 }));
 
 export type CreateHumanTaskUiError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17703,6 +17799,8 @@ export const createHumanTaskUi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHumanTaskUi",
+  telemetry: TELEMETRY,
+  span: "CreateHumanTaskUi",
 }));
 
 export type CreateHyperParameterTuningJobError =
@@ -17728,6 +17826,8 @@ export const createHyperParameterTuningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHyperParameterTuningJob",
+  telemetry: TELEMETRY,
+  span: "CreateHyperParameterTuningJob",
 }));
 
 export type CreateImageError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17746,6 +17846,8 @@ export const createImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImage",
+  telemetry: TELEMETRY,
+  span: "CreateImage",
 }));
 
 export type CreateImageVersionError =
@@ -17768,6 +17870,8 @@ export const createImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageVersion",
+  telemetry: TELEMETRY,
+  span: "CreateImageVersion",
 }));
 
 export type CreateInferenceComponentError = ResourceLimitExceeded | CommonErrors;
@@ -17786,6 +17890,8 @@ export const createInferenceComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceComponent",
+  telemetry: TELEMETRY,
+  span: "CreateInferenceComponent",
 }));
 
 export type CreateInferenceExperimentError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17810,6 +17916,8 @@ export const createInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceExperiment",
+  telemetry: TELEMETRY,
+  span: "CreateInferenceExperiment",
 }));
 
 export type CreateInferenceRecommendationsJobError =
@@ -17831,6 +17939,8 @@ export const createInferenceRecommendationsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceRecommendationsJob",
+  telemetry: TELEMETRY,
+  span: "CreateInferenceRecommendationsJob",
 }));
 
 export type CreateJobError =
@@ -17871,6 +17981,8 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  telemetry: TELEMETRY,
+  span: "CreateJob",
 }));
 
 export type CreateLabelingJobError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -17905,6 +18017,8 @@ export const createLabelingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabelingJob",
+  telemetry: TELEMETRY,
+  span: "CreateLabelingJob",
 }));
 
 export type CreateMlflowAppError = ResourceLimitExceeded | CommonErrors;
@@ -17923,6 +18037,8 @@ export const createMlflowApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMlflowApp",
+  telemetry: TELEMETRY,
+  span: "CreateMlflowApp",
 }));
 
 export type CreateMlflowTrackingServerError = ResourceLimitExceeded | CommonErrors;
@@ -17941,6 +18057,8 @@ export const createMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMlflowTrackingServer",
+  telemetry: TELEMETRY,
+  span: "CreateMlflowTrackingServer",
 }));
 
 export type CreateModelError = ResourceLimitExceeded | ModelAlreadyExists | CommonErrors;
@@ -17967,6 +18085,8 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
+  telemetry: TELEMETRY,
+  span: "CreateModel",
 }));
 
 export type CreateModelBiasJobDefinitionError =
@@ -17988,6 +18108,8 @@ export const createModelBiasJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelBiasJobDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateModelBiasJobDefinition",
 }));
 
 export type CreateModelCardError = ConflictException | ResourceLimitExceeded | CommonErrors;
@@ -18008,6 +18130,8 @@ export const createModelCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelCard",
+  telemetry: TELEMETRY,
+  span: "CreateModelCard",
 }));
 
 export type CreateModelCardExportJobError =
@@ -18030,6 +18154,8 @@ export const createModelCardExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelCardExportJob",
+  telemetry: TELEMETRY,
+  span: "CreateModelCardExportJob",
 }));
 
 export type CreateModelExplainabilityJobDefinitionError =
@@ -18051,6 +18177,8 @@ export const createModelExplainabilityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelExplainabilityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateModelExplainabilityJobDefinition",
 }));
 
 export type CreateModelPackageError = ConflictException | ResourceLimitExceeded | CommonErrors;
@@ -18077,6 +18205,8 @@ export const createModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelPackage",
+  telemetry: TELEMETRY,
+  span: "CreateModelPackage",
 }));
 
 export type CreateModelPackageGroupError = ResourceLimitExceeded | CommonErrors;
@@ -18095,6 +18225,8 @@ export const createModelPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelPackageGroup",
+  telemetry: TELEMETRY,
+  span: "CreateModelPackageGroup",
 }));
 
 export type CreateModelQualityJobDefinitionError =
@@ -18116,6 +18248,8 @@ export const createModelQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelQualityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateModelQualityJobDefinition",
 }));
 
 export type CreateMonitoringScheduleError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -18134,6 +18268,8 @@ export const createMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitoringSchedule",
+  telemetry: TELEMETRY,
+  span: "CreateMonitoringSchedule",
 }));
 
 export type CreateNotebookInstanceError = ResourceLimitExceeded | CommonErrors;
@@ -18170,6 +18306,8 @@ export const createNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebookInstance",
+  telemetry: TELEMETRY,
+  span: "CreateNotebookInstance",
 }));
 
 export type CreateNotebookInstanceLifecycleConfigError = ResourceLimitExceeded | CommonErrors;
@@ -18200,6 +18338,8 @@ export const createNotebookInstanceLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebookInstanceLifecycleConfig",
+  telemetry: TELEMETRY,
+  span: "CreateNotebookInstanceLifecycleConfig",
 }));
 
 export type CreateOptimizationJobError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -18220,6 +18360,8 @@ export const createOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOptimizationJob",
+  telemetry: TELEMETRY,
+  span: "CreateOptimizationJob",
 }));
 
 export type CreatePartnerAppError = ConflictException | ResourceLimitExceeded | CommonErrors;
@@ -18238,6 +18380,8 @@ export const createPartnerApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerApp",
+  telemetry: TELEMETRY,
+  span: "CreatePartnerApp",
 }));
 
 export type CreatePartnerAppPresignedUrlError = ResourceNotFound | CommonErrors;
@@ -18256,6 +18400,8 @@ export const createPartnerAppPresignedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerAppPresignedUrl",
+  telemetry: TELEMETRY,
+  span: "CreatePartnerAppPresignedUrl",
 }));
 
 export type CreatePipelineError =
@@ -18278,6 +18424,8 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type CreatePresignedDomainUrlError = ResourceNotFound | CommonErrors;
@@ -18304,6 +18452,8 @@ export const createPresignedDomainUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedDomainUrl",
+  telemetry: TELEMETRY,
+  span: "CreatePresignedDomainUrl",
 }));
 
 export type CreatePresignedMlflowAppUrlError = ResourceNotFound | CommonErrors;
@@ -18322,6 +18472,8 @@ export const createPresignedMlflowAppUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedMlflowAppUrl",
+  telemetry: TELEMETRY,
+  span: "CreatePresignedMlflowAppUrl",
 }));
 
 export type CreatePresignedMlflowTrackingServerUrlError = ResourceNotFound | CommonErrors;
@@ -18340,6 +18492,8 @@ export const createPresignedMlflowTrackingServerUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedMlflowTrackingServerUrl",
+  telemetry: TELEMETRY,
+  span: "CreatePresignedMlflowTrackingServerUrl",
 }));
 
 export type CreatePresignedNotebookInstanceUrlError = CommonErrors;
@@ -18364,6 +18518,8 @@ export const createPresignedNotebookInstanceUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedNotebookInstanceUrl",
+  telemetry: TELEMETRY,
+  span: "CreatePresignedNotebookInstanceUrl",
 }));
 
 export type CreateProcessingJobError =
@@ -18386,6 +18542,8 @@ export const createProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProcessingJob",
+  telemetry: TELEMETRY,
+  span: "CreateProcessingJob",
 }));
 
 export type CreateProjectError = ResourceLimitExceeded | CommonErrors;
@@ -18404,6 +18562,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateSpaceError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -18422,6 +18582,8 @@ export const createSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpace",
+  telemetry: TELEMETRY,
+  span: "CreateSpace",
 }));
 
 export type CreateStudioLifecycleConfigError = ResourceInUse | CommonErrors;
@@ -18440,6 +18602,8 @@ export const createStudioLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStudioLifecycleConfig",
+  telemetry: TELEMETRY,
+  span: "CreateStudioLifecycleConfig",
 }));
 
 export type CreateTrainingJobError =
@@ -18492,6 +18656,8 @@ export const createTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainingJob",
+  telemetry: TELEMETRY,
+  span: "CreateTrainingJob",
 }));
 
 export type CreateTrainingPlanError =
@@ -18544,6 +18710,8 @@ export const createTrainingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainingPlan",
+  telemetry: TELEMETRY,
+  span: "CreateTrainingPlan",
 }));
 
 export type CreateTransformJobError =
@@ -18582,6 +18750,8 @@ export const createTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransformJob",
+  telemetry: TELEMETRY,
+  span: "CreateTransformJob",
 }));
 
 export type CreateTrialError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -18606,6 +18776,8 @@ export const createTrial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrial",
+  telemetry: TELEMETRY,
+  span: "CreateTrial",
 }));
 
 export type CreateTrialComponentError = ResourceLimitExceeded | CommonErrors;
@@ -18630,6 +18802,8 @@ export const createTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrialComponent",
+  telemetry: TELEMETRY,
+  span: "CreateTrialComponent",
 }));
 
 export type CreateUserProfileError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -18648,6 +18822,8 @@ export const createUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserProfile",
+  telemetry: TELEMETRY,
+  span: "CreateUserProfile",
 }));
 
 export type CreateWorkforceError = CommonErrors;
@@ -18672,6 +18848,8 @@ export const createWorkforce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkforce",
+  telemetry: TELEMETRY,
+  span: "CreateWorkforce",
 }));
 
 export type CreateWorkteamError = ResourceInUse | ResourceLimitExceeded | CommonErrors;
@@ -18692,6 +18870,8 @@ export const createWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkteam",
+  telemetry: TELEMETRY,
+  span: "CreateWorkteam",
 }));
 
 export type DeleteActionError = ResourceNotFound | CommonErrors;
@@ -18710,6 +18890,8 @@ export const deleteAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAction",
+  telemetry: TELEMETRY,
+  span: "DeleteAction",
 }));
 
 export type DeleteAIBenchmarkJobError = ResourceNotFound | CommonErrors;
@@ -18728,6 +18910,8 @@ export const deleteAIBenchmarkJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIBenchmarkJob",
+  telemetry: TELEMETRY,
+  span: "DeleteAIBenchmarkJob",
 }));
 
 export type DeleteAIRecommendationJobError = ResourceNotFound | CommonErrors;
@@ -18746,6 +18930,8 @@ export const deleteAIRecommendationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIRecommendationJob",
+  telemetry: TELEMETRY,
+  span: "DeleteAIRecommendationJob",
 }));
 
 export type DeleteAIWorkloadConfigError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -18764,6 +18950,8 @@ export const deleteAIWorkloadConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIWorkloadConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteAIWorkloadConfig",
 }));
 
 export type DeleteAlgorithmError = ConflictException | CommonErrors;
@@ -18782,6 +18970,8 @@ export const deleteAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlgorithm",
+  telemetry: TELEMETRY,
+  span: "DeleteAlgorithm",
 }));
 
 export type DeleteAppError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -18800,6 +18990,8 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  telemetry: TELEMETRY,
+  span: "DeleteApp",
 }));
 
 export type DeleteAppImageConfigError = ResourceNotFound | CommonErrors;
@@ -18818,6 +19010,8 @@ export const deleteAppImageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppImageConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteAppImageConfig",
 }));
 
 export type DeleteArtifactError = ResourceNotFound | CommonErrors;
@@ -18836,6 +19030,8 @@ export const deleteArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArtifact",
+  telemetry: TELEMETRY,
+  span: "DeleteArtifact",
 }));
 
 export type DeleteAssociationError = ResourceNotFound | CommonErrors;
@@ -18854,6 +19050,8 @@ export const deleteAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteAssociation",
 }));
 
 export type DeleteClusterError = ConflictException | ResourceNotFound | CommonErrors;
@@ -18872,6 +19070,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterSchedulerConfigError = ResourceNotFound | CommonErrors;
@@ -18890,6 +19090,8 @@ export const deleteClusterSchedulerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSchedulerConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteClusterSchedulerConfig",
 }));
 
 export type DeleteCodeRepositoryError = CommonErrors;
@@ -18908,6 +19110,8 @@ export const deleteCodeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteCodeRepository",
 }));
 
 export type DeleteCompilationJobError = ResourceNotFound | CommonErrors;
@@ -18928,6 +19132,8 @@ export const deleteCompilationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCompilationJob",
+  telemetry: TELEMETRY,
+  span: "DeleteCompilationJob",
 }));
 
 export type DeleteComputeQuotaError = ResourceNotFound | CommonErrors;
@@ -18946,6 +19152,8 @@ export const deleteComputeQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComputeQuota",
+  telemetry: TELEMETRY,
+  span: "DeleteComputeQuota",
 }));
 
 export type DeleteContextError = ResourceNotFound | CommonErrors;
@@ -18964,6 +19172,8 @@ export const deleteContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContext",
+  telemetry: TELEMETRY,
+  span: "DeleteContext",
 }));
 
 export type DeleteDataQualityJobDefinitionError = ResourceNotFound | CommonErrors;
@@ -18982,6 +19192,8 @@ export const deleteDataQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataQualityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteDataQualityJobDefinition",
 }));
 
 export type DeleteDeviceFleetError = ResourceInUse | CommonErrors;
@@ -19000,6 +19212,8 @@ export const deleteDeviceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeviceFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceFleet",
 }));
 
 export type DeleteDomainError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19018,6 +19232,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteEdgeDeploymentPlanError = ResourceInUse | CommonErrors;
@@ -19036,6 +19252,8 @@ export const deleteEdgeDeploymentPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEdgeDeploymentPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeDeploymentPlan",
 }));
 
 export type DeleteEdgeDeploymentStageError = ResourceInUse | CommonErrors;
@@ -19054,6 +19272,8 @@ export const deleteEdgeDeploymentStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEdgeDeploymentStage",
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeDeploymentStage",
 }));
 
 export type DeleteEndpointError = EndpointNotFound | CommonErrors;
@@ -19076,6 +19296,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeleteEndpointConfigError = EndpointConfigNotFound | CommonErrors;
@@ -19096,6 +19318,8 @@ export const deleteEndpointConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpointConfig",
 }));
 
 export type DeleteExperimentError = ResourceNotFound | CommonErrors;
@@ -19114,6 +19338,8 @@ export const deleteExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperiment",
+  telemetry: TELEMETRY,
+  span: "DeleteExperiment",
 }));
 
 export type DeleteFeatureGroupError = ResourceNotFound | CommonErrors;
@@ -19136,6 +19362,8 @@ export const deleteFeatureGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeatureGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteFeatureGroup",
 }));
 
 export type DeleteFlowDefinitionError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19154,6 +19382,8 @@ export const deleteFlowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlowDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteFlowDefinition",
 }));
 
 export type DeleteHubError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19172,6 +19402,8 @@ export const deleteHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHub",
+  telemetry: TELEMETRY,
+  span: "DeleteHub",
 }));
 
 export type DeleteHubContentError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19190,6 +19422,8 @@ export const deleteHubContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHubContent",
+  telemetry: TELEMETRY,
+  span: "DeleteHubContent",
 }));
 
 export type DeleteHubContentReferenceError = ResourceNotFound | CommonErrors;
@@ -19208,6 +19442,8 @@ export const deleteHubContentReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHubContentReference",
+  telemetry: TELEMETRY,
+  span: "DeleteHubContentReference",
 }));
 
 export type DeleteHumanTaskUiError = ResourceNotFound | CommonErrors;
@@ -19228,6 +19464,8 @@ export const deleteHumanTaskUi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHumanTaskUi",
+  telemetry: TELEMETRY,
+  span: "DeleteHumanTaskUi",
 }));
 
 export type DeleteHyperParameterTuningJobError = CommonErrors;
@@ -19246,6 +19484,8 @@ export const deleteHyperParameterTuningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHyperParameterTuningJob",
+  telemetry: TELEMETRY,
+  span: "DeleteHyperParameterTuningJob",
 }));
 
 export type DeleteImageError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19264,6 +19504,8 @@ export const deleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImage",
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteImageVersionError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19282,6 +19524,8 @@ export const deleteImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteImageVersion",
 }));
 
 export type DeleteInferenceComponentError = CommonErrors;
@@ -19300,6 +19544,8 @@ export const deleteInferenceComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteInferenceComponent",
 }));
 
 export type DeleteInferenceExperimentError = ConflictException | ResourceNotFound | CommonErrors;
@@ -19320,6 +19566,8 @@ export const deleteInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceExperiment",
+  telemetry: TELEMETRY,
+  span: "DeleteInferenceExperiment",
 }));
 
 export type DeleteJobError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19346,6 +19594,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteMlflowAppError = ResourceNotFound | CommonErrors;
@@ -19364,6 +19614,8 @@ export const deleteMlflowApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMlflowApp",
+  telemetry: TELEMETRY,
+  span: "DeleteMlflowApp",
 }));
 
 export type DeleteMlflowTrackingServerError = ResourceNotFound | CommonErrors;
@@ -19382,6 +19634,8 @@ export const deleteMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMlflowTrackingServer",
+  telemetry: TELEMETRY,
+  span: "DeleteMlflowTrackingServer",
 }));
 
 export type DeleteModelError = ModelNotFound | CommonErrors;
@@ -19400,6 +19654,8 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
+  telemetry: TELEMETRY,
+  span: "DeleteModel",
 }));
 
 export type DeleteModelBiasJobDefinitionError = ResourceNotFound | CommonErrors;
@@ -19418,6 +19674,8 @@ export const deleteModelBiasJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelBiasJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteModelBiasJobDefinition",
 }));
 
 export type DeleteModelCardError = ConflictException | ResourceNotFound | CommonErrors;
@@ -19436,6 +19694,8 @@ export const deleteModelCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelCard",
+  telemetry: TELEMETRY,
+  span: "DeleteModelCard",
 }));
 
 export type DeleteModelExplainabilityJobDefinitionError = ResourceNotFound | CommonErrors;
@@ -19454,6 +19714,8 @@ export const deleteModelExplainabilityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelExplainabilityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteModelExplainabilityJobDefinition",
 }));
 
 export type DeleteModelPackageError = ConflictException | CommonErrors;
@@ -19474,6 +19736,8 @@ export const deleteModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelPackage",
+  telemetry: TELEMETRY,
+  span: "DeleteModelPackage",
 }));
 
 export type DeleteModelPackageGroupError = ConflictException | CommonErrors;
@@ -19492,6 +19756,8 @@ export const deleteModelPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelPackageGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteModelPackageGroup",
 }));
 
 export type DeleteModelPackageGroupPolicyError = CommonErrors;
@@ -19510,6 +19776,8 @@ export const deleteModelPackageGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelPackageGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteModelPackageGroupPolicy",
 }));
 
 export type DeleteModelQualityJobDefinitionError = ResourceNotFound | CommonErrors;
@@ -19528,6 +19796,8 @@ export const deleteModelQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelQualityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteModelQualityJobDefinition",
 }));
 
 export type DeleteMonitoringScheduleError = ResourceNotFound | CommonErrors;
@@ -19546,6 +19816,8 @@ export const deleteMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitoringSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitoringSchedule",
 }));
 
 export type DeleteNotebookInstanceError = CommonErrors;
@@ -19566,6 +19838,8 @@ export const deleteNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebookInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteNotebookInstance",
 }));
 
 export type DeleteNotebookInstanceLifecycleConfigError = CommonErrors;
@@ -19584,6 +19858,8 @@ export const deleteNotebookInstanceLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebookInstanceLifecycleConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteNotebookInstanceLifecycleConfig",
 }));
 
 export type DeleteOptimizationJobError = ResourceNotFound | CommonErrors;
@@ -19602,6 +19878,8 @@ export const deleteOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOptimizationJob",
+  telemetry: TELEMETRY,
+  span: "DeleteOptimizationJob",
 }));
 
 export type DeletePartnerAppError = ConflictException | ResourceNotFound | CommonErrors;
@@ -19620,6 +19898,8 @@ export const deletePartnerApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartnerApp",
+  telemetry: TELEMETRY,
+  span: "DeletePartnerApp",
 }));
 
 export type DeletePipelineError = ConflictException | ResourceNotFound | CommonErrors;
@@ -19638,6 +19918,8 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeleteProcessingJobError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19656,6 +19938,8 @@ export const deleteProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProcessingJob",
+  telemetry: TELEMETRY,
+  span: "DeleteProcessingJob",
 }));
 
 export type DeleteProjectError = ConflictException | CommonErrors;
@@ -19674,6 +19958,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteSpaceError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19692,6 +19978,8 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
+  telemetry: TELEMETRY,
+  span: "DeleteSpace",
 }));
 
 export type DeleteStudioLifecycleConfigError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19710,6 +19998,8 @@ export const deleteStudioLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStudioLifecycleConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteStudioLifecycleConfig",
 }));
 
 export type DeleteTagsError = CommonErrors;
@@ -19734,6 +20024,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DeleteTrainingJobError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19752,6 +20044,8 @@ export const deleteTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrainingJob",
+  telemetry: TELEMETRY,
+  span: "DeleteTrainingJob",
 }));
 
 export type DeleteTrialError = ResourceNotFound | CommonErrors;
@@ -19770,6 +20064,8 @@ export const deleteTrial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrial",
+  telemetry: TELEMETRY,
+  span: "DeleteTrial",
 }));
 
 export type DeleteTrialComponentError = ResourceNotFound | CommonErrors;
@@ -19788,6 +20084,8 @@ export const deleteTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrialComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteTrialComponent",
 }));
 
 export type DeleteUserProfileError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -19806,6 +20104,8 @@ export const deleteUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteUserProfile",
 }));
 
 export type DeleteWorkforceError = CommonErrors;
@@ -19828,6 +20128,8 @@ export const deleteWorkforce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkforce",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkforce",
 }));
 
 export type DeleteWorkteamError = ResourceLimitExceeded | CommonErrors;
@@ -19846,6 +20148,8 @@ export const deleteWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkteam",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkteam",
 }));
 
 export type DeregisterDevicesError = CommonErrors;
@@ -19864,6 +20168,8 @@ export const deregisterDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDevices",
+  telemetry: TELEMETRY,
+  span: "DeregisterDevices",
 }));
 
 export type DescribeActionError = ResourceNotFound | CommonErrors;
@@ -19882,6 +20188,8 @@ export const describeAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAction",
+  telemetry: TELEMETRY,
+  span: "DescribeAction",
 }));
 
 export type DescribeAIBenchmarkJobError = ResourceNotFound | CommonErrors;
@@ -19900,6 +20208,8 @@ export const describeAIBenchmarkJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAIBenchmarkJob",
+  telemetry: TELEMETRY,
+  span: "DescribeAIBenchmarkJob",
 }));
 
 export type DescribeAIRecommendationJobError = ResourceNotFound | CommonErrors;
@@ -19918,6 +20228,8 @@ export const describeAIRecommendationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAIRecommendationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeAIRecommendationJob",
 }));
 
 export type DescribeAIWorkloadConfigError = ResourceNotFound | CommonErrors;
@@ -19936,6 +20248,8 @@ export const describeAIWorkloadConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAIWorkloadConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeAIWorkloadConfig",
 }));
 
 export type DescribeAlgorithmError = CommonErrors;
@@ -19954,6 +20268,8 @@ export const describeAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlgorithm",
+  telemetry: TELEMETRY,
+  span: "DescribeAlgorithm",
 }));
 
 export type DescribeAppError = ResourceNotFound | CommonErrors;
@@ -19972,6 +20288,8 @@ export const describeApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApp",
+  telemetry: TELEMETRY,
+  span: "DescribeApp",
 }));
 
 export type DescribeAppImageConfigError = ResourceNotFound | CommonErrors;
@@ -19990,6 +20308,8 @@ export const describeAppImageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppImageConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeAppImageConfig",
 }));
 
 export type DescribeArtifactError = ResourceNotFound | CommonErrors;
@@ -20008,6 +20328,8 @@ export const describeArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeArtifact",
+  telemetry: TELEMETRY,
+  span: "DescribeArtifact",
 }));
 
 export type DescribeAutoMLJobError = ResourceNotFound | CommonErrors;
@@ -20028,6 +20350,8 @@ export const describeAutoMLJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoMLJob",
+  telemetry: TELEMETRY,
+  span: "DescribeAutoMLJob",
 }));
 
 export type DescribeAutoMLJobV2Error = ResourceNotFound | CommonErrors;
@@ -20046,6 +20370,8 @@ export const describeAutoMLJobV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoMLJobV2",
+  telemetry: TELEMETRY,
+  span: "DescribeAutoMLJobV2",
 }));
 
 export type DescribeClusterError = ResourceNotFound | CommonErrors;
@@ -20064,6 +20390,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeClusterEventError = ResourceNotFound | CommonErrors;
@@ -20082,6 +20410,8 @@ export const describeClusterEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterEvent",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterEvent",
 }));
 
 export type DescribeClusterNodeError = ResourceNotFound | CommonErrors;
@@ -20100,6 +20430,8 @@ export const describeClusterNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterNode",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterNode",
 }));
 
 export type DescribeClusterSchedulerConfigError = ResourceNotFound | CommonErrors;
@@ -20118,6 +20450,8 @@ export const describeClusterSchedulerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterSchedulerConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeClusterSchedulerConfig",
 }));
 
 export type DescribeCodeRepositoryError = CommonErrors;
@@ -20136,6 +20470,8 @@ export const describeCodeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCodeRepository",
+  telemetry: TELEMETRY,
+  span: "DescribeCodeRepository",
 }));
 
 export type DescribeCompilationJobError = ResourceNotFound | CommonErrors;
@@ -20156,6 +20492,8 @@ export const describeCompilationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCompilationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeCompilationJob",
 }));
 
 export type DescribeComputeQuotaError = ResourceNotFound | CommonErrors;
@@ -20174,6 +20512,8 @@ export const describeComputeQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComputeQuota",
+  telemetry: TELEMETRY,
+  span: "DescribeComputeQuota",
 }));
 
 export type DescribeContextError = ResourceNotFound | CommonErrors;
@@ -20192,6 +20532,8 @@ export const describeContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContext",
+  telemetry: TELEMETRY,
+  span: "DescribeContext",
 }));
 
 export type DescribeDataQualityJobDefinitionError = ResourceNotFound | CommonErrors;
@@ -20210,6 +20552,8 @@ export const describeDataQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataQualityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeDataQualityJobDefinition",
 }));
 
 export type DescribeDeviceError = ResourceNotFound | CommonErrors;
@@ -20228,6 +20572,8 @@ export const describeDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDevice",
+  telemetry: TELEMETRY,
+  span: "DescribeDevice",
 }));
 
 export type DescribeDeviceFleetError = ResourceNotFound | CommonErrors;
@@ -20246,6 +20592,8 @@ export const describeDeviceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeviceFleet",
+  telemetry: TELEMETRY,
+  span: "DescribeDeviceFleet",
 }));
 
 export type DescribeDomainError = ResourceNotFound | CommonErrors;
@@ -20264,6 +20612,8 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribeEdgeDeploymentPlanError = ResourceNotFound | CommonErrors;
@@ -20282,6 +20632,8 @@ export const describeEdgeDeploymentPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEdgeDeploymentPlan",
+  telemetry: TELEMETRY,
+  span: "DescribeEdgeDeploymentPlan",
 }));
 
 export type DescribeEdgePackagingJobError = ResourceNotFound | CommonErrors;
@@ -20300,6 +20652,8 @@ export const describeEdgePackagingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEdgePackagingJob",
+  telemetry: TELEMETRY,
+  span: "DescribeEdgePackagingJob",
 }));
 
 export type DescribeEndpointError = EndpointNotFound | CommonErrors;
@@ -20318,6 +20672,8 @@ export const describeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoint",
 }));
 
 export type DescribeEndpointConfigError = EndpointConfigNotFound | CommonErrors;
@@ -20336,6 +20692,8 @@ export const describeEndpointConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpointConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpointConfig",
 }));
 
 export type DescribeExperimentError = ResourceNotFound | CommonErrors;
@@ -20354,6 +20712,8 @@ export const describeExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExperiment",
+  telemetry: TELEMETRY,
+  span: "DescribeExperiment",
 }));
 
 export type DescribeFeatureGroupError = ResourceNotFound | CommonErrors;
@@ -20372,6 +20732,8 @@ export const describeFeatureGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeatureGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeFeatureGroup",
 }));
 
 export type DescribeFeatureMetadataError = ResourceNotFound | CommonErrors;
@@ -20390,6 +20752,8 @@ export const describeFeatureMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeatureMetadata",
+  telemetry: TELEMETRY,
+  span: "DescribeFeatureMetadata",
 }));
 
 export type DescribeFlowDefinitionError = ResourceNotFound | CommonErrors;
@@ -20408,6 +20772,8 @@ export const describeFlowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeFlowDefinition",
 }));
 
 export type DescribeHubError = ResourceNotFound | CommonErrors;
@@ -20426,6 +20792,8 @@ export const describeHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHub",
+  telemetry: TELEMETRY,
+  span: "DescribeHub",
 }));
 
 export type DescribeHubContentError = ResourceNotFound | CommonErrors;
@@ -20444,6 +20812,8 @@ export const describeHubContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHubContent",
+  telemetry: TELEMETRY,
+  span: "DescribeHubContent",
 }));
 
 export type DescribeHumanTaskUiError = ResourceNotFound | CommonErrors;
@@ -20462,6 +20832,8 @@ export const describeHumanTaskUi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHumanTaskUi",
+  telemetry: TELEMETRY,
+  span: "DescribeHumanTaskUi",
 }));
 
 export type DescribeHyperParameterTuningJobError = ResourceNotFound | CommonErrors;
@@ -20480,6 +20852,8 @@ export const describeHyperParameterTuningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHyperParameterTuningJob",
+  telemetry: TELEMETRY,
+  span: "DescribeHyperParameterTuningJob",
 }));
 
 export type DescribeImageError = ResourceNotFound | CommonErrors;
@@ -20498,6 +20872,8 @@ export const describeImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImage",
+  telemetry: TELEMETRY,
+  span: "DescribeImage",
 }));
 
 export type DescribeImageVersionError = ResourceNotFound | CommonErrors;
@@ -20516,6 +20892,8 @@ export const describeImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeImageVersion",
 }));
 
 export type DescribeInferenceComponentError = CommonErrors;
@@ -20534,6 +20912,8 @@ export const describeInferenceComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceComponent",
+  telemetry: TELEMETRY,
+  span: "DescribeInferenceComponent",
 }));
 
 export type DescribeInferenceExperimentError = ResourceNotFound | CommonErrors;
@@ -20552,6 +20932,8 @@ export const describeInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceExperiment",
+  telemetry: TELEMETRY,
+  span: "DescribeInferenceExperiment",
 }));
 
 export type DescribeInferenceRecommendationsJobError = ResourceNotFound | CommonErrors;
@@ -20570,6 +20952,8 @@ export const describeInferenceRecommendationsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceRecommendationsJob",
+  telemetry: TELEMETRY,
+  span: "DescribeInferenceRecommendationsJob",
 }));
 
 export type DescribeJobError = ResourceNotFound | CommonErrors;
@@ -20598,6 +20982,8 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
+  telemetry: TELEMETRY,
+  span: "DescribeJob",
 }));
 
 export type DescribeJobSchemaVersionError = ResourceNotFound | CommonErrors;
@@ -20622,6 +21008,8 @@ export const describeJobSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobSchemaVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeJobSchemaVersion",
 }));
 
 export type DescribeLabelingJobError = ResourceNotFound | CommonErrors;
@@ -20640,6 +21028,8 @@ export const describeLabelingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabelingJob",
+  telemetry: TELEMETRY,
+  span: "DescribeLabelingJob",
 }));
 
 export type DescribeLineageGroupError = ResourceNotFound | CommonErrors;
@@ -20658,6 +21048,8 @@ export const describeLineageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLineageGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeLineageGroup",
 }));
 
 export type DescribeMlflowAppError = ResourceNotFound | CommonErrors;
@@ -20676,6 +21068,8 @@ export const describeMlflowApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMlflowApp",
+  telemetry: TELEMETRY,
+  span: "DescribeMlflowApp",
 }));
 
 export type DescribeMlflowTrackingServerError = ResourceNotFound | CommonErrors;
@@ -20694,6 +21088,8 @@ export const describeMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMlflowTrackingServer",
+  telemetry: TELEMETRY,
+  span: "DescribeMlflowTrackingServer",
 }));
 
 export type DescribeModelError = ModelNotFound | CommonErrors;
@@ -20712,6 +21108,8 @@ export const describeModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModel",
+  telemetry: TELEMETRY,
+  span: "DescribeModel",
 }));
 
 export type DescribeModelBiasJobDefinitionError = ResourceNotFound | CommonErrors;
@@ -20730,6 +21128,8 @@ export const describeModelBiasJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelBiasJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeModelBiasJobDefinition",
 }));
 
 export type DescribeModelCardError = ResourceNotFound | CommonErrors;
@@ -20750,6 +21150,8 @@ export const describeModelCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelCard",
+  telemetry: TELEMETRY,
+  span: "DescribeModelCard",
 }));
 
 export type DescribeModelCardExportJobError = ResourceNotFound | CommonErrors;
@@ -20768,6 +21170,8 @@ export const describeModelCardExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelCardExportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeModelCardExportJob",
 }));
 
 export type DescribeModelExplainabilityJobDefinitionError = ResourceNotFound | CommonErrors;
@@ -20786,6 +21190,8 @@ export const describeModelExplainabilityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelExplainabilityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeModelExplainabilityJobDefinition",
 }));
 
 export type DescribeModelPackageError = CommonErrors;
@@ -20808,6 +21214,8 @@ export const describeModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelPackage",
+  telemetry: TELEMETRY,
+  span: "DescribeModelPackage",
 }));
 
 export type DescribeModelPackageGroupError = CommonErrors;
@@ -20826,6 +21234,8 @@ export const describeModelPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelPackageGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeModelPackageGroup",
 }));
 
 export type DescribeModelQualityJobDefinitionError = ResourceNotFound | CommonErrors;
@@ -20844,6 +21254,8 @@ export const describeModelQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelQualityJobDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeModelQualityJobDefinition",
 }));
 
 export type DescribeMonitoringScheduleError = ResourceNotFound | CommonErrors;
@@ -20862,6 +21274,8 @@ export const describeMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMonitoringSchedule",
+  telemetry: TELEMETRY,
+  span: "DescribeMonitoringSchedule",
 }));
 
 export type DescribeNotebookInstanceError = CommonErrors;
@@ -20880,6 +21294,8 @@ export const describeNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotebookInstance",
+  telemetry: TELEMETRY,
+  span: "DescribeNotebookInstance",
 }));
 
 export type DescribeNotebookInstanceLifecycleConfigError = CommonErrors;
@@ -20900,6 +21316,8 @@ export const describeNotebookInstanceLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotebookInstanceLifecycleConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeNotebookInstanceLifecycleConfig",
 }));
 
 export type DescribeOptimizationJobError = ResourceNotFound | CommonErrors;
@@ -20918,6 +21336,8 @@ export const describeOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOptimizationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeOptimizationJob",
 }));
 
 export type DescribePartnerAppError = ResourceNotFound | CommonErrors;
@@ -20936,6 +21356,8 @@ export const describePartnerApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePartnerApp",
+  telemetry: TELEMETRY,
+  span: "DescribePartnerApp",
 }));
 
 export type DescribePipelineError = ResourceNotFound | CommonErrors;
@@ -20954,6 +21376,8 @@ export const describePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipeline",
+  telemetry: TELEMETRY,
+  span: "DescribePipeline",
 }));
 
 export type DescribePipelineDefinitionForExecutionError = ResourceNotFound | CommonErrors;
@@ -20972,6 +21396,8 @@ export const describePipelineDefinitionForExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipelineDefinitionForExecution",
+  telemetry: TELEMETRY,
+  span: "DescribePipelineDefinitionForExecution",
 }));
 
 export type DescribePipelineExecutionError = ResourceNotFound | CommonErrors;
@@ -20990,6 +21416,8 @@ export const describePipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipelineExecution",
+  telemetry: TELEMETRY,
+  span: "DescribePipelineExecution",
 }));
 
 export type DescribeProcessingJobError = ResourceNotFound | CommonErrors;
@@ -21008,6 +21436,8 @@ export const describeProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProcessingJob",
+  telemetry: TELEMETRY,
+  span: "DescribeProcessingJob",
 }));
 
 export type DescribeProjectError = CommonErrors;
@@ -21026,6 +21456,8 @@ export const describeProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProject",
+  telemetry: TELEMETRY,
+  span: "DescribeProject",
 }));
 
 export type DescribeReservedCapacityError = ResourceNotFound | CommonErrors;
@@ -21044,6 +21476,8 @@ export const describeReservedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedCapacity",
+  telemetry: TELEMETRY,
+  span: "DescribeReservedCapacity",
 }));
 
 export type DescribeSpaceError = ResourceNotFound | CommonErrors;
@@ -21062,6 +21496,8 @@ export const describeSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpace",
+  telemetry: TELEMETRY,
+  span: "DescribeSpace",
 }));
 
 export type DescribeStudioLifecycleConfigError = ResourceNotFound | CommonErrors;
@@ -21080,6 +21516,8 @@ export const describeStudioLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStudioLifecycleConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeStudioLifecycleConfig",
 }));
 
 export type DescribeSubscribedWorkteamError = CommonErrors;
@@ -21098,6 +21536,8 @@ export const describeSubscribedWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSubscribedWorkteam",
+  telemetry: TELEMETRY,
+  span: "DescribeSubscribedWorkteam",
 }));
 
 export type DescribeTrainingJobError = ResourceNotFound | CommonErrors;
@@ -21118,6 +21558,8 @@ export const describeTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrainingJob",
+  telemetry: TELEMETRY,
+  span: "DescribeTrainingJob",
 }));
 
 export type DescribeTrainingPlanError = ResourceNotFound | CommonErrors;
@@ -21136,6 +21578,8 @@ export const describeTrainingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrainingPlan",
+  telemetry: TELEMETRY,
+  span: "DescribeTrainingPlan",
 }));
 
 export type DescribeTrainingPlanExtensionHistoryError = ResourceNotFound | CommonErrors;
@@ -21161,6 +21605,8 @@ export const describeTrainingPlanExtensionHistory: API.PaginatedOperationMethod<
     items: "TrainingPlanExtensions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTrainingPlanExtensionHistory",
 })) as any;
 
 export type DescribeTransformJobError = ResourceNotFound | CommonErrors;
@@ -21179,6 +21625,8 @@ export const describeTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTransformJob",
+  telemetry: TELEMETRY,
+  span: "DescribeTransformJob",
 }));
 
 export type DescribeTrialError = ResourceNotFound | CommonErrors;
@@ -21197,6 +21645,8 @@ export const describeTrial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrial",
+  telemetry: TELEMETRY,
+  span: "DescribeTrial",
 }));
 
 export type DescribeTrialComponentError = ResourceNotFound | CommonErrors;
@@ -21215,6 +21665,8 @@ export const describeTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrialComponent",
+  telemetry: TELEMETRY,
+  span: "DescribeTrialComponent",
 }));
 
 export type DescribeUserProfileError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -21233,6 +21685,8 @@ export const describeUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserProfile",
+  telemetry: TELEMETRY,
+  span: "DescribeUserProfile",
 }));
 
 export type DescribeWorkforceError = CommonErrors;
@@ -21253,6 +21707,8 @@ export const describeWorkforce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkforce",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkforce",
 }));
 
 export type DescribeWorkteamError = CommonErrors;
@@ -21271,6 +21727,8 @@ export const describeWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkteam",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkteam",
 }));
 
 export type DetachClusterNodeVolumeError = ResourceNotFound | CommonErrors;
@@ -21291,6 +21749,8 @@ export const detachClusterNodeVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachClusterNodeVolume",
+  telemetry: TELEMETRY,
+  span: "DetachClusterNodeVolume",
 }));
 
 export type DisableSagemakerServicecatalogPortfolioError = CommonErrors;
@@ -21309,6 +21769,8 @@ export const disableSagemakerServicecatalogPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSagemakerServicecatalogPortfolio",
+  telemetry: TELEMETRY,
+  span: "DisableSagemakerServicecatalogPortfolio",
 }));
 
 export type DisassociateTrialComponentError = ResourceNotFound | CommonErrors;
@@ -21329,6 +21791,8 @@ export const disassociateTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTrialComponent",
+  telemetry: TELEMETRY,
+  span: "DisassociateTrialComponent",
 }));
 
 export type EnableSagemakerServicecatalogPortfolioError = CommonErrors;
@@ -21347,6 +21811,8 @@ export const enableSagemakerServicecatalogPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSagemakerServicecatalogPortfolio",
+  telemetry: TELEMETRY,
+  span: "EnableSagemakerServicecatalogPortfolio",
 }));
 
 export type ExtendTrainingPlanError = ResourceNotFound | CommonErrors;
@@ -21369,6 +21835,8 @@ export const extendTrainingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExtendTrainingPlan",
+  telemetry: TELEMETRY,
+  span: "ExtendTrainingPlan",
 }));
 
 export type GetDeviceFleetReportError = CommonErrors;
@@ -21387,6 +21855,8 @@ export const getDeviceFleetReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceFleetReport",
+  telemetry: TELEMETRY,
+  span: "GetDeviceFleetReport",
 }));
 
 export type GetLineageGroupPolicyError = ResourceNotFound | CommonErrors;
@@ -21405,6 +21875,8 @@ export const getLineageGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLineageGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "GetLineageGroupPolicy",
 }));
 
 export type GetModelPackageGroupPolicyError = CommonErrors;
@@ -21423,6 +21895,8 @@ export const getModelPackageGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelPackageGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "GetModelPackageGroupPolicy",
 }));
 
 export type GetSagemakerServicecatalogPortfolioStatusError = CommonErrors;
@@ -21441,6 +21915,8 @@ export const getSagemakerServicecatalogPortfolioStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSagemakerServicecatalogPortfolioStatus",
+  telemetry: TELEMETRY,
+  span: "GetSagemakerServicecatalogPortfolioStatus",
 }));
 
 export type GetScalingConfigurationRecommendationError = ResourceNotFound | CommonErrors;
@@ -21459,6 +21935,8 @@ export const getScalingConfigurationRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScalingConfigurationRecommendation",
+  telemetry: TELEMETRY,
+  span: "GetScalingConfigurationRecommendation",
 }));
 
 export type GetSearchSuggestionsError = CommonErrors;
@@ -21477,6 +21955,8 @@ export const getSearchSuggestions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchSuggestions",
+  telemetry: TELEMETRY,
+  span: "GetSearchSuggestions",
 }));
 
 export type ImportHubContentError =
@@ -21499,6 +21979,8 @@ export const importHubContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportHubContent",
+  telemetry: TELEMETRY,
+  span: "ImportHubContent",
 }));
 
 export type ListActionsError = ResourceNotFound | CommonErrors;
@@ -21524,6 +22006,8 @@ export const listActions: API.PaginatedOperationMethod<
     items: "ActionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActions",
 })) as any;
 
 export type ListAIBenchmarkJobsError = CommonErrors;
@@ -21549,6 +22033,8 @@ export const listAIBenchmarkJobs: API.PaginatedOperationMethod<
     items: "AIBenchmarkJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIBenchmarkJobs",
 })) as any;
 
 export type ListAIRecommendationJobsError = CommonErrors;
@@ -21574,6 +22060,8 @@ export const listAIRecommendationJobs: API.PaginatedOperationMethod<
     items: "AIRecommendationJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIRecommendationJobs",
 })) as any;
 
 export type ListAIWorkloadConfigsError = CommonErrors;
@@ -21599,6 +22087,8 @@ export const listAIWorkloadConfigs: API.PaginatedOperationMethod<
     items: "AIWorkloadConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIWorkloadConfigs",
 })) as any;
 
 export type ListAlgorithmsError = CommonErrors;
@@ -21624,6 +22114,8 @@ export const listAlgorithms: API.PaginatedOperationMethod<
     items: "AlgorithmSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAlgorithms",
 })) as any;
 
 export type ListAliasesError = ResourceNotFound | CommonErrors;
@@ -21649,6 +22141,8 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "SageMakerImageVersionAliases",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAliases",
 })) as any;
 
 export type ListAppImageConfigsError = CommonErrors;
@@ -21674,6 +22168,8 @@ export const listAppImageConfigs: API.PaginatedOperationMethod<
     items: "AppImageConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppImageConfigs",
 })) as any;
 
 export type ListAppsError = CommonErrors;
@@ -21699,6 +22195,8 @@ export const listApps: API.PaginatedOperationMethod<
     items: "Apps",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApps",
 })) as any;
 
 export type ListArtifactsError = ResourceNotFound | CommonErrors;
@@ -21724,6 +22222,8 @@ export const listArtifacts: API.PaginatedOperationMethod<
     items: "ArtifactSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 })) as any;
 
 export type ListAssociationsError = ResourceNotFound | CommonErrors;
@@ -21749,6 +22249,8 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "AssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociations",
 })) as any;
 
 export type ListAutoMLJobsError = CommonErrors;
@@ -21774,6 +22276,8 @@ export const listAutoMLJobs: API.PaginatedOperationMethod<
     items: "AutoMLJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutoMLJobs",
 })) as any;
 
 export type ListCandidatesForAutoMLJobError = ResourceNotFound | CommonErrors;
@@ -21799,6 +22303,8 @@ export const listCandidatesForAutoMLJob: API.PaginatedOperationMethod<
     items: "Candidates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCandidatesForAutoMLJob",
 })) as any;
 
 export type ListClusterEventsError = ResourceNotFound | CommonErrors;
@@ -21824,6 +22330,8 @@ export const listClusterEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterEvents",
 })) as any;
 
 export type ListClusterNodesError = ResourceNotFound | CommonErrors;
@@ -21849,6 +22357,8 @@ export const listClusterNodes: API.PaginatedOperationMethod<
     items: "ClusterNodeSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterNodes",
 })) as any;
 
 export type ListClustersError = CommonErrors;
@@ -21874,6 +22384,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "ClusterSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListClusterSchedulerConfigsError = CommonErrors;
@@ -21899,6 +22411,8 @@ export const listClusterSchedulerConfigs: API.PaginatedOperationMethod<
     items: "ClusterSchedulerConfigSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusterSchedulerConfigs",
 })) as any;
 
 export type ListCodeRepositoriesError = CommonErrors;
@@ -21924,6 +22438,8 @@ export const listCodeRepositories: API.PaginatedOperationMethod<
     items: "CodeRepositorySummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeRepositories",
 })) as any;
 
 export type ListCompilationJobsError = CommonErrors;
@@ -21951,6 +22467,8 @@ export const listCompilationJobs: API.PaginatedOperationMethod<
     items: "CompilationJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCompilationJobs",
 })) as any;
 
 export type ListComputeQuotasError = CommonErrors;
@@ -21976,6 +22494,8 @@ export const listComputeQuotas: API.PaginatedOperationMethod<
     items: "ComputeQuotaSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputeQuotas",
 })) as any;
 
 export type ListContextsError = ResourceNotFound | CommonErrors;
@@ -22001,6 +22521,8 @@ export const listContexts: API.PaginatedOperationMethod<
     items: "ContextSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContexts",
 })) as any;
 
 export type ListDataQualityJobDefinitionsError = CommonErrors;
@@ -22026,6 +22548,8 @@ export const listDataQualityJobDefinitions: API.PaginatedOperationMethod<
     items: "JobDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityJobDefinitions",
 })) as any;
 
 export type ListDeviceFleetsError = CommonErrors;
@@ -22051,6 +22575,8 @@ export const listDeviceFleets: API.PaginatedOperationMethod<
     items: "DeviceFleetSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeviceFleets",
 })) as any;
 
 export type ListDevicesError = CommonErrors;
@@ -22076,6 +22602,8 @@ export const listDevices: API.PaginatedOperationMethod<
     items: "DeviceSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
 })) as any;
 
 export type ListDomainsError = CommonErrors;
@@ -22101,6 +22629,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListEdgeDeploymentPlansError = CommonErrors;
@@ -22126,6 +22656,8 @@ export const listEdgeDeploymentPlans: API.PaginatedOperationMethod<
     items: "EdgeDeploymentPlanSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEdgeDeploymentPlans",
 })) as any;
 
 export type ListEdgePackagingJobsError = CommonErrors;
@@ -22151,6 +22683,8 @@ export const listEdgePackagingJobs: API.PaginatedOperationMethod<
     items: "EdgePackagingJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEdgePackagingJobs",
 })) as any;
 
 export type ListEndpointConfigsError = CommonErrors;
@@ -22176,6 +22710,8 @@ export const listEndpointConfigs: API.PaginatedOperationMethod<
     items: "EndpointConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpointConfigs",
 })) as any;
 
 export type ListEndpointsError = CommonErrors;
@@ -22201,6 +22737,8 @@ export const listEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpoints",
 })) as any;
 
 export type ListExperimentsError = CommonErrors;
@@ -22226,6 +22764,8 @@ export const listExperiments: API.PaginatedOperationMethod<
     items: "ExperimentSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperiments",
 })) as any;
 
 export type ListFeatureGroupsError = CommonErrors;
@@ -22251,6 +22791,8 @@ export const listFeatureGroups: API.PaginatedOperationMethod<
     items: "FeatureGroupSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFeatureGroups",
 })) as any;
 
 export type ListFlowDefinitionsError = CommonErrors;
@@ -22276,6 +22818,8 @@ export const listFlowDefinitions: API.PaginatedOperationMethod<
     items: "FlowDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowDefinitions",
 })) as any;
 
 export type ListHubContentsError = ResourceNotFound | CommonErrors;
@@ -22294,6 +22838,8 @@ export const listHubContents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHubContents",
+  telemetry: TELEMETRY,
+  span: "ListHubContents",
 }));
 
 export type ListHubContentVersionsError = ResourceNotFound | CommonErrors;
@@ -22312,6 +22858,8 @@ export const listHubContentVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHubContentVersions",
+  telemetry: TELEMETRY,
+  span: "ListHubContentVersions",
 }));
 
 export type ListHubsError = CommonErrors;
@@ -22330,6 +22878,8 @@ export const listHubs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHubs",
+  telemetry: TELEMETRY,
+  span: "ListHubs",
 }));
 
 export type ListHumanTaskUisError = CommonErrors;
@@ -22355,6 +22905,8 @@ export const listHumanTaskUis: API.PaginatedOperationMethod<
     items: "HumanTaskUiSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHumanTaskUis",
 })) as any;
 
 export type ListHyperParameterTuningJobsError = CommonErrors;
@@ -22380,6 +22932,8 @@ export const listHyperParameterTuningJobs: API.PaginatedOperationMethod<
     items: "HyperParameterTuningJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHyperParameterTuningJobs",
 })) as any;
 
 export type ListImagesError = CommonErrors;
@@ -22405,6 +22959,8 @@ export const listImages: API.PaginatedOperationMethod<
     items: "Images",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImages",
 })) as any;
 
 export type ListImageVersionsError = ResourceNotFound | CommonErrors;
@@ -22430,6 +22986,8 @@ export const listImageVersions: API.PaginatedOperationMethod<
     items: "ImageVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImageVersions",
 })) as any;
 
 export type ListInferenceComponentsError = CommonErrors;
@@ -22455,6 +23013,8 @@ export const listInferenceComponents: API.PaginatedOperationMethod<
     items: "InferenceComponents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceComponents",
 })) as any;
 
 export type ListInferenceExperimentsError = CommonErrors;
@@ -22480,6 +23040,8 @@ export const listInferenceExperiments: API.PaginatedOperationMethod<
     items: "InferenceExperiments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceExperiments",
 })) as any;
 
 export type ListInferenceRecommendationsJobsError = CommonErrors;
@@ -22505,6 +23067,8 @@ export const listInferenceRecommendationsJobs: API.PaginatedOperationMethod<
     items: "InferenceRecommendationsJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceRecommendationsJobs",
 })) as any;
 
 export type ListInferenceRecommendationsJobStepsError = ResourceNotFound | CommonErrors;
@@ -22532,6 +23096,8 @@ export const listInferenceRecommendationsJobSteps: API.PaginatedOperationMethod<
     items: "Steps",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInferenceRecommendationsJobSteps",
 })) as any;
 
 export type ListJobsError = CommonErrors;
@@ -22563,6 +23129,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "JobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListJobSchemaVersionsError = ResourceNotFound | CommonErrors;
@@ -22594,6 +23162,8 @@ export const listJobSchemaVersions: API.PaginatedOperationMethod<
     items: "JobConfigSchemas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobSchemaVersions",
 })) as any;
 
 export type ListLabelingJobsError = CommonErrors;
@@ -22619,6 +23189,8 @@ export const listLabelingJobs: API.PaginatedOperationMethod<
     items: "LabelingJobSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLabelingJobs",
 })) as any;
 
 export type ListLabelingJobsForWorkteamError = ResourceNotFound | CommonErrors;
@@ -22644,6 +23216,8 @@ export const listLabelingJobsForWorkteam: API.PaginatedOperationMethod<
     items: "LabelingJobSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLabelingJobsForWorkteam",
 })) as any;
 
 export type ListLineageGroupsError = CommonErrors;
@@ -22669,6 +23243,8 @@ export const listLineageGroups: API.PaginatedOperationMethod<
     items: "LineageGroupSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLineageGroups",
 })) as any;
 
 export type ListMlflowAppsError = CommonErrors;
@@ -22694,6 +23270,8 @@ export const listMlflowApps: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMlflowApps",
 })) as any;
 
 export type ListMlflowTrackingServersError = CommonErrors;
@@ -22719,6 +23297,8 @@ export const listMlflowTrackingServers: API.PaginatedOperationMethod<
     items: "TrackingServerSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMlflowTrackingServers",
 })) as any;
 
 export type ListModelBiasJobDefinitionsError = CommonErrors;
@@ -22744,6 +23324,8 @@ export const listModelBiasJobDefinitions: API.PaginatedOperationMethod<
     items: "JobDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelBiasJobDefinitions",
 })) as any;
 
 export type ListModelCardExportJobsError = CommonErrors;
@@ -22769,6 +23351,8 @@ export const listModelCardExportJobs: API.PaginatedOperationMethod<
     items: "ModelCardExportJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelCardExportJobs",
 })) as any;
 
 export type ListModelCardsError = CommonErrors;
@@ -22794,6 +23378,8 @@ export const listModelCards: API.PaginatedOperationMethod<
     items: "ModelCardSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelCards",
 })) as any;
 
 export type ListModelCardVersionsError = ResourceNotFound | CommonErrors;
@@ -22819,6 +23405,8 @@ export const listModelCardVersions: API.PaginatedOperationMethod<
     items: "ModelCardVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelCardVersions",
 })) as any;
 
 export type ListModelExplainabilityJobDefinitionsError = CommonErrors;
@@ -22844,6 +23432,8 @@ export const listModelExplainabilityJobDefinitions: API.PaginatedOperationMethod
     items: "JobDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelExplainabilityJobDefinitions",
 })) as any;
 
 export type ListModelMetadataError = CommonErrors;
@@ -22869,6 +23459,8 @@ export const listModelMetadata: API.PaginatedOperationMethod<
     items: "ModelMetadataSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelMetadata",
 })) as any;
 
 export type ListModelPackageGroupsError = CommonErrors;
@@ -22894,6 +23486,8 @@ export const listModelPackageGroups: API.PaginatedOperationMethod<
     items: "ModelPackageGroupSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelPackageGroups",
 })) as any;
 
 export type ListModelPackagesError = CommonErrors;
@@ -22919,6 +23513,8 @@ export const listModelPackages: API.PaginatedOperationMethod<
     items: "ModelPackageSummaryList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelPackages",
 })) as any;
 
 export type ListModelQualityJobDefinitionsError = CommonErrors;
@@ -22944,6 +23540,8 @@ export const listModelQualityJobDefinitions: API.PaginatedOperationMethod<
     items: "JobDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelQualityJobDefinitions",
 })) as any;
 
 export type ListModelsError = CommonErrors;
@@ -22969,6 +23567,8 @@ export const listModels: API.PaginatedOperationMethod<
     items: "Models",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModels",
 })) as any;
 
 export type ListMonitoringAlertHistoryError = ResourceNotFound | CommonErrors;
@@ -22994,6 +23594,8 @@ export const listMonitoringAlertHistory: API.PaginatedOperationMethod<
     items: "MonitoringAlertHistory",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitoringAlertHistory",
 })) as any;
 
 export type ListMonitoringAlertsError = ResourceNotFound | CommonErrors;
@@ -23019,6 +23621,8 @@ export const listMonitoringAlerts: API.PaginatedOperationMethod<
     items: "MonitoringAlertSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitoringAlerts",
 })) as any;
 
 export type ListMonitoringExecutionsError = CommonErrors;
@@ -23044,6 +23648,8 @@ export const listMonitoringExecutions: API.PaginatedOperationMethod<
     items: "MonitoringExecutionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitoringExecutions",
 })) as any;
 
 export type ListMonitoringSchedulesError = CommonErrors;
@@ -23069,6 +23675,8 @@ export const listMonitoringSchedules: API.PaginatedOperationMethod<
     items: "MonitoringScheduleSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitoringSchedules",
 })) as any;
 
 export type ListNotebookInstanceLifecycleConfigsError = CommonErrors;
@@ -23094,6 +23702,8 @@ export const listNotebookInstanceLifecycleConfigs: API.PaginatedOperationMethod<
     items: "NotebookInstanceLifecycleConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotebookInstanceLifecycleConfigs",
 })) as any;
 
 export type ListNotebookInstancesError = CommonErrors;
@@ -23119,6 +23729,8 @@ export const listNotebookInstances: API.PaginatedOperationMethod<
     items: "NotebookInstances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotebookInstances",
 })) as any;
 
 export type ListOptimizationJobsError = CommonErrors;
@@ -23144,6 +23756,8 @@ export const listOptimizationJobs: API.PaginatedOperationMethod<
     items: "OptimizationJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOptimizationJobs",
 })) as any;
 
 export type ListPartnerAppsError = CommonErrors;
@@ -23169,6 +23783,8 @@ export const listPartnerApps: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPartnerApps",
 })) as any;
 
 export type ListPipelineExecutionsError = ResourceNotFound | CommonErrors;
@@ -23194,6 +23810,8 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
     items: "PipelineExecutionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineExecutions",
 })) as any;
 
 export type ListPipelineExecutionStepsError = ResourceNotFound | CommonErrors;
@@ -23219,6 +23837,8 @@ export const listPipelineExecutionSteps: API.PaginatedOperationMethod<
     items: "PipelineExecutionSteps",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineExecutionSteps",
 })) as any;
 
 export type ListPipelineParametersForExecutionError = ResourceNotFound | CommonErrors;
@@ -23244,6 +23864,8 @@ export const listPipelineParametersForExecution: API.PaginatedOperationMethod<
     items: "PipelineParameters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineParametersForExecution",
 })) as any;
 
 export type ListPipelinesError = CommonErrors;
@@ -23269,6 +23891,8 @@ export const listPipelines: API.PaginatedOperationMethod<
     items: "PipelineSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelines",
 })) as any;
 
 export type ListPipelineVersionsError = ResourceNotFound | CommonErrors;
@@ -23294,6 +23918,8 @@ export const listPipelineVersions: API.PaginatedOperationMethod<
     items: "PipelineVersionSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineVersions",
 })) as any;
 
 export type ListProcessingJobsError = CommonErrors;
@@ -23319,6 +23945,8 @@ export const listProcessingJobs: API.PaginatedOperationMethod<
     items: "ProcessingJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProcessingJobs",
 })) as any;
 
 export type ListProjectsError = CommonErrors;
@@ -23343,6 +23971,8 @@ export const listProjects: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListResourceCatalogsError = CommonErrors;
@@ -23368,6 +23998,8 @@ export const listResourceCatalogs: API.PaginatedOperationMethod<
     items: "ResourceCatalogs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceCatalogs",
 })) as any;
 
 export type ListSpacesError = CommonErrors;
@@ -23393,6 +24025,8 @@ export const listSpaces: API.PaginatedOperationMethod<
     items: "Spaces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpaces",
 })) as any;
 
 export type ListStageDevicesError = CommonErrors;
@@ -23418,6 +24052,8 @@ export const listStageDevices: API.PaginatedOperationMethod<
     items: "DeviceDeploymentSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStageDevices",
 })) as any;
 
 export type ListStudioLifecycleConfigsError = ResourceInUse | CommonErrors;
@@ -23443,6 +24079,8 @@ export const listStudioLifecycleConfigs: API.PaginatedOperationMethod<
     items: "StudioLifecycleConfigs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStudioLifecycleConfigs",
 })) as any;
 
 export type ListSubscribedWorkteamsError = CommonErrors;
@@ -23468,6 +24106,8 @@ export const listSubscribedWorkteams: API.PaginatedOperationMethod<
     items: "SubscribedWorkteams",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscribedWorkteams",
 })) as any;
 
 export type ListTagsError = CommonErrors;
@@ -23493,6 +24133,8 @@ export const listTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 })) as any;
 
 export type ListTrainingJobsError = CommonErrors;
@@ -23530,6 +24172,8 @@ export const listTrainingJobs: API.PaginatedOperationMethod<
     items: "TrainingJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrainingJobs",
 })) as any;
 
 export type ListTrainingJobsForHyperParameterTuningJobError = ResourceNotFound | CommonErrors;
@@ -23563,6 +24207,8 @@ export const listTrainingJobsForHyperParameterTuningJob: API.PaginatedOperationM
     items: "TrainingJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrainingJobsForHyperParameterTuningJob",
 })) as any;
 
 export type ListTrainingPlansError = CommonErrors;
@@ -23588,6 +24234,8 @@ export const listTrainingPlans: API.PaginatedOperationMethod<
     items: "TrainingPlanSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrainingPlans",
 })) as any;
 
 export type ListTransformJobsError = CommonErrors;
@@ -23613,6 +24261,8 @@ export const listTransformJobs: API.PaginatedOperationMethod<
     items: "TransformJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTransformJobs",
 })) as any;
 
 export type ListTrialComponentsError = ResourceNotFound | CommonErrors;
@@ -23644,6 +24294,8 @@ export const listTrialComponents: API.PaginatedOperationMethod<
     items: "TrialComponentSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrialComponents",
 })) as any;
 
 export type ListTrialsError = ResourceNotFound | CommonErrors;
@@ -23669,6 +24321,8 @@ export const listTrials: API.PaginatedOperationMethod<
     items: "TrialSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrials",
 })) as any;
 
 export type ListUltraServersByReservedCapacityError = ResourceNotFound | CommonErrors;
@@ -23694,6 +24348,8 @@ export const listUltraServersByReservedCapacity: API.PaginatedOperationMethod<
     items: "UltraServers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUltraServersByReservedCapacity",
 })) as any;
 
 export type ListUserProfilesError = CommonErrors;
@@ -23719,6 +24375,8 @@ export const listUserProfiles: API.PaginatedOperationMethod<
     items: "UserProfiles",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUserProfiles",
 })) as any;
 
 export type ListWorkforcesError = CommonErrors;
@@ -23744,6 +24402,8 @@ export const listWorkforces: API.PaginatedOperationMethod<
     items: "Workforces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkforces",
 })) as any;
 
 export type ListWorkteamsError = CommonErrors;
@@ -23769,6 +24429,8 @@ export const listWorkteams: API.PaginatedOperationMethod<
     items: "Workteams",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkteams",
 })) as any;
 
 export type PutModelPackageGroupPolicyError = ConflictException | CommonErrors;
@@ -23787,6 +24449,8 @@ export const putModelPackageGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutModelPackageGroupPolicy",
+  telemetry: TELEMETRY,
+  span: "PutModelPackageGroupPolicy",
 }));
 
 export type QueryLineageError = ResourceNotFound | CommonErrors;
@@ -23811,6 +24475,8 @@ export const queryLineage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "QueryLineage",
 })) as any;
 
 export type RegisterDevicesError = ResourceLimitExceeded | CommonErrors;
@@ -23829,6 +24495,8 @@ export const registerDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDevices",
+  telemetry: TELEMETRY,
+  span: "RegisterDevices",
 }));
 
 export type RenderUiTemplateError = ResourceNotFound | CommonErrors;
@@ -23847,6 +24515,8 @@ export const renderUiTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenderUiTemplate",
+  telemetry: TELEMETRY,
+  span: "RenderUiTemplate",
 }));
 
 export type RetryPipelineExecutionError =
@@ -23869,6 +24539,8 @@ export const retryPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryPipelineExecution",
+  telemetry: TELEMETRY,
+  span: "RetryPipelineExecution",
 }));
 
 export type SearchError = CommonErrors;
@@ -23898,6 +24570,8 @@ export const search: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "Search",
 })) as any;
 
 export type SearchTrainingPlanOfferingsError = ResourceLimitExceeded | CommonErrors;
@@ -23922,6 +24596,8 @@ export const searchTrainingPlanOfferings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchTrainingPlanOfferings",
+  telemetry: TELEMETRY,
+  span: "SearchTrainingPlanOfferings",
 }));
 
 export type SendPipelineExecutionStepFailureError =
@@ -23944,6 +24620,8 @@ export const sendPipelineExecutionStepFailure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendPipelineExecutionStepFailure",
+  telemetry: TELEMETRY,
+  span: "SendPipelineExecutionStepFailure",
 }));
 
 export type SendPipelineExecutionStepSuccessError =
@@ -23966,6 +24644,8 @@ export const sendPipelineExecutionStepSuccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendPipelineExecutionStepSuccess",
+  telemetry: TELEMETRY,
+  span: "SendPipelineExecutionStepSuccess",
 }));
 
 export type StartClusterHealthCheckError = ResourceNotFound | CommonErrors;
@@ -23984,6 +24664,8 @@ export const startClusterHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartClusterHealthCheck",
+  telemetry: TELEMETRY,
+  span: "StartClusterHealthCheck",
 }));
 
 export type StartEdgeDeploymentStageError = CommonErrors;
@@ -24002,6 +24684,8 @@ export const startEdgeDeploymentStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEdgeDeploymentStage",
+  telemetry: TELEMETRY,
+  span: "StartEdgeDeploymentStage",
 }));
 
 export type StartInferenceExperimentError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24020,6 +24704,8 @@ export const startInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInferenceExperiment",
+  telemetry: TELEMETRY,
+  span: "StartInferenceExperiment",
 }));
 
 export type StartMlflowTrackingServerError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24038,6 +24724,8 @@ export const startMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMlflowTrackingServer",
+  telemetry: TELEMETRY,
+  span: "StartMlflowTrackingServer",
 }));
 
 export type StartMonitoringScheduleError = ResourceNotFound | CommonErrors;
@@ -24058,6 +24746,8 @@ export const startMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitoringSchedule",
+  telemetry: TELEMETRY,
+  span: "StartMonitoringSchedule",
 }));
 
 export type StartNotebookInstanceError = ResourceLimitExceeded | CommonErrors;
@@ -24076,6 +24766,8 @@ export const startNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookInstance",
+  telemetry: TELEMETRY,
+  span: "StartNotebookInstance",
 }));
 
 export type StartPipelineExecutionError =
@@ -24098,6 +24790,8 @@ export const startPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipelineExecution",
+  telemetry: TELEMETRY,
+  span: "StartPipelineExecution",
 }));
 
 export type StartSessionError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -24116,6 +24810,8 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  telemetry: TELEMETRY,
+  span: "StartSession",
 }));
 
 export type StopAIBenchmarkJobError = ResourceNotFound | CommonErrors;
@@ -24134,6 +24830,8 @@ export const stopAIBenchmarkJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAIBenchmarkJob",
+  telemetry: TELEMETRY,
+  span: "StopAIBenchmarkJob",
 }));
 
 export type StopAIRecommendationJobError = ResourceNotFound | CommonErrors;
@@ -24152,6 +24850,8 @@ export const stopAIRecommendationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAIRecommendationJob",
+  telemetry: TELEMETRY,
+  span: "StopAIRecommendationJob",
 }));
 
 export type StopAutoMLJobError = ResourceNotFound | CommonErrors;
@@ -24170,6 +24870,8 @@ export const stopAutoMLJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutoMLJob",
+  telemetry: TELEMETRY,
+  span: "StopAutoMLJob",
 }));
 
 export type StopCompilationJobError = ResourceNotFound | CommonErrors;
@@ -24192,6 +24894,8 @@ export const stopCompilationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCompilationJob",
+  telemetry: TELEMETRY,
+  span: "StopCompilationJob",
 }));
 
 export type StopEdgeDeploymentStageError = CommonErrors;
@@ -24210,6 +24914,8 @@ export const stopEdgeDeploymentStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEdgeDeploymentStage",
+  telemetry: TELEMETRY,
+  span: "StopEdgeDeploymentStage",
 }));
 
 export type StopEdgePackagingJobError = CommonErrors;
@@ -24228,6 +24934,8 @@ export const stopEdgePackagingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEdgePackagingJob",
+  telemetry: TELEMETRY,
+  span: "StopEdgePackagingJob",
 }));
 
 export type StopHyperParameterTuningJobError = ResourceNotFound | CommonErrors;
@@ -24248,6 +24956,8 @@ export const stopHyperParameterTuningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopHyperParameterTuningJob",
+  telemetry: TELEMETRY,
+  span: "StopHyperParameterTuningJob",
 }));
 
 export type StopInferenceExperimentError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24266,6 +24976,8 @@ export const stopInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInferenceExperiment",
+  telemetry: TELEMETRY,
+  span: "StopInferenceExperiment",
 }));
 
 export type StopInferenceRecommendationsJobError = ResourceNotFound | CommonErrors;
@@ -24284,6 +24996,8 @@ export const stopInferenceRecommendationsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInferenceRecommendationsJob",
+  telemetry: TELEMETRY,
+  span: "StopInferenceRecommendationsJob",
 }));
 
 export type StopJobError = ResourceNotFound | CommonErrors;
@@ -24310,6 +25024,8 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
+  telemetry: TELEMETRY,
+  span: "StopJob",
 }));
 
 export type StopLabelingJobError = ResourceNotFound | CommonErrors;
@@ -24328,6 +25044,8 @@ export const stopLabelingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopLabelingJob",
+  telemetry: TELEMETRY,
+  span: "StopLabelingJob",
 }));
 
 export type StopMlflowTrackingServerError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24346,6 +25064,8 @@ export const stopMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMlflowTrackingServer",
+  telemetry: TELEMETRY,
+  span: "StopMlflowTrackingServer",
 }));
 
 export type StopMonitoringScheduleError = ResourceNotFound | CommonErrors;
@@ -24364,6 +25084,8 @@ export const stopMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMonitoringSchedule",
+  telemetry: TELEMETRY,
+  span: "StopMonitoringSchedule",
 }));
 
 export type StopNotebookInstanceError = CommonErrors;
@@ -24384,6 +25106,8 @@ export const stopNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopNotebookInstance",
+  telemetry: TELEMETRY,
+  span: "StopNotebookInstance",
 }));
 
 export type StopOptimizationJobError = ResourceNotFound | CommonErrors;
@@ -24402,6 +25126,8 @@ export const stopOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopOptimizationJob",
+  telemetry: TELEMETRY,
+  span: "StopOptimizationJob",
 }));
 
 export type StopPipelineExecutionError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24432,6 +25158,8 @@ export const stopPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipelineExecution",
+  telemetry: TELEMETRY,
+  span: "StopPipelineExecution",
 }));
 
 export type StopProcessingJobError = ResourceNotFound | CommonErrors;
@@ -24450,6 +25178,8 @@ export const stopProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopProcessingJob",
+  telemetry: TELEMETRY,
+  span: "StopProcessingJob",
 }));
 
 export type StopTrainingJobError = ResourceNotFound | CommonErrors;
@@ -24470,6 +25200,8 @@ export const stopTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingJob",
+  telemetry: TELEMETRY,
+  span: "StopTrainingJob",
 }));
 
 export type StopTransformJobError = ResourceNotFound | CommonErrors;
@@ -24490,6 +25222,8 @@ export const stopTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTransformJob",
+  telemetry: TELEMETRY,
+  span: "StopTransformJob",
 }));
 
 export type UpdateActionError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24508,6 +25242,8 @@ export const updateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAction",
+  telemetry: TELEMETRY,
+  span: "UpdateAction",
 }));
 
 export type UpdateAppImageConfigError = ResourceNotFound | CommonErrors;
@@ -24526,6 +25262,8 @@ export const updateAppImageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppImageConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateAppImageConfig",
 }));
 
 export type UpdateArtifactError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24544,6 +25282,8 @@ export const updateArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArtifact",
+  telemetry: TELEMETRY,
+  span: "UpdateArtifact",
 }));
 
 export type UpdateClusterError =
@@ -24566,6 +25306,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateClusterSchedulerConfigError =
@@ -24588,6 +25330,8 @@ export const updateClusterSchedulerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterSchedulerConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterSchedulerConfig",
 }));
 
 export type UpdateClusterSoftwareError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24608,6 +25352,8 @@ export const updateClusterSoftware: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterSoftware",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterSoftware",
 }));
 
 export type UpdateCodeRepositoryError = ConflictException | CommonErrors;
@@ -24626,6 +25372,8 @@ export const updateCodeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeRepository",
+  telemetry: TELEMETRY,
+  span: "UpdateCodeRepository",
 }));
 
 export type UpdateComputeQuotaError =
@@ -24648,6 +25396,8 @@ export const updateComputeQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComputeQuota",
+  telemetry: TELEMETRY,
+  span: "UpdateComputeQuota",
 }));
 
 export type UpdateContextError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24666,6 +25416,8 @@ export const updateContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContext",
+  telemetry: TELEMETRY,
+  span: "UpdateContext",
 }));
 
 export type UpdateDeviceFleetError = ResourceInUse | CommonErrors;
@@ -24684,6 +25436,8 @@ export const updateDeviceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceFleet",
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceFleet",
 }));
 
 export type UpdateDevicesError = CommonErrors;
@@ -24702,6 +25456,8 @@ export const updateDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevices",
+  telemetry: TELEMETRY,
+  span: "UpdateDevices",
 }));
 
 export type UpdateDomainError =
@@ -24724,6 +25480,8 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateEndpointError =
@@ -24752,6 +25510,8 @@ export const updateEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpoint",
 }));
 
 export type UpdateEndpointWeightsAndCapacitiesError = ResourceLimitExceeded | CommonErrors;
@@ -24770,6 +25530,8 @@ export const updateEndpointWeightsAndCapacities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointWeightsAndCapacities",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpointWeightsAndCapacities",
 }));
 
 export type UpdateExperimentError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24788,6 +25550,8 @@ export const updateExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperiment",
+  telemetry: TELEMETRY,
+  span: "UpdateExperiment",
 }));
 
 export type UpdateFeatureGroupError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -24810,6 +25574,8 @@ export const updateFeatureGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeatureGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureGroup",
 }));
 
 export type UpdateFeatureMetadataError = ResourceNotFound | CommonErrors;
@@ -24828,6 +25594,8 @@ export const updateFeatureMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeatureMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureMetadata",
 }));
 
 export type UpdateHubError = ResourceNotFound | CommonErrors;
@@ -24846,6 +25614,8 @@ export const updateHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHub",
+  telemetry: TELEMETRY,
+  span: "UpdateHub",
 }));
 
 export type UpdateHubContentError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -24880,6 +25650,8 @@ export const updateHubContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHubContent",
+  telemetry: TELEMETRY,
+  span: "UpdateHubContent",
 }));
 
 export type UpdateHubContentReferenceError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -24904,6 +25676,8 @@ export const updateHubContentReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHubContentReference",
+  telemetry: TELEMETRY,
+  span: "UpdateHubContentReference",
 }));
 
 export type UpdateImageError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -24922,6 +25696,8 @@ export const updateImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImage",
+  telemetry: TELEMETRY,
+  span: "UpdateImage",
 }));
 
 export type UpdateImageVersionError = ResourceInUse | ResourceNotFound | CommonErrors;
@@ -24940,6 +25716,8 @@ export const updateImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImageVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateImageVersion",
 }));
 
 export type UpdateInferenceComponentError = ResourceLimitExceeded | CommonErrors;
@@ -24958,6 +25736,8 @@ export const updateInferenceComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateInferenceComponent",
 }));
 
 export type UpdateInferenceComponentRuntimeConfigError = ResourceLimitExceeded | CommonErrors;
@@ -24976,6 +25756,8 @@ export const updateInferenceComponentRuntimeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceComponentRuntimeConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateInferenceComponentRuntimeConfig",
 }));
 
 export type UpdateInferenceExperimentError = ConflictException | ResourceNotFound | CommonErrors;
@@ -24994,6 +25776,8 @@ export const updateInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceExperiment",
+  telemetry: TELEMETRY,
+  span: "UpdateInferenceExperiment",
 }));
 
 export type UpdateMlflowAppError = ConflictException | ResourceNotFound | CommonErrors;
@@ -25012,6 +25796,8 @@ export const updateMlflowApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMlflowApp",
+  telemetry: TELEMETRY,
+  span: "UpdateMlflowApp",
 }));
 
 export type UpdateMlflowTrackingServerError =
@@ -25034,6 +25820,8 @@ export const updateMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMlflowTrackingServer",
+  telemetry: TELEMETRY,
+  span: "UpdateMlflowTrackingServer",
 }));
 
 export type UpdateModelCardError =
@@ -25058,6 +25846,8 @@ export const updateModelCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelCard",
+  telemetry: TELEMETRY,
+  span: "UpdateModelCard",
 }));
 
 export type UpdateModelPackageError = ConflictException | CommonErrors;
@@ -25076,6 +25866,8 @@ export const updateModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelPackage",
+  telemetry: TELEMETRY,
+  span: "UpdateModelPackage",
 }));
 
 export type UpdateMonitoringAlertError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -25094,6 +25886,8 @@ export const updateMonitoringAlert: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitoringAlert",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoringAlert",
 }));
 
 export type UpdateMonitoringScheduleError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -25112,6 +25906,8 @@ export const updateMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitoringSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitoringSchedule",
 }));
 
 export type UpdateNotebookInstanceError = ResourceLimitExceeded | CommonErrors;
@@ -25132,6 +25928,8 @@ export const updateNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebookInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateNotebookInstance",
 }));
 
 export type UpdateNotebookInstanceLifecycleConfigError = ResourceLimitExceeded | CommonErrors;
@@ -25152,6 +25950,8 @@ export const updateNotebookInstanceLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebookInstanceLifecycleConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateNotebookInstanceLifecycleConfig",
 }));
 
 export type UpdatePartnerAppError = ConflictException | ResourceNotFound | CommonErrors;
@@ -25170,6 +25970,8 @@ export const updatePartnerApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartnerApp",
+  telemetry: TELEMETRY,
+  span: "UpdatePartnerApp",
 }));
 
 export type UpdatePipelineError = ConflictException | ResourceNotFound | CommonErrors;
@@ -25188,6 +25990,8 @@ export const updatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipeline",
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 export type UpdatePipelineExecutionError = ConflictException | ResourceNotFound | CommonErrors;
@@ -25206,6 +26010,8 @@ export const updatePipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipelineExecution",
+  telemetry: TELEMETRY,
+  span: "UpdatePipelineExecution",
 }));
 
 export type UpdatePipelineVersionError = ConflictException | ResourceNotFound | CommonErrors;
@@ -25224,6 +26030,8 @@ export const updatePipelineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipelineVersion",
+  telemetry: TELEMETRY,
+  span: "UpdatePipelineVersion",
 }));
 
 export type UpdateProjectError = ConflictException | CommonErrors;
@@ -25244,6 +26052,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateSpaceError =
@@ -25268,6 +26078,8 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
+  telemetry: TELEMETRY,
+  span: "UpdateSpace",
 }));
 
 export type UpdateTrainingJobError = ResourceLimitExceeded | ResourceNotFound | CommonErrors;
@@ -25286,6 +26098,8 @@ export const updateTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrainingJob",
+  telemetry: TELEMETRY,
+  span: "UpdateTrainingJob",
 }));
 
 export type UpdateTrialError = ConflictException | ResourceNotFound | CommonErrors;
@@ -25304,6 +26118,8 @@ export const updateTrial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrial",
+  telemetry: TELEMETRY,
+  span: "UpdateTrial",
 }));
 
 export type UpdateTrialComponentError = ConflictException | ResourceNotFound | CommonErrors;
@@ -25322,6 +26138,8 @@ export const updateTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrialComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateTrialComponent",
 }));
 
 export type UpdateUserProfileError =
@@ -25344,6 +26162,8 @@ export const updateUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateUserProfile",
 }));
 
 export type UpdateWorkforceError = ConflictException | CommonErrors;
@@ -25378,6 +26198,8 @@ export const updateWorkforce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkforce",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkforce",
 }));
 
 export type UpdateWorkteamError = ResourceLimitExceeded | CommonErrors;
@@ -25396,6 +26218,8 @@ export const updateWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkteam",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkteam",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

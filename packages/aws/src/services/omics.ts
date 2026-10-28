@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -68,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://omics.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Omics",
+  service: "Omics",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2402,6 +2417,8 @@ export const abortMultipartReadSetUpload: API.OperationMethod<
   retry: Retry,
   operationName: "AbortMultipartReadSetUpload",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "AbortMultipartReadSetUpload",
 }));
 
 export type AcceptShareError =
@@ -2437,6 +2454,8 @@ export const acceptShare: API.OperationMethod<
   retry: Retry,
   operationName: "AcceptShare",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "AcceptShare",
 }));
 
 export type BatchDeleteReadSetError =
@@ -2470,6 +2489,8 @@ export const batchDeleteReadSet: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteReadSet",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteReadSet",
 }));
 
 export type CancelAnnotationImportJobError =
@@ -2503,6 +2524,8 @@ export const cancelAnnotationImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelAnnotationImportJob",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "CancelAnnotationImportJob",
 }));
 
 export type CancelRunError =
@@ -2540,6 +2563,8 @@ export const cancelRun: API.OperationMethod<
   retry: Retry,
   operationName: "CancelRun",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "CancelRun",
 }));
 
 export type CancelRunBatchError =
@@ -2579,6 +2604,8 @@ export const cancelRunBatch: API.OperationMethod<
   retry: Retry,
   operationName: "CancelRunBatch",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "CancelRunBatch",
 }));
 
 export type CancelVariantImportJobError =
@@ -2612,6 +2639,8 @@ export const cancelVariantImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelVariantImportJob",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "CancelVariantImportJob",
 }));
 
 export type CompleteMultipartReadSetUploadError =
@@ -2651,6 +2680,8 @@ export const completeMultipartReadSetUpload: API.OperationMethod<
   retry: Retry,
   operationName: "CompleteMultipartReadSetUpload",
   endpointHostPrefix: "storage-",
+  telemetry: TELEMETRY,
+  span: "CompleteMultipartReadSetUpload",
 }));
 
 export type CreateAnnotationStoreError =
@@ -2688,6 +2719,8 @@ export const createAnnotationStore: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAnnotationStore",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "CreateAnnotationStore",
 }));
 
 export type CreateAnnotationStoreVersionError =
@@ -2723,6 +2756,8 @@ export const createAnnotationStoreVersion: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAnnotationStoreVersion",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "CreateAnnotationStoreVersion",
 }));
 
 export type CreateConfigurationError =
@@ -2760,6 +2795,8 @@ export const createConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "CreateConfiguration",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguration",
 }));
 
 export type CreateMultipartReadSetUploadError =
@@ -2807,6 +2844,8 @@ export const createMultipartReadSetUpload: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMultipartReadSetUpload",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "CreateMultipartReadSetUpload",
 }));
 
 export type CreateReferenceStoreError =
@@ -2842,6 +2881,8 @@ export const createReferenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "CreateReferenceStore",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "CreateReferenceStore",
 }));
 
 export type CreateRunCacheError =
@@ -2881,6 +2922,8 @@ export const createRunCache: API.OperationMethod<
   retry: Retry,
   operationName: "CreateRunCache",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "CreateRunCache",
 }));
 
 export type CreateRunGroupError =
@@ -2918,6 +2961,8 @@ export const createRunGroup: API.OperationMethod<
   retry: Retry,
   operationName: "CreateRunGroup",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "CreateRunGroup",
 }));
 
 export type CreateSequenceStoreError =
@@ -2965,6 +3010,8 @@ export const createSequenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "CreateSequenceStore",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "CreateSequenceStore",
 }));
 
 export type CreateShareError =
@@ -3008,6 +3055,8 @@ export const createShare: API.OperationMethod<
   retry: Retry,
   operationName: "CreateShare",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "CreateShare",
 }));
 
 export type CreateVariantStoreError =
@@ -3045,6 +3094,8 @@ export const createVariantStore: API.OperationMethod<
   retry: Retry,
   operationName: "CreateVariantStore",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "CreateVariantStore",
 }));
 
 export type CreateWorkflowError =
@@ -3094,6 +3145,8 @@ export const createWorkflow: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkflow",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type CreateWorkflowVersionError =
@@ -3139,6 +3192,8 @@ export const createWorkflowVersion: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkflowVersion",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowVersion",
 }));
 
 export type DeleteAnnotationStoreError =
@@ -3174,6 +3229,8 @@ export const deleteAnnotationStore: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAnnotationStore",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotationStore",
 }));
 
 export type DeleteAnnotationStoreVersionsError =
@@ -3207,6 +3264,8 @@ export const deleteAnnotationStoreVersions: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAnnotationStoreVersions",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "DeleteAnnotationStoreVersions",
 }));
 
 export type DeleteBatchError =
@@ -3246,6 +3305,8 @@ export const deleteBatch: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteBatch",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "DeleteBatch",
 }));
 
 export type DeleteConfigurationError =
@@ -3283,6 +3344,8 @@ export const deleteConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteConfiguration",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguration",
 }));
 
 export type DeleteReferenceError =
@@ -3320,6 +3383,8 @@ export const deleteReference: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteReference",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "DeleteReference",
 }));
 
 export type DeleteReferenceStoreError =
@@ -3357,6 +3422,8 @@ export const deleteReferenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteReferenceStore",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "DeleteReferenceStore",
 }));
 
 export type DeleteRunError =
@@ -3400,6 +3467,8 @@ export const deleteRun: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRun",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "DeleteRun",
 }));
 
 export type DeleteRunBatchError =
@@ -3439,6 +3508,8 @@ export const deleteRunBatch: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRunBatch",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "DeleteRunBatch",
 }));
 
 export type DeleteRunCacheError =
@@ -3478,6 +3549,8 @@ export const deleteRunCache: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRunCache",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "DeleteRunCache",
 }));
 
 export type DeleteRunGroupError =
@@ -3521,6 +3594,8 @@ export const deleteRunGroup: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRunGroup",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "DeleteRunGroup",
 }));
 
 export type DeleteS3AccessPolicyError =
@@ -3556,6 +3631,8 @@ export const deleteS3AccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteS3AccessPolicy",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "DeleteS3AccessPolicy",
 }));
 
 export type DeleteSequenceStoreError =
@@ -3595,6 +3672,8 @@ export const deleteSequenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteSequenceStore",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "DeleteSequenceStore",
 }));
 
 export type DeleteShareError =
@@ -3630,6 +3709,8 @@ export const deleteShare: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteShare",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "DeleteShare",
 }));
 
 export type DeleteVariantStoreError =
@@ -3665,6 +3746,8 @@ export const deleteVariantStore: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteVariantStore",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "DeleteVariantStore",
 }));
 
 export type DeleteWorkflowError =
@@ -3708,6 +3791,8 @@ export const deleteWorkflow: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkflow",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DeleteWorkflowVersionError =
@@ -3747,6 +3832,8 @@ export const deleteWorkflowVersion: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkflowVersion",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowVersion",
 }));
 
 export type GetAnnotationImportJobError =
@@ -3780,6 +3867,8 @@ export const getAnnotationImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetAnnotationImportJob",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "GetAnnotationImportJob",
 }));
 
 export type GetAnnotationStoreError =
@@ -3813,6 +3902,8 @@ export const getAnnotationStore: API.OperationMethod<
   retry: Retry,
   operationName: "GetAnnotationStore",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "GetAnnotationStore",
 }));
 
 export type GetAnnotationStoreVersionError =
@@ -3844,6 +3935,8 @@ export const getAnnotationStoreVersion: API.OperationMethod<
   retry: Retry,
   operationName: "GetAnnotationStoreVersion",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "GetAnnotationStoreVersion",
 }));
 
 export type GetBatchError =
@@ -3877,6 +3970,8 @@ export const getBatch: API.OperationMethod<
   retry: Retry,
   operationName: "GetBatch",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "GetBatch",
 }));
 
 export type GetConfigurationError =
@@ -3914,6 +4009,8 @@ export const getConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "GetConfiguration",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetReadSetError =
@@ -3951,6 +4048,8 @@ export const getReadSet: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSet",
   endpointHostPrefix: "storage-",
+  telemetry: TELEMETRY,
+  span: "GetReadSet",
 }));
 
 export type GetReadSetActivationJobError =
@@ -3984,6 +4083,8 @@ export const getReadSetActivationJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSetActivationJob",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetReadSetActivationJob",
 }));
 
 export type GetReadSetExportJobError =
@@ -4017,6 +4118,8 @@ export const getReadSetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSetExportJob",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetReadSetExportJob",
 }));
 
 export type GetReadSetImportJobError =
@@ -4050,6 +4153,8 @@ export const getReadSetImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSetImportJob",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetReadSetImportJob",
 }));
 
 export type GetReadSetMetadataError =
@@ -4083,6 +4188,8 @@ export const getReadSetMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "GetReadSetMetadata",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetReadSetMetadata",
 }));
 
 export type GetReferenceError =
@@ -4120,6 +4227,8 @@ export const getReference: API.OperationMethod<
   retry: Retry,
   operationName: "GetReference",
   endpointHostPrefix: "storage-",
+  telemetry: TELEMETRY,
+  span: "GetReference",
 }));
 
 export type GetReferenceImportJobError =
@@ -4153,6 +4262,8 @@ export const getReferenceImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetReferenceImportJob",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetReferenceImportJob",
 }));
 
 export type GetReferenceMetadataError =
@@ -4186,6 +4297,8 @@ export const getReferenceMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "GetReferenceMetadata",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetReferenceMetadata",
 }));
 
 export type GetReferenceStoreError =
@@ -4219,6 +4332,8 @@ export const getReferenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "GetReferenceStore",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetReferenceStore",
 }));
 
 export type GetRunError =
@@ -4258,6 +4373,8 @@ export const getRun: API.OperationMethod<
   retry: Retry,
   operationName: "GetRun",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "GetRun",
 }));
 
 export type GetRunCacheError =
@@ -4297,6 +4414,8 @@ export const getRunCache: API.OperationMethod<
   retry: Retry,
   operationName: "GetRunCache",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "GetRunCache",
 }));
 
 export type GetRunGroupError =
@@ -4334,6 +4453,8 @@ export const getRunGroup: API.OperationMethod<
   retry: Retry,
   operationName: "GetRunGroup",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "GetRunGroup",
 }));
 
 export type GetRunTaskError =
@@ -4371,6 +4492,8 @@ export const getRunTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetRunTask",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "GetRunTask",
 }));
 
 export type GetS3AccessPolicyError =
@@ -4408,6 +4531,8 @@ export const getS3AccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "GetS3AccessPolicy",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetS3AccessPolicy",
 }));
 
 export type GetSequenceStoreError =
@@ -4441,6 +4566,8 @@ export const getSequenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "GetSequenceStore",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "GetSequenceStore",
 }));
 
 export type GetShareError =
@@ -4476,6 +4603,8 @@ export const getShare: API.OperationMethod<
   retry: Retry,
   operationName: "GetShare",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "GetShare",
 }));
 
 export type GetVariantImportJobError =
@@ -4509,6 +4638,8 @@ export const getVariantImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetVariantImportJob",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "GetVariantImportJob",
 }));
 
 export type GetVariantStoreError =
@@ -4544,6 +4675,8 @@ export const getVariantStore: API.OperationMethod<
   retry: Retry,
   operationName: "GetVariantStore",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "GetVariantStore",
 }));
 
 export type GetWorkflowError =
@@ -4585,6 +4718,8 @@ export const getWorkflow: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkflow",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowVersionError =
@@ -4622,6 +4757,8 @@ export const getWorkflowVersion: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkflowVersion",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowVersion",
 }));
 
 export type ListAnnotationImportJobsError =
@@ -4662,6 +4799,8 @@ export const listAnnotationImportJobs: API.PaginatedOperationMethod<
     items: "annotationImportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnnotationImportJobs",
 })) as any;
 
 export type ListAnnotationStoresError =
@@ -4702,6 +4841,8 @@ export const listAnnotationStores: API.PaginatedOperationMethod<
     items: "annotationStores",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnnotationStores",
 })) as any;
 
 export type ListAnnotationStoreVersionsError =
@@ -4740,6 +4881,8 @@ export const listAnnotationStoreVersions: API.PaginatedOperationMethod<
     items: "annotationStoreVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnnotationStoreVersions",
 })) as any;
 
 export type ListBatchError =
@@ -4778,6 +4921,8 @@ export const listBatch: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatch",
 })) as any;
 
 export type ListConfigurationsError =
@@ -4822,6 +4967,8 @@ export const listConfigurations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurations",
 })) as any;
 
 export type ListMultipartReadSetUploadsError =
@@ -4866,6 +5013,8 @@ export const listMultipartReadSetUploads: API.PaginatedOperationMethod<
     items: "uploads",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMultipartReadSetUploads",
 })) as any;
 
 export type ListReadSetActivationJobsError =
@@ -4906,6 +5055,8 @@ export const listReadSetActivationJobs: API.PaginatedOperationMethod<
     items: "activationJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReadSetActivationJobs",
 })) as any;
 
 export type ListReadSetExportJobsError =
@@ -4946,6 +5097,8 @@ export const listReadSetExportJobs: API.PaginatedOperationMethod<
     items: "exportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReadSetExportJobs",
 })) as any;
 
 export type ListReadSetImportJobsError =
@@ -4986,6 +5139,8 @@ export const listReadSetImportJobs: API.PaginatedOperationMethod<
     items: "importJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReadSetImportJobs",
 })) as any;
 
 export type ListReadSetsError =
@@ -5026,6 +5181,8 @@ export const listReadSets: API.PaginatedOperationMethod<
     items: "readSets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReadSets",
 })) as any;
 
 export type ListReadSetUploadPartsError =
@@ -5070,6 +5227,8 @@ export const listReadSetUploadParts: API.PaginatedOperationMethod<
     items: "parts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReadSetUploadParts",
 })) as any;
 
 export type ListReferenceImportJobsError =
@@ -5110,6 +5269,8 @@ export const listReferenceImportJobs: API.PaginatedOperationMethod<
     items: "importJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReferenceImportJobs",
 })) as any;
 
 export type ListReferencesError =
@@ -5152,6 +5313,8 @@ export const listReferences: API.PaginatedOperationMethod<
     items: "references",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReferences",
 })) as any;
 
 export type ListReferenceStoresError =
@@ -5192,6 +5355,8 @@ export const listReferenceStores: API.PaginatedOperationMethod<
     items: "referenceStores",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReferenceStores",
 })) as any;
 
 export type ListRunCachesError =
@@ -5236,6 +5401,8 @@ export const listRunCaches: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRunCaches",
 })) as any;
 
 export type ListRunGroupsError =
@@ -5280,6 +5447,8 @@ export const listRunGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRunGroups",
 })) as any;
 
 export type ListRunsError =
@@ -5326,6 +5495,8 @@ export const listRuns: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuns",
 })) as any;
 
 export type ListRunsInBatchError =
@@ -5370,6 +5541,8 @@ export const listRunsInBatch: API.PaginatedOperationMethod<
     items: "runs",
     pageSize: "maxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRunsInBatch",
 })) as any;
 
 export type ListRunTasksError =
@@ -5414,6 +5587,8 @@ export const listRunTasks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRunTasks",
 })) as any;
 
 export type ListSequenceStoresError =
@@ -5454,6 +5629,8 @@ export const listSequenceStores: API.PaginatedOperationMethod<
     items: "sequenceStores",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSequenceStores",
 })) as any;
 
 export type ListSharesError =
@@ -5496,6 +5673,8 @@ export const listShares: API.PaginatedOperationMethod<
     items: "shares",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListShares",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5533,6 +5712,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "tags-",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVariantImportJobsError =
@@ -5573,6 +5754,8 @@ export const listVariantImportJobs: API.PaginatedOperationMethod<
     items: "variantImportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVariantImportJobs",
 })) as any;
 
 export type ListVariantStoresError =
@@ -5613,6 +5796,8 @@ export const listVariantStores: API.PaginatedOperationMethod<
     items: "variantStores",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVariantStores",
 })) as any;
 
 export type ListWorkflowsError =
@@ -5657,6 +5842,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 })) as any;
 
 export type ListWorkflowVersionsError =
@@ -5701,6 +5888,8 @@ export const listWorkflowVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowVersions",
 })) as any;
 
 export type PutS3AccessPolicyError =
@@ -5736,6 +5925,8 @@ export const putS3AccessPolicy: API.OperationMethod<
   retry: Retry,
   operationName: "PutS3AccessPolicy",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "PutS3AccessPolicy",
 }));
 
 export type StartAnnotationImportJobError =
@@ -5771,6 +5962,8 @@ export const startAnnotationImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartAnnotationImportJob",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "StartAnnotationImportJob",
 }));
 
 export type StartReadSetActivationJobError =
@@ -5808,6 +6001,8 @@ export const startReadSetActivationJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartReadSetActivationJob",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "StartReadSetActivationJob",
 }));
 
 export type StartReadSetExportJobError =
@@ -5845,6 +6040,8 @@ export const startReadSetExportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartReadSetExportJob",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "StartReadSetExportJob",
 }));
 
 export type StartReadSetImportJobError =
@@ -5880,6 +6077,8 @@ export const startReadSetImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartReadSetImportJob",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "StartReadSetImportJob",
 }));
 
 export type StartReferenceImportJobError =
@@ -5915,6 +6114,8 @@ export const startReferenceImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartReferenceImportJob",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "StartReferenceImportJob",
 }));
 
 export type StartRunError =
@@ -5984,6 +6185,8 @@ export const startRun: API.OperationMethod<
   retry: Retry,
   operationName: "StartRun",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "StartRun",
 }));
 
 export type StartRunBatchError =
@@ -6023,6 +6226,8 @@ export const startRunBatch: API.OperationMethod<
   retry: Retry,
   operationName: "StartRunBatch",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "StartRunBatch",
 }));
 
 export type StartVariantImportJobError =
@@ -6058,6 +6263,8 @@ export const startVariantImportJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartVariantImportJob",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "StartVariantImportJob",
 }));
 
 export type TagResourceError =
@@ -6095,6 +6302,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "tags-",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6132,6 +6341,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "tags-",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAnnotationStoreError =
@@ -6165,6 +6376,8 @@ export const updateAnnotationStore: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAnnotationStore",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "UpdateAnnotationStore",
 }));
 
 export type UpdateAnnotationStoreVersionError =
@@ -6196,6 +6409,8 @@ export const updateAnnotationStoreVersion: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAnnotationStoreVersion",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "UpdateAnnotationStoreVersion",
 }));
 
 export type UpdateRunCacheError =
@@ -6235,6 +6450,8 @@ export const updateRunCache: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRunCache",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "UpdateRunCache",
 }));
 
 export type UpdateRunGroupError =
@@ -6286,6 +6503,8 @@ export const updateRunGroup: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRunGroup",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "UpdateRunGroup",
 }));
 
 export type UpdateSequenceStoreError =
@@ -6321,6 +6540,8 @@ export const updateSequenceStore: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSequenceStore",
   endpointHostPrefix: "control-storage-",
+  telemetry: TELEMETRY,
+  span: "UpdateSequenceStore",
 }));
 
 export type UpdateVariantStoreError =
@@ -6354,6 +6575,8 @@ export const updateVariantStore: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateVariantStore",
   endpointHostPrefix: "analytics-",
+  telemetry: TELEMETRY,
+  span: "UpdateVariantStore",
 }));
 
 export type UpdateWorkflowError =
@@ -6405,6 +6628,8 @@ export const updateWorkflow: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkflow",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflow",
 }));
 
 export type UpdateWorkflowVersionError =
@@ -6442,6 +6667,8 @@ export const updateWorkflowVersion: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkflowVersion",
   endpointHostPrefix: "workflows-",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowVersion",
 }));
 
 export type UploadReadSetPartError =
@@ -6481,6 +6708,8 @@ export const uploadReadSetPart: API.OperationMethod<
   retry: Retry,
   operationName: "UploadReadSetPart",
   endpointHostPrefix: "storage-",
+  telemetry: TELEMETRY,
+  span: "UploadReadSetPart",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

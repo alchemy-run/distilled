@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Authorization",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -511,6 +524,8 @@ export const createAuthorizationV1NamespacedLocalSubjectAccessReview: API.Operat
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationV1NamespacedLocalSubjectAccessReview",
 }));
 
 export type CreateAuthorizationV1SelfSubjectAccessReviewError =
@@ -529,6 +544,8 @@ export const createAuthorizationV1SelfSubjectAccessReview: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationV1SelfSubjectAccessReview",
 }));
 
 export type CreateAuthorizationV1SelfSubjectRulesReviewError =
@@ -547,6 +564,8 @@ export const createAuthorizationV1SelfSubjectRulesReview: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationV1SelfSubjectRulesReview",
 }));
 
 export type CreateAuthorizationV1SubjectAccessReviewError =
@@ -565,6 +584,8 @@ export const createAuthorizationV1SubjectAccessReview: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizationV1SubjectAccessReview",
 }));
 
 export type GetAuthorizationAPIGroupError = KubernetesOpError;
@@ -580,6 +601,8 @@ export const getAuthorizationAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationAPIGroup",
 }));
 
 export type GetAuthorizationV1APIResourcesError = KubernetesOpError;
@@ -595,6 +618,8 @@ export const getAuthorizationV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationV1APIResources",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

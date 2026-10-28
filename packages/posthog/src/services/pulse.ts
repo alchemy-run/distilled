@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Pulse",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -293,6 +306,8 @@ export const createPulseBriefConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePulseBriefConfig",
 }));
 
 export type GetPulseBriefError = PosthogOpError;
@@ -307,6 +322,8 @@ export const getPulseBrief: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPulseBrief",
 }));
 
 export type GetPulseBriefConfigError = PosthogOpError;
@@ -321,6 +338,8 @@ export const getPulseBriefConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPulseBriefConfig",
 }));
 
 export type ListPulseBriefConfigsError = PosthogOpError;
@@ -335,6 +354,8 @@ export const listPulseBriefConfigs: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPulseBriefConfigs",
 }));
 
 export type ListPulseBriefsError = PosthogOpError;
@@ -349,6 +370,8 @@ export const listPulseBriefs: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPulseBriefs",
 }));
 
 export type PulseBriefConfigsDestroyError = PosthogOpError;
@@ -363,6 +386,8 @@ export const pulseBriefConfigsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PulseBriefConfigsDestroy",
 }));
 
 export type PulseBriefsGenerateCreateError = Conflict | PosthogOpError;
@@ -377,6 +402,8 @@ export const pulseBriefsGenerateCreate: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PulseBriefsGenerateCreate",
 }));
 
 export type UpdatePulseBriefConfigError = PosthogOpError;
@@ -391,6 +418,8 @@ export const updatePulseBriefConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePulseBriefConfig",
 }));
 
 export type UpdatePulseBriefConfigsPartialError = PosthogOpError;
@@ -405,6 +434,8 @@ export const updatePulseBriefConfigsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePulseBriefConfigsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

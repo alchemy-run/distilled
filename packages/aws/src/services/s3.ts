@@ -1,6 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxHost from "@distilled.cloud/core/telemetry-host-rules";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -2646,6 +2648,29 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
   '{"url":"https://s3.{R}.{D}","properties":{"authSchemes":[{"disableDoubleEncoding":true,"name":"sigv4","signingName":"s3","signingRegion":"{R}"}]},"headers":{}}',
   ["aws-global"],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "S3",
+  service: "S3",
+  labels: "aws.s3",
+  onRequest: /*@__PURE__*/ TxHost.hostRules([
+    {
+      suffix: ".r2.cloudflarestorage.com",
+      hostLabel: "cloudflare.account_id",
+      copy: { "aws.s3.bucket": "cloudflare.r2.bucket", "aws.s3.key": "cloudflare.r2.object_key" },
+    },
+  ]),
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDenied
   extends /*@__PURE__*/ S.TaggedError<AccessDenied>()(
@@ -5927,6 +5952,8 @@ export const abortMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartUpload",
+  telemetry: TELEMETRY,
+  span: { op: "AbortMultipartUpload", input: { UploadId: [{ name: "aws.s3.upload_id" }] } },
 }));
 
 export type CompleteMultipartUploadError = NoSuchUpload | CommonErrors;
@@ -6055,6 +6082,8 @@ export const completeMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
+  telemetry: TELEMETRY,
+  span: { op: "CompleteMultipartUpload", input: { UploadId: [{ name: "aws.s3.upload_id" }] } },
 }));
 
 export type CopyObjectError =
@@ -6249,6 +6278,8 @@ export const copyObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyObject",
+  telemetry: TELEMETRY,
+  span: { op: "CopyObject", input: { CopySource: [{ name: "aws.s3.copy_source" }] } },
 }));
 
 export type CreateBucketError =
@@ -6396,6 +6427,8 @@ export const createBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucket",
+  telemetry: TELEMETRY,
+  span: "CreateBucket",
 }));
 
 export type CreateBucketMetadataConfigurationError = CommonErrors;
@@ -6479,6 +6512,8 @@ export const createBucketMetadataConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketMetadataConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateBucketMetadataConfiguration",
 }));
 
 export type CreateBucketMetadataTableConfigurationError = CommonErrors;
@@ -6542,6 +6577,8 @@ export const createBucketMetadataTableConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketMetadataTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateBucketMetadataTableConfiguration",
 }));
 
 export type CreateMultipartUploadError =
@@ -6736,6 +6773,8 @@ export const createMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultipartUpload",
+  telemetry: TELEMETRY,
+  span: "CreateMultipartUpload",
 }));
 
 export type CreateSessionError = NoSuchBucket | CommonErrors;
@@ -6846,6 +6885,8 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type DeleteBucketError =
@@ -6910,6 +6951,8 @@ export const deleteBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucket",
+  telemetry: TELEMETRY,
+  span: "DeleteBucket",
 }));
 
 export type DeleteBucketAnalyticsConfigurationError =
@@ -6953,6 +6996,8 @@ export const deleteBucketAnalyticsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketAnalyticsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketAnalyticsConfiguration",
 }));
 
 export type DeleteBucketCorsError = RequestLimitExceeded | SlowDown | NoSuchBucket | CommonErrors;
@@ -6987,6 +7032,8 @@ export const deleteBucketCors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketCors",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketCors",
 }));
 
 export type DeleteBucketEncryptionError =
@@ -7044,6 +7091,8 @@ export const deleteBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketEncryption",
 }));
 
 export type DeleteBucketIntelligentTieringConfigurationError =
@@ -7088,6 +7137,8 @@ export const deleteBucketIntelligentTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketIntelligentTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketIntelligentTieringConfiguration",
 }));
 
 export type DeleteBucketInventoryConfigurationError =
@@ -7152,6 +7203,8 @@ export const deleteBucketInventoryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketInventoryConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketInventoryConfiguration",
 }));
 
 export type DeleteBucketLifecycleError =
@@ -7220,6 +7273,8 @@ export const deleteBucketLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketLifecycle",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketLifecycle",
 }));
 
 export type DeleteBucketMetadataConfigurationError =
@@ -7270,6 +7325,8 @@ export const deleteBucketMetadataConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetadataConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketMetadataConfiguration",
 }));
 
 export type DeleteBucketMetadataTableConfigurationError =
@@ -7326,6 +7383,8 @@ export const deleteBucketMetadataTableConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetadataTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketMetadataTableConfiguration",
 }));
 
 export type DeleteBucketMetricsConfigurationError =
@@ -7391,6 +7450,8 @@ export const deleteBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketMetricsConfiguration",
 }));
 
 export type DeleteBucketOwnershipControlsError =
@@ -7428,6 +7489,8 @@ export const deleteBucketOwnershipControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketOwnershipControls",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketOwnershipControls",
 }));
 
 export type DeleteBucketPolicyError =
@@ -7498,6 +7561,8 @@ export const deleteBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketPolicy",
 }));
 
 export type DeleteBucketReplicationError =
@@ -7540,6 +7605,8 @@ export const deleteBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketReplication",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketReplication",
 }));
 
 export type DeleteBucketTaggingError =
@@ -7575,6 +7642,8 @@ export const deleteBucketTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketTagging",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketTagging",
 }));
 
 export type DeleteBucketWebsiteError =
@@ -7618,6 +7687,8 @@ export const deleteBucketWebsite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketWebsite",
+  telemetry: TELEMETRY,
+  span: "DeleteBucketWebsite",
 }));
 
 export type DeleteObjectError =
@@ -7729,6 +7800,8 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
+  telemetry: TELEMETRY,
+  span: "DeleteObject",
 }));
 
 export type DeleteObjectAnnotationError = NoSuchBucket | NoSuchKey | CommonErrors;
@@ -7768,6 +7841,8 @@ export const deleteObjectAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectAnnotation",
+  telemetry: TELEMETRY,
+  span: "DeleteObjectAnnotation",
 }));
 
 export type DeleteObjectsError =
@@ -7880,6 +7955,8 @@ export const deleteObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjects",
+  telemetry: TELEMETRY,
+  span: "DeleteObjects",
 }));
 
 export type DeleteObjectTaggingError =
@@ -7930,6 +8007,8 @@ export const deleteObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectTagging",
+  telemetry: TELEMETRY,
+  span: "DeleteObjectTagging",
 }));
 
 export type DeletePublicAccessBlockError =
@@ -7972,6 +8051,8 @@ export const deletePublicAccessBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicAccessBlock",
+  telemetry: TELEMETRY,
+  span: "DeletePublicAccessBlock",
 }));
 
 export type GetBucketAbacError = RequestLimitExceeded | SlowDown | NoSuchBucket | CommonErrors;
@@ -7990,6 +8071,8 @@ export const getBucketAbac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAbac",
+  telemetry: TELEMETRY,
+  span: "GetBucketAbac",
 }));
 
 export type GetBucketAccelerateConfigurationError =
@@ -8039,6 +8122,8 @@ export const getBucketAccelerateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAccelerateConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketAccelerateConfiguration",
 }));
 
 export type GetBucketAclError =
@@ -8086,6 +8171,8 @@ export const getBucketAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAcl",
+  telemetry: TELEMETRY,
+  span: "GetBucketAcl",
 }));
 
 export type GetBucketAnalyticsConfigurationError =
@@ -8130,6 +8217,8 @@ export const getBucketAnalyticsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAnalyticsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketAnalyticsConfiguration",
 }));
 
 export type GetBucketCorsError =
@@ -8183,6 +8272,8 @@ export const getBucketCors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketCors",
+  telemetry: TELEMETRY,
+  span: "GetBucketCors",
 }));
 
 export type GetBucketEncryptionError =
@@ -8242,6 +8333,8 @@ export const getBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "GetBucketEncryption",
 }));
 
 export type GetBucketIntelligentTieringConfigurationError =
@@ -8283,6 +8376,8 @@ export const getBucketIntelligentTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketIntelligentTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketIntelligentTieringConfiguration",
 }));
 
 export type GetBucketInventoryConfigurationError =
@@ -8346,6 +8441,8 @@ export const getBucketInventoryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketInventoryConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketInventoryConfiguration",
 }));
 
 export type GetBucketLifecycleConfigurationError =
@@ -8439,6 +8536,8 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLifecycleConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketLifecycleConfiguration",
 }));
 
 export type GetBucketLocationError = RequestLimitExceeded | SlowDown | NoSuchBucket | CommonErrors;
@@ -8489,6 +8588,8 @@ export const getBucketLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLocation",
+  telemetry: TELEMETRY,
+  span: "GetBucketLocation",
 }));
 
 export type GetBucketLoggingError =
@@ -8523,6 +8624,8 @@ export const getBucketLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLogging",
+  telemetry: TELEMETRY,
+  span: "GetBucketLogging",
 }));
 
 export type GetBucketMetadataConfigurationError =
@@ -8572,6 +8675,8 @@ export const getBucketMetadataConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetadataConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketMetadataConfiguration",
 }));
 
 export type GetBucketMetadataTableConfigurationError =
@@ -8627,6 +8732,8 @@ export const getBucketMetadataTableConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetadataTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketMetadataTableConfiguration",
 }));
 
 export type GetBucketMetricsConfigurationError =
@@ -8694,6 +8801,8 @@ export const getBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketMetricsConfiguration",
 }));
 
 export type GetBucketNotificationConfigurationError =
@@ -8742,6 +8851,8 @@ export const getBucketNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBucketNotificationConfiguration",
 }));
 
 export type GetBucketOwnershipControlsError =
@@ -8790,6 +8901,8 @@ export const getBucketOwnershipControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketOwnershipControls",
+  telemetry: TELEMETRY,
+  span: "GetBucketOwnershipControls",
 }));
 
 export type GetBucketPolicyError =
@@ -8874,6 +8987,8 @@ export const getBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "GetBucketPolicy",
 }));
 
 export type GetBucketPolicyStatusError =
@@ -8916,6 +9031,8 @@ export const getBucketPolicyStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketPolicyStatus",
+  telemetry: TELEMETRY,
+  span: "GetBucketPolicyStatus",
 }));
 
 export type GetBucketReplicationError =
@@ -8966,6 +9083,8 @@ export const getBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketReplication",
+  telemetry: TELEMETRY,
+  span: "GetBucketReplication",
 }));
 
 export type GetBucketRequestPaymentError =
@@ -8998,6 +9117,8 @@ export const getBucketRequestPayment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketRequestPayment",
+  telemetry: TELEMETRY,
+  span: "GetBucketRequestPayment",
 }));
 
 export type GetBucketTaggingError =
@@ -9041,6 +9162,8 @@ export const getBucketTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketTagging",
+  telemetry: TELEMETRY,
+  span: "GetBucketTagging",
 }));
 
 export type GetBucketVersioningError =
@@ -9082,6 +9205,8 @@ export const getBucketVersioning: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketVersioning",
+  telemetry: TELEMETRY,
+  span: "GetBucketVersioning",
 }));
 
 export type GetBucketWebsiteError =
@@ -9128,6 +9253,8 @@ export const getBucketWebsite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketWebsite",
+  telemetry: TELEMETRY,
+  span: "GetBucketWebsite",
 }));
 
 export type GetObjectError =
@@ -9293,6 +9420,8 @@ export const getObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObject",
+  telemetry: TELEMETRY,
+  span: { op: "GetObject", input: { PartNumber: [{ name: "aws.s3.part_number" }] } },
 }));
 
 export type GetObjectAclError =
@@ -9344,6 +9473,8 @@ export const getObjectAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAcl",
+  telemetry: TELEMETRY,
+  span: "GetObjectAcl",
 }));
 
 export type GetObjectAnnotationError = NoSuchAnnotation | NoSuchBucket | NoSuchKey | CommonErrors;
@@ -9378,6 +9509,8 @@ export const getObjectAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAnnotation",
+  telemetry: TELEMETRY,
+  span: "GetObjectAnnotation",
 }));
 
 export type GetObjectAttributesError = NoSuchKey | NoSuchVersion | MethodNotAllowed | CommonErrors;
@@ -9533,6 +9666,8 @@ export const getObjectAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAttributes",
+  telemetry: TELEMETRY,
+  span: "GetObjectAttributes",
 }));
 
 export type GetObjectLegalHoldError =
@@ -9575,6 +9710,8 @@ export const getObjectLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectLegalHold",
+  telemetry: TELEMETRY,
+  span: "GetObjectLegalHold",
 }));
 
 export type GetObjectLockConfigurationError =
@@ -9615,6 +9752,8 @@ export const getObjectLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectLockConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetObjectLockConfiguration",
 }));
 
 export type GetObjectRetentionError =
@@ -9657,6 +9796,8 @@ export const getObjectRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectRetention",
+  telemetry: TELEMETRY,
+  span: "GetObjectRetention",
 }));
 
 export type GetObjectTaggingError =
@@ -9714,6 +9855,8 @@ export const getObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTagging",
+  telemetry: TELEMETRY,
+  span: "GetObjectTagging",
 }));
 
 export type GetObjectTorrentError = CommonErrors;
@@ -9748,6 +9891,8 @@ export const getObjectTorrent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTorrent",
+  telemetry: TELEMETRY,
+  span: "GetObjectTorrent",
 }));
 
 export type GetPublicAccessBlockError =
@@ -9808,6 +9953,8 @@ export const getPublicAccessBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicAccessBlock",
+  telemetry: TELEMETRY,
+  span: "GetPublicAccessBlock",
 }));
 
 export type HeadBucketError =
@@ -9892,6 +10039,8 @@ export const headBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadBucket",
+  telemetry: TELEMETRY,
+  span: "HeadBucket",
 }));
 
 export type HeadObjectError =
@@ -10022,6 +10171,8 @@ export const headObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadObject",
+  telemetry: TELEMETRY,
+  span: { op: "HeadObject", input: { PartNumber: [{ name: "aws.s3.part_number" }] } },
 }));
 
 export type ListBucketAnalyticsConfigurationsError =
@@ -10073,6 +10224,8 @@ export const listBucketAnalyticsConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketAnalyticsConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListBucketAnalyticsConfigurations",
 }));
 
 export type ListBucketIntelligentTieringConfigurationsError =
@@ -10113,6 +10266,8 @@ export const listBucketIntelligentTieringConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketIntelligentTieringConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListBucketIntelligentTieringConfigurations",
 }));
 
 export type ListBucketInventoryConfigurationsError =
@@ -10182,6 +10337,8 @@ export const listBucketInventoryConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketInventoryConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListBucketInventoryConfigurations",
 }));
 
 export type ListBucketMetricsConfigurationsError =
@@ -10253,6 +10410,8 @@ export const listBucketMetricsConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketMetricsConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListBucketMetricsConfigurations",
 }));
 
 export type ListBucketsError = RequestLimitExceeded | SlowDown | RequestError | CommonErrors;
@@ -10293,6 +10452,8 @@ export const listBuckets: API.PaginatedOperationMethod<
     items: "Buckets",
     pageSize: "MaxBuckets",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuckets",
 })) as any;
 
 export type ListDirectoryBucketsError = CommonErrors;
@@ -10342,6 +10503,8 @@ export const listDirectoryBuckets: API.PaginatedOperationMethod<
     items: "Buckets",
     pageSize: "MaxDirectoryBuckets",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDirectoryBuckets",
 })) as any;
 
 export type ListMultipartUploadsError =
@@ -10449,6 +10612,8 @@ export const listMultipartUploads: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMultipartUploads",
+  telemetry: TELEMETRY,
+  span: "ListMultipartUploads",
 }));
 
 export type ListObjectAnnotationsError = InvalidPrefix | NoSuchBucket | NoSuchKey | CommonErrors;
@@ -10490,6 +10655,8 @@ export const listObjectAnnotations: API.PaginatedOperationMethod<
     items: "Annotations",
     pageSize: "MaxAnnotationResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectAnnotations",
 })) as any;
 
 export type ListObjectsError =
@@ -10536,6 +10703,8 @@ export const listObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjects",
+  telemetry: TELEMETRY,
+  span: "ListObjects",
 }));
 
 export type ListObjectsV2Error =
@@ -10628,6 +10797,8 @@ export const listObjectsV2: API.PaginatedOperationMethod<
     outputToken: "NextContinuationToken",
     pageSize: "MaxKeys",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectsV2",
 })) as any;
 
 export type ListObjectVersionsError =
@@ -10674,6 +10845,8 @@ export const listObjectVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectVersions",
+  telemetry: TELEMETRY,
+  span: "ListObjectVersions",
 }));
 
 export type ListPartsError =
@@ -10763,6 +10936,8 @@ export const listParts: API.PaginatedOperationMethod<
     items: "Parts",
     pageSize: "MaxParts",
   } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListParts", input: { UploadId: [{ name: "aws.s3.upload_id" }] } },
 })) as any;
 
 export type PutBucketAbacError = CommonErrors;
@@ -10781,6 +10956,8 @@ export const putBucketAbac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAbac",
+  telemetry: TELEMETRY,
+  span: "PutBucketAbac",
 }));
 
 export type PutBucketAccelerateConfigurationError =
@@ -10837,6 +11014,8 @@ export const putBucketAccelerateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAccelerateConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBucketAccelerateConfiguration",
 }));
 
 export type PutBucketAclError =
@@ -11002,6 +11181,8 @@ export const putBucketAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAcl",
+  telemetry: TELEMETRY,
+  span: "PutBucketAcl",
 }));
 
 export type PutBucketAnalyticsConfigurationError = CommonErrors;
@@ -11080,6 +11261,8 @@ export const putBucketAnalyticsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAnalyticsConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBucketAnalyticsConfiguration",
 }));
 
 export type PutBucketCorsError =
@@ -11146,6 +11329,8 @@ export const putBucketCors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketCors",
+  telemetry: TELEMETRY,
+  span: "PutBucketCors",
 }));
 
 export type PutBucketEncryptionError =
@@ -11251,6 +11436,8 @@ export const putBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "PutBucketEncryption",
 }));
 
 export type PutBucketIntelligentTieringConfigurationError =
@@ -11317,6 +11504,8 @@ export const putBucketIntelligentTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketIntelligentTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBucketIntelligentTieringConfiguration",
 }));
 
 export type PutBucketInventoryConfigurationError =
@@ -11426,6 +11615,8 @@ export const putBucketInventoryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketInventoryConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBucketInventoryConfiguration",
 }));
 
 export type PutBucketLifecycleConfigurationError =
@@ -11551,6 +11742,8 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketLifecycleConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBucketLifecycleConfiguration",
 }));
 
 export type PutBucketLoggingError =
@@ -11639,6 +11832,8 @@ export const putBucketLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketLogging",
+  telemetry: TELEMETRY,
+  span: "PutBucketLogging",
 }));
 
 export type PutBucketMetricsConfigurationError =
@@ -11713,6 +11908,8 @@ export const putBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBucketMetricsConfiguration",
 }));
 
 export type PutBucketNotificationConfigurationError =
@@ -11785,6 +11982,8 @@ export const putBucketNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBucketNotificationConfiguration",
 }));
 
 export type PutBucketOwnershipControlsError =
@@ -11821,6 +12020,8 @@ export const putBucketOwnershipControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketOwnershipControls",
+  telemetry: TELEMETRY,
+  span: "PutBucketOwnershipControls",
 }));
 
 export type PutBucketPolicyError =
@@ -11915,6 +12116,8 @@ export const putBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "PutBucketPolicy",
 }));
 
 export type PutBucketReplicationError =
@@ -11996,6 +12199,8 @@ export const putBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketReplication",
+  telemetry: TELEMETRY,
+  span: "PutBucketReplication",
 }));
 
 export type PutBucketRequestPaymentError =
@@ -12032,6 +12237,8 @@ export const putBucketRequestPayment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketRequestPayment",
+  telemetry: TELEMETRY,
+  span: "PutBucketRequestPayment",
 }));
 
 export type PutBucketTaggingError =
@@ -12094,6 +12301,8 @@ export const putBucketTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketTagging",
+  telemetry: TELEMETRY,
+  span: "PutBucketTagging",
 }));
 
 export type PutBucketVersioningError =
@@ -12157,6 +12366,8 @@ export const putBucketVersioning: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketVersioning",
+  telemetry: TELEMETRY,
+  span: "PutBucketVersioning",
 }));
 
 export type PutBucketWebsiteError =
@@ -12248,6 +12459,8 @@ export const putBucketWebsite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketWebsite",
+  telemetry: TELEMETRY,
+  span: "PutBucketWebsite",
 }));
 
 export type PutObjectError =
@@ -12408,6 +12621,8 @@ export const putObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObject",
+  telemetry: TELEMETRY,
+  span: "PutObject",
 }));
 
 export type PutObjectAclError =
@@ -12571,6 +12786,8 @@ export const putObjectAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectAcl",
+  telemetry: TELEMETRY,
+  span: "PutObjectAcl",
 }));
 
 export type PutObjectAnnotationError =
@@ -12629,6 +12846,8 @@ export const putObjectAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectAnnotation",
+  telemetry: TELEMETRY,
+  span: "PutObjectAnnotation",
 }));
 
 export type PutObjectLegalHoldError =
@@ -12669,6 +12888,8 @@ export const putObjectLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectLegalHold",
+  telemetry: TELEMETRY,
+  span: "PutObjectLegalHold",
 }));
 
 export type PutObjectLockConfigurationError =
@@ -12709,6 +12930,8 @@ export const putObjectLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectLockConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutObjectLockConfiguration",
 }));
 
 export type PutObjectRetentionError =
@@ -12750,6 +12973,8 @@ export const putObjectRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectRetention",
+  telemetry: TELEMETRY,
+  span: "PutObjectRetention",
 }));
 
 export type PutObjectTaggingError =
@@ -12819,6 +13044,8 @@ export const putObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectTagging",
+  telemetry: TELEMETRY,
+  span: "PutObjectTagging",
 }));
 
 export type PutPublicAccessBlockError =
@@ -12869,6 +13096,8 @@ export const putPublicAccessBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPublicAccessBlock",
+  telemetry: TELEMETRY,
+  span: "PutPublicAccessBlock",
 }));
 
 export type RenameObjectError = IdempotencyParameterMismatch | CommonErrors;
@@ -12929,6 +13158,8 @@ export const renameObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenameObject",
+  telemetry: TELEMETRY,
+  span: "RenameObject",
 }));
 
 export type RestoreObjectError =
@@ -13102,6 +13333,8 @@ export const restoreObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreObject",
+  telemetry: TELEMETRY,
+  span: "RestoreObject",
 }));
 
 export type SelectObjectContentError =
@@ -13212,6 +13445,8 @@ export const selectObjectContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SelectObjectContent",
+  telemetry: TELEMETRY,
+  span: "SelectObjectContent",
 }));
 
 export type UpdateBucketMetadataAnnotationTableConfigurationError = CommonErrors;
@@ -13259,6 +13494,8 @@ export const updateBucketMetadataAnnotationTableConfiguration: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataAnnotationTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateBucketMetadataAnnotationTableConfiguration",
 }));
 
 export type UpdateBucketMetadataInventoryTableConfigurationError = CommonErrors;
@@ -13328,6 +13565,8 @@ export const updateBucketMetadataInventoryTableConfiguration: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataInventoryTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateBucketMetadataInventoryTableConfiguration",
 }));
 
 export type UpdateBucketMetadataJournalTableConfigurationError = CommonErrors;
@@ -13375,6 +13614,8 @@ export const updateBucketMetadataJournalTableConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataJournalTableConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateBucketMetadataJournalTableConfiguration",
 }));
 
 export type UpdateObjectEncryptionError = AccessDenied | InvalidRequest | NoSuchKey | CommonErrors;
@@ -13499,6 +13740,8 @@ export const updateObjectEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateObjectEncryption",
+  telemetry: TELEMETRY,
+  span: "UpdateObjectEncryption",
 }));
 
 export type UploadPartError =
@@ -13660,6 +13903,14 @@ export const uploadPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPart",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UploadPart",
+    input: {
+      PartNumber: [{ name: "aws.s3.part_number" }],
+      UploadId: [{ name: "aws.s3.upload_id" }],
+    },
+  },
 }));
 
 export type UploadPartCopyError =
@@ -13852,6 +14103,15 @@ export const uploadPartCopy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPartCopy",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UploadPartCopy",
+    input: {
+      CopySource: [{ name: "aws.s3.copy_source" }],
+      PartNumber: [{ name: "aws.s3.part_number" }],
+      UploadId: [{ name: "aws.s3.upload_id" }],
+    },
+  },
 }));
 
 export type WriteGetObjectResponseError = CommonErrors;
@@ -13911,6 +14171,8 @@ export const writeGetObjectResponse: API.OperationMethod<
   retry: Retry,
   operationName: "WriteGetObjectResponse",
   endpointHostPrefix: "{RequestRoute}.",
+  telemetry: TELEMETRY,
+  span: "WriteGetObjectResponse",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

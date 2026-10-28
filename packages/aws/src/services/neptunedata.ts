@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://neptune-db.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "neptunedata",
+  service: "neptunedata",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1141,6 +1156,8 @@ export const cancelGremlinQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelGremlinQuery",
+  telemetry: TELEMETRY,
+  span: "CancelGremlinQuery",
 }));
 
 export type CancelLoaderJobError =
@@ -1189,6 +1206,8 @@ export const cancelLoaderJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLoaderJob",
+  telemetry: TELEMETRY,
+  span: "CancelLoaderJob",
 }));
 
 export type CancelMLDataProcessingJobError =
@@ -1233,6 +1252,8 @@ export const cancelMLDataProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLDataProcessingJob",
+  telemetry: TELEMETRY,
+  span: "CancelMLDataProcessingJob",
 }));
 
 export type CancelMLModelTrainingJobError =
@@ -1277,6 +1298,8 @@ export const cancelMLModelTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLModelTrainingJob",
+  telemetry: TELEMETRY,
+  span: "CancelMLModelTrainingJob",
 }));
 
 export type CancelMLModelTransformJobError =
@@ -1321,6 +1344,8 @@ export const cancelMLModelTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLModelTransformJob",
+  telemetry: TELEMETRY,
+  span: "CancelMLModelTransformJob",
 }));
 
 export type CancelOpenCypherQueryError =
@@ -1373,6 +1398,8 @@ export const cancelOpenCypherQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelOpenCypherQuery",
+  telemetry: TELEMETRY,
+  span: "CancelOpenCypherQuery",
 }));
 
 export type CreateMLEndpointError =
@@ -1417,6 +1444,8 @@ export const createMLEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateMLEndpoint",
 }));
 
 export type DeleteMLEndpointError =
@@ -1461,6 +1490,8 @@ export const deleteMLEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteMLEndpoint",
 }));
 
 export type DeletePropertygraphStatisticsError =
@@ -1509,6 +1540,8 @@ export const deletePropertygraphStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePropertygraphStatistics",
+  telemetry: TELEMETRY,
+  span: "DeletePropertygraphStatistics",
 }));
 
 export type DeleteSparqlStatisticsError =
@@ -1557,6 +1590,8 @@ export const deleteSparqlStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSparqlStatistics",
+  telemetry: TELEMETRY,
+  span: "DeleteSparqlStatistics",
 }));
 
 export type ExecuteFastResetError =
@@ -1607,6 +1642,8 @@ export const executeFastReset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteFastReset",
+  telemetry: TELEMETRY,
+  span: "ExecuteFastReset",
 }));
 
 export type ExecuteGremlinExplainQueryError =
@@ -1681,6 +1718,8 @@ export const executeGremlinExplainQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteGremlinExplainQuery",
+  telemetry: TELEMETRY,
+  span: "ExecuteGremlinExplainQuery",
 }));
 
 export type ExecuteGremlinProfileQueryError =
@@ -1745,6 +1784,8 @@ export const executeGremlinProfileQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteGremlinProfileQuery",
+  telemetry: TELEMETRY,
+  span: "ExecuteGremlinProfileQuery",
 }));
 
 export type ExecuteGremlinQueryError =
@@ -1815,6 +1856,8 @@ export const executeGremlinQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteGremlinQuery",
+  telemetry: TELEMETRY,
+  span: "ExecuteGremlinQuery",
 }));
 
 export type ExecuteOpenCypherExplainQueryError =
@@ -1881,6 +1924,8 @@ export const executeOpenCypherExplainQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteOpenCypherExplainQuery",
+  telemetry: TELEMETRY,
+  span: "ExecuteOpenCypherExplainQuery",
 }));
 
 export type ExecuteOpenCypherQueryError =
@@ -1957,6 +2002,8 @@ export const executeOpenCypherQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteOpenCypherQuery",
+  telemetry: TELEMETRY,
+  span: "ExecuteOpenCypherQuery",
 }));
 
 export type GetEngineStatusError =
@@ -1995,6 +2042,8 @@ export const getEngineStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngineStatus",
+  telemetry: TELEMETRY,
+  span: "GetEngineStatus",
 }));
 
 export type GetGremlinQueryStatusError =
@@ -2051,6 +2100,8 @@ export const getGremlinQueryStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGremlinQueryStatus",
+  telemetry: TELEMETRY,
+  span: "GetGremlinQueryStatus",
 }));
 
 export type GetLoaderJobStatusError =
@@ -2101,6 +2152,8 @@ export const getLoaderJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoaderJobStatus",
+  telemetry: TELEMETRY,
+  span: "GetLoaderJobStatus",
 }));
 
 export type GetMLDataProcessingJobError =
@@ -2145,6 +2198,8 @@ export const getMLDataProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLDataProcessingJob",
+  telemetry: TELEMETRY,
+  span: "GetMLDataProcessingJob",
 }));
 
 export type GetMLEndpointError =
@@ -2189,6 +2244,8 @@ export const getMLEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetMLEndpoint",
 }));
 
 export type GetMLModelTrainingJobError =
@@ -2233,6 +2290,8 @@ export const getMLModelTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLModelTrainingJob",
+  telemetry: TELEMETRY,
+  span: "GetMLModelTrainingJob",
 }));
 
 export type GetMLModelTransformJobError =
@@ -2277,6 +2336,8 @@ export const getMLModelTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLModelTransformJob",
+  telemetry: TELEMETRY,
+  span: "GetMLModelTransformJob",
 }));
 
 export type GetOpenCypherQueryStatusError =
@@ -2335,6 +2396,8 @@ export const getOpenCypherQueryStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenCypherQueryStatus",
+  telemetry: TELEMETRY,
+  span: "GetOpenCypherQueryStatus",
 }));
 
 export type GetPropertygraphStatisticsError =
@@ -2383,6 +2446,8 @@ export const getPropertygraphStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPropertygraphStatistics",
+  telemetry: TELEMETRY,
+  span: "GetPropertygraphStatistics",
 }));
 
 export type GetPropertygraphStreamError =
@@ -2445,6 +2510,8 @@ export const getPropertygraphStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPropertygraphStream",
+  telemetry: TELEMETRY,
+  span: "GetPropertygraphStream",
 }));
 
 export type GetPropertygraphSummaryError =
@@ -2493,6 +2560,8 @@ export const getPropertygraphSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPropertygraphSummary",
+  telemetry: TELEMETRY,
+  span: "GetPropertygraphSummary",
 }));
 
 export type GetRDFGraphSummaryError =
@@ -2541,6 +2610,8 @@ export const getRDFGraphSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRDFGraphSummary",
+  telemetry: TELEMETRY,
+  span: "GetRDFGraphSummary",
 }));
 
 export type GetSparqlStatisticsError =
@@ -2587,6 +2658,8 @@ export const getSparqlStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSparqlStatistics",
+  telemetry: TELEMETRY,
+  span: "GetSparqlStatistics",
 }));
 
 export type GetSparqlStreamError =
@@ -2641,6 +2714,8 @@ export const getSparqlStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSparqlStream",
+  telemetry: TELEMETRY,
+  span: "GetSparqlStream",
 }));
 
 export type ListGremlinQueriesError =
@@ -2697,6 +2772,8 @@ export const listGremlinQueries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGremlinQueries",
+  telemetry: TELEMETRY,
+  span: "ListGremlinQueries",
 }));
 
 export type ListLoaderJobsError =
@@ -2743,6 +2820,8 @@ export const listLoaderJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoaderJobs",
+  telemetry: TELEMETRY,
+  span: "ListLoaderJobs",
 }));
 
 export type ListMLDataProcessingJobsError =
@@ -2787,6 +2866,8 @@ export const listMLDataProcessingJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLDataProcessingJobs",
+  telemetry: TELEMETRY,
+  span: "ListMLDataProcessingJobs",
 }));
 
 export type ListMLEndpointsError =
@@ -2831,6 +2912,8 @@ export const listMLEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLEndpoints",
+  telemetry: TELEMETRY,
+  span: "ListMLEndpoints",
 }));
 
 export type ListMLModelTrainingJobsError =
@@ -2875,6 +2958,8 @@ export const listMLModelTrainingJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLModelTrainingJobs",
+  telemetry: TELEMETRY,
+  span: "ListMLModelTrainingJobs",
 }));
 
 export type ListMLModelTransformJobsError =
@@ -2919,6 +3004,8 @@ export const listMLModelTransformJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMLModelTransformJobs",
+  telemetry: TELEMETRY,
+  span: "ListMLModelTransformJobs",
 }));
 
 export type ListOpenCypherQueriesError =
@@ -2977,6 +3064,8 @@ export const listOpenCypherQueries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpenCypherQueries",
+  telemetry: TELEMETRY,
+  span: "ListOpenCypherQueries",
 }));
 
 export type ManagePropertygraphStatisticsError =
@@ -3025,6 +3114,8 @@ export const managePropertygraphStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ManagePropertygraphStatistics",
+  telemetry: TELEMETRY,
+  span: "ManagePropertygraphStatistics",
 }));
 
 export type ManageSparqlStatisticsError =
@@ -3073,6 +3164,8 @@ export const manageSparqlStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ManageSparqlStatistics",
+  telemetry: TELEMETRY,
+  span: "ManageSparqlStatistics",
 }));
 
 export type StartLoaderJobError =
@@ -3123,6 +3216,8 @@ export const startLoaderJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLoaderJob",
+  telemetry: TELEMETRY,
+  span: "StartLoaderJob",
 }));
 
 export type StartMLDataProcessingJobError =
@@ -3167,6 +3262,8 @@ export const startMLDataProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLDataProcessingJob",
+  telemetry: TELEMETRY,
+  span: "StartMLDataProcessingJob",
 }));
 
 export type StartMLModelTrainingJobError =
@@ -3211,6 +3308,8 @@ export const startMLModelTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLModelTrainingJob",
+  telemetry: TELEMETRY,
+  span: "StartMLModelTrainingJob",
 }));
 
 export type StartMLModelTransformJobError =
@@ -3255,6 +3354,8 @@ export const startMLModelTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLModelTransformJob",
+  telemetry: TELEMETRY,
+  span: "StartMLModelTransformJob",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

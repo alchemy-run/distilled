@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Reseller",
+  service: "reseller",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -376,6 +389,8 @@ export const activateSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateSubscriptions",
 }));
 
 export type ChangePlanSubscriptionsError =
@@ -396,6 +411,8 @@ export const changePlanSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangePlanSubscriptions",
 }));
 
 export type ChangeRenewalSettingsSubscriptionsError =
@@ -416,6 +433,8 @@ export const changeRenewalSettingsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeRenewalSettingsSubscriptions",
 }));
 
 export type ChangeSeatsSubscriptionsError =
@@ -436,6 +455,8 @@ export const changeSeatsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeSeatsSubscriptions",
 }));
 
 export type DeleteSubscriptionsError =
@@ -456,6 +477,8 @@ export const deleteSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriptions",
 }));
 
 export type GetCustomersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -471,6 +494,8 @@ export const getCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomers",
 }));
 
 export type GetSubscriptionsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -486,6 +511,8 @@ export const getSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptions",
 }));
 
 export type GetwatchdetailsResellernotifyError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -501,6 +528,8 @@ export const getwatchdetailsResellernotify: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetwatchdetailsResellernotify",
 }));
 
 export type InsertCustomersError =
@@ -521,6 +550,8 @@ export const insertCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCustomers",
 }));
 
 export type InsertSubscriptionsError =
@@ -541,6 +572,8 @@ export const insertSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertSubscriptions",
 }));
 
 export type ListSubscriptionsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -557,6 +590,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -578,6 +613,8 @@ export const patchCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCustomers",
 }));
 
 export type RegisterResellernotifyError =
@@ -598,6 +635,8 @@ export const registerResellernotify: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterResellernotify",
 }));
 
 export type StartPaidServiceSubscriptionsError =
@@ -618,6 +657,8 @@ export const startPaidServiceSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartPaidServiceSubscriptions",
 }));
 
 export type SuspendSubscriptionsError =
@@ -638,6 +679,8 @@ export const suspendSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendSubscriptions",
 }));
 
 export type UnregisterResellernotifyError =
@@ -658,6 +701,8 @@ export const unregisterResellernotify: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnregisterResellernotify",
 }));
 
 export type UpdateCustomersError =
@@ -678,6 +723,8 @@ export const updateCustomers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCustomers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

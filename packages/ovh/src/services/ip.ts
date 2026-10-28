@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Ip",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -1434,6 +1448,8 @@ export const confirmIpServiceTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmIpServiceTermination",
 }));
 
 export type CreateIpBringYourOwnIpAggregateError = OvhOpError;
@@ -1449,6 +1465,8 @@ export const createIpBringYourOwnIpAggregate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpBringYourOwnIpAggregate",
 }));
 
 export type CreateIpBringYourOwnIpSliceError = OvhOpError;
@@ -1464,6 +1482,8 @@ export const createIpBringYourOwnIpSlice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpBringYourOwnIpSlice",
 }));
 
 export type CreateIpChangeOrgError = OvhOpError;
@@ -1479,6 +1499,8 @@ export const createIpChangeOrg: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpChangeOrg",
 }));
 
 export type CreateIpDelegationError = OvhOpError;
@@ -1494,6 +1516,8 @@ export const createIpDelegation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpDelegation",
 }));
 
 export type CreateIpFirewallError = OvhOpError;
@@ -1509,6 +1533,8 @@ export const createIpFirewall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpFirewall",
 }));
 
 export type CreateIpFirewallRuleError = OvhOpError;
@@ -1524,6 +1550,8 @@ export const createIpFirewallRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpFirewallRule",
 }));
 
 export type CreateIpGameRuleError = OvhOpError;
@@ -1539,6 +1567,8 @@ export const createIpGameRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpGameRule",
 }));
 
 export type CreateIpMigrationTokenError = OvhOpError;
@@ -1554,6 +1584,8 @@ export const createIpMigrationToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpMigrationToken",
 }));
 
 export type CreateIpMitigationError = OvhOpError;
@@ -1569,6 +1601,8 @@ export const createIpMitigation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpMitigation",
 }));
 
 export type CreateIpMitigationProfileError = OvhOpError;
@@ -1584,6 +1618,8 @@ export const createIpMitigationProfile: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpMitigationProfile",
 }));
 
 export type CreateIpParkError = OvhOpError;
@@ -1599,6 +1635,8 @@ export const createIpPark: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpPark",
 }));
 
 export type CreateIpReverseError = OvhOpError;
@@ -1614,6 +1652,8 @@ export const createIpReverse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpReverse",
 }));
 
 export type CreateIpServiceChangeContactError = OvhOpError;
@@ -1629,6 +1669,8 @@ export const createIpServiceChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIpServiceChangeContact",
 }));
 
 export type DeleteIpDelegationError = OvhOpError;
@@ -1644,6 +1686,8 @@ export const deleteIpDelegation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpDelegation",
 }));
 
 export type DeleteIpFirewallError = OvhOpError;
@@ -1659,6 +1703,8 @@ export const deleteIpFirewall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpFirewall",
 }));
 
 export type DeleteIpFirewallRuleError = OvhOpError;
@@ -1674,6 +1720,8 @@ export const deleteIpFirewallRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpFirewallRule",
 }));
 
 export type DeleteIpGameRuleError = OvhOpError;
@@ -1689,6 +1737,8 @@ export const deleteIpGameRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpGameRule",
 }));
 
 export type DeleteIpMitigationError = OvhOpError;
@@ -1704,6 +1754,8 @@ export const deleteIpMitigation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpMitigation",
 }));
 
 export type DeleteIpMitigationProfileError = OvhOpError;
@@ -1719,6 +1771,8 @@ export const deleteIpMitigationProfile: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpMitigationProfile",
 }));
 
 export type DeleteIpReverseError = OvhOpError;
@@ -1734,6 +1788,8 @@ export const deleteIpReverse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpReverse",
 }));
 
 export type GetIpError = OvhOpError;
@@ -1745,6 +1801,8 @@ export const getIp: API.OperationMethod<GetIpRequest, IpIpWithIAM, GetIpError, O
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetIp",
   }));
 
 export type GetIpAntihackError = OvhOpError;
@@ -1760,6 +1818,8 @@ export const getIpAntihack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpAntihack",
 }));
 
 export type GetIpArpError = OvhOpError;
@@ -1775,6 +1835,8 @@ export const getIpArp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpArp",
 }));
 
 export type GetIpDelegationError = OvhOpError;
@@ -1790,6 +1852,8 @@ export const getIpDelegation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpDelegation",
 }));
 
 export type GetIpFirewallError = OvhOpError;
@@ -1805,6 +1869,8 @@ export const getIpFirewall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpFirewall",
 }));
 
 export type GetIpFirewallRuleError = OvhOpError;
@@ -1820,6 +1886,8 @@ export const getIpFirewallRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpFirewallRule",
 }));
 
 export type GetIpGameError = OvhOpError;
@@ -1835,6 +1903,8 @@ export const getIpGame: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpGame",
 }));
 
 export type GetIpGameRuleError = OvhOpError;
@@ -1850,6 +1920,8 @@ export const getIpGameRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpGameRule",
 }));
 
 export type GetIpMigrationTokenError = OvhOpError;
@@ -1865,6 +1937,8 @@ export const getIpMigrationToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpMigrationToken",
 }));
 
 export type GetIpMitigationError = OvhOpError;
@@ -1880,6 +1954,8 @@ export const getIpMitigation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpMitigation",
 }));
 
 export type GetIpMitigationProfileError = OvhOpError;
@@ -1895,6 +1971,8 @@ export const getIpMitigationProfile: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpMitigationProfile",
 }));
 
 export type GetIpPhishingError = OvhOpError;
@@ -1910,6 +1988,8 @@ export const getIpPhishing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpPhishing",
 }));
 
 export type GetIpReverseError = OvhOpError;
@@ -1925,6 +2005,8 @@ export const getIpReverse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpReverse",
 }));
 
 export type GetIpRipeError = OvhOpError;
@@ -1940,6 +2022,8 @@ export const getIpRipe: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpRipe",
 }));
 
 export type GetIpServiceError = OvhOpError;
@@ -1955,6 +2039,8 @@ export const getIpService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpService",
 }));
 
 export type GetIpServiceServiceInfosError = OvhOpError;
@@ -1970,6 +2056,8 @@ export const getIpServiceServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpServiceServiceInfos",
 }));
 
 export type GetIpSpamError = OvhOpError;
@@ -1985,6 +2073,8 @@ export const getIpSpam: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpSpam",
 }));
 
 export type GetIpTaskError = OvhOpError;
@@ -2000,6 +2090,8 @@ export const getIpTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpTask",
 }));
 
 export type ListIpError = OvhOpError;
@@ -2011,6 +2103,8 @@ export const listIp: API.OperationMethod<ListIpRequest, ListIpResponse, ListIpEr
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIp",
   }));
 
 export type ListIpAntihackError = OvhOpError;
@@ -2026,6 +2120,8 @@ export const listIpAntihack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpAntihack",
 }));
 
 export type ListIpArpError = OvhOpError;
@@ -2041,6 +2137,8 @@ export const listIpArp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpArp",
 }));
 
 export type ListIpBringYourOwnIpAggregateError = OvhOpError;
@@ -2056,6 +2154,8 @@ export const listIpBringYourOwnIpAggregate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpBringYourOwnIpAggregate",
 }));
 
 export type ListIpBringYourOwnIpSliceError = OvhOpError;
@@ -2071,6 +2171,8 @@ export const listIpBringYourOwnIpSlice: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpBringYourOwnIpSlice",
 }));
 
 export type ListIpCampusError = OvhOpError;
@@ -2086,6 +2188,8 @@ export const listIpCampus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpCampus",
 }));
 
 export type ListIpDelegationError = OvhOpError;
@@ -2101,6 +2205,8 @@ export const listIpDelegation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpDelegation",
 }));
 
 export type ListIpFirewallError = OvhOpError;
@@ -2116,6 +2222,8 @@ export const listIpFirewall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpFirewall",
 }));
 
 export type ListIpFirewallRuleError = OvhOpError;
@@ -2131,6 +2239,8 @@ export const listIpFirewallRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpFirewallRule",
 }));
 
 export type ListIpGameError = OvhOpError;
@@ -2146,6 +2256,8 @@ export const listIpGame: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpGame",
 }));
 
 export type ListIpGameRuleError = OvhOpError;
@@ -2161,6 +2273,8 @@ export const listIpGameRule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpGameRule",
 }));
 
 export type ListIpLicenseCloudLinuxError = OvhOpError;
@@ -2176,6 +2290,8 @@ export const listIpLicenseCloudLinux: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLicenseCloudLinux",
 }));
 
 export type ListIpLicenseCpanelError = OvhOpError;
@@ -2191,6 +2307,8 @@ export const listIpLicenseCpanel: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLicenseCpanel",
 }));
 
 export type ListIpLicenseDirectadminError = OvhOpError;
@@ -2206,6 +2324,8 @@ export const listIpLicenseDirectadmin: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLicenseDirectadmin",
 }));
 
 export type ListIpLicensePleskError = OvhOpError;
@@ -2221,6 +2341,8 @@ export const listIpLicensePlesk: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLicensePlesk",
 }));
 
 export type ListIpLicenseSqlserverError = OvhOpError;
@@ -2236,6 +2358,8 @@ export const listIpLicenseSqlserver: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLicenseSqlserver",
 }));
 
 export type ListIpLicenseVirtuozzoError = OvhOpError;
@@ -2251,6 +2375,8 @@ export const listIpLicenseVirtuozzo: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLicenseVirtuozzo",
 }));
 
 export type ListIpLicenseWindowsError = OvhOpError;
@@ -2266,6 +2392,8 @@ export const listIpLicenseWindows: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLicenseWindows",
 }));
 
 export type ListIpLicenseWorklightError = OvhOpError;
@@ -2281,6 +2409,8 @@ export const listIpLicenseWorklight: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpLicenseWorklight",
 }));
 
 export type ListIpMitigationError = OvhOpError;
@@ -2296,6 +2426,8 @@ export const listIpMitigation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpMitigation",
 }));
 
 export type ListIpMitigationProfilesError = OvhOpError;
@@ -2311,6 +2443,8 @@ export const listIpMitigationProfiles: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpMitigationProfiles",
 }));
 
 export type ListIpMoveError = OvhOpError;
@@ -2326,6 +2460,8 @@ export const listIpMove: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpMove",
 }));
 
 export type ListIpPhishingError = OvhOpError;
@@ -2341,6 +2477,8 @@ export const listIpPhishing: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpPhishing",
 }));
 
 export type ListIpReverseError = OvhOpError;
@@ -2356,6 +2494,8 @@ export const listIpReverse: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpReverse",
 }));
 
 export type ListIpServiceError = OvhOpError;
@@ -2371,6 +2511,8 @@ export const listIpService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpService",
 }));
 
 export type ListIpSpamError = OvhOpError;
@@ -2386,6 +2528,8 @@ export const listIpSpam: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpSpam",
 }));
 
 export type ListIpSpamStatsError = OvhOpError;
@@ -2401,6 +2545,8 @@ export const listIpSpamStats: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpSpamStats",
 }));
 
 export type ListIpTaskError = OvhOpError;
@@ -2416,6 +2562,8 @@ export const listIpTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpTask",
 }));
 
 export type MoveIpError = OvhOpError;
@@ -2427,6 +2575,8 @@ export const moveIp: API.OperationMethod<MoveIpRequest, IpIpTask, MoveIpError, O
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "MoveIp",
   }));
 
 export type PutIpError = OvhOpError;
@@ -2438,6 +2588,8 @@ export const putIp: API.OperationMethod<PutIpRequest, PutIpResponse, PutIpError,
     errors: [UnknownOvhError],
     protocol: OvhProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PutIp",
   }));
 
 export type PutIpFirewallError = OvhOpError;
@@ -2453,6 +2605,8 @@ export const putIpFirewall: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpFirewall",
 }));
 
 export type PutIpGameError = OvhOpError;
@@ -2468,6 +2622,8 @@ export const putIpGame: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpGame",
 }));
 
 export type PutIpMitigationError = OvhOpError;
@@ -2483,6 +2639,8 @@ export const putIpMitigation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpMitigation",
 }));
 
 export type PutIpMitigationProfileError = OvhOpError;
@@ -2498,6 +2656,8 @@ export const putIpMitigationProfile: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpMitigationProfile",
 }));
 
 export type PutIpRipeError = OvhOpError;
@@ -2513,6 +2673,8 @@ export const putIpRipe: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpRipe",
 }));
 
 export type PutIpServiceError = OvhOpError;
@@ -2528,6 +2690,8 @@ export const putIpService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpService",
 }));
 
 export type PutIpServiceServiceInfosError = OvhOpError;
@@ -2543,6 +2707,8 @@ export const putIpServiceServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIpServiceServiceInfos",
 }));
 
 export type TerminateIpServiceError = OvhOpError;
@@ -2558,6 +2724,8 @@ export const terminateIpService: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateIpService",
 }));
 
 export type UnblockIpAntihackError = OvhOpError;
@@ -2573,6 +2741,8 @@ export const unblockIpAntihack: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnblockIpAntihack",
 }));
 
 export type UnblockIpArpError = OvhOpError;
@@ -2588,6 +2758,8 @@ export const unblockIpArp: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnblockIpArp",
 }));
 
 export type UnblockIpSpamError = OvhOpError;
@@ -2603,6 +2775,8 @@ export const unblockIpSpam: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnblockIpSpam",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

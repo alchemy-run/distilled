@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "FloatingIps",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** The Floating IP type. */
 export type CreateFloatingIpRequestType = "ipv4" | "ipv6";
 /** Home [Location](#tag/locations) for the [Floating IP](#tag/floating-ips). Either the ID or the name of the [Location](#tag/locations). Only optional if no [Server](#tag/servers) is provided. Routing is optimized for this [Locations](#tag/locations). */
@@ -344,6 +357,8 @@ export const createFloatingIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFloatingIp",
 }));
 
 export type DeleteFloatingIpError = HetznerOpError;
@@ -359,6 +374,8 @@ export const deleteFloatingIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFloatingIp",
 }));
 
 export type GetFloatingIpError = HetznerOpError;
@@ -374,6 +391,8 @@ export const getFloatingIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFloatingIp",
 }));
 
 export type ListFloatingIpsError = HetznerOpError;
@@ -391,6 +410,8 @@ export const listFloatingIps: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFloatingIps",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -415,6 +436,8 @@ export const updateFloatingIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFloatingIp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

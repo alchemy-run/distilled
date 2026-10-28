@@ -30,7 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "HetznerCredentials",
   ) {}
 
@@ -56,7 +56,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       token: Redacted.make(token),
       apiBaseUrl,
     })),
-    Effect.orDie,
   ),
 );
 

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "LoadBalancer",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -495,6 +508,8 @@ export const createCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCredentials",
 }));
 
 export type CreateLoadBalancerError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -510,6 +525,8 @@ export const createLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLoadBalancer",
 }));
 
 export type DeleteCredentialsError = BadRequest | Forbidden | StackitOpError;
@@ -525,6 +542,8 @@ export const deleteCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCredentials",
 }));
 
 export type DeleteLoadBalancerError = BadRequest | Forbidden | StackitOpError;
@@ -540,6 +559,8 @@ export const deleteLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancer",
 }));
 
 export type GetCredentialsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -555,6 +576,8 @@ export const getCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCredentials",
 }));
 
 export type GetLoadBalancerError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -570,6 +593,8 @@ export const getLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancer",
 }));
 
 export type GetQuotaError = BadRequest | Forbidden | StackitOpError;
@@ -585,6 +610,8 @@ export const getQuota: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuota",
 }));
 
 export type ListCredentialsError = BadRequest | Forbidden | StackitOpError;
@@ -600,6 +627,8 @@ export const listCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCredentials",
 }));
 
 export type ListLoadBalancersError = BadRequest | Forbidden | StackitOpError;
@@ -615,6 +644,8 @@ export const listLoadBalancers: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLoadBalancers",
 }));
 
 export type ListPlansError = BadRequest | Forbidden | StackitOpError;
@@ -630,6 +661,8 @@ export const listPlans: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlans",
 }));
 
 export type UpdateCredentialsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -645,6 +678,8 @@ export const updateCredentials: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCredentials",
 }));
 
 export type UpdateLoadBalancerError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -660,6 +695,8 @@ export const updateLoadBalancer: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoadBalancer",
 }));
 
 export type UpdateTargetPoolError = BadRequest | Forbidden | StackitOpError;
@@ -675,6 +712,8 @@ export const updateTargetPool: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTargetPool",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Workspaceevents",
+  service: "workspaceevents",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -476,6 +489,8 @@ export const cancelTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTasks",
 }));
 
 export type CreateSubscriptionsError =
@@ -496,6 +511,8 @@ export const createSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptions",
 }));
 
 export type CreateTasksPushNotificationConfigsError =
@@ -516,6 +533,8 @@ export const createTasksPushNotificationConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTasksPushNotificationConfigs",
 }));
 
 export type DeleteSubscriptionsError =
@@ -536,6 +555,8 @@ export const deleteSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriptions",
 }));
 
 export type DeleteTasksPushNotificationConfigsError =
@@ -556,6 +577,8 @@ export const deleteTasksPushNotificationConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTasksPushNotificationConfigs",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -571,6 +594,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetSubscriptionsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -586,6 +611,8 @@ export const getSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptions",
 }));
 
 export type GetTasksError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -601,6 +628,8 @@ export const getTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasks",
 }));
 
 export type GetTasksPushNotificationConfigsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -616,6 +645,8 @@ export const getTasksPushNotificationConfigs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksPushNotificationConfigs",
 }));
 
 export type ListSubscriptionsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -632,6 +663,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -649,6 +682,8 @@ export const listTasksPushNotificationConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasksPushNotificationConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -670,6 +705,8 @@ export const patchSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSubscriptions",
 }));
 
 export type ReactivateSubscriptionsError =
@@ -690,6 +727,8 @@ export const reactivateSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactivateSubscriptions",
 }));
 
 export type StreamMessageError =
@@ -710,6 +749,8 @@ export const streamMessage: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamMessage",
 }));
 
 export type SubscribeTasksError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -725,6 +766,8 @@ export const subscribeTasks: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeTasks",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://osis.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "OSIS",
+  service: "OSIS",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -508,6 +523,8 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type CreatePipelineEndpointError =
@@ -541,6 +558,8 @@ export const createPipelineEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipelineEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreatePipelineEndpoint",
 }));
 
 export type DeletePipelineError =
@@ -574,6 +593,8 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DeletePipelineEndpointError =
@@ -602,6 +623,8 @@ export const deletePipelineEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipelineEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeletePipelineEndpoint",
 }));
 
 export type DeleteResourcePolicyError =
@@ -634,6 +657,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type GetPipelineError =
@@ -664,6 +689,8 @@ export const getPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipeline",
+  telemetry: TELEMETRY,
+  span: "GetPipeline",
 }));
 
 export type GetPipelineBlueprintError =
@@ -697,6 +724,8 @@ export const getPipelineBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineBlueprint",
+  telemetry: TELEMETRY,
+  span: "GetPipelineBlueprint",
 }));
 
 export type GetPipelineChangeProgressError =
@@ -731,6 +760,8 @@ export const getPipelineChangeProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineChangeProgress",
+  telemetry: TELEMETRY,
+  span: "GetPipelineChangeProgress",
 }));
 
 export type GetResourcePolicyError =
@@ -763,6 +794,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListPipelineBlueprintsError =
@@ -795,6 +828,8 @@ export const listPipelineBlueprints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPipelineBlueprints",
+  telemetry: TELEMETRY,
+  span: "ListPipelineBlueprints",
 }));
 
 export type ListPipelineEndpointConnectionsError =
@@ -832,6 +867,8 @@ export const listPipelineEndpointConnections: API.PaginatedOperationMethod<
     items: "PipelineEndpointConnections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineEndpointConnections",
 })) as any;
 
 export type ListPipelineEndpointsError =
@@ -869,6 +906,8 @@ export const listPipelineEndpoints: API.PaginatedOperationMethod<
     items: "PipelineEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelineEndpoints",
 })) as any;
 
 export type ListPipelinesError =
@@ -907,6 +946,8 @@ export const listPipelines: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelines",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -938,6 +979,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePolicyError =
@@ -971,6 +1014,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RevokePipelineEndpointConnectionsError =
@@ -1001,6 +1046,8 @@ export const revokePipelineEndpointConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokePipelineEndpointConnections",
+  telemetry: TELEMETRY,
+  span: "RevokePipelineEndpointConnections",
 }));
 
 export type StartPipelineError =
@@ -1033,6 +1080,8 @@ export const startPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipeline",
+  telemetry: TELEMETRY,
+  span: "StartPipeline",
 }));
 
 export type StopPipelineError =
@@ -1066,6 +1115,8 @@ export const stopPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipeline",
+  telemetry: TELEMETRY,
+  span: "StopPipeline",
 }));
 
 export type TagResourceError =
@@ -1099,6 +1150,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1130,6 +1183,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePipelineError =
@@ -1163,6 +1218,8 @@ export const updatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipeline",
+  telemetry: TELEMETRY,
+  span: "UpdatePipeline",
 }));
 
 export type ValidatePipelineError =
@@ -1193,6 +1250,8 @@ export const validatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidatePipeline",
+  telemetry: TELEMETRY,
+  span: "ValidatePipeline",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

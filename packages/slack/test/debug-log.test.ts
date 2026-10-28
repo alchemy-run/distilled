@@ -1,9 +1,10 @@
+import { TelemetryDebug } from "@distilled.cloud/core/telemetry-debug";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
+import { afterAll, describe, expect, test, vi } from "vitest";
 import { credentials } from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
 import { v2Exchange } from "../src/services/oauth.ts";
@@ -17,20 +18,16 @@ const reply = (body: string) =>
       ),
     ),
     credentials({ token: Redacted.make("xoxb-test") }),
+    TelemetryDebug.layerWith({ logRequests: true }),
   );
 
 const logged = vi.spyOn(console, "error").mockImplementation(() => {});
 
-beforeAll(() => {
-  process.env.DISTILLED_DEBUG_HTTP = "1";
-});
-
 afterAll(() => {
-  delete process.env.DISTILLED_DEBUG_HTTP;
   logged.mockRestore();
 });
 
-describe("DISTILLED_DEBUG_HTTP response line", () => {
+describe("logRequests response line", () => {
   test("withholds the body of a response whose output has sensitive members", async () => {
     logged.mockClear();
     await Effect.runPromise(

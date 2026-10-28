@@ -27,7 +27,16 @@ export const containerMetadataSource = (
       const full = env(ENV_CMDS_FULL_URI);
       let url: URL;
       if (relative) {
-        url = new URL(relative, DEFAULT_LINK_LOCAL_HOST);
+        try {
+          url = new URL(relative, DEFAULT_LINK_LOCAL_HOST);
+        } catch {
+          return Effect.fail(
+            new CredentialSourceError({
+              message: `${relative} is not a valid container metadata service path`,
+              tryNextLink: false,
+            }),
+          );
+        }
       } else if (full) {
         try {
           url = new URL(full);

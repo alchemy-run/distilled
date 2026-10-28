@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -152,6 +153,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NetworkManager",
+  service: "NetworkManager",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1930,6 +1945,8 @@ export const acceptAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAttachment",
+  telemetry: TELEMETRY,
+  span: "AcceptAttachment",
 }));
 
 export type AssociateConnectPeerError =
@@ -1968,6 +1985,8 @@ export const associateConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConnectPeer",
+  telemetry: TELEMETRY,
+  span: "AssociateConnectPeer",
 }));
 
 export type AssociateCustomerGatewayError =
@@ -2012,6 +2031,8 @@ export const associateCustomerGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCustomerGateway",
+  telemetry: TELEMETRY,
+  span: "AssociateCustomerGateway",
 }));
 
 export type AssociateLinkError =
@@ -2046,6 +2067,8 @@ export const associateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLink",
+  telemetry: TELEMETRY,
+  span: "AssociateLink",
 }));
 
 export type AssociateTransitGatewayConnectPeerError =
@@ -2086,6 +2109,8 @@ export const associateTransitGatewayConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTransitGatewayConnectPeer",
+  telemetry: TELEMETRY,
+  span: "AssociateTransitGatewayConnectPeer",
 }));
 
 export type CreateConnectAttachmentError =
@@ -2122,6 +2147,8 @@ export const createConnectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateConnectAttachment",
 }));
 
 export type CreateConnectionError =
@@ -2154,6 +2181,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateConnectPeerError =
@@ -2187,6 +2216,8 @@ export const createConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectPeer",
+  telemetry: TELEMETRY,
+  span: "CreateConnectPeer",
 }));
 
 export type CreateCoreNetworkError =
@@ -2221,6 +2252,8 @@ export const createCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateCoreNetwork",
 }));
 
 export type CreateCoreNetworkPrefixListAssociationError =
@@ -2255,6 +2288,8 @@ export const createCoreNetworkPrefixListAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreNetworkPrefixListAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateCoreNetworkPrefixListAssociation",
 }));
 
 export type CreateDeviceError =
@@ -2290,6 +2325,8 @@ export const createDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevice",
+  telemetry: TELEMETRY,
+  span: "CreateDevice",
 }));
 
 export type CreateDirectConnectGatewayAttachmentError =
@@ -2322,6 +2359,8 @@ export const createDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateDirectConnectGatewayAttachment",
 }));
 
 export type CreateGlobalNetworkError =
@@ -2354,6 +2393,8 @@ export const createGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateGlobalNetwork",
 }));
 
 export type CreateLinkError =
@@ -2388,6 +2429,8 @@ export const createLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
+  telemetry: TELEMETRY,
+  span: "CreateLink",
 }));
 
 export type CreateSiteError =
@@ -2422,6 +2465,8 @@ export const createSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSite",
+  telemetry: TELEMETRY,
+  span: "CreateSite",
 }));
 
 export type CreateSiteToSiteVpnAttachmentError =
@@ -2454,6 +2499,8 @@ export const createSiteToSiteVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSiteToSiteVpnAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateSiteToSiteVpnAttachment",
 }));
 
 export type CreateTransitGatewayPeeringError =
@@ -2486,6 +2533,8 @@ export const createTransitGatewayPeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayPeering",
+  telemetry: TELEMETRY,
+  span: "CreateTransitGatewayPeering",
 }));
 
 export type CreateTransitGatewayRouteTableAttachmentError =
@@ -2518,6 +2567,8 @@ export const createTransitGatewayRouteTableAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitGatewayRouteTableAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateTransitGatewayRouteTableAttachment",
 }));
 
 export type CreateVpcAttachmentError =
@@ -2550,6 +2601,8 @@ export const createVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateVpcAttachment",
 }));
 
 export type DeleteAttachmentError =
@@ -2582,6 +2635,8 @@ export const deleteAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteAttachment",
 }));
 
 export type DeleteConnectionError =
@@ -2614,6 +2669,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteConnectPeerError =
@@ -2646,6 +2703,8 @@ export const deleteConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectPeer",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectPeer",
 }));
 
 export type DeleteCoreNetworkError =
@@ -2678,6 +2737,8 @@ export const deleteCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreNetwork",
 }));
 
 export type DeleteCoreNetworkPolicyVersionError =
@@ -2710,6 +2771,8 @@ export const deleteCoreNetworkPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetworkPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreNetworkPolicyVersion",
 }));
 
 export type DeleteCoreNetworkPrefixListAssociationError =
@@ -2744,6 +2807,8 @@ export const deleteCoreNetworkPrefixListAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreNetworkPrefixListAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreNetworkPrefixListAssociation",
 }));
 
 export type DeleteDeviceError =
@@ -2777,6 +2842,8 @@ export const deleteDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevice",
+  telemetry: TELEMETRY,
+  span: "DeleteDevice",
 }));
 
 export type DeleteGlobalNetworkError =
@@ -2810,6 +2877,8 @@ export const deleteGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalNetwork",
 }));
 
 export type DeleteLinkError =
@@ -2843,6 +2912,8 @@ export const deleteLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
+  telemetry: TELEMETRY,
+  span: "DeleteLink",
 }));
 
 export type DeletePeeringError =
@@ -2875,6 +2946,8 @@ export const deletePeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePeering",
+  telemetry: TELEMETRY,
+  span: "DeletePeering",
 }));
 
 export type DeleteResourcePolicyError =
@@ -2905,6 +2978,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteSiteError =
@@ -2937,6 +3012,8 @@ export const deleteSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSite",
+  telemetry: TELEMETRY,
+  span: "DeleteSite",
 }));
 
 export type DeregisterTransitGatewayError =
@@ -2970,6 +3047,8 @@ export const deregisterTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTransitGateway",
+  telemetry: TELEMETRY,
+  span: "DeregisterTransitGateway",
 }));
 
 export type DescribeGlobalNetworksError =
@@ -3010,6 +3089,8 @@ export const describeGlobalNetworks: API.PaginatedOperationMethod<
     items: "GlobalNetworks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGlobalNetworks",
 })) as any;
 
 export type DisassociateConnectPeerError =
@@ -3042,6 +3123,8 @@ export const disassociateConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConnectPeer",
+  telemetry: TELEMETRY,
+  span: "DisassociateConnectPeer",
 }));
 
 export type DisassociateCustomerGatewayError =
@@ -3074,6 +3157,8 @@ export const disassociateCustomerGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCustomerGateway",
+  telemetry: TELEMETRY,
+  span: "DisassociateCustomerGateway",
 }));
 
 export type DisassociateLinkError =
@@ -3107,6 +3192,8 @@ export const disassociateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLink",
+  telemetry: TELEMETRY,
+  span: "DisassociateLink",
 }));
 
 export type DisassociateTransitGatewayConnectPeerError =
@@ -3139,6 +3226,8 @@ export const disassociateTransitGatewayConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTransitGatewayConnectPeer",
+  telemetry: TELEMETRY,
+  span: "DisassociateTransitGatewayConnectPeer",
 }));
 
 export type ExecuteCoreNetworkChangeSetError =
@@ -3171,6 +3260,8 @@ export const executeCoreNetworkChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteCoreNetworkChangeSet",
+  telemetry: TELEMETRY,
+  span: "ExecuteCoreNetworkChangeSet",
 }));
 
 export type GetConnectAttachmentError =
@@ -3201,6 +3292,8 @@ export const getConnectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectAttachment",
+  telemetry: TELEMETRY,
+  span: "GetConnectAttachment",
 }));
 
 export type GetConnectionsError =
@@ -3238,6 +3331,8 @@ export const getConnections: API.PaginatedOperationMethod<
     items: "Connections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetConnections",
 })) as any;
 
 export type GetConnectPeerError =
@@ -3268,6 +3363,8 @@ export const getConnectPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectPeer",
+  telemetry: TELEMETRY,
+  span: "GetConnectPeer",
 }));
 
 export type GetConnectPeerAssociationsError =
@@ -3307,6 +3404,8 @@ export const getConnectPeerAssociations: API.PaginatedOperationMethod<
     items: "ConnectPeerAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetConnectPeerAssociations",
 })) as any;
 
 export type GetCoreNetworkError =
@@ -3337,6 +3436,8 @@ export const getCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreNetwork",
+  telemetry: TELEMETRY,
+  span: "GetCoreNetwork",
 }));
 
 export type GetCoreNetworkChangeEventsError =
@@ -3374,6 +3475,8 @@ export const getCoreNetworkChangeEvents: API.PaginatedOperationMethod<
     items: "CoreNetworkChangeEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCoreNetworkChangeEvents",
 })) as any;
 
 export type GetCoreNetworkChangeSetError =
@@ -3411,6 +3514,8 @@ export const getCoreNetworkChangeSet: API.PaginatedOperationMethod<
     items: "CoreNetworkChanges",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCoreNetworkChangeSet",
 })) as any;
 
 export type GetCoreNetworkPolicyError =
@@ -3441,6 +3546,8 @@ export const getCoreNetworkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreNetworkPolicy",
+  telemetry: TELEMETRY,
+  span: "GetCoreNetworkPolicy",
 }));
 
 export type GetCustomerGatewayAssociationsError =
@@ -3481,6 +3588,8 @@ export const getCustomerGatewayAssociations: API.PaginatedOperationMethod<
     items: "CustomerGatewayAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCustomerGatewayAssociations",
 })) as any;
 
 export type GetDevicesError =
@@ -3518,6 +3627,8 @@ export const getDevices: API.PaginatedOperationMethod<
     items: "Devices",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDevices",
 })) as any;
 
 export type GetDirectConnectGatewayAttachmentError =
@@ -3548,6 +3659,8 @@ export const getDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectConnectGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "GetDirectConnectGatewayAttachment",
 }));
 
 export type GetLinkAssociationsError =
@@ -3586,6 +3699,8 @@ export const getLinkAssociations: API.PaginatedOperationMethod<
     items: "LinkAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLinkAssociations",
 })) as any;
 
 export type GetLinksError =
@@ -3625,6 +3740,8 @@ export const getLinks: API.PaginatedOperationMethod<
     items: "Links",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetLinks",
 })) as any;
 
 export type GetNetworkResourceCountsError =
@@ -3660,6 +3777,8 @@ export const getNetworkResourceCounts: API.PaginatedOperationMethod<
     items: "NetworkResourceCounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetNetworkResourceCounts",
 })) as any;
 
 export type GetNetworkResourceRelationshipsError =
@@ -3697,6 +3816,8 @@ export const getNetworkResourceRelationships: API.PaginatedOperationMethod<
     items: "Relationships",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetNetworkResourceRelationships",
 })) as any;
 
 export type GetNetworkResourcesError =
@@ -3736,6 +3857,8 @@ export const getNetworkResources: API.PaginatedOperationMethod<
     items: "NetworkResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetNetworkResources",
 })) as any;
 
 export type GetNetworkRoutesError =
@@ -3766,6 +3889,8 @@ export const getNetworkRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkRoutes",
+  telemetry: TELEMETRY,
+  span: "GetNetworkRoutes",
 }));
 
 export type GetNetworkTelemetryError =
@@ -3803,6 +3928,8 @@ export const getNetworkTelemetry: API.PaginatedOperationMethod<
     items: "NetworkTelemetry",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetNetworkTelemetry",
 })) as any;
 
 export type GetResourcePolicyError =
@@ -3831,6 +3958,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetRouteAnalysisError =
@@ -3861,6 +3990,8 @@ export const getRouteAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouteAnalysis",
+  telemetry: TELEMETRY,
+  span: "GetRouteAnalysis",
 }));
 
 export type GetSitesError =
@@ -3898,6 +4029,8 @@ export const getSites: API.PaginatedOperationMethod<
     items: "Sites",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSites",
 })) as any;
 
 export type GetSiteToSiteVpnAttachmentError =
@@ -3928,6 +4061,8 @@ export const getSiteToSiteVpnAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSiteToSiteVpnAttachment",
+  telemetry: TELEMETRY,
+  span: "GetSiteToSiteVpnAttachment",
 }));
 
 export type GetTransitGatewayConnectPeerAssociationsError =
@@ -3967,6 +4102,8 @@ export const getTransitGatewayConnectPeerAssociations: API.PaginatedOperationMet
     items: "TransitGatewayConnectPeerAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTransitGatewayConnectPeerAssociations",
 })) as any;
 
 export type GetTransitGatewayPeeringError =
@@ -3997,6 +4134,8 @@ export const getTransitGatewayPeering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransitGatewayPeering",
+  telemetry: TELEMETRY,
+  span: "GetTransitGatewayPeering",
 }));
 
 export type GetTransitGatewayRegistrationsError =
@@ -4035,6 +4174,8 @@ export const getTransitGatewayRegistrations: API.PaginatedOperationMethod<
     items: "TransitGatewayRegistrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetTransitGatewayRegistrations",
 })) as any;
 
 export type GetTransitGatewayRouteTableAttachmentError =
@@ -4065,6 +4206,8 @@ export const getTransitGatewayRouteTableAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransitGatewayRouteTableAttachment",
+  telemetry: TELEMETRY,
+  span: "GetTransitGatewayRouteTableAttachment",
 }));
 
 export type GetVpcAttachmentError =
@@ -4095,6 +4238,8 @@ export const getVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcAttachment",
+  telemetry: TELEMETRY,
+  span: "GetVpcAttachment",
 }));
 
 export type ListAttachmentRoutingPolicyAssociationsError =
@@ -4132,6 +4277,8 @@ export const listAttachmentRoutingPolicyAssociations: API.PaginatedOperationMeth
     items: "AttachmentRoutingPolicyAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachmentRoutingPolicyAssociations",
 })) as any;
 
 export type ListAttachmentsError =
@@ -4167,6 +4314,8 @@ export const listAttachments: API.PaginatedOperationMethod<
     items: "Attachments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachments",
 })) as any;
 
 export type ListConnectPeersError =
@@ -4202,6 +4351,8 @@ export const listConnectPeers: API.PaginatedOperationMethod<
     items: "ConnectPeers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectPeers",
 })) as any;
 
 export type ListCoreNetworkPolicyVersionsError =
@@ -4239,6 +4390,8 @@ export const listCoreNetworkPolicyVersions: API.PaginatedOperationMethod<
     items: "CoreNetworkPolicyVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreNetworkPolicyVersions",
 })) as any;
 
 export type ListCoreNetworkPrefixListAssociationsError =
@@ -4276,6 +4429,8 @@ export const listCoreNetworkPrefixListAssociations: API.PaginatedOperationMethod
     items: "PrefixListAssociations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreNetworkPrefixListAssociations",
 })) as any;
 
 export type ListCoreNetworkRoutingInformationError =
@@ -4313,6 +4468,8 @@ export const listCoreNetworkRoutingInformation: API.PaginatedOperationMethod<
     items: "CoreNetworkRoutingInformation",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreNetworkRoutingInformation",
 })) as any;
 
 export type ListCoreNetworksError =
@@ -4348,6 +4505,8 @@ export const listCoreNetworks: API.PaginatedOperationMethod<
     items: "CoreNetworks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCoreNetworks",
 })) as any;
 
 export type ListOrganizationServiceAccessStatusError = CommonErrors;
@@ -4366,6 +4525,8 @@ export const listOrganizationServiceAccessStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationServiceAccessStatus",
+  telemetry: TELEMETRY,
+  span: "ListOrganizationServiceAccessStatus",
 }));
 
 export type ListPeeringsError =
@@ -4401,6 +4562,8 @@ export const listPeerings: API.PaginatedOperationMethod<
     items: "Peerings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPeerings",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4431,6 +4594,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAttachmentRoutingPolicyLabelError =
@@ -4465,6 +4630,8 @@ export const putAttachmentRoutingPolicyLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttachmentRoutingPolicyLabel",
+  telemetry: TELEMETRY,
+  span: "PutAttachmentRoutingPolicyLabel",
 }));
 
 export type PutCoreNetworkPolicyError =
@@ -4499,6 +4666,8 @@ export const putCoreNetworkPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCoreNetworkPolicy",
+  telemetry: TELEMETRY,
+  span: "PutCoreNetworkPolicy",
 }));
 
 export type PutResourcePolicyError =
@@ -4531,6 +4700,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RegisterTransitGatewayError =
@@ -4567,6 +4738,8 @@ export const registerTransitGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTransitGateway",
+  telemetry: TELEMETRY,
+  span: "RegisterTransitGateway",
 }));
 
 export type RejectAttachmentError =
@@ -4599,6 +4772,8 @@ export const rejectAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAttachment",
+  telemetry: TELEMETRY,
+  span: "RejectAttachment",
 }));
 
 export type RemoveAttachmentRoutingPolicyLabelError =
@@ -4633,6 +4808,8 @@ export const removeAttachmentRoutingPolicyLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttachmentRoutingPolicyLabel",
+  telemetry: TELEMETRY,
+  span: "RemoveAttachmentRoutingPolicyLabel",
 }));
 
 export type RestoreCoreNetworkPolicyVersionError =
@@ -4665,6 +4842,8 @@ export const restoreCoreNetworkPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreCoreNetworkPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "RestoreCoreNetworkPolicyVersion",
 }));
 
 export type StartOrganizationServiceAccessUpdateError =
@@ -4697,6 +4876,8 @@ export const startOrganizationServiceAccessUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOrganizationServiceAccessUpdate",
+  telemetry: TELEMETRY,
+  span: "StartOrganizationServiceAccessUpdate",
 }));
 
 export type StartRouteAnalysisError =
@@ -4730,6 +4911,8 @@ export const startRouteAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRouteAnalysis",
+  telemetry: TELEMETRY,
+  span: "StartRouteAnalysis",
 }));
 
 export type TagResourceError =
@@ -4764,6 +4947,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4796,6 +4981,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectionError =
@@ -4829,6 +5016,8 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateConnection",
 }));
 
 export type UpdateCoreNetworkError =
@@ -4861,6 +5050,8 @@ export const updateCoreNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCoreNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateCoreNetwork",
 }));
 
 export type UpdateDeviceError =
@@ -4894,6 +5085,8 @@ export const updateDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevice",
+  telemetry: TELEMETRY,
+  span: "UpdateDevice",
 }));
 
 export type UpdateDirectConnectGatewayAttachmentError =
@@ -4926,6 +5119,8 @@ export const updateDirectConnectGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectConnectGatewayAttachment",
+  telemetry: TELEMETRY,
+  span: "UpdateDirectConnectGatewayAttachment",
 }));
 
 export type UpdateGlobalNetworkError =
@@ -4959,6 +5154,8 @@ export const updateGlobalNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalNetwork",
 }));
 
 export type UpdateLinkError =
@@ -4994,6 +5191,8 @@ export const updateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
+  telemetry: TELEMETRY,
+  span: "UpdateLink",
 }));
 
 export type UpdateNetworkResourceMetadataError =
@@ -5026,6 +5225,8 @@ export const updateNetworkResourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkResourceMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkResourceMetadata",
 }));
 
 export type UpdateSiteError =
@@ -5059,6 +5260,8 @@ export const updateSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSite",
+  telemetry: TELEMETRY,
+  span: "UpdateSite",
 }));
 
 export type UpdateVpcAttachmentError =
@@ -5091,6 +5294,8 @@ export const updateVpcAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcAttachment",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcAttachment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

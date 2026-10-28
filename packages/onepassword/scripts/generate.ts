@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
  * 1Password Effect SDK, one service module per API:
@@ -16,9 +16,9 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * dictionaries appear here.
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is 1Password's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is 1Password's provider spec.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -134,6 +134,7 @@ const onepasswordSpec = (api: Api): SdkSpec => ({
 
 runGeneratorCli({
   description: "Generate the 1Password Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // Smithy patches apply in scripts/convert.ts (finalizeConvert).
   patchesDir: false,

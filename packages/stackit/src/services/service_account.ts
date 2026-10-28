@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "ServiceAccount",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -386,6 +399,8 @@ export const createFederatedIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFederatedIdentityProvider",
 }));
 
 export type CreateServiceAccountError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -401,6 +416,8 @@ export const createServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccount",
 }));
 
 export type CreateServiceAccountKeyError = BadRequest | Forbidden | Conflict | StackitOpError;
@@ -416,6 +433,8 @@ export const createServiceAccountKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceAccountKey",
 }));
 
 export type CreateShortLivedAccessTokenError = BadRequest | Forbidden | StackitOpError;
@@ -431,6 +450,8 @@ export const createShortLivedAccessToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShortLivedAccessToken",
 }));
 
 export type DeleteServiceAccountError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -446,6 +467,8 @@ export const deleteServiceAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAccount",
 }));
 
 export type DeleteServiceAccountKeyError = BadRequest | Forbidden | StackitOpError;
@@ -461,6 +484,8 @@ export const deleteServiceAccountKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceAccountKey",
 }));
 
 export type DeleteServiceFederatedIdentityProviderError = BadRequest | Forbidden | StackitOpError;
@@ -476,6 +501,8 @@ export const deleteServiceFederatedIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceFederatedIdentityProvider",
 }));
 
 export type GetFederatedIdentityProviderError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -491,6 +518,8 @@ export const getFederatedIdentityProvider: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFederatedIdentityProvider",
 }));
 
 export type GetJWKSError = StackitOpError;
@@ -502,6 +531,8 @@ export const getJWKS: API.OperationMethod<GetJWKSRequest, JWKS, GetJWKSError, St
     errors: [UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetJWKS",
   }));
 
 export type GetServiceAccountKeyError = BadRequest | Forbidden | StackitOpError;
@@ -517,6 +548,8 @@ export const getServiceAccountKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceAccountKey",
 }));
 
 export type ListFederatedIdentityProvidersError = BadRequest | Forbidden | StackitOpError;
@@ -532,6 +565,8 @@ export const listFederatedIdentityProviders: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFederatedIdentityProviders",
 }));
 
 export type ListServiceAccountKeysError = BadRequest | Forbidden | StackitOpError;
@@ -547,6 +582,8 @@ export const listServiceAccountKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceAccountKeys",
 }));
 
 export type ListServiceAccountsError = BadRequest | Forbidden | StackitOpError;
@@ -562,6 +599,8 @@ export const listServiceAccounts: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceAccounts",
 }));
 
 export type PartialUpdateServiceAccountFederatedIdentityProviderError =
@@ -585,6 +624,8 @@ export const partialUpdateServiceAccountFederatedIdentityProvider: API.Operation
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateServiceAccountFederatedIdentityProvider",
 }));
 
 export type PartialUpdateServiceAccountKeyError =
@@ -604,6 +645,8 @@ export const partialUpdateServiceAccountKey: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateServiceAccountKey",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

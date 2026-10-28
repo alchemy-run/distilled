@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Marketplace" },
+  prefix: "Marketplace",
+  service: "Marketplace",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Gets or sets added plans */
 export type AcknowledgeOfferNotificationDetailsAddPlansList = Array<string>;
 /** Gets or sets remove plans */
@@ -1343,6 +1363,8 @@ export const AcknowledgePrivateStoreOfferNotification: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgePrivateStoreOfferNotification",
 }));
 
 export type ApprovePrivateStoreCollectionAllItemsError = AzureOpError;
@@ -1358,6 +1380,8 @@ export const ApprovePrivateStoreCollectionAllItems: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApprovePrivateStoreCollectionAllItems",
 }));
 
 export type BulkPrivateStoreCollectionsActionError = AzureOpError;
@@ -1373,6 +1397,8 @@ export const BulkPrivateStoreCollectionsAction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkPrivateStoreCollectionsAction",
 }));
 
 export type CreatePrivateStoreApprovalRequestError = AzureOpError;
@@ -1388,6 +1414,8 @@ export const CreatePrivateStoreApprovalRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateStoreApprovalRequest",
 }));
 
 export type DeletePrivateStoreError = AzureOpError;
@@ -1403,6 +1431,8 @@ export const DeletePrivateStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateStore",
 }));
 
 export type DeletePrivateStoreCollectionError = AzureOpError;
@@ -1418,6 +1448,8 @@ export const DeletePrivateStoreCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateStoreCollection",
 }));
 
 export type DeletePrivateStoreCollectionOfferError = AzureOpError;
@@ -1433,6 +1465,8 @@ export const DeletePrivateStoreCollectionOffer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateStoreCollectionOffer",
 }));
 
 export type FetchPrivateStoreAllSubscriptionsInTenantError = AzureOpError;
@@ -1448,6 +1482,8 @@ export const FetchPrivateStoreAllSubscriptionsInTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchPrivateStoreAllSubscriptionsInTenant",
 }));
 
 export type GetPrivateStoreError = AzureOpError;
@@ -1463,6 +1499,8 @@ export const GetPrivateStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateStore",
 }));
 
 export type GetPrivateStoreAdminRequestApprovalError = AzureOpError;
@@ -1478,6 +1516,8 @@ export const GetPrivateStoreAdminRequestApproval: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateStoreAdminRequestApproval",
 }));
 
 export type GetPrivateStoreCollectionError = AzureOpError;
@@ -1493,6 +1533,8 @@ export const GetPrivateStoreCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateStoreCollection",
 }));
 
 export type GetPrivateStoreCollectionOfferError = AzureOpError;
@@ -1508,6 +1550,8 @@ export const GetPrivateStoreCollectionOffer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateStoreCollectionOffer",
 }));
 
 export type GetPrivateStoreRequestApprovalError = AzureOpError;
@@ -1523,6 +1567,8 @@ export const GetPrivateStoreRequestApproval: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateStoreRequestApproval",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1538,6 +1584,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateStoreError = AzureOpError;
@@ -1553,6 +1601,8 @@ export const ListPrivateStore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateStore",
 }));
 
 export type ListPrivateStoreAdminRequestApprovalsError = AzureOpError;
@@ -1568,6 +1618,8 @@ export const ListPrivateStoreAdminRequestApprovals: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateStoreAdminRequestApprovals",
 }));
 
 export type ListPrivateStoreCollectionError = AzureOpError;
@@ -1583,6 +1635,8 @@ export const ListPrivateStoreCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateStoreCollection",
 }));
 
 export type ListPrivateStoreCollectionOfferError = AzureOpError;
@@ -1598,6 +1652,8 @@ export const ListPrivateStoreCollectionOffer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateStoreCollectionOffer",
 }));
 
 export type ListPrivateStoreCollectionOfferByContextsError = AzureOpError;
@@ -1613,6 +1669,8 @@ export const ListPrivateStoreCollectionOfferByContexts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateStoreCollectionOfferByContexts",
 }));
 
 export type ListPrivateStoreNewPlansNotificationsError = AzureOpError;
@@ -1628,6 +1686,8 @@ export const ListPrivateStoreNewPlansNotifications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateStoreNewPlansNotifications",
 }));
 
 export type ListPrivateStoreSubscriptionsContextError = AzureOpError;
@@ -1643,6 +1703,8 @@ export const ListPrivateStoreSubscriptionsContext: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateStoreSubscriptionsContext",
 }));
 
 export type PostPrivateStoreCollectionError = AzureOpError;
@@ -1658,6 +1720,8 @@ export const PostPrivateStoreCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostPrivateStoreCollection",
 }));
 
 export type PostPrivateStoreCollectionOfferError = AzureOpError;
@@ -1673,6 +1737,8 @@ export const PostPrivateStoreCollectionOffer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostPrivateStoreCollectionOffer",
 }));
 
 export type PrivateStoreAnyExistingOffersInTheCollectionsError = AzureOpError;
@@ -1692,6 +1758,8 @@ export const PrivateStoreAnyExistingOffersInTheCollections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreAnyExistingOffersInTheCollections",
 }));
 
 export type PrivateStoreBillingAccountsError = AzureOpError;
@@ -1707,6 +1775,8 @@ export const PrivateStoreBillingAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreBillingAccounts",
 }));
 
 export type PrivateStoreCollectionCreateOrUpdateError = AzureOpError;
@@ -1722,6 +1792,8 @@ export const PrivateStoreCollectionCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreCollectionCreateOrUpdate",
 }));
 
 export type PrivateStoreCollectionDisableApproveAllItemsError = AzureOpError;
@@ -1737,6 +1809,8 @@ export const PrivateStoreCollectionDisableApproveAllItems: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreCollectionDisableApproveAllItems",
 }));
 
 export type PrivateStoreCollectionOfferContextsViewError = AzureOpError;
@@ -1752,6 +1826,8 @@ export const PrivateStoreCollectionOfferContextsView: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreCollectionOfferContextsView",
 }));
 
 export type PrivateStoreCollectionOfferCreateOrUpdateError = AzureOpError;
@@ -1767,6 +1843,8 @@ export const PrivateStoreCollectionOfferCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreCollectionOfferCreateOrUpdate",
 }));
 
 export type PrivateStoreCollectionsToSubscriptionsMappingError = AzureOpError;
@@ -1786,6 +1864,8 @@ export const PrivateStoreCollectionsToSubscriptionsMapping: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreCollectionsToSubscriptionsMapping",
 }));
 
 export type PrivateStoreCreateOrUpdateError = AzureOpError;
@@ -1801,6 +1881,8 @@ export const PrivateStoreCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreCreateOrUpdate",
 }));
 
 export type PrivateStoreGetApprovalRequestsListError = AzureOpError;
@@ -1816,6 +1898,8 @@ export const PrivateStoreGetApprovalRequestsList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreGetApprovalRequestsList",
 }));
 
 export type PrivateStoreListStopSellOffersPlansNotificationsError = AzureOpError;
@@ -1835,6 +1919,8 @@ export const PrivateStoreListStopSellOffersPlansNotifications: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreListStopSellOffersPlansNotifications",
 }));
 
 export type PrivateStoreQueryApprovedPlansError = AzureOpError;
@@ -1850,6 +1936,8 @@ export const PrivateStoreQueryApprovedPlans: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreQueryApprovedPlans",
 }));
 
 export type PrivateStoreQueryNotificationsStateError = AzureOpError;
@@ -1865,6 +1953,8 @@ export const PrivateStoreQueryNotificationsState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreQueryNotificationsState",
 }));
 
 export type PrivateStoreQueryOffersError = AzureOpError;
@@ -1880,6 +1970,8 @@ export const PrivateStoreQueryOffers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreQueryOffers",
 }));
 
 export type PrivateStoreQueryRequestApprovalError = AzureOpError;
@@ -1895,6 +1987,8 @@ export const PrivateStoreQueryRequestApproval: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreQueryRequestApproval",
 }));
 
 export type PrivateStoreQueryUserOffersError = AzureOpError;
@@ -1910,6 +2004,8 @@ export const PrivateStoreQueryUserOffers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreQueryUserOffers",
 }));
 
 export type PrivateStoreWithdrawPlanError = AzureOpError;
@@ -1925,6 +2021,8 @@ export const PrivateStoreWithdrawPlan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateStoreWithdrawPlan",
 }));
 
 export type QueryRulesError = AzureOpError;
@@ -1940,6 +2038,8 @@ export const QueryRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryRules",
 }));
 
 export type QueryUserRulesError = AzureOpError;
@@ -1955,6 +2055,8 @@ export const QueryUserRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryUserRules",
 }));
 
 export type SetCollectionRulesError = AzureOpError;
@@ -1970,6 +2072,8 @@ export const SetCollectionRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCollectionRules",
 }));
 
 export type TransferPrivateStoreCollectionOffersError = AzureOpError;
@@ -1985,6 +2089,8 @@ export const TransferPrivateStoreCollectionOffers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferPrivateStoreCollectionOffers",
 }));
 
 export type UpdatePrivateStoreAdminRequestApprovalError = AzureOpError;
@@ -2000,6 +2106,8 @@ export const UpdatePrivateStoreAdminRequestApproval: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateStoreAdminRequestApproval",
 }));
 
 export type UpsertPrivateStoreCollectionOfferOfferWithMultiContextError = AzureOpError;
@@ -2023,6 +2131,8 @@ export const UpsertPrivateStoreCollectionOfferOfferWithMultiContext: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertPrivateStoreCollectionOfferOfferWithMultiContext",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Vault",
+  service: "vault",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -964,6 +977,8 @@ export const addHeldAccountsMattersHolds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddHeldAccountsMattersHolds",
 }));
 
 export type AddPermissionsMattersError =
@@ -984,6 +999,8 @@ export const addPermissionsMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPermissionsMatters",
 }));
 
 export type CancelOperationsError =
@@ -1004,6 +1021,8 @@ export const cancelOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOperations",
 }));
 
 export type CloseMattersError =
@@ -1024,6 +1043,8 @@ export const closeMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloseMatters",
 }));
 
 export type CountMattersError =
@@ -1044,6 +1065,8 @@ export const countMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountMatters",
 }));
 
 export type CreateMattersError =
@@ -1064,6 +1087,8 @@ export const createMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMatters",
 }));
 
 export type CreateMattersExportsError =
@@ -1084,6 +1109,8 @@ export const createMattersExports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMattersExports",
 }));
 
 export type CreateMattersHoldsError =
@@ -1104,6 +1131,8 @@ export const createMattersHolds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMattersHolds",
 }));
 
 export type CreateMattersHoldsAccountsError =
@@ -1124,6 +1153,8 @@ export const createMattersHoldsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMattersHoldsAccounts",
 }));
 
 export type CreateMattersSavedQueriesError =
@@ -1144,6 +1175,8 @@ export const createMattersSavedQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMattersSavedQueries",
 }));
 
 export type DeleteMattersError =
@@ -1164,6 +1197,8 @@ export const deleteMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMatters",
 }));
 
 export type DeleteMattersExportsError =
@@ -1184,6 +1219,8 @@ export const deleteMattersExports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMattersExports",
 }));
 
 export type DeleteMattersHoldsError =
@@ -1204,6 +1241,8 @@ export const deleteMattersHolds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMattersHolds",
 }));
 
 export type DeleteMattersHoldsAccountsError =
@@ -1224,6 +1263,8 @@ export const deleteMattersHoldsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMattersHoldsAccounts",
 }));
 
 export type DeleteMattersSavedQueriesError =
@@ -1244,6 +1285,8 @@ export const deleteMattersSavedQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMattersSavedQueries",
 }));
 
 export type DeleteOperationsError =
@@ -1264,6 +1307,8 @@ export const deleteOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOperations",
 }));
 
 export type GetMattersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1279,6 +1324,8 @@ export const getMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMatters",
 }));
 
 export type GetMattersExportsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1294,6 +1341,8 @@ export const getMattersExports: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMattersExports",
 }));
 
 export type GetMattersHoldsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1309,6 +1358,8 @@ export const getMattersHolds: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMattersHolds",
 }));
 
 export type GetMattersSavedQueriesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1324,6 +1375,8 @@ export const getMattersSavedQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMattersSavedQueries",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1339,6 +1392,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type ListMattersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1355,6 +1410,8 @@ export const listMatters: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMatters",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1372,6 +1429,8 @@ export const listMattersExports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMattersExports",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1389,6 +1448,8 @@ export const listMattersHolds: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMattersHolds",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1405,6 +1466,8 @@ export const listMattersHoldsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMattersHoldsAccounts",
 }));
 
 export type ListMattersSavedQueriesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -1421,6 +1484,8 @@ export const listMattersSavedQueries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMattersSavedQueries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1438,6 +1503,8 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1459,6 +1526,8 @@ export const removeHeldAccountsMattersHolds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveHeldAccountsMattersHolds",
 }));
 
 export type RemovePermissionsMattersError =
@@ -1479,6 +1548,8 @@ export const removePermissionsMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePermissionsMatters",
 }));
 
 export type ReopenMattersError =
@@ -1499,6 +1570,8 @@ export const reopenMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReopenMatters",
 }));
 
 export type UndeleteMattersError =
@@ -1519,6 +1592,8 @@ export const undeleteMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteMatters",
 }));
 
 export type UpdateMattersError =
@@ -1539,6 +1614,8 @@ export const updateMatters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMatters",
 }));
 
 export type UpdateMattersHoldsError =
@@ -1559,6 +1636,8 @@ export const updateMattersHolds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMattersHolds",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

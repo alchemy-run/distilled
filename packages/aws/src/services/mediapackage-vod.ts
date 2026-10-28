@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediapackage-vod.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaPackageVod",
+  service: "MediaPackageVod",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
@@ -660,6 +675,8 @@ export const configureLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogs",
+  telemetry: TELEMETRY,
+  span: "ConfigureLogs",
 }));
 
 export type CreateAssetError =
@@ -692,6 +709,8 @@ export const createAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAsset",
+  telemetry: TELEMETRY,
+  span: "CreateAsset",
 }));
 
 export type CreatePackagingConfigurationError =
@@ -724,6 +743,8 @@ export const createPackagingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackagingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreatePackagingConfiguration",
 }));
 
 export type CreatePackagingGroupError =
@@ -756,6 +777,8 @@ export const createPackagingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackagingGroup",
+  telemetry: TELEMETRY,
+  span: "CreatePackagingGroup",
 }));
 
 export type DeleteAssetError =
@@ -788,6 +811,8 @@ export const deleteAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAsset",
+  telemetry: TELEMETRY,
+  span: "DeleteAsset",
 }));
 
 export type DeletePackagingConfigurationError =
@@ -820,6 +845,8 @@ export const deletePackagingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackagingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeletePackagingConfiguration",
 }));
 
 export type DeletePackagingGroupError =
@@ -852,6 +879,8 @@ export const deletePackagingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackagingGroup",
+  telemetry: TELEMETRY,
+  span: "DeletePackagingGroup",
 }));
 
 export type DescribeAssetError =
@@ -884,6 +913,8 @@ export const describeAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAsset",
+  telemetry: TELEMETRY,
+  span: "DescribeAsset",
 }));
 
 export type DescribePackagingConfigurationError =
@@ -916,6 +947,8 @@ export const describePackagingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackagingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribePackagingConfiguration",
 }));
 
 export type DescribePackagingGroupError =
@@ -948,6 +981,8 @@ export const describePackagingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackagingGroup",
+  telemetry: TELEMETRY,
+  span: "DescribePackagingGroup",
 }));
 
 export type ListAssetsError =
@@ -987,6 +1022,8 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "Assets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssets",
 })) as any;
 
 export type ListPackagingConfigurationsError =
@@ -1026,6 +1063,8 @@ export const listPackagingConfigurations: API.PaginatedOperationMethod<
     items: "PackagingConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackagingConfigurations",
 })) as any;
 
 export type ListPackagingGroupsError =
@@ -1065,6 +1104,8 @@ export const listPackagingGroups: API.PaginatedOperationMethod<
     items: "PackagingGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackagingGroups",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -1083,6 +1124,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -1101,6 +1144,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -1119,6 +1164,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePackagingGroupError =
@@ -1151,6 +1198,8 @@ export const updatePackagingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackagingGroup",
+  telemetry: TELEMETRY,
+  span: "UpdatePackagingGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -88,6 +89,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://swf.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SWF",
+  service: "SWF",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class DefaultUndefinedFault
   extends /*@__PURE__*/ S.TaggedError<DefaultUndefinedFault>()("DefaultUndefinedFault", {
@@ -1320,6 +1336,8 @@ export const countClosedWorkflowExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountClosedWorkflowExecutions",
+  telemetry: TELEMETRY,
+  span: "CountClosedWorkflowExecutions",
 }));
 
 export type CountOpenWorkflowExecutionsError =
@@ -1374,6 +1392,8 @@ export const countOpenWorkflowExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountOpenWorkflowExecutions",
+  telemetry: TELEMETRY,
+  span: "CountOpenWorkflowExecutions",
 }));
 
 export type CountPendingActivityTasksError =
@@ -1418,6 +1438,8 @@ export const countPendingActivityTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountPendingActivityTasks",
+  telemetry: TELEMETRY,
+  span: "CountPendingActivityTasks",
 }));
 
 export type CountPendingDecisionTasksError =
@@ -1462,6 +1484,8 @@ export const countPendingDecisionTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountPendingDecisionTasks",
+  telemetry: TELEMETRY,
+  span: "CountPendingDecisionTasks",
 }));
 
 export type DeleteActivityTypeError =
@@ -1513,6 +1537,8 @@ export const deleteActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivityType",
+  telemetry: TELEMETRY,
+  span: "DeleteActivityType",
 }));
 
 export type DeleteWorkflowTypeError =
@@ -1565,6 +1591,8 @@ export const deleteWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowType",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowType",
 }));
 
 export type DeprecateActivityTypeError =
@@ -1615,6 +1643,8 @@ export const deprecateActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateActivityType",
+  telemetry: TELEMETRY,
+  span: "DeprecateActivityType",
 }));
 
 export type DeprecateDomainError =
@@ -1663,6 +1693,8 @@ export const deprecateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateDomain",
+  telemetry: TELEMETRY,
+  span: "DeprecateDomain",
 }));
 
 export type DeprecateWorkflowTypeError =
@@ -1717,6 +1749,8 @@ export const deprecateWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateWorkflowType",
+  telemetry: TELEMETRY,
+  span: "DeprecateWorkflowType",
 }));
 
 export type DescribeActivityTypeError =
@@ -1766,6 +1800,8 @@ export const describeActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActivityType",
+  telemetry: TELEMETRY,
+  span: "DescribeActivityType",
 }));
 
 export type DescribeDomainError = OperationNotPermittedFault | UnknownResourceFault | CommonErrors;
@@ -1804,6 +1840,8 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribeWorkflowExecutionError =
@@ -1848,6 +1886,8 @@ export const describeWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkflowExecution",
 }));
 
 export type DescribeWorkflowTypeError =
@@ -1897,6 +1937,8 @@ export const describeWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkflowType",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkflowType",
 }));
 
 export type GetWorkflowExecutionHistoryError =
@@ -1949,6 +1991,8 @@ export const getWorkflowExecutionHistory: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowExecutionHistory",
 })) as any;
 
 export type ListActivityTypesError =
@@ -2000,6 +2044,8 @@ export const listActivityTypes: API.PaginatedOperationMethod<
     items: "typeInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActivityTypes",
 })) as any;
 
 export type ListClosedWorkflowExecutionsError =
@@ -2062,6 +2108,8 @@ export const listClosedWorkflowExecutions: API.PaginatedOperationMethod<
     items: "executionInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClosedWorkflowExecutions",
 })) as any;
 
 export type ListDomainsError = OperationNotPermittedFault | CommonErrors;
@@ -2113,6 +2161,8 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domainInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 })) as any;
 
 export type ListOpenWorkflowExecutionsError =
@@ -2175,6 +2225,8 @@ export const listOpenWorkflowExecutions: API.PaginatedOperationMethod<
     items: "executionInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOpenWorkflowExecutions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2197,6 +2249,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkflowTypesError =
@@ -2245,6 +2299,8 @@ export const listWorkflowTypes: API.PaginatedOperationMethod<
     items: "typeInfos",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowTypes",
 })) as any;
 
 export type PollForActivityTaskError =
@@ -2297,6 +2353,8 @@ export const pollForActivityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForActivityTask",
+  telemetry: TELEMETRY,
+  span: "PollForActivityTask",
 }));
 
 export type PollForDecisionTaskError =
@@ -2368,6 +2426,8 @@ export const pollForDecisionTask: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maximumPageSize",
   } as const,
+  telemetry: TELEMETRY,
+  span: "PollForDecisionTask",
 })) as any;
 
 export type RecordActivityTaskHeartbeatError =
@@ -2431,6 +2491,8 @@ export const recordActivityTaskHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordActivityTaskHeartbeat",
+  telemetry: TELEMETRY,
+  span: "RecordActivityTaskHeartbeat",
 }));
 
 export type RegisterActivityTypeError =
@@ -2492,6 +2554,8 @@ export const registerActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterActivityType",
+  telemetry: TELEMETRY,
+  span: "RegisterActivityType",
 }));
 
 export type RegisterDomainError =
@@ -2539,6 +2603,8 @@ export const registerDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDomain",
+  telemetry: TELEMETRY,
+  span: "RegisterDomain",
 }));
 
 export type RegisterWorkflowTypeError =
@@ -2602,6 +2668,8 @@ export const registerWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterWorkflowType",
+  telemetry: TELEMETRY,
+  span: "RegisterWorkflowType",
 }));
 
 export type RequestCancelWorkflowExecutionError =
@@ -2653,6 +2721,8 @@ export const requestCancelWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestCancelWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "RequestCancelWorkflowExecution",
 }));
 
 export type RespondActivityTaskCanceledError =
@@ -2708,6 +2778,8 @@ export const respondActivityTaskCanceled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskCanceled",
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskCanceled",
 }));
 
 export type RespondActivityTaskCompletedError =
@@ -2761,6 +2833,8 @@ export const respondActivityTaskCompleted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskCompleted",
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskCompleted",
 }));
 
 export type RespondActivityTaskFailedError =
@@ -2809,6 +2883,8 @@ export const respondActivityTaskFailed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondActivityTaskFailed",
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskFailed",
 }));
 
 export type RespondDecisionTaskCompletedError =
@@ -2847,6 +2923,8 @@ export const respondDecisionTaskCompleted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondDecisionTaskCompleted",
+  telemetry: TELEMETRY,
+  span: "RespondDecisionTaskCompleted",
 }));
 
 export type SignalWorkflowExecutionError =
@@ -2897,6 +2975,8 @@ export const signalWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignalWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "SignalWorkflowExecution",
 }));
 
 export type StartWorkflowExecutionError =
@@ -2971,6 +3051,8 @@ export const startWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "StartWorkflowExecution",
 }));
 
 export type TagResourceError =
@@ -2996,6 +3078,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateWorkflowExecutionError =
@@ -3049,6 +3133,8 @@ export const terminateWorkflowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateWorkflowExecution",
+  telemetry: TELEMETRY,
+  span: "TerminateWorkflowExecution",
 }));
 
 export type UndeprecateActivityTypeError =
@@ -3101,6 +3187,8 @@ export const undeprecateActivityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateActivityType",
+  telemetry: TELEMETRY,
+  span: "UndeprecateActivityType",
 }));
 
 export type UndeprecateDomainError =
@@ -3146,6 +3234,8 @@ export const undeprecateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateDomain",
+  telemetry: TELEMETRY,
+  span: "UndeprecateDomain",
 }));
 
 export type UndeprecateWorkflowTypeError =
@@ -3198,6 +3288,8 @@ export const undeprecateWorkflowType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UndeprecateWorkflowType",
+  telemetry: TELEMETRY,
+  span: "UndeprecateWorkflowType",
 }));
 
 export type UntagResourceError =
@@ -3220,6 +3312,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

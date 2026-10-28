@@ -155,6 +155,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   zoneTag: "zone_tag",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Intel",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1168,6 +1182,8 @@ export const classAttackSurfaceReportIssue: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClassAttackSurfaceReportIssue",
 }));
 
 export type CreateIndicatorFeedError = IndicatorFeedsNotEntitled | Forbidden | CloudflareOpError;
@@ -1183,6 +1199,8 @@ export const createIndicatorFeed: API.OperationMethod<
   errors: [IndicatorFeedsNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIndicatorFeed",
 }));
 
 export type CreateIndicatorFeedPermissionError =
@@ -1201,6 +1219,8 @@ export const createIndicatorFeedPermission: API.OperationMethod<
   errors: [IndicatorFeedNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIndicatorFeedPermission",
 }));
 
 export type CreateMiscategorizationError = CloudflareOpError;
@@ -1216,6 +1236,8 @@ export const createMiscategorization: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMiscategorization",
 }));
 
 export type CreateSinkholeError = CloudflareOpError;
@@ -1231,6 +1253,8 @@ export const createSinkhole: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSinkhole",
 }));
 
 export type CreateSinkholesIngressError = CloudflareOpError;
@@ -1246,6 +1270,8 @@ export const createSinkholesIngress: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSinkholesIngress",
 }));
 
 export type DataIndicatorFeedError = CloudflareOpError;
@@ -1261,6 +1287,8 @@ export const dataIndicatorFeed: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataIndicatorFeed",
 }));
 
 export type DeleteIndicatorFeedPermissionError =
@@ -1279,6 +1307,8 @@ export const deleteIndicatorFeedPermission: API.OperationMethod<
   errors: [IndicatorFeedNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIndicatorFeedPermission",
 }));
 
 export type DeleteSinkholeError = CloudflareOpError;
@@ -1294,6 +1324,8 @@ export const deleteSinkhole: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSinkhole",
 }));
 
 export type DeleteSinkholesIngressError = CloudflareOpError;
@@ -1309,6 +1341,8 @@ export const deleteSinkholesIngress: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSinkholesIngress",
 }));
 
 export type DismissAttackSurfaceReportIssueError = CloudflareOpError;
@@ -1324,6 +1358,8 @@ export const dismissAttackSurfaceReportIssue: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissAttackSurfaceReportIssue",
 }));
 
 export type GetAsnError = CloudflareOpError;
@@ -1339,6 +1375,8 @@ export const getAsn: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAsn",
 }));
 
 export type GetAsnSubnetError = CloudflareOpError;
@@ -1354,6 +1392,8 @@ export const getAsnSubnet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAsnSubnet",
 }));
 
 export type GetAttackSurfaceReportIssueTypeError = CloudflareOpError;
@@ -1371,6 +1411,8 @@ export const getAttackSurfaceReportIssueType: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAttackSurfaceReportIssueType",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1389,6 +1431,8 @@ export const getDomain: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainBulkError = CloudflareOpError;
@@ -1404,6 +1448,8 @@ export const getDomainBulk: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainBulk",
 }));
 
 export type GetDomainHistoryError = CloudflareOpError;
@@ -1419,6 +1465,8 @@ export const getDomainHistory: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainHistory",
 }));
 
 export type GetIndicatorFeedError = IndicatorFeedNotFound | Forbidden | CloudflareOpError;
@@ -1434,6 +1482,8 @@ export const getIndicatorFeed: API.OperationMethod<
   errors: [IndicatorFeedNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndicatorFeed",
 }));
 
 export type GetIpError = CloudflareOpError;
@@ -1449,6 +1499,8 @@ export const getIp: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIp",
 }));
 
 export type GetSinkholeError = CloudflareOpError;
@@ -1464,6 +1516,8 @@ export const getSinkhole: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSinkhole",
 }));
 
 export type GetSinkholesIngressError = CloudflareOpError;
@@ -1479,6 +1533,8 @@ export const getSinkholesIngress: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSinkholesIngress",
 }));
 
 export type GetUrlError = CloudflareOpError;
@@ -1494,6 +1550,8 @@ export const getUrl: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUrl",
 }));
 
 export type GetWhoiError = CloudflareOpError;
@@ -1509,6 +1567,8 @@ export const getWhoi: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWhoi",
 }));
 
 export type ListAttackSurfaceReportIssuesError = CloudflareOpError;
@@ -1524,6 +1584,8 @@ export const listAttackSurfaceReportIssues: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttackSurfaceReportIssues",
 }));
 
 export type ListDnsError = CloudflareOpError;
@@ -1539,6 +1601,8 @@ export const listDns: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDns",
 }));
 
 export type ListIndicatorFeedPermissionsError = Forbidden | CloudflareOpError;
@@ -1554,6 +1618,8 @@ export const listIndicatorFeedPermissions: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIndicatorFeedPermissions",
 }));
 
 export type ListIndicatorFeedsError = Forbidden | CloudflareOpError;
@@ -1571,6 +1637,8 @@ export const listIndicatorFeeds: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIndicatorFeeds",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1591,6 +1659,8 @@ export const listSinkholes: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSinkholes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1609,6 +1679,8 @@ export const putIndicatorFeedSnapshot: API.OperationMethod<
   errors: [IndicatorFeedNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIndicatorFeedSnapshot",
 }));
 
 export type SeverityAttackSurfaceReportIssueError = CloudflareOpError;
@@ -1624,6 +1696,8 @@ export const severityAttackSurfaceReportIssue: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SeverityAttackSurfaceReportIssue",
 }));
 
 export type TypeAttackSurfaceReportIssueError = CloudflareOpError;
@@ -1639,6 +1713,8 @@ export const typeAttackSurfaceReportIssue: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TypeAttackSurfaceReportIssue",
 }));
 
 export type UpdateIndicatorFeedError = IndicatorFeedNotFound | Forbidden | CloudflareOpError;
@@ -1654,6 +1730,8 @@ export const updateIndicatorFeed: API.OperationMethod<
   errors: [IndicatorFeedNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIndicatorFeed",
 }));
 
 export type UpdateSinkholeError = CloudflareOpError;
@@ -1669,6 +1747,8 @@ export const updateSinkhole: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSinkhole",
 }));
 
 export type UpdateSinkholesIngressError = CloudflareOpError;
@@ -1684,6 +1764,8 @@ export const updateSinkholesIngress: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSinkholesIngress",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://internetmonitor.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "InternetMonitor",
+  service: "InternetMonitor",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -506,6 +521,8 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type DeleteMonitorError =
@@ -536,6 +553,8 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type GetHealthEventError =
@@ -570,6 +589,8 @@ export const getHealthEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthEvent",
+  telemetry: TELEMETRY,
+  span: "GetHealthEvent",
 }));
 
 export type GetInternetEventError =
@@ -604,6 +625,8 @@ export const getInternetEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInternetEvent",
+  telemetry: TELEMETRY,
+  span: "GetInternetEvent",
 }));
 
 export type GetMonitorError =
@@ -635,6 +658,8 @@ export const getMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetQueryResultsError =
@@ -676,6 +701,8 @@ export const getQueryResults: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResults",
 })) as any;
 
 export type GetQueryStatusError =
@@ -717,6 +744,8 @@ export const getQueryStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatus",
+  telemetry: TELEMETRY,
+  span: "GetQueryStatus",
 }));
 
 export type ListHealthEventsError =
@@ -755,6 +784,8 @@ export const listHealthEvents: API.PaginatedOperationMethod<
     items: "HealthEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHealthEvents",
 })) as any;
 
 export type ListInternetEventsError =
@@ -799,6 +830,8 @@ export const listInternetEvents: API.PaginatedOperationMethod<
     items: "InternetEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInternetEvents",
 })) as any;
 
 export type ListMonitorsError =
@@ -834,6 +867,8 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "Monitors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -864,6 +899,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartQueryError =
@@ -900,6 +937,8 @@ export const startQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuery",
+  telemetry: TELEMETRY,
+  span: "StartQuery",
 }));
 
 export type StopQueryError =
@@ -930,6 +969,8 @@ export const stopQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQuery",
+  telemetry: TELEMETRY,
+  span: "StopQuery",
 }));
 
 export type TagResourceError =
@@ -962,6 +1003,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -992,6 +1035,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMonitorError =
@@ -1028,6 +1073,8 @@ export const updateMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

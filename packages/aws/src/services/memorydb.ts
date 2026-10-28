@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -85,6 +86,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://memory-db.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MemoryDB",
+  service: "MemoryDB",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ACLAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ACLAlreadyExistsFault>()(
@@ -1436,6 +1452,8 @@ export const batchUpdateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateCluster",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateCluster",
 }));
 
 export type CopySnapshotError =
@@ -1472,6 +1490,8 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
+  telemetry: TELEMETRY,
+  span: "CopySnapshot",
 }));
 
 export type CreateACLError =
@@ -1506,6 +1526,8 @@ export const createACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateACL",
+  telemetry: TELEMETRY,
+  span: "CreateACL",
 }));
 
 export type CreateClusterError =
@@ -1562,6 +1584,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateMultiRegionClusterError =
@@ -1594,6 +1618,8 @@ export const createMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiRegionCluster",
+  telemetry: TELEMETRY,
+  span: "CreateMultiRegionCluster",
 }));
 
 export type CreateParameterGroupError =
@@ -1629,6 +1655,8 @@ export const createParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateParameterGroup",
 }));
 
 export type CreateSnapshotError =
@@ -1665,6 +1693,8 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateSubnetGroupError =
@@ -1702,6 +1732,8 @@ export const createSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateSubnetGroup",
 }));
 
 export type CreateUserError =
@@ -1734,6 +1766,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteACLError =
@@ -1756,6 +1790,8 @@ export const deleteACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteACL",
+  telemetry: TELEMETRY,
+  span: "DeleteACL",
 }));
 
 export type DeleteClusterError =
@@ -1791,6 +1827,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteMultiRegionClusterError =
@@ -1817,6 +1855,8 @@ export const deleteMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiRegionCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteMultiRegionCluster",
 }));
 
 export type DeleteParameterGroupError =
@@ -1848,6 +1888,8 @@ export const deleteParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteParameterGroup",
 }));
 
 export type DeleteSnapshotError =
@@ -1878,6 +1920,8 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteSubnetGroupError =
@@ -1900,6 +1944,8 @@ export const deleteSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteSubnetGroup",
 }));
 
 export type DeleteUserError =
@@ -1922,6 +1968,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeACLsError =
@@ -1950,6 +1998,8 @@ export const describeACLs: API.PaginatedOperationMethod<
     items: "ACLs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeACLs",
 })) as any;
 
 export type DescribeClustersError =
@@ -1985,6 +2035,8 @@ export const describeClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusters",
 })) as any;
 
 export type DescribeEngineVersionsError =
@@ -2018,6 +2070,8 @@ export const describeEngineVersions: API.PaginatedOperationMethod<
     items: "EngineVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEngineVersions",
 })) as any;
 
 export type DescribeEventsError =
@@ -2053,6 +2107,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeMultiRegionClustersError =
@@ -2088,6 +2144,8 @@ export const describeMultiRegionClusters: API.PaginatedOperationMethod<
     items: "MultiRegionClusters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMultiRegionClusters",
 })) as any;
 
 export type DescribeMultiRegionParameterGroupsError =
@@ -2116,6 +2174,8 @@ export const describeMultiRegionParameterGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiRegionParameterGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeMultiRegionParameterGroups",
 }));
 
 export type DescribeMultiRegionParametersError =
@@ -2144,6 +2204,8 @@ export const describeMultiRegionParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiRegionParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeMultiRegionParameters",
 }));
 
 export type DescribeParameterGroupsError =
@@ -2179,6 +2241,8 @@ export const describeParameterGroups: API.PaginatedOperationMethod<
     items: "ParameterGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeParameterGroups",
 })) as any;
 
 export type DescribeParametersError =
@@ -2214,6 +2278,8 @@ export const describeParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeParameters",
 })) as any;
 
 export type DescribeReservedNodesError =
@@ -2249,6 +2315,8 @@ export const describeReservedNodes: API.PaginatedOperationMethod<
     items: "ReservedNodes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedNodes",
 })) as any;
 
 export type DescribeReservedNodesOfferingsError =
@@ -2284,6 +2352,8 @@ export const describeReservedNodesOfferings: API.PaginatedOperationMethod<
     items: "ReservedNodesOfferings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedNodesOfferings",
 })) as any;
 
 export type DescribeServiceUpdatesError =
@@ -2312,6 +2382,8 @@ export const describeServiceUpdates: API.PaginatedOperationMethod<
     items: "ServiceUpdates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServiceUpdates",
 })) as any;
 
 export type DescribeSnapshotsError =
@@ -2348,6 +2420,8 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshots",
 })) as any;
 
 export type DescribeSubnetGroupsError =
@@ -2376,6 +2450,8 @@ export const describeSubnetGroups: API.PaginatedOperationMethod<
     items: "SubnetGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSubnetGroups",
 })) as any;
 
 export type DescribeUsersError =
@@ -2404,6 +2480,8 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUsers",
 })) as any;
 
 export type FailoverShardError =
@@ -2441,6 +2519,8 @@ export const failoverShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverShard",
+  telemetry: TELEMETRY,
+  span: "FailoverShard",
 }));
 
 export type ListAllowedMultiRegionClusterUpdatesError =
@@ -2467,6 +2547,8 @@ export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedMultiRegionClusterUpdates",
+  telemetry: TELEMETRY,
+  span: "ListAllowedMultiRegionClusterUpdates",
 }));
 
 export type ListAllowedNodeTypeUpdatesError =
@@ -2497,6 +2579,8 @@ export const listAllowedNodeTypeUpdates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedNodeTypeUpdates",
+  telemetry: TELEMETRY,
+  span: "ListAllowedNodeTypeUpdates",
 }));
 
 export type ListTagsError =
@@ -2541,6 +2625,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type PurchaseReservedNodesOfferingError =
@@ -2575,6 +2661,8 @@ export const purchaseReservedNodesOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedNodesOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedNodesOffering",
 }));
 
 export type ResetParameterGroupError =
@@ -2605,6 +2693,8 @@ export const resetParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ResetParameterGroup",
 }));
 
 export type TagResourceError =
@@ -2659,6 +2749,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2713,6 +2805,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateACLError =
@@ -2747,6 +2841,8 @@ export const updateACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateACL",
+  telemetry: TELEMETRY,
+  span: "UpdateACL",
 }));
 
 export type UpdateClusterError =
@@ -2799,6 +2895,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateMultiRegionClusterError =
@@ -2829,6 +2927,8 @@ export const updateMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiRegionCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateMultiRegionCluster",
 }));
 
 export type UpdateParameterGroupError =
@@ -2859,6 +2959,8 @@ export const updateParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParameterGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateParameterGroup",
 }));
 
 export type UpdateSubnetGroupError =
@@ -2891,6 +2993,8 @@ export const updateSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateSubnetGroup",
 }));
 
 export type UpdateUserError =
@@ -2919,6 +3023,8 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

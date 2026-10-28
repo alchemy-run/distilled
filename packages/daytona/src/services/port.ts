@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Port",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface GetPortsRequest {}
 export type PortListPortsList = Array<number>;
 export interface PortList {
@@ -36,6 +49,8 @@ export const getPorts: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPorts",
 }));
 
 export type IsPortInUseError = DaytonaOpError;
@@ -51,6 +66,8 @@ export const isPortInUse: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IsPortInUse",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

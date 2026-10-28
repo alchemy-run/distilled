@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "CourseLessons",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -439,6 +452,8 @@ export const createCourseLesson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCourseLesson",
 }));
 
 export type DeleteCourseLessonError =
@@ -459,6 +474,8 @@ export const deleteCourseLesson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCourseLesson",
 }));
 
 export type GetCourseLessonError =
@@ -479,6 +496,8 @@ export const getCourseLesson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCourseLesson",
 }));
 
 export type ListCourseLessonError =
@@ -501,6 +520,8 @@ export const listCourseLesson: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCourseLesson",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -531,6 +552,8 @@ export const markAsCompletedCourseLesson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkAsCompletedCourseLesson",
 }));
 
 export type StartCourseLessonError =
@@ -551,6 +574,8 @@ export const startCourseLesson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartCourseLesson",
 }));
 
 export type SubmitAssessmentCourseLessonError =
@@ -571,6 +596,8 @@ export const submitAssessmentCourseLesson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitAssessmentCourseLesson",
 }));
 
 export type UpdateCourseLessonError =
@@ -591,6 +618,8 @@ export const updateCourseLesson: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCourseLesson",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

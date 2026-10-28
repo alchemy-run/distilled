@@ -24,7 +24,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("ClerkCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "ClerkCredentials",
+  ) {}
 
 /** Layer from a redacted secret key + optional base URL and API version. */
 export const fromApiKey = (config: {
@@ -58,5 +60,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl: process.env.CLERK_API_BASE_URL ?? DEFAULT_API_BASE_URL,
       apiVersion: process.env.CLERK_API_VERSION ?? DEFAULT_API_VERSION,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -93,6 +94,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://kafkaconnect.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "KafkaConnect",
+  service: "KafkaConnect",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -676,6 +691,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateCustomPluginError =
@@ -712,6 +729,8 @@ export const createCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomPlugin",
+  telemetry: TELEMETRY,
+  span: "CreateCustomPlugin",
 }));
 
 export type CreateWorkerConfigurationError =
@@ -748,6 +767,8 @@ export const createWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkerConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateWorkerConfiguration",
 }));
 
 export type DeleteConnectorError =
@@ -782,6 +803,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteCustomPluginError =
@@ -816,6 +839,8 @@ export const deleteCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomPlugin",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomPlugin",
 }));
 
 export type DeleteWorkerConfigurationError =
@@ -850,6 +875,8 @@ export const deleteWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkerConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkerConfiguration",
 }));
 
 export type DescribeConnectorError =
@@ -884,6 +911,8 @@ export const describeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnector",
+  telemetry: TELEMETRY,
+  span: "DescribeConnector",
 }));
 
 export type DescribeConnectorOperationError =
@@ -918,6 +947,8 @@ export const describeConnectorOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectorOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeConnectorOperation",
 }));
 
 export type DescribeCustomPluginError =
@@ -952,6 +983,8 @@ export const describeCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomPlugin",
+  telemetry: TELEMETRY,
+  span: "DescribeCustomPlugin",
 }));
 
 export type DescribeWorkerConfigurationError =
@@ -986,6 +1019,8 @@ export const describeWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkerConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkerConfiguration",
 }));
 
 export type ListConnectorOperationsError =
@@ -1027,6 +1062,8 @@ export const listConnectorOperations: API.PaginatedOperationMethod<
     items: "connectorOperations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectorOperations",
 })) as any;
 
 export type ListConnectorsError =
@@ -1068,6 +1105,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "connectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListCustomPluginsError =
@@ -1109,6 +1148,8 @@ export const listCustomPlugins: API.PaginatedOperationMethod<
     items: "customPlugins",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomPlugins",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1143,6 +1184,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkerConfigurationsError =
@@ -1184,6 +1227,8 @@ export const listWorkerConfigurations: API.PaginatedOperationMethod<
     items: "workerConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkerConfigurations",
 })) as any;
 
 export type RestartConnectorError =
@@ -1218,6 +1263,8 @@ export const restartConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartConnector",
+  telemetry: TELEMETRY,
+  span: "RestartConnector",
 }));
 
 export type TagResourceError =
@@ -1254,6 +1301,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1288,6 +1337,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectorError =
@@ -1322,6 +1373,8 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

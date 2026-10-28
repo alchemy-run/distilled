@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -69,6 +70,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://email.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SES",
+  service: "SES",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccountSendingPausedException
   extends /*@__PURE__*/ S.TaggedError<AccountSendingPausedException>()(
@@ -1349,6 +1365,8 @@ export const cloneReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloneReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "CloneReceiptRuleSet",
 }));
 
 export type CreateConfigurationSetError =
@@ -1381,6 +1399,8 @@ export const createConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSet",
 }));
 
 export type CreateConfigurationSetEventDestinationError =
@@ -1423,6 +1443,8 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSetEventDestination",
 }));
 
 export type CreateConfigurationSetTrackingOptionsError =
@@ -1454,6 +1476,8 @@ export const createConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetTrackingOptions",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationSetTrackingOptions",
 }));
 
 export type CreateCustomVerificationEmailTemplateError =
@@ -1488,6 +1512,8 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomVerificationEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateCustomVerificationEmailTemplate",
 }));
 
 export type CreateReceiptFilterError =
@@ -1514,6 +1540,8 @@ export const createReceiptFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptFilter",
+  telemetry: TELEMETRY,
+  span: "CreateReceiptFilter",
 }));
 
 export type CreateReceiptRuleError =
@@ -1559,6 +1587,8 @@ export const createReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptRule",
+  telemetry: TELEMETRY,
+  span: "CreateReceiptRule",
 }));
 
 export type CreateReceiptRuleSetError =
@@ -1584,6 +1614,8 @@ export const createReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "CreateReceiptRuleSet",
 }));
 
 export type CreateTemplateError =
@@ -1610,6 +1642,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type DeleteConfigurationSetError = ConfigurationSetDoesNotExistException | CommonErrors;
@@ -1632,6 +1666,8 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSet",
 }));
 
 export type DeleteConfigurationSetEventDestinationError =
@@ -1658,6 +1694,8 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSetEventDestination",
 }));
 
 export type DeleteConfigurationSetTrackingOptionsError =
@@ -1688,6 +1726,8 @@ export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetTrackingOptions",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationSetTrackingOptions",
 }));
 
 export type DeleteCustomVerificationEmailTemplateError = CommonErrors;
@@ -1712,6 +1752,8 @@ export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomVerificationEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomVerificationEmailTemplate",
 }));
 
 export type DeleteIdentityError = CommonErrors;
@@ -1733,6 +1775,8 @@ export const deleteIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentity",
 }));
 
 export type DeleteIdentityPolicyError = CommonErrors;
@@ -1763,6 +1807,8 @@ export const deleteIdentityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentityPolicy",
 }));
 
 export type DeleteReceiptFilterError = CommonErrors;
@@ -1786,6 +1832,8 @@ export const deleteReceiptFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteReceiptFilter",
 }));
 
 export type DeleteReceiptRuleError = RuleSetDoesNotExistException | CommonErrors;
@@ -1809,6 +1857,8 @@ export const deleteReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptRule",
+  telemetry: TELEMETRY,
+  span: "DeleteReceiptRule",
 }));
 
 export type DeleteReceiptRuleSetError = CannotDeleteException | CommonErrors;
@@ -1835,6 +1885,8 @@ export const deleteReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "DeleteReceiptRuleSet",
 }));
 
 export type DeleteTemplateError = CommonErrors;
@@ -1855,6 +1907,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type DeleteVerifiedEmailAddressError = CommonErrors;
@@ -1874,6 +1928,8 @@ export const deleteVerifiedEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedEmailAddress",
+  telemetry: TELEMETRY,
+  span: "DeleteVerifiedEmailAddress",
 }));
 
 export type DescribeActiveReceiptRuleSetError = CommonErrors;
@@ -1897,6 +1953,8 @@ export const describeActiveReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActiveReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "DescribeActiveReceiptRuleSet",
 }));
 
 export type DescribeConfigurationSetError = ConfigurationSetDoesNotExistException | CommonErrors;
@@ -1919,6 +1977,8 @@ export const describeConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationSet",
+  telemetry: TELEMETRY,
+  span: "DescribeConfigurationSet",
 }));
 
 export type DescribeReceiptRuleError =
@@ -1945,6 +2005,8 @@ export const describeReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReceiptRule",
+  telemetry: TELEMETRY,
+  span: "DescribeReceiptRule",
 }));
 
 export type DescribeReceiptRuleSetError = RuleSetDoesNotExistException | CommonErrors;
@@ -1968,6 +2030,8 @@ export const describeReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "DescribeReceiptRuleSet",
 }));
 
 export type GetAccountSendingEnabledError = CommonErrors;
@@ -1988,6 +2052,8 @@ export const getAccountSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSendingEnabled",
+  telemetry: TELEMETRY,
+  span: "GetAccountSendingEnabled",
 }));
 
 export type GetCustomVerificationEmailTemplateError =
@@ -2015,6 +2081,8 @@ export const getCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomVerificationEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "GetCustomVerificationEmailTemplate",
 }));
 
 export type GetIdentityDkimAttributesError = CommonErrors;
@@ -2054,6 +2122,8 @@ export const getIdentityDkimAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityDkimAttributes",
+  telemetry: TELEMETRY,
+  span: "GetIdentityDkimAttributes",
 }));
 
 export type GetIdentityMailFromDomainAttributesError = CommonErrors;
@@ -2076,6 +2146,8 @@ export const getIdentityMailFromDomainAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityMailFromDomainAttributes",
+  telemetry: TELEMETRY,
+  span: "GetIdentityMailFromDomainAttributes",
 }));
 
 export type GetIdentityNotificationAttributesError = CommonErrors;
@@ -2101,6 +2173,8 @@ export const getIdentityNotificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityNotificationAttributes",
+  telemetry: TELEMETRY,
+  span: "GetIdentityNotificationAttributes",
 }));
 
 export type GetIdentityPoliciesError = CommonErrors;
@@ -2131,6 +2205,8 @@ export const getIdentityPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPolicies",
+  telemetry: TELEMETRY,
+  span: "GetIdentityPolicies",
 }));
 
 export type GetIdentityVerificationAttributesError = CommonErrors;
@@ -2167,6 +2243,8 @@ export const getIdentityVerificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityVerificationAttributes",
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerificationAttributes",
 }));
 
 export type GetSendQuotaError = CommonErrors;
@@ -2187,6 +2265,8 @@ export const getSendQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSendQuota",
+  telemetry: TELEMETRY,
+  span: "GetSendQuota",
 }));
 
 export type GetSendStatisticsError = CommonErrors;
@@ -2209,6 +2289,8 @@ export const getSendStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSendStatistics",
+  telemetry: TELEMETRY,
+  span: "GetSendStatistics",
 }));
 
 export type GetTemplateError = TemplateDoesNotExistException | CommonErrors;
@@ -2230,6 +2312,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type ListConfigurationSetsError = CommonErrors;
@@ -2258,6 +2342,8 @@ export const listConfigurationSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationSets",
+  telemetry: TELEMETRY,
+  span: "ListConfigurationSets",
 }));
 
 export type ListCustomVerificationEmailTemplatesError = CommonErrors;
@@ -2289,6 +2375,8 @@ export const listCustomVerificationEmailTemplates: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomVerificationEmailTemplates",
 })) as any;
 
 export type ListIdentitiesError = CommonErrors;
@@ -2326,6 +2414,8 @@ export const listIdentities: API.PaginatedOperationMethod<
     items: "Identities",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentities",
 })) as any;
 
 export type ListIdentityPoliciesError = CommonErrors;
@@ -2356,6 +2446,8 @@ export const listIdentityPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPolicies",
+  telemetry: TELEMETRY,
+  span: "ListIdentityPolicies",
 }));
 
 export type ListReceiptFiltersError = CommonErrors;
@@ -2380,6 +2472,8 @@ export const listReceiptFilters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceiptFilters",
+  telemetry: TELEMETRY,
+  span: "ListReceiptFilters",
 }));
 
 export type ListReceiptRuleSetsError = CommonErrors;
@@ -2406,6 +2500,8 @@ export const listReceiptRuleSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceiptRuleSets",
+  telemetry: TELEMETRY,
+  span: "ListReceiptRuleSets",
 }));
 
 export type ListTemplatesError = CommonErrors;
@@ -2427,6 +2523,8 @@ export const listTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplates",
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 }));
 
 export type ListVerifiedEmailAddressesError = CommonErrors;
@@ -2446,6 +2544,8 @@ export const listVerifiedEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVerifiedEmailAddresses",
+  telemetry: TELEMETRY,
+  span: "ListVerifiedEmailAddresses",
 }));
 
 export type PutConfigurationSetDeliveryOptionsError =
@@ -2467,6 +2567,8 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetDeliveryOptions",
+  telemetry: TELEMETRY,
+  span: "PutConfigurationSetDeliveryOptions",
 }));
 
 export type PutIdentityPolicyError = InvalidPolicyException | CommonErrors;
@@ -2496,6 +2598,8 @@ export const putIdentityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIdentityPolicy",
+  telemetry: TELEMETRY,
+  span: "PutIdentityPolicy",
 }));
 
 export type ReorderReceiptRuleSetError =
@@ -2525,6 +2629,8 @@ export const reorderReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReorderReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "ReorderReceiptRuleSet",
 }));
 
 export type SendBounceError = MessageRejected | CommonErrors;
@@ -2553,6 +2659,8 @@ export const sendBounce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBounce",
+  telemetry: TELEMETRY,
+  span: "SendBounce",
 }));
 
 export type SendBulkTemplatedEmailError =
@@ -2618,6 +2726,8 @@ export const sendBulkTemplatedEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBulkTemplatedEmail",
+  telemetry: TELEMETRY,
+  span: "SendBulkTemplatedEmail",
 }));
 
 export type SendCustomVerificationEmailError =
@@ -2658,6 +2768,8 @@ export const sendCustomVerificationEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCustomVerificationEmail",
+  telemetry: TELEMETRY,
+  span: "SendCustomVerificationEmail",
 }));
 
 export type SendEmailError =
@@ -2720,6 +2832,8 @@ export const sendEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmail",
+  telemetry: TELEMETRY,
+  span: "SendEmail",
 }));
 
 export type SendRawEmailError =
@@ -2827,6 +2941,8 @@ export const sendRawEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendRawEmail",
+  telemetry: TELEMETRY,
+  span: "SendRawEmail",
 }));
 
 export type SendTemplatedEmailError =
@@ -2899,6 +3015,8 @@ export const sendTemplatedEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTemplatedEmail",
+  telemetry: TELEMETRY,
+  span: "SendTemplatedEmail",
 }));
 
 export type SetActiveReceiptRuleSetError = RuleSetDoesNotExistException | CommonErrors;
@@ -2925,6 +3043,8 @@ export const setActiveReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetActiveReceiptRuleSet",
+  telemetry: TELEMETRY,
+  span: "SetActiveReceiptRuleSet",
 }));
 
 export type SetIdentityDkimEnabledError = CommonErrors;
@@ -2958,6 +3078,8 @@ export const setIdentityDkimEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityDkimEnabled",
+  telemetry: TELEMETRY,
+  span: "SetIdentityDkimEnabled",
 }));
 
 export type SetIdentityFeedbackForwardingEnabledError = CommonErrors;
@@ -2987,6 +3109,8 @@ export const setIdentityFeedbackForwardingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityFeedbackForwardingEnabled",
+  telemetry: TELEMETRY,
+  span: "SetIdentityFeedbackForwardingEnabled",
 }));
 
 export type SetIdentityHeadersInNotificationsEnabledError = CommonErrors;
@@ -3012,6 +3136,8 @@ export const setIdentityHeadersInNotificationsEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityHeadersInNotificationsEnabled",
+  telemetry: TELEMETRY,
+  span: "SetIdentityHeadersInNotificationsEnabled",
 }));
 
 export type SetIdentityMailFromDomainError = CommonErrors;
@@ -3038,6 +3164,8 @@ export const setIdentityMailFromDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityMailFromDomain",
+  telemetry: TELEMETRY,
+  span: "SetIdentityMailFromDomain",
 }));
 
 export type SetIdentityNotificationTopicError = CommonErrors;
@@ -3066,6 +3194,8 @@ export const setIdentityNotificationTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityNotificationTopic",
+  telemetry: TELEMETRY,
+  span: "SetIdentityNotificationTopic",
 }));
 
 export type SetReceiptRulePositionError =
@@ -3092,6 +3222,8 @@ export const setReceiptRulePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetReceiptRulePosition",
+  telemetry: TELEMETRY,
+  span: "SetReceiptRulePosition",
 }));
 
 export type TestRenderTemplateError =
@@ -3121,6 +3253,8 @@ export const testRenderTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestRenderTemplate",
+  telemetry: TELEMETRY,
+  span: "TestRenderTemplate",
 }));
 
 export type UpdateAccountSendingEnabledError = CommonErrors;
@@ -3145,6 +3279,8 @@ export const updateAccountSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSendingEnabled",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSendingEnabled",
 }));
 
 export type UpdateConfigurationSetEventDestinationError =
@@ -3185,6 +3321,8 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetEventDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetEventDestination",
 }));
 
 export type UpdateConfigurationSetReputationMetricsEnabledError =
@@ -3218,6 +3356,8 @@ export const updateConfigurationSetReputationMetricsEnabled: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetReputationMetricsEnabled",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetReputationMetricsEnabled",
 }));
 
 export type UpdateConfigurationSetSendingEnabledError =
@@ -3244,6 +3384,8 @@ export const updateConfigurationSetSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetSendingEnabled",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetSendingEnabled",
 }));
 
 export type UpdateConfigurationSetTrackingOptionsError =
@@ -3275,6 +3417,8 @@ export const updateConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetTrackingOptions",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationSetTrackingOptions",
 }));
 
 export type UpdateCustomVerificationEmailTemplateError =
@@ -3307,6 +3451,8 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomVerificationEmailTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomVerificationEmailTemplate",
 }));
 
 export type UpdateReceiptRuleError =
@@ -3350,6 +3496,8 @@ export const updateReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReceiptRule",
+  telemetry: TELEMETRY,
+  span: "UpdateReceiptRule",
 }));
 
 export type UpdateTemplateError =
@@ -3375,6 +3523,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 export type VerifyDomainDkimError = CommonErrors;
@@ -3425,6 +3575,8 @@ export const verifyDomainDkim: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDomainDkim",
+  telemetry: TELEMETRY,
+  span: "VerifyDomainDkim",
 }));
 
 export type VerifyDomainIdentityError = CommonErrors;
@@ -3448,6 +3600,8 @@ export const verifyDomainIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDomainIdentity",
+  telemetry: TELEMETRY,
+  span: "VerifyDomainIdentity",
 }));
 
 export type VerifyEmailAddressError = CommonErrors;
@@ -3467,6 +3621,8 @@ export const verifyEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyEmailAddress",
+  telemetry: TELEMETRY,
+  span: "VerifyEmailAddress",
 }));
 
 export type VerifyEmailIdentityError = CommonErrors;
@@ -3489,6 +3645,8 @@ export const verifyEmailIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyEmailIdentity",
+  telemetry: TELEMETRY,
+  span: "VerifyEmailIdentity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

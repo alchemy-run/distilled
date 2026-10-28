@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -107,6 +108,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Artifact",
+  service: "Artifact",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -520,6 +535,8 @@ export const createComplianceInquiry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComplianceInquiry",
+  telemetry: TELEMETRY,
+  span: "CreateComplianceInquiry",
 }));
 
 export type ExportComplianceInquiryError =
@@ -550,6 +567,8 @@ export const exportComplianceInquiry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportComplianceInquiry",
+  telemetry: TELEMETRY,
+  span: "ExportComplianceInquiry",
 }));
 
 export type GetAccountSettingsError =
@@ -584,6 +603,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetComplianceInquiryMetadataError =
@@ -614,6 +635,8 @@ export const getComplianceInquiryMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceInquiryMetadata",
+  telemetry: TELEMETRY,
+  span: "GetComplianceInquiryMetadata",
 }));
 
 export type GetReportError =
@@ -648,6 +671,8 @@ export const getReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReport",
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetReportMetadataError =
@@ -680,6 +705,8 @@ export const getReportMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReportMetadata",
+  telemetry: TELEMETRY,
+  span: "GetReportMetadata",
 }));
 
 export type GetTermForReportError =
@@ -714,6 +741,8 @@ export const getTermForReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTermForReport",
+  telemetry: TELEMETRY,
+  span: "GetTermForReport",
 }));
 
 export type ListComplianceInquiriesError =
@@ -751,6 +780,8 @@ export const listComplianceInquiries: API.PaginatedOperationMethod<
     items: "complianceInquiries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceInquiries",
 })) as any;
 
 export type ListComplianceInquiryQueriesError =
@@ -788,6 +819,8 @@ export const listComplianceInquiryQueries: API.PaginatedOperationMethod<
     items: "queries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComplianceInquiryQueries",
 })) as any;
 
 export type ListCustomerAgreementsError =
@@ -823,6 +856,8 @@ export const listCustomerAgreements: API.PaginatedOperationMethod<
     items: "customerAgreements",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomerAgreements",
 })) as any;
 
 export type ListReportsError =
@@ -862,6 +897,8 @@ export const listReports: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReports",
 })) as any;
 
 export type ListReportVersionsError =
@@ -901,6 +938,8 @@ export const listReportVersions: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -931,6 +970,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAccountSettingsError =
@@ -965,6 +1006,8 @@ export const putAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSettings",
+  telemetry: TELEMETRY,
+  span: "PutAccountSettings",
 }));
 
 export type PutComplianceInquiryFeedbackError =
@@ -997,6 +1040,8 @@ export const putComplianceInquiryFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComplianceInquiryFeedback",
+  telemetry: TELEMETRY,
+  span: "PutComplianceInquiryFeedback",
 }));
 
 export type TagResourceError =
@@ -1027,6 +1072,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1057,6 +1104,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "firebasehosting" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Firebasehosting",
+  service: "firebasehosting",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1053,6 +1072,8 @@ export const cloneProjectsSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneProjectsSitesVersions",
 }));
 
 export type CloneSitesVersionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1068,6 +1089,8 @@ export const cloneSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneSitesVersions",
 }));
 
 export type CreateProjectsSitesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1083,6 +1106,8 @@ export const createProjectsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSites",
 }));
 
 export type CreateProjectsSitesChannelsError =
@@ -1103,6 +1128,8 @@ export const createProjectsSitesChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSitesChannels",
 }));
 
 export type CreateProjectsSitesChannelsReleasesError =
@@ -1123,6 +1150,8 @@ export const createProjectsSitesChannelsReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSitesChannelsReleases",
 }));
 
 export type CreateProjectsSitesCustomDomainsError =
@@ -1143,6 +1172,8 @@ export const createProjectsSitesCustomDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSitesCustomDomains",
 }));
 
 export type CreateProjectsSitesDomainsError =
@@ -1163,6 +1194,8 @@ export const createProjectsSitesDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSitesDomains",
 }));
 
 export type CreateProjectsSitesReleasesError =
@@ -1183,6 +1216,8 @@ export const createProjectsSitesReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSitesReleases",
 }));
 
 export type CreateProjectsSitesVersionsError =
@@ -1203,6 +1238,8 @@ export const createProjectsSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSitesVersions",
 }));
 
 export type CreateSitesChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1218,6 +1255,8 @@ export const createSitesChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSitesChannels",
 }));
 
 export type CreateSitesChannelsReleasesError =
@@ -1238,6 +1277,8 @@ export const createSitesChannelsReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSitesChannelsReleases",
 }));
 
 export type CreateSitesDomainsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1253,6 +1294,8 @@ export const createSitesDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSitesDomains",
 }));
 
 export type CreateSitesReleasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1268,6 +1311,8 @@ export const createSitesReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSitesReleases",
 }));
 
 export type CreateSitesVersionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1283,6 +1328,8 @@ export const createSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSitesVersions",
 }));
 
 export type DeleteProjectsSitesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1298,6 +1345,8 @@ export const deleteProjectsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsSites",
 }));
 
 export type DeleteProjectsSitesChannelsError =
@@ -1318,6 +1367,8 @@ export const deleteProjectsSitesChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsSitesChannels",
 }));
 
 export type DeleteProjectsSitesCustomDomainsError =
@@ -1338,6 +1389,8 @@ export const deleteProjectsSitesCustomDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsSitesCustomDomains",
 }));
 
 export type DeleteProjectsSitesDomainsError =
@@ -1358,6 +1411,8 @@ export const deleteProjectsSitesDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsSitesDomains",
 }));
 
 export type DeleteProjectsSitesVersionsError =
@@ -1378,6 +1433,8 @@ export const deleteProjectsSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsSitesVersions",
 }));
 
 export type DeleteSitesChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1393,6 +1450,8 @@ export const deleteSitesChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSitesChannels",
 }));
 
 export type DeleteSitesDomainsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1408,6 +1467,8 @@ export const deleteSitesDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSitesDomains",
 }));
 
 export type DeleteSitesVersionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1423,6 +1484,8 @@ export const deleteSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSitesVersions",
 }));
 
 export type GetConfigProjectsSitesError = NotFound | Forbidden | GcpOpError;
@@ -1438,6 +1501,8 @@ export const getConfigProjectsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigProjectsSites",
 }));
 
 export type GetConfigSitesError = NotFound | Forbidden | GcpOpError;
@@ -1453,6 +1518,8 @@ export const getConfigSites: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigSites",
 }));
 
 export type GetProjectsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1468,6 +1535,8 @@ export const getProjectsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsOperations",
 }));
 
 export type GetProjectsSitesError = NotFound | Forbidden | GcpOpError;
@@ -1483,6 +1552,8 @@ export const getProjectsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSites",
 }));
 
 export type GetProjectsSitesChannelsError = NotFound | Forbidden | GcpOpError;
@@ -1498,6 +1569,8 @@ export const getProjectsSitesChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSitesChannels",
 }));
 
 export type GetProjectsSitesChannelsReleasesError = NotFound | Forbidden | GcpOpError;
@@ -1513,6 +1586,8 @@ export const getProjectsSitesChannelsReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSitesChannelsReleases",
 }));
 
 export type GetProjectsSitesCustomDomainsError = NotFound | Forbidden | GcpOpError;
@@ -1528,6 +1603,8 @@ export const getProjectsSitesCustomDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSitesCustomDomains",
 }));
 
 export type GetProjectsSitesCustomDomainsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1543,6 +1620,8 @@ export const getProjectsSitesCustomDomainsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSitesCustomDomainsOperations",
 }));
 
 export type GetProjectsSitesDomainsError = NotFound | Forbidden | GcpOpError;
@@ -1558,6 +1637,8 @@ export const getProjectsSitesDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSitesDomains",
 }));
 
 export type GetProjectsSitesReleasesError = NotFound | Forbidden | GcpOpError;
@@ -1573,6 +1654,8 @@ export const getProjectsSitesReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSitesReleases",
 }));
 
 export type GetProjectsSitesVersionsError = NotFound | Forbidden | GcpOpError;
@@ -1588,6 +1671,8 @@ export const getProjectsSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSitesVersions",
 }));
 
 export type GetSitesChannelsError = NotFound | Forbidden | GcpOpError;
@@ -1603,6 +1688,8 @@ export const getSitesChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSitesChannels",
 }));
 
 export type GetSitesChannelsReleasesError = NotFound | Forbidden | GcpOpError;
@@ -1618,6 +1705,8 @@ export const getSitesChannelsReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSitesChannelsReleases",
 }));
 
 export type GetSitesDomainsError = NotFound | Forbidden | GcpOpError;
@@ -1633,6 +1722,8 @@ export const getSitesDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSitesDomains",
 }));
 
 export type GetSitesReleasesError = NotFound | Forbidden | GcpOpError;
@@ -1648,6 +1739,8 @@ export const getSitesReleases: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSitesReleases",
 }));
 
 export type GetSitesVersionsError = NotFound | Forbidden | GcpOpError;
@@ -1663,6 +1756,8 @@ export const getSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSitesVersions",
 }));
 
 export type ListProjectsSitesError = NotFound | Forbidden | GcpOpError;
@@ -1679,6 +1774,8 @@ export const listProjectsSites: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSites",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1696,6 +1793,8 @@ export const listProjectsSitesChannels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSitesChannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1713,6 +1812,8 @@ export const listProjectsSitesChannelsReleases: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSitesChannelsReleases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1730,6 +1831,8 @@ export const listProjectsSitesCustomDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSitesCustomDomains",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1747,6 +1850,8 @@ export const listProjectsSitesCustomDomainsOperations: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSitesCustomDomainsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1764,6 +1869,8 @@ export const listProjectsSitesDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSitesDomains",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1781,6 +1888,8 @@ export const listProjectsSitesReleases: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSitesReleases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1798,6 +1907,8 @@ export const listProjectsSitesVersions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSitesVersions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1815,6 +1926,8 @@ export const listProjectsSitesVersionsFiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSitesVersionsFiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1832,6 +1945,8 @@ export const listSitesChannels: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesChannels",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1849,6 +1964,8 @@ export const listSitesChannelsReleases: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesChannelsReleases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1866,6 +1983,8 @@ export const listSitesDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesDomains",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1883,6 +2002,8 @@ export const listSitesReleases: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesReleases",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1900,6 +2021,8 @@ export const listSitesVersions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesVersions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1917,6 +2040,8 @@ export const listSitesVersionsFiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesVersionsFiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1933,6 +2058,8 @@ export const patchProjectsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsSites",
 }));
 
 export type PatchProjectsSitesChannelsError =
@@ -1953,6 +2080,8 @@ export const patchProjectsSitesChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsSitesChannels",
 }));
 
 export type PatchProjectsSitesCustomDomainsError =
@@ -1973,6 +2102,8 @@ export const patchProjectsSitesCustomDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsSitesCustomDomains",
 }));
 
 export type PatchProjectsSitesVersionsError =
@@ -1993,6 +2124,8 @@ export const patchProjectsSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsSitesVersions",
 }));
 
 export type PatchSitesChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2008,6 +2141,8 @@ export const patchSitesChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSitesChannels",
 }));
 
 export type PatchSitesVersionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2023,6 +2158,8 @@ export const patchSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSitesVersions",
 }));
 
 export type PopulateFilesProjectsSitesVersionsError =
@@ -2043,6 +2180,8 @@ export const populateFilesProjectsSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PopulateFilesProjectsSitesVersions",
 }));
 
 export type PopulateFilesSitesVersionsError =
@@ -2063,6 +2202,8 @@ export const populateFilesSitesVersions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PopulateFilesSitesVersions",
 }));
 
 export type UndeleteProjectsSitesCustomDomainsError =
@@ -2083,6 +2224,8 @@ export const undeleteProjectsSitesCustomDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteProjectsSitesCustomDomains",
 }));
 
 export type UpdateConfigProjectsSitesError =
@@ -2103,6 +2246,8 @@ export const updateConfigProjectsSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigProjectsSites",
 }));
 
 export type UpdateConfigSitesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2118,6 +2263,8 @@ export const updateConfigSites: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigSites",
 }));
 
 export type UpdateProjectsSitesDomainsError =
@@ -2138,6 +2285,8 @@ export const updateProjectsSitesDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectsSitesDomains",
 }));
 
 export type UpdateSitesDomainsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2153,6 +2302,8 @@ export const updateSitesDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSitesDomains",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

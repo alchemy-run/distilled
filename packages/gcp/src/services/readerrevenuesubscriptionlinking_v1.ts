@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "readerrevenuesubscriptionlinking" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Readerrevenuesubscriptionlinking",
+  service: "readerrevenuesubscriptionlinking",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -154,6 +173,8 @@ export const deletePublicationsReaders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePublicationsReaders",
 }));
 
 export type GetEntitlementsPublicationsReadersError = NotFound | Forbidden | GcpOpError;
@@ -169,6 +190,8 @@ export const getEntitlementsPublicationsReaders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitlementsPublicationsReaders",
 }));
 
 export type GetPublicationsReadersError = NotFound | Forbidden | GcpOpError;
@@ -184,6 +207,8 @@ export const getPublicationsReaders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicationsReaders",
 }));
 
 export type ListPublications_ReadersEntitlementsError = NotFound | Forbidden | GcpOpError;
@@ -200,6 +225,8 @@ export const listPublications_ReadersEntitlements: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublications_ReadersEntitlements",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -221,6 +248,8 @@ export const updateEntitlementsPublicationsReaders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEntitlementsPublicationsReaders",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,0 +1,33 @@
+{
+  "name": "@distilled.cloud/dev",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Dev-time internals of the distilled SDKs: the code generator and test helpers. Not published.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alchemy-run/distilled",
+    "directory": "packages/dev"
+  },
+  "type": "module",
+  "exports": {
+    "./*": {
+      "types": "./lib/*.d.ts",
+      "bun": "./src/*.ts",
+      "import": "./lib/*.js"
+    }
+  },
+  "scripts": {
+    "build": "tsrs -b"
+  },
+  "dependencies": {
+    "@distilled.cloud/core": "workspace:*",
+    "@effect/platform-node": "catalog:",
+    "effect": "catalog:",
+    "rolldown": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "vitest": "catalog:"
+  }
+}

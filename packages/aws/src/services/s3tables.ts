@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://s3tables.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "S3Tables",
+  service: "S3Tables",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -769,6 +784,8 @@ export const createNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateNamespace",
 }));
 
 export type CreateTableError =
@@ -815,6 +832,8 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  telemetry: TELEMETRY,
+  span: "CreateTable",
 }));
 
 export type CreateTableBucketError =
@@ -857,6 +876,8 @@ export const createTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTableBucket",
+  telemetry: TELEMETRY,
+  span: "CreateTableBucket",
 }));
 
 export type DeleteNamespaceError =
@@ -893,6 +914,8 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteTableError =
@@ -929,6 +952,8 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  telemetry: TELEMETRY,
+  span: "DeleteTable",
 }));
 
 export type DeleteTableBucketError =
@@ -965,6 +990,8 @@ export const deleteTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucket",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucket",
 }));
 
 export type DeleteTableBucketEncryptionError =
@@ -1001,6 +1028,8 @@ export const deleteTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucketEncryption",
 }));
 
 export type DeleteTableBucketMetricsConfigurationError =
@@ -1037,6 +1066,8 @@ export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucketMetricsConfiguration",
 }));
 
 export type DeleteTableBucketPolicyError =
@@ -1073,6 +1104,8 @@ export const deleteTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucketPolicy",
 }));
 
 export type DeleteTableBucketReplicationError =
@@ -1111,6 +1144,8 @@ export const deleteTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketReplication",
+  telemetry: TELEMETRY,
+  span: "DeleteTableBucketReplication",
 }));
 
 export type DeleteTablePolicyError =
@@ -1147,6 +1182,8 @@ export const deleteTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTablePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteTablePolicy",
 }));
 
 export type DeleteTableReplicationError =
@@ -1185,6 +1222,8 @@ export const deleteTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableReplication",
+  telemetry: TELEMETRY,
+  span: "DeleteTableReplication",
 }));
 
 export type GetNamespaceError =
@@ -1223,6 +1262,8 @@ export const getNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespace",
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetTableError =
@@ -1261,6 +1302,8 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
+  telemetry: TELEMETRY,
+  span: "GetTable",
 }));
 
 export type GetTableBucketError =
@@ -1299,6 +1342,8 @@ export const getTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucket",
+  telemetry: TELEMETRY,
+  span: "GetTableBucket",
 }));
 
 export type GetTableBucketEncryptionError =
@@ -1335,6 +1380,8 @@ export const getTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketEncryption",
 }));
 
 export type GetTableBucketMaintenanceConfigurationError =
@@ -1371,6 +1418,8 @@ export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketMaintenanceConfiguration",
 }));
 
 export type GetTableBucketMetricsConfigurationError =
@@ -1407,6 +1456,8 @@ export const getTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketMetricsConfiguration",
 }));
 
 export type GetTableBucketPolicyError =
@@ -1443,6 +1494,8 @@ export const getTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketPolicy",
 }));
 
 export type GetTableBucketReplicationError =
@@ -1481,6 +1534,8 @@ export const getTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketReplication",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketReplication",
 }));
 
 export type GetTableBucketStorageClassError =
@@ -1517,6 +1572,8 @@ export const getTableBucketStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketStorageClass",
+  telemetry: TELEMETRY,
+  span: "GetTableBucketStorageClass",
 }));
 
 export type GetTableEncryptionError =
@@ -1553,6 +1610,8 @@ export const getTableEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableEncryption",
+  telemetry: TELEMETRY,
+  span: "GetTableEncryption",
 }));
 
 export type GetTableMaintenanceConfigurationError =
@@ -1591,6 +1650,8 @@ export const getTableMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTableMaintenanceConfiguration",
 }));
 
 export type GetTableMaintenanceJobStatusError =
@@ -1627,6 +1688,8 @@ export const getTableMaintenanceJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMaintenanceJobStatus",
+  telemetry: TELEMETRY,
+  span: "GetTableMaintenanceJobStatus",
 }));
 
 export type GetTableMetadataLocationError =
@@ -1663,6 +1726,8 @@ export const getTableMetadataLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMetadataLocation",
+  telemetry: TELEMETRY,
+  span: "GetTableMetadataLocation",
 }));
 
 export type GetTablePolicyError =
@@ -1699,6 +1764,8 @@ export const getTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTablePolicy",
+  telemetry: TELEMETRY,
+  span: "GetTablePolicy",
 }));
 
 export type GetTableRecordExpirationConfigurationError =
@@ -1735,6 +1802,8 @@ export const getTableRecordExpirationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableRecordExpirationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTableRecordExpirationConfiguration",
 }));
 
 export type GetTableRecordExpirationJobStatusError =
@@ -1771,6 +1840,8 @@ export const getTableRecordExpirationJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableRecordExpirationJobStatus",
+  telemetry: TELEMETRY,
+  span: "GetTableRecordExpirationJobStatus",
 }));
 
 export type GetTableReplicationError =
@@ -1809,6 +1880,8 @@ export const getTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableReplication",
+  telemetry: TELEMETRY,
+  span: "GetTableReplication",
 }));
 
 export type GetTableReplicationStatusError =
@@ -1845,6 +1918,8 @@ export const getTableReplicationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableReplicationStatus",
+  telemetry: TELEMETRY,
+  span: "GetTableReplicationStatus",
 }));
 
 export type GetTableStorageClassError =
@@ -1881,6 +1956,8 @@ export const getTableStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableStorageClass",
+  telemetry: TELEMETRY,
+  span: "GetTableStorageClass",
 }));
 
 export type ListNamespacesError =
@@ -1926,6 +2003,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
     items: "namespaces",
     pageSize: "maxNamespaces",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 })) as any;
 
 export type ListTableBucketsError =
@@ -1971,6 +2050,8 @@ export const listTableBuckets: API.PaginatedOperationMethod<
     items: "tableBuckets",
     pageSize: "maxBuckets",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTableBuckets",
 })) as any;
 
 export type ListTablesError =
@@ -2014,6 +2095,8 @@ export const listTables: API.PaginatedOperationMethod<
     items: "tables",
     pageSize: "maxTables",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2052,6 +2135,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutTableBucketEncryptionError =
@@ -2090,6 +2175,8 @@ export const putTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketEncryption",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketEncryption",
 }));
 
 export type PutTableBucketMaintenanceConfigurationError =
@@ -2126,6 +2213,8 @@ export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketMaintenanceConfiguration",
 }));
 
 export type PutTableBucketMetricsConfigurationError =
@@ -2162,6 +2251,8 @@ export const putTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketMetricsConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketMetricsConfiguration",
 }));
 
 export type PutTableBucketPolicyError =
@@ -2198,6 +2289,8 @@ export const putTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketPolicy",
 }));
 
 export type PutTableBucketReplicationError =
@@ -2252,6 +2345,8 @@ export const putTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketReplication",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketReplication",
 }));
 
 export type PutTableBucketStorageClassError =
@@ -2288,6 +2383,8 @@ export const putTableBucketStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketStorageClass",
+  telemetry: TELEMETRY,
+  span: "PutTableBucketStorageClass",
 }));
 
 export type PutTableMaintenanceConfigurationError =
@@ -2324,6 +2421,8 @@ export const putTableMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableMaintenanceConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutTableMaintenanceConfiguration",
 }));
 
 export type PutTablePolicyError =
@@ -2360,6 +2459,8 @@ export const putTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTablePolicy",
+  telemetry: TELEMETRY,
+  span: "PutTablePolicy",
 }));
 
 export type PutTableRecordExpirationConfigurationError =
@@ -2396,6 +2497,8 @@ export const putTableRecordExpirationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableRecordExpirationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutTableRecordExpirationConfiguration",
 }));
 
 export type PutTableReplicationError =
@@ -2448,6 +2551,8 @@ export const putTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableReplication",
+  telemetry: TELEMETRY,
+  span: "PutTableReplication",
 }));
 
 export type RenameTableError =
@@ -2484,6 +2589,8 @@ export const renameTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenameTable",
+  telemetry: TELEMETRY,
+  span: "RenameTable",
 }));
 
 export type TagResourceError =
@@ -2522,6 +2629,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2560,6 +2669,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateTableMetadataLocationError =
@@ -2596,6 +2707,8 @@ export const updateTableMetadataLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableMetadataLocation",
+  telemetry: TELEMETRY,
+  span: "UpdateTableMetadataLocation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

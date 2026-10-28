@@ -29,6 +29,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   validityPeriod: "validity_period",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Acm",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class AdvancedCertificateManagerRequired
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AdvancedCertificateManagerRequired>()(
@@ -283,6 +297,8 @@ export const createCustomTrustStore: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomTrustStore",
 }));
 
 export type DeleteCustomTrustStoreError =
@@ -310,6 +326,8 @@ export const deleteCustomTrustStore: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomTrustStore",
 }));
 
 export type GetCustomTrustStoreError =
@@ -337,6 +355,8 @@ export const getCustomTrustStore: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomTrustStore",
 }));
 
 export type GetTotalTlError =
@@ -362,6 +382,8 @@ export const getTotalTl: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTotalTl",
 }));
 
 export type ListCustomTrustStoresError =
@@ -382,6 +404,8 @@ export const listCustomTrustStores: API.PaginatedOperationMethod<
     errors: [AdvancedCertificateManagerRequired, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomTrustStores",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -420,6 +444,8 @@ export const updateTotalTl: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTotalTl",
 }));
 
 export type UpdateTotalTlsError =
@@ -449,6 +475,8 @@ export const updateTotalTls: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTotalTls",
 }));
 
 // Alias of updateTotalTl (same route, alternate export name upstream).

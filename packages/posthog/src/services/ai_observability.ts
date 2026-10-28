@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "AiObservability",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1569,6 +1582,8 @@ export const aiObservabilityInstrumentationChecklistRestoreCreate: API.Operation
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AiObservabilityInstrumentationChecklistRestoreCreate",
 }));
 
 export type AiObservabilityOfflineExperimentsUploadCreateError =
@@ -1592,6 +1607,8 @@ export const aiObservabilityOfflineExperimentsUploadCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AiObservabilityOfflineExperimentsUploadCreate",
 }));
 
 export type ArchiveDatasetError = PosthogOpError;
@@ -1607,6 +1624,8 @@ export const archiveDataset: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveDataset",
 }));
 
 export type ArchiveDatasetItemError = Conflict | PosthogOpError;
@@ -1622,6 +1641,8 @@ export const archiveDatasetItem: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveDatasetItem",
 }));
 
 export type CreateAiObservabilityInstrumentationChecklistDismissError = PosthogOpError;
@@ -1641,6 +1662,8 @@ export const createAiObservabilityInstrumentationChecklistDismiss: API.Operation
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiObservabilityInstrumentationChecklistDismiss",
 }));
 
 export type CreateAiObservabilityOfflineExperimentError =
@@ -1660,6 +1683,8 @@ export const createAiObservabilityOfflineExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiObservabilityOfflineExperiment",
 }));
 
 export type CreateAiObservabilityOfflineExperimentsCompleteError =
@@ -1679,6 +1704,8 @@ export const createAiObservabilityOfflineExperimentsComplete: API.OperationMetho
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiObservabilityOfflineExperimentsComplete",
 }));
 
 export type CreateAiObservabilityOfflineExperimentsFailError =
@@ -1698,6 +1725,8 @@ export const createAiObservabilityOfflineExperimentsFail: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiObservabilityOfflineExperimentsFail",
 }));
 
 export type CreateDatasetError = BadRequest | Forbidden | NotFound | Conflict | PosthogOpError;
@@ -1713,6 +1742,8 @@ export const createDataset: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatasetItemError = BadRequest | Forbidden | NotFound | Conflict | PosthogOpError;
@@ -1728,6 +1759,8 @@ export const createDatasetItem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasetItem",
 }));
 
 export type CreateDatasetsExportError = Conflict | PosthogOpError;
@@ -1743,6 +1776,8 @@ export const createDatasetsExport: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatasetsExport",
 }));
 
 export type CreateLlmAnalyticsOfflineEvaluationsExperimentItemError = BadRequest | PosthogOpError;
@@ -1761,6 +1796,8 @@ export const createLlmAnalyticsOfflineEvaluationsExperimentItem: API.OperationMe
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsOfflineEvaluationsExperimentItem",
 }));
 
 export type CreateLlmAnalyticsSummarizationError = BadRequest | Forbidden | PosthogOpError;
@@ -1776,6 +1813,8 @@ export const createLlmAnalyticsSummarization: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsSummarization",
 }));
 
 export type CreateLlmAnalyticsSummarizationBatchCheckError =
@@ -1794,6 +1833,8 @@ export const createLlmAnalyticsSummarizationBatchCheck: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsSummarizationBatchCheck",
 }));
 
 export type CreateLlmAnalyticsTextReprError = BadRequest | PosthogOpError;
@@ -1809,6 +1850,8 @@ export const createLlmAnalyticsTextRepr: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLlmAnalyticsTextRepr",
 }));
 
 export type GetAiObservabilityInstrumentationChecklistError = PosthogOpError;
@@ -1824,6 +1867,8 @@ export const getAiObservabilityInstrumentationChecklist: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityInstrumentationChecklist",
 }));
 
 export type GetAiObservabilityOfflineExperimentError =
@@ -1842,6 +1887,8 @@ export const getAiObservabilityOfflineExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityOfflineExperiment",
 }));
 
 export type GetAiObservabilityOfflineExperimentsItemError =
@@ -1860,6 +1907,8 @@ export const getAiObservabilityOfflineExperimentsItem: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityOfflineExperimentsItem",
 }));
 
 export type GetAiObservabilityOfflineExperimentsItemsPayloadError =
@@ -1882,6 +1931,8 @@ export const getAiObservabilityOfflineExperimentsItemsPayload: API.OperationMeth
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityOfflineExperimentsItemsPayload",
 }));
 
 export type GetAiObservabilityOfflineExperimentsResultCellError =
@@ -1904,6 +1955,8 @@ export const getAiObservabilityOfflineExperimentsResultCell: API.OperationMethod
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityOfflineExperimentsResultCell",
 }));
 
 export type GetAiObservabilityOfflineExperimentsResultsPayloadError =
@@ -1926,6 +1979,8 @@ export const getAiObservabilityOfflineExperimentsResultsPayload: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityOfflineExperimentsResultsPayload",
 }));
 
 export type GetAiObservabilityTraceError = BadRequest | NotFound | PosthogOpError;
@@ -1941,6 +1996,8 @@ export const getAiObservabilityTrace: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiObservabilityTrace",
 }));
 
 export type GetDatasetError = Forbidden | NotFound | PosthogOpError;
@@ -1956,6 +2013,8 @@ export const getDataset: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataset",
 }));
 
 export type GetDatasetItemError = PosthogOpError;
@@ -1971,6 +2030,8 @@ export const getDatasetItem: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetItem",
 }));
 
 export type GetDatasetsExportError = PosthogOpError;
@@ -1986,6 +2047,8 @@ export const getDatasetsExport: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetsExport",
 }));
 
 export type GetDatasetsExportsContentError = Conflict | PosthogOpError;
@@ -2001,6 +2064,8 @@ export const getDatasetsExportsContent: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatasetsExportsContent",
 }));
 
 export type ListAiObservabilityOfflineExperimentsError =
@@ -2019,6 +2084,8 @@ export const listAiObservabilityOfflineExperiments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiObservabilityOfflineExperiments",
 }));
 
 export type ListAiObservabilityOfflineExperimentsItemsError =
@@ -2037,6 +2104,8 @@ export const listAiObservabilityOfflineExperimentsItems: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiObservabilityOfflineExperimentsItems",
 }));
 
 export type ListAiObservabilityOfflineExperimentsItemsResultsError =
@@ -2059,6 +2128,8 @@ export const listAiObservabilityOfflineExperimentsItemsResults: API.OperationMet
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiObservabilityOfflineExperimentsItemsResults",
 }));
 
 export type ListAiObservabilityOfflineExperimentsScorerSummariesError =
@@ -2081,6 +2152,8 @@ export const listAiObservabilityOfflineExperimentsScorerSummaries: API.Operation
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiObservabilityOfflineExperimentsScorerSummaries",
 }));
 
 export type ListAiObservabilityOfflineScorersHistoryError =
@@ -2099,6 +2172,8 @@ export const listAiObservabilityOfflineScorersHistory: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiObservabilityOfflineScorersHistory",
 }));
 
 export type ListDatasetItemsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2114,6 +2189,8 @@ export const listDatasetItems: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasetItems",
 }));
 
 export type ListDatasetItemsVersionsError = PosthogOpError;
@@ -2129,6 +2206,8 @@ export const listDatasetItemsVersions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasetItemsVersions",
 }));
 
 export type ListDatasetsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2144,6 +2223,8 @@ export const listDatasets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 }));
 
 export type ListDatasetsRevisionsError = PosthogOpError;
@@ -2159,6 +2240,8 @@ export const listDatasetsRevisions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatasetsRevisions",
 }));
 
 export type ListLlmAnalyticsPersonalSpendError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2174,6 +2257,8 @@ export const listLlmAnalyticsPersonalSpend: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLlmAnalyticsPersonalSpend",
 }));
 
 export type RestoreDatasetError = PosthogOpError;
@@ -2189,6 +2274,8 @@ export const restoreDataset: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDataset",
 }));
 
 export type RestoreDatasetItemError = Conflict | PosthogOpError;
@@ -2204,6 +2291,8 @@ export const restoreDatasetItem: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDatasetItem",
 }));
 
 export type UpdateDatasetItemsPartialError = Conflict | PosthogOpError;
@@ -2219,6 +2308,8 @@ export const updateDatasetItemsPartial: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatasetItemsPartial",
 }));
 
 export type UpdateDatasetsPartialError =
@@ -2239,6 +2330,8 @@ export const updateDatasetsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatasetsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

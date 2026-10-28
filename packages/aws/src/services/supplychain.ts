@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://scn.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SupplyChain",
+  service: "SupplyChain",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -705,6 +720,8 @@ export const createBillOfMaterialsImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillOfMaterialsImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateBillOfMaterialsImportJob",
 }));
 
 export type CreateDataIntegrationFlowError =
@@ -737,6 +754,8 @@ export const createDataIntegrationFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegrationFlow",
+  telemetry: TELEMETRY,
+  span: "CreateDataIntegrationFlow",
 }));
 
 export type CreateDataLakeDatasetError =
@@ -771,6 +790,8 @@ export const createDataLakeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataLakeDataset",
 }));
 
 export type CreateDataLakeNamespaceError =
@@ -803,6 +824,8 @@ export const createDataLakeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateDataLakeNamespace",
 }));
 
 export type CreateInstanceError =
@@ -837,6 +860,8 @@ export const createInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstance",
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type DeleteDataIntegrationFlowError =
@@ -865,6 +890,8 @@ export const deleteDataIntegrationFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataIntegrationFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteDataIntegrationFlow",
 }));
 
 export type DeleteDataLakeDatasetError =
@@ -895,6 +922,8 @@ export const deleteDataLakeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataLakeDataset",
 }));
 
 export type DeleteDataLakeNamespaceError =
@@ -925,6 +954,8 @@ export const deleteDataLakeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteDataLakeNamespace",
 }));
 
 export type DeleteInstanceError =
@@ -957,6 +988,8 @@ export const deleteInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type GetBillOfMaterialsImportJobError =
@@ -987,6 +1020,8 @@ export const getBillOfMaterialsImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillOfMaterialsImportJob",
+  telemetry: TELEMETRY,
+  span: "GetBillOfMaterialsImportJob",
 }));
 
 export type GetDataIntegrationEventError =
@@ -1017,6 +1052,8 @@ export const getDataIntegrationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationEvent",
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationEvent",
 }));
 
 export type GetDataIntegrationFlowError =
@@ -1047,6 +1084,8 @@ export const getDataIntegrationFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationFlow",
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationFlow",
 }));
 
 export type GetDataIntegrationFlowExecutionError =
@@ -1077,6 +1116,8 @@ export const getDataIntegrationFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationFlowExecution",
+  telemetry: TELEMETRY,
+  span: "GetDataIntegrationFlowExecution",
 }));
 
 export type GetDataLakeDatasetError =
@@ -1107,6 +1148,8 @@ export const getDataLakeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeDataset",
+  telemetry: TELEMETRY,
+  span: "GetDataLakeDataset",
 }));
 
 export type GetDataLakeNamespaceError =
@@ -1137,6 +1180,8 @@ export const getDataLakeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeNamespace",
+  telemetry: TELEMETRY,
+  span: "GetDataLakeNamespace",
 }));
 
 export type GetInstanceError =
@@ -1167,6 +1212,8 @@ export const getInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstance",
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type ListDataIntegrationEventsError =
@@ -1202,6 +1249,8 @@ export const listDataIntegrationEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIntegrationEvents",
 })) as any;
 
 export type ListDataIntegrationFlowExecutionsError =
@@ -1239,6 +1288,8 @@ export const listDataIntegrationFlowExecutions: API.PaginatedOperationMethod<
     items: "flowExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIntegrationFlowExecutions",
 })) as any;
 
 export type ListDataIntegrationFlowsError =
@@ -1274,6 +1325,8 @@ export const listDataIntegrationFlows: API.PaginatedOperationMethod<
     items: "flows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataIntegrationFlows",
 })) as any;
 
 export type ListDataLakeDatasetsError =
@@ -1311,6 +1364,8 @@ export const listDataLakeDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataLakeDatasets",
 })) as any;
 
 export type ListDataLakeNamespacesError =
@@ -1346,6 +1401,8 @@ export const listDataLakeNamespaces: API.PaginatedOperationMethod<
     items: "namespaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataLakeNamespaces",
 })) as any;
 
 export type ListInstancesError =
@@ -1381,6 +1438,8 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "instances",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1411,6 +1470,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SendDataIntegrationEventError =
@@ -1445,6 +1506,8 @@ export const sendDataIntegrationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataIntegrationEvent",
+  telemetry: TELEMETRY,
+  span: "SendDataIntegrationEvent",
 }));
 
 export type TagResourceError =
@@ -1475,6 +1538,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1505,6 +1570,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDataIntegrationFlowError =
@@ -1535,6 +1602,8 @@ export const updateDataIntegrationFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegrationFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateDataIntegrationFlow",
 }));
 
 export type UpdateDataLakeDatasetError =
@@ -1565,6 +1634,8 @@ export const updateDataLakeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeDataset",
+  telemetry: TELEMETRY,
+  span: "UpdateDataLakeDataset",
 }));
 
 export type UpdateDataLakeNamespaceError =
@@ -1595,6 +1666,8 @@ export const updateDataLakeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdateDataLakeNamespace",
 }));
 
 export type UpdateInstanceError =
@@ -1625,6 +1698,8 @@ export const updateInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

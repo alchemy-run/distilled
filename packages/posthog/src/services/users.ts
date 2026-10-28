@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Users",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1752,6 +1765,8 @@ export const createUsersCredentialsReviewComplete: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersCredentialsReviewComplete",
 }));
 
 export type CreateUsersIntegrationsCodexError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1767,6 +1782,8 @@ export const createUsersIntegrationsCodex: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersIntegrationsCodex",
 }));
 
 export type CreateUsersIntegrationsGithubPrepareCallbackError = PosthogOpError;
@@ -1786,6 +1803,8 @@ export const createUsersIntegrationsGithubPrepareCallback: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersIntegrationsGithubPrepareCallback",
 }));
 
 export type CreateUsersOnboardingSkipError = PosthogOpError;
@@ -1801,6 +1820,8 @@ export const createUsersOnboardingSkip: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersOnboardingSkip",
 }));
 
 export type CreateUsersPushTokenError = PosthogOpError;
@@ -1816,6 +1837,8 @@ export const createUsersPushToken: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersPushToken",
 }));
 
 export type CreateUsersRequestEmailVerificationError = BadRequest | Forbidden | PosthogOpError;
@@ -1830,6 +1853,8 @@ export const createUsersRequestEmailVerification: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersRequestEmailVerification",
 }));
 
 export type CreateUsersScenePersonalisationError =
@@ -1848,6 +1873,8 @@ export const createUsersScenePersonalisation: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersScenePersonalisation",
 }));
 
 export type CreateUsersSignalAutonomyError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1863,6 +1890,8 @@ export const createUsersSignalAutonomy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSignalAutonomy",
 }));
 
 export type CreateUsersTwoFactorBackupCodeError =
@@ -1882,6 +1911,8 @@ export const createUsersTwoFactorBackupCode: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersTwoFactorBackupCode",
 }));
 
 export type CreateUsersValidate2faError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1896,6 +1927,8 @@ export const createUsersValidate2fa: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersValidate2fa",
 }));
 
 export type GetUserError = Forbidden | NotFound | PosthogOpError;
@@ -1911,6 +1944,8 @@ export const getUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUsersGithubLoginError = Forbidden | NotFound | PosthogOpError;
@@ -1925,6 +1960,8 @@ export const getUsersGithubLogin: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersGithubLogin",
 }));
 
 export type GetUsersHedgehogConfigError = Forbidden | NotFound | PosthogOpError;
@@ -1939,6 +1976,8 @@ export const getUsersHedgehogConfig: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersHedgehogConfig",
 }));
 
 export type GetUsersIntegrationsCodexError = PosthogOpError;
@@ -1954,6 +1993,8 @@ export const getUsersIntegrationsCodex: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersIntegrationsCodex",
 }));
 
 export type GetUsersIntegrationsGithubBranchError = PosthogOpError;
@@ -1969,6 +2010,8 @@ export const getUsersIntegrationsGithubBranch: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersIntegrationsGithubBranch",
 }));
 
 export type GetUsersIntegrationsGithubReposError = PosthogOpError;
@@ -1984,6 +2027,8 @@ export const getUsersIntegrationsGithubRepos: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersIntegrationsGithubRepos",
 }));
 
 export type GetUsersIntegrationsSlackLinkableWorkspaceError = PosthogOpError;
@@ -1999,6 +2044,8 @@ export const getUsersIntegrationsSlackLinkableWorkspace: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersIntegrationsSlackLinkableWorkspace",
 }));
 
 export type GetUsersSignalAutonomyError = Forbidden | NotFound | PosthogOpError;
@@ -2014,6 +2061,8 @@ export const getUsersSignalAutonomy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSignalAutonomy",
 }));
 
 export type GetUsersStart2faSetupError = Forbidden | NotFound | PosthogOpError;
@@ -2028,6 +2077,8 @@ export const getUsersStart2faSetup: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersStart2faSetup",
 }));
 
 export type GetUsersTwoFactorStatusError = Forbidden | NotFound | PosthogOpError;
@@ -2043,6 +2094,8 @@ export const getUsersTwoFactorStatus: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersTwoFactorStatus",
 }));
 
 export type InstallUsersIntegrationsGithubRequestsDestroyError = PosthogOpError;
@@ -2066,6 +2119,8 @@ export const installUsersIntegrationsGithubRequestsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallUsersIntegrationsGithubRequestsDestroy",
 }));
 
 export type ListUsersError = BadRequest | Forbidden | PosthogOpError;
@@ -2080,6 +2135,8 @@ export const listUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type ListUsersIntegrationsError = PosthogOpError;
@@ -2095,6 +2152,8 @@ export const listUsersIntegrations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersIntegrations",
 }));
 
 export type ListUsersLoginSessionsError = PosthogOpError;
@@ -2110,6 +2169,8 @@ export const listUsersLoginSessions: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersLoginSessions",
 }));
 
 export type LoginUserSessionsDestroyError = PosthogOpError;
@@ -2125,6 +2186,8 @@ export const loginUserSessionsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginUserSessionsDestroy",
 }));
 
 export type SignalUserAutonomyDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -2140,6 +2203,8 @@ export const signalUserAutonomyDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalUserAutonomyDestroy",
 }));
 
 export type UpdateUserError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2155,6 +2220,8 @@ export const updateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateUsersHedgehogConfigPartialError =
@@ -2173,6 +2240,8 @@ export const updateUsersHedgehogConfigPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersHedgehogConfigPartial",
 }));
 
 export type UpdateUsersPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2188,6 +2257,8 @@ export const updateUsersPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersPartial",
 }));
 
 export type UpdateUsersProductIntroSeenPartialError = PosthogOpError;
@@ -2203,6 +2274,8 @@ export const updateUsersProductIntroSeenPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUsersProductIntroSeenPartial",
 }));
 
 export type UsersCancelEmailChangeRequestPartialUpdateError =
@@ -2220,6 +2293,8 @@ export const usersCancelEmailChangeRequestPartialUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersCancelEmailChangeRequestPartialUpdate",
 }));
 
 export type UsersDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -2234,6 +2309,8 @@ export const usersDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersDestroy",
 }));
 
 export type UsersIntegrationsCodexDestroyError = Forbidden | PosthogOpError;
@@ -2249,6 +2326,8 @@ export const usersIntegrationsCodexDestroy: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersIntegrationsCodexDestroy",
 }));
 
 export type UsersIntegrationsGithubDestroyError = PosthogOpError;
@@ -2264,6 +2343,8 @@ export const usersIntegrationsGithubDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersIntegrationsGithubDestroy",
 }));
 
 export type UsersIntegrationsGithubInstallRequestsRetrieveError = PosthogOpError;
@@ -2283,6 +2364,8 @@ export const usersIntegrationsGithubInstallRequestsRetrieve: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersIntegrationsGithubInstallRequestsRetrieve",
 }));
 
 export type UsersIntegrationsGithubReposRefreshCreateError = PosthogOpError;
@@ -2298,6 +2381,8 @@ export const usersIntegrationsGithubReposRefreshCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersIntegrationsGithubReposRefreshCreate",
 }));
 
 export type UsersIntegrationsGithubStartCreateError = PosthogOpError;
@@ -2313,6 +2398,8 @@ export const usersIntegrationsGithubStartCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersIntegrationsGithubStartCreate",
 }));
 
 export type UsersIntegrationsSlackDestroyError = PosthogOpError;
@@ -2328,6 +2415,8 @@ export const usersIntegrationsSlackDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersIntegrationsSlackDestroy",
 }));
 
 export type UsersIntegrationsSlackStartCreateError = PosthogOpError;
@@ -2343,6 +2432,8 @@ export const usersIntegrationsSlackStartCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersIntegrationsSlackStartCreate",
 }));
 
 export type UsersLoginSessionsRevokeOthersCreateError = PosthogOpError;
@@ -2358,6 +2449,8 @@ export const usersLoginSessionsRevokeOthersCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersLoginSessionsRevokeOthersCreate",
 }));
 
 export type UsersPushTokensUnregisterCreateError = PosthogOpError;
@@ -2373,6 +2466,8 @@ export const usersPushTokensUnregisterCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersPushTokensUnregisterCreate",
 }));
 
 export type UsersTwoFactorDisableCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2388,6 +2483,8 @@ export const usersTwoFactorDisableCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersTwoFactorDisableCreate",
 }));
 
 export type UsersTwoFactorStartSetupRetrieveError = Forbidden | NotFound | PosthogOpError;
@@ -2402,6 +2499,8 @@ export const usersTwoFactorStartSetupRetrieve: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersTwoFactorStartSetupRetrieve",
 }));
 
 export type UsersTwoFactorValidateCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2416,6 +2515,8 @@ export const usersTwoFactorValidateCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersTwoFactorValidateCreate",
 }));
 
 export type UsersVerifyEmailCreateError = BadRequest | Forbidden | PosthogOpError;
@@ -2430,6 +2531,8 @@ export const usersVerifyEmailCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UsersVerifyEmailCreate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

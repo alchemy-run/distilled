@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Endpoints",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1117,6 +1130,8 @@ export const createEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndpoint",
 }));
 
 export type CreateEndpointsLastExecutionTimeError =
@@ -1136,6 +1151,8 @@ export const createEndpointsLastExecutionTime: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndpointsLastExecutionTime",
 }));
 
 export type CreateEndpointsMaterializationPreviewError =
@@ -1155,6 +1172,8 @@ export const createEndpointsMaterializationPreview: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndpointsMaterializationPreview",
 }));
 
 export type CreateEndpointsMaterializationSuggestionError = PosthogOpError;
@@ -1170,6 +1189,8 @@ export const createEndpointsMaterializationSuggestion: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndpointsMaterializationSuggestion",
 }));
 
 export type CreateEndpointsRunError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1185,6 +1206,8 @@ export const createEndpointsRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEndpointsRun",
 }));
 
 export type EndpointsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -1200,6 +1223,8 @@ export const endpointsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndpointsDestroy",
 }));
 
 export type GetEndpointError = Forbidden | NotFound | PosthogOpError;
@@ -1215,6 +1240,8 @@ export const getEndpoint: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpoint",
 }));
 
 export type GetEndpointsLogError = PosthogOpError;
@@ -1229,6 +1256,8 @@ export const getEndpointsLog: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpointsLog",
 }));
 
 export type GetEndpointsMaterializationConditionError = PosthogOpError;
@@ -1244,6 +1273,8 @@ export const getEndpointsMaterializationCondition: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpointsMaterializationCondition",
 }));
 
 export type GetEndpointsMaterializationStatusError = Forbidden | NotFound | PosthogOpError;
@@ -1259,6 +1290,8 @@ export const getEndpointsMaterializationStatus: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpointsMaterializationStatus",
 }));
 
 export type GetEndpointsOpenapiSpecError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1274,6 +1307,8 @@ export const getEndpointsOpenapiSpec: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpointsOpenapiSpec",
 }));
 
 export type GetEndpointsRunError = Forbidden | NotFound | PosthogOpError;
@@ -1289,6 +1324,8 @@ export const getEndpointsRun: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndpointsRun",
 }));
 
 export type ListEndpointsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1304,6 +1341,8 @@ export const listEndpoints: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEndpoints",
 }));
 
 export type ListEndpointsVersionsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1319,6 +1358,8 @@ export const listEndpointsVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEndpointsVersions",
 }));
 
 export type UpdateEndpointError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1334,6 +1375,8 @@ export const updateEndpoint: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEndpoint",
 }));
 
 export type UpdateEndpointsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1349,6 +1392,8 @@ export const updateEndpointsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEndpointsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

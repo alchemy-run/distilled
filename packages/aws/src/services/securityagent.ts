@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SecurityAgent",
+  service: "SecurityAgent",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2580,6 +2595,8 @@ export const addArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddArtifact",
+  telemetry: TELEMETRY,
+  span: "AddArtifact",
 }));
 
 export type BatchCreateSecurityRequirementsError =
@@ -2614,6 +2631,8 @@ export const batchCreateSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "BatchCreateSecurityRequirements",
 }));
 
 export type BatchDeleteCodeReviewsError = CommonErrors;
@@ -2632,6 +2651,8 @@ export const batchDeleteCodeReviews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteCodeReviews",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteCodeReviews",
 }));
 
 export type BatchDeletePentestsError = CommonErrors;
@@ -2650,6 +2671,8 @@ export const batchDeletePentests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePentests",
+  telemetry: TELEMETRY,
+  span: "BatchDeletePentests",
 }));
 
 export type BatchDeleteSecurityRequirementsError =
@@ -2682,6 +2705,8 @@ export const batchDeleteSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteSecurityRequirements",
 }));
 
 export type BatchDeleteThreatModelsError = CommonErrors;
@@ -2700,6 +2725,8 @@ export const batchDeleteThreatModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteThreatModels",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteThreatModels",
 }));
 
 export type BatchGetAgentSpacesError = CommonErrors;
@@ -2718,6 +2745,8 @@ export const batchGetAgentSpaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAgentSpaces",
+  telemetry: TELEMETRY,
+  span: "BatchGetAgentSpaces",
 }));
 
 export type BatchGetArtifactMetadataError =
@@ -2748,6 +2777,8 @@ export const batchGetArtifactMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetArtifactMetadata",
+  telemetry: TELEMETRY,
+  span: "BatchGetArtifactMetadata",
 }));
 
 export type BatchGetCodeReviewJobsError = CommonErrors;
@@ -2766,6 +2797,8 @@ export const batchGetCodeReviewJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviewJobs",
+  telemetry: TELEMETRY,
+  span: "BatchGetCodeReviewJobs",
 }));
 
 export type BatchGetCodeReviewJobTasksError = CommonErrors;
@@ -2784,6 +2817,8 @@ export const batchGetCodeReviewJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviewJobTasks",
+  telemetry: TELEMETRY,
+  span: "BatchGetCodeReviewJobTasks",
 }));
 
 export type BatchGetCodeReviewsError = CommonErrors;
@@ -2802,6 +2837,8 @@ export const batchGetCodeReviews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviews",
+  telemetry: TELEMETRY,
+  span: "BatchGetCodeReviews",
 }));
 
 export type BatchGetFindingsError = CommonErrors;
@@ -2820,6 +2857,8 @@ export const batchGetFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFindings",
+  telemetry: TELEMETRY,
+  span: "BatchGetFindings",
 }));
 
 export type BatchGetPentestJobsError = CommonErrors;
@@ -2838,6 +2877,8 @@ export const batchGetPentestJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentestJobs",
+  telemetry: TELEMETRY,
+  span: "BatchGetPentestJobs",
 }));
 
 export type BatchGetPentestJobTasksError = CommonErrors;
@@ -2856,6 +2897,8 @@ export const batchGetPentestJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentestJobTasks",
+  telemetry: TELEMETRY,
+  span: "BatchGetPentestJobTasks",
 }));
 
 export type BatchGetPentestsError = CommonErrors;
@@ -2874,6 +2917,8 @@ export const batchGetPentests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentests",
+  telemetry: TELEMETRY,
+  span: "BatchGetPentests",
 }));
 
 export type BatchGetSecurityRequirementsError =
@@ -2904,6 +2949,8 @@ export const batchGetSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "BatchGetSecurityRequirements",
 }));
 
 export type BatchGetTargetDomainsError = CommonErrors;
@@ -2922,6 +2969,8 @@ export const batchGetTargetDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTargetDomains",
+  telemetry: TELEMETRY,
+  span: "BatchGetTargetDomains",
 }));
 
 export type BatchGetThreatModelJobsError = CommonErrors;
@@ -2940,6 +2989,8 @@ export const batchGetThreatModelJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModelJobs",
+  telemetry: TELEMETRY,
+  span: "BatchGetThreatModelJobs",
 }));
 
 export type BatchGetThreatModelJobTasksError = CommonErrors;
@@ -2958,6 +3009,8 @@ export const batchGetThreatModelJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModelJobTasks",
+  telemetry: TELEMETRY,
+  span: "BatchGetThreatModelJobTasks",
 }));
 
 export type BatchGetThreatModelsError = CommonErrors;
@@ -2976,6 +3029,8 @@ export const batchGetThreatModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModels",
+  telemetry: TELEMETRY,
+  span: "BatchGetThreatModels",
 }));
 
 export type BatchGetThreatsError = CommonErrors;
@@ -2994,6 +3049,8 @@ export const batchGetThreats: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreats",
+  telemetry: TELEMETRY,
+  span: "BatchGetThreats",
 }));
 
 export type BatchUpdateSecurityRequirementsError =
@@ -3026,6 +3083,8 @@ export const batchUpdateSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateSecurityRequirements",
 }));
 
 export type CreateAgentSpaceError = CommonErrors;
@@ -3044,6 +3103,8 @@ export const createAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentSpace",
+  telemetry: TELEMETRY,
+  span: "CreateAgentSpace",
 }));
 
 export type CreateApplicationError = CommonErrors;
@@ -3062,6 +3123,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateCodeReviewError = CommonErrors;
@@ -3080,6 +3143,8 @@ export const createCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeReview",
+  telemetry: TELEMETRY,
+  span: "CreateCodeReview",
 }));
 
 export type CreateIntegrationError =
@@ -3112,6 +3177,8 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateIntegration",
 }));
 
 export type CreateMembershipError = CommonErrors;
@@ -3130,6 +3197,8 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
+  telemetry: TELEMETRY,
+  span: "CreateMembership",
 }));
 
 export type CreatePentestError = CommonErrors;
@@ -3148,6 +3217,8 @@ export const createPentest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePentest",
+  telemetry: TELEMETRY,
+  span: "CreatePentest",
 }));
 
 export type CreatePrivateConnectionError =
@@ -3180,6 +3251,8 @@ export const createPrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateConnection",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateConnection",
 }));
 
 export type CreateSecurityRequirementPackError =
@@ -3212,6 +3285,8 @@ export const createSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityRequirementPack",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityRequirementPack",
 }));
 
 export type CreateTargetDomainError = CommonErrors;
@@ -3230,6 +3305,8 @@ export const createTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetDomain",
+  telemetry: TELEMETRY,
+  span: "CreateTargetDomain",
 }));
 
 export type CreateThreatError = CommonErrors;
@@ -3248,6 +3325,8 @@ export const createThreat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreat",
+  telemetry: TELEMETRY,
+  span: "CreateThreat",
 }));
 
 export type CreateThreatModelError = CommonErrors;
@@ -3266,6 +3345,8 @@ export const createThreatModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreatModel",
+  telemetry: TELEMETRY,
+  span: "CreateThreatModel",
 }));
 
 export type DeleteAgentSpaceError = CommonErrors;
@@ -3284,6 +3365,8 @@ export const deleteAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentSpace",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentSpace",
 }));
 
 export type DeleteApplicationError = CommonErrors;
@@ -3302,6 +3385,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteArtifactError =
@@ -3332,6 +3417,8 @@ export const deleteArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArtifact",
+  telemetry: TELEMETRY,
+  span: "DeleteArtifact",
 }));
 
 export type DeleteIntegrationError =
@@ -3364,6 +3451,8 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteMembershipError = CommonErrors;
@@ -3382,6 +3471,8 @@ export const deleteMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembership",
+  telemetry: TELEMETRY,
+  span: "DeleteMembership",
 }));
 
 export type DeletePrivateConnectionError =
@@ -3414,6 +3505,8 @@ export const deletePrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivateConnection",
+  telemetry: TELEMETRY,
+  span: "DeletePrivateConnection",
 }));
 
 export type DeleteSecurityRequirementPackError =
@@ -3446,6 +3539,8 @@ export const deleteSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityRequirementPack",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityRequirementPack",
 }));
 
 export type DeleteTargetDomainError = CommonErrors;
@@ -3464,6 +3559,8 @@ export const deleteTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteTargetDomain",
 }));
 
 export type DescribePrivateConnectionError =
@@ -3494,6 +3591,8 @@ export const describePrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePrivateConnection",
+  telemetry: TELEMETRY,
+  span: "DescribePrivateConnection",
 }));
 
 export type GetApplicationError = CommonErrors;
@@ -3512,6 +3611,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetArtifactError =
@@ -3542,6 +3643,8 @@ export const getArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArtifact",
+  telemetry: TELEMETRY,
+  span: "GetArtifact",
 }));
 
 export type GetIntegrationError =
@@ -3572,6 +3675,8 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetSecurityRequirementPackError =
@@ -3602,6 +3707,8 @@ export const getSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityRequirementPack",
+  telemetry: TELEMETRY,
+  span: "GetSecurityRequirementPack",
 }));
 
 export type ImportSecurityRequirementsError =
@@ -3636,6 +3743,8 @@ export const importSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSecurityRequirements",
+  telemetry: TELEMETRY,
+  span: "ImportSecurityRequirements",
 }));
 
 export type InitiateProviderRegistrationError =
@@ -3668,6 +3777,8 @@ export const initiateProviderRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateProviderRegistration",
+  telemetry: TELEMETRY,
+  span: "InitiateProviderRegistration",
 }));
 
 export type ListActorMessagesError = CommonErrors;
@@ -3693,6 +3804,8 @@ export const listActorMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActorMessages",
 })) as any;
 
 export type ListAgentSpacesError = CommonErrors;
@@ -3718,6 +3831,8 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
     items: "agentSpaceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentSpaces",
 })) as any;
 
 export type ListApplicationsError = CommonErrors;
@@ -3743,6 +3858,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applicationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListArtifactsError =
@@ -3780,6 +3897,8 @@ export const listArtifacts: API.PaginatedOperationMethod<
     items: "artifactSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListArtifacts",
 })) as any;
 
 export type ListCodeReviewJobsForCodeReviewError = CommonErrors;
@@ -3805,6 +3924,8 @@ export const listCodeReviewJobsForCodeReview: API.PaginatedOperationMethod<
     items: "codeReviewJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeReviewJobsForCodeReview",
 })) as any;
 
 export type ListCodeReviewJobTasksError = CommonErrors;
@@ -3830,6 +3951,8 @@ export const listCodeReviewJobTasks: API.PaginatedOperationMethod<
     items: "codeReviewJobTaskSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeReviewJobTasks",
 })) as any;
 
 export type ListCodeReviewsError = CommonErrors;
@@ -3855,6 +3978,8 @@ export const listCodeReviews: API.PaginatedOperationMethod<
     items: "codeReviewSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeReviews",
 })) as any;
 
 export type ListDiscoveredEndpointsError = CommonErrors;
@@ -3880,6 +4005,8 @@ export const listDiscoveredEndpoints: API.PaginatedOperationMethod<
     items: "discoveredEndpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveredEndpoints",
 })) as any;
 
 export type ListFindingsError = CommonErrors;
@@ -3905,6 +4032,8 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findingsSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListIntegratedResourcesError =
@@ -3942,6 +4071,8 @@ export const listIntegratedResources: API.PaginatedOperationMethod<
     items: "integratedResourceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntegratedResources",
 })) as any;
 
 export type ListIntegrationsError =
@@ -3979,6 +4110,8 @@ export const listIntegrations: API.PaginatedOperationMethod<
     items: "integrationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIntegrations",
 })) as any;
 
 export type ListMembershipsError = CommonErrors;
@@ -4004,6 +4137,8 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "membershipSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberships",
 })) as any;
 
 export type ListPentestJobsForPentestError = CommonErrors;
@@ -4029,6 +4164,8 @@ export const listPentestJobsForPentest: API.PaginatedOperationMethod<
     items: "pentestJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPentestJobsForPentest",
 })) as any;
 
 export type ListPentestJobTasksError = CommonErrors;
@@ -4054,6 +4191,8 @@ export const listPentestJobTasks: API.PaginatedOperationMethod<
     items: "taskSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPentestJobTasks",
 })) as any;
 
 export type ListPentestsError = CommonErrors;
@@ -4079,6 +4218,8 @@ export const listPentests: API.PaginatedOperationMethod<
     items: "pentestSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPentests",
 })) as any;
 
 export type ListPrivateConnectionsError =
@@ -4114,6 +4255,8 @@ export const listPrivateConnections: API.PaginatedOperationMethod<
     items: "privateConnections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrivateConnections",
 })) as any;
 
 export type ListSecurityRequirementPacksError =
@@ -4149,6 +4292,8 @@ export const listSecurityRequirementPacks: API.PaginatedOperationMethod<
     items: "securityRequirementPackSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityRequirementPacks",
 })) as any;
 
 export type ListSecurityRequirementsError =
@@ -4186,6 +4331,8 @@ export const listSecurityRequirements: API.PaginatedOperationMethod<
     items: "securityRequirementSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityRequirements",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -4204,6 +4351,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetDomainsError = CommonErrors;
@@ -4229,6 +4378,8 @@ export const listTargetDomains: API.PaginatedOperationMethod<
     items: "targetDomainSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetDomains",
 })) as any;
 
 export type ListThreatModelJobsError = CommonErrors;
@@ -4254,6 +4405,8 @@ export const listThreatModelJobs: API.PaginatedOperationMethod<
     items: "threatModelJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreatModelJobs",
 })) as any;
 
 export type ListThreatModelJobTasksError = CommonErrors;
@@ -4279,6 +4432,8 @@ export const listThreatModelJobTasks: API.PaginatedOperationMethod<
     items: "threatModelJobTaskSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreatModelJobTasks",
 })) as any;
 
 export type ListThreatModelsError = CommonErrors;
@@ -4304,6 +4459,8 @@ export const listThreatModels: API.PaginatedOperationMethod<
     items: "threatModelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreatModels",
 })) as any;
 
 export type ListThreatsError = CommonErrors;
@@ -4329,6 +4486,8 @@ export const listThreats: API.PaginatedOperationMethod<
     items: "threats",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListThreats",
 })) as any;
 
 export type StartCodeRemediationError = CommonErrors;
@@ -4347,6 +4506,8 @@ export const startCodeRemediation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeRemediation",
+  telemetry: TELEMETRY,
+  span: "StartCodeRemediation",
 }));
 
 export type StartCodeReviewJobError = CommonErrors;
@@ -4365,6 +4526,8 @@ export const startCodeReviewJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeReviewJob",
+  telemetry: TELEMETRY,
+  span: "StartCodeReviewJob",
 }));
 
 export type StartPentestJobError = CommonErrors;
@@ -4383,6 +4546,8 @@ export const startPentestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPentestJob",
+  telemetry: TELEMETRY,
+  span: "StartPentestJob",
 }));
 
 export type StartThreatModelJobError = CommonErrors;
@@ -4401,6 +4566,8 @@ export const startThreatModelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartThreatModelJob",
+  telemetry: TELEMETRY,
+  span: "StartThreatModelJob",
 }));
 
 export type StopCodeReviewJobError = CommonErrors;
@@ -4419,6 +4586,8 @@ export const stopCodeReviewJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCodeReviewJob",
+  telemetry: TELEMETRY,
+  span: "StopCodeReviewJob",
 }));
 
 export type StopPentestJobError = CommonErrors;
@@ -4437,6 +4606,8 @@ export const stopPentestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPentestJob",
+  telemetry: TELEMETRY,
+  span: "StopPentestJob",
 }));
 
 export type StopThreatModelJobError = CommonErrors;
@@ -4455,6 +4626,8 @@ export const stopThreatModelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopThreatModelJob",
+  telemetry: TELEMETRY,
+  span: "StopThreatModelJob",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -4473,6 +4646,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -4491,6 +4666,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentSpaceError = CommonErrors;
@@ -4509,6 +4686,8 @@ export const updateAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentSpace",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentSpace",
 }));
 
 export type UpdateApplicationError = CommonErrors;
@@ -4527,6 +4706,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateCodeReviewError = CommonErrors;
@@ -4545,6 +4726,8 @@ export const updateCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeReview",
+  telemetry: TELEMETRY,
+  span: "UpdateCodeReview",
 }));
 
 export type UpdateFindingError = CommonErrors;
@@ -4563,6 +4746,8 @@ export const updateFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFinding",
+  telemetry: TELEMETRY,
+  span: "UpdateFinding",
 }));
 
 export type UpdateIntegratedResourcesError =
@@ -4595,6 +4780,8 @@ export const updateIntegratedResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegratedResources",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegratedResources",
 }));
 
 export type UpdateIntegrationError =
@@ -4627,6 +4814,8 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegration",
 }));
 
 export type UpdatePentestError = CommonErrors;
@@ -4645,6 +4834,8 @@ export const updatePentest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePentest",
+  telemetry: TELEMETRY,
+  span: "UpdatePentest",
 }));
 
 export type UpdatePrivateConnectionCertificateError =
@@ -4677,6 +4868,8 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivateConnectionCertificate",
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateConnectionCertificate",
 }));
 
 export type UpdateSecurityRequirementPackError =
@@ -4709,6 +4902,8 @@ export const updateSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityRequirementPack",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityRequirementPack",
 }));
 
 export type UpdateTargetDomainError = CommonErrors;
@@ -4727,6 +4922,8 @@ export const updateTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateTargetDomain",
 }));
 
 export type UpdateThreatError = CommonErrors;
@@ -4745,6 +4942,8 @@ export const updateThreat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreat",
+  telemetry: TELEMETRY,
+  span: "UpdateThreat",
 }));
 
 export type UpdateThreatModelError = CommonErrors;
@@ -4763,6 +4962,8 @@ export const updateThreatModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreatModel",
+  telemetry: TELEMETRY,
+  span: "UpdateThreatModel",
 }));
 
 export type VerifyTargetDomainError = CommonErrors;
@@ -4781,6 +4982,8 @@ export const verifyTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyTargetDomain",
+  telemetry: TELEMETRY,
+  span: "VerifyTargetDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

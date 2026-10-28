@@ -1,6 +1,6 @@
 import * as API from "@distilled.cloud/core/api";
 import { debugHttp } from "@distilled.cloud/core/debug";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { HTTP_STATUS_MAP, type ConfigError } from "@distilled.cloud/core/errors";
 import { getAnn } from "@distilled.cloud/core/protocol-http";
 import { debugResponse } from "@distilled.cloud/core/protocol-rest";
 import { failUnlessLenient, validateResponse } from "@distilled.cloud/core/response-validation";
@@ -65,7 +65,7 @@ import {
  * the GraphQL `errors[]` envelope is matched against `EAS_ERROR_CODE_MAP`
  * regardless of which operation was called.
  */
-export type ExpoEasOpError = DefaultErrors | HttpClientError.HttpClientError;
+export type ExpoEasOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated EAS operation. */
 export type ExpoEasOpContext = Credentials | HttpClient.HttpClient;
@@ -261,7 +261,7 @@ const decode = ({
   readonly errors: ReadonlyArray<unknown>;
 }) =>
   Effect.gen(function* () {
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+    const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
     debugResponse(response.status, text, outputAst);
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
