@@ -1147,6 +1147,31 @@ describe("restJson1 response deserialization", () => {
     expect(events[1]).toEqual({ somethingNew: { text: "kept" } });
   });
 
+  test("Bedrock Agent InvokeAgent: strict mode ends the stream on that event without quoting the value", async () => {
+    const handler = restJson1Protocol(
+      op(BedrockAgentRuntime.invokeAgent.input, BedrockAgentRuntime.invokeAgent.output),
+    );
+    const frame = await eventFrame(
+      { ":message-type": "event", ":event-type": "chunk" },
+      JSON.stringify({ bytes: btoa("sentinel"), attribution: { citations: "sentinel-citation" } }),
+    );
+    const result = (await runStrict(
+      handler.deserializeResponse(
+        response(streamOf([frame]), {
+          headers: { "content-type": "application/vnd.amazon.eventstream" },
+        }),
+      ),
+    )) as { completion: unknown };
+    const error = await flipStrict(
+      Stream.runCollect(result.completion as Stream.Stream<any, Error>),
+    );
+    expect(error).toMatchObject({
+      _tag: "EventParseError",
+      message:
+        'Event does not match its schema: Expected an array, got "[REDACTED]" at ["citations"] at ["attribution"] at ["chunk"]',
+    });
+  });
+
   test("converts number and boolean header members and merges the JSON body", async () => {
     const output = S.Struct({
       ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
